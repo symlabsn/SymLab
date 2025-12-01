@@ -1,0 +1,12 @@
+[
+  {
+    "question": "Quelle est la dérivée de sin(x) ?",
+    "choices": ["cos(x)", "-cos(x)", "sin(x)", "-sin(x)"],
+    "answer": 0
+  },
+  {
+    "question": "La loi d'Ohm est :",
+    "choices": ["U = RI", "P = UI", "E = mc^2", "F = ma"],
+    "answer": 0
+  }
+]
