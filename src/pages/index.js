@@ -37,38 +37,57 @@ export default function Home() {
   const modules = [
     {
       id: 'sim',
-      title: 'Simulations Interactives',
-      description: 'Laboratoire virtuel pour expérimenter la physique et la chimie en temps réel.',
+      title: 'Simulations',
+      subtitle: 'Laboratoire Virtuel',
+      description: 'Expérimentez la physique et la chimie en 3D temps réel.',
       href: '/simulations',
-      gradient: 'from-blue-600 to-cyan-500'
+      gradient: 'bg-gradient-to-br from-blue-600 to-cyan-400',
+      shadow: 'shadow-blue-500/20'
     },
     {
       id: 'prog',
-      title: 'Programmation Python',
-      description: 'Environnement de développement complet pour apprendre à coder.',
+      title: 'Programmation',
+      subtitle: 'Python Lab',
+      description: 'IDE complet pour apprendre le code sans installation.',
       href: '/programming',
-      gradient: 'from-purple-600 to-pink-500'
+      gradient: 'bg-gradient-to-br from-violet-600 to-purple-400',
+      shadow: 'shadow-purple-500/20'
     },
     {
       id: 'vid',
-      title: 'Capsules Vidéo',
-      description: 'Cours animés et explications visuelles pour comprendre rapidement.',
+      title: 'Vidéos',
+      subtitle: 'Capsules Éducatives',
+      description: 'Comprenez les concepts complexes en 5 minutes.',
       href: '/videos',
-      gradient: 'from-orange-500 to-red-500'
+      gradient: 'bg-gradient-to-br from-orange-500 to-amber-400',
+      shadow: 'shadow-orange-500/20'
     },
     {
       id: 'proj',
-      title: 'Projets & TP',
-      description: 'Travaux pratiques guidés pour appliquer vos connaissances.',
+      title: 'Projets',
+      subtitle: 'Travaux Pratiques',
+      description: 'Appliquez vos connaissances sur des cas réels.',
       href: '/projects',
-      gradient: 'from-emerald-500 to-green-500'
+      gradient: 'bg-gradient-to-br from-emerald-500 to-green-400',
+      shadow: 'shadow-green-500/20'
     },
     {
       id: 'quiz',
       title: 'Quiz & QCM',
-      description: 'Évaluez votre progression avec des tests interactifs.',
+      subtitle: 'Auto-évaluation',
+      description: 'Testez-vous et suivez votre progression.',
       href: '/challenges',
-      gradient: 'from-pink-500 to-rose-500'
+      gradient: 'bg-gradient-to-br from-pink-500 to-rose-400',
+      shadow: 'shadow-pink-500/20'
+    },
+    {
+      id: 'res',
+      title: 'Ressources',
+      subtitle: 'Bibliothèque',
+      description: 'Accédez à tous les cours et fiches de révision.',
+      href: '/ressources',
+      gradient: 'bg-gradient-to-br from-indigo-500 to-blue-400',
+      shadow: 'shadow-indigo-500/20'
     }
   ];
 
@@ -97,7 +116,7 @@ export default function Home() {
 
           {/* Subtitle */}
           <p className="relative text-xl md:text-2xl text-gray-400 max-w-3xl mx-auto mb-12 leading-relaxed animate-in delay-200">
-            La plateforme interactive la plus avancée du Sénégal. Simulations 3D, Python Lab, et IA intégrée pour une expérience d'apprentissage sans limites.
+            La plateforme interactive la plus avancée du Sénégal. Simulations 3D, Python Lab, et IA intégrée.
           </p>
 
           {/* CTA Buttons */}
@@ -128,50 +147,46 @@ export default function Home() {
         </div>
       </section>
 
-      {/* HORIZONTAL FLUID MODULES */}
-      <section className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 mb-20">
-        <div className="mb-12 text-center">
-          <h2 className="text-4xl font-bold text-white mb-4">Modules d'Apprentissage</h2>
-          <div className="h-1 w-20 bg-gradient-to-r from-blue-500 to-purple-500 mx-auto rounded-full"></div>
+      {/* RECTANGULAR COLORFUL MODULES */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-20">
+        <div className="mb-12">
+          <h2 className="text-4xl font-bold text-white mb-2">Modules</h2>
+          <div className="h-1 w-20 bg-accent-secondary rounded-full"></div>
         </div>
 
-        <div className="space-y-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {modules.map((module, index) => (
             <Link
               key={module.id}
               href={module.href}
-              className="group relative block w-full"
+              className={`
+                group relative overflow-hidden rounded-2xl p-1 
+                transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl ${module.shadow}
+              `}
             >
-              {/* Card Container */}
-              <div className="relative overflow-hidden rounded-2xl bg-white/5 border border-white/10 p-8 transition-all duration-500 hover:border-white/20 hover:bg-white/10">
+              {/* Card Content */}
+              <div className={`
+                relative h-full rounded-xl p-8 flex flex-col justify-between
+                ${module.gradient}
+              `}>
+                {/* Glass Overlay */}
+                <div className="absolute inset-0 bg-white/10 backdrop-blur-[2px] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
-                {/* Hover Gradient Background (Fluid Effect) */}
-                <div className={`absolute inset-0 bg-gradient-to-r ${module.gradient} opacity-0 group-hover:opacity-10 transition-opacity duration-500`} />
-
-                {/* Left Accent Bar */}
-                <div className={`absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b ${module.gradient} opacity-50 group-hover:opacity-100 transition-opacity duration-300`} />
-
-                <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
-
-                  {/* Text Content */}
-                  <div className="flex-1">
-                    <h3 className="text-2xl md:text-3xl font-bold text-white mb-2 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-white group-hover:to-gray-300 transition-all">
-                      {module.title}
-                    </h3>
-                    <p className="text-gray-400 text-lg group-hover:text-gray-300 transition-colors">
-                      {module.description}
-                    </p>
+                {/* Content */}
+                <div className="relative z-10">
+                  <div className="text-xs font-bold uppercase tracking-widest text-white/80 mb-2">
+                    {module.subtitle}
                   </div>
-
-                  {/* Right Side Indicator (Subtle Glow instead of arrow) */}
-                  <div className={`
-                    hidden md:block w-3 h-3 rounded-full 
-                    bg-gradient-to-r ${module.gradient}
-                    shadow-[0_0_10px_currentColor]
-                    opacity-50 group-hover:opacity-100 group-hover:scale-150 transition-all duration-500
-                  `} />
-
+                  <h3 className="text-3xl font-bold text-white mb-4">
+                    {module.title}
+                  </h3>
+                  <p className="text-white/90 leading-relaxed">
+                    {module.description}
+                  </p>
                 </div>
+
+                {/* Bottom Line Decoration */}
+                <div className="relative z-10 mt-8 h-1 w-12 bg-white/40 rounded-full group-hover:w-full transition-all duration-500" />
               </div>
             </Link>
           ))}
