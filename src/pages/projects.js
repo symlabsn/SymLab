@@ -23,6 +23,20 @@ export default function Projects() {
             </a>
           ))}
         </div>
+
+        <section className="mt-10">
+          <h2 className="text-2xl font-semibold text-white mb-4">Templates</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="p-4 bg-slate-800 rounded">
+              <h4 className="text-white font-semibold">Template: Simulation pendule</h4>
+              <p className="text-gray-400 text-sm mt-2">Code et assets pour démarrer une simulation physique interactive.</p>
+            </div>
+            <div className="p-4 bg-slate-800 rounded">
+              <h4 className="text-white font-semibold">Template: Analyse de données</h4>
+              <p className="text-gray-400 text-sm mt-2">Notebook d'exemple pour charger CSV et tracer des données.</p>
+            </div>
+          </div>
+        </section>
       </div>
     </main>
   );

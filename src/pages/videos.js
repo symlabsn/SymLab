@@ -24,6 +24,20 @@ export default function Videos() {
             </a>
           ))}
         </div>
+
+        <section className="mt-10">
+          <h2 className="text-2xl font-semibold text-white mb-4">Playlists</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="p-4 bg-slate-800 rounded">
+              <h4 className="text-white font-semibold">Python & Calcul Symbolique</h4>
+              <p className="text-gray-400 text-sm mt-2">Série d'introductions à SymPy et Pyodide.</p>
+            </div>
+            <div className="p-4 bg-slate-800 rounded">
+              <h4 className="text-white font-semibold">Simulations Physiques</h4>
+              <p className="text-gray-400 text-sm mt-2">Vidéos expliquant la théorie et l'implémentation des simulations.</p>
+            </div>
+          </div>
+        </section>
       </div>
     </main>
   );

@@ -25,6 +25,20 @@ export default function Programming() {
             </a>
           ))}
         </div>
+
+        <section className="mt-10">
+          <h2 className="text-2xl font-semibold text-white mb-4">Exemples rapides</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="p-4 bg-slate-800 rounded">
+              <h4 className="text-white font-semibold">Exemple: boucle for</h4>
+              <pre className="text-xs text-gray-300 mt-2">for i in range(5):\n  print(i)</pre>
+            </div>
+            <div className="p-4 bg-slate-800 rounded">
+              <h4 className="text-white font-semibold">Exemple: SymPy simplification</h4>
+              <pre className="text-xs text-gray-300 mt-2">import sympy as sp\nx=sp.symbols('x')\nsp.simplify((x**2-1)/(x-1))</pre>
+            </div>
+          </div>
+        </section>
       </div>
     </main>
   );

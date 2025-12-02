@@ -18,6 +18,16 @@ export default function Notebook() {
   useLoadCodeMirror(editorContainerRef, editorRef, setEditorReady);
 
   useEffect(() => {
+    // load saved code from localStorage if present
+    try {
+      const saved = localStorage.getItem('symlab_notebook_code');
+      if (saved) {
+        if (editorRef.current) editorRef.current.setValue(saved);
+        else if (codeRef.current) codeRef.current.value = saved;
+      }
+    } catch (e) {
+      // ignore if localStorage isn't available
+    }
     // Load Pyodide from CDN and prepare SymPy
     const load = async () => {
       setLoading(true);
@@ -136,6 +146,25 @@ export default function Notebook() {
               <button onClick={() => { if (editorRef.current) editorRef.current.setValue(example); else codeRef.current.value = example; }} className="px-4 py-2 bg-slate-700 rounded">Charger exemple</button>
               <button onClick={() => { if (editorRef.current) editorRef.current.setValue(''); else codeRef.current.value = ''; setOutput(''); setPlotSrc(''); }} className="px-4 py-2 bg-slate-700 rounded">Effacer</button>
               <button onClick={runPlot} disabled={loading || running} className="px-4 py-2 bg-emerald-600 rounded">Générer un graphique</button>
+              <button onClick={() => {
+                try {
+                  const content = editorRef.current ? editorRef.current.getValue() : codeRef.current.value;
+                  localStorage.setItem('symlab_notebook_code', content);
+                  setOutput('Sauvegardé localement.');
+                } catch (e) { setOutput('Erreur de sauvegarde: ' + String(e)); }
+              }} className="px-4 py-2 bg-yellow-600 rounded">Sauvegarder</button>
+              <button onClick={() => {
+                try {
+                  const content = editorRef.current ? editorRef.current.getValue() : codeRef.current.value;
+                  const blob = new Blob([content], { type: 'text/plain' });
+                  const url = URL.createObjectURL(blob);
+                  const a = document.createElement('a');
+                  a.href = url;
+                  a.download = 'notebook.py';
+                  a.click();
+                  URL.revokeObjectURL(url);
+                } catch (e) { setOutput('Erreur export: ' + String(e)); }
+              }} className="px-4 py-2 bg-slate-600 rounded">Télécharger</button>
             </div>
           </div>
 

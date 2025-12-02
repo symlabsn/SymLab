@@ -1,6 +1,8 @@
  'use client';
 
 import PendulumSim from '@/components/PendulumSim';
+import WaveSim from '@/components/WaveSim';
+import CircuitSim from '@/components/CircuitSim';
 
 export default function Simulations() {
   return (
@@ -19,11 +21,9 @@ export default function Simulations() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <PendulumSim />
-                <div className="p-4 bg-slate-800 rounded-lg">
-                  <h3 className="text-white font-semibold mb-2">Wave Propagation (bientôt)</h3>
-                  <p className="text-gray-400">Prototype de visualisation d'ondes — en cours d'implémentation.</p>
-                </div>
+            <PendulumSim />
+            <WaveSim />
+            <CircuitSim />
           </div>
         </div>
       </div>
