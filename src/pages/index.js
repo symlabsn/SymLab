@@ -50,27 +50,30 @@ export default function Home() {
 
             {/* MODULES LIST (DEEP GLASS) */}
             <section className="w-full max-w-3xl flex flex-col gap-8">
-                {modules.map((module, index) => (
-                    <Link
-                        key={module.id}
-                        href={module.href}
-                        className={`glass-card p-10 group block fade-up delay-${(index + 1) * 100}`}
-                    >
-                        {/* Ambient Glow */}
-                        <div className={`glow-effect ${module.glow}`} />
+                    {modules.map((module, index) => (
+                        <Link
+                            key={module.id}
+                            href={module.href}
+                            className={`relative glass-card group block fade-up delay-${(index + 1) * 100}`}
+                        >
+                            {/* left gradient accent bar */}
+                            <div className="absolute left-0 top-0 bottom-0 w-1 sm:w-2 rounded-l-md" style={{ background: 'linear-gradient(180deg, var(--accent), var(--accent-2))' }} />
 
-                        <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
-                            <div>
-                                <h3 className="text-3xl font-bold text-white mb-3 group-hover:text-white transition-colors">
-                                    {module.title}
-                                </h3>
-                                <p className="text-secondary text-lg group-hover:text-gray-300 transition-colors">
-                                    {module.description}
-                                </p>
+                            {/* ambient glow tuned per module */}
+                            <div className={`glow-effect ${module.glow}`} style={{ background: 'linear-gradient(180deg, var(--glow-cyan), var(--glow-purple))' }} />
+
+                            <div className="relative z-10 pl-6 sm:pl-8 p-8">
+                                <div>
+                                    <h3 className="text-3xl font-extrabold text-white mb-3 group-hover:text-white transition-colors">
+                                        {module.title}
+                                    </h3>
+                                    <p className="text-secondary text-lg">
+                                        {module.description}
+                                    </p>
+                                </div>
                             </div>
-                        </div>
-                    </Link>
-                ))}
+                        </Link>
+                    ))}
             </section>
 
         </main>

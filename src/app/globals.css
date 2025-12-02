@@ -5,13 +5,19 @@
    ======================================== */
 
 :root {
-  --bg-void: #000000;
-  --glass-surface: rgba(255, 255, 255, 0.03);
-  --glass-border: rgba(255, 255, 255, 0.08);
-  --glow-blue: rgba(59, 130, 246, 0.6);
-  --glow-purple: rgba(147, 51, 234, 0.6);
-  --glow-orange: rgba(249, 115, 22, 0.6);
-  --glow-green: rgba(16, 185, 129, 0.6);
+  --bg-void: #03040a;
+  --glass-surface: rgba(255, 255, 255, 0.02);
+  --glass-border: rgba(255, 255, 255, 0.06);
+
+  /* Futuristic tech-sci accents (cyan → purple gradient) */
+  --accent: #00f5d4; /* vivid cyan */
+  --accent-2: #7c3aed; /* electric purple */
+  --accent-3: #00b4d8; /* bright teal */
+
+  /* Glow colors tuned for accent gradient */
+  --glow-cyan: rgba(0, 245, 212, 0.18);
+  --glow-purple: rgba(124, 58, 237, 0.16);
+  --glow-teal: rgba(0, 180, 216, 0.12);
 }
 
 @theme inline {
