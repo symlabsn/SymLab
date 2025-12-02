@@ -1,4 +1,6 @@
-'use client';
+ 'use client';
+
+import PendulumSim from '@/components/PendulumSim';
 
 export default function Simulations() {
   return (

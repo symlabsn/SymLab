@@ -14,6 +14,9 @@ export default function Notebook() {
   const [editorReady, setEditorReady] = useState(false);
   const [plotSrc, setPlotSrc] = useState('');
 
+  // Initialize CodeMirror editor (client-side hook)
+  useLoadCodeMirror(editorContainerRef, editorRef, setEditorReady);
+
   useEffect(() => {
     // Load Pyodide from CDN and prepare SymPy
     const load = async () => {
@@ -200,5 +203,4 @@ function useLoadCodeMirror(editorContainerRef, editorRef, setEditorReady) {
   }, []);
 }
 
-// Hook usage
-useLoadCodeMirror(editorContainerRef, editorRef, setEditorReady);
+// (hook defined above; invocation happens inside the component to respect Rules of Hooks)
