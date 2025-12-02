@@ -1,22 +1,19 @@
 'use client';
 
 import Link from 'next/link';
-import HeroSection from '@/components/HeroSection';
-import ModuleCard from '@/components/ModuleCard';
-import ParticleBackground from '@/components/ParticleBackground';
 import { useState, useEffect } from 'react';
 
 export default function Home() {
   const [stats, setStats] = useState([
-    { value: 0, target: 1200, label: 'Étudiants Actifs', suffix: '+' },
+    { value: 0, target: 1200, label: 'Étudiants', suffix: '+' },
     { value: 0, target: 50, label: 'Simulations', suffix: '+' },
     { value: 0, target: 100, label: 'Exercices', suffix: '+' },
-    { value: 0, target: 24, label: 'Support 24/7', suffix: 'h' }
+    { value: 0, target: 24, label: 'Support', suffix: 'h' }
   ]);
 
-  // Animated counter for stats
+  // Animated counter
   useEffect(() => {
-    const duration = 2000; // 2 seconds
+    const duration = 2000;
     const steps = 60;
     const interval = duration / steps;
 
@@ -40,109 +37,90 @@ export default function Home() {
 
   const modules = [
     {
-      icon: '🔬',
       title: 'Simulations Interactives',
-      description: 'Explorez les lois de la physique avec des simulations visuelles et interactives en temps réel. Manipulez les paramètres et observez les résultats instantanément.',
+      description: 'Explorez les lois de la physique avec des simulations visuelles et interactives en temps réel.',
       href: '/simulations',
-      gradient: 'blue',
-      stats: [
-        { value: '30+', label: 'Simulations' },
-        { value: '5★', label: 'Note' }
-      ]
+      color: 'blue'
     },
     {
-      icon: '🐍',
       title: 'Python Lab',
-      description: 'Programmez en Python directement dans votre navigateur avec Pyodide. Aucune installation requise, commencez à coder immédiatement avec l\'IA.',
+      description: 'Programmez en Python directement dans votre navigateur. Aucune installation requise.',
       href: '/programming',
-      gradient: 'purple',
-      stats: [
-        { value: '100%', label: 'Gratuit' },
-        { value: 'IA', label: 'Assisté' }
-      ]
+      color: 'purple'
     },
     {
-      icon: '📚',
       title: 'QCM Sénégal',
-      description: 'Préparez-vous efficacement avec des questionnaires à choix multiples basés sur le curriculum sénégalais. Suivez votre progression en temps réel.',
+      description: 'Préparez-vous avec des questionnaires basés sur le curriculum sénégalais.',
       href: '/challenges',
-      gradient: 'pink',
-      stats: [
-        { value: '500+', label: 'Questions' },
-        { value: '🇸🇳', label: 'Sénégal' }
-      ]
+      color: 'pink'
     },
     {
-      icon: '🧪',
       title: 'Travaux Pratiques',
-      description: 'Accédez à des ressources pédagogiques, TP et guides pour approfondir vos connaissances STEM avec des projets concrets et innovants.',
+      description: 'Accédez à des ressources pédagogiques et guides pour approfondir vos connaissances.',
       href: '/projects',
-      gradient: 'green',
-      stats: [
-        { value: '40+', label: 'Projets' },
-        { value: 'Pro', label: 'Niveau' }
-      ]
+      color: 'green'
     },
-  ];
-
-  const additionalFeatures = [
     {
-      icon: '🎥',
       title: 'Capsules Vidéo',
-      description: 'Apprenez avec des vidéos éducatives courtes et percutantes',
+      description: 'Apprenez avec des vidéos éducatives courtes et percutantes.',
       href: '/videos',
-      gradient: 'cyan'
+      color: 'cyan'
     },
     {
-      icon: '📖',
       title: 'Ressources',
-      description: 'Bibliothèque complète de cours et documents',
+      description: 'Bibliothèque complète de cours et documents pédagogiques.',
       href: '/ressources',
-      gradient: 'purple'
+      color: 'purple'
     },
     {
-      icon: '💻',
       title: 'Code Editor',
-      description: 'Éditeur de code en ligne avec support multi-langages',
+      description: 'Éditeur de code en ligne avec support multi-langages.',
       href: '/code',
-      gradient: 'blue'
+      color: 'blue'
     },
     {
-      icon: '📝',
       title: 'Examens',
-      description: 'Préparez vos examens avec des sujets types',
+      description: 'Préparez vos examens avec des sujets types et corrections.',
       href: '/exams',
-      gradient: 'pink'
+      color: 'pink'
     }
   ];
 
-  return (
-    <main className="relative min-h-screen">
-      {/* Particle Background */}
-      <ParticleBackground />
+  const colorClasses = {
+    blue: 'border-blue-500/30 hover:border-blue-500/60 hover:bg-blue-500/5',
+    purple: 'border-purple-500/30 hover:border-purple-500/60 hover:bg-purple-500/5',
+    pink: 'border-pink-500/30 hover:border-pink-500/60 hover:bg-pink-500/5',
+    green: 'border-green-500/30 hover:border-green-500/60 hover:bg-green-500/5',
+    cyan: 'border-cyan-500/30 hover:border-cyan-500/60 hover:bg-cyan-500/5'
+  };
 
-      {/* Hero Section */}
-      <HeroSection
-        title="Bienvenue sur SymLab"
-        subtitle="La plateforme STEM la plus innovante du Sénégal. Explorez les mathématiques, la physique, l'ingénierie et la programmation à travers des simulations interactives, du code en direct et des ressources pédagogiques de pointe."
-        cta="Commencer Maintenant"
-        ctaHref="#modules"
-      />
+  return (
+    <main className="relative min-h-screen pt-20">
+      {/* Hero Section - Simple */}
+      <section className="relative py-20 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto text-center">
+          <h1 className="text-5xl md:text-7xl font-black mb-6 gradient-text">
+            SymLab
+          </h1>
+          <p className="text-xl md:text-2xl text-gray-300 mb-12 max-w-3xl mx-auto">
+            Plateforme STEM interactive pour l'apprentissage des sciences et technologies
+          </p>
+        </div>
+      </section>
 
       {/* Stats Section */}
-      <section className="relative py-20 px-4 sm:px-6 lg:px-8">
+      <section className="relative py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {stats.map((stat, index) => (
               <div
                 key={index}
-                className="glass-strong rounded-2xl p-6 text-center hover-lift animate-fadeIn"
-                style={{ animationDelay: `${index * 100}ms` }}
+                className="glass rounded-xl p-6 text-center"
               >
-                <div className="text-4xl md:text-5xl font-black gradient-text mb-2">
+                <div className="text-3xl md:text-4xl font-black gradient-text mb-1">
                   {Math.floor(stat.value)}{stat.suffix}
                 </div>
-                <div className="text-sm text-gray-400 font-medium">
+                <div className="text-sm text-gray-400">
                   {stat.label}
                 </div>
               </div>
@@ -151,124 +129,61 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Main Modules Section */}
-      <section id="modules" className="relative py-20 px-4 sm:px-6 lg:px-8">
+      {/* Modules Section */}
+      <section className="relative py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
-          {/* Section Header */}
-          <div className="text-center mb-16 animate-fadeIn">
-            <h2 className="text-5xl md:text-6xl font-black mb-6">
-              <span className="gradient-text">Nos Modules</span>
-            </h2>
-            <p className="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
-              Découvrez nos modules interactifs conçus pour révolutionner votre apprentissage des sciences et technologies
-            </p>
-          </div>
+          <h2 className="text-3xl md:text-4xl font-black mb-8 text-center gradient-text">
+            Modules
+          </h2>
 
-          {/* Module Cards Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-20">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {modules.map((module, index) => (
-              <div
+              <Link
                 key={index}
-                className="animate-fadeIn"
-                style={{ animationDelay: `${index * 150}ms` }}
+                href={module.href}
+                className={`
+                  glass rounded-xl p-6
+                  border-2 ${colorClasses[module.color]}
+                  transition-all duration-300
+                  hover:scale-105
+                `}
               >
-                <ModuleCard {...module} />
-              </div>
+                <h3 className="text-xl font-bold text-white mb-3">
+                  {module.title}
+                </h3>
+                <p className="text-sm text-gray-400 leading-relaxed">
+                  {module.description}
+                </p>
+              </Link>
             ))}
           </div>
-
-          {/* Additional Features */}
-          <div className="mt-20">
-            <h3 className="text-3xl font-black text-center mb-10 gradient-text">
-              Plus de Fonctionnalités
-            </h3>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-              {additionalFeatures.map((feature, index) => (
-                <a
-                  key={index}
-                  href={feature.href}
-                  className="group glass rounded-xl p-6 hover-lift animate-fadeIn"
-                  style={{ animationDelay: `${index * 100}ms` }}
-                >
-                  <div className="text-4xl mb-3 group-hover:animate-float">
-                    {feature.icon}
-                  </div>
-                  <h4 className="text-lg font-bold text-white mb-2 group-hover:gradient-text transition-all">
-                    {feature.title}
-                  </h4>
-                  <p className="text-sm text-gray-400">
-                    {feature.description}
-                  </p>
-                </a>
-              ))}
-            </div>
-          </div>
         </div>
       </section>
 
-      {/* Testimonials / Social Proof Section */}
+      {/* CTA Section */}
       <section className="relative py-20 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto">
-          <div className="glass-strong rounded-3xl p-12 text-center">
-            <h3 className="text-4xl font-black mb-6 gradient-text">
-              Rejoignez la Révolution STEM
+        <div className="max-w-4xl mx-auto">
+          <div className="glass-strong rounded-2xl p-12 text-center">
+            <h3 className="text-3xl font-black mb-4 gradient-text">
+              Commencez Maintenant
             </h3>
-            <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
-              Des milliers d'étudiants sénégalais utilisent déjà SymLab pour exceller dans leurs études scientifiques
+            <p className="text-gray-300 mb-8">
+              Rejoignez SymLab et transformez votre apprentissage des sciences
             </p>
             <div className="flex flex-wrap justify-center gap-4">
-              <a
-                href="/apropos"
-                className="glass rounded-xl px-8 py-4 font-bold hover-lift inline-flex items-center gap-2"
-              >
-                <span>En savoir plus</span>
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                </svg>
-              </a>
-              <a
+              <Link
                 href="/programming"
-                className="relative overflow-hidden rounded-xl px-8 py-4 font-bold hover-lift inline-flex items-center gap-2"
+                className="px-8 py-4 bg-gradient-to-r from-blue-500 to-purple-500 rounded-xl font-bold text-white hover:scale-105 transition-transform"
               >
-                <div className="absolute inset-0 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 animate-gradient" />
-                <span className="relative z-10 text-white">Essayer Gratuitement</span>
-                <svg className="relative z-10 w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                </svg>
-              </a>
+                Commencer
+              </Link>
+              <Link
+                href="/apropos"
+                className="px-8 py-4 glass rounded-xl font-bold hover:scale-105 transition-transform"
+              >
+                En savoir plus
+              </Link>
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Footer CTA */}
-      <section className="relative py-20 px-4 sm:px-6 lg:px-8 border-t border-white/10">
-        <div className="max-w-4xl mx-auto text-center">
-          <h3 className="text-3xl font-black mb-4 gradient-text">
-            Prêt à commencer votre voyage STEM ?
-          </h3>
-          <p className="text-gray-400 mb-8">
-            Rejoignez SymLab aujourd'hui et transformez votre façon d'apprendre les sciences
-          </p>
-          <div className="flex flex-wrap justify-center gap-6 text-sm text-gray-500">
-            <span className="flex items-center gap-2">
-              <svg className="w-5 h-5 text-green-400" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-              </svg>
-              Gratuit à vie
-            </span>
-            <span className="flex items-center gap-2">
-              <svg className="w-5 h-5 text-green-400" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-              </svg>
-              Sans publicité
-            </span>
-            <span className="flex items-center gap-2">
-              <svg className="w-5 h-5 text-green-400" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-              </svg>
-              Open Source
-            </span>
           </div>
         </div>
       </section>

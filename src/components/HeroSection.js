@@ -3,40 +3,18 @@
 import { useEffect, useState } from 'react';
 
 export default function HeroSection({ title, subtitle, cta, ctaHref }) {
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const [scrollY, setScrollY] = useState(0);
-
-  useEffect(() => {
-    const handleMouseMove = (e) => {
-      setMousePosition({
-        x: (e.clientX / window.innerWidth - 0.5) * 20,
-        y: (e.clientY / window.innerHeight - 0.5) * 20
-      });
-    };
-
-    const handleScroll = () => {
-      setScrollY(window.scrollY);
-    };
-
-    window.addEventListener('mousemove', handleMouseMove);
-    window.addEventListener('scroll', handleScroll);
-
-    return () => {
-      window.removeEventListener('mousemove', handleMouseMove);
-      window.removeEventListener('scroll', handleScroll);
-    };
-  }, []);
-
-  return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Cosmic Background with Parallax */}
-      <div
-        className="absolute inset-0 bg-gradient-to-br from-[#0a0118] via-[#120828] to-[#0a0118]"
-        style={{
-          transform: `translateY(${scrollY * 0.5}px)`
-        }}
-      >
-        {/* Animated gradient orbs */}
+    <section className="relative min-h-[70vh] flex items-center justify-center overflow-hidden bg-transparent">
+      <div className="relative z-10 text-center max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
+        <h1 className="text-5xl sm:text-6xl lg:text-7xl font-extrabold mb-6 text-white leading-tight animate-fadeIn">
+          {title}
+        </h1>
+        <p className="text-lg sm:text-xl text-muted mb-8 leading-relaxed max-w-2xl mx-auto animate-fadeIn animation-delay-150">
+          {subtitle}
+        </p>
+        {/* small accent line under headline */}
+        <div className="mx-auto mt-6 w-24 h-1 rounded-full bg-accent animate-gradient" style={{ background: 'linear-gradient(90deg, var(--accent), var(--accent-2))' }} />
+      </div>
+    </section>
         <div
           className="absolute top-20 left-10 w-96 h-96 rounded-full blur-3xl opacity-30 animate-subtle-pulse"
           style={{

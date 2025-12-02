@@ -5,25 +5,22 @@
    ======================================== */
 
 :root {
-  /* Core Colors - Cosmic Theme */
-  --bg-space-dark: #0a0118;
-  --bg-space-medium: #120828;
-  --bg-space-light: #1a0f35;
-  
-  /* Neon Accents */
-  --neon-blue: #00d4ff;
-  --neon-purple: #b537ff;
-  --neon-pink: #ff2e97;
-  --neon-cyan: #00fff9;
-  --neon-green: #39ff14;
-  
-  /* Glassmorphism */
-  --glass-bg: rgba(255, 255, 255, 0.05);
-  --glass-border: rgba(255, 255, 255, 0.1);
-  --glass-shadow: rgba(0, 0, 0, 0.3);
-  
+  /* Modern Minimal Palette */
+  --bg-dark: #0f1724; /* slate-900 */
+  --bg-medium: #0b1220;
+  --bg-light: #111827; /* slate-800 */
+
+  /* Muted accents */
+  --accent: #2563eb; /* blue-600 */
+  --accent-2: #60a5fa; /* blue-300 */
+  --muted: #94a3b8; /* gray-400 */
+
+  /* Glass / subtle surfaces */
+  --surface: rgba(255,255,255,0.03);
+  --surface-border: rgba(255,255,255,0.04);
+
   /* Typography */
-  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-sans: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
   --font-mono: 'Fira Code', 'Courier New', monospace;
 }
 
@@ -50,8 +47,8 @@ html {
 }
 
 body {
-  background: linear-gradient(135deg, var(--bg-space-dark) 0%, var(--bg-space-medium) 50%, var(--bg-space-dark) 100%);
-  color: #ffffff;
+  background: linear-gradient(180deg, var(--bg-dark) 0%, var(--bg-medium) 60%);
+  color: #e6eef8;
   font-family: var(--font-sans);
   line-height: 1.6;
   overflow-x: hidden;
@@ -60,16 +57,14 @@ body {
 
 /* Cosmic Background Pattern */
 body::before {
+  /* very subtle texture for depth without noise */
   content: '';
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-image: 
-    radial-gradient(circle at 20% 30%, rgba(0, 212, 255, 0.1) 0%, transparent 50%),
-    radial-gradient(circle at 80% 70%, rgba(181, 55, 255, 0.1) 0%, transparent 50%),
-    radial-gradient(circle at 50% 50%, rgba(255, 46, 151, 0.05) 0%, transparent 50%);
+  background-image: radial-gradient(circle at 70% 20%, rgba(255,255,255,0.02) 0%, transparent 40%);
   pointer-events: none;
   z-index: 0;
 }
@@ -140,19 +135,10 @@ body::before {
   }
 }
 
+/* toned-down flicker for subtle emphasis (rarely used) */
 @keyframes neon-flicker {
-  0%, 100% {
-    text-shadow: 
-      0 0 10px rgba(0, 212, 255, 0.8),
-      0 0 20px rgba(0, 212, 255, 0.6),
-      0 0 30px rgba(0, 212, 255, 0.4);
-  }
-  50% {
-    text-shadow: 
-      0 0 15px rgba(0, 212, 255, 1),
-      0 0 30px rgba(0, 212, 255, 0.8),
-      0 0 45px rgba(0, 212, 255, 0.6);
-  }
+  0%, 100% { opacity: 0.98; transform: translateY(0); }
+  50% { opacity: 1; transform: translateY(-2px); }
 }
 
 @keyframes logoSpin {
@@ -281,61 +267,40 @@ body::before {
    ======================================== */
 
 .glass {
-  background: var(--glass-bg);
-  backdrop-filter: blur(20px) saturate(180%);
-  -webkit-backdrop-filter: blur(20px) saturate(180%);
-  border: 1px solid var(--glass-border);
-  box-shadow: 0 8px 32px var(--glass-shadow);
+  background: var(--surface);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  border: 1px solid var(--surface-border);
 }
 
 .glass-strong {
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(30px) saturate(200%);
-  -webkit-backdrop-filter: blur(30px) saturate(200%);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.4);
+  background: rgba(255,255,255,0.04);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255,255,255,0.06);
 }
 
 .glass-subtle {
-  background: rgba(255, 255, 255, 0.03);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  background: rgba(255,255,255,0.02);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  border: 1px solid rgba(255,255,255,0.03);
 }
 
 /* ========================================
    🌟 NEON & GLOW EFFECTS
    ======================================== */
 
-.neon-blue {
-  color: var(--neon-blue);
-  text-shadow: 
-    0 0 10px rgba(0, 212, 255, 0.8),
-    0 0 20px rgba(0, 212, 255, 0.6),
-    0 0 30px rgba(0, 212, 255, 0.4);
+.accent {
+  color: var(--accent);
 }
 
-.neon-purple {
-  color: var(--neon-purple);
-  text-shadow: 
-    0 0 10px rgba(181, 55, 255, 0.8),
-    0 0 20px rgba(181, 55, 255, 0.6),
-    0 0 30px rgba(181, 55, 255, 0.4);
-}
-
-.neon-pink {
-  color: var(--neon-pink);
-  text-shadow: 
-    0 0 10px rgba(255, 46, 151, 0.8),
-    0 0 20px rgba(255, 46, 151, 0.6),
-    0 0 30px rgba(255, 46, 151, 0.4);
+.muted {
+  color: var(--muted);
 }
 
 .glow-box {
-  box-shadow: 
-    0 0 20px rgba(0, 212, 255, 0.3),
-    0 0 40px rgba(181, 55, 255, 0.2),
-    inset 0 0 20px rgba(255, 255, 255, 0.05);
+  box-shadow: 0 6px 18px rgba(2,6,23,0.6);
 }
 
 /* ========================================
@@ -361,24 +326,23 @@ body::before {
    ======================================== */
 
 ::-webkit-scrollbar {
-  width: 12px;
-  height: 12px;
+  width: 10px;
+  height: 10px;
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--bg-space-dark);
-  border-left: 1px solid rgba(255, 255, 255, 0.1);
+  background: var(--bg-dark);
+  border-left: 1px solid rgba(255, 255, 255, 0.03);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg, var(--neon-blue), var(--neon-purple));
-  border-radius: 10px;
-  border: 2px solid var(--bg-space-dark);
+  background: linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.04));
+  border-radius: 8px;
+  border: 2px solid var(--bg-dark);
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(180deg, var(--neon-cyan), var(--neon-pink));
-  box-shadow: 0 0 10px rgba(0, 212, 255, 0.5);
+  background: linear-gradient(180deg, rgba(255,255,255,0.12), rgba(255,255,255,0.06));
 }
 
 /* ========================================
@@ -432,8 +396,8 @@ body::before {
 }
 
 .hover-lift:hover {
-  transform: translateY(-8px) scale(1.02);
-  box-shadow: 0 20px 60px rgba(0, 212, 255, 0.3);
+  transform: translateY(-6px) scale(1.01);
+  box-shadow: 0 12px 36px rgba(2,6,23,0.6);
 }
 
 .hover-glow {
