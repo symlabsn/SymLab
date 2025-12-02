@@ -34,6 +34,44 @@ export default function Home() {
     return () => clearInterval(timer);
   }, []);
 
+  const modules = [
+    {
+      id: 'sim',
+      title: 'Simulations Interactives',
+      description: 'Laboratoire virtuel pour expérimenter la physique et la chimie en temps réel.',
+      href: '/simulations',
+      gradient: 'from-blue-600 to-cyan-500'
+    },
+    {
+      id: 'prog',
+      title: 'Programmation Python',
+      description: 'Environnement de développement complet pour apprendre à coder.',
+      href: '/programming',
+      gradient: 'from-purple-600 to-pink-500'
+    },
+    {
+      id: 'vid',
+      title: 'Capsules Vidéo',
+      description: 'Cours animés et explications visuelles pour comprendre rapidement.',
+      href: '/videos',
+      gradient: 'from-orange-500 to-red-500'
+    },
+    {
+      id: 'proj',
+      title: 'Projets & TP',
+      description: 'Travaux pratiques guidés pour appliquer vos connaissances.',
+      href: '/projects',
+      gradient: 'from-emerald-500 to-green-500'
+    },
+    {
+      id: 'quiz',
+      title: 'Quiz & QCM',
+      description: 'Évaluez votre progression avec des tests interactifs.',
+      href: '/challenges',
+      gradient: 'from-pink-500 to-rose-500'
+    }
+  ];
+
   return (
     <main className="min-h-screen pb-20 bg-[#030014]">
 
@@ -75,7 +113,7 @@ export default function Home() {
       </section>
 
       {/* Stats Bar */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-16">
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-20">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {stats.map((stat, index) => (
             <div key={index} className="bento-card p-6 flex flex-col items-center justify-center bg-white/5 border-subtle hover:bg-white/10 transition-colors">
@@ -90,127 +128,53 @@ export default function Home() {
         </div>
       </section>
 
-      {/* IMMERSIVE MODULES GRID */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-20">
-        <div className="flex items-end justify-between mb-10">
-          <div>
-            <h2 className="text-4xl font-bold text-white mb-2">Explorer les Modules</h2>
-            <p className="text-gray-400">Choisissez votre voie d'apprentissage</p>
-          </div>
+      {/* HORIZONTAL FLUID MODULES */}
+      <section className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 mb-20">
+        <div className="mb-12 text-center">
+          <h2 className="text-4xl font-bold text-white mb-4">Modules d'Apprentissage</h2>
+          <div className="h-1 w-20 bg-gradient-to-r from-blue-500 to-purple-500 mx-auto rounded-full"></div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
+        <div className="space-y-6">
+          {modules.map((module, index) => (
+            <Link
+              key={module.id}
+              href={module.href}
+              className="group relative block w-full"
+            >
+              {/* Card Container */}
+              <div className="relative overflow-hidden rounded-2xl bg-white/5 border border-white/10 p-8 transition-all duration-500 hover:border-white/20 hover:bg-white/10">
 
-          {/* 1. SIMULATIONS INTERACTIVES (Large - Blue/Cyan) */}
-          <Link href="/simulations" className="group relative col-span-1 md:col-span-7 min-h-[320px] rounded-3xl overflow-hidden border border-white/10 transition-all duration-500 hover:scale-[1.02] hover:shadow-2xl hover:shadow-cyan-500/20">
-            {/* Background Gradient */}
-            <div className="absolute inset-0 bg-gradient-to-br from-blue-900 via-slate-900 to-black opacity-90 group-hover:opacity-100 transition-opacity" />
-            <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20" />
+                {/* Hover Gradient Background (Fluid Effect) */}
+                <div className={`absolute inset-0 bg-gradient-to-r ${module.gradient} opacity-0 group-hover:opacity-10 transition-opacity duration-500`} />
 
-            {/* Animated Glow */}
-            <div className="absolute -right-20 -top-20 w-96 h-96 bg-cyan-500/30 rounded-full blur-[100px] group-hover:bg-cyan-400/40 transition-colors duration-500" />
+                {/* Left Accent Bar */}
+                <div className={`absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b ${module.gradient} opacity-50 group-hover:opacity-100 transition-opacity duration-300`} />
 
-            {/* Content */}
-            <div className="relative h-full p-8 flex flex-col justify-between z-10">
-              <div className="flex justify-between items-start">
-                <span className="px-4 py-1 rounded-full bg-cyan-500/20 border border-cyan-500/30 text-cyan-300 text-sm font-bold uppercase tracking-wider">
-                  Laboratoire Virtuel
-                </span>
-                <svg className="w-12 h-12 text-cyan-500 opacity-50 group-hover:opacity-100 group-hover:rotate-12 transition-all duration-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M19.428 15.428a2 2 0 00-1.022-.547l-2.384-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
-                </svg>
-              </div>
+                <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
 
-              <div>
-                <h3 className="text-4xl font-bold text-white mb-3 group-hover:text-cyan-200 transition-colors">Simulations Interactives</h3>
-                <p className="text-gray-300 text-lg max-w-md mb-6 group-hover:text-white transition-colors">
-                  Manipulez les atomes, les forces et les ondes dans un environnement 3D temps réel.
-                </p>
-                <div className="flex items-center gap-3 text-cyan-400 font-bold group-hover:translate-x-2 transition-transform">
-                  <span>Lancer l'expérience</span>
-                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
+                  {/* Text Content */}
+                  <div className="flex-1">
+                    <h3 className="text-2xl md:text-3xl font-bold text-white mb-2 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-white group-hover:to-gray-300 transition-all">
+                      {module.title}
+                    </h3>
+                    <p className="text-gray-400 text-lg group-hover:text-gray-300 transition-colors">
+                      {module.description}
+                    </p>
+                  </div>
+
+                  {/* Right Side Indicator (Subtle Glow instead of arrow) */}
+                  <div className={`
+                    hidden md:block w-3 h-3 rounded-full 
+                    bg-gradient-to-r ${module.gradient}
+                    shadow-[0_0_10px_currentColor]
+                    opacity-50 group-hover:opacity-100 group-hover:scale-150 transition-all duration-500
+                  `} />
+
                 </div>
               </div>
-            </div>
-          </Link>
-
-          {/* 2. PROGRAMMATION (Large - Purple/Violet) */}
-          <Link href="/programming" className="group relative col-span-1 md:col-span-5 min-h-[320px] rounded-3xl overflow-hidden border border-white/10 transition-all duration-500 hover:scale-[1.02] hover:shadow-2xl hover:shadow-purple-500/20">
-            <div className="absolute inset-0 bg-gradient-to-bl from-purple-900 via-slate-900 to-black opacity-90" />
-            <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20" />
-            <div className="absolute -left-20 -bottom-20 w-80 h-80 bg-purple-600/30 rounded-full blur-[100px] group-hover:bg-purple-500/40 transition-colors duration-500" />
-
-            <div className="relative h-full p-8 flex flex-col justify-between z-10">
-              <div className="flex justify-between items-start">
-                <span className="px-4 py-1 rounded-full bg-purple-500/20 border border-purple-500/30 text-purple-300 text-sm font-bold uppercase tracking-wider">
-                  Python Lab
-                </span>
-                <svg className="w-12 h-12 text-purple-500 opacity-50 group-hover:opacity-100 group-hover:scale-110 transition-all duration-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
-                </svg>
-              </div>
-
-              <div>
-                <h3 className="text-3xl font-bold text-white mb-3 group-hover:text-purple-200 transition-colors">Programmation</h3>
-                <p className="text-gray-300 mb-6 group-hover:text-white transition-colors">
-                  IDE Python complet intégré. Codez, compilez et visualisez sans installation.
-                </p>
-                <div className="flex items-center gap-3 text-purple-400 font-bold group-hover:translate-x-2 transition-transform">
-                  <span>Coder maintenant</span>
-                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
-                </div>
-              </div>
-            </div>
-          </Link>
-
-          {/* 3. CAPSULES VIDÉO (Medium - Red/Orange) */}
-          <Link href="/videos" className="group relative col-span-1 md:col-span-4 min-h-[250px] rounded-3xl overflow-hidden border border-white/10 transition-all duration-500 hover:scale-[1.02] hover:shadow-2xl hover:shadow-orange-500/20">
-            <div className="absolute inset-0 bg-gradient-to-br from-orange-900/80 to-slate-900" />
-            <div className="absolute top-0 right-0 w-full h-full bg-[radial-gradient(circle_at_top_right,_var(--tw-gradient-stops))] from-orange-500/20 via-transparent to-transparent" />
-
-            <div className="relative h-full p-6 flex flex-col justify-between z-10">
-              <div className="w-12 h-12 rounded-full bg-orange-500/20 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                <svg className="w-6 h-6 text-orange-400" fill="currentColor" viewBox="0 0 20 20"><path d="M2 6a2 2 0 012-2h6a2 2 0 012 2v8a2 2 0 01-2 2H4a2 2 0 01-2-2V6zM14.553 7.106A1 1 0 0014 8v4a1 1 0 00.553.894l2 1A1 1 0 0018 13V7a1 1 0 00-1.447-.894l-2 1z" /></svg>
-              </div>
-              <div>
-                <h3 className="text-xl font-bold text-white mb-2">Capsules Vidéo</h3>
-                <p className="text-gray-400 text-sm group-hover:text-gray-200">Apprenez en 5 minutes avec nos cours animés.</p>
-              </div>
-            </div>
-          </Link>
-
-          {/* 4. PROJETS ET TP (Medium - Green/Emerald) */}
-          <Link href="/projects" className="group relative col-span-1 md:col-span-4 min-h-[250px] rounded-3xl overflow-hidden border border-white/10 transition-all duration-500 hover:scale-[1.02] hover:shadow-2xl hover:shadow-green-500/20">
-            <div className="absolute inset-0 bg-gradient-to-br from-green-900/80 to-slate-900" />
-            <div className="absolute bottom-0 left-0 w-full h-full bg-[radial-gradient(circle_at_bottom_left,_var(--tw-gradient-stops))] from-green-500/20 via-transparent to-transparent" />
-
-            <div className="relative h-full p-6 flex flex-col justify-between z-10">
-              <div className="w-12 h-12 rounded-full bg-green-500/20 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                <svg className="w-6 h-6 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19.428 15.428a2 2 0 00-1.022-.547l-2.384-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" /></svg>
-              </div>
-              <div>
-                <h3 className="text-xl font-bold text-white mb-2">Projets & TP</h3>
-                <p className="text-gray-400 text-sm group-hover:text-gray-200">Appliquez vos connaissances sur des cas concrets.</p>
-              </div>
-            </div>
-          </Link>
-
-          {/* 5. QUIZ ET QCM (Medium - Pink/Rose) */}
-          <Link href="/challenges" className="group relative col-span-1 md:col-span-4 min-h-[250px] rounded-3xl overflow-hidden border border-white/10 transition-all duration-500 hover:scale-[1.02] hover:shadow-2xl hover:shadow-pink-500/20">
-            <div className="absolute inset-0 bg-gradient-to-br from-pink-900/80 to-slate-900" />
-            <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_top_left,_var(--tw-gradient-stops))] from-pink-500/20 via-transparent to-transparent" />
-
-            <div className="relative h-full p-6 flex flex-col justify-between z-10">
-              <div className="w-12 h-12 rounded-full bg-pink-500/20 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                <svg className="w-6 h-6 text-pink-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-              </div>
-              <div>
-                <h3 className="text-xl font-bold text-white mb-2">Quiz & QCM</h3>
-                <p className="text-gray-400 text-sm group-hover:text-gray-200">Testez-vous et suivez votre progression en temps réel.</p>
-              </div>
-            </div>
-          </Link>
-
+            </Link>
+          ))}
         </div>
       </section>
 
