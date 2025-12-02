@@ -154,3 +154,43 @@ body {
 .delay-400 {
   animation-delay: 0.4s;
 }
+
+/* ========================================
+   Accessibility & Micro-interactions
+   ======================================== */
+
+/* Focus ring for keyboard users */
+.focus-ring:focus,
+.focus-ring:focus-within,
+.glass-card:focus-within {
+  box-shadow: 0 0 0 4px rgba(124, 58, 237, 0.12);
+  outline: none;
+}
+
+/* Module CTA reveal */
+.module-cta {
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 280ms ease, transform 280ms ease;
+}
+
+.glass-card:hover .module-cta,
+.glass-card:focus-within .module-cta,
+.glass-card:active .module-cta {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Slight expansion on hover to emphasize interactivity */
+.glass-card:hover {
+  transform: translateY(-10px) scale(1.015);
+}
+
+/* Hero illustration subtle motion */
+.hero-illustration .rotate-slow {
+  animation: rotate3D 18s linear infinite;
+  transform-origin: center center;
+}
+
+/* Ensure text-secondary is readable */
+.text-secondary { color: #bfc9d9; }
