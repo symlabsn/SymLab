@@ -86,6 +86,12 @@ export default function Home() {
                                 {module.description}
                             </p>
                         </div>
+                        {/* CTA revealed on hover/focus */}
+                        <div className="absolute right-6 top-1/2 -translate-y-1/2 module-cta">
+                            <span style={{ background: 'linear-gradient(90deg, var(--accent), var(--accent-2))' }} className="px-4 py-2 rounded-full font-semibold text-black">
+                                Explorer
+                            </span>
+                        </div>
                     </Link>
                 ))}
             </section>
