@@ -35,161 +35,98 @@ export default function Home() {
   }, []);
 
   return (
-    <main className="min-h-screen pb-20">
+    <main className="min-h-screen bg-[#0B0F19] text-white selection:bg-blue-500/30">
 
-      {/* Hero Section Immersive */}
-      <section className="relative pt-32 pb-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto text-center overflow-hidden">
-
-        {/* Background Effects */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-blue-600/10 rounded-full blur-[120px] pointer-events-none animate-pulse" />
-
-        <div className="relative z-10 animate-in">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 mb-8 backdrop-blur-md">
-            <span className="w-2 h-2 rounded-full bg-cyan-500 animate-pulse"></span>
-            <span className="text-sm font-medium text-gray-300 tracking-wide uppercase">Innovation Éducative Sénégal</span>
+      {/* 1. HEADER / MESSAGE (Haut Centre) */}
+      <section className="pt-24 pb-10 px-4 text-center relative z-10">
+        <div className="animate-in fade-in zoom-in duration-700">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/20 mb-6 backdrop-blur-md">
+            <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse"></span>
+            <span className="text-xs font-bold text-blue-200 tracking-widest uppercase">SymLab Sénégal</span>
           </div>
 
-          <h1 className="text-5xl md:text-7xl font-black tracking-tighter mb-8 leading-tight">
-            Plateforme E-learning pour <br />
-            <span className="gradient-text">l'Expérimentation STEM</span>
+          <h1 className="text-4xl md:text-6xl font-black tracking-tight mb-4 leading-tight text-transparent bg-clip-text bg-gradient-to-r from-white via-blue-100 to-gray-400">
+            L'Expérimentation STEM
           </h1>
 
-          <p className="text-xl text-gray-400 max-w-3xl mx-auto mb-12 leading-relaxed">
-            Mathématiques, Ingénierie et Physique pour la promotion des sciences au Sénégal.
-            Un environnement virtuel pour manipuler, construire et comprendre.
+          <p className="text-lg text-gray-400 max-w-2xl mx-auto font-light">
+            Mathématiques, Ingénierie et Physique. La plateforme d'excellence pour les futurs ingénieurs du Sénégal.
           </p>
-
-          <div className="flex flex-wrap justify-center gap-6">
-            <Link href="/simulations" className="btn-glow">
-              Accéder au Laboratoire
-            </Link>
-            <Link href="/apropos" className="px-8 py-3 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 transition-colors font-medium backdrop-blur-sm">
-              Notre Mission
-            </Link>
-          </div>
         </div>
       </section>
 
-      {/* Stats Bar (Glass) */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-24 relative z-10">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+      {/* 2. MODULES GRID (Juste en dessous, Haut de page) */}
+      <section className="px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto mb-16 relative z-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+
+          {/* MATHÉMATIQUES */}
+          <Link href="/maths" className="group relative h-64 rounded-3xl bg-gradient-to-b from-slate-800/50 to-slate-900/50 border border-white/5 overflow-hidden hover:border-blue-500/50 transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_0_40px_-10px_rgba(59,130,246,0.3)]">
+            <div className="absolute inset-0 bg-gradient-to-br from-blue-600/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+            <div className="absolute top-0 right-0 p-6 opacity-20 group-hover:opacity-100 group-hover:scale-110 transition-all duration-500">
+              <span className="text-6xl">📐</span>
+            </div>
+            <div className="absolute bottom-0 left-0 p-6 w-full">
+              <div className="text-xs font-bold text-blue-400 uppercase tracking-widest mb-2">Modélisation</div>
+              <h3 className="text-2xl font-bold text-white mb-1">Maths</h3>
+              <p className="text-sm text-gray-400 line-clamp-2">Algèbre, Géométrie et Analyse dynamique.</p>
+            </div>
+          </Link>
+
+          {/* PHYSIQUE */}
+          <Link href="/physique" className="group relative h-64 rounded-3xl bg-gradient-to-b from-slate-800/50 to-slate-900/50 border border-white/5 overflow-hidden hover:border-purple-500/50 transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_0_40px_-10px_rgba(168,85,247,0.3)]">
+            <div className="absolute inset-0 bg-gradient-to-br from-purple-600/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+            <div className="absolute top-0 right-0 p-6 opacity-20 group-hover:opacity-100 group-hover:scale-110 transition-all duration-500">
+              <span className="text-6xl">⚡</span>
+            </div>
+            <div className="absolute bottom-0 left-0 p-6 w-full">
+              <div className="text-xs font-bold text-purple-400 uppercase tracking-widest mb-2">Expérimentation</div>
+              <h3 className="text-2xl font-bold text-white mb-1">Physique</h3>
+              <p className="text-sm text-gray-400 line-clamp-2">Mécanique, Électricité et Ondes.</p>
+            </div>
+          </Link>
+
+          {/* INGÉNIERIE */}
+          <Link href="/projects" className="group relative h-64 rounded-3xl bg-gradient-to-b from-slate-800/50 to-slate-900/50 border border-white/5 overflow-hidden hover:border-orange-500/50 transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_0_40px_-10px_rgba(249,115,22,0.3)]">
+            <div className="absolute inset-0 bg-gradient-to-br from-orange-600/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+            <div className="absolute top-0 right-0 p-6 opacity-20 group-hover:opacity-100 group-hover:scale-110 transition-all duration-500">
+              <span className="text-6xl">⚙️</span>
+            </div>
+            <div className="absolute bottom-0 left-0 p-6 w-full">
+              <div className="text-xs font-bold text-orange-400 uppercase tracking-widest mb-2">Technologie</div>
+              <h3 className="text-2xl font-bold text-white mb-1">Ingénierie</h3>
+              <p className="text-sm text-gray-400 line-clamp-2">Robotique, Systèmes et Conception.</p>
+            </div>
+          </Link>
+
+          {/* LABORATOIRE */}
+          <Link href="/simulations" className="group relative h-64 rounded-3xl bg-gradient-to-b from-slate-800/50 to-slate-900/50 border border-white/5 overflow-hidden hover:border-emerald-500/50 transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_0_40px_-10px_rgba(16,185,129,0.3)]">
+            <div className="absolute inset-0 bg-gradient-to-br from-emerald-600/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+            <div className="absolute top-0 right-0 p-6 opacity-20 group-hover:opacity-100 group-hover:scale-110 transition-all duration-500">
+              <span className="text-6xl">🧪</span>
+            </div>
+            <div className="absolute bottom-0 left-0 p-6 w-full">
+              <div className="text-xs font-bold text-emerald-400 uppercase tracking-widest mb-2">Recherche</div>
+              <h3 className="text-2xl font-bold text-white mb-1">Labo STEM</h3>
+              <p className="text-sm text-gray-400 line-clamp-2">Projets transversaux et simulations.</p>
+            </div>
+          </Link>
+
+        </div>
+      </section>
+
+      {/* 3. STATS (Bas de page, discret) */}
+      <section className="max-w-5xl mx-auto px-4 mb-20 border-t border-white/5 pt-10">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
           {stats.map((stat, index) => (
-            <div key={index} className="immersive-card p-6 text-center group">
-              <div className="text-3xl md:text-4xl font-bold text-white mb-1 group-hover:scale-110 transition-transform duration-300">
+            <div key={index}>
+              <div className="text-2xl font-bold text-white mb-1">
                 {Math.floor(stat.value)}{stat.suffix}
               </div>
-              <div className="text-xs font-bold text-gray-500 uppercase tracking-widest group-hover:text-blue-400 transition-colors">
+              <div className="text-xs text-gray-500 uppercase tracking-widest">
                 {stat.label}
               </div>
             </div>
           ))}
-        </div>
-      </section>
-
-      {/* PILIERS STEM (Blocks) */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-32">
-        <div className="flex items-end justify-between mb-12">
-          <div>
-            <h2 className="text-4xl font-bold text-white mb-2">Pôles d'Expérimentation</h2>
-            <p className="text-gray-400">Explorez les sciences par la pratique</p>
-          </div>
-          <div className="hidden md:block h-1 w-32 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-full" />
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-
-          {/* 1. MATHÉMATIQUES */}
-          <Link href="/maths" className="immersive-card p-8 group border-t-4 border-blue-500/50">
-            <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-gradient-maths" />
-            <div className="relative z-10 flex flex-col h-full">
-              <div className="flex justify-between items-start mb-6">
-                <div className="w-16 h-16 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-3xl group-hover:scale-110 transition-transform duration-300 backdrop-blur-md">
-                  📐
-                </div>
-                <span className="badge-level">Modélisation</span>
-              </div>
-              <h3 className="text-3xl font-bold text-white mb-2">Mathématiques</h3>
-              <p className="text-gray-400 mb-6">Visualisez les concepts abstraits. Géométrie dynamique, analyse de fonctions et statistiques appliquées.</p>
-              <div className="mt-auto flex items-center gap-3 text-sm font-bold uppercase tracking-widest text-blue-400 group-hover:text-white transition-colors">
-                <span>Expérimenter</span>
-                <div className="h-px w-8 bg-current group-hover:w-16 transition-all duration-300" />
-              </div>
-            </div>
-          </Link>
-
-          {/* 2. PHYSIQUE */}
-          <Link href="/physique" className="immersive-card p-8 group border-t-4 border-purple-500/50">
-            <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-gradient-pc" />
-            <div className="relative z-10 flex flex-col h-full">
-              <div className="flex justify-between items-start mb-6">
-                <div className="w-16 h-16 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-3xl group-hover:scale-110 transition-transform duration-300 backdrop-blur-md">
-                  ⚡
-                </div>
-                <span className="badge-level">Lois de la Nature</span>
-              </div>
-              <h3 className="text-3xl font-bold text-white mb-2">Physique</h3>
-              <p className="text-gray-400 mb-6">Simulez les forces de l'univers. Mécanique, optique, électricité et thermodynamique en temps réel.</p>
-              <div className="mt-auto flex items-center gap-3 text-sm font-bold uppercase tracking-widest text-purple-400 group-hover:text-white transition-colors">
-                <span>Simuler</span>
-                <div className="h-px w-8 bg-current group-hover:w-16 transition-all duration-300" />
-              </div>
-            </div>
-          </Link>
-
-          {/* 3. INGÉNIERIE */}
-          <Link href="/projects" className="immersive-card p-8 group border-t-4 border-orange-500/50">
-            <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-gradient-tech" />
-            <div className="relative z-10 flex flex-col h-full">
-              <div className="flex justify-between items-start mb-6">
-                <div className="w-16 h-16 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-3xl group-hover:scale-110 transition-transform duration-300 backdrop-blur-md">
-                  ⚙️
-                </div>
-                <span className="badge-level">Conception</span>
-              </div>
-              <h3 className="text-3xl font-bold text-white mb-2">Ingénierie</h3>
-              <p className="text-gray-400 mb-6">Construisez le futur. Robotique, systèmes embarqués, électronique et design technique.</p>
-              <div className="mt-auto flex items-center gap-3 text-sm font-bold uppercase tracking-widest text-orange-400 group-hover:text-white transition-colors">
-                <span>Construire</span>
-                <div className="h-px w-8 bg-current group-hover:w-16 transition-all duration-300" />
-              </div>
-            </div>
-          </Link>
-
-          {/* 4. LABORATOIRE VIRTUEL */}
-          <Link href="/simulations" className="immersive-card p-8 group border-t-4 border-emerald-500/50">
-            <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-gradient-svt" />
-            <div className="relative z-10 flex flex-col h-full">
-              <div className="flex justify-between items-start mb-6">
-                <div className="w-16 h-16 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-3xl group-hover:scale-110 transition-transform duration-300 backdrop-blur-md">
-                  🧪
-                </div>
-                <span className="badge-level">Recherche</span>
-              </div>
-              <h3 className="text-3xl font-bold text-white mb-2">Laboratoire STEM</h3>
-              <p className="text-gray-400 mb-6">Un espace ouvert pour combiner Maths, Physique et Code dans des projets complexes.</p>
-              <div className="mt-auto flex items-center gap-3 text-sm font-bold uppercase tracking-widest text-emerald-400 group-hover:text-white transition-colors">
-                <span>Innover</span>
-                <div className="h-px w-8 bg-current group-hover:w-16 transition-all duration-300" />
-              </div>
-            </div>
-          </Link>
-
-        </div>
-      </section>
-
-      {/* CTA Section */}
-      <section className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 mb-20">
-        <div className="immersive-card p-12 text-center relative overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-r from-blue-600/20 to-purple-600/20 opacity-50" />
-          <div className="relative z-10">
-            <h2 className="text-3xl font-bold text-white mb-6">L'Avenir des Sciences au Sénégal</h2>
-            <p className="text-gray-300 mb-8 max-w-xl mx-auto">
-              SymLab accompagne les élèves et étudiants dans leur parcours d'excellence.
-            </p>
-            <Link href="/challenges" className="inline-flex items-center justify-center px-8 py-4 text-base font-bold text-white bg-white/10 border border-white/20 rounded-xl hover:bg-white/20 transition-all backdrop-blur-md">
-              Rejoindre la communauté
-            </Link>
-          </div>
         </div>
       </section>
 
