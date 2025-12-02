@@ -1,127 +1,130 @@
 @import "tailwindcss";
 
 /* ========================================
-   🌿 SYMLAB CLEAN THEME (Grammarly Style)
+   🎓 SYMLAB LEARNING THEME (SoloLearn Style)
    ======================================== */
 
 :root {
   /* Backgrounds */
-  --bg-main: #F9FAFB;
-  /* Gris très clair */
+  --bg-main: #F2F5F7;
+  /* Gris bleuté très clair */
   --bg-card: #FFFFFF;
-  --bg-hover: #F3F4F6;
 
   /* Accents */
-  --accent-primary: #15C39A;
-  /* Grammarly Green */
-  --accent-dark: #0B8F6F;
-  --accent-light: #E3F9F2;
+  --color-primary: #1CB0F6;
+  /* SoloLearn Blue */
+  --color-secondary: #2B3648;
+  /* Dark Text */
+  --color-success: #58CC02;
+  /* Green for progress */
 
   /* Text */
-  --text-primary: #1F2937;
-  /* Gris presque noir */
-  --text-secondary: #6B7280;
-  /* Gris moyen */
-  --text-tertiary: #9CA3AF;
+  --text-main: #2B3648;
+  --text-sub: #777777;
 
   /* Borders */
-  --border-subtle: #E5E7EB;
-  --border-highlight: #D1D5DB;
+  --border-color: #E0E0E0;
 
   /* Typography */
-  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-sans: 'Inter', sans-serif;
 }
 
 @theme inline {
   --color-background: var(--bg-main);
-  --color-foreground: var(--text-primary);
+  --color-foreground: var(--text-main);
 }
-
-/* ========================================
-   🏗️ BASE LAYOUT
-   ======================================== */
 
 body {
   background-color: var(--bg-main);
-  color: var(--text-primary);
+  color: var(--text-main);
   font-family: var(--font-sans);
   min-height: 100vh;
-  overflow-x: hidden;
-  -webkit-font-smoothing: antialiased;
 }
 
 /* ========================================
-   📦 CLEAN CARDS
+   📦 COURSE CARDS
    ======================================== */
 
-.clean-card {
+.course-card {
   background: var(--bg-card);
-  border: 1px solid var(--border-subtle);
-  border-radius: 1rem;
-  /* Arrondis doux */
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-  transition: all 0.2s ease-in-out;
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  overflow: hidden;
+  transition: transform 0.2s, box-shadow 0.2s;
+  display: flex;
+  flex-direction: column;
 }
 
-.clean-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01);
-  border-color: var(--accent-primary);
+.course-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
+  border-color: var(--color-primary);
 }
 
 /* ========================================
-   ✨ TYPOGRAPHY & ACCENTS
+   🔵 ICONS & BADGES
    ======================================== */
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  color: var(--text-primary);
-  font-weight: 700;
-  letter-spacing: -0.025em;
-}
-
-.text-accent {
-  color: var(--accent-primary);
-}
-
-.bg-accent {
-  background-color: var(--accent-primary);
-}
-
-.btn-primary {
-  background-color: var(--accent-primary);
-  color: white;
-  font-weight: 600;
-  padding: 0.75rem 1.5rem;
-  border-radius: 9999px;
-  /* Pill shape */
-  transition: background-color 0.2s;
-}
-
-.btn-primary:hover {
-  background-color: var(--accent-dark);
-}
-
-.badge-clean {
-  display: inline-flex;
+.icon-circle {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  display: flex;
   align-items: center;
-  padding: 0.25rem 0.75rem;
+  justify-content: center;
+  font-size: 28px;
+  margin-bottom: 16px;
+}
+
+.progress-bar {
+  height: 6px;
+  background-color: #E5E7EB;
   border-radius: 9999px;
-  font-size: 0.75rem;
-  font-weight: 600;
-  background-color: var(--accent-light);
-  color: var(--accent-dark);
+  overflow: hidden;
+  margin-top: auto;
+}
+
+.progress-fill {
+  height: 100%;
+  background-color: var(--color-primary);
+  border-radius: 9999px;
 }
 
 /* ========================================
-   🎭 ANIMATIONS
+   🔘 BUTTONS (No Arrows)
    ======================================== */
 
-@keyframes fadeIn {
+.btn-action {
+  display: block;
+  width: 100%;
+  text-align: center;
+  background-color: transparent;
+  border: 2px solid var(--border-color);
+  color: var(--color-primary);
+  font-weight: 700;
+  text-transform: uppercase;
+  padding: 10px 0;
+  border-radius: 8px;
+  transition: all 0.2s;
+  font-size: 14px;
+  letter-spacing: 0.5px;
+}
+
+.course-card:hover .btn-action {
+  background-color: var(--color-primary);
+  border-color: var(--color-primary);
+  color: white;
+}
+
+/* ========================================
+   ✨ UTILITIES
+   ======================================== */
+
+.animate-in {
+  animation: fadeInUp 0.5s ease-out forwards;
+}
+
+@keyframes fadeInUp {
   from {
     opacity: 0;
     transform: translateY(10px);
@@ -130,31 +133,5 @@ h6 {
   to {
     opacity: 1;
     transform: translateY(0);
-  }
-}
-
-.animate-in {
-  animation: fadeIn 0.5s ease-out forwards;
-}
-
-.delay-100 {
-  animation-delay: 100ms;
-}
-
-.delay-200 {
-  animation-delay: 200ms;
-}
-
-.delay-300 {
-  animation-delay: 300ms;
-}
-
-/* ========================================
-   📱 RESPONSIVE
-   ======================================== */
-
-@media (max-width: 768px) {
-  .clean-card {
-    padding: 1.5rem;
   }
 }

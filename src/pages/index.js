@@ -38,133 +38,147 @@ export default function Home() {
     {
       id: 'sim',
       title: 'Simulations',
-      tag: 'Laboratoire 3D',
-      description: 'Expérimentez la physique et la chimie dans un environnement virtuel sécurisé.',
+      level: 'Débutant',
+      progress: 0,
       href: '/simulations',
-      icon: '🔬'
+      icon: '🔬',
+      color: 'bg-blue-100 text-blue-600'
     },
     {
       id: 'prog',
-      title: 'Programmation',
-      tag: 'Python & IA',
-      description: 'Apprenez à coder avec notre assistant intelligent qui vous guide pas à pas.',
+      title: 'Programmation Python',
+      level: 'Intermédiaire',
+      progress: 0,
       href: '/programming',
-      icon: '💻'
+      icon: '🐍',
+      color: 'bg-yellow-100 text-yellow-600'
     },
     {
       id: 'vid',
-      title: 'Vidéos',
-      tag: 'Cours Animés',
-      description: 'Des explications claires et concises pour maîtriser chaque concept.',
+      title: 'Capsules Vidéo',
+      level: 'Tous niveaux',
+      progress: 0,
       href: '/videos',
-      icon: '▶️'
+      icon: '▶️',
+      color: 'bg-red-100 text-red-600'
     },
     {
       id: 'proj',
-      title: 'Projets',
-      tag: 'Travaux Pratiques',
-      description: 'Mettez la théorie en pratique avec des projets concrets et guidés.',
+      title: 'Projets & TP',
+      level: 'Avancé',
+      progress: 0,
       href: '/projects',
-      icon: '🚀'
+      icon: '🚀',
+      color: 'bg-green-100 text-green-600'
     },
     {
       id: 'quiz',
       title: 'Quiz & QCM',
-      tag: 'Évaluation',
-      description: 'Testez vos connaissances et suivez votre progression en temps réel.',
+      level: 'Entraînement',
+      progress: 0,
       href: '/challenges',
-      icon: '📝'
+      icon: '📝',
+      color: 'bg-purple-100 text-purple-600'
+    },
+    {
+      id: 'res',
+      title: 'Ressources',
+      level: 'Documentation',
+      progress: 0,
+      href: '/ressources',
+      icon: '📚',
+      color: 'bg-gray-100 text-gray-600'
     }
   ];
 
   return (
-    <main className="min-h-screen pb-20 bg-[#F9FAFB]">
+    <main className="min-h-screen pb-20 bg-[#F2F5F7]">
 
-      {/* Hero Section */}
-      <section className="pt-32 pb-20 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto text-center">
-        <div className="animate-in">
-          <h1 className="text-5xl md:text-7xl font-bold text-gray-900 mb-6 tracking-tight">
-            L'excellence scientifique, <br />
-            <span className="text-[#15C39A]">simplifiée.</span>
-          </h1>
-
-          <p className="text-xl text-gray-500 max-w-2xl mx-auto mb-10 leading-relaxed font-medium">
-            SymLab vous offre tous les outils pour réussir vos études scientifiques. Simulations, code, et cours interactifs en un seul endroit.
-          </p>
-
-          <div className="flex flex-wrap justify-center gap-4">
-            <Link href="/programming" className="btn-primary shadow-lg shadow-green-500/20 hover:shadow-green-500/30 transform hover:-translate-y-1 transition-all">
-              Commencer gratuitement
-            </Link>
-            <Link href="/apropos" className="px-6 py-3 rounded-full bg-white text-gray-700 font-semibold border border-gray-200 hover:bg-gray-50 transition-colors">
-              En savoir plus
-            </Link>
+      {/* Header Section */}
+      <section className="pt-12 pb-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+        <div className="flex flex-col md:flex-row items-center justify-between gap-8 mb-12">
+          <div>
+            <h1 className="text-4xl font-black text-[#2B3648] mb-2">
+              Bonjour, Apprenant 👋
+            </h1>
+            <p className="text-[#777777] text-lg">
+              Prêt à continuer votre apprentissage scientifique ?
+            </p>
           </div>
-        </div>
-      </section>
 
-      {/* Stats Bar */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-24">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-          {stats.map((stat, index) => (
-            <div key={index} className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm text-center">
-              <div className="text-3xl md:text-4xl font-bold text-gray-900 mb-1">
-                {Math.floor(stat.value)}{stat.suffix}
-              </div>
-              <div className="text-xs font-bold text-gray-400 uppercase tracking-widest">
-                {stat.label}
+          <div className="flex gap-4">
+            <div className="bg-white px-6 py-3 rounded-xl border border-[#E0E0E0] shadow-sm flex items-center gap-3">
+              <span className="text-2xl">🔥</span>
+              <div>
+                <div className="font-bold text-[#2B3648]">0 Jours</div>
+                <div className="text-xs text-[#777777] uppercase font-bold">Série</div>
               </div>
             </div>
-          ))}
+            <div className="bg-white px-6 py-3 rounded-xl border border-[#E0E0E0] shadow-sm flex items-center gap-3">
+              <span className="text-2xl">💎</span>
+              <div>
+                <div className="font-bold text-[#2B3648]">0 XP</div>
+                <div className="text-xs text-[#777777] uppercase font-bold">Total</div>
+              </div>
+            </div>
+          </div>
         </div>
-      </section>
 
-      {/* CLEAN VERTICAL MODULES */}
-      <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mb-32">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold text-gray-900">Vos Modules</h2>
-          <p className="text-gray-500 mt-2">Tout ce dont vous avez besoin pour progresser</p>
-        </div>
-
-        <div className="space-y-4">
-          {modules.map((module, index) => (
+        {/* Course Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {modules.map((module) => (
             <Link
               key={module.id}
               href={module.href}
-              className="clean-card block p-6 group hover:border-[#15C39A]"
+              className="course-card p-6 group"
             >
-              <div className="flex items-center gap-6">
-
-                {/* Icon Container */}
-                <div className="w-16 h-16 rounded-2xl bg-[#E3F9F2] flex items-center justify-center text-2xl group-hover:scale-110 transition-transform duration-300">
+              <div className="flex items-start justify-between mb-6">
+                <div className={`icon-circle ${module.color}`}>
                   {module.icon}
                 </div>
+                <span className="px-3 py-1 bg-gray-100 rounded-full text-xs font-bold text-gray-500 uppercase tracking-wide">
+                  {module.level}
+                </span>
+              </div>
 
-                {/* Content */}
-                <div className="flex-1">
-                  <div className="flex items-center gap-3 mb-1">
-                    <h3 className="text-xl font-bold text-gray-900 group-hover:text-[#15C39A] transition-colors">
-                      {module.title}
-                    </h3>
-                    <span className="badge-clean">
-                      {module.tag}
-                    </span>
-                  </div>
-                  <p className="text-gray-500 leading-relaxed">
-                    {module.description}
-                  </p>
+              <h3 className="text-xl font-bold text-[#2B3648] mb-2">
+                {module.title}
+              </h3>
+
+              <div className="mt-auto pt-6">
+                <div className="flex justify-between text-xs font-bold text-gray-400 mb-2 uppercase">
+                  <span>Progression</span>
+                  <span>0%</span>
+                </div>
+                <div className="progress-bar mb-6">
+                  <div className="progress-fill w-0"></div>
                 </div>
 
-                {/* Arrow */}
-                <div className="w-8 h-8 rounded-full bg-gray-50 flex items-center justify-center text-gray-400 group-hover:bg-[#15C39A] group-hover:text-white transition-all duration-300">
-                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                  </svg>
-                </div>
-
+                <span className="btn-action">
+                  Commencer
+                </span>
               </div>
             </Link>
           ))}
+        </div>
+      </section>
+
+      {/* Stats Section */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-12">
+        <div className="bg-white rounded-2xl border border-[#E0E0E0] p-8">
+          <h2 className="text-2xl font-bold text-[#2B3648] mb-8">Statistiques de la plateforme</h2>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+            {stats.map((stat, index) => (
+              <div key={index} className="text-center">
+                <div className="text-3xl font-black text-[#1CB0F6] mb-1">
+                  {Math.floor(stat.value)}{stat.suffix}
+                </div>
+                <div className="text-xs font-bold text-gray-400 uppercase tracking-widest">
+                  {stat.label}
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
