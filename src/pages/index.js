@@ -55,7 +55,7 @@ export default function Home() {
         </p>
       </div>
 
-      {/* NEON STACK */}
+      {/* NEON STACK (NO ICONS, NO ARROWS) */}
       <div className="w-full max-w-4xl">
         {modules.map((module) => (
           <Link
@@ -63,14 +63,7 @@ export default function Home() {
             href={module.href}
             className={`neon-block ${module.color} animate-in ${module.delay}`}
           >
-            <span className="block-title">{module.title}</span>
-
-            {/* Arrow Indicator (Subtle) */}
-            <div className="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center opacity-50 group-hover:opacity-100 transition-opacity">
-              <svg className="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
-              </svg>
-            </div>
+            <span className="block-title w-full text-center">{module.title}</span>
           </Link>
         ))}
       </div>
