@@ -1,184 +1,161 @@
 @import "tailwindcss";
 
 /* ========================================
-   🚀 SYMLAB FUTURISTIC DASHBOARD THEME
+   🌈 SYMLAB NEON STACK THEME
    ======================================== */
 
 :root {
-  --bg-deep: #050505;
-  --glass-border: rgba(255, 255, 255, 0.08);
-  --glass-surface: rgba(20, 20, 30, 0.6);
-  --neon-blue: #3B82F6;
-  --neon-purple: #8B5CF6;
-  --neon-cyan: #06B6D4;
-  --neon-orange: #F97316;
-  --neon-green: #10B981;
+  --neon-primary: #8B5CF6;
+  /* Violet */
+  --neon-secondary: #06B6D4;
+  /* Cyan */
+  --neon-accent: #F472B6;
+  /* Rose */
+  --bg-dark: #050510;
 }
 
 @theme inline {
-  --color-background: var(--bg-deep);
+  --color-background: var(--bg-dark);
   --color-foreground: #ffffff;
 }
 
 body {
-  background-color: var(--bg-deep);
+  background-color: var(--bg-dark);
+  /* Animated Neon Gradient Background */
+  background: linear-gradient(-45deg, #0f0c29, #302b63, #24243e, #000000);
+  background-size: 400% 400%;
+  animation: gradientBG 15s ease infinite;
   color: white;
   font-family: 'Inter', sans-serif;
-  overflow-x: hidden;
+  min-height: 100vh;
 }
 
-/* ========================================
-   🔮 BACKGROUND BLOBS
-   ======================================== */
+@keyframes gradientBG {
+  0% {
+    background-position: 0% 50%;
+  }
 
-.blob {
-  position: absolute;
-  filter: blur(80px);
-  z-index: -1;
-  opacity: 0.6;
-  animation: blob-bounce 10s infinite ease-in-out;
-}
+  50% {
+    background-position: 100% 50%;
+  }
 
-.blob-1 {
-  top: 0;
-  left: 0;
-  width: 500px;
-  height: 500px;
-  background: var(--neon-blue);
-  animation-delay: 0s;
-}
-
-.blob-2 {
-  bottom: 0;
-  right: 0;
-  width: 500px;
-  height: 500px;
-  background: var(--neon-purple);
-  animation-delay: 2s;
-}
-
-.blob-3 {
-  top: 50%;
-  left: 50%;
-  width: 400px;
-  height: 400px;
-  background: var(--neon-cyan);
-  transform: translate(-50%, -50%);
-  animation-delay: 4s;
-}
-
-@keyframes blob-bounce {
-
-  0%,
   100% {
-    transform: translate(0, 0) scale(1);
-  }
-
-  33% {
-    transform: translate(30px, -50px) scale(1.1);
-  }
-
-  66% {
-    transform: translate(-20px, 20px) scale(0.9);
+    background-position: 0% 50%;
   }
 }
 
 /* ========================================
-   💎 GLASS DASHBOARD CARDS
+   🔲 NEON OUTLINE BLOCKS
    ======================================== */
 
-.dashboard-card {
-  background: var(--glass-surface);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid var(--glass-border);
-  border-radius: 24px;
+.neon-block {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 2rem 3rem;
+  margin-bottom: 1.5rem;
+
+  background: rgba(255, 255, 255, 0.03);
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  border-radius: 1rem;
+  backdrop-filter: blur(10px);
+
   transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+  cursor: pointer;
   position: relative;
   overflow: hidden;
 }
 
-.dashboard-card::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: 24px;
-  padding: 2px;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), transparent);
-  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
-  pointer-events: none;
+/* Hover Effect: Light up border and background */
+.neon-block:hover {
+  transform: scale(1.02) translateX(10px);
+  background: rgba(255, 255, 255, 0.1);
+  border-color: white;
+  box-shadow: 0 0 30px rgba(255, 255, 255, 0.15);
 }
 
-.dashboard-card:hover {
-  transform: translateY(-5px);
-  background: rgba(30, 30, 45, 0.8);
-  box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.5);
+/* Specific Neon Colors on Hover */
+.neon-block.cyan:hover {
+  border-color: var(--neon-secondary);
+  box-shadow: 0 0 40px rgba(6, 182, 212, 0.4);
 }
 
-/* Neon Borders on Hover */
-.hover-neon-blue:hover {
-  border-color: var(--neon-blue);
-  box-shadow: 0 0 30px rgba(59, 130, 246, 0.2);
+.neon-block.violet:hover {
+  border-color: var(--neon-primary);
+  box-shadow: 0 0 40px rgba(139, 92, 246, 0.4);
 }
 
-.hover-neon-purple:hover {
-  border-color: var(--neon-purple);
-  box-shadow: 0 0 30px rgba(139, 92, 246, 0.2);
+.neon-block.pink:hover {
+  border-color: var(--neon-accent);
+  box-shadow: 0 0 40px rgba(244, 114, 182, 0.4);
 }
 
-.hover-neon-orange:hover {
-  border-color: var(--neon-orange);
-  box-shadow: 0 0 30px rgba(249, 115, 22, 0.2);
+.neon-block.orange:hover {
+  border-color: #F97316;
+  box-shadow: 0 0 40px rgba(249, 115, 22, 0.4);
 }
 
-.hover-neon-cyan:hover {
-  border-color: var(--neon-cyan);
-  box-shadow: 0 0 30px rgba(6, 182, 212, 0.2);
-}
-
-.hover-neon-green:hover {
-  border-color: var(--neon-green);
-  box-shadow: 0 0 30px rgba(16, 185, 129, 0.2);
+.neon-block.green:hover {
+  border-color: #10B981;
+  box-shadow: 0 0 40px rgba(16, 185, 129, 0.4);
 }
 
 /* ========================================
    ✨ TYPOGRAPHY
    ======================================== */
 
-.text-glow {
-  text-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
-}
-
-.badge-status {
-  font-size: 10px;
+.block-title {
+  font-size: 2rem;
   font-weight: 800;
   text-transform: uppercase;
-  letter-spacing: 1px;
-  padding: 6px 12px;
-  border-radius: 99px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  letter-spacing: 2px;
+  color: rgba(255, 255, 255, 0.8);
+  transition: color 0.3s;
 }
 
-.btn-dashboard {
-  display: inline-block;
-  width: 100%;
-  padding: 12px 0;
-  text-align: center;
-  font-weight: 700;
-  font-size: 14px;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  border-radius: 12px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  transition: all 0.3s;
+.neon-block:hover .block-title {
+  color: white;
+  text-shadow: 0 0 20px currentColor;
 }
 
-.dashboard-card:hover .btn-dashboard {
-  background: white;
-  color: black;
-  box-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
+/* ========================================
+   💫 ANIMATIONS
+   ======================================== */
+
+.animate-in {
+  animation: slideIn 0.6s ease-out forwards;
+  opacity: 0;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.delay-1 {
+  animation-delay: 0.1s;
+}
+
+.delay-2 {
+  animation-delay: 0.2s;
+}
+
+.delay-3 {
+  animation-delay: 0.3s;
+}
+
+.delay-4 {
+  animation-delay: 0.4s;
+}
+
+.delay-5 {
+  animation-delay: 0.5s;
 }
