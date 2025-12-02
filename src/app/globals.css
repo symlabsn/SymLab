@@ -1,137 +1,195 @@
 @import "tailwindcss";
 
 /* ========================================
-   🎓 SYMLAB LEARNING THEME (SoloLearn Style)
+   🇸🇳 SYMLAB IMMERSIVE STEM THEME
    ======================================== */
 
 :root {
   /* Backgrounds */
-  --bg-main: #F2F5F7;
-  /* Gris bleuté très clair */
-  --bg-card: #FFFFFF;
+  --bg-deep: #0B0F19;
+  /* Fond très sombre (presque noir) */
+  --bg-surface: #151B2B;
+  /* Fond des cartes */
+  --bg-glass: rgba(21, 27, 43, 0.7);
+
+  /* Brand Colors (Vibrant STEM) */
+  --color-maths: #3B82F6;
+  /* Bleu Roi */
+  --color-pc: #8B5CF6;
+  /* Violet Electrique */
+  --color-svt: #10B981;
+  /* Emeraude */
+  --color-tech: #F59E0B;
+  /* Orange Solaire */
 
   /* Accents */
-  --color-primary: #1CB0F6;
-  /* SoloLearn Blue */
-  --color-secondary: #2B3648;
-  /* Dark Text */
-  --color-success: #58CC02;
-  /* Green for progress */
-
-  /* Text */
-  --text-main: #2B3648;
-  --text-sub: #777777;
+  --accent-glow: rgba(59, 130, 246, 0.5);
+  --text-primary: #F8FAFC;
+  --text-secondary: #94A3B8;
 
   /* Borders */
-  --border-color: #E0E0E0;
+  --border-glass: rgba(255, 255, 255, 0.08);
+  --border-hover: rgba(255, 255, 255, 0.2);
 
   /* Typography */
-  --font-sans: 'Inter', sans-serif;
+  --font-sans: 'Inter', system-ui, sans-serif;
 }
 
 @theme inline {
-  --color-background: var(--bg-main);
-  --color-foreground: var(--text-main);
+  --color-background: var(--bg-deep);
+  --color-foreground: var(--text-primary);
 }
 
 body {
-  background-color: var(--bg-main);
-  color: var(--text-main);
+  background-color: var(--bg-deep);
+  background-image:
+    radial-gradient(circle at 15% 50%, rgba(59, 130, 246, 0.08) 0%, transparent 25%),
+    radial-gradient(circle at 85% 30%, rgba(139, 92, 246, 0.08) 0%, transparent 25%);
+  color: var(--text-primary);
   font-family: var(--font-sans);
   min-height: 100vh;
+  overflow-x: hidden;
 }
 
 /* ========================================
-   📦 COURSE CARDS
+   💎 IMMERSIVE BLOCKS (Glassmorphism)
    ======================================== */
 
-.course-card {
-  background: var(--bg-card);
-  border: 1px solid var(--border-color);
-  border-radius: 12px;
+.immersive-card {
+  background: var(--bg-glass);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--border-glass);
+  border-radius: 1.5rem;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
   overflow: hidden;
-  transition: transform 0.2s, box-shadow 0.2s;
-  display: flex;
-  flex-direction: column;
 }
 
-.course-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
-  border-color: var(--color-primary);
+.immersive-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  opacity: 0;
+  transition: opacity 0.4s;
 }
 
-/* ========================================
-   🔵 ICONS & BADGES
-   ======================================== */
-
-.icon-circle {
-  width: 64px;
-  height: 64px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 28px;
-  margin-bottom: 16px;
+.immersive-card:hover {
+  transform: translateY(-5px) scale(1.01);
+  border-color: var(--border-hover);
+  box-shadow:
+    0 20px 40px -5px rgba(0, 0, 0, 0.4),
+    0 0 20px rgba(59, 130, 246, 0.1);
+  /* Blue glow hint */
 }
 
-.progress-bar {
-  height: 6px;
-  background-color: #E5E7EB;
-  border-radius: 9999px;
-  overflow: hidden;
-  margin-top: auto;
-}
-
-.progress-fill {
-  height: 100%;
-  background-color: var(--color-primary);
-  border-radius: 9999px;
+.immersive-card:hover::before {
+  opacity: 1;
 }
 
 /* ========================================
-   🔘 BUTTONS (No Arrows)
+   🎨 SUBJECT GRADIENTS
    ======================================== */
 
-.btn-action {
-  display: block;
-  width: 100%;
-  text-align: center;
-  background-color: transparent;
-  border: 2px solid var(--border-color);
-  color: var(--color-primary);
-  font-weight: 700;
-  text-transform: uppercase;
-  padding: 10px 0;
-  border-radius: 8px;
-  transition: all 0.2s;
-  font-size: 14px;
-  letter-spacing: 0.5px;
+.gradient-text {
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  background-image: linear-gradient(to right, #60A5FA, #A78BFA);
 }
 
-.course-card:hover .btn-action {
-  background-color: var(--color-primary);
-  border-color: var(--color-primary);
+.bg-gradient-maths {
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(37, 99, 235, 0.1));
+}
+
+.bg-gradient-pc {
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.2), rgba(124, 58, 237, 0.1));
+}
+
+.bg-gradient-svt {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.2), rgba(5, 150, 105, 0.1));
+}
+
+.bg-gradient-tech {
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.2), rgba(217, 119, 6, 0.1));
+}
+
+/* ========================================
+   🚀 BUTTONS & BADGES
+   ======================================== */
+
+.btn-glow {
+  background: linear-gradient(90deg, #3B82F6, #8B5CF6);
   color: white;
+  font-weight: 600;
+  padding: 0.75rem 2rem;
+  border-radius: 1rem;
+  transition: all 0.3s;
+  box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
+}
+
+.btn-glow:hover {
+  box-shadow: 0 0 30px rgba(59, 130, 246, 0.5);
+  transform: translateY(-2px);
+}
+
+.badge-level {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 0.25rem 0.75rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--text-secondary);
 }
 
 /* ========================================
-   ✨ UTILITIES
+   ✨ ANIMATIONS
    ======================================== */
+
+@keyframes float {
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
 
 .animate-in {
-  animation: fadeInUp 0.5s ease-out forwards;
+  animation: fadeInUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
 }
 
 @keyframes fadeInUp {
   from {
     opacity: 0;
-    transform: translateY(10px);
+    transform: translateY(30px);
   }
 
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+/* ========================================
+   📱 RESPONSIVE
+   ======================================== */
+
+@media (max-width: 768px) {
+  .immersive-card {
+    border-radius: 1rem;
   }
 }
