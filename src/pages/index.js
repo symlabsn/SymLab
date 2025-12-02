@@ -10,78 +10,111 @@ export default function Home() {
       title: 'Calcul Symbolique',
       description: 'Manipulation d\'expressions mathématiques et résolution exacte.',
       href: '/maths',
-      gradient: 'bg-gradient-to-br from-blue-600 to-indigo-700'
+      color: 'text-blue-400',
+      hover: 'hover-neon-blue',
+      status: 'Disponible',
+      count: '12 Cours'
     },
     {
       id: 'simulation',
       title: 'Simulation Numérique',
       description: 'Modélisation de phénomènes physiques et expériences virtuelles.',
       href: '/simulations',
-      gradient: 'bg-gradient-to-br from-violet-600 to-purple-700'
+      color: 'text-purple-400',
+      hover: 'hover-neon-purple',
+      status: 'Interactif',
+      count: '8 Labos'
     },
     {
       id: 'programming',
       title: 'Programmation',
       description: 'Algorithmique et développement pour les sciences.',
       href: '/programming',
-      gradient: 'bg-gradient-to-br from-amber-500 to-orange-700'
+      color: 'text-orange-400',
+      hover: 'hover-neon-orange',
+      status: 'IDE En ligne',
+      count: 'Python 3.10'
     },
     {
       id: 'engineering',
-      title: 'Applications Ingénierie',
+      title: 'Ingénierie',
       description: 'Solutions techniques et systèmes complexes.',
       href: '/engineering',
-      gradient: 'bg-gradient-to-br from-cyan-500 to-teal-700'
+      color: 'text-cyan-400',
+      hover: 'hover-neon-cyan',
+      status: 'Projets',
+      count: '5 Systèmes'
     },
     {
       id: 'projects',
       title: 'Projets Concrets',
       description: 'Réalisations pratiques et défis STEM au Sénégal.',
       href: '/projects',
-      gradient: 'bg-gradient-to-br from-emerald-500 to-green-700'
+      color: 'text-green-400',
+      hover: 'hover-neon-green',
+      status: 'Challenge',
+      count: 'Nouveau'
     }
   ];
 
   return (
-    <main className="min-h-screen bg-[#0B0F19] text-white selection:bg-blue-500/30 flex flex-col justify-center py-20">
+    <main className="min-h-screen relative flex flex-col justify-center py-20 overflow-hidden">
+
+      {/* BACKGROUND BLOBS */}
+      <div className="blob blob-1"></div>
+      <div className="blob blob-2"></div>
+      <div className="blob blob-3"></div>
 
       {/* HEADER */}
-      <section className="px-4 text-center mb-16">
+      <section className="relative z-10 px-4 text-center mb-20">
         <div className="animate-in fade-in zoom-in duration-1000">
-          <h1 className="text-5xl md:text-7xl font-black tracking-tighter mb-6 text-transparent bg-clip-text bg-gradient-to-r from-blue-100 via-white to-blue-100">
+          <div className="inline-block mb-4 px-4 py-1 rounded-full border border-white/10 bg-white/5 backdrop-blur-md">
+            <span className="text-xs font-bold tracking-[0.2em] text-white/70 uppercase">SymLab Dashboard V2.0</span>
+          </div>
+          <h1 className="text-5xl md:text-8xl font-black tracking-tighter mb-6 text-white text-glow">
             SYMLAB
           </h1>
-          <p className="text-xl md:text-2xl text-gray-400 max-w-4xl mx-auto font-light leading-relaxed">
-            Une plateforme E-learning pour l'expérimentation <span className="text-white font-medium">mathématiques</span>, <span className="text-white font-medium">ingénierie</span> et <span className="text-white font-medium">physique</span> pour la promotion des STEM au Sénégal.
+          <p className="text-xl text-white/60 max-w-3xl mx-auto font-light leading-relaxed">
+            Plateforme E-learning pour l'expérimentation <span className="text-blue-400 font-bold">Maths</span>, <span className="text-orange-400 font-bold">Ingénierie</span> et <span className="text-purple-400 font-bold">Physique</span>.
           </p>
         </div>
       </section>
 
-      {/* MODULES GRID (No Icons, No Arrows) */}
-      <section className="px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto w-full">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {/* DASHBOARD GRID */}
+      <section className="relative z-10 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
 
           {modules.map((module) => (
             <Link
               key={module.id}
               href={module.href}
-              className={`
-                group relative overflow-hidden rounded-2xl p-8 h-64 flex flex-col justify-center
-                transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl hover:shadow-white/10
-                ${module.gradient}
-              `}
+              className={`dashboard-card p-8 group flex flex-col justify-between h-[320px] ${module.hover}`}
             >
-              {/* Glass Overlay Effect */}
-              <div className="absolute inset-0 bg-white/0 group-hover:bg-white/10 transition-colors duration-300" />
+              {/* Top Row: Status & Count */}
+              <div className="flex justify-between items-start mb-6">
+                <span className={`badge-status ${module.color} bg-opacity-10 border-opacity-20`}>
+                  {module.status}
+                </span>
+                <span className="text-xs font-mono text-white/40 uppercase tracking-widest">
+                  {module.count}
+                </span>
+              </div>
 
-              {/* Content */}
-              <div className="relative z-10 text-center">
-                <h3 className="text-3xl font-bold text-white mb-4 tracking-tight">
+              {/* Middle: Content */}
+              <div>
+                <h3 className={`text-3xl font-bold text-white mb-3 group-hover:${module.color} transition-colors duration-300`}>
                   {module.title}
                 </h3>
-                <p className="text-white/80 text-lg font-medium leading-relaxed">
+                <p className="text-white/60 text-sm leading-relaxed">
                   {module.description}
                 </p>
+              </div>
+
+              {/* Bottom: Action Button (No Arrow) */}
+              <div className="mt-auto pt-8">
+                <span className="btn-dashboard">
+                  Ouvrir le Module
+                </span>
               </div>
             </Link>
           ))}

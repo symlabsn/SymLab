@@ -1,195 +1,184 @@
 @import "tailwindcss";
 
 /* ========================================
-   🇸🇳 SYMLAB IMMERSIVE STEM THEME
+   🚀 SYMLAB FUTURISTIC DASHBOARD THEME
    ======================================== */
 
 :root {
-  /* Backgrounds */
-  --bg-deep: #0B0F19;
-  /* Fond très sombre (presque noir) */
-  --bg-surface: #151B2B;
-  /* Fond des cartes */
-  --bg-glass: rgba(21, 27, 43, 0.7);
-
-  /* Brand Colors (Vibrant STEM) */
-  --color-maths: #3B82F6;
-  /* Bleu Roi */
-  --color-pc: #8B5CF6;
-  /* Violet Electrique */
-  --color-svt: #10B981;
-  /* Emeraude */
-  --color-tech: #F59E0B;
-  /* Orange Solaire */
-
-  /* Accents */
-  --accent-glow: rgba(59, 130, 246, 0.5);
-  --text-primary: #F8FAFC;
-  --text-secondary: #94A3B8;
-
-  /* Borders */
-  --border-glass: rgba(255, 255, 255, 0.08);
-  --border-hover: rgba(255, 255, 255, 0.2);
-
-  /* Typography */
-  --font-sans: 'Inter', system-ui, sans-serif;
+  --bg-deep: #050505;
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --glass-surface: rgba(20, 20, 30, 0.6);
+  --neon-blue: #3B82F6;
+  --neon-purple: #8B5CF6;
+  --neon-cyan: #06B6D4;
+  --neon-orange: #F97316;
+  --neon-green: #10B981;
 }
 
 @theme inline {
   --color-background: var(--bg-deep);
-  --color-foreground: var(--text-primary);
+  --color-foreground: #ffffff;
 }
 
 body {
   background-color: var(--bg-deep);
-  background-image:
-    radial-gradient(circle at 15% 50%, rgba(59, 130, 246, 0.08) 0%, transparent 25%),
-    radial-gradient(circle at 85% 30%, rgba(139, 92, 246, 0.08) 0%, transparent 25%);
-  color: var(--text-primary);
-  font-family: var(--font-sans);
-  min-height: 100vh;
+  color: white;
+  font-family: 'Inter', sans-serif;
   overflow-x: hidden;
 }
 
 /* ========================================
-   💎 IMMERSIVE BLOCKS (Glassmorphism)
+   🔮 BACKGROUND BLOBS
    ======================================== */
 
-.immersive-card {
-  background: var(--bg-glass);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid var(--border-glass);
-  border-radius: 1.5rem;
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+.blob {
+  position: absolute;
+  filter: blur(80px);
+  z-index: -1;
+  opacity: 0.6;
+  animation: blob-bounce 10s infinite ease-in-out;
+}
+
+.blob-1 {
+  top: 0;
+  left: 0;
+  width: 500px;
+  height: 500px;
+  background: var(--neon-blue);
+  animation-delay: 0s;
+}
+
+.blob-2 {
+  bottom: 0;
+  right: 0;
+  width: 500px;
+  height: 500px;
+  background: var(--neon-purple);
+  animation-delay: 2s;
+}
+
+.blob-3 {
+  top: 50%;
+  left: 50%;
+  width: 400px;
+  height: 400px;
+  background: var(--neon-cyan);
+  transform: translate(-50%, -50%);
+  animation-delay: 4s;
+}
+
+@keyframes blob-bounce {
+
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+
+  33% {
+    transform: translate(30px, -50px) scale(1.1);
+  }
+
+  66% {
+    transform: translate(-20px, 20px) scale(0.9);
+  }
+}
+
+/* ========================================
+   💎 GLASS DASHBOARD CARDS
+   ======================================== */
+
+.dashboard-card {
+  background: var(--glass-surface);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-border);
+  border-radius: 24px;
+  transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
   position: relative;
   overflow: hidden;
 }
 
-.immersive-card::before {
+.dashboard-card::after {
   content: '';
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-  opacity: 0;
-  transition: opacity 0.4s;
+  inset: 0;
+  border-radius: 24px;
+  padding: 2px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), transparent);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
 }
 
-.immersive-card:hover {
-  transform: translateY(-5px) scale(1.01);
-  border-color: var(--border-hover);
-  box-shadow:
-    0 20px 40px -5px rgba(0, 0, 0, 0.4),
-    0 0 20px rgba(59, 130, 246, 0.1);
-  /* Blue glow hint */
+.dashboard-card:hover {
+  transform: translateY(-5px);
+  background: rgba(30, 30, 45, 0.8);
+  box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.5);
 }
 
-.immersive-card:hover::before {
-  opacity: 1;
+/* Neon Borders on Hover */
+.hover-neon-blue:hover {
+  border-color: var(--neon-blue);
+  box-shadow: 0 0 30px rgba(59, 130, 246, 0.2);
 }
 
-/* ========================================
-   🎨 SUBJECT GRADIENTS
-   ======================================== */
-
-.gradient-text {
-  background-clip: text;
-  -webkit-background-clip: text;
-  color: transparent;
-  background-image: linear-gradient(to right, #60A5FA, #A78BFA);
+.hover-neon-purple:hover {
+  border-color: var(--neon-purple);
+  box-shadow: 0 0 30px rgba(139, 92, 246, 0.2);
 }
 
-.bg-gradient-maths {
-  background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(37, 99, 235, 0.1));
+.hover-neon-orange:hover {
+  border-color: var(--neon-orange);
+  box-shadow: 0 0 30px rgba(249, 115, 22, 0.2);
 }
 
-.bg-gradient-pc {
-  background: linear-gradient(135deg, rgba(139, 92, 246, 0.2), rgba(124, 58, 237, 0.1));
+.hover-neon-cyan:hover {
+  border-color: var(--neon-cyan);
+  box-shadow: 0 0 30px rgba(6, 182, 212, 0.2);
 }
 
-.bg-gradient-svt {
-  background: linear-gradient(135deg, rgba(16, 185, 129, 0.2), rgba(5, 150, 105, 0.1));
-}
-
-.bg-gradient-tech {
-  background: linear-gradient(135deg, rgba(245, 158, 11, 0.2), rgba(217, 119, 6, 0.1));
+.hover-neon-green:hover {
+  border-color: var(--neon-green);
+  box-shadow: 0 0 30px rgba(16, 185, 129, 0.2);
 }
 
 /* ========================================
-   🚀 BUTTONS & BADGES
+   ✨ TYPOGRAPHY
    ======================================== */
 
-.btn-glow {
-  background: linear-gradient(90deg, #3B82F6, #8B5CF6);
-  color: white;
-  font-weight: 600;
-  padding: 0.75rem 2rem;
-  border-radius: 1rem;
-  transition: all 0.3s;
-  box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
+.text-glow {
+  text-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
 }
 
-.btn-glow:hover {
-  box-shadow: 0 0 30px rgba(59, 130, 246, 0.5);
-  transform: translateY(-2px);
-}
-
-.badge-level {
-  font-size: 0.7rem;
+.badge-status {
+  font-size: 10px;
+  font-weight: 800;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
-  padding: 0.25rem 0.75rem;
-  border-radius: 999px;
+  letter-spacing: 1px;
+  padding: 6px 12px;
+  border-radius: 99px;
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.1);
-  color: var(--text-secondary);
 }
 
-/* ========================================
-   ✨ ANIMATIONS
-   ======================================== */
-
-@keyframes float {
-
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-
-  50% {
-    transform: translateY(-10px);
-  }
+.btn-dashboard {
+  display: inline-block;
+  width: 100%;
+  padding: 12px 0;
+  text-align: center;
+  font-weight: 700;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.3s;
 }
 
-.animate-float {
-  animation: float 6s ease-in-out infinite;
-}
-
-.animate-in {
-  animation: fadeInUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
-}
-
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* ========================================
-   📱 RESPONSIVE
-   ======================================== */
-
-@media (max-width: 768px) {
-  .immersive-card {
-    border-radius: 1rem;
-  }
+.dashboard-card:hover .btn-dashboard {
+  background: white;
+  color: black;
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
 }
