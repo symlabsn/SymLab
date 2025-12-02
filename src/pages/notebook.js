@@ -1,6 +1,7 @@
-'use client';
+ 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import dynamic from 'next/dynamic';
 import HeroSection from '@/components/HeroSection';
 
 export default function Notebook() {
@@ -9,10 +10,11 @@ export default function Notebook() {
   const [output, setOutput] = useState('');
   const [running, setRunning] = useState(false);
   const codeRef = useRef(null);
-  const editorRef = useRef(null);
-  const editorContainerRef = useRef(null);
-  const [editorReady, setEditorReady] = useState(false);
+  const [code, setCode] = useState('');
   const [plotSrc, setPlotSrc] = useState('');
+
+  // Monaco Editor (client-only)
+  const MonacoEditor = dynamic(() => import('@monaco-editor/react'), { ssr: false });
 
   // Initialize CodeMirror editor (client-side hook)
   useLoadCodeMirror(editorContainerRef, editorRef, setEditorReady);
@@ -22,8 +24,8 @@ export default function Notebook() {
     try {
       const saved = localStorage.getItem('symlab_notebook_code');
       if (saved) {
-        if (editorRef.current) editorRef.current.setValue(saved);
-        else if (codeRef.current) codeRef.current.value = saved;
+        setCode(saved);
+        if (codeRef.current) codeRef.current.value = saved;
       }
     } catch (e) {
       // ignore if localStorage isn't available
@@ -72,10 +74,10 @@ export default function Notebook() {
     setRunning(true);
     setOutput('Exécution...');
 
-    const code = editorRef.current ? editorRef.current.getValue() : codeRef.current?.value || '';
+    const codeToRun = code || (codeRef.current ? codeRef.current.value : '');
     // Wrap to capture stdout
     const wrapped = `import sys, io\n_old_stdout = sys.stdout\nsys.stdout = io.StringIO()\ntry:\n` +
-      code.split('\n').map((l) => '    ' + l).join('\n') +
+      codeToRun.split('\n').map((l) => '    ' + l).join('\n') +
       `\n    output = sys.stdout.getvalue()\nfinally:\n    sys.stdout = _old_stdout\n`;
 
     try {
@@ -134,28 +136,33 @@ export default function Notebook() {
               <h3 className="text-xl font-semibold text-white">Éditeur Python</h3>
               <div className="text-sm text-gray-400">{loading ? 'Pyodide: chargement...' : 'Pyodide prêt'}</div>
             </div>
-            <div ref={editorContainerRef} className="w-full min-h-[360px] p-0 bg-slate-800 rounded" />
-            <textarea
-              ref={codeRef}
-              defaultValue={example}
-              className="hidden"
-            />
+            <div className="w-full min-h-[360px] p-0 bg-slate-800 rounded overflow-hidden">
+              <MonacoEditor
+                height="360px"
+                defaultLanguage="python"
+                defaultValue={example}
+                value={code}
+                onChange={(value) => setCode(value || '')}
+                options={{ fontSize: 13, minimap: { enabled: false }, tabSize: 4 }}
+              />
+            </div>
+            <textarea ref={codeRef} defaultValue={example} className="hidden" />
 
             <div className="mt-4 space-x-2">
               <button onClick={runCode} disabled={loading || running} className="px-4 py-2 bg-indigo-600 rounded">{running ? 'Exécution...' : 'Run'}</button>
-              <button onClick={() => { if (editorRef.current) editorRef.current.setValue(example); else codeRef.current.value = example; }} className="px-4 py-2 bg-slate-700 rounded">Charger exemple</button>
-              <button onClick={() => { if (editorRef.current) editorRef.current.setValue(''); else codeRef.current.value = ''; setOutput(''); setPlotSrc(''); }} className="px-4 py-2 bg-slate-700 rounded">Effacer</button>
+              <button onClick={() => { setCode(example); if (codeRef.current) codeRef.current.value = example; }} className="px-4 py-2 bg-slate-700 rounded">Charger exemple</button>
+              <button onClick={() => { setCode(''); if (codeRef.current) codeRef.current.value = ''; setOutput(''); setPlotSrc(''); }} className="px-4 py-2 bg-slate-700 rounded">Effacer</button>
               <button onClick={runPlot} disabled={loading || running} className="px-4 py-2 bg-emerald-600 rounded">Générer un graphique</button>
               <button onClick={() => {
                 try {
-                  const content = editorRef.current ? editorRef.current.getValue() : codeRef.current.value;
+                  const content = code || (codeRef.current ? codeRef.current.value : '');
                   localStorage.setItem('symlab_notebook_code', content);
                   setOutput('Sauvegardé localement.');
                 } catch (e) { setOutput('Erreur de sauvegarde: ' + String(e)); }
               }} className="px-4 py-2 bg-yellow-600 rounded">Sauvegarder</button>
               <button onClick={() => {
                 try {
-                  const content = editorRef.current ? editorRef.current.getValue() : codeRef.current.value;
+                  const content = code || (codeRef.current ? codeRef.current.value : '');
                   const blob = new Blob([content], { type: 'text/plain' });
                   const url = URL.createObjectURL(blob);
                   const a = document.createElement('a');
