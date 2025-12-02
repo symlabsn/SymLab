@@ -5,32 +5,32 @@ import HeroSection from '@/components/HeroSection';
 import FeatureCard from '@/components/FeatureCard';
 
 const features = [
-  {
+    {
     icon: '🔬',
     title: 'Simulations Interactives',
     description: 'Explorez les lois de la physique avec des simulations visuelles et interactives. Manipulez les paramètres en temps réel.',
-    href: '/sims',
+    href: '/simulations',
     color: 'blue',
   },
   {
     icon: '🐍',
     title: 'Python Lab',
     description: 'Programmez en Python directement dans votre navigateur avec Pyodide. Pas d\'installation requise.',
-    href: '/code',
+    href: '/programming',
     color: 'purple',
   },
   {
     icon: '📚',
     title: 'QCM Sénégal',
     description: 'Préparez-vous avec des questionnaires à choix multiples basés sur le curriculum sénégalais.',
-    href: '/exams',
+    href: '/challenges',
     color: 'pink',
   },
   {
     icon: '🧪',
     title: 'Travaux Pratiques',
     description: 'Accédez à des ressources pédagogiques, TP et guides pour approfondir vos connaissances STEM.',
-    href: '/ressources',
+    href: '/projects',
     color: 'green',
   },
 ];

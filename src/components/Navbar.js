@@ -8,10 +8,11 @@ export default function Navbar() {
 
   const navLinks = [
     { name: 'Accueil', href: '/' },
-    { name: 'Simulations', href: '/sims' },
-    { name: 'Python Lab', href: '/code' },
-    { name: 'QCM', href: '/exams' },
-    { name: 'Ressources', href: '/ressources' },
+    { name: 'Programmation', href: '/programming' },
+    { name: 'Simulations', href: '/simulations' },
+    { name: 'Challenges', href: '/challenges' },
+    { name: 'Capsules Vidéo', href: '/videos' },
+    { name: 'Projets Concrets', href: '/projects' },
     { name: 'À propos', href: '/apropos' },
   ];
 
