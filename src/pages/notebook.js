@@ -16,9 +16,6 @@ export default function Notebook() {
   // Monaco Editor (client-only)
   const MonacoEditor = dynamic(() => import('@monaco-editor/react'), { ssr: false });
 
-  // Initialize CodeMirror editor (client-side hook)
-  useLoadCodeMirror(editorContainerRef, editorRef, setEditorReady);
-
   useEffect(() => {
     // load saved code from localStorage if present
     try {
@@ -191,52 +188,4 @@ export default function Notebook() {
   );
 }
 
-// Load CodeMirror 5 in client only and initialize editor
-function useLoadCodeMirror(editorContainerRef, editorRef, setEditorReady) {
-  useEffect(() => {
-    let cm = null;
-    const load = async () => {
-      if (!editorContainerRef.current) return;
-      // load CSS
-      const cssId = 'cm-css';
-      if (!document.getElementById(cssId)) {
-        const link = document.createElement('link');
-        link.id = cssId;
-        link.rel = 'stylesheet';
-        link.href = 'https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/codemirror.min.css';
-        document.head.appendChild(link);
-      }
-
-      if (!window.CodeMirror) {
-        const script1 = document.createElement('script');
-        script1.src = 'https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/codemirror.min.js';
-        script1.async = true;
-        document.body.appendChild(script1);
-        await new Promise((res) => (script1.onload = res));
-
-        const script2 = document.createElement('script');
-        script2.src = 'https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/mode/python/python.min.js';
-        script2.async = true;
-        document.body.appendChild(script2);
-        await new Promise((res) => (script2.onload = res));
-      }
-
-      cm = window.CodeMirror(editorContainerRef.current, {
-        value: document.querySelector('textarea[ref]')?.value || '',
-        mode: 'python',
-        theme: 'default',
-        lineNumbers: true,
-        indentUnit: 4,
-      });
-      editorRef.current = cm;
-      setEditorReady(true);
-    };
-
-    load();
-    return () => {
-      if (cm) cm.toTextArea && cm.toTextArea();
-    };
-  }, []);
-}
-
-// (hook defined above; invocation happens inside the component to respect Rules of Hooks)
+// Monaco is loaded dynamically; no CodeMirror fallback remains.
