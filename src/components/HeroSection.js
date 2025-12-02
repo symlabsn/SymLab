@@ -13,14 +13,13 @@ export default function HeroSection({ title, subtitle }) {
               <span className="text-sm font-medium text-gray-300 tracking-wide uppercase">Plateforme STEM 2.0</span>
             </div>
 
-            <h1 className="text-4xl md:text-6xl font-bold tracking-tight mb-4 animate-in delay-100">
-              <span className="text-white">Apprenez les Sciences</span>
-              <br />
-              <span className="text-gradient-primary" style={{ background: 'linear-gradient(90deg, var(--accent), var(--accent-2))', WebkitBackgroundClip: 'text', color: 'transparent' }}>Autrement.</span>
+            <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight mb-4 animate-in delay-100">
+              <span style={{ background: 'linear-gradient(90deg, var(--accent), var(--accent-2))', WebkitBackgroundClip: 'text', color: 'transparent' }}>SymLab</span>
+              <span className="block text-accent-2 text-sm mt-2 font-semibold">Laboratoire STEM — Futur & Créatif</span>
             </h1>
 
             <p className="text-lg text-secondary max-w-xl mb-8 leading-relaxed animate-in delay-200">
-              {subtitle}
+              Explorez, créez et simulez avec des outils immersifs — codez en direct, visualisez des phénomènes et construisez des projets réels.
             </p>
 
             <div className="flex flex-wrap gap-4 animate-in delay-300">

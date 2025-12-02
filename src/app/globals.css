@@ -20,6 +20,14 @@
   --glow-teal: rgba(0, 180, 216, 0.12);
 }
 
+/* gradient text helper */
+.gradient-text {
+  background: linear-gradient(90deg, var(--accent), var(--accent-2));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
 @theme inline {
   --color-background: var(--bg-void);
   --color-foreground: #ffffff;
