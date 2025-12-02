@@ -61,7 +61,7 @@ export default function Home() {
                 </p>
             </section>
 
-            {/* VERTICAL COLOR STACK */}
+            {/* VERTICAL COLOR STACK (NO ICONS) */}
             <section className="w-full max-w-3xl relative z-10 flex flex-col gap-8">
                 {modules.map((module) => (
                     <Link
@@ -73,25 +73,18 @@ export default function Home() {
             `}
                     >
                         {/* Inner Content Block */}
-                        <div className="relative h-full bg-[#0A0A16] rounded-xl p-8 flex flex-col md:flex-row items-center md:items-start gap-6 transition-colors group-hover:bg-opacity-90">
+                        <div className="relative h-full bg-[#0A0A16] rounded-xl p-8 flex flex-col justify-center transition-colors group-hover:bg-opacity-90">
 
                             {/* Color Bar Indicator */}
                             <div className={`hidden md:block w-2 h-full absolute left-0 top-0 bottom-0 ${module.gradient}`} />
 
-                            <div className="flex-1 text-center md:text-left">
+                            <div className="text-center md:text-left pl-0 md:pl-6">
                                 <h3 className="text-3xl font-bold text-white mb-3 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-white group-hover:to-gray-300 transition-all">
                                     {module.title}
                                 </h3>
                                 <p className="text-gray-400 text-lg leading-relaxed group-hover:text-white transition-colors">
                                     {module.description}
                                 </p>
-                            </div>
-
-                            {/* Action Icon */}
-                            <div className="flex items-center justify-center w-12 h-12 rounded-full bg-white/10 group-hover:bg-white/20 transition-colors">
-                                <svg className="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                                </svg>
                             </div>
 
                         </div>
