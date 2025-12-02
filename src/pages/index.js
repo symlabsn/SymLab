@@ -35,7 +35,7 @@ export default function Home() {
   }, []);
 
   return (
-    <main className="min-h-screen pb-20">
+    <main className="min-h-screen pb-20 bg-[#030014]">
 
       {/* Hero Section */}
       <section className="relative pt-32 pb-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
@@ -75,10 +75,10 @@ export default function Home() {
       </section>
 
       {/* Stats Bar */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-12">
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-16">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {stats.map((stat, index) => (
-            <div key={index} className="bento-card p-6 flex flex-col items-center justify-center bg-white/5 border-subtle">
+            <div key={index} className="bento-card p-6 flex flex-col items-center justify-center bg-white/5 border-subtle hover:bg-white/10 transition-colors">
               <div className="text-3xl md:text-4xl font-bold text-white mb-1">
                 {Math.floor(stat.value)}{stat.suffix}
               </div>
@@ -90,67 +90,125 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Bento Grid Modules */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 className="text-3xl font-bold text-white mb-8 flex items-center gap-3">
-          <span className="w-1 h-8 bg-accent-secondary rounded-full"></span>
-          Modules Principaux
-        </h2>
+      {/* IMMERSIVE MODULES GRID */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-20">
+        <div className="flex items-end justify-between mb-10">
+          <div>
+            <h2 className="text-4xl font-bold text-white mb-2">Explorer les Modules</h2>
+            <p className="text-gray-400">Choisissez votre voie d'apprentissage</p>
+          </div>
+        </div>
 
-        <div className="bento-grid">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
 
-          {/* Simulations - Large Card */}
-          <Link href="/simulations" className="col-span-12 md:col-span-8 row-span-2 bento-card group relative overflow-hidden min-h-[300px]">
-            <div className="absolute inset-0 bg-gradient-to-br from-blue-600/20 to-purple-900/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-            <div className="relative z-10 h-full flex flex-col justify-between">
+          {/* 1. SIMULATIONS INTERACTIVES (Large - Blue/Cyan) */}
+          <Link href="/simulations" className="group relative col-span-1 md:col-span-7 min-h-[320px] rounded-3xl overflow-hidden border border-white/10 transition-all duration-500 hover:scale-[1.02] hover:shadow-2xl hover:shadow-cyan-500/20">
+            {/* Background Gradient */}
+            <div className="absolute inset-0 bg-gradient-to-br from-blue-900 via-slate-900 to-black opacity-90 group-hover:opacity-100 transition-opacity" />
+            <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20" />
+
+            {/* Animated Glow */}
+            <div className="absolute -right-20 -top-20 w-96 h-96 bg-cyan-500/30 rounded-full blur-[100px] group-hover:bg-cyan-400/40 transition-colors duration-500" />
+
+            {/* Content */}
+            <div className="relative h-full p-8 flex flex-col justify-between z-10">
+              <div className="flex justify-between items-start">
+                <span className="px-4 py-1 rounded-full bg-cyan-500/20 border border-cyan-500/30 text-cyan-300 text-sm font-bold uppercase tracking-wider">
+                  Laboratoire Virtuel
+                </span>
+                <svg className="w-12 h-12 text-cyan-500 opacity-50 group-hover:opacity-100 group-hover:rotate-12 transition-all duration-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M19.428 15.428a2 2 0 00-1.022-.547l-2.384-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
+                </svg>
+              </div>
+
               <div>
-                <div className="badge mb-4 bg-blue-500/20 text-blue-300 border-blue-500/30">Populaire</div>
-                <h3 className="text-3xl font-bold text-white mb-2">Simulations Interactives</h3>
-                <p className="text-gray-400 max-w-md">Explorez la physique et la chimie avec des laboratoires virtuels en temps réel. Manipulez, observez, comprenez.</p>
-              </div>
-              <div className="mt-8 flex items-center gap-2 text-blue-400 font-medium group-hover:translate-x-2 transition-transform">
-                Explorer le labo <span className="text-xl">→</span>
-              </div>
-            </div>
-            {/* Abstract Shape Decoration */}
-            <div className="absolute -right-10 -bottom-10 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl group-hover:bg-blue-500/20 transition-colors duration-500" />
-          </Link>
-
-          {/* Python Lab - Tall Card */}
-          <Link href="/programming" className="col-span-12 md:col-span-4 row-span-2 bento-card group bg-gradient-to-b from-white/5 to-transparent">
-            <div className="relative z-10 h-full flex flex-col">
-              <div className="badge mb-4 bg-yellow-500/20 text-yellow-300 border-yellow-500/30">Python</div>
-              <h3 className="text-2xl font-bold text-white mb-2">Python Lab</h3>
-              <p className="text-gray-400 text-sm mb-6">Codez directement dans votre navigateur. IDE complet avec support IA.</p>
-
-              {/* Code Snippet Decoration */}
-              <div className="mt-auto bg-black/40 rounded-lg p-4 font-mono text-xs text-green-400 border border-white/5 overflow-hidden">
-                <div className="opacity-50"># Votre premier programme</div>
-                <div>def main():</div>
-                <div className="pl-4">print("Hello SymLab!")</div>
+                <h3 className="text-4xl font-bold text-white mb-3 group-hover:text-cyan-200 transition-colors">Simulations Interactives</h3>
+                <p className="text-gray-300 text-lg max-w-md mb-6 group-hover:text-white transition-colors">
+                  Manipulez les atomes, les forces et les ondes dans un environnement 3D temps réel.
+                </p>
+                <div className="flex items-center gap-3 text-cyan-400 font-bold group-hover:translate-x-2 transition-transform">
+                  <span>Lancer l'expérience</span>
+                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
+                </div>
               </div>
             </div>
           </Link>
 
-          {/* QCM - Standard Card */}
-          <Link href="/challenges" className="col-span-12 md:col-span-4 bento-card group hover:border-pink-500/30">
-            <div className="badge mb-3 bg-pink-500/20 text-pink-300 border-pink-500/30">Entraînement</div>
-            <h3 className="text-xl font-bold text-white mb-2">QCM & Quiz</h3>
-            <p className="text-gray-400 text-sm">Testez vos connaissances avec des milliers de questions.</p>
+          {/* 2. PROGRAMMATION (Large - Purple/Violet) */}
+          <Link href="/programming" className="group relative col-span-1 md:col-span-5 min-h-[320px] rounded-3xl overflow-hidden border border-white/10 transition-all duration-500 hover:scale-[1.02] hover:shadow-2xl hover:shadow-purple-500/20">
+            <div className="absolute inset-0 bg-gradient-to-bl from-purple-900 via-slate-900 to-black opacity-90" />
+            <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20" />
+            <div className="absolute -left-20 -bottom-20 w-80 h-80 bg-purple-600/30 rounded-full blur-[100px] group-hover:bg-purple-500/40 transition-colors duration-500" />
+
+            <div className="relative h-full p-8 flex flex-col justify-between z-10">
+              <div className="flex justify-between items-start">
+                <span className="px-4 py-1 rounded-full bg-purple-500/20 border border-purple-500/30 text-purple-300 text-sm font-bold uppercase tracking-wider">
+                  Python Lab
+                </span>
+                <svg className="w-12 h-12 text-purple-500 opacity-50 group-hover:opacity-100 group-hover:scale-110 transition-all duration-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+                </svg>
+              </div>
+
+              <div>
+                <h3 className="text-3xl font-bold text-white mb-3 group-hover:text-purple-200 transition-colors">Programmation</h3>
+                <p className="text-gray-300 mb-6 group-hover:text-white transition-colors">
+                  IDE Python complet intégré. Codez, compilez et visualisez sans installation.
+                </p>
+                <div className="flex items-center gap-3 text-purple-400 font-bold group-hover:translate-x-2 transition-transform">
+                  <span>Coder maintenant</span>
+                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
+                </div>
+              </div>
+            </div>
           </Link>
 
-          {/* Videos - Standard Card */}
-          <Link href="/videos" className="col-span-12 md:col-span-4 bento-card group hover:border-cyan-500/30">
-            <div className="badge mb-3 bg-cyan-500/20 text-cyan-300 border-cyan-500/30">Multimédia</div>
-            <h3 className="text-xl font-bold text-white mb-2">Capsules Vidéo</h3>
-            <p className="text-gray-400 text-sm">Des explications claires et concises en vidéo.</p>
+          {/* 3. CAPSULES VIDÉO (Medium - Red/Orange) */}
+          <Link href="/videos" className="group relative col-span-1 md:col-span-4 min-h-[250px] rounded-3xl overflow-hidden border border-white/10 transition-all duration-500 hover:scale-[1.02] hover:shadow-2xl hover:shadow-orange-500/20">
+            <div className="absolute inset-0 bg-gradient-to-br from-orange-900/80 to-slate-900" />
+            <div className="absolute top-0 right-0 w-full h-full bg-[radial-gradient(circle_at_top_right,_var(--tw-gradient-stops))] from-orange-500/20 via-transparent to-transparent" />
+
+            <div className="relative h-full p-6 flex flex-col justify-between z-10">
+              <div className="w-12 h-12 rounded-full bg-orange-500/20 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                <svg className="w-6 h-6 text-orange-400" fill="currentColor" viewBox="0 0 20 20"><path d="M2 6a2 2 0 012-2h6a2 2 0 012 2v8a2 2 0 01-2 2H4a2 2 0 01-2-2V6zM14.553 7.106A1 1 0 0014 8v4a1 1 0 00.553.894l2 1A1 1 0 0018 13V7a1 1 0 00-1.447-.894l-2 1z" /></svg>
+              </div>
+              <div>
+                <h3 className="text-xl font-bold text-white mb-2">Capsules Vidéo</h3>
+                <p className="text-gray-400 text-sm group-hover:text-gray-200">Apprenez en 5 minutes avec nos cours animés.</p>
+              </div>
+            </div>
           </Link>
 
-          {/* Projects - Standard Card */}
-          <Link href="/projects" className="col-span-12 md:col-span-4 bento-card group hover:border-green-500/30">
-            <div className="badge mb-3 bg-green-500/20 text-green-300 border-green-500/30">Pratique</div>
-            <h3 className="text-xl font-bold text-white mb-2">Projets & TP</h3>
-            <p className="text-gray-400 text-sm">Apprenez par la pratique avec des projets guidés.</p>
+          {/* 4. PROJETS ET TP (Medium - Green/Emerald) */}
+          <Link href="/projects" className="group relative col-span-1 md:col-span-4 min-h-[250px] rounded-3xl overflow-hidden border border-white/10 transition-all duration-500 hover:scale-[1.02] hover:shadow-2xl hover:shadow-green-500/20">
+            <div className="absolute inset-0 bg-gradient-to-br from-green-900/80 to-slate-900" />
+            <div className="absolute bottom-0 left-0 w-full h-full bg-[radial-gradient(circle_at_bottom_left,_var(--tw-gradient-stops))] from-green-500/20 via-transparent to-transparent" />
+
+            <div className="relative h-full p-6 flex flex-col justify-between z-10">
+              <div className="w-12 h-12 rounded-full bg-green-500/20 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                <svg className="w-6 h-6 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19.428 15.428a2 2 0 00-1.022-.547l-2.384-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" /></svg>
+              </div>
+              <div>
+                <h3 className="text-xl font-bold text-white mb-2">Projets & TP</h3>
+                <p className="text-gray-400 text-sm group-hover:text-gray-200">Appliquez vos connaissances sur des cas concrets.</p>
+              </div>
+            </div>
+          </Link>
+
+          {/* 5. QUIZ ET QCM (Medium - Pink/Rose) */}
+          <Link href="/challenges" className="group relative col-span-1 md:col-span-4 min-h-[250px] rounded-3xl overflow-hidden border border-white/10 transition-all duration-500 hover:scale-[1.02] hover:shadow-2xl hover:shadow-pink-500/20">
+            <div className="absolute inset-0 bg-gradient-to-br from-pink-900/80 to-slate-900" />
+            <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_top_left,_var(--tw-gradient-stops))] from-pink-500/20 via-transparent to-transparent" />
+
+            <div className="relative h-full p-6 flex flex-col justify-between z-10">
+              <div className="w-12 h-12 rounded-full bg-pink-500/20 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                <svg className="w-6 h-6 text-pink-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+              </div>
+              <div>
+                <h3 className="text-xl font-bold text-white mb-2">Quiz & QCM</h3>
+                <p className="text-gray-400 text-sm group-hover:text-gray-200">Testez-vous et suivez votre progression en temps réel.</p>
+              </div>
+            </div>
           </Link>
 
         </div>
