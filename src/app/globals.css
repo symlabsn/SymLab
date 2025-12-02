@@ -1,30 +1,35 @@
 @import "tailwindcss";
 
 /* ========================================
-   🍱 SYMLAB BENTO UI SYSTEM
+   🌿 SYMLAB CLEAN THEME (Grammarly Style)
    ======================================== */
 
 :root {
   /* Backgrounds */
-  --bg-main: #030014;
-  --bg-card: rgba(15, 12, 41, 0.6);
-  --bg-card-hover: rgba(20, 17, 60, 0.8);
+  --bg-main: #F9FAFB;
+  /* Gris très clair */
+  --bg-card: #FFFFFF;
+  --bg-hover: #F3F4F6;
 
   /* Accents */
-  --accent-primary: #7000ff;
-  --accent-secondary: #00c6ff;
-  --accent-tertiary: #ff007a;
-
-  /* Borders */
-  --border-subtle: rgba(255, 255, 255, 0.08);
-  --border-highlight: rgba(255, 255, 255, 0.15);
+  --accent-primary: #15C39A;
+  /* Grammarly Green */
+  --accent-dark: #0B8F6F;
+  --accent-light: #E3F9F2;
 
   /* Text */
-  --text-primary: #ffffff;
-  --text-secondary: #94a3b8;
+  --text-primary: #1F2937;
+  /* Gris presque noir */
+  --text-secondary: #6B7280;
+  /* Gris moyen */
+  --text-tertiary: #9CA3AF;
+
+  /* Borders */
+  --border-subtle: #E5E7EB;
+  --border-highlight: #D1D5DB;
 
   /* Typography */
-  --font-sans: 'Inter', system-ui, sans-serif;
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
 }
 
 @theme inline {
@@ -38,103 +43,88 @@
 
 body {
   background-color: var(--bg-main);
-  background-image:
-    radial-gradient(circle at 50% 0%, rgba(112, 0, 255, 0.15) 0%, transparent 50%),
-    radial-gradient(circle at 100% 0%, rgba(0, 198, 255, 0.1) 0%, transparent 40%);
   color: var(--text-primary);
   font-family: var(--font-sans);
   min-height: 100vh;
   overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
 }
 
 /* ========================================
-   📦 BENTO CARDS
+   📦 CLEAN CARDS
    ======================================== */
 
-.bento-grid {
-  display: grid;
-  grid-template-columns: repeat(12, 1fr);
-  gap: 1.5rem;
-  padding: 1.5rem;
-  max-width: 1400px;
-  margin: 0 auto;
-}
-
-.bento-card {
+.clean-card {
   background: var(--bg-card);
   border: 1px solid var(--border-subtle);
-  border-radius: 1.5rem;
-  padding: 2rem;
-  position: relative;
-  overflow: hidden;
-  backdrop-filter: blur(20px);
-  transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
-  display: flex;
-  flex-direction: column;
+  border-radius: 1rem;
+  /* Arrondis doux */
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  transition: all 0.2s ease-in-out;
 }
 
-.bento-card:hover {
-  transform: translateY(-4px);
-  border-color: var(--border-highlight);
-  background: var(--bg-card-hover);
-  box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.5);
-}
-
-/* Inner Glow Effect on Hover */
-.bento-card::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(800px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
-      rgba(255, 255, 255, 0.06),
-      transparent 40%);
-  opacity: 0;
-  transition: opacity 0.3s;
-  pointer-events: none;
-}
-
-.bento-card:hover::after {
-  opacity: 1;
+.clean-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01);
+  border-color: var(--accent-primary);
 }
 
 /* ========================================
-   ✨ TEXT & ACCENTS
+   ✨ TYPOGRAPHY & ACCENTS
    ======================================== */
 
-.text-gradient {
-  background: linear-gradient(135deg, #fff 0%, #b4b4b4 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: var(--text-primary);
+  font-weight: 700;
+  letter-spacing: -0.025em;
 }
 
-.text-gradient-primary {
-  background: linear-gradient(135deg, var(--accent-secondary) 0%, var(--accent-primary) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+.text-accent {
+  color: var(--accent-primary);
 }
 
-.badge {
+.bg-accent {
+  background-color: var(--accent-primary);
+}
+
+.btn-primary {
+  background-color: var(--accent-primary);
+  color: white;
+  font-weight: 600;
+  padding: 0.75rem 1.5rem;
+  border-radius: 9999px;
+  /* Pill shape */
+  transition: background-color 0.2s;
+}
+
+.btn-primary:hover {
+  background-color: var(--accent-dark);
+}
+
+.badge-clean {
   display: inline-flex;
   align-items: center;
   padding: 0.25rem 0.75rem;
   border-radius: 9999px;
   font-size: 0.75rem;
   font-weight: 600;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  color: var(--text-secondary);
+  background-color: var(--accent-light);
+  color: var(--accent-dark);
 }
 
 /* ========================================
    🎭 ANIMATIONS
    ======================================== */
 
-@keyframes fadeInUp {
+@keyframes fadeIn {
   from {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(10px);
   }
 
   to {
@@ -144,7 +134,7 @@ body {
 }
 
 .animate-in {
-  animation: fadeInUp 0.6s ease-out forwards;
+  animation: fadeIn 0.5s ease-out forwards;
 }
 
 .delay-100 {
@@ -163,20 +153,8 @@ body {
    📱 RESPONSIVE
    ======================================== */
 
-@media (max-width: 1024px) {
-  .bento-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
 @media (max-width: 768px) {
-  .bento-grid {
-    grid-template-columns: 1fr;
-    gap: 1rem;
-    padding: 1rem;
-  }
-
-  .bento-card {
+  .clean-card {
     padding: 1.5rem;
   }
 }
