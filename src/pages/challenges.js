@@ -1,31 +1,6 @@
 'use client';
 
 import Link from 'next/link';
-import HeroSection from '@/components/HeroSection';
-
-export default function Challenges() {
-  return (
-    <main className="bg-slate-950 min-h-screen">
-      <HeroSection
-        title="Challenges"
-        subtitle="Défiez-vous avec des QCM, problèmes à résoudre et exercices pratiques."
-        cta="Voir les challenges"
-        ctaHref="/challenges"
-      />
-
-      <section className="max-w-4xl mx-auto py-12 px-4 text-gray-300">
-        <h2 className="text-3xl font-bold mb-4 text-white">Challenges & QCM</h2>
-        <p className="mb-6">Travaillez des quizz par thème et suivez votre progression.</p>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="p-6 bg-slate-800 rounded">QCM: Physique - Niveau Bac</div>
-          <div className="p-6 bg-slate-800 rounded">Challenge: Implémenter un solveur d'équations</div>
-        </div>
-      </section>
-    </main>
-  );
-}
-'use client';
 
 export default function Challenges() {
   const items = [

@@ -1,38 +1,12 @@
 'use client';
 
-import HeroSection from '@/components/HeroSection';
-import Link from 'next/link';
+const clips = [
+  { title: 'Introduction aux vecteurs', duration: '5:20', href: '#' },
+  { title: 'Pyodide en pratique', duration: '8:12', href: '#' },
+  { title: 'Construire un circuit simple', duration: '6:30', href: '#' },
+];
 
 export default function Videos() {
-  return (
-    <main className="bg-slate-950 min-h-screen">
-      <HeroSection
-        title="Capsules Vidéo"
-        subtitle="Courtes vidéos pédagogiques pour comprendre les concepts clés rapidement."
-        cta="Voir les vidéos"
-        ctaHref="/videos"
-      />
-
-      <section className="max-w-6xl mx-auto py-12 px-4 text-gray-300">
-        <h2 className="text-3xl font-bold mb-4 text-white">Capsules</h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="bg-slate-800 rounded p-4">Vidéo: Introduction à SymPy</div>
-          <div className="bg-slate-800 rounded p-4">Vidéo: Simulation d'un pendule</div>
-          <div className="bg-slate-800 rounded p-4">Vidéo: Résolution d'équations différentielles</div>
-        </div>
-      </section>
-    </main>
-  );
-}
-'use client';
-
-export default function Videos() {
-  const clips = [
-    { title: 'Introduction aux vecteurs', duration: '5:20', href: '#' },
-    { title: 'Pyodide en pratique', duration: '8:12', href: '#' },
-    { title: 'Construire un circuit simple', duration: '6:30', href: '#' },
-  ];
-
   return (
     <main className="min-h-screen bg-gradient-to-b from-slate-950 to-slate-900 py-20 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">

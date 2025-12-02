@@ -1,37 +1,12 @@
 'use client';
 
-import HeroSection from '@/components/HeroSection';
-import Link from 'next/link';
+const projects = [
+  { title: 'Station météo Arduino', desc: 'Construire un capteur météo et analyser les données', href: '#' },
+  { title: 'Imprimante 3D low-cost', desc: 'Mini-projet mécanique + électronique', href: '#' },
+  { title: 'Analyse de données COVID', desc: 'Projet data pour apprendre Pandas & visualisation', href: '#' },
+];
 
 export default function Projects() {
-  return (
-    <main className="bg-slate-950 min-h-screen">
-      <HeroSection
-        title="Projets Concrets"
-        subtitle="Mettez en pratique vos connaissances avec des projets guidés et des templates réutilisables."
-        cta="Voir les projets"
-        ctaHref="/projects"
-      />
-
-      <section className="max-w-6xl mx-auto py-12 px-4 text-gray-300">
-        <h2 className="text-3xl font-bold mb-4 text-white">Projets</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="bg-slate-800 rounded p-4">Projet: Simulation d'un robot suiveur</div>
-          <div className="bg-slate-800 rounded p-4">Projet: Visualisation 3D d'ondes</div>
-        </div>
-      </section>
-    </main>
-  );
-}
-'use client';
-
-export default function Projects() {
-  const projects = [
-    { title: 'Station météo Arduino', desc: 'Construire un capteur météo et analyser les données', href: '#' },
-    { title: 'Imprimante 3D low-cost', desc: 'Mini-projet mécanique + électronique', href: '#' },
-    { title: 'Analyse de données COVID', desc: 'Projet data pour apprendre Pandas & visualisation', href: '#' },
-  ];
-
   return (
     <main className="min-h-screen bg-gradient-to-b from-slate-950 to-slate-900 py-20 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">

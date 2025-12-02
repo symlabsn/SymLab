@@ -1,39 +1,5 @@
 'use client';
 
-import Link from 'next/link';
-import HeroSection from '@/components/HeroSection';
-
-export default function Programming() {
-  return (
-    <main className="bg-slate-950 min-h-screen">
-      <HeroSection
-        title="Programmation"
-        subtitle="Apprenez la programmation avec des environnements interactifs et des exercices guidés."
-        cta="Ouvrir le Python Lab"
-        ctaHref="/programming"
-      />
-
-      <section className="max-w-4xl mx-auto py-12 px-4 text-gray-300">
-        <h2 className="text-3xl font-bold mb-4 text-white">Python Lab & Ressources</h2>
-        <p className="mb-6">Accédez au Python Lab dans votre navigateur, exemples, et tutoriels pour démarrer avec Python et SymPy.</p>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <Link href="/notebook" className="block p-6 bg-slate-800 rounded-lg hover:shadow-lg">
-            <h3 className="text-xl font-semibold">Ouvrir Notebook (Pyodide)</h3>
-            <p className="text-sm text-gray-400 mt-2">Exécutez du code Python et du calcul symbolique avec SymPy.</p>
-          </Link>
-
-          <Link href="/programming#tutorials" className="block p-6 bg-slate-800 rounded-lg hover:shadow-lg">
-            <h3 className="text-xl font-semibold">Tutoriels et exercices</h3>
-            <p className="text-sm text-gray-400 mt-2">Parcours guidés pour débutants et avancés.</p>
-          </Link>
-        </div>
-      </section>
-    </main>
-  );
-}
-'use client';
-
 import { useState, useEffect } from 'react';
 
 export default function Programming() {

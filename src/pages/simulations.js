@@ -1,46 +1,5 @@
 'use client';
 
-import Link from 'next/link';
-import HeroSection from '@/components/HeroSection';
-
-export default function Simulations() {
-  return (
-    <main className="bg-slate-950 min-h-screen">
-      <HeroSection
-        title="Simulations"
-        subtitle="Catalogue de simulations interactives et notebooks pour explorer la physique et les mathématiques."
-        cta="Ouvrir les simulations"
-        ctaHref="/simulations"
-      />
-
-      <section className="max-w-6xl mx-auto py-12 px-4 text-gray-300">
-        <h2 className="text-3xl font-bold mb-4 text-white">Simulations disponibles</h2>
-        <p className="mb-6">Explorez des modules de mécanique, électricité, ondes et bien plus.</p>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="p-4 bg-slate-800 rounded-lg">
-            <h3 className="font-semibold">Mécanique - Pendule</h3>
-            <p className="text-sm text-gray-400">Contrôlez l'amplitude et la friction.</p>
-          </div>
-          <div className="p-4 bg-slate-800 rounded-lg">
-            <h3 className="font-semibold">Ondes - Interférence</h3>
-            <p className="text-sm text-gray-400">Visualisez l'interférence de deux sources.</p>
-          </div>
-          <div className="p-4 bg-slate-800 rounded-lg">
-            <h3 className="font-semibold">Électricité - Circuit RC</h3>
-            <p className="text-sm text-gray-400">Simulez la charge et la décharge d'un condensateur.</p>
-          </div>
-        </div>
-
-        <div className="mt-8">
-          <Link href="/notebook" className="inline-block px-6 py-3 bg-indigo-600 rounded text-white font-semibold">Ouvrir Notebook (Pyodide)</Link>
-        </div>
-      </section>
-    </main>
-  );
-}
-'use client';
-
 export default function Simulations() {
   return (
     <main className="min-h-screen bg-gradient-to-b from-slate-950 to-slate-900 py-20 px-4 sm:px-6 lg:px-8">
