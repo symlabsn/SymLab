@@ -17,18 +17,11 @@ export default function Simulations() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <a className="block bg-slate-800 border border-slate-700 rounded-lg p-6 hover:border-blue-400 transition" href="#">
-              <h3 className="text-lg font-bold text-white mb-2">Pendulum Simulator</h3>
-              <p className="text-gray-400">Simulez un pendule simple et changez les paramètres.</p>
-            </a>
-            <a className="block bg-slate-800 border border-slate-700 rounded-lg p-6 hover:border-blue-400 transition" href="#">
-              <h3 className="text-lg font-bold text-white mb-2">Wave Propagation</h3>
-              <p className="text-gray-400">Visualisez la propagation d'ondes.</p>
-            </a>
-            <a className="block bg-slate-800 border border-slate-700 rounded-lg p-6 hover:border-blue-400 transition" href="#">
-              <h3 className="text-lg font-bold text-white mb-2">Circuit Simulator</h3>
-              <p className="text-gray-400">Construisez des circuits et observez les réponses.</p>
-            </a>
+                <PendulumSim />
+                <div className="p-4 bg-slate-800 rounded-lg">
+                  <h3 className="text-white font-semibold mb-2">Wave Propagation (bientôt)</h3>
+                  <p className="text-gray-400">Prototype de visualisation d'ondes — en cours d'implémentation.</p>
+                </div>
           </div>
         </div>
       </div>

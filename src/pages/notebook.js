@@ -9,6 +9,10 @@ export default function Notebook() {
   const [output, setOutput] = useState('');
   const [running, setRunning] = useState(false);
   const codeRef = useRef(null);
+  const editorRef = useRef(null);
+  const editorContainerRef = useRef(null);
+  const [editorReady, setEditorReady] = useState(false);
+  const [plotSrc, setPlotSrc] = useState('');
 
   useEffect(() => {
     // Load Pyodide from CDN and prepare SymPy
@@ -24,17 +28,18 @@ export default function Notebook() {
         }
 
         const py = await window.loadPyodide({ indexURL: 'https://cdn.jsdelivr.net/pyodide/v0.23.4/full/' });
-        // Try to load sympy (available as a pyodide package)
+        // Load common packages: numpy, sympy, matplotlib
         try {
-          await py.loadPackage('sympy');
+          await py.loadPackage(['numpy', 'sympy', 'matplotlib']);
         } catch (e) {
-          // fallback: use micropip to install sympy if not present
+          // try micropip fallback for packages not in the distribution
           try {
             await py.loadPackage('micropip');
             const mp = py.pyimport('micropip');
             await mp.install('sympy');
+            await mp.install('matplotlib');
           } catch (err) {
-            console.warn('Could not install sympy automatically', err);
+            console.warn('Could not install some packages automatically', err);
           }
         }
 
@@ -54,7 +59,7 @@ export default function Notebook() {
     setRunning(true);
     setOutput('Exécution...');
 
-    const code = codeRef.current?.value || '';
+    const code = editorRef.current ? editorRef.current.getValue() : codeRef.current?.value || '';
     // Wrap to capture stdout
     const wrapped = `import sys, io\n_old_stdout = sys.stdout\nsys.stdout = io.StringIO()\ntry:\n` +
       code.split('\n').map((l) => '    ' + l).join('\n') +
@@ -62,7 +67,6 @@ export default function Notebook() {
 
     try {
       await pyodide.runPythonAsync(wrapped);
-      // get the output
       const outProxy = pyodide.globals.get('output');
       const text = outProxy ? outProxy.toString() : '';
       setOutput(text || '— (Pas de sortie — utilisez print())');
@@ -74,8 +78,32 @@ export default function Notebook() {
     }
   };
 
-  const example = `import sympy as sp\n
-# Définition symbolique\nx = sp.symbols('x')\nexpr = sp.integrate(sp.sin(x)**2, (x, 0, sp.pi))\nprint('Intégrale de sin^2 de 0 à pi =', expr)`;
+  const runPlot = async () => {
+    if (!pyodide || running) return;
+    setRunning(true);
+    setOutput('Génération du graphique...');
+    setPlotSrc('');
+
+    const plotCode = `import matplotlib\nmatplotlib.use('Agg')\nimport matplotlib.pyplot as plt\nimport numpy as np\nimport io, base64\n\nx = np.linspace(0, 2*np.pi, 200)\ny = np.sin(x)\nplt.figure(figsize=(6,3))\nplt.plot(x,y)\nplt.title('sin(x)')\nbuf = io.BytesIO()\nplt.savefig(buf, format='png', bbox_inches='tight')\nbuf.seek(0)\nplot_png_b64 = base64.b64encode(buf.read()).decode('ascii')`;
+
+    try {
+      await pyodide.runPythonAsync(plotCode);
+      const b64 = pyodide.globals.get('plot_png_b64');
+      if (b64) {
+        setPlotSrc('data:image/png;base64,' + b64.toString());
+        try { pyodide.globals.del('plot_png_b64'); } catch (e) { }
+        setOutput('Graphique généré.');
+      } else {
+        setOutput('Erreur: pas de données de graphique.');
+      }
+    } catch (err) {
+      setOutput(String(err));
+    } finally {
+      setRunning(false);
+    }
+  };
+
+  const example = `import sympy as sp\n\n# Définition symbolique\nx = sp.symbols('x')\nexpr = sp.integrate(sp.sin(x)**2, (x, 0, sp.pi))\nprint('Intégrale de sin^2 de 0 à pi =', expr)`;
 
   return (
     <main className="bg-slate-950 min-h-screen text-gray-300">
@@ -93,22 +121,29 @@ export default function Notebook() {
               <h3 className="text-xl font-semibold text-white">Éditeur Python</h3>
               <div className="text-sm text-gray-400">{loading ? 'Pyodide: chargement...' : 'Pyodide prêt'}</div>
             </div>
+            <div ref={editorContainerRef} className="w-full min-h-[360px] p-0 bg-slate-800 rounded" />
             <textarea
               ref={codeRef}
               defaultValue={example}
-              className="w-full min-h-[360px] p-4 bg-slate-800 rounded text-sm font-mono text-gray-100"
+              className="hidden"
             />
 
             <div className="mt-4 space-x-2">
               <button onClick={runCode} disabled={loading || running} className="px-4 py-2 bg-indigo-600 rounded">{running ? 'Exécution...' : 'Run'}</button>
-              <button onClick={() => { codeRef.current.value = example; }} className="px-4 py-2 bg-slate-700 rounded">Charger exemple</button>
-              <button onClick={() => { codeRef.current.value = ''; setOutput(''); }} className="px-4 py-2 bg-slate-700 rounded">Effacer</button>
+              <button onClick={() => { if (editorRef.current) editorRef.current.setValue(example); else codeRef.current.value = example; }} className="px-4 py-2 bg-slate-700 rounded">Charger exemple</button>
+              <button onClick={() => { if (editorRef.current) editorRef.current.setValue(''); else codeRef.current.value = ''; setOutput(''); setPlotSrc(''); }} className="px-4 py-2 bg-slate-700 rounded">Effacer</button>
+              <button onClick={runPlot} disabled={loading || running} className="px-4 py-2 bg-emerald-600 rounded">Générer un graphique</button>
             </div>
           </div>
 
           <div>
             <h3 className="text-xl font-semibold text-white mb-2">Sortie</h3>
-            <pre className="whitespace-pre-wrap bg-slate-900 p-4 rounded min-h-[360px] text-sm">{output}</pre>
+            <pre className="whitespace-pre-wrap bg-slate-900 p-4 rounded min-h-[240px] text-sm">{output}</pre>
+            {plotSrc && (
+              <div className="mt-4 bg-slate-900 p-3 rounded">
+                <img src={plotSrc} alt="plot" className="w-full" />
+              </div>
+            )}
             <p className="text-xs text-gray-400 mt-3">Astuces: utilisez <code className="bg-slate-800 px-1 rounded">print()</code> pour afficher des résultats. SymPy est disponible via <code className="bg-slate-800 px-1 rounded">import sympy as sp</code>.</p>
           </div>
         </div>
@@ -116,3 +151,54 @@ export default function Notebook() {
     </main>
   );
 }
+
+// Load CodeMirror 5 in client only and initialize editor
+function useLoadCodeMirror(editorContainerRef, editorRef, setEditorReady) {
+  useEffect(() => {
+    let cm = null;
+    const load = async () => {
+      if (!editorContainerRef.current) return;
+      // load CSS
+      const cssId = 'cm-css';
+      if (!document.getElementById(cssId)) {
+        const link = document.createElement('link');
+        link.id = cssId;
+        link.rel = 'stylesheet';
+        link.href = 'https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/codemirror.min.css';
+        document.head.appendChild(link);
+      }
+
+      if (!window.CodeMirror) {
+        const script1 = document.createElement('script');
+        script1.src = 'https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/codemirror.min.js';
+        script1.async = true;
+        document.body.appendChild(script1);
+        await new Promise((res) => (script1.onload = res));
+
+        const script2 = document.createElement('script');
+        script2.src = 'https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/mode/python/python.min.js';
+        script2.async = true;
+        document.body.appendChild(script2);
+        await new Promise((res) => (script2.onload = res));
+      }
+
+      cm = window.CodeMirror(editorContainerRef.current, {
+        value: document.querySelector('textarea[ref]')?.value || '',
+        mode: 'python',
+        theme: 'default',
+        lineNumbers: true,
+        indentUnit: 4,
+      });
+      editorRef.current = cm;
+      setEditorReady(true);
+    };
+
+    load();
+    return () => {
+      if (cm) cm.toTextArea && cm.toTextArea();
+    };
+  }, []);
+}
+
+// Hook usage
+useLoadCodeMirror(editorContainerRef, editorRef, setEditorReady);
