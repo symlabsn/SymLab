@@ -28,11 +28,12 @@ export default function HeroSection({ title, subtitle, cta, ctaHref }) {
         )}
       </div>
 
-      {/* Scroll Indicator */}
-      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
-        <svg className="w-6 h-6 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-        </svg>
+      {/* Removed scroll indicator (user requested) */}
+      
+      {/* Subtle animated sparkles */}
+      <div className="pointer-events-none absolute inset-0">
+        <div className="absolute top-12 left-10 w-6 h-6 bg-white/10 rounded-full blur-lg animate-pulse" />
+        <div className="absolute top-28 right-16 w-4 h-4 bg-white/10 rounded-full blur-sm animate-pulse animation-delay-200" />
       </div>
     </section>
   );

@@ -71,8 +71,28 @@ body {
   }
 }
 
+@keyframes logoSpin {
+  0% { transform: rotate(0deg) scale(1); }
+  50% { transform: rotate(12deg) scale(1.06); }
+  100% { transform: rotate(0deg) scale(1); }
+}
+
+@keyframes subtlePulse {
+  0% { opacity: 0.6; transform: scale(0.98); }
+  50% { opacity: 1; transform: scale(1.02); }
+  100% { opacity: 0.6; transform: scale(0.98); }
+}
+
 .animate-fadeIn {
   animation: fadeIn 0.6s ease-out forwards;
+}
+
+.animate-logo-spin {
+  animation: logoSpin 3.6s ease-in-out infinite;
+}
+
+.animate-subtle-pulse {
+  animation: subtlePulse 3.2s ease-in-out infinite;
 }
 
 .animate-slideInLeft {
