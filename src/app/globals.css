@@ -248,3 +248,31 @@ body {
 .module-accent-ring {
   box-shadow: 0 6px 30px rgba(124,58,237,0.06) inset, 0 12px 40px rgba(124,58,237,0.04);
 }
+
+/* Hero subtitle styling */
+.hero-subtitle {
+  color: rgba(235,245,255,0.88);
+  max-width: 76ch;
+}
+
+/* Stronger module border and visible contour per theme */
+.module-special {
+  border-radius: 16px;
+  border-width: 1px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+}
+
+/* Make the left accent bar pop a bit and the module have a subtle neon rim */
+.module-special { position: relative; overflow: visible; }
+.module-special::after {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  z-index: 0;
+  border-radius: 18px;
+  pointer-events: none;
+  background: linear-gradient(180deg, rgba(255,255,255,0), rgba(255,255,255,0));
+}
+
+/* Improve visual separation for the module list */
+.module-list-wrapper { width: 100%; display: flex; flex-direction: column; align-items: center; gap: 18px; }

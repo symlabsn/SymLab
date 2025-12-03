@@ -46,7 +46,7 @@ export default function Home() {
 
     return (
         // FORCE DARK BACKGROUND HERE
-        <main className="min-h-screen flex flex-col items-center py-20 px-4 bg-slate-950 relative overflow-hidden center-page">
+        <main className="min-h-screen flex flex-col items-center justify-center py-12 px-4 relative overflow-hidden center-page">
 
             {/* Background Gradient Mesh (Direct Tailwind) */}
             <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none z-0">
@@ -55,17 +55,17 @@ export default function Home() {
             </div>
 
             {/* HEADER */}
-            <section className="text-center mb-20 relative z-10 max-w-4xl mx-auto">
-                <h1 className="text-6xl md:text-8xl font-black tracking-tighter text-white mb-8 drop-shadow-xl">
+            <section className="text-center mb-12 relative z-10 max-w-4xl mx-auto">
+                <h1 className="text-7xl md:text-9xl font-extrabold tracking-tight gradient-text neon-strong mb-4">
                     SYMLAB
                 </h1>
-                <p className="text-xl md:text-2xl text-slate-300 font-light leading-relaxed max-w-2xl mx-auto">
-                    Une plateforme E-learning pour l'expérimentation <span className="text-cyan-400 font-bold">mathématiques</span>, <span className="text-orange-400 font-bold">ingénierie</span> et la <span className="text-purple-400 font-bold">physique</span> pour la promotion des STEM au Sénégal.
+                <p className="hero-subtitle text-lg md:text-xl text-slate-300 font-medium leading-relaxed max-w-2xl mx-auto">
+                    Une plateforme immersive pour apprendre et expérimenter la <span className="text-cyan-300 font-semibold">mathématique</span>, la <span className="text-orange-300 font-semibold">physique</span> et l'<span className="text-purple-300 font-semibold">ingénierie</span>.
                 </p>
             </section>
 
             {/* VERTICAL BLOCKS (CAGES) */}
-            <section className="w-full max-w-3xl relative z-10 flex flex-col gap-6">
+            <section className="w-full max-w-3xl relative z-10 flex flex-col items-center gap-6">
                             {modules.map((module) => (
                                 <ModuleBlock
                                     key={module.id}
@@ -73,8 +73,8 @@ export default function Home() {
                                     title={module.title}
                                     description={module.description}
                                     accentGradient={`linear-gradient(90deg, ${module.accentStart}, ${module.accentEnd})`}
-                                    accentColor={module.accentColor}
-                                    className="module-special"
+                            accentColor={module.accentColor}
+                            className="module-special module-accent-ring"
                                 />
                             ))}
             </section>
