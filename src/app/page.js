@@ -60,7 +60,8 @@ export default function Home() {
                     <ModuleBlock
                         key={module.id}
                         {...module}
-                        className={`fade-in-up delay-${(index + 1) * 100}`}
+                        className="fade-in-up"
+                        style={{ animationDelay: `${index * 100}ms` }}
                     />
                 ))}
             </section>
