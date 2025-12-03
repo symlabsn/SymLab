@@ -11,42 +11,42 @@ export default function Home() {
             title: 'Programmation',
             description: 'Maîtrisez Python et l\'algorithmique scientifique dans un environnement de développement intégré.',
             href: '/programming',
-            border: 'border-cyan-500',
-            shadow: 'shadow-cyan-500/20',
-            text: 'text-cyan-400'
+            accentStart: '#00F5D4',
+            accentEnd: '#7C3AED',
+            accentColor: '#00F5D4'
         },
         {
             id: 'sim',
             title: 'Simulations Numériques',
             description: 'Explorez des laboratoires virtuels 3D pour visualiser et comprendre les phénomènes physiques.',
             href: '/simulations',
-            border: 'border-purple-500',
-            shadow: 'shadow-purple-500/20',
-            text: 'text-purple-400'
+            accentStart: '#8B5CF6',
+            accentEnd: '#06B6D4',
+            accentColor: '#7C3AED'
         },
         {
             id: 'ing',
             title: 'Applications Ingénierie',
             description: 'Concevez des systèmes complexes, de la robotique aux énergies renouvelables.',
             href: '/engineering',
-            border: 'border-orange-500',
-            shadow: 'shadow-orange-500/20',
-            text: 'text-orange-400'
+            accentStart: '#FB923C',
+            accentEnd: '#FF7A59',
+            accentColor: '#FB923C'
         },
         {
             id: 'vid',
             title: 'Capsules Vidéos',
             description: 'Accédez à une bibliothèque de contenus visuels pour approfondir vos connaissances STEM.',
             href: '/videos',
-            border: 'border-emerald-500',
-            shadow: 'shadow-emerald-500/20',
-            text: 'text-emerald-400'
+            accentStart: '#34D399',
+            accentEnd: '#06B6D4',
+            accentColor: '#10B981'
         }
     ];
 
     return (
         // FORCE DARK BACKGROUND HERE
-        <main className="min-h-screen flex flex-col items-center py-20 px-4 bg-slate-950 relative overflow-hidden">
+        <main className="min-h-screen flex flex-col items-center py-20 px-4 bg-slate-950 relative overflow-hidden center-page">
 
             {/* Background Gradient Mesh (Direct Tailwind) */}
             <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none z-0">
@@ -66,15 +66,17 @@ export default function Home() {
 
             {/* VERTICAL BLOCKS (CAGES) */}
             <section className="w-full max-w-3xl relative z-10 flex flex-col gap-6">
-                    {modules.map((module) => (
-                        <ModuleBlock
-                            key={module.id}
-                            href={module.href}
-                            title={module.title}
-                            description={module.description}
-                            accentGradient={`linear-gradient(90deg, ${module.text === 'text-cyan-400' ? 'var(--accent)' : 'var(--accent)'}, var(--accent-2))`}
-                        />
-                    ))}
+                            {modules.map((module) => (
+                                <ModuleBlock
+                                    key={module.id}
+                                    href={module.href}
+                                    title={module.title}
+                                    description={module.description}
+                                    accentGradient={`linear-gradient(90deg, ${module.accentStart}, ${module.accentEnd})`}
+                                    accentColor={module.accentColor}
+                                    className="module-special"
+                                />
+                            ))}
             </section>
 
         </main>
