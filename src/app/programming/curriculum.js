@@ -1899,14 +1899,402 @@ print(f"π (1000 termes) ≈ {pi_num:.10f}")
 print(f"π (exact) = {float(pi):.10f}")
 
 print("\\n=== SÉRIE DE FOURIER ===")
-# Fonction carrée
-from sympy.abc import t
-T = symbols('T', positive=True)
+Concepts clés:
+                    - Classe : Le plan de construction(ex: Plan d'une voiture)
+- Objet : L'instance concrète (ex: La voiture rouge dans votre garage)
+            - Attributs : Les caractéristiques(couleur, vitesse)
+            - Méthodes : Les actions(accélérer, freiner)
 
-# Coefficients de Fourier (exemple simplifié)
-print("Série de Fourier d'une fonction carrée:")
-print("f(t) = 4/π [sin(ωt) + sin(3ωt)/3 + sin(5ωt)/5 + ...]")`,
-                tip: '🔬 Les séries sont essentielles pour la physique quantique !'
+Analogie :
+            - Classe "Atome" : Définit qu'un atome a des protons et des électrons
+            - Objet "Hydrogène" : Un atome spécifique avec 1 proton
+            - Objet "Carbone" : Un atome spécifique avec 6 protons`,
+                keyPoints: [
+                    'class NomClasse: pour définir',
+                    '__init__ : le constructeur',
+                    'self : référence à l\'objet lui-même',
+                    'Encapsulation et héritage'
+                ],
+                code: `class Atome:
+            """Classe représentant un atome."""
+    
+    def __init__(self, symbole, protons, neutrons):
+            self.symbole = symbole    # Attribut
+        self.protons = protons
+        self.neutrons = neutrons
+        self.electrons = protons  # Atome neutre
+        
+    def masse_atomique(self):
+            """Méthode calculant la masse approximative."""
+        return self.protons + self.neutrons
+        
+    def est_isotope(self, autre_atome):
+            """Vérifie si deux atomes sont des isotopes."""
+        return(self.protons == autre_atome.protons and 
+                self.neutrons != autre_atome.neutrons)
+
+        def __str__(self):
+            return f"{self.symbole} (Z={self.protons}, A={self.masse_atomique()})"
+
+# Création d'objets
+hydrogene = Atome("H", 1, 0)
+deuterium = Atome("H", 1, 1)
+carbone = Atome("C", 6, 6)
+
+print(f"Atome 1: {hydrogene}")
+print(f"Atome 2: {deuterium}")
+print(f"Atome 3: {carbone}")
+
+# Utilisation des méthodes
+print(f"Masse H: {hydrogene.masse_atomique()}")
+print(f"H et D sont isotopes ? {hydrogene.est_isotope(deuterium)}")
+print(f"H et C sont isotopes ? {hydrogene.est_isotope(carbone)}")`,
+                tip: '🏭 Utilisez la POO pour modéliser des objets physiques complexes !'
+            },
+            {
+                title: 'Gestion des erreurs (Exceptions)',
+                duration: '45 min',
+                analogy: '🛡️ try/except est comme un filet de sécurité pour votre programme',
+                content: `Éviter que le programme ne plante
+
+Les erreurs arrivent(division par zéro, fichier introuvable...).
+Au lieu de planter, on les "attrape" et on les gère!
+
+Structure :
+try:
+    # Code risqué
+except TypeErreur:
+    # Plan B en cas d'erreur
+finally:
+    # Code exécuté dans tous les cas
+
+Analogie:
+- Sans try/except : Vous marchez sur une peau de banane et vous finissez à l'hôpital (Crash)
+    - Avec try/except : Vous glissez, vous vous rattrapez, et vous continuez à marcher (Gestion)`,
+                keyPoints: [
+                    'try : bloc de code à surveiller',
+                    'except : bloc exécuté si erreur',
+                    'Ne jamais laisser un except vide !',
+                    'raise : pour lever une erreur volontairement'
+                ],
+                code: `def calculer_vitesse(distance, temps):
+    """Calcule la vitesse en gérant les erreurs."""
+    try:
+        if temps < 0:
+            raise ValueError("Le temps ne peut pas être négatif !")
+            
+        vitesse = distance / temps
+        return vitesse
+        
+    except ZeroDivisionError:
+        print("⚠️ Erreur : Division par zéro ! Le temps ne peut pas être nul.")
+        return None
+        
+    except TypeError:
+        print("⚠️ Erreur : Les valeurs doivent être des nombres.")
+        return None
+        
+    except ValueError as e:
+        print(f"⚠️ Erreur de valeur : {e}")
+        return None
+
+# Tests
+print("Test 1 (Normal):", calculer_vitesse(100, 10))
+print("Test 2 (Zéro):", calculer_vitesse(100, 0))
+print("Test 3 (Texte):", calculer_vitesse(100, "dix"))
+print("Test 4 (Négatif):", calculer_vitesse(100, -5))`,
+                tip: '🛡️ Mieux vaut prévenir que guérir : gérez les cas limites !'
+            },
+            {
+                title: 'Fichiers et Modules',
+                duration: '60 min',
+                analogy: '📂 Les fichiers sont la mémoire à long terme, les modules sont des boîtes à outils',
+                content: `Sauvegarder et organiser
+
+1. Fichiers :
+   - Lire des données (open 'r')
+   - Écrire des résultats (open 'w')
+   - Utiliser 'with' pour fermer automatiquement
+
+2. Modules :
+   - Diviser son code en plusieurs fichiers
+   - import mon_module
+   - Créer ses propres bibliothèques
+
+Analogie :
+- RAM = Mémoire à court terme (oubliée quand on éteint)
+- Fichier = Disque dur (mémoire à long terme)
+- Module = Livre de recettes rangé dans la bibliothèque`,
+                keyPoints: [
+                    'with open(...) as f : la bonne façon d\'ouvrir',
+                    'read(), write(), readlines()',
+                    'import pour charger un module',
+                    'if __name__ == "__main__": pour tester'
+                ],
+                code: `# Écriture dans un fichier
+donnees = [
+    "Temps,Temperature\\n",
+    "0,20.5\\n",
+    "10,21.0\\n",
+    "20,21.5\\n"
+]
+
+print("💾 Écriture des données...")
+with open('experience.csv', 'w', encoding='utf-8') as f:
+    f.writelines(donnees)
+
+# Lecture du fichier
+print("📖 Lecture des données...")
+valeurs = []
+with open('experience.csv', 'r', encoding='utf-8') as f:
+    next(f)  # Sauter l'en-tête
+    for ligne in f:
+        t, temp = ligne.strip().split(',')
+        valeurs.append((float(t), float(temp)))
+
+print(f"Données lues : {valeurs}")
+
+# Création d'un module (simulation)
+# Imaginez que ce code est dans 'physique.py'
+def energie_potentielle(m, h, g=9.81):
+    return m * g * h
+
+# Dans 'main.py'
+# import physique
+# E = physique.energie_potentielle(10, 5)
+print(f"\\nÉnergie potentielle (simulée) : {energie_potentielle(10, 5)} J")`,
+                tip: '📂 Utilisez toujours "with open" pour éviter les fichiers corrompus !'
+            }
+        ]
+    },
+
+    {
+        id: 'projects',
+        title: '7. Projets Scientifiques Complets',
+        icon: '🏆',
+        color: '#4CC9F0',
+        description: 'Mettez tout en pratique avec des projets réels',
+        duration: '10 heures',
+        lessons: [
+            {
+                title: 'Projet 1 : Trajectoire d\'un projectile',
+                duration: '2 heures',
+                analogy: '🎯 Simulez le tir d\'un canon avec prise en compte du vent',
+                content: `Simulation physique complète
+
+Objectif : Modéliser la trajectoire d'un projectile.
+
+Ce que nous allons utiliser :
+- NumPy pour les calculs vectoriels
+- Matplotlib pour l'animation
+- Physique : Équations du mouvement
+- Mathématiques : Résolution numérique
+
+Étapes :
+1. Définir les conditions initiales (vitesse, angle)
+2. Appliquer les lois de Newton (gravité, frottement)
+3. Calculer la position pas à pas (méthode d'Euler)
+4. Visualiser la trajectoire`,
+                keyPoints: [
+                    'Modélisation physique',
+                    'Discrétisation du temps',
+                    'Boucle de simulation',
+                    'Visualisation graphique'
+                ],
+                code: `import numpy as np
+import matplotlib.pyplot as plt
+
+def simulation_tir(v0, angle_deg, dt=0.01):
+    """Simule un tir de projectile."""
+    # Conversion angle
+    angle_rad = np.radians(angle_deg)
+    
+    # Conditions initiales
+    x, y = 0, 0
+    vx = v0 * np.cos(angle_rad)
+    vy = v0 * np.sin(angle_rad)
+    
+    # Constantes
+    g = 9.81
+    
+    # Listes pour stocker la trajectoire
+    traj_x = [x]
+    traj_y = [y]
+    
+    # Boucle temporelle
+    while y >= 0:
+        # Mise à jour position
+        x += vx * dt
+        y += vy * dt
+        
+        # Mise à jour vitesse (gravité)
+        vy -= g * dt
+        
+        traj_x.append(x)
+        traj_y.append(y)
+        
+    return traj_x, traj_y
+
+# Lancer la simulation
+v0 = 50  # m/s
+angles = [30, 45, 60]
+
+plt.figure(figsize=(10, 6))
+
+for angle in angles:
+    x, y = simulation_tir(v0, angle)
+    plt.plot(x, y, label=f'{angle}°')
+
+plt.title(f"Trajectoires de projectiles (v0={v0} m/s)")
+plt.xlabel("Distance (m)")
+plt.ylabel("Hauteur (m)")
+plt.legend()
+plt.grid(True, alpha=0.3)
+plt.axis('equal')
+plt.show()`,
+                tip: '🚀 Essayez d\'ajouter le frottement de l\'air (F = -kv) !'
+            },
+            {
+                title: 'Projet 2 : Analyse de données climatiques',
+                duration: '2.5 heures',
+                analogy: '🌍 Analysez le réchauffement climatique avec de vraies données',
+                content: `Data Science appliquée
+
+Objectif : Analyser l'évolution des températures mondiales.
+
+Ce que nous allons utiliser :
+- Pandas pour charger et nettoyer les données
+- Matplotlib/Seaborn pour la visualisation
+- SciPy pour la régression linéaire (tendance)
+
+Étapes :
+1. Charger un dataset CSV
+2. Nettoyer les données (valeurs manquantes)
+3. Calculer les moyennes annuelles
+4. Tracer la courbe et la tendance`,
+                keyPoints: [
+                    'Nettoyage de données (Data Cleaning)',
+                    'Analyse de séries temporelles',
+                    'Régression linéaire',
+                    'Visualisation impactante'
+                ],
+                code: `import numpy as np
+import matplotlib.pyplot as plt
+import pandas as pd
+
+# Création de données simulées (pour l'exemple)
+np.random.seed(42)
+annees = np.arange(1900, 2024)
+n = len(annees)
+# Tendance linéaire + bruit + cycle
+temp_base = 14.0 + (annees - 1900) * 0.01  # +1°C en 100 ans
+bruit = np.random.normal(0, 0.1, n)
+temp = temp_base + bruit
+
+df = pd.DataFrame({'Annee': annees, 'Temperature': temp})
+
+# Analyse
+print("=== Analyse Climatique ===")
+print(f"Température moyenne 1900-1950 : {df[df.Annee < 1950].Temperature.mean():.2f}°C")
+print(f"Température moyenne 2000-2023 : {df[df.Annee >= 2000].Temperature.mean():.2f}°C")
+
+# Régression linéaire (Tendance)
+z = np.polyfit(df.Annee, df.Temperature, 1)
+p = np.poly1d(z)
+print(f"\\nTendance : {z[0]*100:.2f}°C par siècle")
+
+# Visualisation
+plt.figure(figsize=(12, 6))
+plt.scatter(df.Annee, df.Temperature, alpha=0.5, label='Données annuelles')
+plt.plot(df.Annee, p(df.Annee), 'r--', linewidth=2, label=f'Tendance ({z[0]*10:.2f}°C/décennie)')
+
+plt.title('Évolution simulée des températures globales')
+plt.xlabel('Année')
+plt.ylabel('Température (°C)')
+plt.legend()
+plt.grid(True, alpha=0.3)
+plt.show()`,
+                tip: '🌍 Les vrais datasets sont disponibles sur le site de la NASA ou Kaggle !'
+            },
+            {
+                title: 'Projet 3 : Visualisation 3D d\'une molécule',
+                duration: '2 heures',
+                analogy: '⚛️ Construisez et visualisez des structures atomiques en 3D',
+                content: `Chimie numérique et 3D
+
+Objectif : Représenter une molécule (ex: Méthane CH4) en 3D.
+
+Ce que nous allons utiliser :
+- NumPy pour les coordonnées
+- Matplotlib 3D pour le rendu
+- Géométrie : Tétraèdre
+
+Étapes :
+1. Définir les coordonnées des atomes
+2. Créer la figure 3D
+3. Tracer les atomes (sphères)
+4. Tracer les liaisons (lignes)`,
+                keyPoints: [
+                    'Coordonnées 3D (x, y, z)',
+                    'Projection 3D',
+                    'Géométrie moléculaire',
+                    'Visualisation interactive'
+                ],
+                code: `import matplotlib.pyplot as plt
+import numpy as np
+
+def plot_molecule():
+    fig = plt.figure(figsize=(10, 8))
+    ax = fig.add_subplot(111, projection='3d')
+    
+    # Coordonnées du Méthane (CH4) - Tétraèdre
+    # Carbone au centre
+    atoms = [
+        {'elem': 'C', 'pos': [0, 0, 0], 'color': 'black', 'size': 200},
+        {'elem': 'H', 'pos': [1, 1, 1], 'color': 'white', 'size': 100},
+        {'elem': 'H', 'pos': [1, -1, -1], 'color': 'white', 'size': 100},
+        {'elem': 'H', 'pos': [-1, 1, -1], 'color': 'white', 'size': 100},
+        {'elem': 'H', 'pos': [-1, -1, 1], 'color': 'white', 'size': 100}
+    ]
+    
+    # Tracer les liaisons (C vers chaque H)
+    center = atoms[0]['pos']
+    for atom in atoms[1:]:
+        pos = atom['pos']
+        ax.plot([center[0], pos[0]], 
+                [center[1], pos[1]], 
+                [center[2], pos[2]], 
+                color='gray', linewidth=2)
+    
+    # Tracer les atomes
+    for atom in atoms:
+        x, y, z = atom['pos']
+        ax.scatter(x, y, z, 
+                  s=atom['size']*5, 
+                  c=atom['color'], 
+                  edgecolor='black',
+                  label=atom['elem'])
+        
+        # Label
+        ax.text(x, y, z+0.2, atom['elem'], fontsize=12)
+        
+    ax.set_title("Molécule de Méthane (CH4)")
+    ax.set_xlabel('X')
+    ax.set_ylabel('Y')
+    ax.set_zlabel('Z')
+    
+    # Ajuster la vue
+    ax.view_init(elev=20, azim=45)
+    
+    # Enlever le fond gris par défaut
+    ax.xaxis.pane.fill = False
+    ax.yaxis.pane.fill = False
+    ax.zaxis.pane.fill = False
+    
+    plt.show()
+
+plot_molecule()`,
+                tip: '⚛️ Pour des molécules complexes, utilisez des bibliothèques comme RDKit ou BioPython !'
             }
         ]
     }
