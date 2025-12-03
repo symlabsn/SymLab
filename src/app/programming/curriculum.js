@@ -1663,10 +1663,229 @@ print(f"Pour θ=45° : {v_rot_45.T}")`,
                                     },
 
                                     {
+            {
                                         title: 'Limites et continuité',
                                         duration: '45 min',
                                         analogy: '🎯 La limite décrit le comportement à l\'approche d\'un point',
                                         content: `Calculer des limites avec SymPy
+
+La limite répond à la question : "Que se passe-t-il quand x s'approche de a ?"
+
+Types de limites :
+- Limites finies : lim(x→a) f(x) = L
+- Limites infinies : lim(x→∞) f(x)
+- Limites à gauche/droite
+- Formes indéterminées : 0/0, ∞/∞, etc.
+
+Analogie : C'est comme demander "où va cette voiture si elle continue dans cette direction ?"
+
+SymPy peut calculer :
+- Limites de fonctions rationnelles
+- Limites trigonométriques
+- Limites exponentielles
+- Formes indéterminées (règle de L'Hôpital automatique)`,
+                                        keyPoints: [
+                                            'limit(f, x, a) pour calculer une limite',
+                                            'oo pour l\'infini',
+                                            'dir=\'+\' ou dir=\'-\' pour limites latérales',
+                                            'SymPy applique L\'Hôpital automatiquement'
+                                        ],
+                                        code: `from sympy import *
+
+x = symbols('x')
+
+print("=== LIMITES SIMPLES ===")
+# Limite d'un polynôme
+f1 = x**2 + 2*x + 1
+lim1 = limit(f1, x, 2)
+print(f"lim(x→2) [{f1}] = {lim1}")
+
+# Limite d'une fraction
+f2 = (x**2 - 1)/(x - 1)
+lim2 = limit(f2, x, 1)
+print(f"lim(x→1) [{f2}] = {lim2}")  # 2 (forme 0/0)
+
+print("\\n=== LIMITES À L'INFINI ===")
+# Limite à +∞
+f3 = (2*x + 1)/(x + 3)
+lim3 = limit(f3, x, oo)
+print(f"lim(x→∞) [{f3}] = {lim3}")
+
+# Limite à -∞
+lim3_minus = limit(f3, x, -oo)
+print(f"lim(x→-∞) [{f3}] = {lim3_minus}")
+
+print("\\n=== LIMITES TRIGONOMÉTRIQUES ===")
+# Limite classique
+f4 = sin(x)/x
+lim4 = limit(f4, x, 0)
+print(f"lim(x→0) [sin(x)/x] = {lim4}")  # 1
+
+# Autre limite trigonométrique
+f5 = (1 - cos(x))/x**2
+lim5 = limit(f5, x, 0)
+print(f"lim(x→0) [(1-cos(x))/x²] = {lim5}")  # 1/2
+
+print("\\n=== LIMITES EXPONENTIELLES ===")
+# e défini par une limite
+f6 = (1 + 1/x)**x
+lim6 = limit(f6, x, oo)
+print(f"lim(x→∞) [(1+1/x)^x] = {lim6}")  # e
+
+# Croissance exponentielle vs polynomiale
+f7 = exp(x)/x**10
+lim7 = limit(f7, x, oo)
+print(f"lim(x→∞) [e^x/x^10] = {lim7}")  # ∞
+
+print("\\n=== LIMITES LATÉRALES ===")
+# Fonction avec discontinuité
+f8 = 1/x
+lim_droite = limit(f8, x, 0, dir='+')
+lim_gauche = limit(f8, x, 0, dir='-')
+print(f"lim(x→0⁺) [1/x] = {lim_droite}")
+print(f"lim(x→0⁻) [1/x] = {lim_gauche}")
+
+print("\\n=== FORMES INDÉTERMINÉES ===")
+# 0/0
+f9 = (exp(x) - 1)/x
+lim9 = limit(f9, x, 0)
+print(f"lim(x→0) [(e^x-1)/x] = {lim9}")  # 1
+
+# ∞/∞
+f10 = (3*x**2 + 2*x)/(x**2 - 1)
+lim10 = limit(f10, x, oo)
+print(f"lim(x→∞) [(3x²+2x)/(x²-1)] = {lim10}")  # 3
+
+# 0×∞
+f11 = x * exp(-x)
+lim11 = limit(f11, x, oo)
+print(f"lim(x→∞) [x·e^(-x)] = {lim11}")  # 0
+
+print("\\n=== DÉVELOPPEMENTS LIMITÉS ===")
+# Série de Taylor autour de 0
+f12 = sin(x)
+serie = series(f12, x, 0, 6)
+print(f"sin(x) ≈ {serie}")
+
+f13 = exp(x)
+serie2 = series(f13, x, 0, 5)
+print(f"e^x ≈ {serie2}")`,
+                                        tip: '📐 Les limites sont essentielles pour comprendre la continuité !'
+                                    },
+                                    {
+                                        title: 'Séries et développements',
+                                        duration: '60 min',
+                                        analogy: '🎯 Une série est une somme infinie de termes',
+                                        content: `Maîtriser les séries avec SymPy
+
+Une série permet d'approximer des fonctions complexes par des polynômes.
+
+Types de séries :
+- Série de Taylor : autour d'un point
+- Série de Maclaurin : autour de 0
+- Série de Laurent : avec puissances négatives
+- Série de Fourier : fonctions périodiques
+
+Analogie : C'est comme approximer une courbe compliquée par une somme de courbes simples (polynômes).
+
+Applications :
+- Approximations numériques
+- Résolution d'équations
+- Analyse de fonctions
+- Physique quantique (perturbations)`,
+                                        keyPoints: [
+                                            'series(f, x, x0, n) pour développement',
+                                            'Ordre n = nombre de termes',
+                                            'removeO() pour enlever le terme O(x^n)',
+                                            'Crucial pour approximations'
+                                        ],
+                                        code: `from sympy import *
+
+x = symbols('x')
+
+print("=== SÉRIES DE MACLAURIN (x0=0) ===")
+# sin(x)
+s1 = series(sin(x), x, 0, 10)
+print(f"sin(x) = {s1}")
+
+# cos(x)
+s2 = series(cos(x), x, 0, 10)
+print(f"cos(x) = {s2}")
+
+# e^x
+s3 = series(exp(x), x, 0, 6)
+print(f"e^x = {s3}")
+
+# ln(1+x)
+s4 = series(log(1+x), x, 0, 6)
+print(f"ln(1+x) = {s4}")
+
+print("\\n=== SÉRIE DE TAYLOR (x0≠0) ===")
+# sin(x) autour de π/2
+s5 = series(sin(x), x, pi/2, 5)
+print(f"sin(x) autour de π/2 = {s5}")
+
+print("\\n=== APPROXIMATIONS NUMÉRIQUES ===")
+# Approximer sin(0.1)
+x_val = 0.1
+
+# Valeur exacte
+exact = sin(x_val)
+
+# Approximations d'ordres croissants
+for n in [2, 4, 6, 8]:
+    approx = series(sin(x), x, 0, n).removeO().subs(x, x_val)
+    erreur = abs(exact - approx)
+    print(f"Ordre {n}: {approx:.10f}, erreur: {erreur:.2e}")
+
+print(f"Valeur exacte: {exact:.10f}")
+
+print("\\n=== SOMMES DE SÉRIES ===")
+n = symbols('n', integer=True)
+
+# Série géométrique : Σ(1/2)^n
+s6 = Sum(Rational(1,2)**n, (n, 0, oo))
+print(f"Σ(n=0→∞) (1/2)^n = {s6.doit()}")  # 2
+
+# Série harmonique alternée
+s7 = Sum((-1)**(n+1)/n, (n, 1, oo))
+print(f"Σ(n=1→∞) (-1)^(n+1)/n = {s7.doit()}")  # ln(2)
+
+print("\\n=== APPLICATION : APPROXIMATION DE π ===")
+# Formule de Leibniz : π/4 = 1 - 1/3 + 1/5 - 1/7 + ...
+s8 = Sum((-1)**n/(2*n+1), (n, 0, oo))
+pi_approx = 4 * s8.doit()
+print(f"π (formule de Leibniz) = {pi_approx}")
+
+# Approximation numérique avec 1000 termes
+pi_num = 4 * sum((-1)**k/(2*k+1) for k in range(1000))
+print(f"π (1000 termes) ≈ {pi_num:.10f}")
+print(f"π (exact) = {float(pi):.10f}")
+
+print("\\n=== SÉRIE DE FOURIER ===")
+# Fonction carrée
+from sympy.abc import t
+T = symbols('T', positive=True)
+
+# Coefficients de Fourier (exemple simplifié)
+print("Série de Fourier d'une fonction carrée:")
+print("f(t) = 4/π [sin(ωt) + sin(3ωt)/3 + sin(5ωt)/5 + ...]")`,
+                                        tip: '🔬 Les séries sont essentielles pour la physique quantique !'
+                                    }
+                                ]
+                            },
+
+                            {
+                                id: 'advanced-concepts',
+                                title: '6. Concepts Avancés',
+                                icon: '🚀',
+                                color: '#F72585',
+                                description: 'Mathématiques avancées et techniques de programmation expertes',
+                                duration: '7 heures',
+                                lessons: [
+                                    duration: '45 min',
+                                    analogy: '🎯 La limite décrit le comportement à l\'approche d\'un point',
+                                    content: `Calculer des limites avec SymPy
 
 La limite répond à la question : "Que se passe-t-il quand x s'approche de a ?"
 
@@ -1684,8 +1903,7 @@ Types de limites :
         description: 'Mathématiques avancées et techniques de programmation expertes',
         duration: '7 heures',
         lessons: [
-            {
-                title: 'Limites et continuité',
+
                 duration: '45 min',
                 analogy: '🎯 La limite décrit le comportement à l\'approche d\'un point',
                 content: `Calculer des limites avec SymPy
@@ -1693,8 +1911,8 @@ Types de limites :
 La limite répond à la question: "Que se passe-t-il quand x s'approche de a ?"
 
 Types de limites:
-                                            - Limites finies: lim(x→a) f(x) = L
-- Limites infinies : lim(x→∞) f(x)
+                                    - Limites finies: lim(x→a) f(x) = L
+                                    - Limites infinies : lim(x→∞) f(x)
                                     - Limites à gauche / droite
                                     - Formes indéterminées : 0 / 0, ∞/∞, etc.
 
@@ -2069,19 +2287,19 @@ print(f"\\nÉnergie potentielle (simulée) : {energie_potentielle(10, 5)} J")`,
                             }
                         ]
                     },
-    {
-        id: 'projects',
-        title: '7. Projets Scientifiques Complets',
-        icon: '🏆',
-        color: '#4CC9F0',
-        description: 'Mettez tout en pratique avec des projets réels',
-        duration: '10 heures',
-        lessons: [
-            {
-                title: 'Projet 1 : Trajectoire d\'un projectile',
-                duration: '2 heures',
-                analogy: '🎯 Simulez le tir d\'un canon avec prise en compte du vent',
-                content: `Simulation physique complète
+                    {
+                        id: 'projects',
+                        title: '7. Projets Scientifiques Complets',
+                        icon: '🏆',
+                        color: '#4CC9F0',
+                        description: 'Mettez tout en pratique avec des projets réels',
+                        duration: '10 heures',
+                        lessons: [
+                            {
+                                title: 'Projet 1 : Trajectoire d\'un projectile',
+                                duration: '2 heures',
+                                analogy: '🎯 Simulez le tir d\'un canon avec prise en compte du vent',
+                                content: `Simulation physique complète
 
 Objectif : Modéliser la trajectoire d'un projectile.
 
@@ -2096,13 +2314,13 @@ Ce que nous allons utiliser :
 2. Appliquer les lois de Newton (gravité, frottement)
 3. Calculer la position pas à pas (méthode d'Euler)
 4. Visualiser la trajectoire`,
-                keyPoints: [
-                    'Modélisation physique',
-                    'Discrétisation du temps',
-                    'Boucle de simulation',
-                    'Visualisation graphique'
-                ],
-                code: `import numpy as np
+                                keyPoints: [
+                                    'Modélisation physique',
+                                    'Discrétisation du temps',
+                                    'Boucle de simulation',
+                                    'Visualisation graphique'
+                                ],
+                                code: `import numpy as np
 import matplotlib.pyplot as plt
 
 def simulation_tir(v0, angle_deg, dt=0.01):
@@ -2153,13 +2371,13 @@ plt.legend()
 plt.grid(True, alpha=0.3)
 plt.axis('equal')
 plt.show()`,
-                tip: '🚀 Essayez d\'ajouter le frottement de l\'air (F = -kv) !'
-            },
-            {
-                title: 'Projet 2 : Analyse de données climatiques',
-                duration: '2.5 heures',
-                analogy: '🌍 Analysez le réchauffement climatique avec de vraies données',
-                content: `Data Science appliquée
+                                tip: '🚀 Essayez d\'ajouter le frottement de l\'air (F = -kv) !'
+                            },
+                            {
+                                title: 'Projet 2 : Analyse de données climatiques',
+                                duration: '2.5 heures',
+                                analogy: '🌍 Analysez le réchauffement climatique avec de vraies données',
+                                content: `Data Science appliquée
 
 Objectif : Analyser l'évolution des températures mondiales.
 
@@ -2173,13 +2391,13 @@ Ce que nous allons utiliser :
 2. Nettoyer les données (valeurs manquantes)
 3. Calculer les moyennes annuelles
 4. Tracer la courbe et la tendance`,
-                keyPoints: [
-                    'Nettoyage de données (Data Cleaning)',
-                    'Analyse de séries temporelles',
-                    'Régression linéaire',
-                    'Visualisation impactante'
-                ],
-                code: `import numpy as np
+                                keyPoints: [
+                                    'Nettoyage de données (Data Cleaning)',
+                                    'Analyse de séries temporelles',
+                                    'Régression linéaire',
+                                    'Visualisation impactante'
+                                ],
+                                code: `import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
 
@@ -2215,13 +2433,13 @@ plt.ylabel('Température (°C)')
 plt.legend()
 plt.grid(True, alpha=0.3)
 plt.show()`,
-                tip: '🌍 Les vrais datasets sont disponibles sur le site de la NASA ou Kaggle !'
-            },
-            {
-                title: 'Projet 3 : Visualisation 3D d\'une molécule',
-                duration: '2 heures',
-                analogy: '⚛️ Construisez et visualisez des structures atomiques en 3D',
-                content: `Chimie numérique et 3D
+                                tip: '🌍 Les vrais datasets sont disponibles sur le site de la NASA ou Kaggle !'
+                            },
+                            {
+                                title: 'Projet 3 : Visualisation 3D d\'une molécule',
+                                duration: '2 heures',
+                                analogy: '⚛️ Construisez et visualisez des structures atomiques en 3D',
+                                content: `Chimie numérique et 3D
 
 Objectif : Représenter une molécule (ex: Méthane CH4) en 3D.
 
@@ -2235,13 +2453,13 @@ Ce que nous allons utiliser :
 2. Créer la figure 3D
 3. Tracer les atomes (sphères)
 4. Tracer les liaisons (lignes)`,
-                keyPoints: [
-                    'Coordonnées 3D (x, y, z)',
-                    'Projection 3D',
-                    'Géométrie moléculaire',
-                    'Visualisation interactive'
-                ],
-                code: `import matplotlib.pyplot as plt
+                                keyPoints: [
+                                    'Coordonnées 3D (x, y, z)',
+                                    'Projection 3D',
+                                    'Géométrie moléculaire',
+                                    'Visualisation interactive'
+                                ],
+                                code: `import matplotlib.pyplot as plt
 import numpy as np
 
 def plot_molecule():
@@ -2295,10 +2513,10 @@ def plot_molecule():
     plt.show()
 
 plot_molecule()`,
-                tip: '⚛️ Pour des molécules complexes, utilisez des bibliothèques comme RDKit ou BioPython !'
-            }
-        ]
-    }
-];
+                                tip: '⚛️ Pour des molécules complexes, utilisez des bibliothèques comme RDKit ou BioPython !'
+                            }
+                        ]
+                    }
+                ];
 
-export default pythonCurriculum;
+                export default pythonCurriculum;
