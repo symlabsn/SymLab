@@ -41,10 +41,6 @@ export default function Home() {
 
             {/* HEADER */}
             <section className="center-xy mb-20 relative z-10 max-w-4xl mx-auto fade-in-up">
-                <div className="text-xs font-mono text-[#00F5D4] tracking-[0.5em] mb-4 opacity-70">
-          /// INITIALIZING_SYSTEM
-                </div>
-
                 <h1 className="text-7xl md:text-9xl font-black tracking-tighter text-white mb-8 glow-text">
                     SYMLAB
                 </h1>

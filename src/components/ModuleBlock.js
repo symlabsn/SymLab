@@ -34,11 +34,6 @@ export default function ModuleBlock({ href, title, description, accentColor, cla
         <p className="text-gray-400 text-lg font-light leading-relaxed max-w-sm">
           {description}
         </p>
-
-        {/* Tech Footer Status */}
-        <div className="mt-6 text-xs font-mono tracking-[0.2em] opacity-50" style={{ color: accentColor }}>
-                /// SYSTEM_READY
-        </div>
       </div>
 
       <Link href={href} className="absolute inset-0 z-20" aria-label={`Ouvrir ${title}`}>
