@@ -40,12 +40,12 @@ export default function Home() {
         <main className="min-h-screen flex flex-col items-center justify-center py-20 px-4 relative overflow-hidden">
 
             {/* HEADER */}
-            <section className="center-xy mb-20 relative z-10 max-w-4xl mx-auto fade-in-up">
-                <h1 className="text-7xl md:text-9xl font-black tracking-tighter text-white mb-8 glow-text">
+            <section className="center-xy mb-16 relative z-10 max-w-4xl mx-auto fade-in-up">
+                <h1 className="text-6xl md:text-8xl font-black tracking-tighter text-white mb-6 glow-text">
                     SYMLAB
                 </h1>
 
-                <p className="text-xl md:text-2xl text-gray-400 font-light max-w-2xl mx-auto leading-relaxed">
+                <p className="text-lg md:text-xl text-gray-400 font-light max-w-2xl mx-auto leading-relaxed">
                     Plateforme immersive pour les <span className="text-[#00F5D4] font-bold">STEM</span> au Sénégal.
                 </p>
             </section>

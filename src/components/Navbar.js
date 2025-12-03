@@ -36,11 +36,10 @@ export default function Navbar() {
           {/* Logo */}
           <Link href="/" className="flex items-center gap-3">
             <div className="text-2xl font-extrabold bg-clip-text text-transparent" style={{ background: 'linear-gradient(90deg, var(--accent), var(--accent-2))' }} aria-label="SymLab">
-              {['S','y','m','L','a','b'].map((ch, i) => (
+              {['S', 'y', 'm', 'L', 'a', 'b'].map((ch, i) => (
                 <span key={i} className="logo-letter">{ch}</span>
               ))}
             </div>
-            <div className="text-sm text-muted tracking-wider">Lab</div>
           </Link>
 
           {/* Desktop Menu */}
