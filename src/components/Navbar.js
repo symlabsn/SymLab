@@ -55,7 +55,7 @@ export default function Navbar() {
             ))}
 
             <Link
-              href="/apropos"
+              href="/about"
               className="ml-4 px-4 py-2 rounded font-medium text-accent hover:underline transition-all"
             >
               À propos
@@ -96,7 +96,7 @@ export default function Navbar() {
               </Link>
             ))}
             <Link
-              href="/apropos"
+              href="/about"
               className="block px-4 py-2 text-base font-medium text-gray-300 hover:text-white hover:bg-white/5 rounded transition-all"
               onClick={() => setMobileMenuOpen(false)}
             >
