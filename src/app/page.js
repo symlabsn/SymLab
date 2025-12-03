@@ -41,7 +41,12 @@ export default function Home() {
 
             {/* HEADER */}
             <section className="center-xy mb-16 relative z-10 max-w-4xl mx-auto fade-in-up">
-                <h1 className="text-5xl md:text-7xl font-black tracking-tighter text-white mb-6 glow-text">
+                <h1 className="text-5xl md:text-7xl font-black tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-[#00F5D4] via-white to-[#7C3AED] mb-6"
+                    style={{
+                        textShadow: '0 0 40px rgba(0, 245, 212, 0.3), 0 0 80px rgba(124, 58, 237, 0.2)',
+                        WebkitTextStroke: '1px rgba(255, 255, 255, 0.1)'
+                    }}
+                >
                     SYMLAB
                 </h1>
 
