@@ -1,9 +1,13 @@
 'use client';
+import ParticleBackground from '@/components/ParticleBackground';
 
 export default function HeroSection({ title, subtitle }) {
   return (
     <section className="relative pt-32 pb-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-      <div className="bento-card py-16 px-6 border-highlight bg-gradient-to-b from-[rgba(15,12,41,0.8)] to-[rgba(15,12,41,0.4)]">
+    {/* particle background */}
+    <ParticleBackground />
+        
+    <div className="bento-card py-16 px-6 border-highlight bg-gradient-to-b from-[rgba(15,12,41,0.8)] to-[rgba(15,12,41,0.4)]">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
 
           {/* Left: content */}

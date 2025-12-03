@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import ModuleBlock from '@/components/ModuleBlock';
 
 export default function Home() {
 
@@ -65,35 +66,15 @@ export default function Home() {
 
             {/* VERTICAL BLOCKS (CAGES) */}
             <section className="w-full max-w-3xl relative z-10 flex flex-col gap-6">
-                {modules.map((module) => (
-                    <Link
-                        key={module.id}
-                        href={module.href}
-                        className={`
-              group relative block w-full p-8 rounded-xl border-2 bg-slate-900/80 backdrop-blur-md
-              transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl
-              ${module.border} ${module.shadow}
-            `}
-                    >
-                        {/* Glow Effect on Hover */}
-                        <div className={`absolute inset-0 opacity-0 group-hover:opacity-10 transition-opacity duration-300 bg-white`} />
-
-                        <div className="relative z-10">
-                            <h3 className={`text-3xl font-bold mb-3 ${module.text} group-hover:text-white transition-colors`}>
-                                {module.title}
-                            </h3>
-                            <p className="text-slate-400 text-lg group-hover:text-slate-200 transition-colors">
-                                {module.description}
-                            </p>
-                        </div>
-                        {/* CTA revealed on hover/focus */}
-                        <div className="absolute right-6 top-1/2 -translate-y-1/2 module-cta">
-                            <span style={{ background: 'linear-gradient(90deg, var(--accent), var(--accent-2))' }} className="px-4 py-2 rounded-full font-semibold text-black">
-                                Explorer
-                            </span>
-                        </div>
-                    </Link>
-                ))}
+                    {modules.map((module) => (
+                        <ModuleBlock
+                            key={module.id}
+                            href={module.href}
+                            title={module.title}
+                            description={module.description}
+                            accentGradient={`linear-gradient(90deg, ${module.text === 'text-cyan-400' ? 'var(--accent)' : 'var(--accent)'}, var(--accent-2))`}
+                        />
+                    ))}
             </section>
 
         </main>
