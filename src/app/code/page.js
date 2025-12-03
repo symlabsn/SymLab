@@ -27,56 +27,94 @@ const NotebookCell = ({
 
     return (
         <div
-            className={`group relative mb-4 transition-all duration-300 ${isActive ? 'ring-2 ring-[#00F5D4]/30' : 'hover:bg-white/5'} rounded-xl overflow-hidden border border-white/10 bg-[#0F1115]`}
+            className={`group flex gap-2 mb-4 transition-all duration-200 ${isActive ? '' : 'opacity-90 hover:opacity-100'}`}
             onClick={() => setActive(cell.id)}
         >
-            {/* Barre latérale de statut */}
-            <div className={`absolute left-0 top-0 bottom-0 w-1.5 ${cell.status === 'running' ? 'bg-yellow-400 animate-pulse' :
-                cell.status === 'success' ? 'bg-[#00F5D4]' :
-                    cell.status === 'error' ? 'bg-red-500' :
-                        'bg-gray-700'
-                }`} />
+            {/* Colonne de gauche (In [ ]) */}
+            <div className="w-16 flex-shrink-0 flex flex-col items-end pt-2 gap-1 select-none">
+                {cell.type === 'code' && (
+                    <span className={`font-mono text-xs ${cell.status === 'running' ? 'text-yellow-400' : 'text-gray-500'}`}>
+                        {cell.status === 'running' ? '[*]:' : `[${cell.executionCount || ' '}]:`}
+                    </span>
+                )}
+            </div>
 
-            <div className="flex">
-                {/* Numéro d'entrée (In [ ]) */}
-                <div className="w-16 flex-shrink-0 pt-4 text-right pr-3 font-mono text-xs text-gray-500 select-none">
-                    {cell.type === 'code' ? `In [${cell.executionCount || ' '}]:` : ''}
+            {/* Contenu principal */}
+            <div className="flex-1 min-w-0 flex flex-col gap-2">
+                {/* Zone d'entrée (Code ou Markdown) */}
+                <div className={`relative rounded-lg border transition-all duration-200 overflow-hidden
+                    ${isActive
+                        ? 'border-[#00F5D4] shadow-[0_0_0_1px_rgba(0,245,212,0.3)] bg-[#0F1115]'
+                        : 'border-white/10 bg-[#0F1115] hover:border-white/20'
+                    }
+                `}>
+                    {/* Indicateur de type (petit badge) */}
+                    <div className="absolute top-0 right-0 p-1 z-10 opacity-0 group-hover:opacity-100 transition-opacity">
+                        <span className="text-[10px] uppercase font-bold text-gray-600 bg-black/50 px-1.5 py-0.5 rounded">
+                            {cell.type}
+                        </span>
+                    </div>
+
+                    <div className="flex">
+                        {/* Marge colorée état */}
+                        {cell.type === 'code' && (
+                            <div className={`w-1 flex-shrink-0 ${cell.status === 'running' ? 'bg-yellow-400 animate-pulse' :
+                                    cell.status === 'success' ? 'bg-transparent' :
+                                        cell.status === 'error' ? 'bg-red-500' :
+                                            'bg-transparent'
+                                }`} />
+                        )}
+
+                        <div className="flex-1 p-3">
+                            {cell.type === 'markdown' && !cell.isEditing ? (
+                                <div
+                                    className="prose prose-invert max-w-none min-h-[1.5rem] cursor-text"
+                                    onDoubleClick={() => updateCell(cell.id, { isEditing: true })}
+                                >
+                                    <RichText>{cell.content || '<span class="text-gray-600 italic">Double-cliquez pour ajouter du texte...</span>'}</RichText>
+                                </div>
+                            ) : (
+                                <textarea
+                                    ref={textareaRef}
+                                    value={cell.content}
+                                    onChange={(e) => updateCell(cell.id, { content: e.target.value })}
+                                    className={`w-full bg-transparent focus:outline-none resize-none font-mono text-sm leading-relaxed ${cell.type === 'code' ? 'text-[#e0e0e0]' : 'text-gray-300 font-sans'
+                                        }`}
+                                    placeholder={cell.type === 'code' ? 'print("Hello World")' : '# Titre...'}
+                                    spellCheck="false"
+                                    autoFocus={cell.isEditing}
+                                    onBlur={() => cell.type === 'markdown' && updateCell(cell.id, { isEditing: false })}
+                                    onKeyDown={(e) => {
+                                        if (e.key === 'Enter' && e.shiftKey) {
+                                            e.preventDefault();
+                                            runCell(cell.id);
+                                        }
+                                    }}
+                                />
+                            )}
+                        </div>
+                    </div>
+
+                    {/* Barre d'actions flottante (visible si actif ou survol) */}
+                    <div className={`absolute top-1 right-1 flex gap-0.5 bg-[#1A1D24] rounded-md border border-white/10 shadow-xl transition-all duration-200 ${isActive ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-2 group-hover:opacity-100 group-hover:translate-y-0'
+                        }`}>
+                        <button onClick={() => runCell(cell.id)} className="p-1.5 hover:bg-white/10 text-[#00F5D4]" title="Exécuter">▶</button>
+                        <div className="w-px bg-white/10 my-1" />
+                        <button onClick={() => moveCell(index, -1)} className="p-1.5 hover:bg-white/10 text-gray-400 hover:text-white">↑</button>
+                        <button onClick={() => moveCell(index, 1)} className="p-1.5 hover:bg-white/10 text-gray-400 hover:text-white">↓</button>
+                        <div className="w-px bg-white/10 my-1" />
+                        <button onClick={() => deleteCell(cell.id)} className="p-1.5 hover:bg-white/10 text-gray-400 hover:text-red-400">✕</button>
+                    </div>
                 </div>
 
-                {/* Contenu de la cellule */}
-                <div className="flex-1 min-w-0 pt-2 pb-2 pr-2">
-
-                    {/* Zone d'édition ou Rendu Markdown */}
-                    {cell.type === 'markdown' && !cell.isEditing ? (
-                        <div
-                            className="prose prose-invert max-w-none p-2 cursor-text min-h-[2rem]"
-                            onDoubleClick={() => updateCell(cell.id, { isEditing: true })}
-                        >
-                            <RichText>{cell.content || '*Double-cliquez pour éditer*'}</RichText>
+                {/* Zone de Sortie (Output) */}
+                {cell.output && (
+                    <div className="flex gap-2 animate-in fade-in slide-in-from-top-2 duration-300">
+                        <div className="w-16 flex-shrink-0 text-right pr-3 font-mono text-xs text-red-400/50 select-none pt-1">
+                            {cell.output.type !== 'error' ? `[${cell.executionCount}]:` : ''}
                         </div>
-                    ) : (
-                        <div className="relative">
-                            <textarea
-                                ref={textareaRef}
-                                value={cell.content}
-                                onChange={(e) => updateCell(cell.id, { content: e.target.value })}
-                                className={`w-full bg-transparent text-gray-200 font-mono text-sm p-2 focus:outline-none resize-none ${cell.type === 'markdown' ? 'font-sans' : 'text-[#00F5D4]'
-                                    }`}
-                                placeholder={cell.type === 'code' ? 'Entrez votre code Python ici...' : 'Entrez du Markdown...'}
-                                spellCheck="false"
-                                onKeyDown={(e) => {
-                                    if (e.key === 'Enter' && e.shiftKey) {
-                                        e.preventDefault();
-                                        runCell(cell.id);
-                                    }
-                                }}
-                            />
-                        </div>
-                    )}
-
-                    {/* Zone de Sortie (Output) */}
-                    {cell.output && (
-                        <div className="mt-2 mb-2 ml-2">
+                        <div className={`flex-1 overflow-x-auto ${cell.output.type === 'error' ? 'bg-red-500/10 border-l-2 border-red-500 p-3 rounded-r' : ''
+                            }`}>
                             {cell.output.type === 'text' && (
                                 <pre className="font-mono text-sm text-gray-300 whitespace-pre-wrap">{cell.output.data}</pre>
                             )}
@@ -84,50 +122,13 @@ const NotebookCell = ({
                                 <pre className="font-mono text-sm text-red-400 whitespace-pre-wrap">{cell.output.data}</pre>
                             )}
                             {cell.output.type === 'image' && (
-                                <img src={cell.output.data} alt="Output" className="max-w-full h-auto rounded bg-white" />
+                                <div className="bg-white p-2 rounded inline-block">
+                                    <img src={cell.output.data} alt="Output" className="max-w-full h-auto" />
+                                </div>
                             )}
                         </div>
-                    )}
-                </div>
-            </div>
-
-            {/* Barre d'outils (visible au survol ou actif) */}
-            <div className={`absolute top-2 right-2 flex gap-1 transition-opacity duration-200 ${isActive || 'group-hover:opacity-100 opacity-0'}`}>
-                <button
-                    onClick={() => runCell(cell.id)}
-                    className="p-1.5 rounded hover:bg-white/10 text-gray-400 hover:text-[#00F5D4] transition-colors"
-                    title="Exécuter (Shift+Enter)"
-                >
-                    ▶
-                </button>
-                <button
-                    onClick={() => updateCell(cell.id, { type: cell.type === 'code' ? 'markdown' : 'code' })}
-                    className="p-1.5 rounded hover:bg-white/10 text-gray-400 hover:text-white transition-colors text-xs font-bold w-8"
-                    title="Changer le type"
-                >
-                    {cell.type === 'code' ? 'PY' : 'MD'}
-                </button>
-                <button
-                    onClick={() => moveCell(index, -1)}
-                    className="p-1.5 rounded hover:bg-white/10 text-gray-400 hover:text-white transition-colors"
-                    title="Monter"
-                >
-                    ↑
-                </button>
-                <button
-                    onClick={() => moveCell(index, 1)}
-                    className="p-1.5 rounded hover:bg-white/10 text-gray-400 hover:text-white transition-colors"
-                    title="Descendre"
-                >
-                    ↓
-                </button>
-                <button
-                    onClick={() => deleteCell(cell.id)}
-                    className="p-1.5 rounded hover:bg-white/10 text-gray-400 hover:text-red-500 transition-colors"
-                    title="Supprimer"
-                >
-                    ✕
-                </button>
+                    </div>
+                )}
             </div>
         </div>
     );
@@ -283,14 +284,14 @@ export default function NotebookPage() {
                         ← Retour
                     </Link>
                     <div className="h-6 w-px bg-white/10" />
-                    <h1 className="font-bold text-lg">Sans Titre.ipynb</h1>
-                    <span className="text-xs text-gray-500">Dernière sauvegarde : à l'instant</span>
+                    <h1 className="font-bold text-lg">SymLab Notebook</h1>
+                    <span className="text-xs text-gray-500">Python 3.11</span>
                 </div>
 
                 <div className="flex items-center gap-4">
                     <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 border border-white/10">
                         <div className={`w-2 h-2 rounded-full ${kernelStatus === 'ready' ? 'bg-green-500' : 'bg-yellow-500 animate-pulse'}`} />
-                        <span className="text-xs font-mono text-gray-300">Python 3.11 (Pyodide)</span>
+                        <span className="text-xs font-mono text-gray-300">Kernel: {kernelStatus}</span>
                     </div>
                     <button className="bg-[#00F5D4] text-black px-4 py-1.5 rounded font-bold text-sm hover:bg-[#00F5D4]/90 transition-colors">
                         Partager
@@ -300,17 +301,17 @@ export default function NotebookPage() {
 
             {/* Toolbar */}
             <div className="mt-16 h-12 border-b border-white/10 flex items-center px-4 gap-2 bg-[#0F1115] sticky top-16 z-40">
-                <button onClick={() => addCell(cells.length - 1, 'code')} className="p-2 hover:bg-white/10 rounded text-gray-300" title="Ajouter Code">
-                    + Code
+                <button onClick={() => addCell(cells.length - 1, 'code')} className="flex items-center gap-2 px-3 py-1.5 hover:bg-white/10 rounded text-gray-300 transition-colors" title="Ajouter Code">
+                    <span className="text-[#00F5D4] font-bold">+</span> Code
                 </button>
-                <button onClick={() => addCell(cells.length - 1, 'markdown')} className="p-2 hover:bg-white/10 rounded text-gray-300" title="Ajouter Texte">
-                    + Texte
+                <button onClick={() => addCell(cells.length - 1, 'markdown')} className="flex items-center gap-2 px-3 py-1.5 hover:bg-white/10 rounded text-gray-300 transition-colors" title="Ajouter Texte">
+                    <span className="text-gray-400 font-bold">+</span> Texte
                 </button>
                 <div className="h-6 w-px bg-white/10 mx-2" />
-                <button className="p-2 hover:bg-white/10 rounded text-gray-300" title="Exécuter tout">
+                <button className="p-2 hover:bg-white/10 rounded text-gray-300 transition-colors" title="Exécuter tout">
                     ▶ Tout exécuter
                 </button>
-                <button className="p-2 hover:bg-white/10 rounded text-gray-300" title="Redémarrer le noyau">
+                <button className="p-2 hover:bg-white/10 rounded text-gray-300 transition-colors" title="Redémarrer le noyau">
                     ↻ Redémarrer
                 </button>
             </div>
@@ -333,10 +334,10 @@ export default function NotebookPage() {
                         <div className="h-4 -mt-4 mb-2 flex items-center justify-center opacity-0 group-hover/add:opacity-100 transition-opacity z-10 relative">
                             <div className="absolute inset-x-0 h-px bg-[#00F5D4]/20" />
                             <div className="flex gap-2 bg-black px-2 relative z-20">
-                                <button onClick={() => addCell(index, 'code')} className="text-[10px] bg-[#00F5D4]/10 text-[#00F5D4] px-2 py-0.5 rounded border border-[#00F5D4]/20 hover:bg-[#00F5D4]/20">
+                                <button onClick={() => addCell(index, 'code')} className="text-[10px] bg-[#00F5D4]/10 text-[#00F5D4] px-2 py-0.5 rounded border border-[#00F5D4]/20 hover:bg-[#00F5D4]/20 transition-colors">
                                     + Code
                                 </button>
-                                <button onClick={() => addCell(index, 'markdown')} className="text-[10px] bg-white/10 text-gray-300 px-2 py-0.5 rounded border border-white/10 hover:bg-white/20">
+                                <button onClick={() => addCell(index, 'markdown')} className="text-[10px] bg-white/10 text-gray-300 px-2 py-0.5 rounded border border-white/10 hover:bg-white/20 transition-colors">
                                     + Texte
                                 </button>
                             </div>
