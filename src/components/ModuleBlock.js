@@ -61,7 +61,12 @@ export default function ModuleBlock({ href, title, description, accentGradient =
       className={`group relative block w-full p-8 rounded-xl border-2 bg-slate-900/80 backdrop-blur-md transition-all duration-300 focus-ring ${className}`}
       role="link"
       aria-label={`${title} - ${description}`}
-      style={{ borderColor: hexToRgba(accentColor, 0.18), boxShadow: `0 12px 40px ${hexToRgba(accentColor, 0.08)}` }}
+      style={{
+          borderColor: hexToRgba(accentColor, 0.18),
+          boxShadow: `0 12px 40px ${hexToRgba(accentColor, 0.08)}`,
+          ['--accent-color']: accentColor,
+          ['--accent-gradient']: accentGradient
+        }}
     >
         <div className="glow-effect" style={{ background: `radial-gradient(circle at 20% 30%, ${hexToRgba(accentColor,0.14)}, transparent 35%)` }} />
         <div style={{ position: 'absolute', left: 0, top: 0, bottom: 0, width: 8, background: accentGradient, borderTopLeftRadius: 14, borderBottomLeftRadius: 14 }} />
@@ -75,7 +80,7 @@ export default function ModuleBlock({ href, title, description, accentGradient =
       </Link>
 
       <div className="absolute right-6 top-1/2 -translate-y-1/2 module-cta">
-        <span className="px-4 py-2 rounded-full font-semibold text-black" style={{ background: accentGradient }}>Explorer</span>
+        <span className="px-4 py-2 rounded-full font-semibold text-white" style={{ background: accentGradient, boxShadow: `0 6px 18px ${hexToRgba(accentColor,0.12)}` }}>Explorer</span>
       </div>
     </div>
   );
