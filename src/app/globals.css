@@ -1,56 +1,35 @@
 @import "tailwindcss";
 
 /* ========================================
-   🌌 SYMLAB DEEP IMMERSION THEME
+   🌑 SYMLAB DARK CORE THEME
    ======================================== */
 
 :root {
-  --bg-void: #020408;
-  --glass-surface: rgba(255, 255, 255, 0.03);
-  --glass-border: rgba(255, 255, 255, 0.1);
-
-  /* Tech Accents */
+  --bg-core: #000000;
+  /* PURE BLACK */
   --accent: #00f5d4;
   --accent-2: #7c3aed;
-  --accent-3: #00b4d8;
-
-  /* Glows */
-  --glow-cyan: rgba(0, 245, 212, 0.3);
-  --glow-purple: rgba(124, 58, 237, 0.3);
-  --glow-teal: rgba(0, 180, 216, 0.3);
 }
 
 @theme inline {
-  --color-background: var(--bg-void);
+  --color-background: var(--bg-core);
   --color-foreground: #ffffff;
 }
 
 body {
-  background-color: var(--bg-void);
-  color: #e6eef8;
+  background-color: #000000 !important;
+  /* FORCE BLACK */
+  color: #ffffff;
   font-family: 'Inter', sans-serif;
   min-height: 100vh;
   overflow-x: hidden;
 
-  /* DEEP IMMERSIVE BACKGROUND */
+  /* Minimal Dark Background - No White Light */
   background-image:
-    radial-gradient(circle at 50% 0%, rgba(56, 189, 248, 0.2) 0%, transparent 60%),
-    /* Top Light Source */
-    radial-gradient(circle at 0% 40%, rgba(139, 92, 246, 0.15) 0%, transparent 50%),
-    /* Left Violet Nebula */
-    radial-gradient(circle at 100% 60%, rgba(14, 165, 233, 0.15) 0%, transparent 50%),
-    /* Right Cyan Nebula */
-    linear-gradient(180deg, #020408 0%, #0B0F19 100%);
-  /* Deep Space Base */
-
-  background-attachment: fixed;
-  background-blend-mode: screen, screen, screen, normal;
+    radial-gradient(circle at 50% 50%, #1a1a2e 0%, #000000 100%);
 }
 
-/* ========================================
-   ✨ UTILITIES
-   ======================================== */
-
+/* Utilities */
 .gradient-text {
   background: linear-gradient(90deg, var(--accent), var(--accent-2));
   -webkit-background-clip: text;
@@ -58,50 +37,28 @@ body {
   -webkit-text-fill-color: transparent;
 }
 
-.center-page {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-
-/* Logo Animation */
+/* Animations */
 @keyframes floatUp {
-  0% {
+
+  0%,
+  100% {
     transform: translateY(0);
-    opacity: 0.95;
   }
 
   50% {
-    transform: translateY(-6px);
-    opacity: 1;
-  }
-
-  100% {
-    transform: translateY(0);
-    opacity: 0.95;
+    transform: translateY(-5px);
   }
 }
 
 .logo-letter {
   display: inline-block;
-  will-change: transform, opacity;
-  animation: floatUp 3.2s ease-in-out infinite;
+  animation: floatUp 3s ease-in-out infinite;
 }
 
-.logo-letter:nth-child(odd) {
-  animation-duration: 3.6s;
-}
-
-.logo-letter:nth-child(even) {
-  animation-duration: 2.8s;
-}
-
-/* Animations */
 .fade-up {
-  animation: fadeUp 1s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+  animation: fadeUp 0.8s ease-out forwards;
   opacity: 0;
-  transform: translateY(40px);
+  transform: translateY(20px);
 }
 
 @keyframes fadeUp {
