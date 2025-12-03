@@ -102,8 +102,42 @@ export default function RichText({ children }) {
 
             // Équations LaTeX (simplifiées pour l'affichage texte)
             if (para.includes('$')) {
-                // On pourrait ajouter un vrai parser LaTeX ici si besoin
-                // Pour l'instant on le traite comme du texte normal avec parseInline
+                // Rendu MathJax/KaTeX via dangerouslySetInnerHTML si window.katex est disponible
+                // On utilise un useEffect pour le rendu côté client si nécessaire, mais ici on fait simple
+                // On va parser les blocs $$...$$ et $...$
+
+                const parts = para.split(/(\$\$[\s\S]*?\$\$|\$[\s\S]*?\$)/g);
+                return (
+                    <p key={idx} className="text-gray-300 leading-relaxed my-4 text-base md:text-lg">
+                        {parts.map((part, i) => {
+                            if (part.startsWith('$$') && part.endsWith('$$')) {
+                                const tex = part.slice(2, -2);
+                                return (
+                                    <span key={i} className="block my-4 text-center overflow-x-auto" ref={node => {
+                                        if (node && window.katex) {
+                                            try {
+                                                window.katex.render(tex, node, { displayMode: true, throwOnError: false });
+                                            } catch (e) { node.innerText = tex; }
+                                        }
+                                    }} />
+                                );
+                            }
+                            if (part.startsWith('$') && part.endsWith('$')) {
+                                const tex = part.slice(1, -1);
+                                return (
+                                    <span key={i} ref={node => {
+                                        if (node && window.katex) {
+                                            try {
+                                                window.katex.render(tex, node, { displayMode: false, throwOnError: false });
+                                            } catch (e) { node.innerText = tex; }
+                                        }
+                                    }} />
+                                );
+                            }
+                            return parseInline(part);
+                        })}
+                    </p>
+                );
             }
 
             // Paragraphe normal

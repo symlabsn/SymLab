@@ -59,9 +59,9 @@ const NotebookCell = ({
                         {/* Marge colorée état */}
                         {cell.type === 'code' && (
                             <div className={`w-1 flex-shrink-0 ${cell.status === 'running' ? 'bg-yellow-400 animate-pulse' :
-                                    cell.status === 'success' ? 'bg-transparent' :
-                                        cell.status === 'error' ? 'bg-red-500' :
-                                            'bg-transparent'
+                                cell.status === 'success' ? 'bg-transparent' :
+                                    cell.status === 'error' ? 'bg-red-500' :
+                                        'bg-transparent'
                                 }`} />
                         )}
 
@@ -117,6 +117,11 @@ const NotebookCell = ({
                             }`}>
                             {cell.output.type === 'text' && (
                                 <pre className="font-mono text-sm text-gray-300 whitespace-pre-wrap">{cell.output.data}</pre>
+                            )}
+                            {cell.output.type === 'latex' && (
+                                <div className="p-2 bg-white/5 rounded overflow-x-auto">
+                                    <RichText>{`$$${cell.output.data}$$`}</RichText>
+                                </div>
                             )}
                             {cell.output.type === 'error' && (
                                 <pre className="font-mono text-sm text-red-400 whitespace-pre-wrap">{cell.output.data}</pre>
@@ -243,8 +248,7 @@ export default function NotebookPage() {
         setKernelStatus('busy');
 
         try {
-            // Script wrapper pour capturer stdout, stderr et les plots matplotlib
-            // On utilise une astuce pour capturer la dernière expression (comme Jupyter)
+            // Script wrapper pour capturer stdout, stderr, plots et LaTeX
             const pythonCode = `
 import sys
 import io
@@ -286,6 +290,14 @@ if plt.get_fignums():
     img_str = 'data:image/png;base64,' + base64.b64encode(buf.read()).decode('UTF-8')
     plt.close('all')
 
+# Capture LaTeX (SymPy)
+latex_str = None
+if result is not None:
+    if hasattr(result, '_repr_latex_'):
+        latex_str = result._repr_latex_()
+    elif hasattr(result, 'latex'): # Fallback simple
+        latex_str = result.latex()
+
 # Capture stdout/stderr
 stdout_val = sys.stdout.getvalue()
 stderr_val = sys.stderr.getvalue()
@@ -296,7 +308,8 @@ json.dumps({
     "stdout": stdout_val,
     "stderr": stderr_val,
     "result": str(result) if result is not None else None,
-    "image": img_str
+    "image": img_str,
+    "latex": latex_str
 })
 `;
             // Exécution
@@ -306,23 +319,33 @@ json.dumps({
             // Construction de la sortie
             let outputData = '';
             if (response.stdout) outputData += response.stdout;
-            if (response.stderr) outputData += \`\n⚠️ \${response.stderr}\`;
-            if (response.result) outputData += \`\n[Out]: \${response.result}\`;
+            if (response.stderr) outputData += `\n⚠️ ${response.stderr}`;
+
+            // Si on a du LaTeX, on l'affiche en priorité pour le résultat
+            let latexOutput = null;
+            if (response.latex) {
+                // On nettoie le LaTeX (parfois entouré de $)
+                latexOutput = response.latex;
+            } else if (response.result) {
+                outputData += `\n[Out]: ${response.result}`;
+            }
 
             // Déterminer le type de sortie
             let output = null;
             if (response.image) {
                 output = { type: 'image', data: response.image };
+            } else if (latexOutput) {
+                output = { type: 'latex', data: latexOutput };
             } else if (outputData) {
                 output = { type: 'text', data: outputData.trim() };
             } else {
                 output = { type: 'text', data: '✓ Exécuté' };
             }
 
-            updateCell(id, { 
-                status: 'success', 
-                output, 
-                executionCount: (cell.executionCount || 0) + 1 
+            updateCell(id, {
+                status: 'success',
+                output,
+                executionCount: (cell.executionCount || 0) + 1
             });
 
         } catch (err) {
@@ -332,10 +355,10 @@ json.dumps({
             if (err.message && err.message.includes("PythonError")) {
                 errorMsg = err.message;
             }
-            
-            updateCell(id, { 
-                status: 'error', 
-                output: { type: 'error', data: errorMsg } 
+
+            updateCell(id, {
+                status: 'error',
+                output: { type: 'error', data: errorMsg }
             });
         } finally {
             setKernelStatus('ready');
@@ -357,7 +380,7 @@ json.dumps({
 
                 <div className="flex items-center gap-4">
                     <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 border border-white/10">
-                        <div className={`w - 2 h - 2 rounded - full ${ kernelStatus === 'ready' ? 'bg-green-500' : 'bg-yellow-500 animate-pulse' } `} />
+                        <div className={`w - 2 h - 2 rounded - full ${kernelStatus === 'ready' ? 'bg-green-500' : 'bg-yellow-500 animate-pulse'} `} />
                         <span className="text-xs font-mono text-gray-300">Kernel: {kernelStatus}</span>
                     </div>
                     <button className="bg-[#00F5D4] text-black px-4 py-1.5 rounded font-bold text-sm hover:bg-[#00F5D4]/90 transition-colors">
@@ -413,7 +436,7 @@ json.dumps({
                 ))}
 
                 {/* Zone vide en bas pour cliquer et ajouter */}
-                <div 
+                <div
                     className="h-32 border-2 border-dashed border-white/5 rounded-xl flex items-center justify-center text-gray-600 hover:border-[#00F5D4]/30 hover:text-[#00F5D4]/50 transition-all cursor-pointer"
                     onClick={() => addCell(cells.length - 1, 'code')}
                 >
