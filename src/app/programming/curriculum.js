@@ -105,6 +105,884 @@ print(solution)  # [-2, 2]
     },
 
     {
+        id: 'fundamentals',
+        title: '2. Fondamentaux de Python',
+        icon: '📚',
+        color: '#7C3AED',
+        description: 'Les briques de base pour construire vos programmes scientifiques',
+        duration: '4 heures',
+        lessons: [
+            {
+                title: 'Variables et types de données',
+                duration: '40 min',
+                analogy: '📦 Une variable est comme une boîte étiquetée où vous rangez des choses',
+                content: `Comprendre les variables
+
+Imaginez votre chambre avec des boîtes :
+- Boîte "chaussures" → contient vos chaussures
+- Boîte "livres" → contient vos livres
+- Boîte "jouets" → contient vos jouets
+
+En Python :
+- Variable "masse" → contient 5.0
+- Variable "vitesse" → contient 10.0
+- Variable "nom" → contient "Einstein"
+
+La magie de Python : Vous n'avez PAS besoin de dire "cette boîte contiendra des chaussures". Python devine automatiquement !
+
+Types de données (types de boîtes) :
+
+1. int (entier) → Boîte pour nombres entiers
+   - Exemples : 1, 42, -17, 1000
+
+2. float (décimal) → Boîte pour nombres à virgule
+   - Exemples : 3.14, -0.5, 2.71828
+
+3. str (string/chaîne) → Boîte pour du texte
+   - Exemples : "Bonjour", "Python", "E=mc²"
+
+4. bool (booléen) → Boîte pour Vrai/Faux
+   - Exemples : True, False
+
+Règles de nommage :
+- Utilisez des noms clairs : "masse" pas "m"
+- Pas d'espaces : "vitesse_lumiere" pas "vitesse lumiere"
+- Pas de caractères spéciaux : "energie" pas "énergie"`,
+                keyPoints: [
+                    'Variable = boîte étiquetée pour stocker des données',
+                    'Python devine automatiquement le type',
+                    'Noms clairs = code compréhensible',
+                    'Utilisez snake_case : ma_variable'
+                ],
+                code: `# Créer des variables (ranger dans des boîtes)
+masse = 5.0  # kg (nombre décimal)
+vitesse = 10  # m/s (nombre entier)
+nom_particule = "électron"  # texte
+est_charge = True  # vrai ou faux
+
+# Afficher le contenu des boîtes
+print(f"Masse : {masse} kg")
+print(f"Vitesse : {vitesse} m/s")
+print(f"Particule : {nom_particule}")
+print(f"Chargée ? {est_charge}")
+
+# Vérifier le type (quel genre de boîte ?)
+print(f"Type de masse : {type(masse)}")  # <class 'float'>
+print(f"Type de nom : {type(nom_particule)}")  # <class 'str'>
+
+# Calcul scientifique
+energie_cinetique = 0.5 * masse * vitesse**2
+print(f"\\nÉnergie cinétique : {energie_cinetique} J")
+
+# Les variables peuvent changer !
+vitesse = 20  # Nouvelle valeur
+print(f"Nouvelle vitesse : {vitesse} m/s")`,
+                tip: '💡 Utilisez des noms descriptifs : "temperature_eau" au lieu de "t" !'
+            },
+            {
+                title: 'Opérateurs arithmétiques',
+                duration: '45 min',
+                analogy: '🧮 Les opérateurs sont les boutons de votre calculatrice',
+                content: `Python = Super Calculatrice
+
+Votre calculatrice a des boutons :
+- + pour additionner
+- - pour soustraire
+- × pour multiplier
+- ÷ pour diviser
+
+Python a les mêmes, et bien plus !
+
+Les opérateurs de base :
+
+1. Addition (+) → Comme vous l'imaginez
+   - 5 + 3 = 8
+
+2. Soustraction (-) → Pareil
+   - 10 - 4 = 6
+
+3. Multiplication (*) → Attention : * pas ×
+   - 3 * 4 = 12
+
+4. Division (/) → Toujours un résultat décimal
+   - 10 / 3 = 3.333...
+
+5. Division entière (//) → Juste la partie entière
+   - 10 // 3 = 3 (ignore le reste)
+
+6. Modulo (%) → Le reste de la division
+   - 10 % 3 = 1 (car 10 = 3×3 + 1)
+
+7. Puissance (**) → Élever à la puissance
+   - 2**3 = 8 (2 au cube)
+
+Ordre des opérations (PEMDAS) :
+Comme en maths : Parenthèses → Exposants → Multiplication/Division → Addition/Soustraction`,
+                keyPoints: [
+                    '** pour les puissances (pas ^)',
+                    '/ donne toujours un décimal',
+                    '// pour division entière, % pour le reste',
+                    'Utilisez des parenthèses pour clarifier'
+                ],
+                code: `# Opérations de base
+a = 10
+b = 3
+
+print("=== Opérations de base ===")
+print(f"{a} + {b} = {a + b}")
+print(f"{a} - {b} = {a - b}")
+print(f"{a} × {b} = {a * b}")
+print(f"{a} ÷ {b} = {a / b}")  # 3.333...
+print(f"{a} ÷ {b} (entier) = {a // b}")  # 3
+print(f"{a} modulo {b} = {a % b}")  # 1
+print(f"{a} puissance {b} = {a ** b}")  # 1000
+
+# Application : Formule quadratique
+# Résoudre x² - 5x + 6 = 0
+print("\\n=== Équation du second degré ===")
+a, b, c = 1, -5, 6
+
+# Discriminant : Δ = b² - 4ac
+discriminant = b**2 - 4*a*c
+print(f"Discriminant : {discriminant}")
+
+# Solutions : x = (-b ± √Δ) / 2a
+import math
+x1 = (-b + math.sqrt(discriminant)) / (2*a)
+x2 = (-b - math.sqrt(discriminant)) / (2*a)
+
+print(f"Solutions : x₁ = {x1}, x₂ = {x2}")
+print(f"Vérification : x₁ × x₂ = {x1 * x2} (devrait être {c/a})")`,
+                tip: '🎯 Pour les racines carrées : import math puis math.sqrt(nombre)'
+            },
+            {
+                title: 'Structures de contrôle : if/elif/else',
+                duration: '50 min',
+                analogy: '🚦 Les conditions sont comme un feu tricolore : si vert → avancer',
+                content: `Apprendre à Python à décider
+
+Analogie de la vie réelle :
+- SI il pleut → prendre un parapluie
+- SINON SI il fait froid → prendre un manteau
+- SINON → sortir normalement
+
+En Python, c'est pareil !
+
+Opérateurs de comparaison :
+- == (égal à) → Attention : 2 signes =
+- != (différent de)
+- > (plus grand que)
+- < (plus petit que)
+- >= (plus grand ou égal)
+- <= (plus petit ou égal)
+
+Opérateurs logiques :
+- and (et) → Les deux doivent être vrais
+- or (ou) → Au moins un doit être vrai
+- not (non) → Inverse le résultat`,
+                keyPoints: [
+                    'if = "si", elif = "sinon si", else = "sinon"',
+                    'Indentation (espaces) = OBLIGATOIRE en Python',
+                    '== pour comparer, = pour assigner',
+                    'and/or pour combiner des conditions'
+                ],
+                code: `# Exemple 1 : Classifier une température
+temperature = 25
+
+if temperature > 30:
+    print("🔥 Il fait chaud !")
+    etat = "Chaud"
+elif temperature > 20:
+    print("😊 Température agréable")
+    etat = "Agréable"
+elif temperature > 10:
+    print("🧥 Un peu frais")
+    etat = "Frais"
+else:
+    print("❄️ Il fait froid !")
+    etat = "Froid"
+
+# Exemple 2 : Vérifier une condition physique
+# L'eau est liquide entre 0°C et 100°C (à pression normale)
+temp_eau = 50
+
+if 0 < temp_eau < 100:
+    print("💧 L'eau est liquide")
+elif temp_eau >= 100:
+    print("💨 L'eau est gazeuse (vapeur)")
+else:
+    print("🧊 L'eau est solide (glace)")
+
+# Exemple 3 : Conditions multiples
+vitesse = 15
+masse = 10
+
+if vitesse > 0 and masse > 0:
+    energie = 0.5 * masse * vitesse**2
+    print(f"✅ Énergie cinétique : {energie} J")
+else:
+    print("❌ Vitesse ou masse invalide !")`,
+                tip: '⚠️ L\'indentation (4 espaces) est OBLIGATOIRE en Python !'
+            },
+            {
+                title: 'Boucles for et while',
+                duration: '60 min',
+                analogy: '🔁 Une boucle, c\'est comme dire "fais ça 100 fois" au lieu de l\'écrire 100 fois',
+                content: `Le pouvoir de la répétition
+
+Imaginez que vous devez :
+- Compter de 1 à 100
+- Calculer 1², 2², 3², ..., 100²
+
+Sans boucle : Vous écrivez 100 lignes de code 😰
+Avec boucle : 3 lignes suffisent ! 🎉
+
+Deux types de boucles :
+
+1. Boucle FOR → "Pour chaque élément, fais..."
+   - Quand vous savez combien de fois répéter
+   - Comme compter de 1 à 10
+
+2. Boucle WHILE → "Tant que condition vraie, fais..."
+   - Quand vous ne savez pas combien de fois
+   - Comme "tant que l'eau n'est pas à 100°C, chauffe"
+
+range() : Le compteur magique
+- range(5) → 0, 1, 2, 3, 4 (5 nombres)
+- range(1, 6) → 1, 2, 3, 4, 5
+- range(0, 10, 2) → 0, 2, 4, 6, 8 (de 2 en 2)`,
+                keyPoints: [
+                    'for = nombre de répétitions connu',
+                    'while = répéter jusqu\'à condition',
+                    'range(n) commence à 0, pas à 1 !',
+                    'Indentation obligatoire dans les boucles'
+                ],
+                code: `# Exemple 1 : Boucle FOR simple
+print("=== Compter de 1 à 5 ===")
+for i in range(1, 6):
+    print(f"Nombre : {i}")
+
+# Exemple 2 : Calculer des carrés
+print("\\n=== Carrés de 1 à 10 ===")
+for n in range(1, 11):
+    carre = n**2
+    print(f"{n}² = {carre}")
+
+# Exemple 3 : Suite de Fibonacci
+print("\\n=== Suite de Fibonacci ===")
+n_termes = 10
+fib = [0, 1]  # Les deux premiers termes
+
+for i in range(2, n_termes):
+    # Chaque terme = somme des deux précédents
+    prochain = fib[i-1] + fib[i-2]
+    fib.append(prochain)
+
+print(f"Les {n_termes} premiers termes : {fib}")
+
+# Exemple 4 : Boucle WHILE - Méthode de Newton
+# Calculer √2 avec la méthode de Newton
+print("\\n=== Approximation de √2 ===")
+x = 2.0  # Valeur initiale
+precision = 0.0001
+iteration = 0
+
+while True:
+    x_nouveau = (x + 2/x) / 2
+    erreur = abs(x_nouveau - x)
+    
+    iteration += 1
+    print(f"Itération {iteration}: x = {x_nouveau:.6f}, erreur = {erreur:.6f}")
+    
+    if erreur < precision:
+        break  # Sortir de la boucle
+    
+    x = x_nouveau
+
+print(f"\\n√2 ≈ {x:.6f} (valeur exacte: 1.414214)")`,
+                tip: '🔄 break = sortir de la boucle, continue = passer à l\'itération suivante'
+            },
+            {
+                title: 'Fonctions : Réutiliser votre code',
+                duration: '50 min',
+                analogy: '🎯 Une fonction est comme une recette : vous la définissez une fois, vous l\'utilisez partout',
+                content: `Créer vos propres outils
+
+Imaginez que vous cuisinez souvent des crêpes. Au lieu de réécrire la recette à chaque fois, vous la notez une fois et vous la réutilisez !
+
+En Python, c'est pareil avec les fonctions.
+
+Anatomie d'une fonction :
+
+def nom_fonction(parametre1, parametre2):
+    # Code de la fonction
+    resultat = parametre1 + parametre2
+    return resultat
+
+Avantages :
+- Réutilisabilité : Écrivez une fois, utilisez partout
+- Lisibilité : Code organisé et clair
+- Maintenance : Modifier à un seul endroit
+- Testabilité : Facile à vérifier`,
+                keyPoints: [
+                    'def pour définir une fonction',
+                    'return pour renvoyer un résultat',
+                    'Paramètres = entrées de la fonction',
+                    'Docstring pour documenter'
+                ],
+                code: `# Fonction simple
+def aire_cercle(rayon):
+    """Calcule l'aire d'un cercle."""
+    import math
+    return math.pi * rayon**2
+
+# Fonction avec plusieurs paramètres
+def energie_cinetique(masse, vitesse):
+    """Calcule l'énergie cinétique: E = ½mv²"""
+    return 0.5 * masse * vitesse**2
+
+# Fonction avec valeur par défaut
+def chute_libre(t, g=9.81):
+    """Position lors d'une chute libre: y = ½gt²"""
+    return 0.5 * g * t**2
+
+# Utilisation
+print(f"Aire (r=5): {aire_cercle(5):.2f}")
+print(f"Ec (m=10, v=5): {energie_cinetique(10, 5)} J")
+print(f"Chute (t=2s): {chute_libre(2):.2f} m")
+
+# Fonction retournant plusieurs valeurs
+def statistiques(nombres):
+    """Calcule moyenne, min et max."""
+    moyenne = sum(nombres) / len(nombres)
+    minimum = min(nombres)
+    maximum = max(nombres)
+    return moyenne, minimum, maximum
+
+# Utilisation
+donnees = [10, 20, 15, 25, 30]
+moy, mini, maxi = statistiques(donnees)
+print(f"\\nStatistiques de {donnees}:")
+print(f"Moyenne: {moy}, Min: {mini}, Max: {maxi}")`,
+                tip: '📝 Utilisez des docstrings pour expliquer ce que fait votre fonction !'
+            }
+        ]
+    },
+
+    {
+        id: 'data-structures',
+        title: '3. Structures de Données',
+        icon: '🗂️',
+        color: '#FF9F1C',
+        description: 'Organiser et manipuler vos données scientifiques',
+        duration: '3 heures',
+        lessons: [
+            {
+                title: 'Listes : Collections ordonnées',
+                duration: '50 min',
+                analogy: '📋 Une liste est comme un carnet où vous notez des mesures dans l\'ordre',
+                content: `Maîtriser les listes
+
+Une liste est une collection ordonnée d'éléments. Imaginez un carnet de laboratoire où vous notez vos mesures dans l'ordre.
+
+Caractéristiques :
+- Ordonnée : Les éléments ont un ordre
+- Modifiable : Vous pouvez ajouter/supprimer
+- Indexée : Accès par position (0, 1, 2...)
+- Hétérogène : Peut contenir différents types
+
+Opérations essentielles :
+- Accès : liste[0] (premier élément)
+- Ajout : liste.append(element)
+- Suppression : liste.remove(element)
+- Slicing : liste[1:3] (éléments 1 et 2)`,
+                keyPoints: [
+                    'Créer : ma_liste = [1, 2, 3]',
+                    'Index commence à 0',
+                    'Index négatif : -1 = dernier élément',
+                    'List comprehension pour créer rapidement'
+                ],
+                code: `# Créer une liste de mesures
+temperatures = [20.5, 21.0, 19.8, 22.3, 20.9]
+
+# Accès aux éléments
+print(f"Première mesure: {temperatures[0]}°C")
+print(f"Dernière mesure: {temperatures[-1]}°C")
+
+# Opérations sur les listes
+temperatures.append(23.1)  # Ajouter
+moyenne = sum(temperatures) / len(temperatures)
+print(f"Température moyenne: {moyenne:.2f}°C")
+
+# Slicing (tranches)
+premieres_trois = temperatures[:3]
+print(f"3 premières: {premieres_trois}")
+
+# List comprehension (puissant!)
+celsius = [0, 10, 20, 30, 40]
+fahrenheit = [(9/5)*c + 32 for c in celsius]
+print(f"Fahrenheit: {fahrenheit}")
+
+# Opérations scientifiques
+mesures = [1.2, 1.5, 1.3, 1.4, 1.6]
+# Calculer l'écart à la moyenne
+moy = sum(mesures) / len(mesures)
+ecarts = [abs(m - moy) for m in mesures]
+print(f"\\nÉcarts à la moyenne: {ecarts}")`,
+                tip: '⚡ Les list comprehensions sont plus rapides que les boucles for !'
+            },
+            {
+                title: 'Dictionnaires : Données structurées',
+                duration: '55 min',
+                analogy: '📖 Un dictionnaire est comme un annuaire : chercher par nom (clé) pour trouver le numéro (valeur)',
+                content: `Organiser vos données scientifiques
+
+Un dictionnaire stocke des paires clé-valeur. Parfait pour les données scientifiques structurées !
+
+Analogie : C'est comme un annuaire téléphonique :
+- Clé = Nom de la personne
+- Valeur = Numéro de téléphone
+
+En science :
+- Clé = Nom de la constante
+- Valeur = Valeur numérique
+
+Avantages :
+- Accès rapide par clé
+- Structure claire
+- Données hétérogènes
+- Facile à modifier`,
+                keyPoints: [
+                    'Créer : mon_dict = {"cle": valeur}',
+                    'Accès : mon_dict["cle"]',
+                    'Ajout : mon_dict["nouvelle_cle"] = valeur',
+                    'Vérifier : "cle" in mon_dict'
+                ],
+                code: `# Constantes physiques
+constantes = {
+    'c': 299792458,      # m/s
+    'h': 6.62607015e-34, # J⋅s
+    'G': 6.67430e-11,    # m³⋅kg⁻¹⋅s⁻²
+    'e': 1.602176634e-19 # C
+}
+
+print(f"Vitesse de la lumière: {constantes['c']} m/s")
+
+# Données expérimentales
+experience = {
+    'date': '2024-01-15',
+    'temperature': 25.3,
+    'pression': 101325,
+    'humidite': 65,
+    'mesures': [1.2, 1.5, 1.3, 1.4]
+}
+
+print(f"Moyenne: {sum(experience['mesures'])/len(experience['mesures'])}")
+
+# Parcourir un dictionnaire
+print("\\nConstantes physiques:")
+for nom, valeur in constantes.items():
+    print(f"  {nom} = {valeur}")
+
+# Dictionnaire de résultats
+resultats = {}
+for i in range(1, 6):
+    resultats[f"experience_{i}"] = i**2
+
+print(f"\\nRésultats: {resultats}")`,
+                tip: '🔑 Utilisez des clés descriptives : "temperature_eau" pas "t1" !'
+            },
+            {
+                title: 'Tuples et ensembles',
+                duration: '40 min',
+                analogy: '🔒 Tuple = liste verrouillée, Ensemble = collection d\'éléments uniques',
+                content: `Autres structures utiles
+
+Tuples (immutables) :
+- Comme une liste, mais non modifiable
+- Utilisé pour des données fixes
+- Plus rapide qu'une liste
+- Exemple : coordonnées (x, y, z)
+
+Ensembles (sets) :
+- Collection d'éléments uniques
+- Pas d'ordre
+- Opérations mathématiques (union, intersection)
+- Exemple : éléments chimiques détectés
+
+Quand utiliser quoi ?
+- Liste : Données modifiables, ordre important
+- Tuple : Données fixes, coordonnées
+- Ensemble : Éléments uniques, opérations ensemblistes
+- Dictionnaire : Données structurées clé-valeur`,
+                keyPoints: [
+                    'Tuple : mon_tuple = (1, 2, 3)',
+                    'Ensemble : mon_set = {1, 2, 3}',
+                    'Tuples = immutables (non modifiables)',
+                    'Ensembles = éléments uniques'
+                ],
+                code: `# Tuple: Coordonnées (x, y, z)
+position = (10.5, 20.3, 5.0)
+x, y, z = position  # Unpacking
+print(f"Position: x={x}, y={y}, z={z}")
+
+# Ensemble: Éléments uniques
+elements_detectes = {'H', 'He', 'O', 'N', 'H', 'O'}
+print(f"Éléments uniques: {elements_detectes}")
+
+# Opérations d'ensembles
+groupe_a = {'H', 'He', 'Li'}
+groupe_b = {'He', 'Ne', 'Ar'}
+print(f"Intersection: {groupe_a & groupe_b}")
+print(f"Union: {groupe_a | groupe_b}")
+print(f"Différence: {groupe_a - groupe_b}")
+
+# Tuple pour retourner plusieurs valeurs
+def position_vitesse(t):
+    """Retourne position et vitesse à l'instant t"""
+    s = t**2
+    v = 2*t
+    return (s, v)  # Tuple
+
+s, v = position_vitesse(5)
+print(f"\\nÀ t=5s: position={s}m, vitesse={v}m/s")`,
+                tip: '💡 Utilisez des tuples pour des données qui ne doivent pas changer !'
+            }
+        ]
+    },
+
+    {
+        id: 'scientific-python',
+        title: '4. Python Scientifique',
+        icon: '🔬',
+        color: '#10B981',
+        description: 'NumPy, Matplotlib, SciPy et Pandas pour la science',
+        duration: '6 heures',
+        lessons: [
+            {
+                title: 'NumPy : Calcul numérique ultra-rapide',
+                duration: '75 min',
+                analogy: '⚡ NumPy est comme une calculatrice qui fait 1 million de calculs en 1 seconde',
+                content: `La puissance du calcul vectorisé
+
+NumPy (Numerical Python) est LA bibliothèque pour le calcul numérique.
+
+Pourquoi NumPy ?
+- Vitesse : 100x plus rapide que les listes Python
+- Arrays multidimensionnels
+- Fonctions mathématiques optimisées
+- Base de tout l'écosystème scientifique
+
+Analogie : Si les listes Python sont une calculatrice de poche, NumPy est un supercalculateur !
+
+Concepts clés :
+- Array : Tableau de nombres (1D, 2D, 3D...)
+- Vectorisation : Opérations sur tous les éléments à la fois
+- Broadcasting : Opérations entre arrays de tailles différentes`,
+                keyPoints: [
+                    'import numpy as np (convention)',
+                    'np.array() pour créer un array',
+                    'Opérations vectorisées = RAPIDES',
+                    'Base de NumPy, SciPy, Pandas, etc.'
+                ],
+                code: `import numpy as np
+
+# Créer des arrays
+vecteur = np.array([1, 2, 3, 4, 5])
+matrice = np.array([[1, 2], [3, 4]])
+
+print(f"Vecteur: {vecteur}")
+print(f"Matrice:\\n{matrice}")
+
+# Opérations vectorisées (RAPIDES!)
+x = np.linspace(0, 2*np.pi, 100)
+y = np.sin(x)
+print(f"\\nCalculé sin() sur 100 points instantanément!")
+
+# Statistiques
+donnees = np.random.normal(100, 15, 1000)
+print(f"\\nStatistiques sur 1000 points:")
+print(f"Moyenne: {np.mean(donnees):.2f}")
+print(f"Écart-type: {np.std(donnees):.2f}")
+print(f"Min: {np.min(donnees):.2f}")
+print(f"Max: {np.max(donnees):.2f}")
+
+# Algèbre linéaire
+A = np.array([[1, 2], [3, 4]])
+B = np.array([[5, 6], [7, 8]])
+produit = A @ B  # Produit matriciel
+print(f"\\nA × B =\\n{produit}")
+
+# Comparaison vitesse
+import time
+# Liste Python
+start = time.time()
+liste = [i**2 for i in range(1000000)]
+temps_liste = time.time() - start
+
+# NumPy
+start = time.time()
+array = np.arange(1000000)**2
+temps_numpy = time.time() - start
+
+print(f"\\nVitesse (1M opérations):")
+print(f"Liste Python: {temps_liste:.4f}s")
+print(f"NumPy: {temps_numpy:.4f}s")
+print(f"NumPy est {temps_liste/temps_numpy:.0f}x plus rapide!")`,
+                tip: '🚀 Utilisez TOUJOURS NumPy pour les calculs numériques intensifs !'
+            },
+            {
+                title: 'Matplotlib : Visualisation de données',
+                duration: '70 min',
+                analogy: '🎨 Matplotlib est votre atelier d\'artiste pour créer des graphiques scientifiques',
+                content: `Créer des graphiques de qualité publication
+
+Matplotlib permet de créer tous types de graphiques scientifiques.
+
+Types de graphiques :
+- Courbes (plot)
+- Nuages de points (scatter)
+- Histogrammes (hist)
+- Barres (bar)
+- Surfaces 3D
+- Et bien plus !
+
+Anatomie d'un graphique :
+- Figure : La toile
+- Axes : Le système de coordonnées
+- Plot : Les données tracées
+- Labels : Titres et légendes
+
+Analogie : C'est comme peindre un tableau, mais avec des données !`,
+                keyPoints: [
+                    'import matplotlib.pyplot as plt',
+                    'plt.plot() pour tracer',
+                    'plt.show() pour afficher',
+                    'Personnalisation complète possible'
+                ],
+                code: `import numpy as np
+import matplotlib.pyplot as plt
+
+# Données
+x = np.linspace(0, 10, 100)
+y1 = np.sin(x)
+y2 = np.cos(x)
+
+# Graphique multiple
+fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 4))
+
+# Subplot 1: Fonctions trigonométriques
+ax1.plot(x, y1, 'b-', label='sin(x)', linewidth=2)
+ax1.plot(x, y2, 'r--', label='cos(x)', linewidth=2)
+ax1.grid(True, alpha=0.3)
+ax1.legend()
+ax1.set_xlabel('x')
+ax1.set_ylabel('y')
+ax1.set_title('Fonctions trigonométriques')
+
+# Subplot 2: Histogramme
+data = np.random.normal(0, 1, 1000)
+ax2.hist(data, bins=30, alpha=0.7, color='green', edgecolor='black')
+ax2.set_xlabel('Valeur')
+ax2.set_ylabel('Fréquence')
+ax2.set_title('Distribution normale')
+ax2.grid(True, alpha=0.3)
+
+plt.tight_layout()
+plt.show()
+
+# Graphique scientifique complet
+fig, ax = plt.subplots(figsize=(10, 6))
+
+# Données expérimentales avec barres d'erreur
+x_exp = np.array([1, 2, 3, 4, 5])
+y_exp = np.array([2.1, 3.9, 6.2, 7.8, 10.1])
+y_err = np.array([0.2, 0.3, 0.2, 0.4, 0.3])
+
+ax.errorbar(x_exp, y_exp, yerr=y_err, fmt='o', 
+            label='Données expérimentales', capsize=5)
+
+# Modèle théorique
+x_theo = np.linspace(0, 6, 100)
+y_theo = 2*x_theo
+ax.plot(x_theo, y_theo, 'r-', label='Modèle: y=2x')
+
+ax.set_xlabel('Variable indépendante', fontsize=12)
+ax.set_ylabel('Variable dépendante', fontsize=12)
+ax.set_title('Comparaison Expérience vs Théorie', fontsize=14)
+ax.legend()
+ax.grid(True, alpha=0.3)
+plt.show()`,
+                tip: '📊 Utilisez plt.savefig("graph.png", dpi=300) pour sauvegarder en haute qualité !'
+            },
+            {
+                title: 'SciPy : Algorithmes scientifiques avancés',
+                duration: '80 min',
+                analogy: '🧪 SciPy est votre boîte à outils de laboratoire numérique',
+                content: `Algorithmes scientifiques prêts à l'emploi
+
+SciPy étend NumPy avec des algorithmes scientifiques avancés.
+
+Modules principaux :
+- scipy.integrate : Intégration numérique
+- scipy.optimize : Optimisation et recherche de racines
+- scipy.stats : Statistiques et probabilités
+- scipy.linalg : Algèbre linéaire avancée
+- scipy.signal : Traitement du signal
+- scipy.interpolate : Interpolation
+
+Analogie : Si NumPy est votre calculatrice, SciPy est votre laboratoire complet !`,
+                keyPoints: [
+                    'from scipy import module',
+                    'Intégration numérique avec integrate',
+                    'Optimisation avec optimize',
+                    'Statistiques avec stats'
+                ],
+                code: `from scipy import integrate, optimize, stats
+import numpy as np
+
+print("=== 1. INTÉGRATION NUMÉRIQUE ===")
+# Intégrer une fonction
+def f(x):
+    return np.exp(-x**2)
+
+resultat, erreur = integrate.quad(f, 0, np.inf)
+print(f"∫₀^∞ e^(-x²) dx = {resultat:.6f}")
+print(f"Erreur estimée: {erreur:.2e}")
+
+print("\\n=== 2. OPTIMISATION ===")
+# Trouver le minimum d'une fonction
+def energie(x):
+    return x**4 - 3*x**2 + 2
+
+minimum = optimize.minimize(energie, x0=0)
+print(f"Minimum de E(x) = x⁴ - 3x² + 2")
+print(f"Position: x = {minimum.x[0]:.4f}")
+print(f"Valeur: E(x) = {minimum.fun:.4f}")
+
+# Trouver les racines
+racines = optimize.fsolve(energie, [0, 1, 2])
+print(f"Racines: {racines}")
+
+print("\\n=== 3. STATISTIQUES ===")
+# Générer des données
+echantillon = np.random.normal(100, 15, 50)
+
+# Intervalle de confiance
+moyenne, intervalle = stats.t.interval(
+    0.95, len(echantillon)-1,
+    loc=np.mean(echantillon),
+    scale=stats.sem(echantillon)
+)
+
+print(f"Moyenne: {np.mean(echantillon):.2f}")
+print(f"IC 95%: [{intervalle[0]:.2f}, {intervalle[1]:.2f}]")
+
+# Test statistique
+t_stat, p_value = stats.ttest_1samp(echantillon, 100)
+print(f"Test t: t={t_stat:.3f}, p={p_value:.3f}")
+
+print("\\n=== 4. AJUSTEMENT DE COURBE ===")
+# Données expérimentales
+x_data = np.array([0, 1, 2, 3, 4, 5])
+y_data = np.array([1.1, 2.9, 5.2, 7.1, 8.9, 11.2])
+
+# Modèle linéaire: y = ax + b
+def modele(x, a, b):
+    return a*x + b
+
+params, covariance = optimize.curve_fit(modele, x_data, y_data)
+a, b = params
+print(f"Ajustement: y = {a:.2f}x + {b:.2f}")`,
+                tip: '🔬 SciPy est essentiel pour l\'analyse de données expérimentales !'
+            },
+            {
+                title: 'Pandas : Analyse de données tabulaires',
+                duration: '75 min',
+                analogy: '📊 Pandas est comme Excel, mais en 100x plus puissant',
+                content: `Manipuler des données comme un pro
+
+Pandas facilite la manipulation et l'analyse de données tabulaires.
+
+Structures principales :
+- Series : Colonne de données (1D)
+- DataFrame : Tableau de données (2D)
+
+Analogie : Un DataFrame est comme une feuille Excel, mais avec des super-pouvoirs !
+
+Opérations courantes :
+- Lecture/écriture de fichiers (CSV, Excel, etc.)
+- Filtrage et sélection
+- Groupement et agrégation
+- Statistiques descriptives
+- Fusion de données`,
+                keyPoints: [
+                    'import pandas as pd',
+                    'DataFrame = tableau de données',
+                    'Lecture facile de CSV/Excel',
+                    'Analyse statistique intégrée'
+                ],
+                code: `import pandas as pd
+import numpy as np
+
+# Créer un DataFrame (tableau de données)
+experiences = pd.DataFrame({
+    'temperature': [20, 25, 30, 35, 40],
+    'pression': [101, 102, 103, 104, 105],
+    'volume': [22.4, 23.1, 23.8, 24.5, 25.2]
+})
+
+print("=== DONNÉES ===")
+print(experiences)
+
+# Statistiques descriptives
+print("\\n=== STATISTIQUES ===")
+print(experiences.describe())
+
+# Calculs sur colonnes
+experiences['PV'] = experiences['pression'] * experiences['volume']
+print("\\n=== AVEC PV ===")
+print(experiences)
+
+# Filtrage
+haute_temp = experiences[experiences['temperature'] > 30]
+print(f"\\n=== HAUTE TEMPÉRATURE ===")
+print(haute_temp)
+
+# Groupement et agrégation
+# Créer plus de données
+donnees = pd.DataFrame({
+    'experience': ['A', 'A', 'B', 'B', 'C', 'C'],
+    'mesure': [10.2, 10.5, 15.3, 15.1, 20.4, 20.6],
+    'erreur': [0.1, 0.2, 0.15, 0.1, 0.2, 0.15]
+})
+
+moyennes = donnees.groupby('experience')['mesure'].mean()
+print("\\n=== MOYENNES PAR EXPÉRIENCE ===")
+print(moyennes)
+
+# Lecture/écriture de fichiers
+# experiences.to_csv('resultats.csv', index=False)
+# df = pd.read_csv('resultats.csv')
+
+# Analyse de séries temporelles
+dates = pd.date_range('2024-01-01', periods=10, freq='D')
+serie_temp = pd.Series(
+    np.random.normal(20, 2, 10),
+    index=dates,
+    name='Temperature'
+)
+
+print("\\n=== SÉRIE TEMPORELLE ===")
+print(serie_temp)
+print(f"\\nMoyenne: {serie_temp.mean():.2f}°C")
+print(f"Max: {serie_temp.max():.2f}°C")`,
+                tip: '📈 Pandas est parfait pour analyser des données expérimentales !'
+            }
+        ]
+    },
+
+    {
         id: 'sympy-complete',
         title: '5. SymPy - Maîtrise Complète du Calcul Symbolique',
         icon: '∑',
