@@ -1,85 +1,108 @@
 @import "tailwindcss";
 
 /* ========================================
-   🌑 SYMLAB DARK CORE THEME
+   🛸 SYMLAB ULTIMATE SCI-TECH THEME
    ======================================== */
 
 :root {
-  --bg-core: #000000;
-  /* PURE BLACK */
-  --accent: #00f5d4;
-  --accent-2: #7c3aed;
+  --bg-void: #000000;
+  --tech-border: rgba(0, 245, 212, 0.5);
+  --tech-surface: rgba(10, 20, 30, 0.8);
 }
 
 @theme inline {
-  --color-background: var(--bg-core);
+  --color-background: var(--bg-void);
   --color-foreground: #ffffff;
 }
 
 body {
   background-color: #000000 !important;
-  /* FORCE BLACK */
   color: #ffffff;
   font-family: 'Inter', sans-serif;
   min-height: 100vh;
   overflow-x: hidden;
 
-  /* Minimal Dark Background - No White Light */
+  /* Deep Space Grid */
   background-image:
-    radial-gradient(circle at 50% 50%, #1a1a2e 0%, #000000 100%);
+    linear-gradient(rgba(0, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: 50px 50px;
+  background-position: center top;
 }
 
-/* Utilities */
-.gradient-text {
-  background: linear-gradient(90deg, var(--accent), var(--accent-2));
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
+/* ========================================
+   💠 SCI-TECH CARD SHAPE
+   ======================================== */
+
+.sci-card {
+  position: relative;
+  background: var(--tech-surface);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  /* Cyberpunk Cut Corners */
+  clip-path: polygon(20px 0, 100% 0,
+      100% calc(100% - 20px), calc(100% - 20px) 100%,
+      0 100%, 0 20px);
+  transition: all 0.3s ease;
 }
 
-/* Animations */
-@keyframes floatUp {
-
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-
-  50% {
-    transform: translateY(-5px);
-  }
+/* Hover State */
+.sci-card:hover {
+  transform: translateY(-5px);
+  background: rgba(20, 40, 60, 0.9);
+  box-shadow: 0 0 30px var(--glow-color);
+  border-color: var(--accent-color);
 }
 
-.logo-letter {
-  display: inline-block;
-  animation: floatUp 3s ease-in-out infinite;
+/* Tech Markers */
+.sci-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 20px;
+  height: 20px;
+  border-top: 2px solid var(--accent-color);
+  border-left: 2px solid var(--accent-color);
+  opacity: 0.5;
 }
 
-.fade-up {
-  animation: fadeUp 0.8s ease-out forwards;
+.sci-card::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 20px;
+  height: 20px;
+  border-bottom: 2px solid var(--accent-color);
+  border-right: 2px solid var(--accent-color);
+  opacity: 0.5;
+}
+
+/* ========================================
+   ✨ UTILITIES
+   ======================================== */
+
+.center-xy {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.glow-text {
+  text-shadow: 0 0 20px currentColor;
+}
+
+.fade-in-up {
+  animation: fadeInUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
   opacity: 0;
-  transform: translateY(20px);
+  transform: translateY(30px);
 }
 
-@keyframes fadeUp {
+@keyframes fadeInUp {
   to {
     opacity: 1;
     transform: translateY(0);
   }
-}
-
-.delay-100 {
-  animation-delay: 0.1s;
-}
-
-.delay-200 {
-  animation-delay: 0.2s;
-}
-
-.delay-300 {
-  animation-delay: 0.3s;
-}
-
-.delay-400 {
-  animation-delay: 0.4s;
 }
