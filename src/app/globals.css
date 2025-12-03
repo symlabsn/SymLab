@@ -1,26 +1,56 @@
 @import "tailwindcss";
 
 /* ========================================
-   🌌 SYMLAB DEEP GLASS THEME
+   🌌 SYMLAB DEEP IMMERSION THEME
    ======================================== */
 
 :root {
-  --bg-void: #03040a;
-  --glass-surface: rgba(255, 255, 255, 0.02);
-  --glass-border: rgba(255, 255, 255, 0.06);
+  --bg-void: #020408;
+  --glass-surface: rgba(255, 255, 255, 0.03);
+  --glass-border: rgba(255, 255, 255, 0.1);
 
-  /* Futuristic tech-sci accents (cyan → purple gradient) */
-  --accent: #00f5d4; /* vivid cyan */
-  --accent-2: #7c3aed; /* electric purple */
-  --accent-3: #00b4d8; /* bright teal */
+  /* Tech Accents */
+  --accent: #00f5d4;
+  --accent-2: #7c3aed;
+  --accent-3: #00b4d8;
 
-  /* Glow colors tuned for accent gradient */
-  --glow-cyan: rgba(0, 245, 212, 0.18);
-  --glow-purple: rgba(124, 58, 237, 0.16);
-  --glow-teal: rgba(0, 180, 216, 0.12);
+  /* Glows */
+  --glow-cyan: rgba(0, 245, 212, 0.3);
+  --glow-purple: rgba(124, 58, 237, 0.3);
+  --glow-teal: rgba(0, 180, 216, 0.3);
 }
 
-/* gradient text helper */
+@theme inline {
+  --color-background: var(--bg-void);
+  --color-foreground: #ffffff;
+}
+
+body {
+  background-color: var(--bg-void);
+  color: #e6eef8;
+  font-family: 'Inter', sans-serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+
+  /* DEEP IMMERSIVE BACKGROUND */
+  background-image:
+    radial-gradient(circle at 50% 0%, rgba(56, 189, 248, 0.2) 0%, transparent 60%),
+    /* Top Light Source */
+    radial-gradient(circle at 0% 40%, rgba(139, 92, 246, 0.15) 0%, transparent 50%),
+    /* Left Violet Nebula */
+    radial-gradient(circle at 100% 60%, rgba(14, 165, 233, 0.15) 0%, transparent 50%),
+    /* Right Cyan Nebula */
+    linear-gradient(180deg, #020408 0%, #0B0F19 100%);
+  /* Deep Space Base */
+
+  background-attachment: fixed;
+  background-blend-mode: screen, screen, screen, normal;
+}
+
+/* ========================================
+   ✨ UTILITIES
+   ======================================== */
+
 .gradient-text {
   background: linear-gradient(90deg, var(--accent), var(--accent-2));
   -webkit-background-clip: text;
@@ -28,11 +58,29 @@
   -webkit-text-fill-color: transparent;
 }
 
-/* Logo letter animation */
+.center-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Logo Animation */
 @keyframes floatUp {
-  0% { transform: translateY(0); opacity: 0.95; }
-  50% { transform: translateY(-6px); opacity: 1; }
-  100% { transform: translateY(0); opacity: 0.95; }
+  0% {
+    transform: translateY(0);
+    opacity: 0.95;
+  }
+
+  50% {
+    transform: translateY(-6px);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateY(0);
+    opacity: 0.95;
+  }
 }
 
 .logo-letter {
@@ -41,120 +89,15 @@
   animation: floatUp 3.2s ease-in-out infinite;
 }
 
-.logo-letter:nth-child(odd) { animation-duration: 3.6s; }
-.logo-letter:nth-child(even) { animation-duration: 2.8s; }
-
-@theme inline {
-  --color-background: var(--bg-void);
-  --color-foreground: #ffffff;
+.logo-letter:nth-child(odd) {
+  animation-duration: 3.6s;
 }
 
-body {
-  background-color: #05060a;
-  color: #e6eef8;
-  font-family: 'Inter', sans-serif;
-  min-height: 100vh;
-  overflow-x: hidden;
-  /* Strong neon sci-tech radial gradients */
-  background-image: radial-gradient(600px 400px at 12% 16%, rgba(124,58,237,0.14), transparent 16%),
-                    radial-gradient(500px 350px at 88% 84%, rgba(6,182,212,0.10), transparent 14%),
-                    radial-gradient(1200px 700px at 50% 60%, rgba(16,185,129,0.04), transparent 18%),
-                    linear-gradient(180deg, #020617 0%, #06050b 100%);
-  background-blend-mode: screen, screen, overlay, normal;
-  --neon-boost: 1.18;
+.logo-letter:nth-child(even) {
+  animation-duration: 2.8s;
 }
 
-/* ========================================
-   🧊 DEEP GLASS CARDS
-   ======================================== */
-
-.glass-card {
-  position: relative;
-  background: var(--glass-surface);
-  backdrop-filter: blur(40px);
-  -webkit-backdrop-filter: blur(40px);
-  border: 1px solid var(--glass-border);
-  border-radius: 24px;
-  overflow: hidden;
-  transition: all 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
-}
-
-/* Inner Shine */
-.glass-card::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 100%;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.05) 0%, transparent 100%);
-  pointer-events: none;
-}
-
-/* Hover Effect: Lift & Glow */
-.glass-card:hover {
-  transform: translateY(-8px) scale(1.01);
-  border-color: rgba(255, 255, 255, 0.2);
-  background: rgba(255, 255, 255, 0.05);
-}
-
-/* Ambient Glow behind cards */
-.glow-effect {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-  border-radius: 24px;
-  z-index: -1;
-  opacity: 0;
-  transition: opacity 0.5s ease;
-  filter: blur(60px);
-}
-
-.glass-card:hover .glow-effect {
-  opacity: 0.4;
-}
-
-/* Specific Glow Colors */
-.glow-blue {
-  background: var(--glow-blue);
-}
-
-.glow-purple {
-  background: var(--glow-purple);
-}
-
-.glow-orange {
-  background: var(--glow-orange);
-}
-
-.glow-green {
-  background: var(--glow-green);
-}
-
-/* ========================================
-   ✨ TYPOGRAPHY & DETAILS
-   ======================================== */
-
-.title-display {
-  font-weight: 800;
-  letter-spacing: -0.02em;
-  background: linear-gradient(180deg, #FFFFFF 0%, #AAAAAA 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-.text-secondary {
-  color: #888888;
-  font-weight: 400;
-  line-height: 1.6;
-}
-
-/* ========================================
-   💫 ANIMATIONS
-   ======================================== */
-
+/* Animations */
 .fade-up {
   animation: fadeUp 1s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
   opacity: 0;
@@ -183,111 +126,3 @@ body {
 .delay-400 {
   animation-delay: 0.4s;
 }
-
-/* ========================================
-   Accessibility & Micro-interactions
-   ======================================== */
-
-/* Focus ring for keyboard users */
-.focus-ring:focus,
-.focus-ring:focus-within,
-.glass-card:focus-within {
-  box-shadow: 0 0 0 4px rgba(124, 58, 237, 0.12);
-  outline: none;
-}
-
-/* Module CTA reveal */
-.module-cta {
-  opacity: 0;
-  transform: translateY(6px);
-  transition: opacity 280ms ease, transform 280ms ease;
-}
-
-.glass-card:hover .module-cta,
-.glass-card:focus-within .module-cta,
-.glass-card:active .module-cta {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-/* Slight expansion on hover to emphasize interactivity */
-.glass-card:hover {
-  transform: translateY(-10px) scale(1.015);
-}
-
-/* Hero illustration subtle motion */
-.hero-illustration .rotate-slow {
-  animation: rotate3D 18s linear infinite;
-  transform-origin: center center;
-}
-
-/* Ensure text-secondary is readable */
-.text-secondary { color: #bfc9d9; }
-
-/* Stronger neon glow utilities */
-.neon-strong {
-  filter: drop-shadow(0 6px 18px rgba(124,58,237,0.18)) drop-shadow(0 2px 6px rgba(6,182,212,0.10));
-}
-
-.center-page {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-
-.module-special {
-  transition: transform 0.28s ease, box-shadow 0.28s ease;
-  border-radius: 14px;
-}
-
-.module-special:hover {
-  transform: translateY(-6px) scale(1.01);
-}
-
-.module-accent-ring {
-  box-shadow: 0 6px 30px rgba(124,58,237,0.06) inset, 0 12px 40px rgba(124,58,237,0.04);
-}
-
-/* Hero subtitle styling */
-.hero-subtitle {
-  color: rgba(235,245,255,0.88);
-  max-width: 76ch;
-}
-
-/* Stronger module border and visible contour per theme */
-.module-special {
-  border-radius: 16px;
-  border-width: 1px;
-  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-}
-
-/* Make the left accent bar pop a bit and the module have a subtle neon rim */
-.module-special { position: relative; overflow: visible; }
-
-/* Neon rim using per-module CSS variables: set --accent-gradient and --accent-color on the element */
-.module-special::before {
-  content: '';
-  position: absolute;
-  inset: -6px;
-  z-index: 0;
-  border-radius: 20px;
-  pointer-events: none;
-  background: var(--accent-gradient);
-  filter: blur(16px);
-  opacity: 0.75;
-  mix-blend-mode: screen;
-}
-
-.module-special::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  border-radius: 16px;
-  pointer-events: none;
-  box-shadow: 0 0 0 1px rgba(255,255,255,0.02) inset, 0 8px 30px rgba(0,0,0,0.45) inset;
-}
-
-/* Improve visual separation for the module list */
-.module-list-wrapper { width: 100%; display: flex; flex-direction: column; align-items: center; gap: 18px; }

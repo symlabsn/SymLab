@@ -1,4 +1,4 @@
- 'use client';
+'use client';
 
 import Link from 'next/link';
 import { useRef, useEffect } from 'react';
@@ -14,13 +14,13 @@ export default function ModuleBlock({ href, title, description, accentGradient =
       const rect = el.getBoundingClientRect();
       const x = (e.clientX - rect.left) / rect.width;
       const y = (e.clientY - rect.top) / rect.height;
-      const rx = (y - 0.5) * 6; // rotateX
-      const ry = (x - 0.5) * -10; // rotateY
-      el.style.transform = `perspective(900px) rotateX(${rx}deg) rotateY(${ry}deg) translateZ(0)`;
+      const rx = (y - 0.5) * 4; // Reduced rotation for stability
+      const ry = (x - 0.5) * -4;
+      el.style.transform = `perspective(1000px) rotateX(${rx}deg) rotateY(${ry}deg) scale(1.02)`;
     };
 
     const handleLeave = () => {
-      el.style.transform = '';
+      el.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale(1)';
     };
 
     el.addEventListener('pointermove', handleMove);
@@ -38,7 +38,6 @@ export default function ModuleBlock({ href, title, description, accentGradient =
   const onKeyDown = (e) => {
     if (e.key === 'Enter' || e.key === ' ') {
       e.preventDefault();
-      // simulate click on the inner link
       const a = ref.current.querySelector('a');
       if (a) a.click();
     }
@@ -58,30 +57,34 @@ export default function ModuleBlock({ href, title, description, accentGradient =
       ref={ref}
       tabIndex={0}
       onKeyDown={onKeyDown}
-      className={`group relative block w-full p-8 rounded-xl border-2 bg-slate-900/80 backdrop-blur-md transition-all duration-300 focus-ring ${className}`}
+      className={`group relative block w-full max-w-2xl mx-auto p-10 rounded-2xl border-2 bg-slate-900/60 backdrop-blur-xl transition-all duration-500 ${className}`}
       role="link"
       aria-label={`${title} - ${description}`}
       style={{
-          borderColor: hexToRgba(accentColor, 0.18),
-          boxShadow: `0 12px 40px ${hexToRgba(accentColor, 0.08)}`,
-          ['--accent-color']: accentColor,
-          ['--accent-gradient']: accentGradient
-        }}
+        borderColor: hexToRgba(accentColor, 0.5), // Visible Border
+        boxShadow: `0 0 30px ${hexToRgba(accentColor, 0.15)}, inset 0 0 20px ${hexToRgba(accentColor, 0.05)}`, // Deep Glow
+        ['--accent-color']: accentColor,
+        ['--accent-gradient']: accentGradient
+      }}
     >
-        <div className="glow-effect" style={{ background: `radial-gradient(circle at 20% 30%, ${hexToRgba(accentColor,0.14)}, transparent 35%)` }} />
-        <div style={{ position: 'absolute', left: 0, top: 0, bottom: 0, width: 8, background: accentGradient, borderTopLeftRadius: 14, borderBottomLeftRadius: 14 }} />
-      <div className="relative z-10">
-        <h3 className="text-3xl font-bold mb-3 text-white group-hover:text-white transition-colors">{title}</h3>
-        <p className="text-slate-400 text-lg group-hover:text-slate-200 transition-colors">{description}</p>
+      {/* Top Gradient Line */}
+      <div style={{ position: 'absolute', top: 0, left: '20%', right: '20%', height: 2, background: accentGradient, borderRadius: 99, opacity: 0.8 }} />
+
+      <div className="relative z-10 flex flex-col items-center text-center">
+        <h3
+          className="text-4xl font-black mb-4 tracking-tight text-white group-hover:scale-105 transition-transform duration-300"
+          style={{ textShadow: `0 0 20px ${hexToRgba(accentColor, 0.4)}` }}
+        >
+          {title}
+        </h3>
+        <p className="text-slate-300 text-lg font-medium leading-relaxed max-w-lg">
+          {description}
+        </p>
       </div>
 
       <Link href={href} className="absolute inset-0" aria-hidden>
         <span />
       </Link>
-
-      <div className="absolute right-6 top-1/2 -translate-y-1/2 module-cta">
-        <span className="px-4 py-2 rounded-full font-semibold text-white" style={{ background: accentGradient, boxShadow: `0 6px 18px ${hexToRgba(accentColor,0.12)}` }}>Explorer</span>
-      </div>
     </div>
   );
 }
