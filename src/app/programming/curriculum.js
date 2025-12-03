@@ -1,4 +1,4 @@
-// Curriculum Python Scientifique Complet
+﻿// Curriculum Python Scientifique Complet
 // Focus majeur sur SymPy pour le calcul symbolique
 
 export const pythonCurriculum = [
@@ -99,24 +99,12 @@ print(solution)  # [-2, 2]
 
 # En maths, cela prendrait plusieurs étapes !
 # Avec Python : instantané et exact !`,
-                tip: '🎯 Python peut résoudre en 1 seconde ce qui prendrait 10 minutes à la main !'
-            }
-        ]
-    },
-
-    {
-        id: 'fundamentals',
-        title: '2. Fondamentaux de Python',
-        icon: '📚',
-        color: '#7C3AED',
-        description: 'Les briques de base pour construire vos programmes scientifiques',
-        duration: '4 heures',
-        lessons: [
-            {
-                title: 'Variables et types de données',
-                duration: '40 min',
-                analogy: '📦 Une variable est comme une boîte étiquetée où vous rangez des choses',
-                content: `Comprendre les variables
+                lessons: [
+                    {
+                        title: 'Variables et types de données',
+                        duration: '40 min',
+                        analogy: '📦 Une variable est comme une boîte étiquetée où vous rangez des choses',
+                        content: `Comprendre les variables
 
 Imaginez votre chambre avec des boîtes :
 - Boîte "chaussures" → contient vos chaussures
@@ -148,13 +136,13 @@ Règles de nommage :
 - Utilisez des noms clairs : "masse" pas "m"
 - Pas d'espaces : "vitesse_lumiere" pas "vitesse lumiere"
 - Pas de caractères spéciaux : "energie" pas "énergie"`,
-                keyPoints: [
-                    'Variable = boîte étiquetée pour stocker des données',
-                    'Python devine automatiquement le type',
-                    'Noms clairs = code compréhensible',
-                    'Utilisez snake_case : ma_variable'
-                ],
-                code: `# Créer des variables (ranger dans des boîtes)
+                        keyPoints: [
+                            'Variable = boîte étiquetée pour stocker des données',
+                            'Python devine automatiquement le type',
+                            'Noms clairs = code compréhensible',
+                            'Utilisez snake_case : ma_variable'
+                        ],
+                        code: `# Créer des variables (ranger dans des boîtes)
 masse = 5.0  # kg (nombre décimal)
 vitesse = 10  # m/s (nombre entier)
 nom_particule = "électron"  # texte
@@ -177,13 +165,13 @@ print(f"\\nÉnergie cinétique : {energie_cinetique} J")
 # Les variables peuvent changer !
 vitesse = 20  # Nouvelle valeur
 print(f"Nouvelle vitesse : {vitesse} m/s")`,
-                tip: '💡 Utilisez des noms descriptifs : "temperature_eau" au lieu de "t" !'
-            },
-            {
-                title: 'Opérateurs arithmétiques',
-                duration: '45 min',
-                analogy: '🧮 Les opérateurs sont les boutons de votre calculatrice',
-                content: `Python = Super Calculatrice
+                        tip: '💡 Utilisez des noms descriptifs : "temperature_eau" au lieu de "t" !'
+                    },
+                    {
+                        title: 'Opérateurs arithmétiques',
+                        duration: '45 min',
+                        analogy: '🧮 Les opérateurs sont les boutons de votre calculatrice',
+                        content: `Python = Super Calculatrice
 
 Votre calculatrice a des boutons :
 - + pour additionner
@@ -218,13 +206,13 @@ Les opérateurs de base :
 
 Ordre des opérations (PEMDAS) :
 Comme en maths : Parenthèses → Exposants → Multiplication/Division → Addition/Soustraction`,
-                keyPoints: [
-                    '** pour les puissances (pas ^)',
-                    '/ donne toujours un décimal',
-                    '// pour division entière, % pour le reste',
-                    'Utilisez des parenthèses pour clarifier'
-                ],
-                code: `# Opérations de base
+                        keyPoints: [
+                            '** pour les puissances (pas ^)',
+                            '/ donne toujours un décimal',
+                            '// pour division entière, % pour le reste',
+                            'Utilisez des parenthèses pour clarifier'
+                        ],
+                        code: `# Opérations de base
 a = 10
 b = 3
 
@@ -253,13 +241,13 @@ x2 = (-b - math.sqrt(discriminant)) / (2*a)
 
 print(f"Solutions : x₁ = {x1}, x₂ = {x2}")
 print(f"Vérification : x₁ × x₂ = {x1 * x2} (devrait être {c/a})")`,
-                tip: '🎯 Pour les racines carrées : import math puis math.sqrt(nombre)'
-            },
-            {
-                title: 'Structures de contrôle : if/elif/else',
-                duration: '50 min',
-                analogy: '🚦 Les conditions sont comme un feu tricolore : si vert → avancer',
-                content: `Apprendre à Python à décider
+                        tip: '🎯 Pour les racines carrées : import math puis math.sqrt(nombre)'
+                    },
+                    {
+                        title: 'Structures de contrôle : if/elif/else',
+                        duration: '50 min',
+                        analogy: '🚦 Les conditions sont comme un feu tricolore : si vert → avancer',
+                        content: `Apprendre à Python à décider
 
 Analogie de la vie réelle :
 - SI il pleut → prendre un parapluie
@@ -280,13 +268,13 @@ Opérateurs logiques :
 - and (et) → Les deux doivent être vrais
 - or (ou) → Au moins un doit être vrai
 - not (non) → Inverse le résultat`,
-                keyPoints: [
-                    'if = "si", elif = "sinon si", else = "sinon"',
-                    'Indentation (espaces) = OBLIGATOIRE en Python',
-                    '== pour comparer, = pour assigner',
-                    'and/or pour combiner des conditions'
-                ],
-                code: `# Exemple 1 : Classifier une température
+                        keyPoints: [
+                            'if = "si", elif = "sinon si", else = "sinon"',
+                            'Indentation (espaces) = OBLIGATOIRE en Python',
+                            '== pour comparer, = pour assigner',
+                            'and/or pour combiner des conditions'
+                        ],
+                        code: `# Exemple 1 : Classifier une température
 temperature = 25
 
 if temperature > 30:
@@ -322,13 +310,13 @@ if vitesse > 0 and masse > 0:
     print(f"✅ Énergie cinétique : {energie} J")
 else:
     print("❌ Vitesse ou masse invalide !")`,
-                tip: '⚠️ L\'indentation (4 espaces) est OBLIGATOIRE en Python !'
-            },
-            {
-                title: 'Boucles for et while',
-                duration: '60 min',
-                analogy: '🔁 Une boucle, c\'est comme dire "fais ça 100 fois" au lieu de l\'écrire 100 fois',
-                content: `Le pouvoir de la répétition
+                        tip: '⚠️ L\'indentation (4 espaces) est OBLIGATOIRE en Python !'
+                    },
+                    {
+                        title: 'Boucles for et while',
+                        duration: '60 min',
+                        analogy: '🔁 Une boucle, c\'est comme dire "fais ça 100 fois" au lieu de l\'écrire 100 fois',
+                        content: `Le pouvoir de la répétition
 
 Imaginez que vous devez :
 - Compter de 1 à 100
@@ -351,13 +339,13 @@ range() : Le compteur magique
 - range(5) → 0, 1, 2, 3, 4 (5 nombres)
 - range(1, 6) → 1, 2, 3, 4, 5
 - range(0, 10, 2) → 0, 2, 4, 6, 8 (de 2 en 2)`,
-                keyPoints: [
-                    'for = nombre de répétitions connu',
-                    'while = répéter jusqu\'à condition',
-                    'range(n) commence à 0, pas à 1 !',
-                    'Indentation obligatoire dans les boucles'
-                ],
-                code: `# Exemple 1 : Boucle FOR simple
+                        keyPoints: [
+                            'for = nombre de répétitions connu',
+                            'while = répéter jusqu\'à condition',
+                            'range(n) commence à 0, pas à 1 !',
+                            'Indentation obligatoire dans les boucles'
+                        ],
+                        code: `# Exemple 1 : Boucle FOR simple
 print("=== Compter de 1 à 5 ===")
 for i in range(1, 6):
     print(f"Nombre : {i}")
@@ -400,13 +388,13 @@ while True:
     x = x_nouveau
 
 print(f"\\n√2 ≈ {x:.6f} (valeur exacte: 1.414214)")`,
-                tip: '🔄 break = sortir de la boucle, continue = passer à l\'itération suivante'
-            },
-            {
-                title: 'Fonctions : Réutiliser votre code',
-                duration: '50 min',
-                analogy: '🎯 Une fonction est comme une recette : vous la définissez une fois, vous l\'utilisez partout',
-                content: `Créer vos propres outils
+                        tip: '🔄 break = sortir de la boucle, continue = passer à l\'itération suivante'
+                    },
+                    {
+                        title: 'Fonctions : Réutiliser votre code',
+                        duration: '50 min',
+                        analogy: '🎯 Une fonction est comme une recette : vous la définissez une fois, vous l\'utilisez partout',
+                        content: `Créer vos propres outils
 
 Imaginez que vous cuisinez souvent des crêpes. Au lieu de réécrire la recette à chaque fois, vous la notez une fois et vous la réutilisez !
 
@@ -424,13 +412,13 @@ Avantages :
 - Lisibilité : Code organisé et clair
 - Maintenance : Modifier à un seul endroit
 - Testabilité : Facile à vérifier`,
-                keyPoints: [
-                    'def pour définir une fonction',
-                    'return pour renvoyer un résultat',
-                    'Paramètres = entrées de la fonction',
-                    'Docstring pour documenter'
-                ],
-                code: `# Fonction simple
+                        keyPoints: [
+                            'def pour définir une fonction',
+                            'return pour renvoyer un résultat',
+                            'Paramètres = entrées de la fonction',
+                            'Docstring pour documenter'
+                        ],
+                        code: `# Fonction simple
 def aire_cercle(rayon):
     """Calcule l'aire d'un cercle."""
     import math
@@ -464,24 +452,12 @@ donnees = [10, 20, 15, 25, 30]
 moy, mini, maxi = statistiques(donnees)
 print(f"\\nStatistiques de {donnees}:")
 print(f"Moyenne: {moy}, Min: {mini}, Max: {maxi}")`,
-                tip: '📝 Utilisez des docstrings pour expliquer ce que fait votre fonction !'
-            }
-        ]
-    },
-
-    {
-        id: 'data-structures',
-        title: '3. Structures de Données',
-        icon: '🗂️',
-        color: '#FF9F1C',
-        description: 'Organiser et manipuler vos données scientifiques',
-        duration: '3 heures',
-        lessons: [
-            {
-                title: 'Listes : Collections ordonnées',
-                duration: '50 min',
-                analogy: '📋 Une liste est comme un carnet où vous notez des mesures dans l\'ordre',
-                content: `Maîtriser les listes
+                        lessons: [
+                            {
+                                title: 'Listes : Collections ordonnées',
+                                duration: '50 min',
+                                analogy: '📋 Une liste est comme un carnet où vous notez des mesures dans l\'ordre',
+                                content: `Maîtriser les listes
 
 Une liste est une collection ordonnée d'éléments. Imaginez un carnet de laboratoire où vous notez vos mesures dans l'ordre.
 
@@ -496,13 +472,13 @@ Opérations essentielles :
 - Ajout : liste.append(element)
 - Suppression : liste.remove(element)
 - Slicing : liste[1:3] (éléments 1 et 2)`,
-                keyPoints: [
-                    'Créer : ma_liste = [1, 2, 3]',
-                    'Index commence à 0',
-                    'Index négatif : -1 = dernier élément',
-                    'List comprehension pour créer rapidement'
-                ],
-                code: `# Créer une liste de mesures
+                                keyPoints: [
+                                    'Créer : ma_liste = [1, 2, 3]',
+                                    'Index commence à 0',
+                                    'Index négatif : -1 = dernier élément',
+                                    'List comprehension pour créer rapidement'
+                                ],
+                                code: `# Créer une liste de mesures
 temperatures = [20.5, 21.0, 19.8, 22.3, 20.9]
 
 # Accès aux éléments
@@ -529,13 +505,13 @@ mesures = [1.2, 1.5, 1.3, 1.4, 1.6]
 moy = sum(mesures) / len(mesures)
 ecarts = [abs(m - moy) for m in mesures]
 print(f"\\nÉcarts à la moyenne: {ecarts}")`,
-                tip: '⚡ Les list comprehensions sont plus rapides que les boucles for !'
-            },
-            {
-                title: 'Dictionnaires : Données structurées',
-                duration: '55 min',
-                analogy: '📖 Un dictionnaire est comme un annuaire : chercher par nom (clé) pour trouver le numéro (valeur)',
-                content: `Organiser vos données scientifiques
+                                tip: '⚡ Les list comprehensions sont plus rapides que les boucles for !'
+                            },
+                            {
+                                title: 'Dictionnaires : Données structurées',
+                                duration: '55 min',
+                                analogy: '📖 Un dictionnaire est comme un annuaire : chercher par nom (clé) pour trouver le numéro (valeur)',
+                                content: `Organiser vos données scientifiques
 
 Un dictionnaire stocke des paires clé-valeur. Parfait pour les données scientifiques structurées !
 
@@ -552,13 +528,13 @@ Avantages :
 - Structure claire
 - Données hétérogènes
 - Facile à modifier`,
-                keyPoints: [
-                    'Créer : mon_dict = {"cle": valeur}',
-                    'Accès : mon_dict["cle"]',
-                    'Ajout : mon_dict["nouvelle_cle"] = valeur',
-                    'Vérifier : "cle" in mon_dict'
-                ],
-                code: `# Constantes physiques
+                                keyPoints: [
+                                    'Créer : mon_dict = {"cle": valeur}',
+                                    'Accès : mon_dict["cle"]',
+                                    'Ajout : mon_dict["nouvelle_cle"] = valeur',
+                                    'Vérifier : "cle" in mon_dict'
+                                ],
+                                code: `# Constantes physiques
 constantes = {
     'c': 299792458,      # m/s
     'h': 6.62607015e-34, # J⋅s
@@ -590,13 +566,13 @@ for i in range(1, 6):
     resultats[f"experience_{i}"] = i**2
 
 print(f"\\nRésultats: {resultats}")`,
-                tip: '🔑 Utilisez des clés descriptives : "temperature_eau" pas "t1" !'
-            },
-            {
-                title: 'Tuples et ensembles',
-                duration: '40 min',
-                analogy: '🔒 Tuple = liste verrouillée, Ensemble = collection d\'éléments uniques',
-                content: `Autres structures utiles
+                                tip: '🔑 Utilisez des clés descriptives : "temperature_eau" pas "t1" !'
+                            },
+                            {
+                                title: 'Tuples et ensembles',
+                                duration: '40 min',
+                                analogy: '🔒 Tuple = liste verrouillée, Ensemble = collection d\'éléments uniques',
+                                content: `Autres structures utiles
 
 Tuples (immutables) :
 - Comme une liste, mais non modifiable
@@ -615,13 +591,13 @@ Quand utiliser quoi ?
 - Tuple : Données fixes, coordonnées
 - Ensemble : Éléments uniques, opérations ensemblistes
 - Dictionnaire : Données structurées clé-valeur`,
-                keyPoints: [
-                    'Tuple : mon_tuple = (1, 2, 3)',
-                    'Ensemble : mon_set = {1, 2, 3}',
-                    'Tuples = immutables (non modifiables)',
-                    'Ensembles = éléments uniques'
-                ],
-                code: `# Tuple: Coordonnées (x, y, z)
+                                keyPoints: [
+                                    'Tuple : mon_tuple = (1, 2, 3)',
+                                    'Ensemble : mon_set = {1, 2, 3}',
+                                    'Tuples = immutables (non modifiables)',
+                                    'Ensembles = éléments uniques'
+                                ],
+                                code: `# Tuple: Coordonnées (x, y, z)
 position = (10.5, 20.3, 5.0)
 x, y, z = position  # Unpacking
 print(f"Position: x={x}, y={y}, z={z}")
@@ -646,24 +622,24 @@ def position_vitesse(t):
 
 s, v = position_vitesse(5)
 print(f"\\nÀ t=5s: position={s}m, vitesse={v}m/s")`,
-                tip: '💡 Utilisez des tuples pour des données qui ne doivent pas changer !'
-            }
-        ]
-    },
+                                tip: '💡 Utilisez des tuples pour des données qui ne doivent pas changer !'
+                            }
+                        ]
+                    },
 
-    {
-        id: 'scientific-python',
-        title: '4. Python Scientifique',
-        icon: '🔬',
-        color: '#10B981',
-        description: 'NumPy, Matplotlib, SciPy et Pandas pour la science',
-        duration: '6 heures',
-        lessons: [
-            {
-                title: 'NumPy : Calcul numérique ultra-rapide',
-                duration: '75 min',
-                analogy: '⚡ NumPy est comme une calculatrice qui fait 1 million de calculs en 1 seconde',
-                content: `La puissance du calcul vectorisé
+                    {
+                        id: 'scientific-python',
+                        title: '4. Python Scientifique',
+                        icon: '🔬',
+                        color: '#10B981',
+                        description: 'NumPy, Matplotlib, SciPy et Pandas pour la science',
+                        duration: '6 heures',
+                        lessons: [
+                            {
+                                title: 'NumPy : Calcul numérique ultra-rapide',
+                                duration: '75 min',
+                                analogy: '⚡ NumPy est comme une calculatrice qui fait 1 million de calculs en 1 seconde',
+                                content: `La puissance du calcul vectorisé
 
 NumPy (Numerical Python) est LA bibliothèque pour le calcul numérique.
 
@@ -679,13 +655,13 @@ Concepts clés :
 - Array : Tableau de nombres (1D, 2D, 3D...)
 - Vectorisation : Opérations sur tous les éléments à la fois
 - Broadcasting : Opérations entre arrays de tailles différentes`,
-                keyPoints: [
-                    'import numpy as np (convention)',
-                    'np.array() pour créer un array',
-                    'Opérations vectorisées = RAPIDES',
-                    'Base de NumPy, SciPy, Pandas, etc.'
-                ],
-                code: `import numpy as np
+                                keyPoints: [
+                                    'import numpy as np (convention)',
+                                    'np.array() pour créer un array',
+                                    'Opérations vectorisées = RAPIDES',
+                                    'Base de NumPy, SciPy, Pandas, etc.'
+                                ],
+                                code: `import numpy as np
 
 # Créer des arrays
 vecteur = np.array([1, 2, 3, 4, 5])
@@ -729,13 +705,13 @@ print(f"\\nVitesse (1M opérations):")
 print(f"Liste Python: {temps_liste:.4f}s")
 print(f"NumPy: {temps_numpy:.4f}s")
 print(f"NumPy est {temps_liste/temps_numpy:.0f}x plus rapide!")`,
-                tip: '🚀 Utilisez TOUJOURS NumPy pour les calculs numériques intensifs !'
-            },
-            {
-                title: 'Matplotlib : Visualisation de données',
-                duration: '70 min',
-                analogy: '🎨 Matplotlib est votre atelier d\'artiste pour créer des graphiques scientifiques',
-                content: `Créer des graphiques de qualité publication
+                                tip: '🚀 Utilisez TOUJOURS NumPy pour les calculs numériques intensifs !'
+                            },
+                            {
+                                title: 'Matplotlib : Visualisation de données',
+                                duration: '70 min',
+                                analogy: '🎨 Matplotlib est votre atelier d\'artiste pour créer des graphiques scientifiques',
+                                content: `Créer des graphiques de qualité publication
 
 Matplotlib permet de créer tous types de graphiques scientifiques.
 
@@ -754,13 +730,13 @@ Anatomie d'un graphique :
 - Labels : Titres et légendes
 
 Analogie : C'est comme peindre un tableau, mais avec des données !`,
-                keyPoints: [
-                    'import matplotlib.pyplot as plt',
-                    'plt.plot() pour tracer',
-                    'plt.show() pour afficher',
-                    'Personnalisation complète possible'
-                ],
-                code: `import numpy as np
+                                keyPoints: [
+                                    'import matplotlib.pyplot as plt',
+                                    'plt.plot() pour tracer',
+                                    'plt.show() pour afficher',
+                                    'Personnalisation complète possible'
+                                ],
+                                code: `import numpy as np
 import matplotlib.pyplot as plt
 
 # Données
@@ -813,13 +789,13 @@ ax.set_title('Comparaison Expérience vs Théorie', fontsize=14)
 ax.legend()
 ax.grid(True, alpha=0.3)
 plt.show()`,
-                tip: '📊 Utilisez plt.savefig("graph.png", dpi=300) pour sauvegarder en haute qualité !'
-            },
-            {
-                title: 'SciPy : Algorithmes scientifiques avancés',
-                duration: '80 min',
-                analogy: '🧪 SciPy est votre boîte à outils de laboratoire numérique',
-                content: `Algorithmes scientifiques prêts à l'emploi
+                                tip: '📊 Utilisez plt.savefig("graph.png", dpi=300) pour sauvegarder en haute qualité !'
+                            },
+                            {
+                                title: 'SciPy : Algorithmes scientifiques avancés',
+                                duration: '80 min',
+                                analogy: '🧪 SciPy est votre boîte à outils de laboratoire numérique',
+                                content: `Algorithmes scientifiques prêts à l'emploi
 
 SciPy étend NumPy avec des algorithmes scientifiques avancés.
 
@@ -832,13 +808,13 @@ Modules principaux :
 - scipy.interpolate : Interpolation
 
 Analogie : Si NumPy est votre calculatrice, SciPy est votre laboratoire complet !`,
-                keyPoints: [
-                    'from scipy import module',
-                    'Intégration numérique avec integrate',
-                    'Optimisation avec optimize',
-                    'Statistiques avec stats'
-                ],
-                code: `from scipy import integrate, optimize, stats
+                                keyPoints: [
+                                    'from scipy import module',
+                                    'Intégration numérique avec integrate',
+                                    'Optimisation avec optimize',
+                                    'Statistiques avec stats'
+                                ],
+                                code: `from scipy import integrate, optimize, stats
 import numpy as np
 
 print("=== 1. INTÉGRATION NUMÉRIQUE ===")
@@ -894,13 +870,13 @@ def modele(x, a, b):
 params, covariance = optimize.curve_fit(modele, x_data, y_data)
 a, b = params
 print(f"Ajustement: y = {a:.2f}x + {b:.2f}")`,
-                tip: '🔬 SciPy est essentiel pour l\'analyse de données expérimentales !'
-            },
-            {
-                title: 'Pandas : Analyse de données tabulaires',
-                duration: '75 min',
-                analogy: '📊 Pandas est comme Excel, mais en 100x plus puissant',
-                content: `Manipuler des données comme un pro
+                                tip: '🔬 SciPy est essentiel pour l\'analyse de données expérimentales !'
+                            },
+                            {
+                                title: 'Pandas : Analyse de données tabulaires',
+                                duration: '75 min',
+                                analogy: '📊 Pandas est comme Excel, mais en 100x plus puissant',
+                                content: `Manipuler des données comme un pro
 
 Pandas facilite la manipulation et l'analyse de données tabulaires.
 
@@ -916,13 +892,13 @@ Opérations courantes :
 - Groupement et agrégation
 - Statistiques descriptives
 - Fusion de données`,
-                keyPoints: [
-                    'import pandas as pd',
-                    'DataFrame = tableau de données',
-                    'Lecture facile de CSV/Excel',
-                    'Analyse statistique intégrée'
-                ],
-                code: `import pandas as pd
+                                keyPoints: [
+                                    'import pandas as pd',
+                                    'DataFrame = tableau de données',
+                                    'Lecture facile de CSV/Excel',
+                                    'Analyse statistique intégrée'
+                                ],
+                                code: `import pandas as pd
 import numpy as np
 
 # Créer un DataFrame (tableau de données)
@@ -977,25 +953,13 @@ print("\\n=== SÉRIE TEMPORELLE ===")
 print(serie_temp)
 print(f"\\nMoyenne: {serie_temp.mean():.2f}°C")
 print(f"Max: {serie_temp.max():.2f}°C")`,
-                tip: '📈 Pandas est parfait pour analyser des données expérimentales !'
-            }
-        ]
-    },
-
-    {
-        id: 'sympy-complete',
-        title: '5. SymPy - Maîtrise Complète du Calcul Symbolique',
-        icon: '∑',
-        color: '#00F5D4',
-        description: 'Le module le plus puissant pour les mathématiques symboliques',
-        duration: '12 heures',
-        isHighlight: true,
-        lessons: [
-            {
-                title: 'Introduction au calcul symbolique',
-                duration: '45 min',
-                analogy: '🎯 SymPy fait des maths EXACTES, pas approximatives',
-                content: `Comprendre le calcul symbolique
+                                isHighlight: true,
+                                lessons: [
+                                    {
+                                        title: 'Introduction au calcul symbolique',
+                                        duration: '45 min',
+                                        analogy: '🎯 SymPy fait des maths EXACTES, pas approximatives',
+                                        content: `Comprendre le calcul symbolique
 
 Différence fondamentale :
 - NumPy (numérique) : 1/3 = 0.333333... (approximation)
@@ -1020,13 +984,13 @@ Applications :
 - Simplifier des expressions complexes
 - Résoudre des équations différentielles
 - Faire de l'algèbre linéaire symbolique`,
-                keyPoints: [
-                    'Calcul exact vs approximatif',
-                    'Manipulation de symboles mathématiques',
-                    'Comme faire des maths sur papier',
-                    'Indispensable pour la physique théorique'
-                ],
-                code: `from sympy import *
+                                        keyPoints: [
+                                            'Calcul exact vs approximatif',
+                                            'Manipulation de symboles mathématiques',
+                                            'Comme faire des maths sur papier',
+                                            'Indispensable pour la physique théorique'
+                                        ],
+                                        code: `from sympy import *
 
 # Créer des symboles
 x, y, z = symbols('x y z')
@@ -1052,14 +1016,14 @@ print(f"Factorisé : {factorise}")  # (x-2)(x+2)
 import numpy as np
 print(f"NumPy : 1/3 = {np.array(1/3)}")  # 0.333...
 print(f"SymPy : 1/3 = {Rational(1, 3)}")  # 1/3 (exact)`,
-                tip: '⚡ SymPy garde TOUJOURS la précision exacte, crucial en physique !'
-            },
+                                        tip: '⚡ SymPy garde TOUJOURS la précision exacte, crucial en physique !'
+                                    },
 
-            {
-                title: 'Algèbre : Simplification et manipulation',
-                duration: '60 min',
-                analogy: '🧮 SymPy est votre assistant mathématique personnel',
-                content: `Maîtriser l'algèbre symbolique
+                                    {
+                                        title: 'Algèbre : Simplification et manipulation',
+                                        duration: '60 min',
+                                        analogy: '🧮 SymPy est votre assistant mathématique personnel',
+                                        content: `Maîtriser l'algèbre symbolique
 
 SymPy peut faire TOUTES les manipulations algébriques que vous faites à la main :
 
@@ -1079,13 +1043,13 @@ SymPy peut faire TOUTES les manipulations algébriques que vous faites à la mai
    - Remplacer x par une valeur ou une autre expression
 
 Analogie : Imaginez un professeur de maths qui fait tous vos calculs instantanément, sans erreur, et qui vous montre chaque étape !`,
-                keyPoints: [
-                    'simplify() pour simplifier',
-                    'expand() pour développer',
-                    'factor() pour factoriser',
-                    'subs() pour substituer'
-                ],
-                code: `from sympy import *
+                                        keyPoints: [
+                                            'simplify() pour simplifier',
+                                            'expand() pour développer',
+                                            'factor() pour factoriser',
+                                            'subs() pour substituer'
+                                        ],
+                                        code: `from sympy import *
 
 x, y, a, b = symbols('x y a b')
 
@@ -1128,14 +1092,14 @@ print(f"Pour x=5 : {resultat}")
 # Remplacer x par une autre expression
 resultat2 = expr.subs(x, y + 1)
 print(f"Pour x=y+1 : {resultat2}")`,
-                tip: '🎨 Utilisez together() pour mettre au même dénominateur !'
-            },
+                                        tip: '🎨 Utilisez together() pour mettre au même dénominateur !'
+                                    },
 
-            {
-                title: 'Résolution d\'équations algébriques',
-                duration: '75 min',
-                analogy: '🔍 SymPy trouve TOUTES les solutions, même complexes',
-                content: `Résoudre des équations avec SymPy
+                                    {
+                                        title: 'Résolution d\'équations algébriques',
+                                        duration: '75 min',
+                                        analogy: '🔍 SymPy trouve TOUTES les solutions, même complexes',
+                                        content: `Résoudre des équations avec SymPy
 
 SymPy peut résoudre :
 - Équations linéaires : 2x + 3 = 7
@@ -1151,13 +1115,13 @@ Types de solutions :
 - Solutions complexes
 - Solutions paramétriques
 - Solutions multiples`,
-                keyPoints: [
-                    'solve() résout presque tout',
-                    'Eq() pour créer des équations',
-                    'solveset() pour ensembles de solutions',
-                    'Trouve solutions réelles ET complexes'
-                ],
-                code: `from sympy import *
+                                        keyPoints: [
+                                            'solve() résout presque tout',
+                                            'Eq() pour créer des équations',
+                                            'solveset() pour ensembles de solutions',
+                                            'Trouve solutions réelles ET complexes'
+                                        ],
+                                        code: `from sympy import *
 
 x, y, a, b, c = symbols('x y a b c')
 
@@ -1213,14 +1177,14 @@ print("\\n=== INÉQUATIONS ===")
 ineq = x**2 - 4 > 0
 sol_ineq = solve(ineq, x)
 print(f"x² - 4 > 0 → {sol_ineq}")`,
-                tip: '🔬 Pour les équations physiques, utilisez des symboles avec unités !'
-            },
+                                        tip: '🔬 Pour les équations physiques, utilisez des symboles avec unités !'
+                                    },
 
-            {
-                title: 'Calcul différentiel : Dérivées',
-                duration: '60 min',
-                analogy: '📈 La dérivée mesure la vitesse de changement',
-                content: `Maîtriser les dérivées avec SymPy
+                                    {
+                                        title: 'Calcul différentiel : Dérivées',
+                                        duration: '60 min',
+                                        analogy: '📈 La dérivée mesure la vitesse de changement',
+                                        content: `Maîtriser les dérivées avec SymPy
 
 La dérivée, c'est :
 - La pente d'une courbe en un point
@@ -1242,13 +1206,13 @@ Applications en physique :
 - Cinématique : position → vitesse → accélération
 - Électricité : charge → courant
 - Thermodynamique : énergie → puissance`,
-                keyPoints: [
-                    'diff(f, x) pour dériver',
-                    'diff(f, x, n) pour dérivée n-ième',
-                    'Dérivées partielles avec plusieurs variables',
-                    'Applications physiques directes'
-                ],
-                code: `from sympy import *
+                                        keyPoints: [
+                                            'diff(f, x) pour dériver',
+                                            'diff(f, x, n) pour dérivée n-ième',
+                                            'Dérivées partielles avec plusieurs variables',
+                                            'Applications physiques directes'
+                                        ],
+                                        code: `from sympy import *
 
 x, t, a, b = symbols('x t a b')
 
@@ -1324,14 +1288,14 @@ f12 = x**2 * y + x * y**2
 print(f"f(x,y) = {f12}")
 print(f"∂f/∂x = {diff(f12, x)}")
 print(f"∂f/∂y = {diff(f12, y)}")`,
-                tip: '⚡ Utilisez lambdify() pour convertir en fonction Python rapide !'
-            },
+                                        tip: '⚡ Utilisez lambdify() pour convertir en fonction Python rapide !'
+                                    },
 
-            {
-                title: 'Calcul intégral : Primitives et intégrales',
-                duration: '75 min',
-                analogy: '📊 L\'intégrale calcule l\'aire sous une courbe',
-                content: `Maîtriser l'intégration avec SymPy
+                                    {
+                                        title: 'Calcul intégral : Primitives et intégrales',
+                                        duration: '75 min',
+                                        analogy: '📊 L\'intégrale calcule l\'aire sous une courbe',
+                                        content: `Maîtriser l'intégration avec SymPy
 
 L'intégrale, c'est :
 - L'aire sous une courbe
@@ -1358,13 +1322,13 @@ Applications physiques :
 - Charge électrique : Q = ∫ I dt
 - Centre de masse
 - Moment d'inertie`,
-                keyPoints: [
-                    'integrate(f, x) pour primitive',
-                    'integrate(f, (x, a, b)) pour définie',
-                    'SymPy trouve des primitives exactes',
-                    'Applications directes en physique'
-                ],
-                code: `from sympy import *
+                                        keyPoints: [
+                                            'integrate(f, x) pour primitive',
+                                            'integrate(f, (x, a, b)) pour définie',
+                                            'SymPy trouve des primitives exactes',
+                                            'Applications directes en physique'
+                                        ],
+                                        code: `from sympy import *
 
 x, t, a, b = symbols('x t a b')
 
@@ -1442,14 +1406,14 @@ x_cm = integrate(x * rho, (x, 0, 1)) / M
 print(f"Densité : ρ(x) = {rho}")
 print(f"Masse totale : M = {M}")
 print(f"Centre de masse : x_cm = {x_cm}")`,
-                tip: '🎯 Pour vérifier : dérivez le résultat, vous devez retrouver la fonction !'
-            },
+                                        tip: '🎯 Pour vérifier : dérivez le résultat, vous devez retrouver la fonction !'
+                                    },
 
-            {
-                title: 'Équations différentielles ordinaires (EDO)',
-                duration: '90 min',
-                analogy: '🌊 Les EDO décrivent comment les choses changent dans le temps',
-                content: `Résoudre des équations différentielles avec SymPy
+                                    {
+                                        title: 'Équations différentielles ordinaires (EDO)',
+                                        duration: '90 min',
+                                        analogy: '🌊 Les EDO décrivent comment les choses changent dans le temps',
+                                        content: `Résoudre des équations différentielles avec SymPy
 
 Une équation différentielle relie une fonction à ses dérivées.
 
@@ -1472,13 +1436,13 @@ EDO classiques :
 - Oscillateur harmonique : d²y/dt² + ω²y = 0
 - Chute libre avec frottement : m(dv/dt) = -mg - kv
 - Circuit RC : RC(dV/dt) + V = E`,
-                keyPoints: [
-                    'dsolve() résout les EDO',
-                    'Function() pour déclarer une fonction inconnue',
-                    'ics={} pour conditions initiales',
-                    'Crucial pour la physique et l\'ingénierie'
-                ],
-                code: `from sympy import *
+                                        keyPoints: [
+                                            'dsolve() résout les EDO',
+                                            'Function() pour déclarer une fonction inconnue',
+                                            'ics={} pour conditions initiales',
+                                            'Crucial pour la physique et l\'ingénierie'
+                                        ],
+                                        code: `from sympy import *
 
 t = symbols('t')
 y = Function('y')
@@ -1550,14 +1514,14 @@ eq6 = Eq(y(t).diff(t, 3) + y(t).diff(t, 2) - 2*y(t), 0)
 sol6 = dsolve(eq6, y(t))
 print(f"d³y/dt³ + d²y/dt² - 2y = 0")
 print(f"Solution : {sol6}")`,
-                tip: '🔬 Pour les EDO complexes, utilisez aussi scipy.integrate.odeint !'
-            },
+                                        tip: '🔬 Pour les EDO complexes, utilisez aussi scipy.integrate.odeint !'
+                                    },
 
-            {
-                title: 'Algèbre linéaire symbolique',
-                duration: '75 min',
-                analogy: '🎯 Les matrices sont des transformations géométriques',
-                content: `Maîtriser l'algèbre linéaire avec SymPy
+                                    {
+                                        title: 'Algèbre linéaire symbolique',
+                                        duration: '75 min',
+                                        analogy: '🎯 Les matrices sont des transformations géométriques',
+                                        content: `Maîtriser l'algèbre linéaire avec SymPy
 
 Les matrices et vecteurs sont partout en science :
 - Transformations géométriques
@@ -1581,13 +1545,13 @@ Applications :
 - Analyse de stabilité
 - Transformations 3D (graphisme)
 - Mécanique quantique (opérateurs)`,
-                keyPoints: [
-                    'Matrix() pour créer des matrices',
-                    'det() pour déterminant',
-                    'inv() pour inverse',
-                    'eigenvals() et eigenvects() pour valeurs/vecteurs propres'
-                ],
-                code: `from sympy import *
+                                        keyPoints: [
+                                            'Matrix() pour créer des matrices',
+                                            'det() pour déterminant',
+                                            'inv() pour inverse',
+                                            'eigenvals() et eigenvects() pour valeurs/vecteurs propres'
+                                        ],
+                                        code: `from sympy import *
 
 print("=== CRÉATION DE MATRICES ===")
 # Matrice 2x2
@@ -1695,37 +1659,59 @@ print(f"Après rotation : {v_rot.T}")
 # Pour θ = π/4
 v_rot_45 = v_rot.subs(theta, pi/4)
 print(f"Pour θ=45° : {v_rot_45.T}")`,
-                tip: '🎨 Utilisez .evalf() pour obtenir des valeurs numériques !'
-            },
+                                        tip: '🎨 Utilisez .evalf() pour obtenir des valeurs numériques !'
+                                    },
 
-            {
-                title: 'Limites et continuité',
-                duration: '45 min',
-                analogy: '🎯 La limite décrit le comportement à l\'approche d\'un point',
-                content: `Calculer des limites avec SymPy
+                                    {
+                                        title: 'Limites et continuité',
+                                        duration: '45 min',
+                                        analogy: '🎯 La limite décrit le comportement à l\'approche d\'un point',
+                                        content: `Calculer des limites avec SymPy
 
 La limite répond à la question : "Que se passe-t-il quand x s'approche de a ?"
 
 Types de limites :
 - Limites finies : lim(x→a) f(x) = L
 - Limites infinies : lim(x→∞) f(x)
-- Limites à gauche/droite
-- Formes indéterminées : 0/0, ∞/∞, etc.
+        ]
+    },
+
+    {
+        id: 'advanced-concepts',
+        title: '6. Concepts Avancés',
+        icon: '🚀',
+        color: '#F72585',
+        description: 'Mathématiques avancées et techniques de programmation expertes',
+        duration: '7 heures',
+        lessons: [
+            {
+                title: 'Limites et continuité',
+                duration: '45 min',
+                analogy: '🎯 La limite décrit le comportement à l\'approche d\'un point',
+                content: `Calculer des limites avec SymPy
+
+La limite répond à la question: "Que se passe-t-il quand x s'approche de a ?"
+
+Types de limites:
+                                            - Limites finies: lim(x→a) f(x) = L
+- Limites infinies : lim(x→∞) f(x)
+                                    - Limites à gauche / droite
+                                    - Formes indéterminées : 0 / 0, ∞/∞, etc.
 
 Analogie : C'est comme demander "où va cette voiture si elle continue dans cette direction ?"
 
 SymPy peut calculer :
-- Limites de fonctions rationnelles
-- Limites trigonométriques
-- Limites exponentielles
-- Formes indéterminées (règle de L'Hôpital automatique)`,
+                                    - Limites de fonctions rationnelles
+                                    - Limites trigonométriques
+                                    - Limites exponentielles
+                                    - Formes indéterminées(règle de L'Hôpital automatique)`,
                 keyPoints: [
-                    'limit(f, x, a) pour calculer une limite',
-                    'oo pour l\'infini',
-                    'dir=\'+\' ou dir=\'-\' pour limites latérales',
-                    'SymPy applique L\'Hôpital automatiquement'
-                ],
-                code: `from sympy import *
+                                        'limit(f, x, a) pour calculer une limite',
+                                        'oo pour l\'infini',
+                                        'dir=\'+\' ou dir=\'-\' pour limites latérales',
+                                        'SymPy applique L\'Hôpital automatiquement'
+                                    ],
+                                        code: `from sympy import *
 
 x = symbols('x')
 
@@ -1805,14 +1791,13 @@ print(f"sin(x) ≈ {serie}")
 f13 = exp(x)
 serie2 = series(f13, x, 0, 5)
 print(f"e^x ≈ {serie2}")`,
-                tip: '📐 Les limites sont essentielles pour comprendre la continuité !'
+                                        tip: '📐 Les limites sont essentielles pour comprendre la continuité !'
             },
-
-            {
-                title: 'Séries et développements',
-                duration: '60 min',
-                analogy: '🎯 Une série est une somme infinie de termes',
-                content: `Maîtriser les séries avec SymPy
+                            {
+                                title: 'Séries et développements',
+                                duration: '60 min',
+                                analogy: '🎯 Une série est une somme infinie de termes',
+                                content: `Maîtriser les séries avec SymPy
 
 Une série permet d'approximer des fonctions complexes par des polynômes.
 
@@ -1829,13 +1814,13 @@ Applications :
 - Résolution d'équations
 - Analyse de fonctions
 - Physique quantique (perturbations)`,
-                keyPoints: [
-                    'series(f, x, x0, n) pour développement',
-                    'Ordre n = nombre de termes',
-                    'removeO() pour enlever le terme O(x^n)',
-                    'Crucial pour approximations'
-                ],
-                code: `from sympy import *
+                                keyPoints: [
+                                    'series(f, x, x0, n) pour développement',
+                                    'Ordre n = nombre de termes',
+                                    'removeO() pour enlever le terme O(x^n)',
+                                    'Crucial pour approximations'
+                                ],
+                                code: `from sympy import *
 
 x = symbols('x')
 
@@ -1899,42 +1884,59 @@ print(f"π (1000 termes) ≈ {pi_num:.10f}")
 print(f"π (exact) = {float(pi):.10f}")
 
 print("\\n=== SÉRIE DE FOURIER ===")
-Concepts clés:
-                    - Classe : Le plan de construction(ex: Plan d'une voiture)
+# Fonction carrée
+from sympy.abc import t
+T = symbols('T', positive=True)
+
+# Coefficients de Fourier (exemple simplifié)
+print("Série de Fourier d'une fonction carrée:")
+print("f(t) = 4/π [sin(ωt) + sin(3ωt)/3 + sin(5ωt)/5 + ...]")`,
+                                tip: '🔬 Les séries sont essentielles pour la physique quantique !'
+                            },
+                            {
+                                title: 'Programmation Orientée Objet (POO)',
+                                duration: '90 min',
+                                analogy: '🏭 Une Classe est un moule, un Objet est la pièce créée avec ce moule',
+                                content: `Organiser son code comme un pro
+
+La POO permet de créer ses propres types de données.
+
+Concepts clés :
+- Classe : Le plan de construction (ex: Plan d'une voiture)
 - Objet : L'instance concrète (ex: La voiture rouge dans votre garage)
-            - Attributs : Les caractéristiques(couleur, vitesse)
-            - Méthodes : Les actions(accélérer, freiner)
+- Attributs : Les caractéristiques (couleur, vitesse)
+- Méthodes : Les actions (accélérer, freiner)
 
 Analogie :
-            - Classe "Atome" : Définit qu'un atome a des protons et des électrons
-            - Objet "Hydrogène" : Un atome spécifique avec 1 proton
-            - Objet "Carbone" : Un atome spécifique avec 6 protons`,
-                keyPoints: [
-                    'class NomClasse: pour définir',
-                    '__init__ : le constructeur',
-                    'self : référence à l\'objet lui-même',
-                    'Encapsulation et héritage'
-                ],
-                code: `class Atome:
-            """Classe représentant un atome."""
+- Classe "Atome" : Définit qu'un atome a des protons et des électrons
+- Objet "Hydrogène" : Un atome spécifique avec 1 proton
+- Objet "Carbone" : Un atome spécifique avec 6 protons`,
+                                keyPoints: [
+                                    'class NomClasse: pour définir',
+                                    '__init__ : le constructeur',
+                                    'self : référence à l\'objet lui-même',
+                                    'Encapsulation et héritage'
+                                ],
+                                code: `class Atome:
+    """Classe représentant un atome."""
     
     def __init__(self, symbole, protons, neutrons):
-            self.symbole = symbole    # Attribut
+        self.symbole = symbole    # Attribut
         self.protons = protons
         self.neutrons = neutrons
         self.electrons = protons  # Atome neutre
         
     def masse_atomique(self):
-            """Méthode calculant la masse approximative."""
+        """Méthode calculant la masse approximative."""
         return self.protons + self.neutrons
         
     def est_isotope(self, autre_atome):
-            """Vérifie si deux atomes sont des isotopes."""
-        return(self.protons == autre_atome.protons and 
+        """Vérifie si deux atomes sont des isotopes."""
+        return (self.protons == autre_atome.protons and 
                 self.neutrons != autre_atome.neutrons)
-
-        def __str__(self):
-            return f"{self.symbole} (Z={self.protons}, A={self.masse_atomique()})"
+    
+    def __str__(self):
+        return f"{self.symbole} (Z={self.protons}, A={self.masse_atomique()})"
 
 # Création d'objets
 hydrogene = Atome("H", 1, 0)
@@ -1949,16 +1951,16 @@ print(f"Atome 3: {carbone}")
 print(f"Masse H: {hydrogene.masse_atomique()}")
 print(f"H et D sont isotopes ? {hydrogene.est_isotope(deuterium)}")
 print(f"H et C sont isotopes ? {hydrogene.est_isotope(carbone)}")`,
-                tip: '🏭 Utilisez la POO pour modéliser des objets physiques complexes !'
-            },
-            {
-                title: 'Gestion des erreurs (Exceptions)',
-                duration: '45 min',
-                analogy: '🛡️ try/except est comme un filet de sécurité pour votre programme',
-                content: `Éviter que le programme ne plante
+                                tip: '🏭 Utilisez la POO pour modéliser des objets physiques complexes !'
+                            },
+                            {
+                                title: 'Gestion des erreurs (Exceptions)',
+                                duration: '45 min',
+                                analogy: '🛡️ try/except est comme un filet de sécurité pour votre programme',
+                                content: `Éviter que le programme ne plante
 
-Les erreurs arrivent(division par zéro, fichier introuvable...).
-Au lieu de planter, on les "attrape" et on les gère!
+Les erreurs arrivent (division par zéro, fichier introuvable...).
+Au lieu de planter, on les "attrape" et on les gère !
 
 Structure :
 try:
@@ -1968,16 +1970,16 @@ except TypeErreur:
 finally:
     # Code exécuté dans tous les cas
 
-Analogie:
+Analogie :
 - Sans try/except : Vous marchez sur une peau de banane et vous finissez à l'hôpital (Crash)
-    - Avec try/except : Vous glissez, vous vous rattrapez, et vous continuez à marcher (Gestion)`,
-                keyPoints: [
-                    'try : bloc de code à surveiller',
-                    'except : bloc exécuté si erreur',
-                    'Ne jamais laisser un except vide !',
-                    'raise : pour lever une erreur volontairement'
-                ],
-                code: `def calculer_vitesse(distance, temps):
+- Avec try/except : Vous glissez, vous vous rattrapez, et vous continuez à marcher (Gestion)`,
+                                keyPoints: [
+                                    'try : bloc de code à surveiller',
+                                    'except : bloc exécuté si erreur',
+                                    'Ne jamais laisser un except vide !',
+                                    'raise : pour lever une erreur volontairement'
+                                ],
+                                code: `def calculer_vitesse(distance, temps):
     """Calcule la vitesse en gérant les erreurs."""
     try:
         if temps < 0:
@@ -2003,13 +2005,13 @@ print("Test 1 (Normal):", calculer_vitesse(100, 10))
 print("Test 2 (Zéro):", calculer_vitesse(100, 0))
 print("Test 3 (Texte):", calculer_vitesse(100, "dix"))
 print("Test 4 (Négatif):", calculer_vitesse(100, -5))`,
-                tip: '🛡️ Mieux vaut prévenir que guérir : gérez les cas limites !'
-            },
-            {
-                title: 'Fichiers et Modules',
-                duration: '60 min',
-                analogy: '📂 Les fichiers sont la mémoire à long terme, les modules sont des boîtes à outils',
-                content: `Sauvegarder et organiser
+                                tip: '🛡️ Mieux vaut prévenir que guérir : gérez les cas limites !'
+                            },
+                            {
+                                title: 'Fichiers et Modules',
+                                duration: '60 min',
+                                analogy: '📂 Les fichiers sont la mémoire à long terme, les modules sont des boîtes à outils',
+                                content: `Sauvegarder et organiser
 
 1. Fichiers :
    - Lire des données (open 'r')
@@ -2025,13 +2027,13 @@ Analogie :
 - RAM = Mémoire à court terme (oubliée quand on éteint)
 - Fichier = Disque dur (mémoire à long terme)
 - Module = Livre de recettes rangé dans la bibliothèque`,
-                keyPoints: [
-                    'with open(...) as f : la bonne façon d\'ouvrir',
-                    'read(), write(), readlines()',
-                    'import pour charger un module',
-                    'if __name__ == "__main__": pour tester'
-                ],
-                code: `# Écriture dans un fichier
+                                keyPoints: [
+                                    'with open(...) as f : la bonne façon d\'ouvrir',
+                                    'read(), write(), readlines()',
+                                    'import pour charger un module',
+                                    'if __name__ == "__main__": pour tester'
+                                ],
+                                code: `# Écriture dans un fichier
 donnees = [
     "Temps,Temperature\\n",
     "0,20.5\\n",
@@ -2063,11 +2065,10 @@ def energie_potentielle(m, h, g=9.81):
 # import physique
 # E = physique.energie_potentielle(10, 5)
 print(f"\\nÉnergie potentielle (simulée) : {energie_potentielle(10, 5)} J")`,
-                tip: '📂 Utilisez toujours "with open" pour éviter les fichiers corrompus !'
-            }
-        ]
-    },
-
+                                tip: '📂 Utilisez toujours "with open" pour éviter les fichiers corrompus !'
+                            }
+                        ]
+                    },
     {
         id: 'projects',
         title: '7. Projets Scientifiques Complets',
