@@ -6,7 +6,6 @@ import { simulationsCurriculum, simulationMetadata } from './curriculum';
 
 export default function SimulationsPage() {
     const [selectedLevel, setSelectedLevel] = useState('college');
-    const [selectedSubLevel, setSelectedSubLevel] = useState(null);
     const [searchQuery, setSearchQuery] = useState('');
     const [selectedDifficulty, setSelectedDifficulty] = useState(null);
     const [selectedSubject, setSelectedSubject] = useState(null);
@@ -101,10 +100,7 @@ export default function SimulationsPage() {
                         {Object.entries(simulationsCurriculum).map(([key, data]) => (
                             <button
                                 key={key}
-                                onClick={() => {
-                                    setSelectedLevel(key);
-                                    setSelectedSubLevel(null);
-                                }}
+                                onClick={() => setSelectedLevel(key)}
                                 className={`flex items-center gap-3 px-6 py-3 rounded-xl font-bold transition-all duration-300 whitespace-nowrap ${selectedLevel === key
                                         ? 'bg-gradient-to-r from-[#00F5D4] to-purple-500 text-black shadow-lg scale-105'
                                         : 'bg-white/5 text-gray-400 hover:bg-white/10 border border-white/10'
@@ -176,9 +172,10 @@ export default function SimulationsPage() {
                         const difficultyData = simulationMetadata.difficulties.find(d => d.id === sim.difficulty);
 
                         return (
-                            <div
+                            <Link
                                 key={`${sim.id}-${index}`}
-                                className="group relative p-6 rounded-2xl bg-gradient-to-br from-white/10 to-white/5 border border-white/20 backdrop-blur-xl hover:scale-105 hover:border-[#00F5D4]/50 transition-all duration-300 cursor-pointer"
+                                href={`/simulations/${sim.id}`}
+                                className="group relative p-6 rounded-2xl bg-gradient-to-br from-white/10 to-white/5 border border-white/20 backdrop-blur-xl hover:scale-105 hover:border-[#00F5D4]/50 transition-all duration-300 cursor-pointer block"
                             >
                                 {/* Badge difficulté */}
                                 <div className="absolute top-4 right-4 px-3 py-1 rounded-full text-xs font-bold" style={{ backgroundColor: `${difficultyData?.color}20`, color: difficultyData?.color }}>
@@ -215,20 +212,20 @@ export default function SimulationsPage() {
                                     <span className="text-xs text-gray-500 flex items-center gap-1">
                                         ⏱️ {sim.duration}
                                     </span>
-                                    <button className="px-4 py-2 rounded-lg bg-gradient-to-r from-[#00F5D4] to-cyan-500 text-black font-bold text-sm hover:scale-105 transition-transform">
+                                    <span className="px-4 py-2 rounded-lg bg-gradient-to-r from-[#00F5D4] to-cyan-500 text-black font-bold text-sm group-hover:scale-110 transition-transform">
                                         Lancer 🚀
-                                    </button>
+                                    </span>
                                 </div>
 
                                 {/* Tags */}
                                 <div className="mt-4 flex flex-wrap gap-2">
                                     {sim.tags.map((tag, i) => (
                                         <span key={i} className="text-xs px-2 py-1 rounded-full bg-white/5 text-gray-400">
-                                            #{tag}
+                                            {tag}
                                         </span>
                                     ))}
                                 </div>
-                            </div>
+                            </Link>
                         );
                     })}
                 </div>
