@@ -243,32 +243,99 @@ export default function NotebookPage() {
         setKernelStatus('busy');
 
         try {
-            // Rediriger stdout pour capturer les print()
-            // On utilise runPythonAsync pour supporter asyncio si besoin
+            // Script wrapper pour capturer stdout, stderr et les plots matplotlib
+            // On utilise une astuce pour capturer la dernière expression (comme Jupyter)
+            const pythonCode = `
+import sys
+import io
+import base64
+import matplotlib.pyplot as plt
 
-            // 1. Rediriger stdout
-            await pyodide.runPythonAsync(`
-                import sys
-                from io import StringIO
-                sys.stdout = StringIO()
-            `);
+# Redirection stdout/stderr
+sys.stdout = io.StringIO()
+sys.stderr = io.StringIO()
 
-            // 2. Exécuter le code utilisateur
-            await pyodide.runPythonAsync(cell.content);
+# Nettoyer les plots précédents
+plt.clf()
 
-            // 3. Récupérer stdout
-            const stdout = await pyodide.runPythonAsync("sys.stdout.getvalue()");
+# Exécution du code utilisateur
+code = ${JSON.stringify(cell.content)}
+result = None
+try:
+    # On compile pour voir si c'est une expression ou des statements
+    import ast
+    tree = ast.parse(code)
+    if tree.body and isinstance(tree.body[-1], ast.Expr):
+        # Si la dernière ligne est une expression, on la sépare
+        last_expr = tree.body.pop()
+        # On exécute tout sauf la dernière ligne
+        exec(compile(tree, filename="<cell>", mode="exec"), globals())
+        # On évalue la dernière ligne
+        result = eval(compile(ast.Expression(last_expr.value), filename="<cell>", mode="eval"), globals())
+    else:
+        exec(code, globals())
+except Exception as e:
+    raise e
 
-            updateCell(id, {
-                status: 'success',
-                output: { type: 'text', data: stdout || '✓ Exécuté (pas de sortie)' },
-                executionCount: (cell.executionCount || 0) + 1
+# Capture des plots
+img_str = None
+if plt.get_fignums():
+    buf = io.BytesIO()
+    plt.savefig(buf, format='png', bbox_inches='tight', transparent=True)
+    buf.seek(0)
+    img_str = 'data:image/png;base64,' + base64.b64encode(buf.read()).decode('UTF-8')
+    plt.close('all')
+
+# Capture stdout/stderr
+stdout_val = sys.stdout.getvalue()
+stderr_val = sys.stderr.getvalue()
+
+# Retourner un objet JSON
+import json
+json.dumps({
+    "stdout": stdout_val,
+    "stderr": stderr_val,
+    "result": str(result) if result is not None else None,
+    "image": img_str
+})
+`;
+            // Exécution
+            const responseStr = await pyodide.runPythonAsync(pythonCode);
+            const response = JSON.parse(responseStr);
+
+            // Construction de la sortie
+            let outputData = '';
+            if (response.stdout) outputData += response.stdout;
+            if (response.stderr) outputData += \`\n⚠️ \${response.stderr}\`;
+            if (response.result) outputData += \`\n[Out]: \${response.result}\`;
+
+            // Déterminer le type de sortie
+            let output = null;
+            if (response.image) {
+                output = { type: 'image', data: response.image };
+            } else if (outputData) {
+                output = { type: 'text', data: outputData.trim() };
+            } else {
+                output = { type: 'text', data: '✓ Exécuté' };
+            }
+
+            updateCell(id, { 
+                status: 'success', 
+                output, 
+                executionCount: (cell.executionCount || 0) + 1 
             });
 
         } catch (err) {
-            updateCell(id, {
-                status: 'error',
-                output: { type: 'error', data: err.toString() }
+            // Gestion d'erreur améliorée
+            let errorMsg = err.toString();
+            // Essayer d'extraire le traceback Python si possible
+            if (err.message && err.message.includes("PythonError")) {
+                errorMsg = err.message;
+            }
+            
+            updateCell(id, { 
+                status: 'error', 
+                output: { type: 'error', data: errorMsg } 
             });
         } finally {
             setKernelStatus('ready');
@@ -290,7 +357,7 @@ export default function NotebookPage() {
 
                 <div className="flex items-center gap-4">
                     <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 border border-white/10">
-                        <div className={`w-2 h-2 rounded-full ${kernelStatus === 'ready' ? 'bg-green-500' : 'bg-yellow-500 animate-pulse'}`} />
+                        <div className={`w - 2 h - 2 rounded - full ${ kernelStatus === 'ready' ? 'bg-green-500' : 'bg-yellow-500 animate-pulse' } `} />
                         <span className="text-xs font-mono text-gray-300">Kernel: {kernelStatus}</span>
                     </div>
                     <button className="bg-[#00F5D4] text-black px-4 py-1.5 rounded font-bold text-sm hover:bg-[#00F5D4]/90 transition-colors">
@@ -346,7 +413,7 @@ export default function NotebookPage() {
                 ))}
 
                 {/* Zone vide en bas pour cliquer et ajouter */}
-                <div
+                <div 
                     className="h-32 border-2 border-dashed border-white/5 rounded-xl flex items-center justify-center text-gray-600 hover:border-[#00F5D4]/30 hover:text-[#00F5D4]/50 transition-all cursor-pointer"
                     onClick={() => addCell(cells.length - 1, 'code')}
                 >
