@@ -64,8 +64,8 @@ export default function EngineeringPage() {
                             key={cat}
                             onClick={() => setActiveCategory(cat)}
                             className={`px-6 py-2 rounded-full text-sm font-bold transition-all duration-300 ${activeCategory === cat
-                                    ? 'bg-[#00F5D4] text-black shadow-lg shadow-[#00F5D4]/20 scale-105'
-                                    : 'bg-white/5 text-gray-400 hover:bg-white/10 hover:text-white'
+                                ? 'bg-[#00F5D4] text-black shadow-lg shadow-[#00F5D4]/20 scale-105'
+                                : 'bg-white/5 text-gray-400 hover:bg-white/10 hover:text-white'
                                 }`}
                         >
                             {cat}
@@ -157,13 +157,38 @@ export default function EngineeringPage() {
                                             </div>
                                         </div>
 
-                                        <div className="bg-gradient-to-br from-purple-900/20 to-blue-900/20 rounded-2xl p-6 border border-white/10">
-                                            <h3 className="text-lg font-bold mb-3 flex items-center gap-2 text-purple-300">
-                                                💡 L'Analogie
-                                            </h3>
-                                            <p className="text-gray-300 text-sm leading-relaxed italic">
-                                                "{selectedProject.problemStatement.analogy}"
-                                            </p>
+                                        <div className="flex flex-col gap-6">
+                                            <div className="bg-gradient-to-br from-purple-900/20 to-blue-900/20 rounded-2xl p-6 border border-white/10">
+                                                <h3 className="text-lg font-bold mb-3 flex items-center gap-2 text-purple-300">
+                                                    💡 L'Analogie
+                                                </h3>
+                                                <p className="text-gray-300 text-sm leading-relaxed italic">
+                                                    "{selectedProject.problemStatement.analogy}"
+                                                </p>
+                                            </div>
+
+                                            {/* Section Histoire */}
+                                            {selectedProject.history && (
+                                                <div className="bg-gradient-to-br from-amber-900/10 to-orange-900/10 rounded-2xl p-6 border border-amber-500/20 relative overflow-hidden">
+                                                    <div className="absolute top-0 right-0 p-4 opacity-10 text-4xl">📜</div>
+                                                    <h3 className="text-lg font-bold mb-3 flex items-center gap-2 text-amber-400">
+                                                        🏛️ Héritage
+                                                    </h3>
+                                                    <p className="text-gray-300 text-sm leading-relaxed mb-3">
+                                                        {selectedProject.history.context}
+                                                    </p>
+                                                    <div className="flex flex-wrap gap-2">
+                                                        {selectedProject.history.people.map((person, i) => (
+                                                            <span key={i} className="text-[10px] uppercase tracking-wider font-bold text-amber-500 bg-amber-500/10 px-2 py-1 rounded border border-amber-500/20">
+                                                                {person}
+                                                            </span>
+                                                        ))}
+                                                        <span className="text-[10px] uppercase tracking-wider font-bold text-gray-500 bg-white/5 px-2 py-1 rounded border border-white/10">
+                                                            {selectedProject.history.year}
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            )}
                                         </div>
                                     </div>
                                 </div>
