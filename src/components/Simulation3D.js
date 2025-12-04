@@ -190,6 +190,161 @@ function Cell() {
     );
 }
 
+// Composant Neurone (Système Nerveux)
+function Neuron() {
+    return (
+        <group>
+            {/* Corps cellulaire (Soma) */}
+            <mesh position={[0, 0, 0]}>
+                <sphereGeometry args={[1, 32, 32]} />
+                <meshStandardMaterial color="#FCD34D" emissive="#F59E0B" emissiveIntensity={0.5} />
+            </mesh>
+
+            {/* Noyau */}
+            <mesh position={[0, 0, 0.8]}>
+                <sphereGeometry args={[0.3, 32, 32]} />
+                <meshStandardMaterial color="#7C3AED" />
+            </mesh>
+
+            {/* Axone (Longue tige) */}
+            <mesh position={[2, 0, 0]} rotation={[0, 0, Math.PI / 2]}>
+                <cylinderGeometry args={[0.2, 0.4, 4, 16]} />
+                <meshStandardMaterial color="#FCD34D" />
+            </mesh>
+
+            {/* Dendrites (Ramifications) */}
+            {Array.from({ length: 8 }).map((_, i) => {
+                const angle = (i / 8) * Math.PI * 2;
+                return (
+                    <group key={i} rotation={[0, 0, angle]}>
+                        <mesh position={[-1.2, 0, 0]} rotation={[0, 0, Math.PI / 2]}>
+                            <coneGeometry args={[0.1, 1.5, 8]} />
+                            <meshStandardMaterial color="#FCD34D" />
+                        </mesh>
+                    </group>
+                );
+            })}
+
+            {/* Influx nerveux (Particule qui voyage) */}
+            <mesh position={[0, 0, 0]}>
+                <sphereGeometry args={[0.15, 16, 16]} />
+                <meshStandardMaterial color="#00F5D4" emissive="#00F5D4" emissiveIntensity={2} />
+                {/* Animation simple via position dans le rendu final si possible, ici statique pour l'instant */}
+            </mesh>
+        </group>
+    );
+}
+
+// Composant Vaisseau Sanguin (Circulation)
+function BloodStream() {
+    return (
+        <group>
+            {/* Vaisseau (Tube) */}
+            <mesh rotation={[0, 0, Math.PI / 2]}>
+                <cylinderGeometry args={[2, 2, 8, 32, 1, true]} />
+                <meshStandardMaterial color="#EF4444" side={2} transparent opacity={0.3} />
+            </mesh>
+
+            {/* Globules Rouges */}
+            {Array.from({ length: 15 }).map((_, i) => (
+                <mesh
+                    key={`rbc-${i}`}
+                    position={[
+                        (Math.random() - 0.5) * 6,
+                        (Math.random() - 0.5) * 2,
+                        (Math.random() - 0.5) * 2
+                    ]}
+                    rotation={[Math.random() * Math.PI, Math.random() * Math.PI, 0]}
+                >
+                    <torusGeometry args={[0.3, 0.15, 16, 32]} />
+                    <meshStandardMaterial color="#DC2626" />
+                </mesh>
+            ))}
+
+            {/* Globules Blancs */}
+            {Array.from({ length: 3 }).map((_, i) => (
+                <mesh
+                    key={`wbc-${i}`}
+                    position={[
+                        (Math.random() - 0.5) * 6,
+                        (Math.random() - 0.5) * 1.5,
+                        (Math.random() - 0.5) * 1.5
+                    ]}
+                >
+                    <sphereGeometry args={[0.35, 32, 32]} />
+                    <meshStandardMaterial color="#F3F4F6" roughness={0.8} />
+                </mesh>
+            ))}
+        </group>
+    );
+}
+
+// Composant Cellule Végétale (Photosynthèse)
+function PlantCell() {
+    return (
+        <group>
+            {/* Paroi cellulaire (Verte et rigide) */}
+            <mesh>
+                <boxGeometry args={[3, 4, 1]} />
+                <meshStandardMaterial color="#10B981" transparent opacity={0.3} wireframe />
+            </mesh>
+            <mesh>
+                <boxGeometry args={[2.8, 3.8, 0.8]} />
+                <meshStandardMaterial color="#10B981" transparent opacity={0.1} />
+            </mesh>
+
+            {/* Chloroplastes (Usines vertes) */}
+            {Array.from({ length: 6 }).map((_, i) => (
+                <mesh
+                    key={`chloro-${i}`}
+                    position={[
+                        (Math.random() - 0.5) * 2,
+                        (Math.random() - 0.5) * 3,
+                        (Math.random() - 0.5) * 0.5
+                    ]}
+                >
+                    <capsuleGeometry args={[0.2, 0.4, 4, 8]} />
+                    <meshStandardMaterial color="#059669" />
+                </mesh>
+            ))}
+
+            {/* Soleil (Source d'énergie) */}
+            <mesh position={[2, 3, 2]}>
+                <sphereGeometry args={[0.5, 32, 32]} />
+                <meshStandardMaterial color="#FCD34D" emissive="#FCD34D" emissiveIntensity={2} />
+            </mesh>
+        </group>
+    );
+}
+
+// Composant États de la Matière (Particules)
+function StatesOfMatter() {
+    return (
+        <group>
+            {/* Boîte contenant */}
+            <mesh>
+                <boxGeometry args={[4, 4, 4]} />
+                <meshStandardMaterial color="#9CA3AF" wireframe transparent opacity={0.2} />
+            </mesh>
+
+            {/* Particules */}
+            {Array.from({ length: 50 }).map((_, i) => (
+                <mesh
+                    key={`particle-${i}`}
+                    position={[
+                        (Math.random() - 0.5) * 3,
+                        (Math.random() - 0.5) * 3,
+                        (Math.random() - 0.5) * 3
+                    ]}
+                >
+                    <sphereGeometry args={[0.15, 16, 16]} />
+                    <meshStandardMaterial color="#3B82F6" />
+                </mesh>
+            ))}
+        </group>
+    );
+}
+
 // Composant ADN Helix
 function DNAHelix() {
     const helixPoints = [];
@@ -433,6 +588,14 @@ export default function Simulation3D({ type = 'atom', config = {} }) {
                 return <DigestiveSystem />;
             case 'wave':
                 return <WaveInterference />;
+            case 'neuron':
+                return <Neuron />;
+            case 'blood':
+                return <BloodStream />;
+            case 'plant-cell':
+                return <PlantCell />;
+            case 'states-of-matter':
+                return <StatesOfMatter />;
             default:
                 return <Atom {...config} />;
         }

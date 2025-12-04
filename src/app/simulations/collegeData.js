@@ -12,13 +12,13 @@ export const collegeSimulationsData = {
             title: 'La Cellule comme un Marché Sandaga',
             content: `Imagine la cellule comme le grand marché Sandaga de Dakar ! 🏪
 
-La **membrane cellulaire** est comme les portes du marché - elle contrôle qui entre et qui sort.
+La membrane cellulaire est comme les portes du marché - elle contrôle qui entre et qui sort.
 
-Le **noyau** est le bureau du chef du marché - c'est là que toutes les décisions importantes sont prises.
+Le noyau est le bureau du chef du marché - c'est là que toutes les décisions importantes sont prises.
 
-Les **mitochondries** sont comme les générateurs électriques - elles fournissent l'énergie pour tout faire fonctionner.
+Les mitochondries sont comme les générateurs électriques - elles fournissent l'énergie pour tout faire fonctionner.
 
-Les **ribosomes** sont les artisans qui fabriquent les produits (protéines) vendus au marché.
+Les ribosomes sont les artisans qui fabriquent les produits (protéines) vendus au marché.
 
 Tout comme Sandaga est organisé avec différentes sections, la cellule a des organites spécialisés !`
         },
@@ -26,36 +26,36 @@ Tout comme Sandaga est organisé avec différentes sections, la cellule a des or
 
 La cellule est l'unité fondamentale de tout être vivant. Elle contient tous les éléments nécessaires pour maintenir la vie.
 
-**Organites Principaux**
+Organites Principaux
 
-**Membrane Cellulaire**
+Membrane Cellulaire
 - Enveloppe protectrice
 - Contrôle les échanges avec l'extérieur
 - Composée de lipides et protéines
 
-**Noyau**
+Noyau
 - Contient l'ADN (information génétique)
 - Centre de contrôle de la cellule
 - Entouré d'une membrane nucléaire
 
-**Mitochondries**
+Mitochondries
 - Centrales énergétiques de la cellule
 - Produisent l'ATP (énergie)
 - Possèdent leur propre ADN
 
-**Ribosomes**
+Ribosomes
 - Synthèse des protéines
 - Présents dans le cytoplasme
 - Peuvent être liés au réticulum endoplasmique
 
-**Différences Cellule Animale vs Végétale**
+Différences Cellule Animale vs Végétale
 
-**Cellule Végétale**
+Cellule Végétale
 - Paroi cellulaire rigide
 - Chloroplastes (photosynthèse)
 - Grande vacuole centrale
 
-**Cellule Animale**
+Cellule Animale
 - Pas de paroi cellulaire
 - Pas de chloroplastes
 - Petites vacuoles`,
@@ -79,49 +79,49 @@ La cellule est l'unité fondamentale de tout être vivant. Elle contient tous le
     'photosynthesis': {
         title: 'La Photosynthèse',
         description: 'Visualisez le processus de photosynthèse dans une feuille',
-        type: 'cell',
+        type: 'plant-cell',
         config: {},
         analogy: {
             title: 'La Photosynthèse comme une Cuisine Solaire',
             content: `La photosynthèse, c'est comme cuisiner avec l'énergie du soleil sénégalais ! ☀️
 
-Les **feuilles** sont comme des panneaux solaires qui captent la lumière.
+Les feuilles sont comme des panneaux solaires qui captent la lumière.
 
-Le **chloroplaste** est la cuisine où se prépare le repas énergétique.
+Le chloroplaste est la cuisine où se prépare le repas énergétique.
 
-L'**eau** (H₂O) vient des racines, comme l'eau du robinet pour cuisiner.
+L'eau (H₂O) vient des racines, comme l'eau du robinet pour cuisiner.
 
-Le **CO₂** est pris dans l'air, comme les épices qu'on ajoute.
+Le CO₂ est pris dans l'air, comme les épices qu'on ajoute.
 
-Le **glucose** produit est le thiéboudienne (plat énergétique) de la plante !
+Le glucose produit est le thiéboudienne (plat énergétique) de la plante !
 
-L'**oxygène** libéré est le cadeau que les plantes nous offrent pour respirer.`
+L'oxygène libéré est le cadeau que les plantes nous offrent pour respirer.`
         },
         theory: `La Photosynthèse
 
 La photosynthèse est le processus par lequel les plantes transforment l'énergie lumineuse en énergie chimique.
 
-**Équation Globale**
+Équation Globale
 6 CO₂ + 6 H₂O + Lumière → C₆H₁₂O₆ + 6 O₂
 
-**Les Étapes**
+Les Étapes
 
-**1. Capture de la Lumière**
+1. Capture de la Lumière
 - Les chloroplastes contiennent la chlorophylle
 - La chlorophylle absorbe la lumière (surtout rouge et bleue)
 - Donne la couleur verte aux plantes
 
-**2. Réactions Lumineuses**
+2. Réactions Lumineuses
 - Se déroulent dans les thylakoïdes
 - Production d'ATP et NADPH
 - Libération d'oxygène (O₂)
 
-**3. Cycle de Calvin (Réactions Sombres)**
+3. Cycle de Calvin (Réactions Sombres)
 - Se déroule dans le stroma
 - Fixation du CO₂
 - Production de glucose (C₆H₁₂O₆)
 
-**Importance**
+Importance
 - Source d'oxygène pour la respiration
 - Base de toutes les chaînes alimentaires
 - Régulation du CO₂ atmosphérique`,
@@ -145,55 +145,55 @@ La photosynthèse est le processus par lequel les plantes transforment l'énergi
     'states-of-matter': {
         title: 'États de la Matière',
         description: 'Observez les transitions solide-liquide-gaz au niveau moléculaire',
-        type: 'atom',
+        type: 'states-of-matter',
         config: { protons: 1, neutrons: 0, electrons: 1 },
         analogy: {
             title: 'Les États de la Matière comme la Danse du Sabar',
             content: `Les molécules sont comme des danseurs de sabar ! 💃🕺
 
-**État SOLIDE** (Glace)
+État SOLIDE (Glace)
 Les danseurs sont serrés, épaule contre épaule, ne bougeant presque pas.
 Comme les gens assis pendant la cérémonie avant que la musique commence.
 
-**État LIQUIDE** (Eau)
+État LIQUIDE (Eau)
 Les danseurs bougent librement mais restent proches.
 Comme pendant le sabar, on danse ensemble mais on peut se déplacer !
 
-**État GAZEUX** (Vapeur)
+État GAZEUX (Vapeur)
 Les danseurs sont partout dans la salle, très espacés, bougeant rapidement.
 Comme quand tout le monde danse librement dans tout l'espace !
 
-La **température** est comme l'intensité de la musique - plus c'est chaud, plus ça bouge !`
+La température est comme l'intensité de la musique - plus c'est chaud, plus ça bouge !`
         },
         theory: `Les États de la Matière
 
 La matière existe sous trois états principaux : solide, liquide et gazeux.
 
-**État Solide**
+État Solide
 - Forme et volume définis
 - Molécules très proches et organisées
 - Vibrations faibles
 - Exemple : glace, fer, sel
 
-**État Liquide**
+État Liquide
 - Volume défini, forme variable
 - Molécules proches mais mobiles
 - Prend la forme du récipient
 - Exemple : eau, huile, lait
 
-**État Gazeux**
+État Gazeux
 - Ni forme ni volume définis
 - Molécules très espacées et rapides
 - Occupe tout l'espace disponible
 - Exemple : air, vapeur d'eau, CO₂
 
-**Changements d'État**
+Changements d'État
 
-**Fusion** : Solide → Liquide (chauffage)
-**Solidification** : Liquide → Solide (refroidissement)
-**Vaporisation** : Liquide → Gaz (chauffage)
-**Condensation** : Gaz → Liquide (refroidissement)
-**Sublimation** : Solide → Gaz direct`,
+Fusion : Solide → Liquide (chauffage)
+Solidification : Liquide → Solide (refroidissement)
+Vaporisation : Liquide → Gaz (chauffage)
+Condensation : Gaz → Liquide (refroidissement)
+Sublimation : Solide → Gaz direct`,
         exercises: [
             {
                 question: 'Que se passe-t-il quand on chauffe de la glace ?',
@@ -220,16 +220,16 @@ La matière existe sous trois états principaux : solide, liquide et gazeux.
             title: 'Le Circuit Électrique comme le Réseau de Car Rapide',
             content: `Un circuit électrique, c'est comme le réseau de transport de Dakar ! 🚌
 
-La **pile** est comme la gare routière - c'est là que tout commence et finit.
+La pile est comme la gare routière - c'est là que tout commence et finit.
 
-Les **fils électriques** sont comme les routes - ils transportent les passagers (électrons).
+Les fils électriques sont comme les routes - ils transportent les passagers (électrons).
 
-L'**ampoule** est comme un marché où les gens descendent et dépensent leur énergie.
+L'ampoule est comme un marché où les gens descendent et dépensent leur énergie.
 
-Les **électrons** sont comme les passagers dans les cars rapides - ils circulent en boucle !
+Les électrons sont comme les passagers dans les cars rapides - ils circulent en boucle !
 
-Un **circuit ouvert** = route bloquée, les cars ne passent pas.
-Un **circuit fermé** = route libre, les cars circulent !
+Un circuit ouvert = route bloquée, les cars ne passent pas.
+Un circuit fermé = route libre, les cars circulent !
 
 Plus il y a de passagers (courant fort), plus l'ampoule brille !`
         },
@@ -237,37 +237,37 @@ Plus il y a de passagers (courant fort), plus l'ampoule brille !`
 
 Un circuit électrique est un chemin fermé permettant la circulation du courant.
 
-**Composants de Base**
+Composants de Base
 
-**Générateur (Pile)**
+Générateur (Pile)
 - Fournit l'énergie électrique
 - Possède deux bornes : + et -
 - Crée une différence de potentiel (tension)
 
-**Fils Conducteurs**
+Fils Conducteurs
 - Transportent le courant
 - Généralement en cuivre
 - Relient les composants
 
-**Récepteurs (Ampoule, Moteur)**
+Récepteurs (Ampoule, Moteur)
 - Utilisent l'énergie électrique
 - Transforment l'énergie (lumière, mouvement)
 
-**Interrupteur**
+Interrupteur
 - Ouvre ou ferme le circuit
 - Contrôle le passage du courant
 
-**Lois Fondamentales**
+Lois Fondamentales
 
-**Circuit Fermé**
+Circuit Fermé
 - Le courant circule
 - Les récepteurs fonctionnent
 
-**Circuit Ouvert**
+Circuit Ouvert
 - Le courant ne circule pas
 - Les récepteurs ne fonctionnent pas
 
-**Sens du Courant**
+Sens du Courant
 - Conventionnel : de + vers -
 - Réel (électrons) : de - vers +`,
         exercises: [
@@ -297,17 +297,17 @@ Un circuit électrique est un chemin fermé permettant la circulation du courant
             title: 'Le Système Digestif comme une Usine de Thiéboudienne',
             content: `Le système digestif, c'est comme une grande usine qui transforme le thiéboudienne ! 🍚
 
-La **bouche** est l'entrée de l'usine - on découpe et on mâche (mastication).
+La bouche est l'entrée de l'usine - on découpe et on mâche (mastication).
 
-L'**œsophage** est le tapis roulant qui transporte la nourriture.
+L'œsophage est le tapis roulant qui transporte la nourriture.
 
-L'**estomac** est le grand mixeur - il broie et mélange avec des acides.
+L'estomac est le grand mixeur - il broie et mélange avec des acides.
 
-L'**intestin grêle** est la chaîne de production - c'est là qu'on extrait tous les nutriments utiles.
+L'intestin grêle est la chaîne de production - c'est là qu'on extrait tous les nutriments utiles.
 
-Le **foie** et le **pancréas** sont les chefs cuisiniers qui ajoutent les enzymes (sauces spéciales).
+Le foie et le pancréas sont les chefs cuisiniers qui ajoutent les enzymes (sauces spéciales).
 
-Le **gros intestin** récupère l'eau, comme on récupère le jus de cuisson.
+Le gros intestin récupère l'eau, comme on récupère le jus de cuisson.
 
 Ce qui reste est évacué - les déchets de l'usine !`
         },
@@ -315,39 +315,39 @@ Ce qui reste est évacué - les déchets de l'usine !`
 
 Le système digestif transforme les aliments en nutriments absorbables par le corps.
 
-**Les Organes**
+Les Organes
 
-**Bouche**
+Bouche
 - Mastication (dents)
 - Salive (enzyme amylase)
 - Déglutition
 
-**Œsophage**
+Œsophage
 - Tube musculaire
 - Péristaltisme (contractions)
 - Transport vers l'estomac
 
-**Estomac**
+Estomac
 - Brassage mécanique
 - Suc gastrique (acide chlorhydrique)
 - Digestion des protéines
 
-**Intestin Grêle**
+Intestin Grêle
 - 6-7 mètres de long
 - Absorption des nutriments
 - Villosités intestinales
 
-**Foie et Pancréas**
+Foie et Pancréas
 - Production de bile
 - Enzymes digestives
 - Régulation glycémique
 
-**Gros Intestin**
+Gros Intestin
 - Absorption d'eau
 - Formation des selles
 - Flore intestinale
 
-**Processus**
+Processus
 Ingestion → Digestion → Absorption → Élimination`,
         exercises: [
             {
@@ -369,23 +369,23 @@ Ingestion → Digestion → Absorption → Élimination`,
     'blood-circulation': {
         title: 'Circulation Sanguine',
         description: 'Explorez le cœur et le système circulatoire en 3D',
-        type: 'cell',
+        type: 'blood',
         config: {},
         analogy: {
             title: 'La Circulation Sanguine comme le Réseau Routier du Sénégal',
             content: `Le système circulatoire, c'est comme le réseau routier qui connecte tout le Sénégal ! 🛣️
 
-Le **cœur** est comme le rond-point de l'Obélisque - tout passe par là et est redistribué.
+Le cœur est comme le rond-point de l'Obélisque - tout passe par là et est redistribué.
 
-Les **artères** sont les autoroutes (comme la VDN) - elles transportent le sang riche en oxygène rapidement.
+Les artères sont les autoroutes (comme la VDN) - elles transportent le sang riche en oxygène rapidement.
 
-Les **veines** sont les routes de retour - elles ramènent le sang vers le cœur.
+Les veines sont les routes de retour - elles ramènent le sang vers le cœur.
 
-Les **capillaires** sont les petites rues des quartiers - c'est là que se font les échanges avec les maisons (cellules).
+Les capillaires sont les petites rues des quartiers - c'est là que se font les échanges avec les maisons (cellules).
 
-Les **globules rouges** sont comme les cars rapides qui transportent l'oxygène (passagers).
+Les globules rouges sont comme les cars rapides qui transportent l'oxygène (passagers).
 
-Les **globules blancs** sont la police qui protège contre les intrus (microbes).
+Les globules blancs sont la police qui protège contre les intrus (microbes).
 
 Le sang fait le tour complet du corps en moins d'une minute - plus rapide qu'un car Dakar-Touba !`
         },
@@ -393,42 +393,42 @@ Le sang fait le tour complet du corps en moins d'une minute - plus rapide qu'un 
 
 Le système circulatoire transporte l'oxygène, les nutriments et élimine les déchets.
 
-**Le Cœur**
+Le Cœur
 
-**Structure**
+Structure
 - 4 cavités : 2 oreillettes, 2 ventricules
 - Muscle cardiaque (myocarde)
 - Valves (empêchent le reflux)
 
-**Fonctionnement**
+Fonctionnement
 - Contraction (systole)
 - Relaxation (diastole)
 - 60-100 battements/minute au repos
 
-**Les Vaisseaux Sanguins**
+Les Vaisseaux Sanguins
 
-**Artères**
+Artères
 - Parois épaisses et élastiques
 - Transportent le sang du cœur
 - Sang riche en O₂ (sauf artère pulmonaire)
 
-**Veines**
+Veines
 - Parois plus fines
 - Transportent le sang vers le cœur
 - Sang pauvre en O₂ (sauf veine pulmonaire)
 
-**Capillaires**
+Capillaires
 - Très fins (épaisseur d'une cellule)
 - Échanges avec les tissus
 - Réseau très dense
 
-**Double Circulation**
+Double Circulation
 
-**Petite circulation (pulmonaire)**
+Petite circulation (pulmonaire)
 Cœur → Poumons → Cœur
 (Oxygénation du sang)
 
-**Grande circulation (systémique)**
+Grande circulation (systémique)
 Cœur → Corps → Cœur
 (Distribution O₂ et nutriments)`,
         exercises: [
@@ -457,55 +457,55 @@ Cœur → Corps → Cœur
             title: 'Le Cycle de l\'Eau comme le Voyage du Fleuve Sénégal',
             content: `Le cycle de l'eau, c'est comme un voyage sans fin du fleuve Sénégal ! 🌊
 
-**Évaporation** : Le soleil chauffe l'eau du fleuve et de l'océan Atlantique.
+Évaporation : Le soleil chauffe l'eau du fleuve et de l'océan Atlantique.
 L'eau devient vapeur et monte dans le ciel, comme la fumée du thiakry qui refroidit.
 
-**Condensation** : En altitude, la vapeur refroidit et forme des nuages.
+Condensation : En altitude, la vapeur refroidit et forme des nuages.
 Comme quand on souffle sur une vitre froide et ça fait de la buée !
 
-**Précipitation** : Les nuages deviennent lourds et la pluie tombe.
+Précipitation : Les nuages deviennent lourds et la pluie tombe.
 C'est l'hivernage qui arrose nos champs de mil et d'arachides !
 
-**Ruissellement** : L'eau coule dans les marigots et retourne au fleuve.
+Ruissellement : L'eau coule dans les marigots et retourne au fleuve.
 Le cycle recommence - l'eau ne se perd jamais, elle voyage !`
         },
         theory: `Le Cycle de l'Eau
 
 L'eau circule en permanence entre l'océan, l'atmosphère et la terre.
 
-**Les Étapes**
+Les Étapes
 
-**1. Évaporation**
+1. Évaporation
 - Transformation liquide → gaz
 - Énergie du soleil
 - Principalement des océans (97%)
 
-**2. Transpiration**
+2. Transpiration
 - Évaporation par les plantes
 - Évapotranspiration
 - Contribue à l'humidité
 
-**3. Condensation**
+3. Condensation
 - Vapeur → gouttelettes
 - Formation des nuages
 - Refroidissement en altitude
 
-**4. Précipitation**
+4. Précipitation
 - Pluie, neige, grêle
 - Retour de l'eau sur terre
 - Distribution inégale
 
-**5. Infiltration**
+5. Infiltration
 - Eau pénètre dans le sol
 - Nappes phréatiques
 - Eau souterraine
 
-**6. Ruissellement**
+6. Ruissellement
 - Eau coule en surface
 - Rivières et fleuves
 - Retour à l'océan
 
-**Importance**
+Importance
 - Renouvellement de l'eau douce
 - Régulation du climat
 - Vie sur Terre`,
@@ -535,13 +535,13 @@ L'eau circule en permanence entre l'océan, l'atmosphère et la terre.
             title: 'La Réflexion de la Lumière comme le Jeu de Miroirs au Marché',
             content: `La réflexion de la lumière, c'est comme les miroirs des tailleurs au marché HLM ! ✨
 
-**Miroir plan** : Comme le miroir du tailleur - ton reflet est identique mais inversé.
+Miroir plan : Comme le miroir du tailleur - ton reflet est identique mais inversé.
 Si tu lèves la main droite, ton reflet lève la gauche !
 
-**Angle d'incidence = Angle de réflexion** : C'est comme jouer au foot contre un mur.
+Angle d'incidence = Angle de réflexion : C'est comme jouer au foot contre un mur.
 Si tu tires à 45°, le ballon rebondit à 45° de l'autre côté !
 
-**Miroirs courbes** : Comme les cuillères brillantes.
+Miroirs courbes : Comme les cuillères brillantes.
 - Miroir concave (creux) : grossit l'image, comme une loupe
 - Miroir convexe (bombé) : rapetisse l'image, vision plus large
 
@@ -551,46 +551,46 @@ Les rayons lumineux voyagent en ligne droite, comme les cars rapides sur une rou
 
 La lumière se réfléchit sur les surfaces selon des lois précises.
 
-**Lois de la Réflexion**
+Lois de la Réflexion
 
-**1ère Loi**
+1ère Loi
 Le rayon incident, le rayon réfléchi et la normale sont dans le même plan.
 
-**2ème Loi**
+2ème Loi
 Angle d'incidence (i) = Angle de réflexion (r)
 
-**Types de Réflexion**
+Types de Réflexion
 
-**Réflexion Spéculaire**
+Réflexion Spéculaire
 - Surface lisse (miroir)
 - Image nette
 - Rayons parallèles restent parallèles
 
-**Réflexion Diffuse**
+Réflexion Diffuse
 - Surface rugueuse
 - Pas d'image nette
 - Rayons dispersés
 
-**Types de Miroirs**
+Types de Miroirs
 
-**Miroir Plan**
+Miroir Plan
 - Surface plate
 - Image virtuelle
 - Même taille que l'objet
 - Symétrie gauche-droite
 
-**Miroir Concave**
+Miroir Concave
 - Surface creuse
 - Image peut être réelle ou virtuelle
 - Peut grossir l'image
 
-**Miroir Convexe**
+Miroir Convexe
 - Surface bombée
 - Image toujours virtuelle
 - Image réduite
 - Champ de vision large
 
-**Applications**
+Applications
 - Rétroviseurs
 - Télescopes
 - Phares de voiture
@@ -616,23 +616,23 @@ Angle d'incidence (i) = Angle de réflexion (r)
     'nervous-system': {
         title: 'Système Nerveux',
         description: 'Découvrez comment les neurones transmettent l\'information',
-        type: 'cell',
+        type: 'neuron',
         config: {},
         analogy: {
             title: 'Le Système Nerveux comme le Réseau Téléphonique Sonatel',
             content: `Le système nerveux, c'est comme le réseau de télécommunication du Sénégal ! 📡
 
-Le **cerveau** est le centre d'appels principal à Dakar - il reçoit et traite toutes les informations.
+Le cerveau est le centre d'appels principal à Dakar - il reçoit et traite toutes les informations.
 
-La **moelle épinière** est le câble principal qui descend le long du pays.
+La moelle épinière est le câble principal qui descend le long du pays.
 
-Les **nerfs** sont les lignes téléphoniques qui vont dans chaque quartier, chaque maison.
+Les nerfs sont les lignes téléphoniques qui vont dans chaque quartier, chaque maison.
 
-Les **neurones** sont comme les opérateurs téléphoniques - ils transmettent les messages.
+Les neurones sont comme les opérateurs téléphoniques - ils transmettent les messages.
 
-Un **réflexe** est comme un message d'urgence qui prend un raccourci direct, sans passer par le centre !
+Un réflexe est comme un message d'urgence qui prend un raccourci direct, sans passer par le centre !
 
-Les **synapses** sont les relais téléphoniques où le message passe d'un neurone à l'autre.
+Les synapses sont les relais téléphoniques où le message passe d'un neurone à l'autre.
 
 Tout ça se passe à la vitesse de la lumière - plus rapide qu'un appel Whatsapp !`
         },
@@ -640,41 +640,41 @@ Tout ça se passe à la vitesse de la lumière - plus rapide qu'un appel Whatsap
 
 Le système nerveux contrôle et coordonne toutes les fonctions du corps.
 
-**Organisation**
+Organisation
 
-**Système Nerveux Central (SNC)**
+Système Nerveux Central (SNC)
 - Cerveau
 - Moelle épinière
 - Traitement de l'information
 
-**Système Nerveux Périphérique (SNP)**
+Système Nerveux Périphérique (SNP)
 - Nerfs sensitifs (afférents)
 - Nerfs moteurs (efférents)
 - Transmission des messages
 
-**Le Neurone**
+Le Neurone
 
-**Structure**
+Structure
 - Corps cellulaire (soma)
 - Dendrites (réception)
 - Axone (transmission)
 - Terminaisons synaptiques
 
-**Fonctionnement**
+Fonctionnement
 - Potentiel de repos (-70mV)
 - Potentiel d'action (influx nerveux)
 - Vitesse : jusqu'à 100 m/s
 
-**La Synapse**
+La Synapse
 
-**Transmission**
+Transmission
 - Synapse chimique
 - Neurotransmetteurs
 - Récepteurs
 
-**L'Arc Réflexe**
+L'Arc Réflexe
 
-**Étapes**
+Étapes
 1. Stimulus (ex: toucher chaud)
 2. Récepteur sensoriel
 3. Neurone sensitif
