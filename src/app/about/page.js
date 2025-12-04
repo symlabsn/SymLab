@@ -53,8 +53,8 @@ export default function AboutPage() {
             icon: '💡',
             color: 'from-[#00F5D4]/20 to-cyan-500/20',
             borderColor: 'border-[#00F5D4]/50',
-            description: 'SymLab transforme l\'apprentissage scientifique avec des simulations 3D interactives, des analogies culturelles sénégalaises et un parcours gamifié. Accessible sur smartphone, même avec connexion limitée.',
-            metrics: '29 simulations, 3 niveaux'
+            description: 'SymLab transforme l\'apprentissage scientifique avec des simulations 3D interactives, du calcul symbolique avancé (SymPy), des analogies culturelles sénégalaises et un parcours gamifié. Accessible sur smartphone, même avec connexion limitée.',
+            metrics: '29 simulations, Calcul symbolique'
         },
         {
             title: 'Proposition de Valeur',
@@ -69,8 +69,8 @@ export default function AboutPage() {
             icon: '📈',
             color: 'from-green-500/20 to-emerald-500/20',
             borderColor: 'border-green-500/50',
-            description: '2.3M élèves au Sénégal, 50M+ en Afrique de l\'Ouest francophone. Partenariats avec le Ministère de l\'Éducation, 15 lycées pilotes, et une communauté grandissante d\'enseignants innovants.',
-            metrics: 'TAM: 50M élèves'
+            description: '2.3M élèves au Sénégal, 50M+ en Afrique de l\'Ouest francophone. Partenariats avec le Ministère de l\'Éducation, ONGs, RSE d\'entreprises, 15 lycées pilotes, et une communauté grandissante d\'enseignants innovants.',
+            metrics: 'B2B, B2G, ONGs & RSE'
         }
     ];
 
@@ -226,57 +226,172 @@ export default function AboutPage() {
                 </div>
             </div>
 
-            {/* Pitch Révolutionnaire - Le Problème */}
-            <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-10">
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                    {pitchStats.map((stat, index) => (
-                        <div key={index} className="group p-6 rounded-2xl bg-gradient-to-br from-white/10 to-white/5 border border-white/20 backdrop-blur-xl hover:scale-105 transition-all duration-300 hover:border-white/50">
-                            <div className="text-4xl mb-3 group-hover:scale-110 transition-transform">{stat.icon}</div>
-                            <div className={`text-3xl font-black bg-gradient-to-r ${stat.color} bg-clip-text text-transparent mb-1`}>{stat.value}</div>
-                            <div className="text-sm font-semibold text-white mb-1">{stat.label}</div>
-                            <div className="text-xs text-gray-400">{stat.context}</div>
-                        </div>
-                    ))}
-                </div>
-            </div>
 
-            {/* Business Model Canvas */}
-            <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-
-                <div className="grid md:grid-cols-2 gap-6 mb-12">
-                    {businessModel.map((item, index) => (
-                        <div key={index} className={`group p-8 rounded-2xl bg-gradient-to-br ${item.color} border-2 ${item.borderColor} backdrop-blur-xl hover:scale-105 transition-all duration-300`}>
-                            <div className="flex items-start gap-4 mb-4">
-                                <div className="text-5xl group-hover:scale-110 transition-transform">{item.icon}</div>
-                                <div>
-                                    <h3 className="text-2xl font-black text-white mb-1">{item.title}</h3>
-                                    <div className="text-sm text-[#00F5D4] font-semibold">{item.metrics}</div>
-                                </div>
-                            </div>
-                            <p className="text-gray-300 leading-relaxed">{item.description}</p>
-                        </div>
-                    ))}
+            {/* SECTION DÉDIÉE AU PITCH - Affichage Séquentiel */}
+            <div className="relative z-10 bg-gradient-to-b from-slate-950 via-black to-slate-950 py-20 mt-10">
+                {/* Effet de grille futuriste en arrière-plan */}
+                <div className="absolute inset-0 opacity-10">
+                    <div className="absolute inset-0" style={{
+                        backgroundImage: 'linear-gradient(#00F5D4 1px, transparent 1px), linear-gradient(90deg, #00F5D4 1px, transparent 1px)',
+                        backgroundSize: '50px 50px'
+                    }}></div>
                 </div>
 
-                {/* Vision 2030 */}
-                <div className="p-8 rounded-3xl bg-gradient-to-r from-purple-900/30 via-pink-900/30 to-orange-900/30 border-2 border-purple-500/50 backdrop-blur-xl">
-                    <h3 className="text-3xl font-black text-center mb-8 bg-clip-text text-transparent bg-gradient-to-r from-[#00F5D4] to-purple-500">
-                        🚀 Notre Vision & Impact
-                    </h3>
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-                        {visionCards.map((card, index) => (
-                            <div key={index} className="text-center group">
-                                <div className="text-5xl mb-3 group-hover:scale-125 transition-transform">{card.icon}</div>
-                                <div className={`text-4xl font-black bg-gradient-to-r ${card.gradient} bg-clip-text text-transparent mb-2`}>
-                                    {card.stat}
+                <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    {/* Titre de la section pitch */}
+                    <div className="text-center mb-16">
+                        <div className="inline-block px-6 py-2 rounded-full bg-[#00F5D4]/10 border border-[#00F5D4]/30 mb-4">
+                            <span className="text-[#00F5D4] font-bold text-sm">PITCH DECK</span>
+                        </div>
+                        <h2 className="text-4xl md:text-5xl font-black mb-4 bg-clip-text text-transparent bg-gradient-to-r from-[#00F5D4] via-purple-500 to-pink-500">
+                            SymLab : L'Avenir de l'Éducation Scientifique en Afrique
+                        </h2>
+                        <div className="h-1 w-32 mx-auto bg-gradient-to-r from-[#00F5D4] to-purple-500 rounded-full"></div>
+                    </div>
+
+                    {/* Statistiques avec animation séquentielle */}
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-20">
+                        {pitchStats.map((stat, index) => (
+                            <div
+                                key={index}
+                                className="group p-6 rounded-2xl bg-gradient-to-br from-white/10 to-white/5 border border-white/20 backdrop-blur-xl hover:scale-105 transition-all duration-500 hover:border-[#00F5D4]/50 hover:shadow-lg hover:shadow-[#00F5D4]/20"
+                                style={{
+                                    animation: `fadeInUp 0.6s ease-out ${index * 0.2}s both`
+                                }}
+                            >
+                                <div className="text-5xl mb-4 group-hover:scale-125 transition-transform duration-300">{stat.icon}</div>
+                                <div className={`text-4xl font-black bg-gradient-to-r ${stat.color} bg-clip-text text-transparent mb-2`}>
+                                    {stat.value}
                                 </div>
-                                <div className="text-sm text-gray-400 mb-1">{card.title}</div>
-                                <div className="text-xs text-gray-500">{card.label}</div>
+                                <div className="text-sm font-bold text-white mb-1">{stat.label}</div>
+                                <div className="text-xs text-gray-400">{stat.context}</div>
                             </div>
                         ))}
                     </div>
+
+                    {/* Business Model avec animation séquentielle */}
+                    <div className="grid md:grid-cols-2 gap-8 mb-16">
+                        {businessModel.map((item, index) => (
+                            <div
+                                key={index}
+                                className={`group p-8 rounded-3xl bg-gradient-to-br ${item.color} border-2 ${item.borderColor} backdrop-blur-xl hover:scale-105 transition-all duration-500 hover:shadow-2xl`}
+                                style={{
+                                    animation: `slideInFromLeft 0.8s ease-out ${index * 0.3}s both`
+                                }}
+                            >
+                                <div className="flex items-start gap-4 mb-6">
+                                    <div className="text-6xl group-hover:scale-125 group-hover:rotate-12 transition-all duration-300">{item.icon}</div>
+                                    <div>
+                                        <h3 className="text-3xl font-black text-white mb-2">{item.title}</h3>
+                                        <div className="px-3 py-1 rounded-full bg-[#00F5D4]/20 border border-[#00F5D4]/50 inline-block">
+                                            <span className="text-sm text-[#00F5D4] font-bold">{item.metrics}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p className="text-gray-300 leading-relaxed text-lg">{item.description}</p>
+                            </div>
+                        ))}
+                    </div>
+
+                    {/* Vision 2030 avec animation */}
+                    <div
+                        className="p-10 rounded-3xl bg-gradient-to-r from-purple-900/40 via-pink-900/40 to-orange-900/40 border-2 border-purple-500/50 backdrop-blur-xl relative overflow-hidden"
+                        style={{
+                            animation: 'fadeInUp 1s ease-out 1.2s both'
+                        }}
+                    >
+                        {/* Effet de particules */}
+                        <div className="absolute inset-0 opacity-20">
+                            {[...Array(20)].map((_, i) => (
+                                <div
+                                    key={i}
+                                    className="absolute w-1 h-1 bg-[#00F5D4] rounded-full"
+                                    style={{
+                                        left: `${Math.random() * 100}%`,
+                                        top: `${Math.random() * 100}%`,
+                                        animation: `float ${3 + Math.random() * 3}s ease-in-out infinite ${Math.random() * 2}s`
+                                    }}
+                                ></div>
+                            ))}
+                        </div>
+
+                        <div className="relative z-10">
+                            <h3 className="text-4xl font-black text-center mb-10 bg-clip-text text-transparent bg-gradient-to-r from-[#00F5D4] via-purple-400 to-pink-400">
+                                🚀 Vision 2030 & Impact Mesurable
+                            </h3>
+                            <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+                                {visionCards.map((card, index) => (
+                                    <div
+                                        key={index}
+                                        className="text-center group cursor-pointer"
+                                        style={{
+                                            animation: `bounceIn 0.6s ease-out ${1.5 + index * 0.15}s both`
+                                        }}
+                                    >
+                                        <div className="text-6xl mb-4 group-hover:scale-150 transition-transform duration-300">{card.icon}</div>
+                                        <div className={`text-5xl font-black bg-gradient-to-r ${card.gradient} bg-clip-text text-transparent mb-3 group-hover:scale-110 transition-transform`}>
+                                            {card.stat}
+                                        </div>
+                                        <div className="text-base font-bold text-white mb-2">{card.title}</div>
+                                        <div className="text-sm text-gray-400">{card.label}</div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
+
+            {/* Animations CSS */}
+            <style jsx>{`
+                @keyframes fadeInUp {
+                    from {
+                        opacity: 0;
+                        transform: translateY(30px);
+                    }
+                    to {
+                        opacity: 1;
+                        transform: translateY(0);
+                    }
+                }
+
+                @keyframes slideInFromLeft {
+                    from {
+                        opacity: 0;
+                        transform: translateX(-50px);
+                    }
+                    to {
+                        opacity: 1;
+                        transform: translateX(0);
+                    }
+                }
+
+                @keyframes bounceIn {
+                    0% {
+                        opacity: 0;
+                        transform: scale(0.3);
+                    }
+                    50% {
+                        transform: scale(1.05);
+                    }
+                    70% {
+                        transform: scale(0.9);
+                    }
+                    100% {
+                        opacity: 1;
+                        transform: scale(1);
+                    }
+                }
+
+                @keyframes float {
+                    0%, 100% {
+                        transform: translateY(0px);
+                    }
+                    50% {
+                        transform: translateY(-20px);
+                    }
+                }
+            `}</style>
 
             {/* Tabs Section */}
             <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
