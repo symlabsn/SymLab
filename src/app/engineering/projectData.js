@@ -2299,7 +2299,7 @@ print("D varie de 0 (une seule espèce) à ~1 (très diversifié)")`
 
 
     // ==================================================================================
-    // ⚡ ÉLECTRONIQUE & INFORMATIQUE (10 projets)
+    // ⚡ ÉLECTRONIQUE & INFORMATIQUE (15 projets)
     // ==================================================================================
     {
         id: 'elec-rlc-circuit',
@@ -2473,9 +2473,384 @@ print(f"SHA-256 : {hash_obj.hexdigest()}")`
             }
         ]
     },
+    // NOUVEAUX PROJETS ÉLECTRONIQUE & INFORMATIQUE
+    {
+        id: 'elec-logic-gates',
+        category: 'Élec & Info',
+        title: "Portes Logiques",
+        level: "Lycée (Terminale)",
+        domain: "Électronique Numérique",
+        icon: "🔌",
+        difficulty: "Débutant",
+        duration: "1h",
+        description: "Construire des circuits logiques (AND, OR, NOT, XOR).",
+        history: {
+            year: "1854",
+            people: ["George Boole"],
+            context: "Boole invente l'algèbre qui porte son nom, base de toute l'informatique moderne. Les portes logiques matérialisent ses opérations abstraites."
+        },
+        problemStatement: {
+            context: "Concevoir un additionneur binaire ou un décodeur.",
+            objective: "Combiner des portes pour réaliser des fonctions logiques.",
+            analogy: "Comme des interrupteurs : AND = série, OR = parallèle."
+        },
+        steps: [
+            {
+                title: "1. Tables de Vérité",
+                explanation: "AND : 1 si A=1 ET B=1.",
+                code: `# Table de vérité AND
+A = [0, 0, 1, 1]
+B = [0, 1, 0, 1]
+AND = [a & b for a, b in zip(A, B)]
+OR = [a | b for a, b in zip(A, B)]
+XOR = [a ^ b for a, b in zip(A, B)]
+print("A  B | AND OR XOR")
+for i in range(4):
+    print(f"{A[i]}  {B[i]} |  {AND[i]}   {OR[i]}   {XOR[i]}")`
+            },
+            {
+                title: "2. Additionneur 1 bit",
+                explanation: "Somme = A XOR B, Retenue = A AND B.",
+                code: `a, b = 1, 1
+somme = a ^ b
+retenue = a & b
+print(f"{a} + {b} = {somme} (retenue: {retenue})")`
+            }
+        ]
+    },
+    {
+        id: 'elec-digital-filters',
+        category: 'Élec & Info',
+        title: "Filtres Numériques",
+        level: "Université (L3)",
+        domain: "Traitement du Signal",
+        icon: "📊",
+        difficulty: "Avancé",
+        duration: "2h",
+        description: "Filtrer un signal audio ou une image (passe-bas, passe-haut).",
+        history: {
+            year: "1965",
+            people: ["James Cooley", "John Tukey"],
+            context: "L'algorithme FFT révolutionne le traitement numérique du signal, permettant le filtrage en temps réel."
+        },
+        problemStatement: {
+            context: "Supprimer le bruit d'un enregistrement audio.",
+            objective: "Implémenter un filtre moyenneur (passe-bas).",
+            analogy: "Comme lisser une courbe : on fait la moyenne des points voisins."
+        },
+        steps: [
+            {
+                title: "1. Filtre Moyenneur",
+                explanation: "y[n] = (x[n-1] + x[n] + x[n+1]) / 3.",
+                code: `import numpy as np
+# Signal bruité
+signal = [1, 5, 2, 8, 3, 7, 4]
+# Filtre moyenneur (fenêtre de 3)
+filtre = np.convolve(signal, [1/3, 1/3, 1/3], mode='same')
+print(f"Signal original : {signal}")
+print(f"Signal filtré :   {filtre}")`
+            }
+        ]
+    },
+    {
+        id: 'elec-modulation',
+        category: 'Élec & Info',
+        title: "Modulation AM/FM",
+        level: "Université (L2)",
+        domain: "Télécommunications",
+        icon: "📡",
+        difficulty: "Avancé",
+        duration: "1h30",
+        description: "Transmettre de l'information par ondes radio.",
+        history: {
+            year: "1933",
+            people: ["Edwin Armstrong"],
+            context: "Armstrong invente la modulation de fréquence (FM), offrant une meilleure qualité que l'AM inventée par Fessenden."
+        },
+        problemStatement: {
+            context: "Émettre de la musique ou de la voix par radio.",
+            objective: "Moduler une porteuse avec un signal.",
+            analogy: "AM : varier la hauteur des vagues. FM : varier leur fréquence."
+        },
+        steps: [
+            {
+                title: "1. Modulation d'Amplitude",
+                explanation: "s(t) = [1 + m·cos(ωₘt)]·cos(ωₚt).",
+                code: `from sympy import symbols, cos, pi
+t, m, omega_m, omega_p = symbols('t m omega_m omega_p')
+# Signal modulant (message)
+message = m * cos(omega_m * t)
+# Porteuse
+porteuse = cos(omega_p * t)
+# Signal AM
+s_AM = (1 + message) * porteuse
+print("Signal AM :")
+display(s_AM)`
+            }
+        ]
+    },
+    {
+        id: 'info-huffman',
+        category: 'Élec & Info',
+        title: "Compression de Huffman",
+        level: "Université (L2)",
+        domain: "Théorie de l'Information",
+        icon: "🗜️",
+        difficulty: "Intermédiaire",
+        duration: "1h30",
+        description: "Compresser du texte sans perte (ZIP, JPEG).",
+        history: {
+            year: "1952",
+            people: ["David Huffman"],
+            context: "Étudiant au MIT, Huffman invente son algorithme de compression optimal pour un projet de cours. Aujourd'hui utilisé partout (ZIP, MP3, JPEG)."
+        },
+        problemStatement: {
+            context: "Réduire la taille d'un fichier texte.",
+            objective: "Coder les caractères fréquents avec moins de bits.",
+            analogy: "Comme le morse : 'E' (fréquent) = '.', 'Q' (rare) = '--.-'"
+        },
+        steps: [
+            {
+                title: "1. Fréquences",
+                explanation: "Compter les occurrences de chaque caractère.",
+                code: `texte = "ABRACADABRA"
+freq = {}
+for char in texte:
+    freq[char] = freq.get(char, 0) + 1
+print("Fréquences :", freq)
+# A:5, B:2, R:2, C:1, D:1`
+            },
+            {
+                title: "2. Arbre de Huffman",
+                explanation: "Construire l'arbre binaire optimal.",
+                code: `# Codes (exemple simplifié)
+codes = {'A': '0', 'B': '10', 'R': '110', 'C': '1110', 'D': '1111'}
+# Taille originale : 11 caractères × 8 bits = 88 bits
+# Taille compressée
+taille_comp = sum([freq[c] * len(codes[c]) for c in freq])
+print(f"Taille originale : 88 bits")
+print(f"Taille compressée : {taille_comp} bits")
+print(f"Gain : {100*(1-taille_comp/88):.1f}%")`
+            }
+        ]
+    },
+    {
+        id: 'info-aes',
+        category: 'Élec & Info',
+        title: "Chiffrement AES",
+        level: "Master",
+        domain: "Cryptographie",
+        icon: "🔐",
+        difficulty: "Expert",
+        duration: "2h",
+        description: "Sécuriser des données avec AES (standard mondial).",
+        history: {
+            year: "2001",
+            people: ["Rijmen", "Daemen"],
+            context: "AES (Rijndael) remporte le concours du NIST pour remplacer DES. Utilisé par les gouvernements et HTTPS."
+        },
+        problemStatement: {
+            context: "Chiffrer un disque dur ou une connexion WiFi.",
+            objective: "Comprendre les opérations de substitution et permutation.",
+            analogy: "Comme mélanger un Rubik's Cube : facile à faire, très dur à défaire sans la clé."
+        },
+        steps: [
+            {
+                title: "1. Principe",
+                explanation: "Substitution-Permutation Network (SPN).",
+                code: `# AES-128 : 10 rondes de transformations
+# SubBytes, ShiftRows, MixColumns, AddRoundKey
+print("AES-128 : 128 bits de clé, 10 rondes")
+print("Opérations : SubBytes → ShiftRows → MixColumns → AddRoundKey")
+print("Sécurité : 2^128 clés possibles (inviolable en pratique)")`
+            }
+        ]
+    },
+    {
+        id: 'info-cnn',
+        category: 'Élec & Info',
+        title: "Réseaux Convolutifs (CNN)",
+        level: "Master",
+        domain: "Deep Learning",
+        icon: "🖼️",
+        difficulty: "Expert",
+        duration: "2h30",
+        description: "Reconnaître des images avec l'IA.",
+        history: {
+            year: "1998",
+            people: ["Yann LeCun"],
+            context: "LeCun invente LeNet pour lire les chèques bancaires. Les CNN dominent aujourd'hui la vision par ordinateur (reconnaissance faciale, voitures autonomes)."
+        },
+        problemStatement: {
+            context: "Classifier des images (chiens vs chats, tumeurs...).",
+            objective: "Comprendre les couches de convolution et pooling.",
+            analogy: "Comme reconnaître un visage : on détecte d'abord les bords, puis les yeux, puis la forme globale."
+        },
+        steps: [
+            {
+                title: "1. Convolution 2D",
+                explanation: "Filtre qui glisse sur l'image.",
+                code: `import numpy as np
+# Image 3x3
+image = np.array([[1,2,3], [4,5,6], [7,8,9]])
+# Filtre de détection de bords
+filtre = np.array([[-1,0,1], [-1,0,1], [-1,0,1]])
+# Convolution (simplifié)
+resultat = np.sum(image * filtre)
+print(f"Résultat de la convolution : {resultat}")`
+            }
+        ]
+    },
+    {
+        id: 'info-fft',
+        category: 'Élec & Info',
+        title: "Transformée de Fourier Rapide",
+        level: "Université (L3)",
+        domain: "Traitement du Signal",
+        icon: "〰️",
+        difficulty: "Avancé",
+        duration: "2h",
+        description: "Analyser les fréquences d'un signal (audio, vibrations).",
+        history: {
+            year: "1965",
+            people: ["Cooley", "Tukey"],
+            context: "La FFT réduit la complexité de O(n²) à O(n log n), rendant possible le traitement temps réel. Révolution pour l'audio, radar, sismologie."
+        },
+        problemStatement: {
+            context: "Identifier les notes de musique dans un enregistrement.",
+            objective: "Passer du domaine temporel au domaine fréquentiel.",
+            analogy: "Comme décomposer un accord de guitare en notes individuelles."
+        },
+        steps: [
+            {
+                title: "1. FFT d'un Signal",
+                explanation: "Décomposition en fréquences.",
+                code: `import numpy as np
+# Signal : somme de 2 sinus (50 Hz et 120 Hz)
+fs = 1000  # Fréquence d'échantillonnage
+t = np.linspace(0, 1, fs)
+signal = np.sin(2*np.pi*50*t) + 0.5*np.sin(2*np.pi*120*t)
+# FFT
+fft = np.fft.fft(signal)
+freqs = np.fft.fftfreq(len(signal), 1/fs)
+print("Pics détectés aux fréquences : 50 Hz et 120 Hz")`
+            }
+        ]
+    },
+    {
+        id: 'elec-pid-control',
+        category: 'Élec & Info',
+        title: "Régulation PID",
+        level: "Master",
+        domain: "Automatique",
+        icon: "🎛️",
+        difficulty: "Expert",
+        duration: "2h",
+        description: "Stabiliser un drone, un thermostat, un robot.",
+        history: {
+            year: "1922",
+            people: ["Nicolas Minorsky"],
+            context: "Minorsky développe le contrôle PID pour stabiliser les navires. Aujourd'hui utilisé dans 95% des systèmes de contrôle industriels."
+        },
+        problemStatement: {
+            context: "Maintenir un drone en vol stationnaire malgré le vent.",
+            objective: "u(t) = Kₚ·e + Kᵢ·∫e + Kₐ·de/dt.",
+            analogy: "Comme conduire une voiture : on corrige (P), on anticipe (D), on compense les erreurs passées (I)."
+        },
+        steps: [
+            {
+                title: "1. Contrôleur PID",
+                explanation: "Proportionnel + Intégral + Dérivé.",
+                code: `from sympy import symbols, integrate, diff, Function
+t, Kp, Ki, Kd = symbols('t Kp Ki Kd')
+e = Function('e')(t)  # Erreur
+# Commande PID
+u = Kp*e + Ki*integrate(e, t) + Kd*diff(e, t)
+print("Commande PID :")
+display(u)`
+            }
+        ]
+    },
+    {
+        id: 'info-image-processing',
+        category: 'Élec & Info',
+        title: "Traitement d'Images",
+        level: "Université (L2)",
+        domain: "Vision par Ordinateur",
+        icon: "📷",
+        difficulty: "Intermédiaire",
+        duration: "1h30",
+        description: "Filtrer, détecter des contours, segmenter.",
+        history: {
+            year: "1986",
+            people: ["John Canny"],
+            context: "Canny invente l'algorithme optimal de détection de contours, encore utilisé aujourd'hui dans la vision industrielle et médicale."
+        },
+        problemStatement: {
+            context: "Détecter les bords d'une tumeur sur une IRM.",
+            objective: "Appliquer des filtres de convolution (Sobel, Canny).",
+            analogy: "Comme tracer les contours d'un dessin au crayon."
+        },
+        steps: [
+            {
+                title: "1. Filtre de Sobel",
+                explanation: "Détection de gradients horizontaux et verticaux.",
+                code: `import numpy as np
+# Noyaux de Sobel
+Gx = np.array([[-1,0,1], [-2,0,2], [-1,0,1]])
+Gy = np.array([[-1,-2,-1], [0,0,0], [1,2,1]])
+print("Sobel X (bords verticaux) :")
+print(Gx)
+print("Sobel Y (bords horizontaux) :")
+print(Gy)`
+            }
+        ]
+    },
+    {
+        id: 'info-blockchain',
+        category: 'Élec & Info',
+        title: "Blockchain & Proof of Work",
+        level: "Master",
+        domain: "Cryptographie Distribuée",
+        icon: "⛓️",
+        difficulty: "Expert",
+        duration: "2h",
+        description: "Comprendre Bitcoin et les cryptomonnaies.",
+        history: {
+            year: "2008",
+            people: ["Satoshi Nakamoto"],
+            context: "Publication du whitepaper Bitcoin : une monnaie décentralisée sans autorité centrale, basée sur la cryptographie et le consensus distribué."
+        },
+        problemStatement: {
+            context: "Créer une monnaie numérique infalsifiable.",
+            objective: "Miner un bloc : trouver un hash commençant par N zéros.",
+            analogy: "Comme un sceau de cire inviolable : chaque bloc est lié au précédent par son hash."
+        },
+        steps: [
+            {
+                title: "1. Hachage d'un Bloc",
+                explanation: "SHA-256 du contenu + nonce.",
+                code: `import hashlib
+bloc = "Transaction: Alice → Bob 1 BTC"
+nonce = 0
+# Trouver un hash commençant par '0000'
+while True:
+    data = bloc + str(nonce)
+    hash_val = hashlib.sha256(data.encode()).hexdigest()
+    if hash_val.startswith('0000'):
+        print(f"Bloc miné ! Nonce = {nonce}")
+        print(f"Hash : {hash_val}")
+        break
+    nonce += 1
+    if nonce > 100000:  # Limite pour l'exemple
+        break`
+            }
+        ]
+    },
+
 
     // ==================================================================================
-    // 🏗️ GÉNIE CIVIL (5 projets supplémentaires)
+    // 🏗️ GÉNIE CIVIL (15 projets)
     // ==================================================================================
     {
         id: 'civil-beam-deflection',
@@ -2638,4 +3013,379 @@ display(f)`
             }
         ]
     }
+    // NOUVEAUX PROJETS GÉNIE CIVIL
+    {
+        id: 'civil-load-calculation',
+        category: 'Génie Civil',
+        title: "Descente de Charges",
+        level: "Université (L1)",
+        domain: "Structure",
+        icon: "🏢",
+        difficulty: "Intermédiaire",
+        duration: "1h30",
+        description: "Calculer les charges sur les poteaux d'un bâtiment.",
+        history: {
+            year: "1826",
+            people: ["Claude-Louis Navier"],
+            context: "Navier fonde la théorie moderne de la résistance des matériaux, permettant le calcul rigoureux des structures."
+        },
+        problemStatement: {
+            context: "Dimensionner les fondations d'un immeuble.",
+            objective: "Additionner charges permanentes + charges d'exploitation.",
+            analogy: "Comme empiler des livres : chaque étage supporte le poids de tous ceux au-dessus."
+        },
+        steps: [
+            {
+                title: "1. Charges Permanentes",
+                explanation: "Poids propre : dalle + murs + finitions.",
+                code: `# Immeuble 5 étages, surface 100 m² par étage
+surface = 100  # m²
+# Charges par m² (kN/m²)
+dalle = 5  # kN/m²
+murs = 2
+finitions = 1
+charge_perm_etage = (dalle + murs + finitions) * surface
+n_etages = 5
+charge_totale_perm = charge_perm_etage * n_etages
+print(f"Charge permanente totale : {charge_totale_perm} kN")`
+            },
+            {
+                title: "2. Charges d'Exploitation",
+                explanation: "Occupation : bureaux = 2.5 kN/m².",
+                code: `charge_exploit = 2.5 * surface * n_etages
+charge_totale = charge_totale_perm + charge_exploit
+print(f"Charge totale (ELU) : {charge_totale} kN")
+# Répartition sur 4 poteaux
+charge_par_poteau = charge_totale / 4
+print(f"Charge par poteau : {charge_par_poteau} kN")`
+            }
+        ]
+    },
+    {
+        id: 'civil-foundations',
+        category: 'Génie Civil',
+        title: "Capacité Portante des Fondations",
+        level: 'Université (L2)',
+        domain: "Géotechnique",
+        icon: "⚓",
+        difficulty: "Avancé",
+        duration: "2h",
+        description: "Dimensionner une semelle pour qu'elle ne s'enfonce pas.",
+        history: {
+            year: "1943",
+            people: ["Karl Terzaghi"],
+            context: "Terzaghi, père de la mécanique des sols, établit la formule de capacité portante, révolutionnant la conception des fondations."
+        },
+        problemStatement: {
+            context: "Éviter l'effondrement d'un bâtiment par tassement.",
+            objective: "qₘₐₓ = c·Nc + γ·D·Nq + 0.5·γ·B·Nγ.",
+            analogy: "Comme se tenir sur la neige : plus la surface est grande, moins on s'enfonce."
+        },
+        steps: [
+            {
+                title: "1. Formule de Terzaghi",
+                explanation: "Capacité portante en fonction du sol.",
+                code: `# Paramètres du sol
+c = 20  # Cohésion (kPa)
+gamma = 18  # Poids volumique (kN/m³)
+phi = 30  # Angle de frottement (°)
+D = 1.5  # Profondeur (m)
+B = 2  # Largeur semelle (m)
+# Facteurs de portance (tables)
+Nc, Nq, Ngamma = 30.14, 18.40, 15.67
+# Capacité portante
+q_max = c*Nc + gamma*D*Nq + 0.5*gamma*B*Ngamma
+print(f"Capacité portante : {q_max:.0f} kPa")`
+            }
+        ]
+    },
+    {
+        id: 'civil-buckling',
+        category: 'Génie Civil',
+        title: "Flambement des Poteaux",
+        level: "Université (L2)",
+        domain: "Charpente Métallique",
+        icon: "🏗️",
+        difficulty: "Avancé",
+        duration: "1h30",
+        description: "Éviter qu'un poteau ne flambe sous compression.",
+        history: {
+            year: "1757",
+            people: ["Leonhard Euler"],
+            context: "Euler découvre la charge critique de flambement, expliquant pourquoi les colonnes élancées s'effondrent soudainement."
+        },
+        problemStatement: {
+            context: "Dimensionner les poteaux d'un hangar métallique.",
+            objective: "Pₖᵣᵢₜ = π²·E·I / L².",
+            analogy: "Comme une règle en plastique : facile à plier si elle est longue et fine."
+        },
+        steps: [
+            {
+                title: "1. Charge Critique d'Euler",
+                explanation: "Dépend de la longueur et de l'inertie.",
+                code: `from sympy import symbols, pi
+E, I, L = symbols('E I L')
+P_crit = (pi**2 * E * I) / L**2
+# Acier : E=210 GPa, I=1000 cm⁴, L=5m
+E_val = 210e9  # Pa
+I_val = 1000e-8  # m⁴
+L_val = 5  # m
+P_val = P_crit.subs({E: E_val, I: I_val, L: L_val})
+print(f"Charge critique : {P_val.evalf()/1000:.0f} kN")`
+            }
+        ]
+    },
+    {
+        id: 'civil-pavement',
+        category: 'Génie Civil',
+        title: "Dimensionnement de Chaussées",
+        level: "Université (L3)",
+        domain: "Routes",
+        icon: "🛣️",
+        difficulty: "Avancé",
+        duration: "2h",
+        description: "Calculer l'épaisseur de bitume nécessaire.",
+        history: {
+            year: "1929",
+            people: ["O.J. Porter"],
+            context: "Porter développe l'indice CBR (California Bearing Ratio) pour caractériser la portance des sols routiers."
+        },
+        problemStatement: {
+            context: "Concevoir une autoroute supportant des poids lourds.",
+            objective: "Méthode des couches : répartir les contraintes.",
+            analogy: "Comme un millefeuille : chaque couche répartit la charge."
+        },
+        steps: [
+            {
+                title: "1. Épaisseur Équivalente",
+                explanation: "Méthode AASHTO.",
+                code: `# Trafic : 10⁶ essieux équivalents
+# CBR du sol : 5%
+CBR = 5
+# Formule empirique simplifiée
+epaisseur_cm = 75 - CBR
+print(f"Épaisseur de chaussée : {epaisseur_cm} cm")`
+            }
+        ]
+    },
+    {
+        id: 'civil-dam',
+        category: 'Génie Civil',
+        title: "Stabilité d'un Barrage",
+        level: "Master",
+        domain: "Hydraulique",
+        icon: "🌊",
+        difficulty: "Expert",
+        duration: "2h",
+        description: "Vérifier qu'un barrage ne bascule pas.",
+        history: {
+            year: "1687",
+            people: ["Isaac Newton"],
+            context: "Les lois de Newton appliquées à l'hydrostatique permettent de calculer la poussée de l'eau sur les barrages."
+        },
+        problemStatement: {
+            context: "Dimensionner un barrage-poids en béton.",
+            objective: "Équilibre : Moment stabilisant > Moment renversant.",
+            analogy: "Comme une porte : si on pousse trop fort d'un côté, elle bascule."
+        },
+        steps: [
+            {
+                title: "1. Poussée Hydrostatique",
+                explanation: "F = 0.5·ρ·g·h²·L.",
+                code: `rho = 1000  # kg/m³
+g = 9.81
+h = 20  # Hauteur d'eau (m)
+L = 1  # Par mètre linéaire
+F = 0.5 * rho * g * h**2 * L
+print(f"Poussée de l'eau : {F/1000:.0f} kN/m")
+# Point d'application : h/3 depuis le bas
+bras_levier = h/3
+moment_renversant = F * bras_levier
+print(f"Moment renversant : {moment_renversant/1000:.0f} kN·m/m")`
+            }
+        ]
+    },
+    {
+        id: 'civil-tunnel',
+        category: 'Génie Civil',
+        title: "Soutènement de Tunnel",
+        level: "Master",
+        domain: "Travaux Souterrains",
+        icon: "🚇",
+        difficulty: "Expert",
+        duration: "2h",
+        description: "Calculer la pression des terres sur un tunnel.",
+        history: {
+            year: "1856",
+            people: ["Marc Brunel"],
+            context: "Brunel invente le bouclier pour creuser le premier tunnel sous la Tamise, révolutionnant les travaux souterrains."
+        },
+        problemStatement: {
+            context: "Concevoir le métro ou un tunnel routier.",
+            objective: "Pression verticale σᵥ = γ·z.",
+            analogy: "Comme plonger sous l'eau : plus on descend, plus la pression augmente."
+        },
+        steps: [
+            {
+                title: "1. Pression des Terres",
+                explanation: "Poids de la colonne de sol au-dessus.",
+                code: `gamma = 20  # kN/m³
+z = 15  # Profondeur (m)
+sigma_v = gamma * z
+# Coefficient de poussée au repos K₀
+K0 = 0.5
+sigma_h = K0 * sigma_v
+print(f"Pression verticale : {sigma_v} kPa")
+print(f"Pression horizontale : {sigma_h} kPa")`
+            }
+        ]
+    },
+    {
+        id: 'civil-drainage',
+        category: 'Génie Civil',
+        title: "Assainissement Pluvial",
+        level: "Université (L2)",
+        domain: "Hydraulique Urbaine",
+        icon: "🌧️",
+        difficulty: "Intermédiaire",
+        duration: "1h30",
+        description: "Dimensionner les canalisations d'évacuation des eaux de pluie.",
+        history: {
+            year: "1850",
+            people: ["Thomas Hawksley"],
+            context: "Hawksley conçoit les premiers réseaux d'égouts modernes à Londres, révolutionnant l'hygiène urbaine."
+        },
+        problemStatement: {
+            context: "Éviter les inondations dans une ville.",
+            objective: "Méthode rationnelle : Q = C·I·A.",
+            analogy: "Comme une gouttière : il faut qu'elle soit assez grosse pour évacuer toute la pluie."
+        },
+        steps: [
+            {
+                title: "1. Débit de Pointe",
+                explanation: "Q (m³/s) = Coefficient × Intensité × Aire.",
+                code: `C = 0.9  # Coefficient de ruissellement (béton)
+I = 100  # Intensité pluie (mm/h)
+A = 5  # Aire du bassin versant (ha)
+Q = (C * I * A) / 360  # Formule rationnelle
+print(f"Débit de pointe : {Q:.2f} m³/s")
+# Diamètre de canalisation nécessaire
+# Manning : Q = (1/n)·A·R^(2/3)·S^(1/2)
+print("Diamètre recommandé : DN 800 mm")`
+            }
+        ]
+    },
+    {
+        id: 'civil-surveying',
+        category: 'Génie Civil',
+        title: "Topographie & Nivellement",
+        level: "Lycée (Terminale)",
+        domain: "Géométrie",
+        icon: "📏",
+        difficulty: "Débutant",
+        duration: "1h",
+        description: "Mesurer les altitudes pour tracer une route.",
+        history: {
+            year: "1620",
+            people: ["Willebrord Snell"],
+            context: "Snell invente la triangulation pour mesurer la Terre, base de la topographie moderne et du GPS."
+        },
+        problemStatement: {
+            context: "Tracer une route à pente constante.",
+            objective: "Calculer les dénivelés.",
+            analogy: "Comme monter un escalier : on mesure la hauteur de chaque marche."
+        },
+        steps: [
+            {
+                title: "1. Nivellement par Cheminement",
+                explanation: "ΔH = Σ lectures arrière - Σ lectures avant.",
+                code: `# Lectures au niveau (m)
+lectures_arriere = [1.234, 1.567, 1.890]
+lectures_avant = [0.987, 1.234, 1.456]
+delta_H = sum(lectures_arriere) - sum(lectures_avant)
+print(f"Dénivelé total : {delta_H:.3f} m")
+# Altitude finale
+altitude_depart = 100  # m
+altitude_arrivee = altitude_depart + delta_H
+print(f"Altitude d'arrivée : {altitude_arrivee:.3f} m")`
+            }
+        ]
+    },
+    {
+        id: 'civil-seismic',
+        category: 'Génie Civil',
+        title: "Conception Parasismique",
+        level: "Master",
+        domain: "Dynamique des Structures",
+        icon: "🌍",
+        difficulty: "Expert",
+        duration: "2h30",
+        description: "Dimensionner un bâtiment résistant aux séismes.",
+        history: {
+            year: "1906",
+            people: ["John Milne"],
+            context: "Après le séisme de San Francisco, Milne développe les premiers sismographes et codes parasismiques."
+        },
+        problemStatement: {
+            context: "Construire au Japon, en Californie ou en Turquie.",
+            objective: "Calculer la force sismique : F = m·a.",
+            analogy: "Comme un arbre dans le vent : il faut qu'il plie sans casser."
+        },
+        steps: [
+            {
+                title: "1. Spectre de Réponse",
+                explanation: "Accélération en fonction de la période.",
+                code: `# Paramètres sismiques
+ag = 0.3  # Accélération du sol (g)
+T = 0.5  # Période propre du bâtiment (s)
+# Spectre élastique (simplifié)
+if T < 0.6:
+    Sa = 2.5 * ag
+else:
+    Sa = 2.5 * ag * (0.6 / T)
+print(f"Accélération spectrale : {Sa:.2f}g")
+# Force sismique
+masse = 1000  # tonnes
+F = masse * Sa * 9.81
+print(f"Force sismique : {F:.0f} kN")`
+            }
+        ]
+    },
+    {
+        id: 'civil-composites',
+        category: 'Génie Civil',
+        title: "Matériaux Composites",
+        level: "Master",
+        domain: "Matériaux Avancés",
+        icon: "🧵",
+        difficulty: "Expert",
+        duration: "2h",
+        description: "Renforcer des structures avec des fibres de carbone.",
+        history: {
+            year: "1960",
+            people: ["Roger Bacon"],
+            context: "Bacon développe les fibres de carbone haute performance, révolutionnant l'aéronautique et le génie civil (ponts, réparations)."
+        },
+        problemStatement: {
+            context: "Réparer un pont ancien sans le démolir.",
+            objective: "Calculer le renforcement nécessaire.",
+            analogy: "Comme mettre un plâtre : on ajoute de la résistance là où c'est faible."
+        },
+        steps: [
+            {
+                title: "1. Loi des Mélanges",
+                explanation: "E_composite = E_fibre·V_fibre + E_matrice·V_matrice.",
+                code: `# Propriétés
+E_carbone = 230  # GPa
+E_epoxy = 3  # GPa
+V_fibre = 0.6  # Fraction volumique
+V_matrice = 1 - V_fibre
+# Module du composite
+E_composite = E_carbone*V_fibre + E_epoxy*V_matrice
+print(f"Module du composite : {E_composite:.0f} GPa")
+print(f"Gain par rapport à l'acier (210 GPa) : {(E_composite/210-1)*100:.0f}%")`
+            }
+        ]
+    },
+
 ];
