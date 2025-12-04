@@ -34,79 +34,79 @@ export const challenges = [
     },
     {
         "id": "day_004",
-        "title": "Jour 004 — Résolution d'équations simples",
-        "code": "from sympy import symbols, Eq, solve\nx = symbols('x')\nsolve(Eq(x**2-5*x+6,0), x)",
-        "output": "\\(\\{2,\\,3\\}\\)",
+        "title": "Jour 004 — Résolution d'équations",
+        "code": "from sympy import symbols, Eq, solve\nx = symbols('x')\neq = Eq(x**2 - 5*x + 6, 0)\nsolve(eq, x)",
+        "output": "[2, 3]",
         "exercises": [
-            "Exercice 1 — Reproduire l'exécution du code et vérifier la sortie attendue.",
-            "Exercice 2 — Proposer une variante: modifier une partie du code pour obtenir un résultat connexe.",
-            "Exercice 3 — Donner une application pratique (court texte) reliant le thème à un problème réel."
+            "Résoudre l'équation x³ - 1 = 0",
+            "Trouver les racines de x² + 2x + 1 = 0",
+            "Résoudre le système : x + y = 5, x - y = 1"
         ]
     },
     {
         "id": "day_005",
         "title": "Jour 005 — Affichage mathématique",
-        "code": "from sympy import symbols, integrate, sin, pi\nx = symbols('x')\nintegrate(sin(x)/x, (x,0,pi))",
-        "output": "\\(\\int_{0}^{\\pi}\\frac{\\sin x}{x}\\,dx\\)",
+        "code": "from sympy import symbols, Integral, latex, init_printing\ninit_printing()\nx = symbols('x')\nexpr = Integral(1/x, x)\nexpr",
+        "output": "∫ 1/x dx",
         "exercises": [
-            "Exercice 1 — Reproduire l'exécution du code et vérifier la sortie attendue.",
-            "Exercice 2 — Proposer une variante: modifier une partie du code pour obtenir un résultat connexe.",
-            "Exercice 3 — Donner une application pratique (court texte) reliant le thème à un problème réel."
+            "Afficher une intégrale définie de 0 à l'infini",
+            "Générer le code LaTeX pour une fraction complexe",
+            "Utiliser pprint pour un affichage ASCII art"
         ]
     },
     {
         "id": "day_006",
         "title": "Jour 006 — Polynômes",
-        "code": "from sympy import symbols, Poly\nx = symbols('x')\nPoly(x**4-5*x**2+4, x).nroots()",
-        "output": "\\(\\text{(liste de racines numériques)}\\)",
+        "code": "from sympy import symbols, Poly, roots\nx = symbols('x')\nP = x**3 - 6*x**2 + 11*x - 6\nroots(P)",
+        "output": "{1: 1, 2: 1, 3: 1}",
         "exercises": [
-            "Exercice 1 — Reproduire l'exécution du code et vérifier la sortie attendue.",
-            "Exercice 2 — Proposer une variante: modifier une partie du code pour obtenir un résultat connexe.",
-            "Exercice 3 — Donner une application pratique (court texte) reliant le thème à un problème réel."
+            "Trouver les racines de x⁴ - 1",
+            "Construire un polynôme à partir de ses racines [1, -1, 2]",
+            "Obtenir les coefficients d'un polynôme"
         ]
     },
     {
         "id": "day_007",
         "title": "Jour 007 — Simplification rationnelle",
-        "code": "from sympy import symbols, apart\nx = symbols('x')\napart((x**2+1)/(x*(x-1)))",
-        "output": "\\(\\frac{x+1}{x}+\\frac{1}{x-1}\\)",
+        "code": "from sympy import symbols, simplify, apart, together\nx = symbols('x')\nexpr = (x**2 + 2*x + 1) / (x + 1)\nsimplify(expr)",
+        "output": "x + 1",
         "exercises": [
-            "Exercice 1 — Reproduire l'exécution du code et vérifier la sortie attendue.",
-            "Exercice 2 — Proposer une variante: modifier une partie du code pour obtenir un résultat connexe.",
-            "Exercice 3 — Donner une application pratique (court texte) reliant le thème à un problème réel."
+            "Simplifier (x² - 9) / (x - 3)",
+            "Décomposer en éléments simples 1 / (x² - 1)",
+            "Mettre au même dénominateur 1/x + 1/y"
         ]
     },
     {
         "id": "day_008",
-        "title": "Jour 008 — Numérique vs symbolique",
-        "code": "import sympy as sp\nsp.N(sp.pi,50)",
-        "output": "\\(\\pi \\text{ (valeur numérique à 50 déc.)}\\)",
+        "title": "Jour 008 — Numérique vs Symbolique",
+        "code": "from sympy import pi, N\n# 50 décimales de Pi\nN(pi, 50)",
+        "output": "3.1415926535897932384626433832795028841971693993751",
         "exercises": [
-            "Exercice 1 — Reproduire l'exécution du code et vérifier la sortie attendue.",
-            "Exercice 2 — Proposer une variante: modifier une partie du code pour obtenir un résultat connexe.",
-            "Exercice 3 — Donner une application pratique (court texte) reliant le thème à un problème réel."
+            "Calculer racine de 2 avec 100 décimales",
+            "Comparer 1/3 symbolique et 1/3 numérique",
+            "Évaluer exp(1) avec 20 chiffres significatifs"
         ]
     },
     {
         "id": "day_009",
         "title": "Jour 009 — Dérivation symbolique",
-        "code": "from sympy import symbols, diff, exp, sin\nx = symbols('x')\ndiff(exp(x)*sin(x), x)",
-        "output": "\\(e^{x}\\sin x + e^{x}\\cos x\\)",
+        "code": "from sympy import symbols, diff, sin, exp\nx = symbols('x')\nf = exp(x) * sin(x)\ndiff(f, x)",
+        "output": "exp(x)*sin(x) + exp(x)*cos(x)",
         "exercises": [
-            "Exercice 1 — Reproduire l'exécution du code et vérifier la sortie attendue.",
-            "Exercice 2 — Proposer une variante: modifier une partie du code pour obtenir un résultat connexe.",
-            "Exercice 3 — Donner une application pratique (court texte) reliant le thème à un problème réel."
+            "Calculer la dérivée de x² * log(x)",
+            "Trouver la dérivée seconde de cos(x)",
+            "Dériver une fonction composée sin(x²)"
         ]
     },
     {
         "id": "day_010",
         "title": "Jour 010 — Intégration symbolique",
-        "code": "from sympy import symbols, integrate\nx = symbols('x')\nintegrate(exp(-x**2),(x,-oo,oo))",
-        "output": "\\(\\sqrt{\\pi}\\)",
+        "code": "from sympy import symbols, integrate, sin, oo\nx = symbols('x')\nintegrate(sin(x), (x, 0, pi))",
+        "output": "2",
         "exercises": [
-            "Exercice 1 — Reproduire l'exécution du code et vérifier la sortie attendue.",
-            "Exercice 2 — Proposer une variante: modifier une partie du code pour obtenir un résultat connexe.",
-            "Exercice 3 — Donner une application pratique (court texte) reliant le thème à un problème réel."
+            "Calculer la primitive de x * exp(x)",
+            "Calculer l'intégrale définie de 1/(1+x²) de 0 à 1",
+            "Calculer une intégrale impropre (jusqu'à l'infini)"
         ]
     },
     {
