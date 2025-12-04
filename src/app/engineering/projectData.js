@@ -1717,7 +1717,7 @@ print("Objectif chimie verte : E < 1")`
 
 
     // ==================================================================================
-    // 🧬 BIOLOGIE (10 projets)
+    // 🧬 BIOLOGIE (15 projets)
     // ==================================================================================
     {
         id: 'bio-pop-growth',
@@ -1884,6 +1884,419 @@ print("Système SIR défini.")`
             }
         ]
     },
+    // NOUVEAUX PROJETS BIOLOGIE À INSÉRER APRÈS ÉPIDÉMIOLOGIE
+    {
+        id: 'bio-mitosis',
+        category: 'Biologie',
+        title: "Mitose & Cycle Cellulaire",
+        level: "Lycée (Seconde)",
+        domain: "Biologie Cellulaire",
+        icon: "🔬",
+        difficulty: "Débutant",
+        duration: "1h",
+        description: "Comprendre la division cellulaire et la croissance des tissus.",
+        history: {
+            year: "1882",
+            people: ["Walther Flemming"],
+            context: "Flemming observe et décrit pour la première fois la mitose au microscope, révélant comment une cellule se divise en deux cellules identiques."
+        },
+        problemStatement: {
+            context: "Modéliser la croissance d'un tissu (peau, foie) ou d'une tumeur.",
+            objective: "Calculer le nombre de cellules après n divisions : N = N₀·2ⁿ.",
+            analogy: "Comme photocopier un document : 1 devient 2, 2 devient 4, 4 devient 8..."
+        },
+        steps: [
+            {
+                title: "1. Croissance Exponentielle",
+                explanation: "Chaque cellule se divise en 2.",
+                code: `from sympy import symbols
+n = symbols('n')
+N0 = 1  # Une cellule initiale
+N = N0 * 2**n
+# Après 10 divisions
+print(f"Après 10 divisions : {N.subs(n, 10)} cellules")
+# Après 20 divisions
+print(f"Après 20 divisions : {N.subs(n, 20)} cellules")`
+            },
+            {
+                title: "2. Temps de Doublement",
+                explanation: "Si une division prend 24h, combien de temps pour 1 million de cellules ?",
+                code: `from sympy import log, solve
+N_final = 1e6
+eq = N0 * 2**n - N_final
+n_divisions = solve(eq, n)[0]
+temps_h = n_divisions * 24
+print(f"Nombre de divisions : {n_divisions.evalf()}")
+print(f"Temps nécessaire : {temps_h.evalf()} heures = {(temps_h/24).evalf()} jours")`
+            }
+        ]
+    },
+    {
+        id: 'bio-cellular-respiration',
+        category: 'Biologie',
+        title: "Respiration Cellulaire",
+        level: "Lycée (Première)",
+        domain: "Biochimie",
+        icon: "⚡",
+        difficulty: "Intermédiaire",
+        duration: "1h30",
+        description: "Production d'ATP : la monnaie énergétique de la cellule.",
+        history: {
+            year: "1937",
+            people: ["Hans Krebs"],
+            context: "Krebs découvre le cycle qui porte son nom, expliquant comment les cellules extraient l'énergie du glucose. Prix Nobel 1953."
+        },
+        problemStatement: {
+            context: "Calculer l'énergie produite par la dégradation du glucose.",
+            objective: "C₆H₁₂O₆ + 6O₂ → 6CO₂ + 6H₂O + 38 ATP.",
+            analogy: "Comme brûler du bois : on casse les liaisons chimiques pour libérer de l'énergie."
+        },
+        steps: [
+            {
+                title: "1. Bilan Énergétique",
+                explanation: "1 glucose → 38 ATP (théorique).",
+                code: `# Énergie par ATP : ~30.5 kJ/mol
+E_ATP = 30.5  # kJ/mol
+n_ATP = 38
+E_totale = n_ATP * E_ATP
+print(f"Énergie produite : {E_totale} kJ/mol de glucose")
+# Rendement
+E_glucose = 2870  # kJ/mol (combustion complète)
+rendement = (E_totale / E_glucose) * 100
+print(f"Rendement de la respiration : {rendement:.1f}%")`
+            }
+        ]
+    },
+    {
+        id: 'bio-dna-replication',
+        category: 'Biologie',
+        title: "Réplication de l'ADN",
+        level: "Lycée (Terminale)",
+        domain: "Génétique Moléculaire",
+        icon: "🧬",
+        difficulty: "Intermédiaire",
+        duration: "1h",
+        description: "Comment l'ADN se copie avant la division cellulaire.",
+        history: {
+            year: "1958",
+            people: ["Meselson", "Stahl"],
+            context: "L'expérience de Meselson-Stahl prouve que la réplication de l'ADN est semi-conservative : chaque brin sert de matrice."
+        },
+        problemStatement: {
+            context: "Comprendre les mutations et la transmission de l'information génétique.",
+            objective: "Modéliser la réplication semi-conservative.",
+            analogy: "Comme une fermeture éclair qui s'ouvre : chaque moitié sert de modèle pour recréer l'autre."
+        },
+        steps: [
+            {
+                title: "1. Complémentarité des Bases",
+                explanation: "A-T et G-C (règles de Chargaff).",
+                code: `# Séquence d'ADN
+brin_matrice = "ATGCGATCG"
+complement = {'A': 'T', 'T': 'A', 'G': 'C', 'C': 'G'}
+brin_complementaire = ''.join([complement[base] for base in brin_matrice])
+print(f"Brin matrice :        {brin_matrice}")
+print(f"Brin complémentaire : {brin_complementaire}")`
+            },
+            {
+                title: "2. Vitesse de Réplication",
+                explanation: "ADN polymérase : ~1000 nucléotides/seconde.",
+                code: `vitesse = 1000  # nt/s
+taille_genome_humain = 3e9  # paires de bases
+temps_s = taille_genome_humain / vitesse
+temps_h = temps_s / 3600
+print(f"Temps théorique pour répliquer le génome humain : {temps_h:.0f} heures")
+# En réalité : ~8h grâce aux multiples origines de réplication`
+            }
+        ]
+    },
+    {
+        id: 'bio-protein-synthesis',
+        category: 'Biologie',
+        title: "Synthèse des Protéines",
+        level: "Lycée (Terminale)",
+        domain: "Biologie Moléculaire",
+        icon: "🧬",
+        difficulty: "Avancé",
+        duration: "1h30",
+        description: "Du gène à la protéine : transcription et traduction.",
+        history: {
+            year: "1961",
+            people: ["Nirenberg", "Matthaei"],
+            context: "Déchiffrage du code génétique : chaque triplet de nucléotides (codon) code pour un acide aminé. Prix Nobel 1968."
+        },
+        problemStatement: {
+            context: "Prédire la séquence d'une protéine à partir de l'ADN.",
+            objective: "ADN → ARNm → Protéine (code génétique).",
+            analogy: "Comme traduire un livre : ADN (texte original) → ARNm (photocopie) → Protéine (traduction)."
+        },
+        steps: [
+            {
+                title: "1. Transcription (ADN → ARNm)",
+                explanation: "T devient U dans l'ARN.",
+                code: `adn = "ATGCGATCG"
+transcription = {'A': 'U', 'T': 'A', 'G': 'C', 'C': 'G'}
+arnm = ''.join([transcription[base] for base in adn])
+print(f"ADN :  {adn}")
+print(f"ARNm : {arnm}")`
+            },
+            {
+                title: "2. Traduction (ARNm → Protéine)",
+                explanation: "Code génétique : 3 nucléotides = 1 acide aminé.",
+                code: `# Code génétique simplifié
+code_genetique = {
+    'AUG': 'Met', 'UUU': 'Phe', 'UCU': 'Ser',
+    'UAU': 'Tyr', 'UGU': 'Cys', 'UAA': 'STOP'
+}
+# Découper en codons
+codons = [arnm[i:i+3] for i in range(0, len(arnm), 3)]
+proteine = [code_genetique.get(codon, '?') for codon in codons]
+print(f"Codons : {codons}")
+print(f"Protéine : {'-'.join(proteine)}")`
+            }
+        ]
+    },
+    {
+        id: 'bio-hardy-weinberg',
+        category: 'Biologie',
+        title: "Équilibre de Hardy-Weinberg",
+        level: "Université (L1)",
+        domain: "Génétique des Populations",
+        icon: "🧬",
+        difficulty: "Avancé",
+        duration: "1h30",
+        description: "Prédire les fréquences alléliques dans une population.",
+        history: {
+            year: "1908",
+            people: ["Hardy", "Weinberg"],
+            context: "Ils montrent que les fréquences alléliques restent constantes en l'absence de sélection, mutation, migration ou dérive. Base de la génétique des populations."
+        },
+        problemStatement: {
+            context: "Étudier l'évolution d'un caractère (groupe sanguin, maladie génétique).",
+            objective: "p² + 2pq + q² = 1 (fréquences génotypiques).",
+            analogy: "Comme mélanger des billes rouges et bleues : les proportions restent stables si on ne triche pas."
+        },
+        steps: [
+            {
+                title: "1. Fréquences Alléliques",
+                explanation: "p + q = 1 (2 allèles A et a).",
+                code: `from sympy import symbols, solve, Eq
+p, q = symbols('p q')
+# Si 16% de la population est aa (q²=0.16)
+q_val = 0.16**0.5
+p_val = 1 - q_val
+print(f"Fréquence de a (q) : {q_val}")
+print(f"Fréquence de A (p) : {p_val}")`
+            },
+            {
+                title: "2. Fréquences Génotypiques",
+                explanation: "AA : p², Aa : 2pq, aa : q².",
+                code: `freq_AA = p_val**2
+freq_Aa = 2*p_val*q_val
+freq_aa = q_val**2
+print(f"Fréquence AA : {freq_AA:.2%}")
+print(f"Fréquence Aa : {freq_Aa:.2%}")
+print(f"Fréquence aa : {freq_aa:.2%}")
+print(f"Total : {freq_AA + freq_Aa + freq_aa}")`
+            }
+        ]
+    },
+    {
+        id: 'bio-food-chains',
+        category: 'Biologie',
+        title: "Chaînes Alimentaires",
+        level: "Lycée (Seconde)",
+        domain: "Écologie",
+        icon: "🌿",
+        difficulty: "Débutant",
+        duration: "1h",
+        description: "Flux d'énergie dans un écosystème.",
+        history: {
+            year: "1942",
+            people: ["Raymond Lindeman"],
+            context: "Lindeman quantifie le transfert d'énergie entre niveaux trophiques : seulement ~10% de l'énergie passe d'un niveau à l'autre."
+        },
+        problemStatement: {
+            context: "Comprendre pourquoi il y a peu de prédateurs au sommet.",
+            objective: "Règle des 10% : chaque niveau ne reçoit que 10% de l'énergie du précédent.",
+            analogy: "Comme une cascade d'eau : à chaque palier, on perd de l'énergie en chaleur."
+        },
+        steps: [
+            {
+                title: "1. Pyramide Énergétique",
+                explanation: "Producteurs → Herbivores → Carnivores.",
+                code: `# Énergie initiale (producteurs)
+E0 = 10000  # kJ/m²/an
+rendement = 0.1  # 10%
+# Niveaux trophiques
+herbivores = E0 * rendement
+carnivores_1 = herbivores * rendement
+carnivores_2 = carnivores_1 * rendement
+print(f"Producteurs :      {E0} kJ")
+print(f"Herbivores :       {herbivores} kJ")
+print(f"Carnivores 1 :     {carnivores_1} kJ")
+print(f"Super-prédateurs : {carnivores_2} kJ")`
+            }
+        ]
+    },
+    {
+        id: 'bio-immune-system',
+        category: 'Biologie',
+        title: "Système Immunitaire",
+        level: "Lycée (Terminale)",
+        domain: "Immunologie",
+        icon: "🛡️",
+        difficulty: "Intermédiaire",
+        duration: "1h",
+        description: "Réponse antigène-anticorps et mémoire immunitaire.",
+        history: {
+            year: "1796",
+            people: ["Edward Jenner"],
+            context: "Jenner invente la vaccination en inoculant la vaccine (variole bovine) pour protéger contre la variole humaine. Début de l'immunologie."
+        },
+        problemStatement: {
+            context: "Comprendre comment les vaccins fonctionnent.",
+            objective: "Modéliser la production d'anticorps après infection/vaccination.",
+            analogy: "Comme un système d'alarme qui apprend : après une première intrusion, il reconnaît l'intrus instantanément."
+        },
+        steps: [
+            {
+                title: "1. Réponse Primaire vs Secondaire",
+                explanation: "2ème exposition → réponse plus rapide et plus forte.",
+                code: `import matplotlib.pyplot as plt
+import numpy as np
+# Temps (jours)
+t = np.linspace(0, 60, 100)
+# Réponse primaire (jour 0-30)
+primaire = 10 * np.exp(-((t-10)**2)/50) * (t < 30)
+# Réponse secondaire (jour 30-60)
+secondaire = 50 * np.exp(-((t-35)**2)/30) * (t >= 30)
+anticorps = primaire + secondaire
+# Affichage
+print("Pic primaire : ~10 unités à J+10")
+print("Pic secondaire : ~50 unités à J+35 (5x plus fort !)")`
+            }
+        ]
+    },
+    {
+        id: 'bio-hormones',
+        category: 'Biologie',
+        title: "Régulation Hormonale",
+        level: "Lycée (Première)",
+        domain: "Physiologie",
+        icon: "🩺",
+        difficulty: "Intermédiaire",
+        duration: "1h",
+        description: "Boucles de rétroaction (feedback) : glycémie, thyroïde.",
+        history: {
+            year: "1902",
+            people: ["Bayliss", "Starling"],
+            context: "Découverte de la sécrétine, première hormone identifiée. Révèle l'existence de messagers chimiques dans le sang."
+        },
+        problemStatement: {
+            context: "Réguler la glycémie (diabète) ou la température corporelle.",
+            objective: "Modéliser une boucle de rétroaction négative.",
+            analogy: "Comme un thermostat : si trop chaud, on refroidit. Si trop froid, on chauffe."
+        },
+        steps: [
+            {
+                title: "1. Régulation de la Glycémie",
+                explanation: "Insuline (baisse) vs Glucagon (hausse).",
+                code: `# Glycémie normale : 1 g/L
+glycemie_cible = 1.0
+glycemie_actuelle = 1.5  # Hyperglycémie
+# Sécrétion d'insuline proportionnelle à l'écart
+K = 0.5  # Constante
+insuline = K * (glycemie_actuelle - glycemie_cible)
+print(f"Glycémie : {glycemie_actuelle} g/L")
+print(f"Sécrétion d'insuline : {insuline} unités")
+# Nouvelle glycémie après action
+nouvelle_glycemie = glycemie_actuelle - insuline
+print(f"Nouvelle glycémie : {nouvelle_glycemie} g/L")`
+            }
+        ]
+    },
+    {
+        id: 'bio-neurotransmission',
+        category: 'Biologie',
+        title: "Neurotransmission",
+        level: "Université (L1)",
+        domain: "Neurobiologie",
+        icon: "🧠",
+        difficulty: "Avancé",
+        duration: "1h30",
+        description: "Transmission du signal nerveux à la synapse.",
+        history: {
+            year: "1921",
+            people: ["Otto Loewi"],
+            context: "Loewi démontre l'existence de neurotransmetteurs chimiques (acétylcholine). Prix Nobel 1936."
+        },
+        problemStatement: {
+            context: "Comprendre comment les antidépresseurs (ISRS) fonctionnent.",
+            objective: "Modéliser la concentration de neurotransmetteur dans la fente synaptique.",
+            analogy: "Comme un relais : le message électrique devient chimique pour traverser le fossé entre neurones."
+        },
+        steps: [
+            {
+                title: "1. Libération et Recapture",
+                explanation: "Équilibre entre libération et recapture.",
+                code: `from sympy import symbols, Function, dsolve, Eq
+t, k_lib, k_recap = symbols('t k_lib k_recap')
+C = Function('C')(t)
+# dC/dt = libération - recapture
+eq = Eq(C.diff(t), k_lib - k_recap*C)
+sol = dsolve(eq)
+print("Concentration de neurotransmetteur :")
+display(sol)`
+            }
+        ]
+    },
+    {
+        id: 'bio-biodiversity-indices',
+        category: 'Biologie',
+        title: "Indices de Biodiversité",
+        level: "Université (L2)",
+        domain: "Écologie",
+        icon: "🌍",
+        difficulty: "Avancé",
+        duration: "1h30",
+        description: "Mesurer la diversité d'un écosystème (Shannon, Simpson).",
+        history: {
+            year: "1948",
+            people: ["Claude Shannon", "Edward Simpson"],
+            context: "Shannon (théorie de l'information) et Simpson (écologie) développent des indices pour quantifier la diversité biologique."
+        },
+        problemStatement: {
+            context: "Comparer la santé de deux forêts ou récifs coralliens.",
+            objective: "Calculer H (Shannon) et D (Simpson).",
+            analogy: "Comme mesurer la richesse d'une bibliothèque : nombre de livres ET équilibre entre genres."
+        },
+        steps: [
+            {
+                title: "1. Indice de Shannon",
+                explanation: "H = -Σ pᵢ·ln(pᵢ).",
+                code: `import numpy as np
+# Nombre d'individus par espèce
+especes = [50, 30, 15, 5]
+total = sum(especes)
+# Proportions
+p = [n/total for n in especes]
+# Indice de Shannon
+H = -sum([pi * np.log(pi) for pi in p if pi > 0])
+print(f"Indice de Shannon : H = {H:.2f}")
+print("Plus H est élevé, plus la diversité est grande")`
+            },
+            {
+                title: "2. Indice de Simpson",
+                explanation: "D = 1 - Σ pᵢ².",
+                code: `# Indice de Simpson
+D = 1 - sum([pi**2 for pi in p])
+print(f"Indice de Simpson : D = {D:.2f}")
+print("D varie de 0 (une seule espèce) à ~1 (très diversifié)")`
+            }
+        ]
+    },
+
 
     // ==================================================================================
     // ⚡ ÉLECTRONIQUE & INFORMATIQUE (10 projets)
