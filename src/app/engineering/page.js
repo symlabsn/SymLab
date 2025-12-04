@@ -6,6 +6,21 @@ import { engineeringProjects } from './projectData';
 
 export default function EngineeringPage() {
     const [selectedProject, setSelectedProject] = useState(null);
+    const [activeCategory, setActiveCategory] = useState('Tous');
+
+    const categories = [
+        'Tous',
+        'Mathématiques',
+        'Physique',
+        'Chimie',
+        'Biologie',
+        'Génie Civil',
+        'Élec & Info'
+    ];
+
+    const filteredProjects = activeCategory === 'Tous'
+        ? engineeringProjects
+        : engineeringProjects.filter(p => p.category === activeCategory);
 
     return (
         <main className="min-h-screen bg-black text-white font-sans selection:bg-[#00F5D4] selection:text-black">
@@ -26,36 +41,51 @@ export default function EngineeringPage() {
             </nav>
 
             {/* Hero Section */}
-            <div className="relative pt-32 pb-20 px-4 overflow-hidden">
+            <div className="relative pt-32 pb-12 px-4 overflow-hidden">
                 <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[500px] bg-[#00F5D4] rounded-full blur-[120px] opacity-10 pointer-events-none"></div>
 
                 <div className="max-w-4xl mx-auto text-center relative z-10">
                     <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 mb-6 animate-fade-in">
                         <span className="w-2 h-2 rounded-full bg-[#00F5D4] animate-pulse"></span>
-                        <span className="text-xs font-mono text-[#00F5D4] uppercase tracking-wider">Projets Concrets</span>
+                        <span className="text-xs font-mono text-[#00F5D4] uppercase tracking-wider">60+ Projets Concrets</span>
                     </div>
                     <h1 className="text-5xl md:text-7xl font-black mb-6 leading-tight tracking-tight">
                         L'Ingénierie par <br />
                         <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#00F5D4] via-blue-500 to-purple-600">la Pratique.</span>
                     </h1>
-                    <p className="text-xl text-gray-400 max-w-2xl mx-auto leading-relaxed">
-                        Des projets réels, du Lycée au Master. Apprenez à modéliser, calculer et innover avec la puissance des mathématiques symboliques.
-                    </p>
+                </div>
+            </div>
+
+            {/* Category Filter */}
+            <div className="max-w-7xl mx-auto px-4 mb-12 overflow-x-auto">
+                <div className="flex gap-2 justify-center min-w-max">
+                    {categories.map(cat => (
+                        <button
+                            key={cat}
+                            onClick={() => setActiveCategory(cat)}
+                            className={`px-6 py-2 rounded-full text-sm font-bold transition-all duration-300 ${activeCategory === cat
+                                    ? 'bg-[#00F5D4] text-black shadow-lg shadow-[#00F5D4]/20 scale-105'
+                                    : 'bg-white/5 text-gray-400 hover:bg-white/10 hover:text-white'
+                                }`}
+                        >
+                            {cat}
+                        </button>
+                    ))}
                 </div>
             </div>
 
             {/* Projects Grid */}
             <div className="max-w-7xl mx-auto px-4 pb-32">
-                <div className="grid md:grid-cols-2 gap-6">
-                    {engineeringProjects.map((project) => (
+                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {filteredProjects.map((project) => (
                         <div
                             key={project.id}
                             onClick={() => setSelectedProject(project)}
-                            className="group relative bg-[#0F1115] rounded-3xl border border-white/10 overflow-hidden hover:border-[#00F5D4]/50 transition-all duration-300 cursor-pointer hover:-translate-y-1 hover:shadow-2xl hover:shadow-[#00F5D4]/10"
+                            className="group relative bg-[#0F1115] rounded-3xl border border-white/10 overflow-hidden hover:border-[#00F5D4]/50 transition-all duration-300 cursor-pointer hover:-translate-y-1 hover:shadow-2xl hover:shadow-[#00F5D4]/10 flex flex-col"
                         >
                             <div className="absolute inset-0 bg-gradient-to-br from-[#00F5D4]/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
 
-                            <div className="p-8 relative z-10">
+                            <div className="p-8 relative z-10 flex-1 flex flex-col">
                                 <div className="flex justify-between items-start mb-6">
                                     <div className="w-14 h-14 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-3xl group-hover:scale-110 transition-transform duration-300 shadow-inner">
                                         {project.icon}
@@ -68,10 +98,10 @@ export default function EngineeringPage() {
                                     </div>
                                 </div>
 
-                                <h3 className="text-2xl font-bold mb-2 group-hover:text-[#00F5D4] transition-colors">{project.title}</h3>
-                                <p className="text-gray-400 text-sm mb-6 line-clamp-2">{project.description}</p>
+                                <h3 className="text-xl font-bold mb-2 group-hover:text-[#00F5D4] transition-colors">{project.title}</h3>
+                                <p className="text-gray-400 text-sm mb-6 line-clamp-3 flex-1">{project.description}</p>
 
-                                <div className="flex items-center gap-4 text-xs font-mono text-gray-500 border-t border-white/5 pt-4">
+                                <div className="flex items-center gap-4 text-xs font-mono text-gray-500 border-t border-white/5 pt-4 mt-auto">
                                     <span className="flex items-center gap-1">
                                         <span className="w-1.5 h-1.5 rounded-full bg-purple-500"></span>
                                         {project.domain}
