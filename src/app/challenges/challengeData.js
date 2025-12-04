@@ -1055,4 +1055,4 @@ export const challenges = [
             "Exercice 3 — Donner une application pratique (court texte) reliant le thème à un problème réel."
         ]
     }
-];
+];// Force reload

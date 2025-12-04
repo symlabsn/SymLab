@@ -8,8 +8,14 @@ import { notFound } from 'next/navigation';
 
 export default function ChallengeDayPage({ params }) {
     const { day } = params;
+    console.log('Day param:', day);
+    console.log('Challenges count:', challenges.length);
+    console.log('First challenge ID:', challenges[0]?.id);
+
     const challenge = challenges.find(c => c.id === day);
+
     const enrichedData = challengesEnriched.find(c => c.id === day);
+    console.log('Found enrichedData:', enrichedData);
 
     // État local pour la progression (en production, utiliser localStorage ou DB)
     const [completedDays, setCompletedDays] = useState([]);
