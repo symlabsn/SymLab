@@ -28,6 +28,13 @@ export default function Home() {
             accentColor: '#FF9F1C' // Orange
         },
         {
+            id: 'chal',
+            title: 'Challenges',
+            description: '100 jours pour maîtriser SymPy et le calcul symbolique.',
+            href: '/challenges',
+            accentColor: '#F43F5E' // Rose
+        },
+        {
             id: 'vid',
             title: 'Vidéos',
             description: 'Capsules visuelles pour comprendre les STEM.',
