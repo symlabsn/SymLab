@@ -23,7 +23,7 @@ export default function Home() {
         {
             id: 'ing',
             title: 'Ingénierie',
-            description: 'Conception de systèmes, robotique et projets.',
+            description: 'L\'ingénierie par la pratique.',
             href: '/engineering',
             accentColor: '#FF9F1C' // Orange
         },
