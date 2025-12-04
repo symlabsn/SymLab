@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Jour 012 — Paramètres &amp; constantes</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.js"></script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<style>
+:root{
+  --bg:#0f172a; --panel:#071126; --accent:#06b6d4; --muted:#94a3b8; --card:#0b1220; --glass: rgba(255,255,255,0.06);
+  --white:#ffffff; --success:#10b981;
+}
+*{box-sizing:border-box}body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,'Helvetica Neue',Arial;background:linear-gradient(180deg,#f3f7fb,#eef7fb);color:#0b1220;-webkit-font-smoothing:antialiased}
+.header{background:linear-gradient(90deg,#0b3d91,#0ea5e9);color:white;padding:20px;border-radius:10px;margin:16px}
+.container{max-width:1100px;margin:0 auto;padding:16px}
+.grid{display:grid;grid-template-columns:300px 1fr;gap:18px}
+@media(max-width:900px){.grid{grid-template-columns:1fr}.toc{order:2}}
+.toc{position:sticky;top:20px;background:white;padding:14px;border-radius:10px;box-shadow:0 8px 30px rgba(2,6,23,0.08);height:calc(100vh - 48px);overflow:auto}
+.toc h3{margin:0 0 10px 0}
+.search{margin-bottom:8px}
+.search input{width:100%;padding:8px;border-radius:8px;border:1px solid #eff6ff}
+.toc-list{list-style:none;padding:0;margin:0}
+.toc-list li{margin:6px 0}
+.toc-list a{display:block;padding:8px;border-radius:8px;color:#0b1220;text-decoration:none;border:1px solid transparent}
+.toc-list a:hover{background:linear-gradient(90deg,#e6f6fb,#fff)}
+.page{background:white;padding:18px;border-radius:12px;box-shadow:0 12px 40px rgba(2,6,23,0.06)}
+.page h1{margin:0 0 8px 0}
+.meta{color:var(--muted);font-size:13px;margin-bottom:12px}
+.code{background:#0b1220;color:#d1fae5;padding:12px;border-radius:8px;overflow:auto;font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, 'Roboto Mono', monospace}
+.output{background:linear-gradient(90deg,#fff7ed,#fff3e8);border-left:4px solid #f59e0b;padding:12px;border-radius:8px;margin-top:12px;color:#92400e}
+.exercises{margin-top:14px;padding:12px;background:#f8fafc;border-radius:8px;border:1px solid #eef2ff}
+.controls{display:flex;gap:8px;justify-content:space-between;margin-top:12px;align-items:center}
+.btn{background:var(--accent);color:white;padding:8px 12px;border-radius:8px;text-decoration:none;font-weight:600}
+.note{margin-top:12px;padding:10px;border-radius:8px;background:#fff; border:1px dashed #e6eef8}
+.footer{margin:18px 0;text-align:center;color:var(--muted)}
+.small{font-size:13px;color:var(--muted)}
+</style>
+</head>
+<body>
+<header class="header container"><div style="display:flex;justify-content:space-between;align-items:center"><div><h1 style="margin:0;color:white">Jour 012 — Paramètres &amp; constantes</h1><div class="small">Challenge 100 Jours SymPy</div></div><div style="text-align:right"><a class="btn" href="index.html">Retour à l'index</a></div></div></header>
+<div class="container grid">
+  <aside class="toc">
+    <h3>Navigation</h3>
+    <div class="search"><input id="searchBox" placeholder="Rechercher un thème..." /></div>
+    <ul class="toc-list">
+<li><a href="day_002.html">Jour 002 — Symbols &amp; types</a></li>
+<li><a href="day_003.html">Jour 003 — Manipulations de base</a></li>
+<li><a href="day_004.html">Jour 004 — Résolution d&#x27;équations simples</a></li>
+<li><a href="day_005.html">Jour 005 — Affichage mathématique</a></li>
+<li><a href="day_006.html">Jour 006 — Polynômes</a></li>
+<li><a href="day_007.html">Jour 007 — Simplification rationnelle</a></li>
+<li><a href="day_008.html">Jour 008 — Numérique vs symbolique</a></li>
+<li><a href="day_009.html">Jour 009 — Dérivation symbolique</a></li>
+<li><a href="day_010.html">Jour 010 — Intégration symbolique</a></li>
+<li><a href="day_011.html">Jour 011 — Limites</a></li>
+<li><a href="day_012.html" style="font-weight:700">Jour 012 — Paramètres &amp; constantes</a></li>
+<li><a href="day_013.html">Jour 013 — Séries de Taylor</a></li>
+<li><a href="day_014.html">Jour 014 — Mini-projet 1</a></li>
+<li><a href="day_015.html">Jour 015 — Factorisation avancée</a></li>
+<li><a href="day_016.html">Jour 016 — PGCD &amp; division euclidienne</a></li>
+<li><a href="day_017.html">Jour 017 — Trigonométrie symbolique</a></li>
+<li><a href="day_018.html">Jour 018 — Polynômes supérieurs</a></li>
+<li><a href="day_019.html">Jour 019 — Partial fractions</a></li>
+<li><a href="day_020.html">Jour 020 — Systèmes linéaires</a></li>
+<li><a href="day_021.html">Jour 021 — Matrices symboliques</a></li>
+<li><a href="day_022.html">Jour 022 — Déterminant &amp; trace</a></li>
+    </ul>
+  </aside>
+  <main class="page">
+    <h1>Jour 012 — Paramètres &amp; constantes</h1>
+    <div class="meta">Thème détaillé — code, sortie attendue et exercices.</div>
+    <h2>Description</h2>
+    <p>Exemple pédagogique ciblé sur <strong>Paramètres &amp; constantes</strong>. Le code suivant est prêt à être collé dans un notebook Python avec SymPy.</p>
+    <h3>Code SymPy</h3>
+    <div class="code"><pre><code class="language-python">import sympy as sp
+a = sp.symbols(&#x27;a&#x27;, positive=True)
+sp.solve(sp.Eq(a*sp.symbols(&#x27;x&#x27;),1), sp.symbols(&#x27;x&#x27;))</code></pre></div>
+    <div class="output">Sortie attendue : <span class="latex">\(\frac{1}{a}\)</span></div>
+    <div class="exercises">
+      <h3>Exercices supplémentaires</h3>
+      <ol>
+<li>Exercice 1 — Reproduire l&#x27;exécution du code et vérifier la sortie attendue.</li>
+<li>Exercice 2 — Proposer une variante: modifier une partie du code pour obtenir un résultat connexe.</li>
+<li>Exercice 3 — Donner une application pratique (court texte) reliant le thème à un problème réel.</li>
+      </ol>
+    </div>
+    <div class="note"><strong>Notes :</strong> espace pour tes annotations et réponses.</div>
+    <div class="controls">
+      <div><a class="btn" href="day_011.html">Précédent</a></div>
+      <div><a class="btn" href="day_013.html">Suivant</a></div>
+    </div>
+  </main>
+</div>
+<footer class="container footer">© 2025 — El Hadji Momar FAYE</footer>
+<script>
+// simple client-side routing: each day has its own HTML file; navigation links point to them.
+// On index, clicking a day opens the corresponding page. On a day page, Prev/Next navigate.
+// For search in TOC (index page)
+function initSearch() {
+  const input = document.getElementById('searchBox');
+  if(!input) return;
+  input.addEventListener('input', function() {
+    const q = this.value.toLowerCase();
+    document.querySelectorAll('.toc-list li').forEach(li => {
+      const text = li.textContent.toLowerCase();
+      li.style.display = text.includes(q) ? 'block' : 'none';
+    });
+  });
+}
+document.addEventListener('DOMContentLoaded', initSearch);
+</script>
+</body>
+</html>

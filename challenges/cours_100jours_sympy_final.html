@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Challenge 100 Jours SymPy — Index</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.js"></script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<style>
+:root{
+  --bg:#0f172a; --panel:#071126; --accent:#06b6d4; --muted:#94a3b8; --card:#0b1220; --glass: rgba(255,255,255,0.06);
+  --white:#ffffff; --success:#10b981;
+}
+*{box-sizing:border-box}body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,'Helvetica Neue',Arial;background:linear-gradient(180deg,#f3f7fb,#eef7fb);color:#0b1220;-webkit-font-smoothing:antialiased}
+.header{background:linear-gradient(90deg,#0b3d91,#0ea5e9);color:white;padding:20px;border-radius:10px;margin:16px}
+.container{max-width:1100px;margin:0 auto;padding:16px}
+.grid{display:grid;grid-template-columns:300px 1fr;gap:18px}
+@media(max-width:900px){.grid{grid-template-columns:1fr}.toc{order:2}}
+.toc{position:sticky;top:20px;background:white;padding:14px;border-radius:10px;box-shadow:0 8px 30px rgba(2,6,23,0.08);height:calc(100vh - 48px);overflow:auto}
+.toc h3{margin:0 0 10px 0}
+.search{margin-bottom:8px}
+.search input{width:100%;padding:8px;border-radius:8px;border:1px solid #eff6ff}
+.toc-list{list-style:none;padding:0;margin:0}
+.toc-list li{margin:6px 0}
+.toc-list a{display:block;padding:8px;border-radius:8px;color:#0b1220;text-decoration:none;border:1px solid transparent}
+.toc-list a:hover{background:linear-gradient(90deg,#e6f6fb,#fff)}
+.page{background:white;padding:18px;border-radius:12px;box-shadow:0 12px 40px rgba(2,6,23,0.06)}
+.page h1{margin:0 0 8px 0}
+.meta{color:var(--muted);font-size:13px;margin-bottom:12px}
+.code{background:#0b1220;color:#d1fae5;padding:12px;border-radius:8px;overflow:auto;font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, 'Roboto Mono', monospace}
+.output{background:linear-gradient(90deg,#fff7ed,#fff3e8);border-left:4px solid #f59e0b;padding:12px;border-radius:8px;margin-top:12px;color:#92400e}
+.exercises{margin-top:14px;padding:12px;background:#f8fafc;border-radius:8px;border:1px solid #eef2ff}
+.controls{display:flex;gap:8px;justify-content:space-between;margin-top:12px;align-items:center}
+.btn{background:var(--accent);color:white;padding:8px 12px;border-radius:8px;text-decoration:none;font-weight:600}
+.note{margin-top:12px;padding:10px;border-radius:8px;background:#fff; border:1px dashed #e6eef8}
+.footer{margin:18px 0;text-align:center;color:var(--muted)}
+.small{font-size:13px;color:var(--muted)}
+</style>
+</head>
+<body>
+<header class="header container"><div style="display:flex;justify-content:space-between;align-items:center"><div><h1 style="margin:0;color:white">Challenge 100 Jours — SymPy</h1><div class="small">Par El Hadji Momar FAYE — Physicien & Data Scientist</div></div><div style="text-align:right"><a class="btn" href="cours_100jours_sympy_final.html" style="background:white;color:#0b1220;padding:8px 14px;border-radius:8px">Version complète</a></div></div></header>
+<div class="container grid">
+  <aside class="toc">
+    <h3>Table des matières</h3>
+    <div class="search"><input id="searchBox" placeholder="Rechercher un thème..." /></div>
+    <ul class="toc-list">
+<li><a href="day_001.html">Jour 001 — Installation &amp; premier notebook</a></li>
+<li><a href="day_002.html">Jour 002 — Symbols &amp; types</a></li>
+<li><a href="day_003.html">Jour 003 — Manipulations de base</a></li>
+<li><a href="day_004.html">Jour 004 — Résolution d&#x27;équations simples</a></li>
+<li><a href="day_005.html">Jour 005 — Affichage mathématique</a></li>
+<li><a href="day_006.html">Jour 006 — Polynômes</a></li>
+<li><a href="day_007.html">Jour 007 — Simplification rationnelle</a></li>
+<li><a href="day_008.html">Jour 008 — Numérique vs symbolique</a></li>
+<li><a href="day_009.html">Jour 009 — Dérivation symbolique</a></li>
+<li><a href="day_010.html">Jour 010 — Intégration symbolique</a></li>
+<li><a href="day_011.html">Jour 011 — Limites</a></li>
+<li><a href="day_012.html">Jour 012 — Paramètres &amp; constantes</a></li>
+<li><a href="day_013.html">Jour 013 — Séries de Taylor</a></li>
+<li><a href="day_014.html">Jour 014 — Mini-projet 1</a></li>
+<li><a href="day_015.html">Jour 015 — Factorisation avancée</a></li>
+<li><a href="day_016.html">Jour 016 — PGCD &amp; division euclidienne</a></li>
+<li><a href="day_017.html">Jour 017 — Trigonométrie symbolique</a></li>
+<li><a href="day_018.html">Jour 018 — Polynômes supérieurs</a></li>
+<li><a href="day_019.html">Jour 019 — Partial fractions</a></li>
+<li><a href="day_020.html">Jour 020 — Systèmes linéaires</a></li>
+<li><a href="day_021.html">Jour 021 — Matrices symboliques</a></li>
+<li><a href="day_022.html">Jour 022 — Déterminant &amp; trace</a></li>
+<li><a href="day_023.html">Jour 023 — Inverse &amp; systèmes matriciels</a></li>
+<li><a href="day_024.html">Jour 024 — Valeurs propres</a></li>
+<li><a href="day_025.html">Jour 025 — Diagonalisation</a></li>
+<li><a href="day_026.html">Jour 026 — Dérivées partielles</a></li>
+<li><a href="day_027.html">Jour 027 — Hessian &amp; convexité</a></li>
+<li><a href="day_028.html">Jour 028 — Optimisation simple</a></li>
+<li><a href="day_029.html">Jour 029 — Lagrangiens</a></li>
+<li><a href="day_030.html">Jour 030 — Mini-projet 2</a></li>
+<li><a href="day_031.html">Jour 031 — EDO ordre 1</a></li>
+<li><a href="day_032.html">Jour 032 — EDO ordre 2</a></li>
+<li><a href="day_033.html">Jour 033 — Systèmes d&#x27;EDO</a></li>
+<li><a href="day_034.html">Jour 034 — Conditions initiales</a></li>
+<li><a href="day_035.html">Jour 035 — Laplace (intro)</a></li>
+<li><a href="day_036.html">Jour 036 — Fourier (intro)</a></li>
+<li><a href="day_037.html">Jour 037 — PDE intro</a></li>
+<li><a href="day_038.html">Jour 038 — Séries de Fourier</a></li>
+<li><a href="day_039.html">Jour 039 — Intégrales impropres</a></li>
+<li><a href="day_040.html">Jour 040 — Intégration paramétrique</a></li>
+<li><a href="day_041.html">Jour 041 — Intégrales multiples</a></li>
+<li><a href="day_042.html">Jour 042 — Changement de variables</a></li>
+<li><a href="day_043.html">Jour 043 — Calcul vectoriel</a></li>
+<li><a href="day_044.html">Jour 044 — Champs scalaires &amp; vectoriels</a></li>
+<li><a href="day_045.html">Jour 045 — Analyse d&#x27;erreurs</a></li>
+<li><a href="day_046.html">Jour 046 — Séries de Laurent</a></li>
+<li><a href="day_047.html">Jour 047 — Résidus &amp; intégrales complexes</a></li>
+<li><a href="day_048.html">Jour 048 — Fonctions spéciales</a></li>
+<li><a href="day_049.html">Jour 049 — Trigono avancée</a></li>
+<li><a href="day_050.html">Jour 050 — Revue mi-parcours</a></li>
+<li><a href="day_051.html">Jour 051 — Projections &amp; moindres carrés</a></li>
+<li><a href="day_052.html">Jour 052 — Régression symbolique</a></li>
+<li><a href="day_053.html">Jour 053 — Gradients ML</a></li>
+<li><a href="day_054.html">Jour 054 — Systèmes non-linéaires</a></li>
+<li><a href="day_055.html">Jour 055 — Linéarisation</a></li>
+<li><a href="day_056.html">Jour 056 — Analyse de stabilité</a></li>
+<li><a href="day_057.html">Jour 057 — Modèle SIR</a></li>
+<li><a href="day_058.html">Jour 058 — Cinétique chimique</a></li>
+<li><a href="day_059.html">Jour 059 — Équations de conservation</a></li>
+<li><a href="day_060.html">Jour 060 — Circuits RLC</a></li>
+<li><a href="day_061.html">Jour 061 — Pôles &amp; zéros</a></li>
+<li><a href="day_062.html">Jour 062 — Transformée Z</a></li>
+<li><a href="day_063.html">Jour 063 — Laplace appliquée</a></li>
+<li><a href="day_064.html">Jour 064 — Énergie masse-ressort</a></li>
+<li><a href="day_065.html">Jour 065 — Masse-ressort amorti</a></li>
+<li><a href="day_066.html">Jour 066 — Vibrations &amp; modes</a></li>
+<li><a href="day_067.html">Jour 067 — Analyse modale</a></li>
+<li><a href="day_068.html">Jour 068 — Thermodynamique symbolique</a></li>
+<li><a href="day_069.html">Jour 069 — Équilibre chimique</a></li>
+<li><a href="day_070.html">Jour 070 — Optique simplifiée</a></li>
+<li><a href="day_071.html">Jour 071 — Cinématique 2R</a></li>
+<li><a href="day_072.html">Jour 072 — Contrôle PID</a></li>
+<li><a href="day_073.html">Jour 073 — Optimisation contrainte</a></li>
+<li><a href="day_074.html">Jour 074 — Hybrid symbolic-numeric</a></li>
+<li><a href="day_075.html">Jour 075 — Réduction de modèle</a></li>
+<li><a href="day_076.html">Jour 076 — EDO non-linéaires pratiques</a></li>
+<li><a href="day_077.html">Jour 077 — Bifurcations</a></li>
+<li><a href="day_078.html">Jour 078 — Analyse fréquentielle</a></li>
+<li><a href="day_079.html">Jour 079 — lambdify: codegen</a></li>
+<li><a href="day_080.html">Jour 080 — Validation vs simulation</a></li>
+<li><a href="day_081.html">Jour 081 — Reproductibilité notebooks</a></li>
+<li><a href="day_082.html">Jour 082 — Notebook -&gt; script</a></li>
+<li><a href="day_083.html">Jour 083 — Tests unitaires</a></li>
+<li><a href="day_084.html">Jour 084 — Performance &amp; simplification</a></li>
+<li><a href="day_085.html">Jour 085 — Visualisation</a></li>
+<li><a href="day_086.html">Jour 086 — Projet RLC complet</a></li>
+<li><a href="day_087.html">Jour 087 — Projet robot 2R</a></li>
+<li><a href="day_088.html">Jour 088 — Projet SIR avancé</a></li>
+<li><a href="day_089.html">Jour 089 — Projet optimisation</a></li>
+<li><a href="day_090.html">Jour 090 — CI pour notebooks</a></li>
+<li><a href="day_091.html">Jour 091 — Slides from notebooks</a></li>
+<li><a href="day_092.html">Jour 092 — README techniques</a></li>
+<li><a href="day_093.html">Jour 093 — Préparation démos</a></li>
+<li><a href="day_094.html">Jour 094 — Peer review notebooks</a></li>
+<li><a href="day_095.html">Jour 095 — Packaging final</a></li>
+<li><a href="day_096.html">Jour 096 — Projet final démarrage</a></li>
+<li><a href="day_097.html">Jour 097 — Projet final dev</a></li>
+<li><a href="day_098.html">Jour 098 — Projet final tests</a></li>
+<li><a href="day_099.html">Jour 099 — Répétition générale</a></li>
+<li><a href="day_100.html">Jour 100 — Clôture &amp; certificats</a></li>
+
+    </ul>
+    <div class="small" style="margin-top:12px">Navigation rapide — cliquez sur un jour pour ouvrir sa page.</div>
+  </aside>
+  <main class="page">
+    <h1>Bienvenue — Challenge 100 Jours SymPy</h1>
+    <div class="meta">Parcours pédagogique progressif : du lycée à l’université et à l’ingénierie. Cliquez sur un jour pour accéder au contenu détaillé, au code et aux exercices.</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px">
+<div style="background:#fff;padding:12px;border-radius:8px;box-shadow:0 8px 20px rgba(2,6,23,0.06)"><h4>Jour 001 — Installation &amp; premier notebook</h4><div class="code" style="font-size:13px">import sympy as sp<br>sp.__version__</div><div class="small" style="margin-top:8px"><a href="day_001.html" class="btn">Voir le jour</a></div></div>
+<div style="background:#fff;padding:12px;border-radius:8px;box-shadow:0 8px 20px rgba(2,6,23,0.06)"><h4>Jour 002 — Symbols &amp; types</h4><div class="code" style="font-size:13px">from sympy import symbols<br>x, y = symbols(&#x27;x y&#x27;)<br>expr = x + 2*y<br>expr</div><div class="small" style="margin-top:8px"><a href="day_002.html" class="btn">Voir le jour</a></div></div>
+<div style="background:#fff;padding:12px;border-radius:8px;box-shadow:0 8px 20px rgba(2,6,23,0.06)"><h4>Jour 003 — Manipulations de base</h4><div class="code" style="font-size:13px">from sympy import symbols, expand, factor<br>x = symbols(&#x27;x&#x27;)<br>expand((x+1)**3)</div><div class="small" style="margin-top:8px"><a href="day_003.html" class="btn">Voir le jour</a></div></div>
+<div style="background:#fff;padding:12px;border-radius:8px;box-shadow:0 8px 20px rgba(2,6,23,0.06)"><h4>Jour 004 — Résolution d&#x27;équations simples</h4><div class="code" style="font-size:13px">from sympy import symbols, Eq, solve<br>x = symbols(&#x27;x&#x27;)<br>solve(Eq(x**2-5*x+6,0), x)</div><div class="small" style="margin-top:8px"><a href="day_004.html" class="btn">Voir le jour</a></div></div>
+<div style="background:#fff;padding:12px;border-radius:8px;box-shadow:0 8px 20px rgba(2,6,23,0.06)"><h4>Jour 005 — Affichage mathématique</h4><div class="code" style="font-size:13px">from sympy import symbols, integrate, sin, pi<br>x = symbols(&#x27;x&#x27;)<br>integrate(sin(x)/x, (x,0,pi))</div><div class="small" style="margin-top:8px"><a href="day_005.html" class="btn">Voir le jour</a></div></div>
+<div style="background:#fff;padding:12px;border-radius:8px;box-shadow:0 8px 20px rgba(2,6,23,0.06)"><h4>Jour 006 — Polynômes</h4><div class="code" style="font-size:13px">from sympy import symbols, Poly<br>x = symbols(&#x27;x&#x27;)<br>Poly(x**4-5*x**2+4, x).nroots()</div><div class="small" style="margin-top:8px"><a href="day_006.html" class="btn">Voir le jour</a></div></div>
+<div style="background:#fff;padding:12px;border-radius:8px;box-shadow:0 8px 20px rgba(2,6,23,0.06)"><h4>Jour 007 — Simplification rationnelle</h4><div class="code" style="font-size:13px">from sympy import symbols, apart<br>x = symbols(&#x27;x&#x27;)<br>apart((x**2+1)/(x*(x-1)))</div><div class="small" style="margin-top:8px"><a href="day_007.html" class="btn">Voir le jour</a></div></div>
+<div style="background:#fff;padding:12px;border-radius:8px;box-shadow:0 8px 20px rgba(2,6,23,0.06)"><h4>Jour 008 — Numérique vs symbolique</h4><div class="code" style="font-size:13px">import sympy as sp<br>sp.N(sp.pi,50)</div><div class="small" style="margin-top:8px"><a href="day_008.html" class="btn">Voir le jour</a></div></div>
+<div style="background:#fff;padding:12px;border-radius:8px;box-shadow:0 8px 20px rgba(2,6,23,0.06)"><h4>Jour 009 — Dérivation symbolique</h4><div class="code" style="font-size:13px">from sympy import symbols, diff, exp, sin<br>x = symbols(&#x27;x&#x27;)<br>diff(exp(x)*sin(x), x)</div><div class="small" style="margin-top:8px"><a href="day_009.html" class="btn">Voir le jour</a></div></div>
+<div style="background:#fff;padding:12px;border-radius:8px;box-shadow:0 8px 20px rgba(2,6,23,0.06)"><h4>Jour 010 — Intégration symbolique</h4><div class="code" style="font-size:13px">from sympy import symbols, integrate<br>x = symbols(&#x27;x&#x27;)<br>integrate(exp(-x**2),(x,-oo,oo))</div><div class="small" style="margin-top:8px"><a href="day_010.html" class="btn">Voir le jour</a></div></div>
+<div style="background:#fff;padding:12px;border-radius:8px;box-shadow:0 8px 20px rgba(2,6,23,0.06)"><h4>Jour 011 — Limites</h4><div class="code" style="font-size:13px">from sympy import symbols, limit, sin<br>x = symbols(&#x27;x&#x27;)<br>limit(sin(x)/x, x, 0)</div><div class="small" style="margin-top:8px"><a href="day_011.html" class="btn">Voir le jour</a></div></div>
+<div style="background:#fff;padding:12px;border-radius:8px;box-shadow:0 8px 20px rgba(2,6,23,0.06)"><h4>Jour 012 — Paramètres &amp; constantes</h4><div class="code" style="font-size:13px">import sympy as sp<br>a = sp.symbols(&#x27;a&#x27;, positive=True)<br>sp.solve(sp.Eq(a*sp.symbols(&#x27;x&#x27;),1), sp.symbols(&#x27;x&#x27;))</div><div class="small" style="margin-top:8px"><a href="day_012.html" class="btn">Voir le jour</a></div></div>
+
+    </div>
+  </main>
+</div>
+<script>
+// simple client-side routing: each day has its own HTML file; navigation links point to them.
+// On index, clicking a day opens the corresponding page. On a day page, Prev/Next navigate.
+// For search in TOC (index page)
+function initSearch() {
+  const input = document.getElementById('searchBox');
+  if(!input) return;
+  input.addEventListener('input', function() {
+    const q = this.value.toLowerCase();
+    document.querySelectorAll('.toc-list li').forEach(li => {
+      const text = li.textContent.toLowerCase();
+      li.style.display = text.includes(q) ? 'block' : 'none';
+    });
+  });
+}
+document.addEventListener('DOMContentLoaded', initSearch);
+</script>
+</body>
+</html>
