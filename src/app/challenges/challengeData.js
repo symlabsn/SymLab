@@ -3,33 +3,33 @@ export const challenges = [
         "id": "day_001",
         "title": "Jour 001 — Installation & premier notebook",
         "code": "import sympy as sp\nsp.__version__",
-        "output": "\\(\\text{version (ex: 1.10)}\\)",
+        "output": "version (ex: 1.12)",
         "exercises": [
-            "Exercice 1 — Reproduire l'exécution du code et vérifier la sortie attendue.",
-            "Exercice 2 — Proposer une variante: modifier une partie du code pour obtenir un résultat connexe.",
-            "Exercice 3 — Donner une application pratique (court texte) reliant le thème à un problème réel."
+            "Installation : Installer SymPy avec pip install sympy",
+            "Vérification : Vérifier la version installée",
+            "Premier notebook : Créer votre premier notebook Jupyter"
         ]
     },
     {
         "id": "day_002",
-        "title": "Jour 002 — Symbols & types",
+        "title": "Jour 002 — Symbols & Types",
         "code": "from sympy import symbols\nx, y = symbols('x y')\nexpr = x + 2*y\nexpr",
-        "output": "\\(x + 2y\\)",
+        "output": "x + 2*y",
         "exercises": [
-            "Exercice 1 — Reproduire l'exécution du code et vérifier la sortie attendue.",
-            "Exercice 2 — Proposer une variante: modifier une partie du code pour obtenir un résultat connexe.",
-            "Exercice 3 — Donner une application pratique (court texte) reliant le thème à un problème réel."
+            "Créer des symboles avec différentes propriétés (positif, entier, réel)",
+            "Construire une expression polynomiale",
+            "Substituer des valeurs dans une expression"
         ]
     },
     {
         "id": "day_003",
-        "title": "Jour 003 — Manipulations de base",
+        "title": "Jour 003 — Manipulations de Base",
         "code": "from sympy import symbols, expand, factor\nx = symbols('x')\nexpand((x+1)**3)",
-        "output": "\\((x+1)^3 = x^3 + 3x^2 + 3x + 1\\)",
+        "output": "x³ + 3x² + 3x + 1",
         "exercises": [
-            "Exercice 1 — Reproduire l'exécution du code et vérifier la sortie attendue.",
-            "Exercice 2 — Proposer une variante: modifier une partie du code pour obtenir un résultat connexe.",
-            "Exercice 3 — Donner une application pratique (court texte) reliant le thème à un problème réel."
+            "Développer (x+2)⁴",
+            "Factoriser x² - 4",
+            "Simplifier (x²-1)/(x-1)"
         ]
     },
     {
