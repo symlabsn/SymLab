@@ -144,7 +144,7 @@ export default function NotebookPage() {
         {
             id: '1',
             type: 'markdown',
-            content: '# Bienvenue dans SymLab Notebook 🐍\n\nCeci est un environnement interactif **Python** complet. Vous pouvez écrire du code, des équations et visualiser des données.\n\n### Raccourcis :\n- **Shift + Enter** : Exécuter la cellule\n- **Double-clic** : Éditer une cellule Markdown',
+            content: '# Bienvenue dans SymLab Notebook 🐍\n\nCeci est un environnement interactif **Python** complet. Vous pouvez écrire du code, des équations et visualiser des données.\n\n### Calcul Symbolique (SymPy) :\nSymLab intègre **SymPy** pour résoudre des équations mathématiques complexes directement dans le navigateur !\n\n### Raccourcis :\n- **Shift + Enter** : Exécuter la cellule\n- **Double-clic** : Éditer une cellule Markdown',
             status: 'idle',
             output: null,
             isEditing: false
@@ -152,7 +152,7 @@ export default function NotebookPage() {
         {
             id: '2',
             type: 'code',
-            content: 'import numpy as np\n\n# Création d\'un tableau\nx = np.linspace(0, 10, 100)\nprint(f"Tableau créé avec {len(x)} points !")',
+            content: 'from sympy import symbols, expand, factor, latex\n\n# Définition des variables symboliques\nx, y = symbols("x y")\n\n# Expression complexe\nexpr = (x + y)**5\n\n# Expansion de l\'expression\nexpanded = expand(expr)\nprint("Expression développée :")\ndisplay(expanded)',
             status: 'idle',
             output: null,
             executionCount: null
