@@ -182,6 +182,412 @@ print(f"Probabilité pour {n} personnes : {prob_paire.evalf()}")`
             }
         ]
     },
+    // NOUVEAUX PROJETS MATHÉMATIQUES À INSÉRER APRÈS LE PARADOXE DES ANNIVERSAIRES
+    {
+        id: 'math-linear-systems',
+        category: 'Mathématiques',
+        title: "Systèmes Linéaires & Matrices",
+        level: "Lycée (Première)",
+        domain: "Algèbre Linéaire",
+        icon: "🔢",
+        difficulty: "Intermédiaire",
+        duration: "1h30",
+        description: "Résoudre des systèmes d'équations avec l'élimination de Gauss et les matrices.",
+        history: {
+            year: "1810",
+            people: ["Carl Friedrich Gauss"],
+            context: "Gauss développe sa méthode d'élimination pour calculer les orbites d'astéroïdes. Cette technique devient fondamentale en ingénierie, économie et intelligence artificielle."
+        },
+        problemStatement: {
+            context: "Équilibrer un budget familial avec plusieurs contraintes (loyer, nourriture, épargne).",
+            objective: "Résoudre Ax = b par élimination de Gauss.",
+            analogy: "Comme résoudre un Sudoku : on élimine les possibilités jusqu'à trouver la solution unique."
+        },
+        steps: [
+            {
+                title: "1. Définition du Système",
+                explanation: "Système de 3 équations à 3 inconnues sous forme matricielle.",
+                code: `from sympy import Matrix, symbols
+x, y, z = symbols('x y z')
+# Système : 2x + y - z = 8
+#          -3x - y + 2z = -11
+#          -2x + y + 2z = -3
+A = Matrix([[2, 1, -1], [-3, -1, 2], [-2, 1, 2]])
+b = Matrix([8, -11, -3])
+print("Matrice A :")
+display(A)`
+            },
+            {
+                title: "2. Résolution",
+                explanation: "Méthode de Gauss : réduction échelonnée.",
+                code: `# Résolution directe
+solution = A.solve(b)
+print(f"Solution : x={solution[0]}, y={solution[1]}, z={solution[2]}")`
+            },
+            {
+                title: "3. Vérification",
+                explanation: "On vérifie que A·x = b.",
+                code: `verification = A * solution
+print(f"Vérification A·x = {verification}")
+print(f"b = {b}")
+print(f"Égalité : {verification == b}")`
+            }
+        ]
+    },
+    {
+        id: 'math-derivatives-optimization',
+        category: 'Mathématiques',
+        title: "Dérivées & Optimisation",
+        level: "Lycée (Terminale)",
+        domain: "Calcul Différentiel",
+        icon: "📈",
+        difficulty: "Intermédiaire",
+        duration: "1h",
+        description: "Trouver le maximum ou minimum d'une fonction avec les dérivées.",
+        history: {
+            year: "1684",
+            people: ["Isaac Newton", "Gottfried Leibniz"],
+            context: "Newton et Leibniz inventent indépendamment le calcul différentiel. Leur querelle de priorité divise l'Europe scientifique pendant des décennies."
+        },
+        problemStatement: {
+            context: "Un fermier veut clôturer un champ rectangulaire avec 100m de grillage. Quelle dimension maximise la surface ?",
+            objective: "Trouver le maximum de f(x) en résolvant f'(x) = 0.",
+            analogy: "Trouver le sommet d'une colline : là où la pente est nulle."
+        },
+        steps: [
+            {
+                title: "1. Fonction à Optimiser",
+                explanation: "Surface S = x·y avec contrainte 2x + 2y = 100.",
+                code: `from sympy import symbols, diff, solve
+x = symbols('x')
+# y = 50 - x (de la contrainte)
+S = x * (50 - x)
+print("Fonction surface :")
+display(S)`
+            },
+            {
+                title: "2. Dérivée et Point Critique",
+                explanation: "On cherche où dS/dx = 0.",
+                code: `dS = diff(S, x)
+print("Dérivée dS/dx :")
+display(dS)
+x_opt = solve(dS, x)[0]
+print(f"Dimension optimale : x = {x_opt}m")
+print(f"Surface maximale : {S.subs(x, x_opt)}m²")`
+            }
+        ]
+    },
+    {
+        id: 'math-integrals',
+        category: 'Mathématiques',
+        title: "Intégrales & Aires",
+        level: "Lycée (Terminale)",
+        domain: "Calcul Intégral",
+        icon: "∫",
+        difficulty: "Intermédiaire",
+        duration: "1h",
+        description: "Calculer l'aire sous une courbe avec les intégrales définies.",
+        history: {
+            year: "1854",
+            people: ["Bernhard Riemann"],
+            context: "Riemann formalise rigoureusement l'intégration, permettant de calculer des aires de formes complexes. Base de la physique moderne."
+        },
+        problemStatement: {
+            context: "Calculer la quantité d'eau dans un réservoir de forme parabolique.",
+            objective: "Calculer ∫ₐᵇ f(x)dx.",
+            analogy: "Compter des grains de sable en les regroupant par poignées infiniment petites."
+        },
+        steps: [
+            {
+                title: "1. Intégrale Définie",
+                explanation: "Aire sous f(x) = x² entre 0 et 2.",
+                code: `from sympy import symbols, integrate
+x = symbols('x')
+f = x**2
+aire = integrate(f, (x, 0, 2))
+print(f"Aire sous x² de 0 à 2 : {aire}")`
+            },
+            {
+                title: "2. Primitive",
+                explanation: "∫ x²dx = x³/3 + C.",
+                code: `primitive = integrate(f, x)
+print(f"Primitive de x² : {primitive}")`
+            }
+        ]
+    },
+    {
+        id: 'math-differential-equations',
+        category: 'Mathématiques',
+        title: "Équations Différentielles",
+        level: "Université (L1)",
+        domain: "Analyse",
+        icon: "∂",
+        difficulty: "Avancé",
+        duration: "2h",
+        description: "Modéliser des phénomènes dynamiques (croissance, décroissance, oscillations).",
+        history: {
+            year: "1736",
+            people: ["Leonhard Euler"],
+            context: "Euler développe les méthodes de résolution des équations différentielles pour modéliser les vibrations des cordes et les trajectoires balistiques."
+        },
+        problemStatement: {
+            context: "Modéliser la décharge d'un condensateur dans un circuit RC.",
+            objective: "Résoudre dy/dt + ky = 0.",
+            analogy: "Une baignoire qui se vide : la vitesse de vidange dépend du niveau d'eau restant."
+        },
+        steps: [
+            {
+                title: "1. Équation Différentielle",
+                explanation: "Décroissance exponentielle.",
+                code: `from sympy import Function, dsolve, Eq, symbols
+t, k = symbols('t k')
+y = Function('y')(t)
+eq = Eq(y.diff(t) + k*y, 0)
+print("Équation différentielle :")
+display(eq)`
+            },
+            {
+                title: "2. Solution Générale",
+                explanation: "y(t) = C·e^(-kt).",
+                code: `solution = dsolve(eq, y)
+print("Solution :")
+display(solution)`
+            }
+        ]
+    },
+    {
+        id: 'math-complex-numbers',
+        category: 'Mathématiques',
+        title: "Nombres Complexes",
+        level: "Lycée (Terminale)",
+        domain: "Algèbre",
+        icon: "ℂ",
+        difficulty: "Intermédiaire",
+        duration: "1h30",
+        description: "Manipuler les nombres imaginaires et la formule d'Euler.",
+        history: {
+            year: "1748",
+            people: ["Leonhard Euler", "Carl Gauss"],
+            context: "Euler découvre la formule e^(iπ) + 1 = 0, reliant les 5 constantes fondamentales. Gauss visualise les complexes dans le plan, révolutionnant l'algèbre."
+        },
+        problemStatement: {
+            context: "Analyser les signaux électriques en courant alternatif (impédances complexes).",
+            objective: "Calculer avec z = a + bi et utiliser e^(iθ) = cos(θ) + i·sin(θ).",
+            analogy: "Comme les vecteurs 2D : on peut additionner, tourner, agrandir."
+        },
+        steps: [
+            {
+                title: "1. Opérations de Base",
+                explanation: "Addition, multiplication, conjugué.",
+                code: `from sympy import symbols, I, conjugate, Abs, arg
+z1 = 3 + 4*I
+z2 = 1 - 2*I
+print(f"z1 + z2 = {z1 + z2}")
+print(f"z1 × z2 = {z1 * z2}")
+print(f"Conjugué de z1 : {conjugate(z1)}")
+print(f"Module |z1| : {Abs(z1)}")
+print(f"Argument arg(z1) : {arg(z1)}")`
+            },
+            {
+                title: "2. Formule d'Euler",
+                explanation: "e^(iπ) + 1 = 0.",
+                code: `from sympy import exp, pi, simplify
+euler = exp(I*pi) + 1
+print(f"e^(iπ) + 1 = {simplify(euler)}")`
+            }
+        ]
+    },
+    {
+        id: 'math-cosine-law',
+        category: 'Mathématiques',
+        title: "Loi des Cosinus",
+        level: "Lycée (Seconde)",
+        domain: "Trigonométrie",
+        icon: "📐",
+        difficulty: "Débutant",
+        duration: "45min",
+        description: "Généralisation du théorème de Pythagore pour les triangles quelconques.",
+        history: {
+            year: "1000",
+            people: ["Al-Kashi", "Euclide"],
+            context: "Le mathématicien persan Al-Kashi généralise Pythagore. Cette loi est cruciale en navigation, topographie et architecture."
+        },
+        problemStatement: {
+            context: "Calculer la distance entre deux villes connaissant leurs distances à une troisième et l'angle.",
+            objective: "c² = a² + b² - 2ab·cos(γ).",
+            analogy: "Pythagore marche pour les angles droits. La loi des cosinus marche pour TOUS les triangles."
+        },
+        steps: [
+            {
+                title: "1. Application Numérique",
+                explanation: "Triangle avec a=5, b=7, angle γ=60°.",
+                code: `from sympy import symbols, cos, pi, sqrt
+a, b, gamma = 5, 7, pi/3  # 60° en radians
+c_squared = a**2 + b**2 - 2*a*b*cos(gamma)
+c = sqrt(c_squared)
+print(f"Longueur c = {c.evalf()}")`
+            }
+        ]
+    },
+    {
+        id: 'math-polynomials',
+        category: 'Mathématiques',
+        title: "Polynômes & Racines",
+        level: "Lycée (Première)",
+        domain: "Algèbre",
+        icon: "🌿",
+        difficulty: "Intermédiaire",
+        duration: "1h",
+        description: "Factoriser des polynômes et trouver leurs racines.",
+        history: {
+            year: "1830",
+            people: ["Évariste Galois", "Niels Abel"],
+            context: "Galois, mort en duel à 20 ans, prouve qu'il n'existe pas de formule générale pour les polynômes de degré ≥5. Révolution conceptuelle en mathématiques."
+        },
+        problemStatement: {
+            context: "Trouver les points d'intersection d'une parabole avec l'axe des x.",
+            objective: "Résoudre P(x) = 0.",
+            analogy: "Trouver les endroits où une balle lancée touche le sol."
+        },
+        steps: [
+            {
+                title: "1. Résolution",
+                explanation: "Racines de x³ - 6x² + 11x - 6 = 0.",
+                code: `from sympy import symbols, solve, factor
+x = symbols('x')
+P = x**3 - 6*x**2 + 11*x - 6
+racines = solve(P, x)
+print(f"Racines : {racines}")`
+            },
+            {
+                title: "2. Factorisation",
+                explanation: "P(x) = (x-1)(x-2)(x-3).",
+                code: `factorise = factor(P)
+print(f"Forme factorisée : {factorise}")`
+            }
+        ]
+    },
+    {
+        id: 'math-bayes',
+        category: 'Mathématiques',
+        title: "Théorème de Bayes",
+        level: "Université (L2)",
+        domain: "Probabilités",
+        icon: "🎲",
+        difficulty: "Avancé",
+        duration: "1h30",
+        description: "Mettre à jour des probabilités avec de nouvelles informations.",
+        history: {
+            year: "1763",
+            people: ["Thomas Bayes"],
+            context: "Publié après sa mort, le théorème de Bayes est aujourd'hui au cœur de l'intelligence artificielle, du diagnostic médical et des filtres anti-spam."
+        },
+        problemStatement: {
+            context: "Un test de dépistage est positif. Quelle est la vraie probabilité d'être malade ?",
+            objective: "P(A|B) = P(B|A)·P(A) / P(B).",
+            analogy: "Comme un détective qui ajuste ses soupçons au fur et à mesure des indices."
+        },
+        steps: [
+            {
+                title: "1. Formule de Bayes",
+                explanation: "Probabilité a posteriori.",
+                code: `from sympy import symbols, Rational
+# P(Malade) = 1%, P(Positif|Malade) = 99%, P(Positif|Sain) = 5%
+P_M = Rational(1, 100)
+P_Pos_M = Rational(99, 100)
+P_Pos_S = Rational(5, 100)
+P_S = 1 - P_M
+P_Pos = P_Pos_M * P_M + P_Pos_S * P_S
+P_M_Pos = (P_Pos_M * P_M) / P_Pos
+print(f"P(Malade | Test+) = {P_M_Pos.evalf()}")`
+            }
+        ]
+    },
+    {
+        id: 'math-graph-theory',
+        category: 'Mathématiques',
+        title: "Théorie des Graphes",
+        level: "Université (L2)",
+        domain: "Mathématiques Discrètes",
+        icon: "🌐",
+        difficulty: "Intermédiaire",
+        duration: "1h30",
+        description: "Résoudre le problème des ponts de Königsberg.",
+        history: {
+            year: "1736",
+            people: ["Leonhard Euler"],
+            context: "Euler résout le problème des 7 ponts de Königsberg, créant la théorie des graphes. Aujourd'hui utilisée pour GPS, réseaux sociaux, et optimisation logistique."
+        },
+        problemStatement: {
+            context: "Peut-on traverser tous les ponts d'une ville exactement une fois ?",
+            objective: "Un graphe eulérien existe si tous les sommets ont un degré pair.",
+            analogy: "Comme dessiner une figure sans lever le crayon et sans repasser sur un trait."
+        },
+        steps: [
+            {
+                title: "1. Représentation du Graphe",
+                explanation: "Sommets (îles) et arêtes (ponts).",
+                code: `# Degrés des sommets de Königsberg
+degres = [3, 3, 3, 5]  # Tous impairs !
+print(f"Degrés des sommets : {degres}")
+nb_impairs = sum(1 for d in degres if d % 2 == 1)
+print(f"Nombre de sommets de degré impair : {nb_impairs}")
+if nb_impairs == 0:
+    print("✅ Chemin eulérien possible")
+else:
+    print("❌ Impossible de traverser tous les ponts une seule fois")`
+            }
+        ]
+    },
+    {
+        id: 'math-linear-programming',
+        category: 'Mathématiques',
+        title: "Programmation Linéaire",
+        level: "Université (L3)",
+        domain: "Optimisation",
+        icon: "📊",
+        difficulty: "Avancé",
+        duration: "2h",
+        description: "Optimiser une fonction sous contraintes (méthode du simplexe).",
+        history: {
+            year: "1947",
+            people: ["George Dantzig"],
+            context: "Dantzig invente le simplexe pour optimiser la logistique militaire américaine. Aujourd'hui utilisé par toutes les compagnies aériennes et industries."
+        },
+        problemStatement: {
+            context: "Une usine fabrique des chaises et des tables. Maximiser le profit sous contraintes de matériaux et temps.",
+            objective: "Maximiser z = 3x + 5y sous contraintes.",
+            analogy: "Trouver le meilleur compromis dans un budget limité."
+        },
+        steps: [
+            {
+                title: "1. Formulation",
+                explanation: "Fonction objectif et contraintes.",
+                code: `from sympy import symbols, solve
+x, y = symbols('x y')  # Chaises et tables
+# Maximiser profit : z = 3x + 5y
+# Contraintes : 2x + 4y ≤ 40 (bois)
+#               x + 2y ≤ 20 (temps)
+#               x, y ≥ 0
+print("Problème d'optimisation linéaire défini")
+print("Fonction objectif : z = 3x + 5y")
+print("Contraintes : 2x + 4y ≤ 40, x + 2y ≤ 20")`
+            },
+            {
+                title: "2. Résolution Graphique",
+                explanation: "On teste les sommets du polygone de contraintes.",
+                code: `# Sommets du domaine réalisable
+sommets = [(0, 0), (0, 10), (20, 0), (10, 5)]
+profits = [3*x + 5*y for x, y in sommets]
+print("Profits aux sommets :", profits)
+max_profit = max(profits)
+optimal = sommets[profits.index(max_profit)]
+print(f"Solution optimale : {optimal[0]} chaises, {optimal[1]} tables")
+print(f"Profit maximal : {max_profit}")`
+            }
+        ]
+    },
+
 
     // ==================================================================================
     // 🚀 PHYSIQUE (10 projets)
