@@ -730,55 +730,55 @@ Le Sénégal est sur la plaque africaine - stable comme une grande pirogue !`
 
 La surface de la Terre est divisée en plaques qui bougent lentement.
 
-**Structure de la Terre**
+Structure de la Terre
 
-**Croûte**
+Croûte
 - Continentale (30-70 km)
 - Océanique (5-10 km)
 - Rigide et cassante
 
-**Manteau**
+Manteau
 - Lithosphère (rigide)
 - Asthénosphère (plastique)
 - Convection thermique
 
-**Noyau**
+Noyau
 - Externe (liquide)
 - Interne (solide)
 - Très chaud (5000°C)
 
-**Mouvements des Plaques**
+Mouvements des Plaques
 
-**Divergence**
+Divergence
 - Plaques s'éloignent
 - Dorsales océaniques
 - Création de croûte
 - Exemple : Dorsale Atlantique
 
-**Convergence**
+Convergence
 - Plaques se rapprochent
 - Subduction ou collision
 - Destruction de croûte
 - Exemple : Himalaya
 
-**Coulissage**
+Coulissage
 - Plaques glissent
 - Failles transformantes
 - Exemple : Faille de San Andreas
 
-**Conséquences**
+Conséquences
 
-**Séismes**
+Séismes
 - Libération d'énergie
 - Ondes sismiques
 - Magnitude (Richter)
 
-**Volcans**
+Volcans
 - Magma en surface
 - Zones de subduction
 - Points chauds
 
-**Montagnes**
+Montagnes
 - Collision de plaques
 - Plissement
 - Soulèvement`,
@@ -828,49 +828,49 @@ Les atomes se réarrangent, comme les ingrédients se mélangent, mais rien ne s
 
 Une réaction chimique transforme des substances (réactifs) en nouvelles substances (produits).
 
-**Équation Chimique**
+Équation Chimique
 
 Réactifs → Produits
 
 Exemple : 2 H₂ + O₂ → 2 H₂O
 
-**Loi de Conservation**
+Loi de Conservation
 
-**Loi de Lavoisier**
+Loi de Lavoisier
 "Rien ne se perd, rien ne se crée, tout se transforme"
 - Masse totale constante
 - Nombre d'atomes conservé
 - Équation équilibrée
 
-**Types de Réactions**
+Types de Réactions
 
-**Synthèse**
+Synthèse
 A + B → AB
 Exemple : 2 H₂ + O₂ → 2 H₂O
 
-**Décomposition**
+Décomposition
 AB → A + B
 Exemple : 2 H₂O → 2 H₂ + O₂
 
-**Substitution**
+Substitution
 AB + C → AC + B
 Exemple : Fe + CuSO₄ → FeSO₄ + Cu
 
-**Double Déplacement**
+Double Déplacement
 AB + CD → AD + CB
 Exemple : NaCl + AgNO₃ → NaNO₃ + AgCl
 
-**Énergie**
+Énergie
 
-**Réaction Exothermique**
+Réaction Exothermique
 - Libère de l'énergie (chaleur)
 - Exemple : combustion
 
-**Réaction Endothermique**
+Réaction Endothermique
 - Absorbe de l'énergie
 - Exemple : photosynthèse
 
-**Indicateurs**
+Indicateurs
 
 - Changement de couleur
 - Dégagement de gaz
@@ -922,51 +922,51 @@ La gravité est comme le sol qui attire tout vers le bas - c'est pour ça qu'on 
 
 Les forces causent les changements de mouvement des objets.
 
-**Les Trois Lois de Newton**
+Les Trois Lois de Newton
 
-**1ère Loi (Inertie)**
+1ère Loi (Inertie)
 Un objet au repos reste au repos, un objet en mouvement continue son mouvement rectiligne uniforme, sauf si une force extérieure agit sur lui.
 
-**2ème Loi (Fondamentale)**
+2ème Loi (Fondamentale)
 F = m × a
 - F : Force (Newton, N)
 - m : Masse (kilogramme, kg)
 - a : Accélération (m/s²)
 
-**3ème Loi (Action-Réaction)**
+3ème Loi (Action-Réaction)
 À toute action correspond une réaction égale et opposée.
 
-**Types de Forces**
+Types de Forces
 
-**Force de Gravité**
+Force de Gravité
 - Attraction vers le centre de la Terre
 - F = m × g (g = 9,8 m/s²)
 - Poids d'un objet
 
-**Force de Frottement**
+Force de Frottement
 - S'oppose au mouvement
 - Dépend de la surface
 - Ralentit les objets
 
-**Force Normale**
+Force Normale
 - Perpendiculaire à la surface
 - Support d'un objet
 
-**Tension**
+Tension
 - Dans une corde ou un câble
 - Tire sur l'objet
 
-**Mouvement**
+Mouvement
 
-**Vitesse**
+Vitesse
 v = distance / temps
 Unité : m/s ou km/h
 
-**Accélération**
+Accélération
 a = Δv / Δt
 Changement de vitesse
 
-**Chute Libre**
+Chute Libre
 - Accélération = g
 - Indépendant de la masse
 - v = g × t`,
@@ -1017,53 +1017,53 @@ Une mutation est comme une faute de frappe dans la recette - parfois ça change 
 
 L'ADN contient l'information génétique de tous les êtres vivants.
 
-**Structure de l'ADN**
+Structure de l'ADN
 
-**Double Hélice**
+Double Hélice
 - Découverte par Watson et Crick (1953)
 - Deux brins enroulés
 - Forme d'escalier en colimaçon
 
-**Composants**
+Composants
 - Sucre (désoxyribose)
 - Phosphate
 - Bases azotées : A, T, G, C
 
-**Appariement des Bases**
+Appariement des Bases
 - Adénine (A) ↔ Thymine (T)
 - Guanine (G) ↔ Cytosine (C)
 - Liaisons hydrogène
 
-**Gènes et Chromosomes**
+Gènes et Chromosomes
 
-**Gène**
+Gène
 - Segment d'ADN
 - Code pour une protéine
 - Unité d'hérédité
 
-**Chromosome**
+Chromosome
 - ADN condensé
 - Humain : 23 paires (46 total)
 - 22 paires autosomes + 1 paire sexuelle (XX ou XY)
 
-**Hérédité**
+Hérédité
 
-**Lois de Mendel**
+Lois de Mendel
 
-**1ère Loi (Uniformité)**
+1ère Loi (Uniformité)
 Tous les hybrides F1 sont identiques
 
-**2ème Loi (Ségrégation)**
+2ème Loi (Ségrégation)
 Les allèles se séparent lors de la formation des gamètes
 
-**3ème Loi (Indépendance)**
+3ème Loi (Indépendance)
 Les gènes se transmettent indépendamment
 
-**Génotype et Phénotype**
+Génotype et Phénotype
 - Génotype : composition génétique
 - Phénotype : caractères observables
 
-**Allèles**
+Allèles
 - Dominant (s'exprime toujours)
 - Récessif (s'exprime si homozygote)`,
         exercises: [
@@ -1113,62 +1113,62 @@ Les barrières (peau, muqueuses) sont comme les frontières du pays - première 
 
 Le système immunitaire protège le corps contre les infections et maladies.
 
-**Défenses Non Spécifiques**
+Défenses Non Spécifiques
 
-**Barrières Physiques**
+Barrières Physiques
 - Peau (imperméable)
 - Muqueuses (nez, bouche)
 - Larmes, salive (lysozyme)
 
-**Réponse Inflammatoire**
+Réponse Inflammatoire
 - Rougeur, chaleur, douleur, gonflement
 - Augmentation du flux sanguin
 - Arrivée des globules blancs
 
-**Phagocytose**
+Phagocytose
 - Macrophages
 - Neutrophiles
 - "Mangent" les microbes
 
-**Défenses Spécifiques**
+Défenses Spécifiques
 
-**Immunité Humorale**
+Immunité Humorale
 - Lymphocytes B
 - Production d'anticorps
 - Neutralisation des antigènes
 
-**Immunité Cellulaire**
+Immunité Cellulaire
 - Lymphocytes T
 - Destruction des cellules infectées
 - Lymphocytes T auxiliaires (CD4)
 - Lymphocytes T cytotoxiques (CD8)
 
-**Anticorps**
+Anticorps
 
-**Structure**
+Structure
 - Forme de Y
 - Sites de liaison spécifiques
 - Immunoglobulines (IgG, IgM, IgA, etc.)
 
-**Fonctions**
+Fonctions
 - Neutralisation
 - Agglutination
 - Précipitation
 - Activation du complément
 
-**Vaccination**
+Vaccination
 
-**Principe**
+Principe
 - Introduction d'antigène atténué
 - Stimulation de la mémoire immunitaire
 - Protection à long terme
 
-**Types**
+Types
 - Vaccins vivants atténués
 - Vaccins inactivés
 - Vaccins à sous-unités
 
-**Maladies**
+Maladies
 - Rougeole, polio, tétanos
 - COVID-19`,
         exercises: [
@@ -1217,60 +1217,60 @@ Un ion : Si des supporters partent ou arrivent, l'équilibre change !`
 
 L'atome est la plus petite unité de matière conservant les propriétés d'un élément.
 
-**Composition**
+Composition
 
-**Noyau**
+Noyau
 - Protons (charge +)
 - Neutrons (charge 0)
 - Très dense
 - 99,9% de la masse
 
-**Nuage Électronique**
+Nuage Électronique
 - Électrons (charge -)
 - Orbitales (niveaux d'énergie)
 - Presque vide
 - Détermine les propriétés chimiques
 
-**Caractéristiques**
+Caractéristiques
 
-**Numéro Atomique (Z)**
+Numéro Atomique (Z)
 - Nombre de protons
 - Définit l'élément
 - Exemple : Carbone Z=6
 
-**Nombre de Masse (A)**
+Nombre de Masse (A)
 - A = Protons + Neutrons
 - Exemple : Carbone-12 (6p + 6n)
 
-**Isotopes**
+Isotopes
 - Même Z, différent A
 - Même élément, masses différentes
 - Exemple : Carbone-12, Carbone-14
 
-**Modèles Atomiques**
+Modèles Atomiques
 
-**Modèle de Rutherford (1911)**
+Modèle de Rutherford (1911)
 - Noyau central
 - Électrons en orbite
 - Système planétaire
 
-**Modèle de Bohr (1913)**
+Modèle de Bohr (1913)
 - Niveaux d'énergie quantifiés
 - Couches électroniques (K, L, M, N)
 - Sauts quantiques
 
-**Modèle Quantique Moderne**
+Modèle Quantique Moderne
 - Orbitales (s, p, d, f)
 - Probabilité de présence
 - Principe d'incertitude
 
-**Ions**
+Ions
 
-**Cation** (charge +)
+Cation (charge +)
 - Perte d'électrons
 - Exemple : Na⁺
 
-**Anion** (charge -)
+Anion (charge -)
 - Gain d'électrons
 - Exemple : Cl⁻`,
         exercises: [
@@ -1323,65 +1323,65 @@ Au final : Énergie initiale = Énergie finale (juste transformée) !`
 
 L'énergie ne peut être ni créée ni détruite, seulement transformée.
 
-**Formes d'Énergie**
+Formes d'Énergie
 
-**Énergie Cinétique (Ec)**
+Énergie Cinétique (Ec)
 - Énergie du mouvement
 - Ec = ½ m v²
 - Dépend de la masse et de la vitesse
 
-**Énergie Potentielle (Ep)**
+Énergie Potentielle (Ep)
 - Énergie de position
 - Ep = m g h
 - Dépend de la hauteur
 
-**Énergie Thermique**
+Énergie Thermique
 - Énergie de chaleur
 - Agitation moléculaire
 
-**Énergie Chimique**
+Énergie Chimique
 - Liaisons chimiques
 - Aliments, carburants
 
-**Énergie Électrique**
+Énergie Électrique
 - Mouvement d'électrons
 - Courant électrique
 
-**Énergie Lumineuse**
+Énergie Lumineuse
 - Rayonnement électromagnétique
 - Photons
 
-**Loi de Conservation**
+Loi de Conservation
 
-**Principe**
+Principe
 Énergie totale = constante
 E_initiale = E_finale
 
-**Transformations**
+Transformations
 
-**Pendule**
+Pendule
 Ep (haut) ↔ Ec (bas)
 
-**Chute Libre**
+Chute Libre
 Ep → Ec + chaleur (frottements)
 
-**Centrale Électrique**
+Centrale Électrique
 Chimique → Thermique → Mécanique → Électrique
 
-**Photosynthèse**
+Photosynthèse
 Lumineuse → Chimique
 
-**Rendement**
+Rendement
 
-**Définition**
+Définition
 η = (Énergie utile / Énergie totale) × 100%
 
-**Pertes**
+Pertes
 - Frottements
 - Chaleur
 - Son
 
-**Exemple**
+Exemple
 Moteur de voiture : η ≈ 25%
 75% perdu en chaleur !`,
         exercises: [
