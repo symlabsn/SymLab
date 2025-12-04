@@ -38,7 +38,22 @@ export default function ChallengeDayPage({ params }) {
     };
 
     if (!challenge) {
-        return notFound();
+        return (
+            <div className="min-h-screen bg-black text-white p-20">
+                <h1 className="text-red-500 text-4xl mb-4">Erreur de chargement</h1>
+                <p>Le challenge "{day}" n'a pas été trouvé.</p>
+                <div className="mt-8 p-4 bg-gray-900 rounded border border-gray-800 font-mono text-xs">
+                    <p>Params day: {JSON.stringify(day)}</p>
+                    <p>Challenges array length: {challenges?.length}</p>
+                    <p>First 5 IDs in challenges:</p>
+                    <ul>
+                        {challenges?.slice(0, 5).map(c => <li key={c.id}>{c.id}</li>)}
+                    </ul>
+                    <p>Enriched Data found: {enrichedData ? 'Yes' : 'No'}</p>
+                </div>
+                <Link href="/challenges" className="text-[#00F5D4] mt-8 block">← Retour à la liste</Link>
+            </div>
+        );
     }
 
     // Vérifier si le jour est débloqué
