@@ -703,26 +703,26 @@ Temps de réaction : 0,1 à 0,2 secondes !`,
     'plate-tectonics': {
         title: 'Tectonique des Plaques',
         description: 'Observez les mouvements des plaques terrestres',
-        type: 'water-cycle',
+        type: 'tectonics',
         config: {},
         analogy: {
             title: 'La Tectonique des Plaques comme les Pirogues sur l\'Océan',
             content: `Les plaques tectoniques, c'est comme des pirogues géantes qui flottent sur l'océan ! 🌍
 
-La **lithosphère** (croûte terrestre) est comme les pirogues en bois.
+La lithosphère (croûte terrestre) est comme les pirogues en bois.
 
-L'**asthénosphère** (manteau) est comme l'océan sur lequel flottent les pirogues.
+L'asthénosphère (manteau) est comme l'océan sur lequel flottent les pirogues.
 
-Les **plaques** bougent lentement, comme les pirogues poussées par les courants.
+Les plaques bougent lentement, comme les pirogues poussées par les courants.
 
 Quand deux pirogues se rencontrent :
-- **Divergence** : elles s'éloignent (comme à la dorsale atlantique)
-- **Convergence** : elles se heurtent (montagnes !)
-- **Coulissage** : elles glissent l'une contre l'autre
+- Divergence : elles s'éloignent (comme à la dorsale atlantique)
+- Convergence : elles se heurtent (montagnes !)
+- Coulissage : elles glissent l'une contre l'autre
 
-Les **séismes** sont comme les chocs quand les pirogues se cognent.
+Les séismes sont comme les chocs quand les pirogues se cognent.
 
-Les **volcans** sont comme l'eau qui jaillit entre les planches des pirogues !
+Les volcans sont comme l'eau qui jaillit entre les planches des pirogues !
 
 Le Sénégal est sur la plaque africaine - stable comme une grande pirogue !`
         },
@@ -802,27 +802,27 @@ La surface de la Terre est divisée en plaques qui bougent lentement.
     'chemical-reactions': {
         title: 'Réactions Chimiques',
         description: 'Visualisez les réactions au niveau atomique',
-        type: 'atom',
+        type: 'chemical',
         config: {},
         analogy: {
             title: 'Les Réactions Chimiques comme la Préparation du Café Touba',
             content: `Une réaction chimique, c'est comme préparer le célèbre café Touba ! ☕
 
-Les **réactifs** sont les ingrédients de départ :
+Les réactifs sont les ingrédients de départ :
 - Café moulu (A)
 - Graines de selim (B)
 - Eau chaude (C)
 
-La **réaction** est la préparation :
+La réaction est la préparation :
 Café + Selim + Eau → Café Touba délicieux !
 
-Les **produits** sont le résultat final : le café Touba prêt à boire.
+Les produits sont le résultat final : le café Touba prêt à boire.
 
-L'**énergie** (chaleur) est nécessaire pour que ça marche - comme le feu sous la bouilloire.
+L'énergie (chaleur) est nécessaire pour que ça marche - comme le feu sous la bouilloire.
 
-Une fois le café fait, on ne peut plus récupérer le café moulu séparé - c'est **irréversible** !
+Une fois le café fait, on ne peut plus récupérer le café moulu séparé - c'est irréversible !
 
-Les **atomes** se réarrangent, comme les ingrédients se mélangent, mais rien ne se perd - c'est la **conservation de la masse** !`
+Les atomes se réarrangent, comme les ingrédients se mélangent, mais rien ne se perd - c'est la conservation de la masse !`
         },
         theory: `Les Réactions Chimiques
 
@@ -896,27 +896,27 @@ Exemple : NaCl + AgNO₃ → NaNO₃ + AgCl
     'forces-motion': {
         title: 'Forces et Mouvement',
         description: 'Expérimentez avec la gravité et les forces',
-        type: 'atom',
+        type: 'force',
         config: {},
         analogy: {
             title: 'Les Forces et le Mouvement comme la Lutte Sénégalaise',
             content: `Les forces et le mouvement, c'est comme la lutte sénégalaise (Lamb) ! 🤼
 
-La **force** est comme la poussée du lutteur - plus elle est grande, plus l'effet est important.
+La force est comme la poussée du lutteur - plus elle est grande, plus l'effet est important.
 
-L'**inertie** est la résistance du lutteur - un gros lutteur (grande masse) est plus difficile à bouger.
+L'inertie est la résistance du lutteur - un gros lutteur (grande masse) est plus difficile à bouger.
 
-La **vitesse** change quand on applique une force - comme quand un lutteur pousse son adversaire.
+La vitesse change quand on applique une force - comme quand un lutteur pousse son adversaire.
 
-**Première loi de Newton** : Un lutteur au repos reste au repos, un lutteur en mouvement continue son mouvement (sauf si une force l'arrête).
+Première loi de Newton : Un lutteur au repos reste au repos, un lutteur en mouvement continue son mouvement (sauf si une force l'arrête).
 
-**Deuxième loi** : Force = Masse × Accélération
+Deuxième loi : Force = Masse × Accélération
 Plus le lutteur est lourd, plus il faut de force pour le faire bouger !
 
-**Troisième loi** : Action = Réaction
+Troisième loi : Action = Réaction
 Quand tu pousses ton adversaire, il te pousse aussi avec la même force !
 
-La **gravité** est comme le sol qui attire tout vers le bas - c'est pour ça qu'on tombe !`
+La gravité est comme le sol qui attire tout vers le bas - c'est pour ça qu'on tombe !`
         },
         theory: `Forces et Mouvement
 
@@ -997,21 +997,21 @@ Changement de vitesse
             title: 'L\'ADN comme le Livre de Recettes Familiales',
             content: `L'ADN, c'est comme le grand livre de recettes de ta famille transmis de génération en génération ! 📖
 
-L'**ADN** est le livre complet avec toutes les recettes (gènes) de ta famille.
+L'ADN est le livre complet avec toutes les recettes (gènes) de ta famille.
 
-Un **gène** est une recette spécifique - par exemple, la recette du thiéboudienne de ta grand-mère.
+Un gène est une recette spécifique - par exemple, la recette du thiéboudienne de ta grand-mère.
 
-Les **chromosomes** sont les chapitres du livre - l'humain a 23 paires de chapitres (46 au total).
+Les chromosomes sont les chapitres du livre - l'humain a 23 paires de chapitres (46 au total).
 
-Les **bases azotées** (A, T, G, C) sont les lettres qui écrivent les recettes.
+Les bases azotées (A, T, G, C) sont les lettres qui écrivent les recettes.
 Comme les lettres wolof : A va toujours avec T, G va toujours avec C !
 
-L'**hérédité** : Tu hérites du livre de recettes de tes parents.
+L'hérédité : Tu hérites du livre de recettes de tes parents.
 La moitié vient de ta mère (23 chromosomes), l'autre moitié de ton père (23 chromosomes).
 
 C'est pour ça que tu ressembles à tes parents - tu as leurs "recettes" !
 
-Une **mutation** est comme une faute de frappe dans la recette - parfois ça change le plat !`
+Une mutation est comme une faute de frappe dans la recette - parfois ça change le plat !`
         },
         theory: `ADN et Génétique
 
@@ -1086,28 +1086,28 @@ Les gènes se transmettent indépendamment
     'immune-system': {
         title: 'Système Immunitaire',
         description: 'Observez comment le corps se défend contre les infections',
-        type: 'cell',
+        type: 'immune',
         config: {},
         analogy: {
             title: 'Le Système Immunitaire comme l\'Armée Sénégalaise',
             content: `Le système immunitaire, c'est comme l'armée qui protège le Sénégal ! 🛡️
 
-Les **globules blancs** sont les soldats qui patrouillent dans le sang.
+Les globules blancs sont les soldats qui patrouillent dans le sang.
 
-Les **macrophages** sont comme les gendarmes - ils mangent les intrus (phagocytose).
+Les macrophages sont comme les gendarmes - ils mangent les intrus (phagocytose).
 
-Les **lymphocytes** sont les forces spéciales :
-- **Lymphocytes B** : fabriquent des armes (anticorps)
-- **Lymphocytes T** : attaquent directement les ennemis
+Les lymphocytes sont les forces spéciales :
+- Lymphocytes B : fabriquent des armes (anticorps)
+- Lymphocytes T : attaquent directement les ennemis
 
-Les **anticorps** sont des missiles guidés qui reconnaissent et neutralisent les microbes spécifiques.
+Les anticorps sont des missiles guidés qui reconnaissent et neutralisent les microbes spécifiques.
 
-Les **vaccins** sont comme l'entraînement de l'armée - on montre une photo de l'ennemi pour que les soldats le reconnaissent plus tard !
+Les vaccins sont comme l'entraînement de l'armée - on montre une photo de l'ennemi pour que les soldats le reconnaissent plus tard !
 
-La **mémoire immunitaire** : Une fois qu'on a combattu un ennemi, on s'en souvient toujours.
+La mémoire immunitaire : Une fois qu'on a combattu un ennemi, on s'en souvient toujours.
 C'est pour ça qu'on n'attrape la rougeole qu'une seule fois !
 
-Les **barrières** (peau, muqueuses) sont comme les frontières du pays - première ligne de défense !`
+Les barrières (peau, muqueuses) sont comme les frontières du pays - première ligne de défense !`
         },
         theory: `Le Système Immunitaire
 
@@ -1197,21 +1197,21 @@ Le système immunitaire protège le corps contre les infections et maladies.
             title: 'L\'Atome comme le Stade Léopold Sédar Senghor',
             content: `L'atome, c'est comme le stade de Dakar avec ses supporters ! ⚽
 
-Le **noyau** est le terrain de foot au centre - tout petit mais c'est là que se passe l'action !
+Le noyau est le terrain de foot au centre - tout petit mais c'est là que se passe l'action !
 
-Les **protons** sont les joueurs en rouge (charge positive +).
+Les protons sont les joueurs en rouge (charge positive +).
 
-Les **neutrons** sont les arbitres en noir (pas de charge, neutres).
+Les neutrons sont les arbitres en noir (pas de charge, neutres).
 
-Les **électrons** sont les supporters dans les tribunes (charge négative -).
+Les électrons sont les supporters dans les tribunes (charge négative -).
 Ils tournent autour du terrain sur différents niveaux (gradins).
 
 Le stade est presque vide ! Si le noyau était une balle de foot au centre, les électrons seraient à plusieurs kilomètres !
 
-Le **numéro atomique** = nombre de protons = numéro du maillot de l'équipe.
+Le numéro atomique = nombre de protons = numéro du maillot de l'équipe.
 Carbone = 6 protons = équipe numéro 6 !
 
-Un **ion** : Si des supporters partent ou arrivent, l'équilibre change !`
+Un ion : Si des supporters partent ou arrivent, l'équilibre change !`
         },
         theory: `Structure de l'Atome
 
@@ -1293,28 +1293,28 @@ L'atome est la plus petite unité de matière conservant les propriétés d'un �
     'energy-conservation': {
         title: 'Conservation de l\'Énergie',
         description: 'Explorez les transformations d\'énergie',
-        type: 'atom',
+        type: 'energy',
         config: {},
         analogy: {
             title: 'La Conservation de l\'Énergie comme l\'Argent dans une Famille',
             content: `La conservation de l'énergie, c'est comme l'argent dans une famille sénégalaise ! 💰
 
-L'**énergie totale** est comme le budget familial - elle ne change jamais, elle se transforme juste !
+L'énergie totale est comme le budget familial - elle ne change jamais, elle se transforme juste !
 
-**Énergie cinétique** : L'argent qu'on dépense activement (en mouvement).
+Énergie cinétique : L'argent qu'on dépense activement (en mouvement).
 Comme quand tu cours au marché avec ton argent.
 
-**Énergie potentielle** : L'argent économisé (en réserve).
+Énergie potentielle : L'argent économisé (en réserve).
 Comme l'argent dans la tirelire en haut de l'armoire.
 
-**Transformations** :
+Transformations :
 - Tirelire → Marché (potentielle → cinétique)
 - Course → Repos (cinétique → potentielle)
 
-**Loi de conservation** : L'argent total ne change pas !
+Loi de conservation : L'argent total ne change pas !
 Si tu prends 1000 F dans la tirelire, tu as 1000 F à dépenser.
 
-**Énergie thermique** : L'argent "perdu" en frais (frottements).
+Énergie thermique : L'argent "perdu" en frais (frottements).
 Comme les frais de transport - l'énergie se disperse en chaleur.
 
 Au final : Énergie initiale = Énergie finale (juste transformée) !`

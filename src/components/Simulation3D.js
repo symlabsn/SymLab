@@ -345,6 +345,218 @@ function StatesOfMatter() {
     );
 }
 
+// Composant Plaques Tectoniques
+function TectonicPlates() {
+    return (
+        <group>
+            {/* Plaque 1 */}
+            <mesh position={[-1.5, 0, 0]}>
+                <boxGeometry args={[3, 0.5, 3]} />
+                <meshStandardMaterial color="#8B4513" />
+            </mesh>
+
+            {/* Plaque 2 */}
+            <mesh position={[1.5, 0.2, 0]}>
+                <boxGeometry args={[3, 0.5, 3]} />
+                <meshStandardMaterial color="#A0522D" />
+            </mesh>
+
+            {/* Magma (sous les plaques) */}
+            <mesh position={[0, -1, 0]}>
+                <sphereGeometry args={[2, 32, 32]} />
+                <meshStandardMaterial color="#FF4500" emissive="#FF4500" emissiveIntensity={0.5} />
+            </mesh>
+
+            {/* Volcan */}
+            <mesh position={[0, 0.5, 0]}>
+                <coneGeometry args={[0.5, 1.5, 32]} />
+                <meshStandardMaterial color="#654321" />
+            </mesh>
+        </group>
+    );
+}
+
+// Composant Réaction Chimique
+function ChemicalReaction() {
+    return (
+        <group>
+            {/* Molécules réactifs (gauche) */}
+            <group position={[-2, 0, 0]}>
+                <mesh position={[0, 0, 0]}>
+                    <sphereGeometry args={[0.3, 32, 32]} />
+                    <meshStandardMaterial color="#3B82F6" />
+                </mesh>
+                <mesh position={[0.6, 0, 0]}>
+                    <sphereGeometry args={[0.3, 32, 32]} />
+                    <meshStandardMaterial color="#EF4444" />
+                </mesh>
+            </group>
+
+            {/* Flèche de réaction */}
+            <mesh rotation={[0, 0, Math.PI / 2]}>
+                <cylinderGeometry args={[0.05, 0.05, 2, 16]} />
+                <meshStandardMaterial color="#FCD34D" />
+            </mesh>
+            <mesh position={[1, 0, 0]} rotation={[0, 0, -Math.PI / 4]}>
+                <coneGeometry args={[0.15, 0.4, 16]} />
+                <meshStandardMaterial color="#FCD34D" />
+            </mesh>
+
+            {/* Molécules produits (droite) */}
+            <group position={[2, 0, 0]}>
+                <mesh position={[0, 0.3, 0]}>
+                    <sphereGeometry args={[0.25, 32, 32]} />
+                    <meshStandardMaterial color="#10B981" />
+                </mesh>
+                <mesh position={[0, -0.3, 0]}>
+                    <sphereGeometry args={[0.25, 32, 32]} />
+                    <meshStandardMaterial color="#8B5CF6" />
+                </mesh>
+            </group>
+        </group>
+    );
+}
+
+// Composant Forces et Mouvement
+function ForcePhysics() {
+    return (
+        <group>
+            {/* Objet (cube) */}
+            <mesh position={[0, 0, 0]}>
+                <boxGeometry args={[1, 1, 1]} />
+                <meshStandardMaterial color="#3B82F6" />
+            </mesh>
+
+            {/* Vecteurs de force */}
+            {/* Force vers la droite */}
+            <group position={[1, 0, 0]}>
+                <mesh rotation={[0, 0, Math.PI / 2]}>
+                    <cylinderGeometry args={[0.05, 0.05, 1.5, 16]} />
+                    <meshStandardMaterial color="#EF4444" />
+                </mesh>
+                <mesh position={[0.75, 0, 0]} rotation={[0, 0, -Math.PI / 2]}>
+                    <coneGeometry args={[0.15, 0.4, 16]} />
+                    <meshStandardMaterial color="#EF4444" />
+                </mesh>
+            </group>
+
+            {/* Force de gravité (vers le bas) */}
+            <group position={[0, -1, 0]}>
+                <mesh>
+                    <cylinderGeometry args={[0.05, 0.05, 1, 16]} />
+                    <meshStandardMaterial color="#10B981" />
+                </mesh>
+                <mesh position={[0, -0.5, 0]} rotation={[Math.PI, 0, 0]}>
+                    <coneGeometry args={[0.15, 0.4, 16]} />
+                    <meshStandardMaterial color="#10B981" />
+                </mesh>
+            </group>
+
+            {/* Sol */}
+            <mesh position={[0, -2, 0]} rotation={[-Math.PI / 2, 0, 0]}>
+                <planeGeometry args={[6, 6]} />
+                <meshStandardMaterial color="#9CA3AF" transparent opacity={0.3} />
+            </mesh>
+        </group>
+    );
+}
+
+// Composant Système Immunitaire
+function ImmuneSystem() {
+    return (
+        <group>
+            {/* Virus (ennemi) */}
+            <mesh position={[0, 0, 0]}>
+                <icosahedronGeometry args={[0.5, 0]} />
+                <meshStandardMaterial color="#DC2626" />
+            </mesh>
+            {/* Spikes du virus */}
+            {Array.from({ length: 8 }).map((_, i) => {
+                const angle = (i / 8) * Math.PI * 2;
+                return (
+                    <mesh
+                        key={i}
+                        position={[Math.cos(angle) * 0.5, Math.sin(angle) * 0.5, 0]}
+                        rotation={[0, 0, angle]}
+                    >
+                        <coneGeometry args={[0.05, 0.3, 8]} />
+                        <meshStandardMaterial color="#991B1B" />
+                    </mesh>
+                );
+            })}
+
+            {/* Globules blancs (défenseurs) */}
+            {Array.from({ length: 5 }).map((_, i) => (
+                <mesh
+                    key={`wb-${i}`}
+                    position={[
+                        Math.cos((i / 5) * Math.PI * 2) * 2,
+                        Math.sin((i / 5) * Math.PI * 2) * 2,
+                        0
+                    ]}
+                >
+                    <sphereGeometry args={[0.3, 32, 32]} />
+                    <meshStandardMaterial color="#F3F4F6" />
+                </mesh>
+            ))}
+
+            {/* Anticorps (Y shape) */}
+            {Array.from({ length: 3 }).map((_, i) => (
+                <group
+                    key={`ab-${i}`}
+                    position={[
+                        Math.cos((i / 3) * Math.PI * 2 + 1) * 1.5,
+                        Math.sin((i / 3) * Math.PI * 2 + 1) * 1.5,
+                        0
+                    ]}
+                >
+                    <mesh>
+                        <cylinderGeometry args={[0.05, 0.05, 0.5, 8]} />
+                        <meshStandardMaterial color="#FCD34D" />
+                    </mesh>
+                </group>
+            ))}
+        </group>
+    );
+}
+
+// Composant Conservation de l'Énergie
+function EnergyConservation() {
+    return (
+        <group>
+            {/* Pendule */}
+            <mesh position={[0, 2, 0]}>
+                <sphereGeometry args={[0.1, 16, 16]} />
+                <meshStandardMaterial color="#6B7280" />
+            </mesh>
+
+            {/* Fil du pendule */}
+            <mesh position={[-1, 1, 0]} rotation={[0, 0, Math.PI / 4]}>
+                <cylinderGeometry args={[0.02, 0.02, 1.5, 8]} />
+                <meshStandardMaterial color="#374151" />
+            </mesh>
+
+            {/* Masse du pendule */}
+            <mesh position={[-1.5, 0, 0]}>
+                <sphereGeometry args={[0.3, 32, 32]} />
+                <meshStandardMaterial color="#3B82F6" />
+            </mesh>
+
+            {/* Énergie potentielle (haut) */}
+            <mesh position={[-1.5, 0.5, 0]}>
+                <sphereGeometry args={[0.15, 16, 16]} />
+                <meshStandardMaterial color="#FCD34D" emissive="#FCD34D" emissiveIntensity={1} transparent opacity={0.7} />
+            </mesh>
+
+            {/* Trajectoire */}
+            <mesh rotation={[0, 0, Math.PI / 2]}>
+                <torusGeometry args={[1.5, 0.02, 16, 100, Math.PI]} />
+                <meshStandardMaterial color="#00F5D4" transparent opacity={0.3} />
+            </mesh>
+        </group>
+    );
+}
+
 // Composant ADN Helix
 function DNAHelix() {
     const helixPoints = [];
@@ -596,6 +808,16 @@ export default function Simulation3D({ type = 'atom', config = {} }) {
                 return <PlantCell />;
             case 'states-of-matter':
                 return <StatesOfMatter />;
+            case 'tectonics':
+                return <TectonicPlates />;
+            case 'chemical':
+                return <ChemicalReaction />;
+            case 'force':
+                return <ForcePhysics />;
+            case 'immune':
+                return <ImmuneSystem />;
+            case 'energy':
+                return <EnergyConservation />;
             default:
                 return <Atom {...config} />;
         }
