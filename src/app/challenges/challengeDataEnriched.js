@@ -1,4 +1,4 @@
-// Données enrichies pour les challenges avec théorie, histoire, gamification et analogies africaines
+﻿// Données enrichies pour les challenges avec théorie, histoire, gamification et analogies africaines
 export const challengesEnriched = [
     {
         id: 'day_001',
@@ -935,7 +935,7 @@ l.equation()`,
                     context: 'Précurseur du calcul intégral par la méthode d\'exhaustion'
                 },
                 {
-                    name: 'Héron d\\'Alexandrie',
+                    name: 'Heron d\'Alexandrie',
                     year: '60',
                     contribution: 'Formule de Héron (aire triangle)',
                     context: 'Ingénieur grec, inventeur de la machine à vapeur'
@@ -1423,3 +1423,5 @@ export const badges = {
     '📈 Dérivateur': 'Maîtriser le calcul différentiel',
     '∫ Intégrateur': 'Maîtriser le calcul intégral'
 };
+
+
