@@ -8,14 +8,10 @@ import { notFound } from 'next/navigation';
 
 export default function ChallengeDayPage({ params }) {
     const { day } = params;
-    console.log('Day param:', day);
-    console.log('Challenges count:', challenges.length);
-    console.log('First challenge ID:', challenges[0]?.id);
 
     const challenge = challenges.find(c => c.id === day);
 
     const enrichedData = challengesEnriched.find(c => c.id === day);
-    console.log('Found enrichedData:', enrichedData);
 
     // État local pour la progression (en production, utiliser localStorage ou DB)
     const [completedDays, setCompletedDays] = useState([]);
@@ -37,24 +33,25 @@ export default function ChallengeDayPage({ params }) {
         }
     };
 
-    if (!challenge) {
+    // Si ni challenge ni enrichedData n'existent, alors c'est une 404
+    if (!challenge && !enrichedData) {
         return (
             <div className="min-h-screen bg-black text-white p-20">
                 <h1 className="text-red-500 text-4xl mb-4">Erreur de chargement</h1>
-                <p>Le challenge "{day}" n'a pas été trouvé.</p>
-                <div className="mt-8 p-4 bg-gray-900 rounded border border-gray-800 font-mono text-xs">
-                    <p>Params day: {JSON.stringify(day)}</p>
-                    <p>Challenges array length: {challenges?.length}</p>
-                    <p>First 5 IDs in challenges:</p>
-                    <ul>
-                        {challenges?.slice(0, 5).map(c => <li key={c.id}>{c.id}</li>)}
-                    </ul>
-                    <p>Enriched Data found: {enrichedData ? 'Yes' : 'No'}</p>
-                </div>
+                <p>Le jour "{day}" est introuvable.</p>
                 <Link href="/challenges" className="text-[#00F5D4] mt-8 block">← Retour à la liste</Link>
             </div>
         );
     }
+
+    // Si challenge est manquant mais enrichedData existe, on crée un objet dummy pour éviter le crash
+    const displayChallenge = challenge || {
+        id: day,
+        title: enrichedData?.title ? `Jour ${day.split('_')[1]} — ${enrichedData.title}` : `Jour ${day.split('_')[1]}`,
+        code: "# Code non disponible pour le moment",
+        output: "Non disponible",
+        exercises: []
+    };
 
     // Vérifier si le jour est débloqué
     const isUnlocked = enrichedData ?
@@ -62,8 +59,9 @@ export default function ChallengeDayPage({ params }) {
         true;
 
     const currentIndex = challenges.findIndex(c => c.id === day);
+    // Gestion des liens précédent/suivant si challenges est incomplet
     const prevChallenge = currentIndex > 0 ? challenges[currentIndex - 1] : null;
-    const nextChallenge = currentIndex < challenges.length - 1 ? challenges[currentIndex + 1] : null;
+    const nextChallenge = currentIndex !== -1 && currentIndex < challenges.length - 1 ? challenges[currentIndex + 1] : null;
 
     const totalXP = progressionSystem.getTotalXP(completedDays);
     const levelInfo = progressionSystem.getLevel(totalXP);
@@ -104,7 +102,7 @@ export default function ChallengeDayPage({ params }) {
                     </div>
 
                     <h1 className="text-4xl md:text-5xl font-black mb-4 leading-tight">
-                        {challenge.title.replace(/Jour \d+ — /, '')}
+                        {displayChallenge.title.replace(/Jour \d+ — /, '')}
                     </h1>
 
                     {enrichedData && (
@@ -234,31 +232,31 @@ export default function ChallengeDayPage({ params }) {
                             </div>
                             <div className="p-6 overflow-x-auto">
                                 <pre className="font-mono text-sm leading-relaxed text-gray-300">
-                                    <code>{challenge.code}</code>
+                                    <code>{displayChallenge.code}</code>
                                 </pre>
                             </div>
                         </div>
 
                         {/* Output Section */}
-                        {challenge.output && (
+                        {displayChallenge.output && (
                             <div className="bg-[#0F1115] border border-white/10 rounded-2xl p-6 relative overflow-hidden mb-8">
                                 <div className="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-[#00F5D4] to-blue-600"></div>
                                 <h3 className="text-sm font-bold text-gray-400 uppercase tracking-wider mb-3">Sortie Attendue</h3>
                                 <div className="font-mono text-[#00F5D4] bg-[#00F5D4]/5 p-4 rounded-xl border border-[#00F5D4]/10">
-                                    {challenge.output}
+                                    {displayChallenge.output}
                                 </div>
                             </div>
                         )}
 
                         {/* Exercises Section */}
-                        {challenge.exercises && challenge.exercises.length > 0 && (
+                        {displayChallenge.exercises && displayChallenge.exercises.length > 0 && (
                             <div className="bg-gradient-to-br from-white/5 to-transparent border border-white/10 rounded-3xl p-8 mb-8">
                                 <h2 className="text-2xl font-bold mb-6 flex items-center gap-3">
                                     <span className="text-2xl">💪</span>
                                     À vous de jouer !
                                 </h2>
                                 <ul className="space-y-4">
-                                    {challenge.exercises.map((ex, i) => (
+                                    {displayChallenge.exercises.map((ex, i) => (
                                         <li key={i} className="flex gap-4 items-start bg-black/20 p-4 rounded-xl border border-white/5 hover:border-white/10 transition-colors">
                                             <span className="flex-shrink-0 w-6 h-6 rounded-full bg-[#00F5D4]/20 text-[#00F5D4] flex items-center justify-center text-xs font-bold mt-0.5">
                                                 {i + 1}
