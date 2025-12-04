@@ -15,11 +15,11 @@ export const lyceeSimulationsData = {
 Chaque pirogue crée des vagues (ondes) derrière elle.
 Quand les vagues de la première pirogue rencontrent celles de la deuxième, quelque chose de magique se produit !
 
-**Interférence Constructive** (Le Sommet) :
-Si le sommet d'une vague rencontre le sommet de l'autre, elles s'ajoutent pour former une **vague géante** !
+Interférence Constructive (Le Sommet) :
+Si le sommet d'une vague rencontre le sommet de l'autre, elles s'ajoutent pour former une vague géante !
 C'est comme quand deux tam-tams frappent en même temps : le son est beaucoup plus fort ! 🥁
 
-**Interférence Destructive** (Le Creux) :
+Interférence Destructive (Le Creux) :
 Si le sommet d'une vague rencontre le creux de l'autre, elles s'annulent. L'eau devient plate !
 C'est comme si deux personnes poussaient une porte dans des sens opposés : rien ne bouge.
 
@@ -29,23 +29,23 @@ C'est ce qui se passe avec la lumière dans l'expérience des fentes de Young : 
 
 Le phénomène d'interférence se produit lorsque deux ondes se superposent.
 
-**Conditions d'Interférence**
+Conditions d'Interférence
 - Sources cohérentes (même fréquence, déphasage constant)
 - Ondes de même nature (lumineuses, sonores, mécaniques)
 
-**Types d'Interférences**
+Types d'Interférences
 
-**Constructives**
+Constructives
 - Les ondes sont en phase (différence de marche δ = k·λ)
 - Les amplitudes s'ajoutent
 - Résultat : Intensité maximale (frange brillante)
 
-**Destructives**
+Destructives
 - Les ondes sont en opposition de phase (δ = (k + 0.5)·λ)
 - Les amplitudes se soustraient
 - Résultat : Intensité minimale ou nulle (frange sombre)
 
-**Expérience des Fentes de Young**
+Expérience des Fentes de Young
 Thomas Young (1801) a démontré la nature ondulatoire de la lumière.
 - Une source lumineuse éclaire deux fentes fines.
 - Sur un écran, on observe une alternance de bandes claires et sombres (figure d'interférence).
@@ -53,7 +53,7 @@ Thomas Young (1801) a démontré la nature ondulatoire de la lumière.
   i = (λ · D) / a
   (λ: longueur d'onde, D: distance fentes-écran, a: distance entre fentes)
 
-**Applications**
+Applications
 - Holographie
 - Traitement antireflet des lunettes
 - Interféromètres (détection ondes gravitationnelles)`,
@@ -83,14 +83,14 @@ Thomas Young (1801) a démontré la nature ondulatoire de la lumière.
             title: 'La Géométrie Moléculaire comme la Construction d\'une Case',
             content: `Construire une molécule, c'est comme construire une case traditionnelle ! 🏠
 
-Les **atomes** sont comme les poteaux de la charpente.
-Les **liaisons** sont les poutres qui les relient.
+Les atomes sont comme les poteaux de la charpente.
+Les liaisons sont les poutres qui les relient.
 
-Mais attention ! Les poutres (paires d'électrons) se repoussent, elles veulent être le plus loin possible les unes des autres pour que la case soit stable. C'est la théorie **VSEPR**.
+Mais attention ! Les poutres (paires d'électrons) se repoussent, elles veulent être le plus loin possible les unes des autres pour que la case soit stable. C'est la théorie VSEPR.
 
-- **2 poutres** : Elles se mettent à l'opposé (180°) → Forme **Linéaire** (comme un bâton).
-- **3 poutres** : Elles forment un triangle (120°) → Forme **Trigonale**.
-- **4 poutres** : Elles pointent vers les coins d'une pyramide (109.5°) → Forme **Tétraédrique**.
+- 2 poutres : Elles se mettent à l'opposé (180°) → Forme Linéaire (comme un bâton).
+- 3 poutres : Elles forment un triangle (120°) → Forme Trigonale.
+- 4 poutres : Elles pointent vers les coins d'une pyramide (109.5°) → Forme Tétraédrique.
 
 L'eau (H₂O) est comme une case avec deux poutres invisibles (doublets non liants) qui poussent les murs : c'est pour ça qu'elle est "pliée" (coudée) !`
         },
@@ -98,41 +98,41 @@ L'eau (H₂O) est comme une case avec deux poutres invisibles (doublets non lian
 
 La théorie VSEPR (Valence Shell Electron Pair Repulsion) permet de prédire la géométrie des molécules.
 
-**Principe**
+Principe
 Les paires d'électrons (liantes et non liantes) autour de l'atome central se repoussent et s'éloignent au maximum pour minimiser la répulsion électrique.
 
-**Notation AXₙEₘ**
+Notation AXₙEₘ
 - A : Atome central
 - X : Atomes liés (n = nombre)
 - E : Doublets non liants (m = nombre)
 
-**Géométries Principales**
+Géométries Principales
 
-**Linéaire (AX₂)**
+Linéaire (AX₂)
 - Angle : 180°
 - Ex: CO₂, BeCl₂
 
-**Trigonale Plane (AX₃)**
+Trigonale Plane (AX₃)
 - Angle : 120°
 - Ex: BF₃, SO₃
 
-**Coudée (AX₂E₁)**
+Coudée (AX₂E₁)
 - Angle : < 120°
 - Ex: SO₂, O₃
 
-**Tétraédrique (AX₄)**
+Tétraédrique (AX₄)
 - Angle : 109.5°
 - Ex: CH₄ (Méthane)
 
-**Pyramidale à base trigonale (AX₃E₁)**
+Pyramidale à base trigonale (AX₃E₁)
 - Angle : < 109.5°
 - Ex: NH₃ (Ammoniac)
 
-**Coudée (AX₂E₂)**
+Coudée (AX₂E₂)
 - Angle : << 109.5° (env. 104.5°)
 - Ex: H₂O (Eau)
 
-**Importance**
+Importance
 La géométrie détermine la polarité, la réactivité et l'état physique de la matière.`,
         exercises: [
             {
@@ -160,13 +160,13 @@ La géométrie détermine la polarité, la réactivité et l'état physique de l
             title: 'La Mitose comme la Construction d\'une Nouvelle Maison',
             content: `La mitose, c'est comme quand une grande famille construit une deuxième maison identique juste à côté pour s'agrandir ! 🏡🏡
 
-1. **Prophase** (Préparation) : On rassemble tous les meubles et les plans (chromosomes) au milieu du salon. On emballe tout.
+1. Prophase (Préparation) : On rassemble tous les meubles et les plans (chromosomes) au milieu du salon. On emballe tout.
 
-2. **Métaphase** (Alignement) : On aligne tous les cartons parfaitement au centre de la pièce pour être sûr de ne rien oublier. C'est l'inventaire !
+2. Métaphase (Alignement) : On aligne tous les cartons parfaitement au centre de la pièce pour être sûr de ne rien oublier. C'est l'inventaire !
 
-3. **Anaphase** (Séparation) : On sépare chaque lot en deux copies exactes. Une équipe tire les meubles vers la nouvelle maison, l'autre garde les originaux dans l'ancienne.
+3. Anaphase (Séparation) : On sépare chaque lot en deux copies exactes. Une équipe tire les meubles vers la nouvelle maison, l'autre garde les originaux dans l'ancienne.
 
-4. **Télophase** (Reconstruction) : On finit les murs entre les deux maisons. On déballe les meubles.
+4. Télophase (Reconstruction) : On finit les murs entre les deux maisons. On déballe les meubles.
 
 Maintenant, on a deux maisons (cellules) parfaitement identiques avec exactement les mêmes meubles (ADN) !`
         },
@@ -174,32 +174,32 @@ Maintenant, on a deux maisons (cellules) parfaitement identiques avec exactement
 
 La mitose est le processus par lequel une cellule mère se divise en deux cellules filles génétiquement identiques.
 
-**Cycle Cellulaire**
+Cycle Cellulaire
 - Interphase (G1, S, G2) : Croissance et réplication de l'ADN
 - Mitose (M) : Division du noyau
 - Cytocinèse : Division du cytoplasme
 
-**Les Phases de la Mitose**
+Les Phases de la Mitose
 
-**1. Prophase**
+1. Prophase
 - Condensation de la chromatine en chromosomes
 - Disparition de l'enveloppe nucléaire
 - Formation du fuseau mitotique
 
-**2. Métaphase**
+2. Métaphase
 - Alignement des chromosomes sur la plaque équatoriale
 - Attachement des microtubules aux centromères
 
-**3. Anaphase**
+3. Anaphase
 - Séparation des chromatides sœurs
 - Migration vers les pôles opposés de la cellule
 
-**4. Télophase**
+4. Télophase
 - Décondensation des chromosomes
 - Reformation de l'enveloppe nucléaire
 - Disparition du fuseau
 
-**Importance**
+Importance
 - Croissance des organismes
 - Réparation des tissus (cicatrisation)
 - Reproduction asexuée`,
@@ -231,13 +231,13 @@ La mitose est le processus par lequel une cellule mère se divise en deux cellul
 
 C'est un équilibre fragile entre tous les habitants :
 
-Les **Producteurs** (Herbes, Arbres) : Ils fabriquent la nourriture grâce au soleil. Ce sont les cuisines du parc.
+Les Producteurs (Herbes, Arbres) : Ils fabriquent la nourriture grâce au soleil. Ce sont les cuisines du parc.
 
-Les **Consommateurs Primaires** (Antilopes, Phacochères) : Ils mangent les plantes. Ce sont les clients du restaurant végétarien.
+Les Consommateurs Primaires (Antilopes, Phacochères) : Ils mangent les plantes. Ce sont les clients du restaurant végétarien.
 
-Les **Consommateurs Secondaires** (Lions, Léopards) : Ils mangent les antilopes. Ce sont les chasseurs.
+Les Consommateurs Secondaires (Lions, Léopards) : Ils mangent les antilopes. Ce sont les chasseurs.
 
-Les **Décomposeurs** (Termites, Champignons) : Ils nettoient tout et rendent la terre fertile. Ce sont les agents de propreté indispensables !
+Les Décomposeurs (Termites, Champignons) : Ils nettoient tout et rendent la terre fertile. Ce sont les agents de propreté indispensables !
 
 Si tu enlèves les lions, il y aura trop d'antilopes, elles mangeront toute l'herbe, et le parc deviendra un désert. Tout est lié dans le "Cercle de la Vie" !`
         },
@@ -245,34 +245,34 @@ Si tu enlèves les lions, il y aura trop d'antilopes, elles mangeront toute l'he
 
 Un écosystème est l'ensemble des interactions entre les êtres vivants (biocénose) et leur milieu (biotope).
 
-**Niveaux Trophiques**
+Niveaux Trophiques
 
-**1. Producteurs (Autotrophes)**
+1. Producteurs (Autotrophes)
 - Plantes vertes, algues, cyanobactéries
 - Convertissent l'énergie solaire en matière organique (Photosynthèse)
 
-**2. Consommateurs (Hétérotrophes)**
+2. Consommateurs (Hétérotrophes)
 - Primaires : Herbivores
 - Secondaires : Carnivores mangeurs d'herbivores
 - Tertiaires : Super-prédateurs
 
-**3. Décomposeurs**
+3. Décomposeurs
 - Bactéries, champignons, détritivores
 - Recyclent la matière organique en matière minérale
 
-**Flux d'Énergie**
+Flux d'Énergie
 - L'énergie circule d'un niveau à l'autre
 - Perte de 90% d'énergie à chaque niveau (chaleur, respiration)
 - Pyramide écologique
 
-**Interactions**
+Interactions
 - Prédation (+/-)
 - Compétition (-/-)
 - Symbiose/Mutualisme (+/+)
 - Parasitisme (+/-)
 - Commensalisme (+/0)
 
-**Équilibre Dynamique**
+Équilibre Dynamique
 Les populations fluctuent autour d'un point d'équilibre. Les perturbations peuvent causer des effondrements.`,
         exercises: [
             {
@@ -303,9 +303,9 @@ Les populations fluctuent autour d'un point d'équilibre. Les perturbations peuv
 
 Imagine un aimant qui danse à l'intérieur d'une bobine de fil de cuivre.
 
-Quand l'aimant **bouge** (change de position), il "pousse" les électrons dans le fil. C'est comme si le mouvement de l'aimant créait un vent qui fait avancer les électrons.
+Quand l'aimant bouge (change de position), il "pousse" les électrons dans le fil. C'est comme si le mouvement de l'aimant créait un vent qui fait avancer les électrons.
 
-Si l'aimant ne bouge pas, pas de courant ! Il faut du **changement**.
+Si l'aimant ne bouge pas, pas de courant ! Il faut du changement.
 
 C'est la loi de Faraday : "Pas de changement, pas de courant !"
 
@@ -315,22 +315,22 @@ C'est exactement comme ça que la SENELEC fabrique l'électricité pour tout le 
 
 L'induction est la production d'un courant électrique par la variation d'un champ magnétique.
 
-**Flux Magnétique (Φ)**
+Flux Magnétique (Φ)
 - Mesure la quantité de champ magnétique traversant une surface.
 - Φ = B · S · cos(α)
   (B: champ magnétique, S: surface, α: angle)
 - Unité : Weber (Wb)
 
-**Loi de Faraday**
+Loi de Faraday
 La force électromotrice (f.é.m) induite est proportionnelle à la vitesse de variation du flux magnétique.
 e = - dΦ / dt
 
-**Loi de Lenz**
+Loi de Lenz
 Le courant induit a un sens tel qu'il s'oppose, par ses effets, à la cause qui lui donne naissance.
 (C'est le signe "-" dans la loi de Faraday).
 C'est une forme d'inertie électromagnétique.
 
-**Applications**
+Applications
 - Générateurs (Alternateurs)
 - Transformateurs
 - Moteurs électriques
@@ -366,10 +366,10 @@ Tu as un jus très acide (Acide) dans ton verre.
 Tu ajoutes doucement du sirop de sucre (Base) goutte par goutte.
 
 Au début, c'est toujours acide.
-Puis, soudain, à UNE goutte près, le goût change complètement ! C'est l'**Équivalence**.
+Puis, soudain, à UNE goutte près, le goût change complètement ! C'est l'Équivalence.
 Si tu continues, ça devient trop sucré (Basique).
 
-L'**indicateur coloré** (comme le BBT) est comme un ami qui change de couleur de visage :
+L'indicateur coloré (comme le BBT) est comme un ami qui change de couleur de visage :
 - Jaune = Trop acide
 - Bleu = Trop basique
 - Vert = Parfait (Neutre) !
@@ -380,21 +380,21 @@ Le but est de trouver exactement combien de sirop il faut pour neutraliser l'aci
 
 Technique permettant de déterminer la concentration inconnue d'une solution (titrée) en la faisant réagir avec une solution de concentration connue (titrante).
 
-**Réaction de Neutralisation**
+Réaction de Neutralisation
 Acide + Base → Sel + Eau
 H₃O⁺ + OH⁻ → 2 H₂O (réaction exothermique)
 
-**Point d'Équivalence**
+Point d'Équivalence
 Moment où les réactifs ont été introduits dans les proportions stœchiométriques.
 n(acide) = n(base)
 Cₐ · Vₐ = Cb · VbE
 
-**pH et Courbe de Titrage**
+pH et Courbe de Titrage
 - Au début : pH acide (faible)
 - Saut de pH : variation brusque autour de l'équivalence
 - À la fin : pH basique (élevé)
 
-**Indicateurs Colorés**
+Indicateurs Colorés
 Substances qui changent de couleur selon le pH (zone de virage).
 On choisit un indicateur dont la zone de virage contient le pH à l'équivalence.
 - Hélianthine (3.1 - 4.4)
@@ -427,35 +427,35 @@ On choisit un indicateur dont la zone de virage contient le pH à l'équivalence
             title: 'La Quantique comme les Cauris du Devin',
             content: `La mécanique quantique, c'est comme le lancer de Cauris par un grand marabout ! 🐚
 
-Avant de regarder, le cauri n'est ni "ouvert" ni "fermé". Il est dans une **superposition** des deux états. Il est les deux à la fois !
+Avant de regarder, le cauri n'est ni "ouvert" ni "fermé". Il est dans une superposition des deux états. Il est les deux à la fois !
 
 C'est seulement quand tu regardes (mesure) qu'il "choisit" d'être ouvert ou fermé.
 
 L'électron est pareil : il n'est pas à un endroit précis. Il est un nuage de probabilité, un "fantôme" qui est un peu partout autour du noyau.
 
-**Principe d'incertitude** : C'est comme essayer d'attraper un djinn. Si tu sais où il est, tu ne sais pas où il va. Si tu sais où il va, tu ne sais pas où il est !`
+Principe d'incertitude : C'est comme essayer d'attraper un djinn. Si tu sais où il est, tu ne sais pas où il va. Si tu sais où il va, tu ne sais pas où il est !`
         },
         theory: `Mécanique Quantique
 
 Branche de la physique décrivant le comportement de la matière à l'échelle atomique.
 
-**Dualité Onde-Corpuscule**
+Dualité Onde-Corpuscule
 La lumière et la matière se comportent à la fois comme des ondes et des particules.
 - Relation de De Broglie : λ = h / p
 
-**Fonction d'Onde (Ψ)**
+Fonction d'Onde (Ψ)
 Décrit l'état quantique d'un système.
 |Ψ|² représente la densité de probabilité de présence.
 
-**Équation de Schrödinger**
+Équation de Schrödinger
 HΨ = EΨ
 Équation fondamentale régissant l'évolution de la fonction d'onde.
 
-**Principe d'Incertitude de Heisenberg**
+Principe d'Incertitude de Heisenberg
 Impossible de connaître simultanément avec précision la position (x) et la quantité de mouvement (p) d'une particule.
 Δx · Δp ≥ h / 4π
 
-**Orbitales Atomiques**
+Orbitales Atomiques
 Zones de l'espace où la probabilité de trouver l'électron est élevée (95%).
 Formes : s (sphère), p (haltère), d (trèfle)...
 Nombres quantiques (n, l, m, s) définissent l'état de l'électron.`,
@@ -488,7 +488,7 @@ Nombres quantiques (n, l, m, s) définissent l'état de l'électron.`,
 Les atomes instables (radioactifs) sont comme des glaçons qui veulent devenir de l'eau (stables).
 Ils "transpirent" en émettant des rayonnements (Alpha, Bêta, Gamma).
 
-La **Demi-vie** : C'est le temps qu'il faut pour que la moitié du bloc fonde.
+La Demi-vie : C'est le temps qu'il faut pour que la moitié du bloc fonde.
 Peu importe la taille du bloc au début !
 Si tu as 1000 glaçons, après une demi-vie, il en reste 500.
 Après une autre demi-vie, il en reste 250 (la moitié de 500, pas 0 !).
@@ -499,38 +499,38 @@ C'est un processus aléatoire : on ne sait pas QUEL glaçon va fondre, mais on s
 
 Transformation spontanée d'un noyau atomique instable en un noyau plus stable avec émission de rayonnement.
 
-**Types de Désintégration**
+Types de Désintégration
 
-**Alpha (α)**
+Alpha (α)
 - Émission d'un noyau d'Hélium (⁴₂He)
 - Arrêté par une feuille de papier
 - Concerne les noyaux lourds
 
-**Bêta Moins (β⁻)**
+Bêta Moins (β⁻)
 - Émission d'un électron (e⁻)
 - Neutron → Proton + e⁻
 - Arrêté par l'aluminium
 
-**Bêta Plus (β⁺)**
+Bêta Plus (β⁺)
 - Émission d'un positon (e⁺)
 - Proton → Neutron + e⁺
 
-**Gamma (γ)**
+Gamma (γ)
 - Rayonnement électromagnétique (photons)
 - Désexcitation du noyau
 - Très pénétrant (nécessite du plomb)
 
-**Loi de Décroissance Radioactive**
+Loi de Décroissance Radioactive
 N(t) = N₀ · e^(-λt)
 - N(t) : nombre de noyaux restants
 - λ : constante radioactive
 - t : temps
 
-**Demi-vie (t½)**
+Demi-vie (t½)
 Temps nécessaire pour que la moitié des noyaux se désintègrent.
 t½ = ln(2) / λ
 
-**Activité (A)**
+Activité (A)
 Nombre de désintégrations par seconde.
 Unité : Becquerel (Bq)`,
         exercises: [
@@ -566,9 +566,9 @@ Mais pour Moussa qui la regarde avec un télescope magique, Fatou bouge au ralen
 
 Quand Fatou revient après ce qui lui a semblé être 1 an, Moussa a vieilli de 10 ans !
 
-C'est la **dilatation du temps**. Plus tu vas vite, plus ton temps ralentit par rapport à ceux qui restent immobiles.
+C'est la dilatation du temps. Plus tu vas vite, plus ton temps ralentit par rapport à ceux qui restent immobiles.
 
-Et aussi, la fusée de Fatou semble toute écrasée, toute courte pour Moussa (**contraction des longueurs**).
+Et aussi, la fusée de Fatou semble toute écrasée, toute courte pour Moussa (contraction des longueurs).
 
 La seule chose qui ne change jamais, c'est la vitesse de la lumière (c). C'est la limite de vitesse universelle de la police de l'Univers !`
         },
@@ -576,27 +576,27 @@ La seule chose qui ne change jamais, c'est la vitesse de la lumière (c). C'est 
 
 Théorie révolutionnant notre compréhension de l'espace et du temps.
 
-**Postulats**
+Postulats
 1. Les lois de la physique sont les mêmes dans tous les référentiels inertiels.
 2. La vitesse de la lumière dans le vide (c ≈ 300 000 km/s) est constante et indépendante de la source.
 
-**Conséquences**
+Conséquences
 
-**Dilatation du Temps**
+Dilatation du Temps
 Une horloge en mouvement bat plus lentement qu'une horloge immobile.
 Δt' = γ · Δt
 (γ est le facteur de Lorentz, toujours ≥ 1)
 
-**Contraction des Longueurs**
+Contraction des Longueurs
 Un objet en mouvement apparaît plus court dans la direction du mouvement.
 L' = L / γ
 
-**Facteur de Lorentz (γ)**
+Facteur de Lorentz (γ)
 γ = 1 / √(1 - v²/c²)
 - Si v est petit, γ ≈ 1 (physique classique)
 - Si v approche c, γ tend vers l'infini
 
-**Équivalence Masse-Énergie**
+Équivalence Masse-Énergie
 E = m · c²
 La masse est une forme d'énergie concentrée.
 Une petite quantité de masse peut libérer une énergie colossale (nucléaire).`,
