@@ -10,10 +10,10 @@ export default function AboutPage() {
     // Pitch révolutionnaire basé sur les statistiques de l'enseignement scientifique au Sénégal
     const pitchStats = [
         {
-            label: 'Taux d\'échec en Sciences',
-            value: '68%',
-            icon: '📉',
-            context: 'au BFEM & BAC (2023)',
+            label: 'Élèves en Séries Scientifiques',
+            value: '16%',
+            icon: '🎓',
+            context: 'seulement au Sénégal (2023)',
             color: 'from-red-500 to-orange-500'
         },
         {
@@ -242,14 +242,6 @@ export default function AboutPage() {
 
             {/* Business Model Canvas */}
             <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-                <div className="text-center mb-12">
-                    <h2 className="text-5xl font-black mb-4 bg-clip-text text-transparent bg-gradient-to-r from-[#00F5D4] via-purple-500 to-pink-500">
-                        Notre Pitch Révolutionnaire
-                    </h2>
-                    <p className="text-xl text-gray-400 max-w-3xl mx-auto">
-                        Transformer l'éducation scientifique en Afrique avec la technologie et l'innovation pédagogique
-                    </p>
-                </div>
 
                 <div className="grid md:grid-cols-2 gap-6 mb-12">
                     {businessModel.map((item, index) => (
