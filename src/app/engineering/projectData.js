@@ -3012,7 +3012,7 @@ print("Fréquence propre :")
 display(f)`
             }
         ]
-    }
+    },
     // NOUVEAUX PROJETS GÉNIE CIVIL
     {
         id: 'civil-load-calculation',
