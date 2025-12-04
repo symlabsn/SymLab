@@ -6,7 +6,7 @@ export const lyceeSimulationsData = {
     'wave-interference': {
         title: 'Interférences d\'Ondes',
         description: 'Visualisez les phénomènes d\'interférence lumineuse',
-        type: 'atom', // À adapter plus tard pour un type 'wave'
+        type: 'wave',
         config: {},
         analogy: {
             title: 'Les Interférences comme les Vagues sur le Fleuve Sénégal',
@@ -77,7 +77,7 @@ Thomas Young (1801) a démontré la nature ondulatoire de la lumière.
     'molecular-geometry': {
         title: 'Géométrie Moléculaire',
         description: 'Construisez et visualisez des molécules en 3D',
-        type: 'water', // À adapter
+        type: 'water',
         config: {},
         analogy: {
             title: 'La Géométrie Moléculaire comme la Construction d\'une Case',
@@ -223,7 +223,7 @@ La mitose est le processus par lequel une cellule mère se divise en deux cellul
     'ecosystem-dynamics': {
         title: 'Dynamique des Écosystèmes',
         description: 'Simulez les interactions dans un écosystème',
-        type: 'cell', // À adapter
+        type: 'water-cycle',
         config: {},
         analogy: {
             title: 'L\'Écosystème comme le Parc Niokolo-Koba',
@@ -295,7 +295,7 @@ Les populations fluctuent autour d'un point d'équilibre. Les perturbations peuv
     'electromagnetic-induction': {
         title: 'Induction Électromagnétique',
         description: 'Expérimentez avec les champs magnétiques et le courant',
-        type: 'atom', // À adapter
+        type: 'circuit',
         config: {},
         analogy: {
             title: 'L\'Induction comme la Dynamo du Vélo',
@@ -356,7 +356,7 @@ C'est une forme d'inertie électromagnétique.
     'acid-base-titration': {
         title: 'Dosage Acide-Base',
         description: 'Réalisez un titrage virtuel avec indicateurs colorés',
-        type: 'water', // À adapter
+        type: 'water',
         config: {},
         analogy: {
             title: 'Le Dosage comme le Mélange Parfait du Jus de Bissap',

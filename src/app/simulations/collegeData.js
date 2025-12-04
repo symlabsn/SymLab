@@ -214,8 +214,8 @@ La matière existe sous trois états principaux : solide, liquide et gazeux.
     'simple-circuits': {
         title: 'Circuits Électriques Simples',
         description: 'Construisez et testez des circuits avec piles et ampoules',
-        type: 'atom',
-        config: { protons: 29, neutrons: 35, electrons: 29 },
+        type: 'circuit',
+        config: {},
         analogy: {
             title: 'Le Circuit Électrique comme le Réseau de Car Rapide',
             content: `Un circuit électrique, c'est comme le réseau de transport de Dakar ! 🚌
@@ -291,7 +291,7 @@ Un circuit électrique est un chemin fermé permettant la circulation du courant
     'digestive-system': {
         title: 'Système Digestif',
         description: 'Suivez le parcours des aliments dans le corps humain',
-        type: 'cell',
+        type: 'digestive',
         config: {},
         analogy: {
             title: 'Le Système Digestif comme une Usine de Thiéboudienne',
@@ -451,7 +451,7 @@ Cœur → Corps → Cœur
     'water-cycle': {
         title: 'Cycle de l\'Eau',
         description: 'Visualisez l\'évaporation, condensation et précipitation',
-        type: 'atom',
+        type: 'water-cycle',
         config: {},
         analogy: {
             title: 'Le Cycle de l\'Eau comme le Voyage du Fleuve Sénégal',
@@ -529,7 +529,7 @@ L'eau circule en permanence entre l'océan, l'atmosphère et la terre.
     'light-reflection': {
         title: 'Réflexion de la Lumière',
         description: 'Expérimentez avec miroirs et rayons lumineux',
-        type: 'atom',
+        type: 'wave',
         config: {},
         analogy: {
             title: 'La Réflexion de la Lumière comme le Jeu de Miroirs au Marché',
@@ -703,7 +703,7 @@ Temps de réaction : 0,1 à 0,2 secondes !`,
     'plate-tectonics': {
         title: 'Tectonique des Plaques',
         description: 'Observez les mouvements des plaques terrestres',
-        type: 'atom',
+        type: 'water-cycle',
         config: {},
         analogy: {
             title: 'La Tectonique des Plaques comme les Pirogues sur l\'Océan',
