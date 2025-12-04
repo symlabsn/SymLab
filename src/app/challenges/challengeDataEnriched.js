@@ -532,858 +532,858 @@ export const challengesEnriched = [
         practicalApplication: 'Intégrales pour probabilités (lois continues), énergies (physique), volumes (géométrie).'
     },
     {
-            id: 'day_011',
-            dayNumber: 11,
-            title: 'Limites',
-            difficulty: 'Intermédiaire',
-            masteryLevel: 'Fondamental',
-            unlocked: true,
-            xpReward: 25,
-            badge: '🏅 Limites',
-            africanAnalogy: `La limite est comme s'approcher d'un puits sans jamais tomber dedans. On peut être aussi près qu'on veut du bord, à une distance infinitésimale, mais on reste sur la terre ferme. C'est l'art de frôler l'infini.`,
-            theory: {
-                title: 'Calcul de Limites',
-                content: `La limite décrit le comportement d'une fonction lorsqu'elle s'approche d'un point donné. C'est le concept fondateur de la continuité, de la dérivation et de l'intégration.`,
-                mathematicalFoundation: `
+        id: 'day_011',
+        dayNumber: 11,
+        title: 'Limites',
+        difficulty: 'Intermédiaire',
+        masteryLevel: 'Fondamental',
+        unlocked: true,
+        xpReward: 25,
+        badge: '🏅 Limites',
+        africanAnalogy: `La limite est comme s'approcher d'un puits sans jamais tomber dedans. On peut être aussi près qu'on veut du bord, à une distance infinitésimale, mais on reste sur la terre ferme. C'est l'art de frôler l'infini.`,
+        theory: {
+            title: 'Calcul de Limites',
+            content: `La limite décrit le comportement d'une fonction lorsqu'elle s'approche d'un point donné. C'est le concept fondateur de la continuité, de la dérivation et de l'intégration.`,
+            mathematicalFoundation: `
                     - Définition (ε-δ) : ∀ε>0, ∃δ>0 t.q. |x-a|<δ ⇒ |f(x)-L|<ε\n                - Limites à l'infini : comportement asymptotique\n                - Continuité : lim f(x) = f(a)\n                - Règle de L'Hôpital : pour les formes indéterminées 0/0 ou ∞/∞
                 `,
-                scientists: [
+            scientists: [
                 {
-                        name: 'Augustin-Louis Cauchy',
-                        year: '1821',
-                        contribution: 'Définition rigoureuse de la limite',
-                        context: 'Formalise l\'analyse mathématique moderne'
-                    },
-                    {
-                        name: 'Karl Weierstrass',
-                        year: '1872',
-                        contribution: 'Définition epsilon-delta',
-                        context: 'Le père de l\'analyse moderne, rigueur absolue'
-                    },
-                ]
-            },
-            code: `from sympy import symbols, limit, sin, oo
+                    name: 'Augustin-Louis Cauchy',
+                    year: '1821',
+                    contribution: 'Définition rigoureuse de la limite',
+                    context: 'Formalise l\'analyse mathématique moderne'
+                },
+                {
+                    name: 'Karl Weierstrass',
+                    year: '1872',
+                    contribution: 'Définition epsilon-delta',
+                    context: 'Le père de l\'analyse moderne, rigueur absolue'
+                },
+            ]
+        },
+        code: `from sympy import symbols, limit, sin, oo
 x = symbols('x')
 limit(sin(x)/x, x, 0)`,
-            output: '1',
-            exercises: [
+        output: '1',
+        exercises: [
             'Calculer la limite de (1+1/x)^x en l\'infini',
             'Trouver la limite de (x²-1)/(x-1) en 1',
             'Étudier la limite de tan(x) en pi/2',
         ],
-            practicalApplication: 'Analyse de stabilité, comportement asymptotique des algorithmes, physique théorique.'
-        },
+        practicalApplication: 'Analyse de stabilité, comportement asymptotique des algorithmes, physique théorique.'
+    },
     {
-            id: 'day_012',
-            dayNumber: 12,
-            title: 'Séries de Taylor',
-            difficulty: 'Avancé',
-            masteryLevel: 'Avancé',
-            unlocked: true,
-            xpReward: 35,
-            badge: '🏅 Séries de Taylor',
-            africanAnalogy: `Une série de Taylor est comme reconstruire un arbre entier à partir d'une seule graine et de son code génétique. En connaissant la fonction et toutes ses dérivées en un seul point, on peut (souvent) reconstruire la fonction partout.`,
-            theory: {
-                title: 'Développement en Série',
-                content: `Les séries de Taylor permettent d'approximer des fonctions complexes par des polynômes. Plus on ajoute de termes, plus l'approximation est précise.`,
-                mathematicalFoundation: `
+        id: 'day_012',
+        dayNumber: 12,
+        title: 'Séries de Taylor',
+        difficulty: 'Avancé',
+        masteryLevel: 'Avancé',
+        unlocked: true,
+        xpReward: 35,
+        badge: '🏅 Séries de Taylor',
+        africanAnalogy: `Une série de Taylor est comme reconstruire un arbre entier à partir d'une seule graine et de son code génétique. En connaissant la fonction et toutes ses dérivées en un seul point, on peut (souvent) reconstruire la fonction partout.`,
+        theory: {
+            title: 'Développement en Série',
+            content: `Les séries de Taylor permettent d'approximer des fonctions complexes par des polynômes. Plus on ajoute de termes, plus l'approximation est précise.`,
+            mathematicalFoundation: `
                     - Formule : f(x) = Σ f⁽ⁿ⁾(a)/n! * (x-a)ⁿ\n                - Série de Maclaurin : Taylor en a=0\n                - Reste de Lagrange : erreur de l'approximation\n                - Rayon de convergence : domaine de validité
                 `,
-                scientists: [
+            scientists: [
                 {
-                        name: 'Brook Taylor',
-                        year: '1715',
-                        contribution: 'Théorème de Taylor',
-                        context: 'Mathématicien anglais, travaux sur les cordes vibrantes'
-                    },
-                    {
-                        name: 'Colin Maclaurin',
-                        year: '1742',
-                        contribution: 'Cas particulier en 0',
-                        context: 'Prodige écossais, professeur à 19 ans'
-                    },
-                ]
-            },
-            code: `from sympy import symbols, sin, series
+                    name: 'Brook Taylor',
+                    year: '1715',
+                    contribution: 'Théorème de Taylor',
+                    context: 'Mathématicien anglais, travaux sur les cordes vibrantes'
+                },
+                {
+                    name: 'Colin Maclaurin',
+                    year: '1742',
+                    contribution: 'Cas particulier en 0',
+                    context: 'Prodige écossais, professeur à 19 ans'
+                },
+            ]
+        },
+        code: `from sympy import symbols, sin, series
 x = symbols('x')
 series(sin(x), x, 0, 6)`,
-            output: 'x - x³/6 + x⁵/120 + O(x⁶)',
-            exercises: [
+        output: 'x - x³/6 + x⁵/120 + O(x⁶)',
+        exercises: [
             'Développer e^x à l\'ordre 5',
             'Trouver la série de cos(x)',
             'Approximer ln(1+x) autour de 0',
         ],
-            practicalApplication: 'Calculatrices (sin, cos), physique (petites oscillations), méthodes numériques.'
-        },
+        practicalApplication: 'Calculatrices (sin, cos), physique (petites oscillations), méthodes numériques.'
+    },
     {
-            id: 'day_013',
-            dayNumber: 13,
-            title: 'Matrices',
-            difficulty: 'Intermédiaire',
-            masteryLevel: 'Intermédiaire',
-            unlocked: true,
-            xpReward: 30,
-            badge: '🏅 Matrices',
-            africanAnalogy: `Une matrice est comme un tableau de tissage. Chaque ligne et chaque colonne a sa place et son rôle. Multiplier des matrices, c'est comme croiser les fils pour créer un motif complexe à partir de motifs simples.`,
-            theory: {
-                title: 'Algèbre Linéaire',
-                content: `Les matrices sont des tableaux de nombres permettant de représenter des transformations linéaires et de résoudre des systèmes d'équations.`,
-                mathematicalFoundation: `
+        id: 'day_013',
+        dayNumber: 13,
+        title: 'Matrices',
+        difficulty: 'Intermédiaire',
+        masteryLevel: 'Intermédiaire',
+        unlocked: true,
+        xpReward: 30,
+        badge: '🏅 Matrices',
+        africanAnalogy: `Une matrice est comme un tableau de tissage. Chaque ligne et chaque colonne a sa place et son rôle. Multiplier des matrices, c'est comme croiser les fils pour créer un motif complexe à partir de motifs simples.`,
+        theory: {
+            title: 'Algèbre Linéaire',
+            content: `Les matrices sont des tableaux de nombres permettant de représenter des transformations linéaires et de résoudre des systèmes d'équations.`,
+            mathematicalFoundation: `
                     - Opérations : addition, multiplication, transposition\n                - Déterminant : mesure du changement de volume\n                - Inverse : A⁻¹ t.q. AA⁻¹ = I\n                - Rang : dimension de l'image
                 `,
-                scientists: [
+            scientists: [
                 {
-                        name: 'Arthur Cayley',
-                        year: '1858',
-                        contribution: 'Définition moderne de la multiplication matricielle',
-                        context: 'Avocat et mathématicien, fonde la théorie des matrices'
-                    },
-                    {
-                        name: 'James Sylvester',
-                        year: '1850',
-                        contribution: 'Invente le terme \'matrice\'',
-                        context: 'Poète et mathématicien, ami de Cayley'
-                    },
-                ]
-            },
-            code: `from sympy import Matrix, eye
+                    name: 'Arthur Cayley',
+                    year: '1858',
+                    contribution: 'Définition moderne de la multiplication matricielle',
+                    context: 'Avocat et mathématicien, fonde la théorie des matrices'
+                },
+                {
+                    name: 'James Sylvester',
+                    year: '1850',
+                    contribution: 'Invente le terme \'matrice\'',
+                    context: 'Poète et mathématicien, ami de Cayley'
+                },
+            ]
+        },
+        code: `from sympy import Matrix, eye
 A = Matrix([[1, 2], [3, 4]])
 A.det()`,
-            output: '-2',
-            exercises: [
+        output: '-2',
+        exercises: [
             'Calculer l\'inverse d\'une matrice 2x2',
             'Multiplier deux matrices 3x3',
             'Calculer la trace d\'une matrice',
         ],
-            practicalApplication: 'Graphisme 3D, mécanique quantique, réseaux de neurones (Deep Learning).'
-        },
+        practicalApplication: 'Graphisme 3D, mécanique quantique, réseaux de neurones (Deep Learning).'
+    },
     {
-            id: 'day_014',
-            dayNumber: 14,
-            title: 'Valeurs Propres',
-            difficulty: 'Avancé',
-            masteryLevel: 'Avancé',
-            unlocked: true,
-            xpReward: 40,
-            badge: '🏅 Valeurs Propres',
-            africanAnalogy: `Les vecteurs propres sont les piliers inébranlables d'une transformation. Quand tout tourne et se déforme autour d'eux, eux gardent leur direction, ne changeant que de taille (valeur propre). Ce sont les axes de stabilité du monde.`,
-            theory: {
-                title: 'Spectre d\'une Matrice',
-                content: `Les valeurs propres (λ) et vecteurs propres (v) satisfont Av = λv. Ils caractérisent la transformation représentée par la matrice.`,
-                mathematicalFoundation: `
+        id: 'day_014',
+        dayNumber: 14,
+        title: 'Valeurs Propres',
+        difficulty: 'Avancé',
+        masteryLevel: 'Avancé',
+        unlocked: true,
+        xpReward: 40,
+        badge: '🏅 Valeurs Propres',
+        africanAnalogy: `Les vecteurs propres sont les piliers inébranlables d'une transformation. Quand tout tourne et se déforme autour d'eux, eux gardent leur direction, ne changeant que de taille (valeur propre). Ce sont les axes de stabilité du monde.`,
+        theory: {
+            title: 'Spectre d\'une Matrice',
+            content: `Les valeurs propres (λ) et vecteurs propres (v) satisfont Av = λv. Ils caractérisent la transformation représentée par la matrice.`,
+            mathematicalFoundation: `
                     - Équation caractéristique : det(A - λI) = 0\n                - Diagonalisation : A = PDP⁻¹\n                - Théorème spectral : matrices symétriques réelles\n                - Espaces propres : noyau de (A - λI)
                 `,
-                scientists: [
+            scientists: [
                 {
-                        name: 'David Hilbert',
-                        year: '1900',
-                        contribution: 'Théorie spectrale',
-                        context: 'Géant des maths, pose les 23 problèmes du siècle'
-                    },
-                    {
-                        name: 'John von Neumann',
-                        year: '1932',
-                        contribution: 'Fondements mathématiques de la mécanique quantique',
-                        context: 'Utilise les opérateurs hermitiens pour les observables'
-                    },
-                ]
-            },
-            code: `from sympy import Matrix
+                    name: 'David Hilbert',
+                    year: '1900',
+                    contribution: 'Théorie spectrale',
+                    context: 'Géant des maths, pose les 23 problèmes du siècle'
+                },
+                {
+                    name: 'John von Neumann',
+                    year: '1932',
+                    contribution: 'Fondements mathématiques de la mécanique quantique',
+                    context: 'Utilise les opérateurs hermitiens pour les observables'
+                },
+            ]
+        },
+        code: `from sympy import Matrix
 A = Matrix([[1, 2], [2, 1]])
 A.eigenvals()`,
-            output: '{-1: 1, 3: 1} (valeur: multiplicité)',
-            exercises: [
+        output: '{-1: 1, 3: 1} (valeur: multiplicité)',
+        exercises: [
             'Trouver les vecteurs propres de la matrice',
             'Diagonaliser une matrice 2x2',
             'Vérifier le théorème de Cayley-Hamilton',
         ],
-            practicalApplication: 'Vibrations (modes propres), Google PageRank, reconnaissance faciale (Eigenfaces).'
-        },
+        practicalApplication: 'Vibrations (modes propres), Google PageRank, reconnaissance faciale (Eigenfaces).'
+    },
     {
-            id: 'day_015',
-            dayNumber: 15,
-            title: 'Systèmes Linéaires',
-            difficulty: 'Intermédiaire',
-            masteryLevel: 'Intermédiaire',
-            unlocked: true,
-            xpReward: 30,
-            badge: '🏅 Systèmes Linéaires',
-            africanAnalogy: `Un système linéaire est comme un nœud complexe de cordes. Chaque équation est une corde qui tire. La solution est le point d'équilibre où toutes les tensions s'annulent.`,
-            theory: {
-                title: 'Résolution de Systèmes',
-                content: `Un système linéaire Ax = b cherche le vecteur x. SymPy peut résoudre ces systèmes de manière exacte, même avec des paramètres symboliques.`,
-                mathematicalFoundation: `
+        id: 'day_015',
+        dayNumber: 15,
+        title: 'Systèmes Linéaires',
+        difficulty: 'Intermédiaire',
+        masteryLevel: 'Intermédiaire',
+        unlocked: true,
+        xpReward: 30,
+        badge: '🏅 Systèmes Linéaires',
+        africanAnalogy: `Un système linéaire est comme un nœud complexe de cordes. Chaque équation est une corde qui tire. La solution est le point d'équilibre où toutes les tensions s'annulent.`,
+        theory: {
+            title: 'Résolution de Systèmes',
+            content: `Un système linéaire Ax = b cherche le vecteur x. SymPy peut résoudre ces systèmes de manière exacte, même avec des paramètres symboliques.`,
+            mathematicalFoundation: `
                     - Méthode de Gauss : échelonnement\n                - Règle de Cramer : xᵢ = det(Aᵢ)/det(A)\n                - Systèmes sous/sur-déterminés\n                - Solutions paramétriques
                 `,
-                scientists: [
+            scientists: [
                 {
-                        name: 'Carl Friedrich Gauss',
-                        year: '1810',
-                        contribution: 'Élimination de Gauss',
-                        context: 'Utilisé pour calculer l\'orbite de l\'astéroïde Cérès'
-                    },
-                    {
-                        name: 'Gabriel Cramer',
-                        year: '1750',
-                        contribution: 'Règle de Cramer',
-                        context: 'Méthode élégante mais coûteuse pour les systèmes'
-                    },
-                ]
-            },
-            code: `from sympy import symbols, linsolve
+                    name: 'Carl Friedrich Gauss',
+                    year: '1810',
+                    contribution: 'Élimination de Gauss',
+                    context: 'Utilisé pour calculer l\'orbite de l\'astéroïde Cérès'
+                },
+                {
+                    name: 'Gabriel Cramer',
+                    year: '1750',
+                    contribution: 'Règle de Cramer',
+                    context: 'Méthode élégante mais coûteuse pour les systèmes'
+                },
+            ]
+        },
+        code: `from sympy import symbols, linsolve
 x, y, z = symbols('x y z')
 linsolve([x + y + z - 1, x + y + 2*z - 3], (x, y, z))`,
-            output: '{(1 - y - z, y, 2)}',
-            exercises: [
+        output: '{(1 - y - z, y, 2)}',
+        exercises: [
             'Résoudre un système 3x3 unique',
             'Résoudre un système paramétrique',
             'Trouver l\'intersection de deux plans',
         ],
-            practicalApplication: 'Circuits électriques (Kirchhoff), équilibre statique, optimisation linéaire.'
-        },
+        practicalApplication: 'Circuits électriques (Kirchhoff), équilibre statique, optimisation linéaire.'
+    },
     {
-            id: 'day_016',
-            dayNumber: 16,
-            title: 'Équations Différentielles',
-            difficulty: 'Avancé',
-            masteryLevel: 'Avancé',
-            unlocked: true,
-            xpReward: 45,
-            badge: '🏅 Équations Différentielles',
-            africanAnalogy: `Une équation différentielle est la règle du jeu de la nature. Elle ne dit pas où on est, mais comment on bouge. Résoudre l'EDO, c'est prédire tout le voyage à partir de la règle de mouvement.`,
-            theory: {
-                title: 'EDO (Équations Différentielles Ordinaires)',
-                content: `Une EDO lie une fonction à ses dérivées. C'est le langage naturel de la physique pour décrire l'évolution des systèmes.`,
-                mathematicalFoundation: `
+        id: 'day_016',
+        dayNumber: 16,
+        title: 'Équations Différentielles',
+        difficulty: 'Avancé',
+        masteryLevel: 'Avancé',
+        unlocked: true,
+        xpReward: 45,
+        badge: '🏅 Équations Différentielles',
+        africanAnalogy: `Une équation différentielle est la règle du jeu de la nature. Elle ne dit pas où on est, mais comment on bouge. Résoudre l'EDO, c'est prédire tout le voyage à partir de la règle de mouvement.`,
+        theory: {
+            title: 'EDO (Équations Différentielles Ordinaires)',
+            content: `Une EDO lie une fonction à ses dérivées. C'est le langage naturel de la physique pour décrire l'évolution des systèmes.`,
+            mathematicalFoundation: `
                     - Ordre : dérivée la plus haute\n                - Linéarité : a(x)y'' + b(x)y' + c(x)y = f(x)\n                - Conditions initiales : y(0) = y₀\n                - Séparation des variables
                 `,
-                scientists: [
+            scientists: [
                 {
-                        name: 'Leonhard Euler',
-                        year: '1750',
-                        contribution: 'Méthodes de résolution et approximation',
-                        context: 'Fonde la mécanique analytique'
-                    },
-                    {
-                        name: 'Joseph-Louis Lagrange',
-                        year: '1788',
-                        contribution: 'Variation des constantes',
-                        context: 'Mécanique céleste et analytique'
-                    },
-                ]
-            },
-            code: `from sympy import Function, dsolve, Eq, Derivative, symbols
+                    name: 'Leonhard Euler',
+                    year: '1750',
+                    contribution: 'Méthodes de résolution et approximation',
+                    context: 'Fonde la mécanique analytique'
+                },
+                {
+                    name: 'Joseph-Louis Lagrange',
+                    year: '1788',
+                    contribution: 'Variation des constantes',
+                    context: 'Mécanique céleste et analytique'
+                },
+            ]
+        },
+        code: `from sympy import Function, dsolve, Eq, Derivative, symbols
 y = Function('y')
 x = symbols('x')
 dsolve(Eq(y(x).diff(x, x) - y(x), 0), y(x))`,
-            output: 'y(x) = C1*exp(-x) + C2*exp(x)',
-            exercises: [
+        output: 'y(x) = C1*exp(-x) + C2*exp(x)',
+        exercises: [
             'Résoudre y\' + y = 0',
             'Résoudre l\'oscillateur harmonique y\'\' + y = 0',
             'Résoudre avec conditions initiales',
         ],
-            practicalApplication: 'Dynamique des populations, circuits RLC, mécanique céleste, réaction chimique.'
-        },
+        practicalApplication: 'Dynamique des populations, circuits RLC, mécanique céleste, réaction chimique.'
+    },
     {
-            id: 'day_017',
-            dayNumber: 17,
-            title: 'Transformée de Laplace',
-            difficulty: 'Avancé',
-            masteryLevel: 'Expert',
-            unlocked: true,
-            xpReward: 50,
-            badge: '🏅 Transformée de Laplace',
-            africanAnalogy: `La transformée de Laplace est comme traduire un poème difficile dans une langue simple. On transforme des équations différentielles complexes (domaine temporel) en équations algébriques simples (domaine fréquentiel), on résout, puis on retraduit.`,
-            theory: {
-                title: 'Analyse Opérationnelle',
-                content: `La transformée de Laplace convertit les dérivées en multiplications par s. Elle est idéale pour résoudre des EDO linéaires avec conditions initiales.`,
-                mathematicalFoundation: `
+        id: 'day_017',
+        dayNumber: 17,
+        title: 'Transformée de Laplace',
+        difficulty: 'Avancé',
+        masteryLevel: 'Expert',
+        unlocked: true,
+        xpReward: 50,
+        badge: '🏅 Transformée de Laplace',
+        africanAnalogy: `La transformée de Laplace est comme traduire un poème difficile dans une langue simple. On transforme des équations différentielles complexes (domaine temporel) en équations algébriques simples (domaine fréquentiel), on résout, puis on retraduit.`,
+        theory: {
+            title: 'Analyse Opérationnelle',
+            content: `La transformée de Laplace convertit les dérivées en multiplications par s. Elle est idéale pour résoudre des EDO linéaires avec conditions initiales.`,
+            mathematicalFoundation: `
                     - Définition : L{f(t)} = ∫₀^∞ e⁻ˢᵗ f(t) dt\n                - Propriété : L{f'} = sF(s) - f(0)\n                - Convolution : L{f*g} = F(s)G(s)\n                - Inverse : retour au domaine temporel
                 `,
-                scientists: [
+            scientists: [
                 {
-                        name: 'Pierre-Simon Laplace',
-                        year: '1785',
-                        contribution: 'Théorie des probabilités et transformée',
-                        context: 'Le \'Newton français\', déterministe absolu'
-                    },
-                    {
-                        name: 'Oliver Heaviside',
-                        year: '1890',
-                        contribution: 'Calcul opérationnel pour l\'électrotechnique',
-                        context: 'Rend la méthode pratique pour les ingénieurs'
-                    },
-                ]
-            },
-            code: `from sympy import laplace_transform, symbols, exp
+                    name: 'Pierre-Simon Laplace',
+                    year: '1785',
+                    contribution: 'Théorie des probabilités et transformée',
+                    context: 'Le \'Newton français\', déterministe absolu'
+                },
+                {
+                    name: 'Oliver Heaviside',
+                    year: '1890',
+                    contribution: 'Calcul opérationnel pour l\'électrotechnique',
+                    context: 'Rend la méthode pratique pour les ingénieurs'
+                },
+            ]
+        },
+        code: `from sympy import laplace_transform, symbols, exp
 t, s = symbols('t s')
 laplace_transform(t * exp(-t), t, s)`,
-            output: '(1/(s + 1)**2, 0, True)',
-            exercises: [
+        output: '(1/(s + 1)**2, 0, True)',
+        exercises: [
             'Calculer la transformée de sin(t)',
             'Calculer la transformée inverse de 1/s',
             'Résoudre une EDO avec Laplace',
         ],
-            practicalApplication: 'Automatique (systèmes de contrôle), traitement du signal, circuits électriques.'
-        },
+        practicalApplication: 'Automatique (systèmes de contrôle), traitement du signal, circuits électriques.'
+    },
     {
-            id: 'day_018',
-            dayNumber: 18,
-            title: 'Transformée de Fourier',
-            difficulty: 'Avancé',
-            masteryLevel: 'Expert',
-            unlocked: true,
-            xpReward: 50,
-            badge: '🏅 Transformée de Fourier',
-            africanAnalogy: `La transformée de Fourier est comme un prisme pour le son. Elle décompose n'importe quel bruit complexe en une somme de notes pures (fréquences). C'est l'oreille mathématique absolue.`,
-            theory: {
-                title: 'Analyse Harmonique',
-                content: `La transformée de Fourier décompose une fonction en une somme de sinusoïdes. Elle permet d'analyser le contenu fréquentiel d'un signal.`,
-                mathematicalFoundation: `
+        id: 'day_018',
+        dayNumber: 18,
+        title: 'Transformée de Fourier',
+        difficulty: 'Avancé',
+        masteryLevel: 'Expert',
+        unlocked: true,
+        xpReward: 50,
+        badge: '🏅 Transformée de Fourier',
+        africanAnalogy: `La transformée de Fourier est comme un prisme pour le son. Elle décompose n'importe quel bruit complexe en une somme de notes pures (fréquences). C'est l'oreille mathématique absolue.`,
+        theory: {
+            title: 'Analyse Harmonique',
+            content: `La transformée de Fourier décompose une fonction en une somme de sinusoïdes. Elle permet d'analyser le contenu fréquentiel d'un signal.`,
+            mathematicalFoundation: `
                     - Définition : F(k) = ∫₋∞^∞ f(x)e⁻²ⁱᵖᵏˣ dx\n                - Séries de Fourier : pour fonctions périodiques\n                - Identité de Parseval : conservation de l'énergie\n                - FFT : algorithme rapide (numérique)
                 `,
-                scientists: [
+            scientists: [
                 {
-                        name: 'Joseph Fourier',
-                        year: '1822',
-                        contribution: 'Théorie analytique de la chaleur',
-                        context: 'Affirme que toute fonction peut s\'écrire comme somme de sinus'
-                    },
-                    {
-                        name: 'Dirichlet',
-                        year: '1829',
-                        contribution: 'Conditions de convergence',
-                        context: 'Donne une base rigoureuse à l\'intuition de Fourier'
-                    },
-                ]
-            },
-            code: `from sympy import fourier_transform, exp, symbols, pi
+                    name: 'Joseph Fourier',
+                    year: '1822',
+                    contribution: 'Théorie analytique de la chaleur',
+                    context: 'Affirme que toute fonction peut s\'écrire comme somme de sinus'
+                },
+                {
+                    name: 'Dirichlet',
+                    year: '1829',
+                    contribution: 'Conditions de convergence',
+                    context: 'Donne une base rigoureuse à l\'intuition de Fourier'
+                },
+            ]
+        },
+        code: `from sympy import fourier_transform, exp, symbols, pi
 x, k = symbols('x k')
 fourier_transform(exp(-x**2), x, k)`,
-            output: 'sqrt(pi)*exp(-pi**2*k**2)',
-            exercises: [
+        output: 'sqrt(pi)*exp(-pi**2*k**2)',
+        exercises: [
             'Calculer la transformée d\'une porte (rect)',
             'Calculer la transformée de cos(x)',
             'Vérifier la linéarité',
         ],
-            practicalApplication: 'MP3, JPEG, IRM, télécommunications (4G/5G), mécanique quantique.'
-        },
+        practicalApplication: 'MP3, JPEG, IRM, télécommunications (4G/5G), mécanique quantique.'
+    },
     {
-            id: 'day_019',
-            dayNumber: 19,
-            title: 'Géométrie : Points & Lignes',
-            difficulty: 'Débutant',
-            masteryLevel: 'Fondamental',
-            unlocked: true,
-            xpReward: 20,
-            badge: '🏅 Géométrie : Points & Lignes',
-            africanAnalogy: `La géométrie analytique est le mariage de l'algèbre et de l'espace. Un point n'est plus juste une tache d'encre, c'est un couple de nombres (x,y). Une ligne n'est plus un trait, c'est une équation.`,
-            theory: {
-                title: 'Géométrie Analytique',
-                content: `SymPy possède un module de géométrie puissant pour manipuler des objets géométriques de manière exacte (intersections, distances, projections).`,
-                mathematicalFoundation: `
+        id: 'day_019',
+        dayNumber: 19,
+        title: 'Géométrie : Points & Lignes',
+        difficulty: 'Débutant',
+        masteryLevel: 'Fondamental',
+        unlocked: true,
+        xpReward: 20,
+        badge: '🏅 Géométrie : Points & Lignes',
+        africanAnalogy: `La géométrie analytique est le mariage de l'algèbre et de l'espace. Un point n'est plus juste une tache d'encre, c'est un couple de nombres (x,y). Une ligne n'est plus un trait, c'est une équation.`,
+        theory: {
+            title: 'Géométrie Analytique',
+            content: `SymPy possède un module de géométrie puissant pour manipuler des objets géométriques de manière exacte (intersections, distances, projections).`,
+            mathematicalFoundation: `
                     - Point : P(x, y)\n                - Droite : ax + by + c = 0\n                - Segment : portion de droite\n                - Distance : d(A,B) = √((xB-xA)² + (yB-yA)²)
                 `,
-                scientists: [
+            scientists: [
                 {
-                        name: 'René Descartes',
-                        year: '1637',
-                        contribution: 'Géométrie cartésienne',
-                        context: 'Je pense donc je suis. Transforme la géométrie en algèbre'
-                    },
-                    {
-                        name: 'Euclide',
-                        year: '-300',
-                        contribution: 'Axiomes de la géométrie',
-                        context: 'Les Éléments, livre le plus lu après la Bible'
-                    },
-                ]
-            },
-            code: `from sympy import Point, Line
+                    name: 'René Descartes',
+                    year: '1637',
+                    contribution: 'Géométrie cartésienne',
+                    context: 'Je pense donc je suis. Transforme la géométrie en algèbre'
+                },
+                {
+                    name: 'Euclide',
+                    year: '-300',
+                    contribution: 'Axiomes de la géométrie',
+                    context: 'Les Éléments, livre le plus lu après la Bible'
+                },
+            ]
+        },
+        code: `from sympy import Point, Line
 p1, p2 = Point(0, 0), Point(1, 1)
 l = Line(p1, p2)
 l.equation()`,
-            output: '-x + y',
-            exercises: [
+        output: '-x + y',
+        exercises: [
             'Calculer la distance entre deux points',
             'Trouver l\'intersection de deux droites',
             'Projeter un point sur une droite',
         ],
-            practicalApplication: 'CAO (Conception Assistée par Ordinateur), robotique, jeux vidéo.'
-        },
+        practicalApplication: 'CAO (Conception Assistée par Ordinateur), robotique, jeux vidéo.'
+    },
     {
-            id: 'day_020',
-            dayNumber: 20,
-            title: 'Géométrie : Polygones',
-            difficulty: 'Intermédiaire',
-            masteryLevel: 'Intermédiaire',
-            unlocked: true,
-            xpReward: 30,
-            badge: '🏅 Géométrie : Polygones',
-            africanAnalogy: `Un polygone est un enclos fermé. Calculer son aire, c'est mesurer la terre à l'intérieur. SymPy le fait sans arpenteur, juste avec les coordonnées des piquets de clôture.`,
-            theory: {
-                title: 'Polygones et Cercles',
-                content: `Manipulation d'objets fermés : triangles, carrés, polygones réguliers et cercles. Calculs d'aires, de périmètres et d'intersections.`,
-                mathematicalFoundation: `
+        id: 'day_020',
+        dayNumber: 20,
+        title: 'Géométrie : Polygones',
+        difficulty: 'Intermédiaire',
+        masteryLevel: 'Intermédiaire',
+        unlocked: true,
+        xpReward: 30,
+        badge: '🏅 Géométrie : Polygones',
+        africanAnalogy: `Un polygone est un enclos fermé. Calculer son aire, c'est mesurer la terre à l'intérieur. SymPy le fait sans arpenteur, juste avec les coordonnées des piquets de clôture.`,
+        theory: {
+            title: 'Polygones et Cercles',
+            content: `Manipulation d'objets fermés : triangles, carrés, polygones réguliers et cercles. Calculs d'aires, de périmètres et d'intersections.`,
+            mathematicalFoundation: `
                     - Aire (Shoelace formula) : 1/2 |Σ (xᵢyᵢ₊₁ - xᵢ₊₁yᵢ)|\n                - Centre de gravité : moyenne des coordonnées\n                - Cercle : (x-a)² + (y-b)² = R²\n                - Convexité
                 `,
-                scientists: [
+            scientists: [
                 {
-                        name: 'Archimède',
-                        year: '-250',
-                        contribution: 'Aire du cercle et de la parabole',
-                        context: 'Précurseur du calcul intégral par la méthode d\'exhaustion'
-                    },
-                    {
-                        name: 'Héron d'Alexandrie',
-                        year: '60',
-                        contribution: 'Formule de Héron (aire triangle)',
-                        context: 'Ingénieur grec, inventeur de la machine à vapeur'
-                    },
-                ]
-            },
-            code: `from sympy import Polygon, Point
+                    name: 'Archimède',
+                    year: '-250',
+                    contribution: 'Aire du cercle et de la parabole',
+                    context: 'Précurseur du calcul intégral par la méthode d\'exhaustion'
+                },
+                {
+                    name: 'Héron d\\'Alexandrie',
+                    year: '60',
+                    contribution: 'Formule de Héron (aire triangle)',
+                    context: 'Ingénieur grec, inventeur de la machine à vapeur'
+                },
+            ]
+        },
+        code: `from sympy import Polygon, Point
 t = Polygon(Point(0,0), Point(1,0), Point(0,1))
 t.area`,
-            output: '1/2',
-            exercises: [
+        output: '1/2',
+        exercises: [
             'Calculer l\'aire d\'un hexagone régulier',
             'Vérifier si un point est dans un polygone',
             'Trouver les intersections cercle-droite',
         ],
-            practicalApplication: 'Architecture, cartographie (SIG), infographie.'
-        },,
+        practicalApplication: 'Architecture, cartographie (SIG), infographie.'
+    },
     {
-            id: 'day_021',
-            dayNumber: 21,
-            title: 'Combinatoire',
-            difficulty: 'Intermédiaire',
-            masteryLevel: 'Fondamental',
-            unlocked: true,
-            xpReward: 25,
-            badge: '🏅 Combinatoire',
-            africanAnalogy: `La combinatoire est l'art de compter sans compter. C'est comme savoir combien de colliers différents on peut faire avec des perles colorées sans avoir à tous les fabriquer. Le griot connaît toutes les histoires possibles sans avoir à toutes les raconter.`,
-            theory: {
-                title: 'Analyse Combinatoire',
-                content: `La combinatoire étudie les arrangements, permutations et combinaisons d'objets. Elle répond à la question : 'De combien de façons peut-on...?'`,
-                mathematicalFoundation: `
+        id: 'day_021',
+        dayNumber: 21,
+        title: 'Combinatoire',
+        difficulty: 'Intermédiaire',
+        masteryLevel: 'Fondamental',
+        unlocked: true,
+        xpReward: 25,
+        badge: '🏅 Combinatoire',
+        africanAnalogy: `La combinatoire est l'art de compter sans compter. C'est comme savoir combien de colliers différents on peut faire avec des perles colorées sans avoir à tous les fabriquer. Le griot connaît toutes les histoires possibles sans avoir à toutes les raconter.`,
+        theory: {
+            title: 'Analyse Combinatoire',
+            content: `La combinatoire étudie les arrangements, permutations et combinaisons d'objets. Elle répond à la question : 'De combien de façons peut-on...?'`,
+            mathematicalFoundation: `
                     - Factorielle : n! = n × (n-1) × ... × 2 × 1\n                - Permutations : P(n,k) = n!/(n-k)!\n                - Combinaisons : C(n,k) = n!/(k!(n-k)!)\n                - Principe du tiroir (Pigeonhole)\n                - Formule du binôme : (a+b)ⁿ = Σ C(n,k) aⁿ⁻ᵏ bᵏ
                 `,
-                scientists: [
+            scientists: [
                 {
-                        name: 'Blaise Pascal',
-                        year: '1654',
-                        contribution: 'Triangle de Pascal et probabilités',
-                        context: 'Correspondance avec Fermat, naissance de la théorie des probabilités'
-                    },
-                    {
-                        name: 'Leonhard Euler',
-                        year: '1736',
-                        contribution: 'Problème des ponts de Königsberg, graphes',
-                        context: 'Fonde la théorie des graphes en résolvant un problème de promenade'
-                    },
-                ]
-            },
-            code: `from sympy import factorial, binomial
+                    name: 'Blaise Pascal',
+                    year: '1654',
+                    contribution: 'Triangle de Pascal et probabilités',
+                    context: 'Correspondance avec Fermat, naissance de la théorie des probabilités'
+                },
+                {
+                    name: 'Leonhard Euler',
+                    year: '1736',
+                    contribution: 'Problème des ponts de Königsberg, graphes',
+                    context: 'Fonde la théorie des graphes en résolvant un problème de promenade'
+                },
+            ]
+        },
+        code: `from sympy import factorial, binomial
 n, k = 5, 2
 binomial(n, k)`,
-            output: '10',
-            exercises: [
+        output: '10',
+        exercises: [
             'Calculer 10!',
             'Combien de mains de 5 cartes dans un jeu de 52 ?',
             'Développer (x+y)⁴ avec les coefficients binomiaux',
         ],
-            practicalApplication: 'Loteries, codes correcteurs d\'erreurs, algorithmes de recherche, cryptographie.'
-        },
+        practicalApplication: 'Loteries, codes correcteurs d\'erreurs, algorithmes de recherche, cryptographie.'
+    },
     {
-            id: 'day_022',
-            dayNumber: 22,
-            title: 'Probabilités Discrètes',
-            difficulty: 'Intermédiaire',
-            masteryLevel: 'Intermédiaire',
-            unlocked: true,
-            xpReward: 30,
-            badge: '🏅 Probabilités Discrètes',
-            africanAnalogy: `Les probabilités sont comme prédire la pluie en observant les nuages. On ne sait pas exactement quand elle tombera, mais on peut dire : 'Il y a 70% de chances'. Le sage ne prédit pas l'avenir, il en mesure les possibilités.`,
-            theory: {
-                title: 'Théorie des Probabilités',
-                content: `Une probabilité mesure la chance qu'un événement se produise, entre 0 (impossible) et 1 (certain). SymPy peut calculer des probabilités exactes pour des variables discrètes.`,
-                mathematicalFoundation: `
+        id: 'day_022',
+        dayNumber: 22,
+        title: 'Probabilités Discrètes',
+        difficulty: 'Intermédiaire',
+        masteryLevel: 'Intermédiaire',
+        unlocked: true,
+        xpReward: 30,
+        badge: '🏅 Probabilités Discrètes',
+        africanAnalogy: `Les probabilités sont comme prédire la pluie en observant les nuages. On ne sait pas exactement quand elle tombera, mais on peut dire : 'Il y a 70% de chances'. Le sage ne prédit pas l'avenir, il en mesure les possibilités.`,
+        theory: {
+            title: 'Théorie des Probabilités',
+            content: `Une probabilité mesure la chance qu'un événement se produise, entre 0 (impossible) et 1 (certain). SymPy peut calculer des probabilités exactes pour des variables discrètes.`,
+            mathematicalFoundation: `
                     - Probabilité : P(A) = |A| / |Ω|\n                - Événements indépendants : P(A∩B) = P(A)×P(B)\n                - Probabilité conditionnelle : P(A|B) = P(A∩B)/P(B)\n                - Théorème de Bayes : P(A|B) = P(B|A)P(A)/P(B)\n                - Espérance : E[X] = Σ xᵢ P(X=xᵢ)
                 `,
-                scientists: [
+            scientists: [
                 {
-                        name: 'Pierre de Fermat',
-                        year: '1654',
-                        contribution: 'Co-fondateur de la théorie des probabilités',
-                        context: 'Problème des partis avec Pascal'
-                    },
-                    {
-                        name: 'Thomas Bayes',
-                        year: '1763',
-                        contribution: 'Théorème de Bayes (probabilités conditionnelles)',
-                        context: 'Publié après sa mort, révolutionne l\'inférence statistique'
-                    },
-                ]
-            },
-            code: `from sympy.stats import Die, P, E
+                    name: 'Pierre de Fermat',
+                    year: '1654',
+                    contribution: 'Co-fondateur de la théorie des probabilités',
+                    context: 'Problème des partis avec Pascal'
+                },
+                {
+                    name: 'Thomas Bayes',
+                    year: '1763',
+                    contribution: 'Théorème de Bayes (probabilités conditionnelles)',
+                    context: 'Publié après sa mort, révolutionne l\'inférence statistique'
+                },
+            ]
+        },
+        code: `from sympy.stats import Die, P, E
 X = Die('X', 6)
 P(X > 4)`,
-            output: '1/3',
-            exercises: [
+        output: '1/3',
+        exercises: [
             'Probabilité d\'obtenir un double six avec deux dés',
             'Calculer l\'espérance d\'un dé à 6 faces',
             'Appliquer le théorème de Bayes (test médical)',
         ],
-            practicalApplication: 'Jeux de hasard, assurance, machine learning (classificateurs bayésiens), finance.'
-        },
+        practicalApplication: 'Jeux de hasard, assurance, machine learning (classificateurs bayésiens), finance.'
+    },
     {
-            id: 'day_023',
-            dayNumber: 23,
-            title: 'Statistiques Descriptives',
-            difficulty: 'Débutant',
-            masteryLevel: 'Fondamental',
-            unlocked: true,
-            xpReward: 20,
-            badge: '🏅 Statistiques Descriptives',
-            africanAnalogy: `Les statistiques résument une foule en quelques chiffres. Au lieu de décrire chaque personne du village, on dit : 'La taille moyenne est 1m70, l'âge médian est 30 ans'. C'est le portrait du groupe, pas de l'individu.`,
-            theory: {
-                title: 'Statistiques et Données',
-                content: `Les statistiques descriptives résument et visualisent des ensembles de données. Moyenne, médiane, écart-type caractérisent une distribution.`,
-                mathematicalFoundation: `
+        id: 'day_023',
+        dayNumber: 23,
+        title: 'Statistiques Descriptives',
+        difficulty: 'Débutant',
+        masteryLevel: 'Fondamental',
+        unlocked: true,
+        xpReward: 20,
+        badge: '🏅 Statistiques Descriptives',
+        africanAnalogy: `Les statistiques résument une foule en quelques chiffres. Au lieu de décrire chaque personne du village, on dit : 'La taille moyenne est 1m70, l'âge médian est 30 ans'. C'est le portrait du groupe, pas de l'individu.`,
+        theory: {
+            title: 'Statistiques et Données',
+            content: `Les statistiques descriptives résument et visualisent des ensembles de données. Moyenne, médiane, écart-type caractérisent une distribution.`,
+            mathematicalFoundation: `
                     - Moyenne : μ = (Σ xᵢ) / n\n                - Médiane : valeur centrale (50e percentile)\n                - Variance : σ² = Σ(xᵢ - μ)² / n\n                - Écart-type : σ = √variance\n                - Quartiles : Q1 (25%), Q2 (50%), Q3 (75%)
                 `,
-                scientists: [
+            scientists: [
                 {
-                        name: 'Carl Friedrich Gauss',
-                        year: '1809',
-                        contribution: 'Loi normale (courbe en cloche)',
-                        context: 'Méthode des moindres carrés pour l\'astronomie'
-                    },
-                    {
-                        name: 'Francis Galton',
-                        year: '1886',
-                        contribution: 'Corrélation et régression',
-                        context: 'Étudie l\'hérédité, invente la régression vers la moyenne'
-                    },
-                ]
-            },
-            code: `from sympy.stats import Normal, density, E, variance
+                    name: 'Carl Friedrich Gauss',
+                    year: '1809',
+                    contribution: 'Loi normale (courbe en cloche)',
+                    context: 'Méthode des moindres carrés pour l\'astronomie'
+                },
+                {
+                    name: 'Francis Galton',
+                    year: '1886',
+                    contribution: 'Corrélation et régression',
+                    context: 'Étudie l\'hérédité, invente la régression vers la moyenne'
+                },
+            ]
+        },
+        code: `from sympy.stats import Normal, density, E, variance
 X = Normal('X', 0, 1)
 E(X), variance(X)`,
-            output: '(0, 1)',
-            exercises: [
+        output: '(0, 1)',
+        exercises: [
             'Calculer la moyenne de [1, 2, 3, 4, 5]',
             'Trouver l\'écart-type d\'une distribution',
             'Calculer P(X < 1) pour X ~ N(0,1)',
         ],
-            practicalApplication: 'Sondages, contrôle qualité, analyse de données, sciences sociales.'
-        },
+        practicalApplication: 'Sondages, contrôle qualité, analyse de données, sciences sociales.'
+    },
     {
-            id: 'day_024',
-            dayNumber: 24,
-            title: 'Logique Booléenne',
-            difficulty: 'Débutant',
-            masteryLevel: 'Fondamental',
-            unlocked: true,
-            xpReward: 20,
-            badge: '🏅 Logique Booléenne',
-            africanAnalogy: `La logique booléenne est le langage du oui et du non, du vrai et du faux. C'est comme les portes d'un village : soit elles sont ouvertes (1), soit fermées (0). Pas de demi-mesure. Les ordinateurs pensent ainsi.`,
-            theory: {
-                title: 'Algèbre de Boole',
-                content: `L'algèbre booléenne manipule des valeurs binaires (Vrai/Faux, 1/0) avec des opérateurs logiques (ET, OU, NON). C'est la base de l'électronique numérique.`,
-                mathematicalFoundation: `
+        id: 'day_024',
+        dayNumber: 24,
+        title: 'Logique Booléenne',
+        difficulty: 'Débutant',
+        masteryLevel: 'Fondamental',
+        unlocked: true,
+        xpReward: 20,
+        badge: '🏅 Logique Booléenne',
+        africanAnalogy: `La logique booléenne est le langage du oui et du non, du vrai et du faux. C'est comme les portes d'un village : soit elles sont ouvertes (1), soit fermées (0). Pas de demi-mesure. Les ordinateurs pensent ainsi.`,
+        theory: {
+            title: 'Algèbre de Boole',
+            content: `L'algèbre booléenne manipule des valeurs binaires (Vrai/Faux, 1/0) avec des opérateurs logiques (ET, OU, NON). C'est la base de l'électronique numérique.`,
+            mathematicalFoundation: `
                     - Opérateurs : AND (∧), OR (∨), NOT (¬)\n                - Lois de De Morgan : ¬(A∧B) = ¬A∨¬B\n                - Tables de vérité\n                - XOR (ou exclusif) : A⊕B = (A∨B)∧¬(A∧B)\n                - Forme normale disjonctive (DNF)
                 `,
-                scientists: [
+            scientists: [
                 {
-                        name: 'George Boole',
-                        year: '1854',
-                        contribution: 'Algèbre booléenne',
-                        context: 'Mathématicien autodidacte, révolutionne la logique'
-                    },
-                    {
-                        name: 'Claude Shannon',
-                        year: '1937',
-                        contribution: 'Application aux circuits électriques',
-                        context: 'Thèse de master fondatrice de l\'électronique numérique'
-                    },
-                ]
-            },
-            code: `from sympy.logic import And, Or, Not, simplify_logic
+                    name: 'George Boole',
+                    year: '1854',
+                    contribution: 'Algèbre booléenne',
+                    context: 'Mathématicien autodidacte, révolutionne la logique'
+                },
+                {
+                    name: 'Claude Shannon',
+                    year: '1937',
+                    contribution: 'Application aux circuits électriques',
+                    context: 'Thèse de master fondatrice de l\'électronique numérique'
+                },
+            ]
+        },
+        code: `from sympy.logic import And, Or, Not, simplify_logic
 from sympy import symbols
 x, y = symbols('x y')
 simplify_logic(Or(And(x, y), And(x, Not(y))))`,
-            output: 'x',
-            exercises: [
+        output: 'x',
+        exercises: [
             'Simplifier (A∧B)∨(A∧¬B)',
             'Construire la table de vérité de XOR',
             'Appliquer les lois de De Morgan',
         ],
-            practicalApplication: 'Circuits logiques, processeurs, bases de données (requêtes SQL), IA (logique formelle).'
-        },
+        practicalApplication: 'Circuits logiques, processeurs, bases de données (requêtes SQL), IA (logique formelle).'
+    },
     {
-            id: 'day_025',
-            dayNumber: 25,
-            title: 'Théorie des Nombres',
-            difficulty: 'Intermédiaire',
-            masteryLevel: 'Intermédiaire',
-            unlocked: true,
-            xpReward: 30,
-            badge: '🏅 Théorie des Nombres',
-            africanAnalogy: `Les nombres premiers sont les atomes des mathématiques. Tout nombre est fait de nombres premiers, comme toute matière est faite d'atomes. Trouver les nombres premiers, c'est découvrir les briques fondamentales de l'univers des nombres.`,
-            theory: {
-                title: 'Arithmétique et Primalité',
-                content: `La théorie des nombres étudie les propriétés des entiers. Les nombres premiers (divisibles seulement par 1 et eux-mêmes) sont au cœur de cette théorie.`,
-                mathematicalFoundation: `
+        id: 'day_025',
+        dayNumber: 25,
+        title: 'Théorie des Nombres',
+        difficulty: 'Intermédiaire',
+        masteryLevel: 'Intermédiaire',
+        unlocked: true,
+        xpReward: 30,
+        badge: '🏅 Théorie des Nombres',
+        africanAnalogy: `Les nombres premiers sont les atomes des mathématiques. Tout nombre est fait de nombres premiers, comme toute matière est faite d'atomes. Trouver les nombres premiers, c'est découvrir les briques fondamentales de l'univers des nombres.`,
+        theory: {
+            title: 'Arithmétique et Primalité',
+            content: `La théorie des nombres étudie les propriétés des entiers. Les nombres premiers (divisibles seulement par 1 et eux-mêmes) sont au cœur de cette théorie.`,
+            mathematicalFoundation: `
                     - Nombre premier : p divisible uniquement par 1 et p\n                - Théorème fondamental : tout n = p₁^a₁ × p₂^a₂ × ...\n                - PGCD : Plus Grand Commun Diviseur\n                - PPCM : Plus Petit Commun Multiple\n                - Infinité des nombres premiers (Euclide)
                 `,
-                scientists: [
+            scientists: [
                 {
-                        name: 'Euclide',
-                        year: '-300',
-                        contribution: 'Infinité des nombres premiers',
-                        context: 'Preuve élégante par l\'absurde dans Les Éléments'
-                    },
-                    {
-                        name: 'Évariste Galois',
-                        year: '1830',
-                        contribution: 'Théorie de Galois (corps finis)',
-                        context: 'Génie mort à 20 ans, révolutionne l\'algèbre abstraite'
-                    },
-                ]
-            },
-            code: `from sympy import isprime, factorint, gcd
+                    name: 'Euclide',
+                    year: '-300',
+                    contribution: 'Infinité des nombres premiers',
+                    context: 'Preuve élégante par l\'absurde dans Les Éléments'
+                },
+                {
+                    name: 'Évariste Galois',
+                    year: '1830',
+                    contribution: 'Théorie de Galois (corps finis)',
+                    context: 'Génie mort à 20 ans, révolutionne l\'algèbre abstraite'
+                },
+            ]
+        },
+        code: `from sympy import isprime, factorint, gcd
 isprime(17), factorint(60)`,
-            output: '(True, {2: 2, 3: 1, 5: 1})',
-            exercises: [
+        output: '(True, {2: 2, 3: 1, 5: 1})',
+        exercises: [
             'Trouver tous les nombres premiers < 100',
             'Décomposer 1024 en facteurs premiers',
             'Calculer PGCD(48, 18)',
         ],
-            practicalApplication: 'Cryptographie RSA, hachage, codes correcteurs, tests de primalité.'
-        },
+        practicalApplication: 'Cryptographie RSA, hachage, codes correcteurs, tests de primalité.'
+    },
     {
-            id: 'day_026',
-            dayNumber: 26,
-            title: 'Congruences',
-            difficulty: 'Intermédiaire',
-            masteryLevel: 'Intermédiaire',
-            unlocked: true,
-            xpReward: 30,
-            badge: '🏅 Congruences',
-            africanAnalogy: `Les congruences sont comme les jours de la semaine. Après dimanche vient lundi, après 7 jours on revient au même jour. En arithmétique modulaire, après 12 vient 1 (sur une horloge). Les nombres tournent en boucle.`,
-            theory: {
-                title: 'Arithmétique Modulaire',
-                content: `Deux nombres sont congrus modulo n s'ils ont le même reste dans la division par n. Notation : a ≡ b (mod n).`,
-                mathematicalFoundation: `
+        id: 'day_026',
+        dayNumber: 26,
+        title: 'Congruences',
+        difficulty: 'Intermédiaire',
+        masteryLevel: 'Intermédiaire',
+        unlocked: true,
+        xpReward: 30,
+        badge: '🏅 Congruences',
+        africanAnalogy: `Les congruences sont comme les jours de la semaine. Après dimanche vient lundi, après 7 jours on revient au même jour. En arithmétique modulaire, après 12 vient 1 (sur une horloge). Les nombres tournent en boucle.`,
+        theory: {
+            title: 'Arithmétique Modulaire',
+            content: `Deux nombres sont congrus modulo n s'ils ont le même reste dans la division par n. Notation : a ≡ b (mod n).`,
+            mathematicalFoundation: `
                     - Définition : a ≡ b (mod n) ⟺ n | (a-b)\n                - Propriétés : (a+b) mod n, (a×b) mod n\n                - Inverse modulaire : ax ≡ 1 (mod n)\n                - Petit théorème de Fermat : aᵖ⁻¹ ≡ 1 (mod p) si p premier\n                - Théorème chinois des restes
                 `,
-                scientists: [
+            scientists: [
                 {
-                        name: 'Carl Friedrich Gauss',
-                        year: '1801',
-                        contribution: 'Disquisitiones Arithmeticae, formalise les congruences',
-                        context: 'Ouvrage fondateur de la théorie des nombres moderne'
-                    },
-                    {
-                        name: 'Pierre de Fermat',
-                        year: '1640',
-                        contribution: 'Petit théorème de Fermat',
-                        context: 'Magistrat et mathématicien amateur de génie'
-                    },
-                ]
-            },
-            code: `from sympy import Mod, mod_inverse
+                    name: 'Carl Friedrich Gauss',
+                    year: '1801',
+                    contribution: 'Disquisitiones Arithmeticae, formalise les congruences',
+                    context: 'Ouvrage fondateur de la théorie des nombres moderne'
+                },
+                {
+                    name: 'Pierre de Fermat',
+                    year: '1640',
+                    contribution: 'Petit théorème de Fermat',
+                    context: 'Magistrat et mathématicien amateur de génie'
+                },
+            ]
+        },
+        code: `from sympy import Mod, mod_inverse
 Mod(17, 5), mod_inverse(3, 7)`,
-            output: '(2, 5)',
-            exercises: [
+        output: '(2, 5)',
+        exercises: [
             'Calculer 2^100 mod 7',
             'Trouver l\'inverse de 5 modulo 11',
             'Résoudre 3x ≡ 1 (mod 7)',
         ],
-            practicalApplication: 'Cryptographie (RSA, Diffie-Hellman), hachage, générateurs pseudo-aléatoires.'
-        },
+        practicalApplication: 'Cryptographie (RSA, Diffie-Hellman), hachage, générateurs pseudo-aléatoires.'
+    },
     {
-            id: 'day_027',
-            dayNumber: 27,
-            title: 'Cryptographie RSA',
-            difficulty: 'Avancé',
-            masteryLevel: 'Expert',
-            unlocked: true,
-            xpReward: 50,
-            badge: '🏅 Cryptographie RSA',
-            africanAnalogy: `RSA est comme un cadenas magique. Tout le monde peut fermer le cadenas (chiffrer avec la clé publique), mais seul celui qui a la clé secrète peut l'ouvrir (déchiffrer). Le secret repose sur la difficulté de factoriser de très grands nombres.`,
-            theory: {
-                title: 'Cryptographie à Clé Publique',
-                content: `RSA (Rivest-Shamir-Adleman) est un algorithme de chiffrement asymétrique basé sur la difficulté de factoriser le produit de deux grands nombres premiers.`,
-                mathematicalFoundation: `
+        id: 'day_027',
+        dayNumber: 27,
+        title: 'Cryptographie RSA',
+        difficulty: 'Avancé',
+        masteryLevel: 'Expert',
+        unlocked: true,
+        xpReward: 50,
+        badge: '🏅 Cryptographie RSA',
+        africanAnalogy: `RSA est comme un cadenas magique. Tout le monde peut fermer le cadenas (chiffrer avec la clé publique), mais seul celui qui a la clé secrète peut l'ouvrir (déchiffrer). Le secret repose sur la difficulté de factoriser de très grands nombres.`,
+        theory: {
+            title: 'Cryptographie à Clé Publique',
+            content: `RSA (Rivest-Shamir-Adleman) est un algorithme de chiffrement asymétrique basé sur la difficulté de factoriser le produit de deux grands nombres premiers.`,
+            mathematicalFoundation: `
                     - Génération de clés : choisir p, q premiers, n = p×q\n                - φ(n) = (p-1)(q-1) (indicatrice d'Euler)\n                - Choisir e tel que pgcd(e, φ(n)) = 1\n                - Calculer d tel que ed ≡ 1 (mod φ(n))\n                - Chiffrement : c = mᵉ mod n\n                - Déchiffrement : m = cᵈ mod n
                 `,
-                scientists: [
+            scientists: [
                 {
-                        name: 'Ron Rivest, Adi Shamir, Leonard Adleman',
-                        year: '1977',
-                        contribution: 'Invention de RSA',
-                        context: 'Révolutionne la cryptographie, permet le commerce électronique'
-                    },
-                    {
-                        name: 'Whitfield Diffie, Martin Hellman',
-                        year: '1976',
-                        contribution: 'Concept de cryptographie à clé publique',
-                        context: 'Prix Turing 2015, rendent RSA possible'
-                    },
-                ]
-            },
-            code: `from sympy import randprime, mod_inverse, Mod
+                    name: 'Ron Rivest, Adi Shamir, Leonard Adleman',
+                    year: '1977',
+                    contribution: 'Invention de RSA',
+                    context: 'Révolutionne la cryptographie, permet le commerce électronique'
+                },
+                {
+                    name: 'Whitfield Diffie, Martin Hellman',
+                    year: '1976',
+                    contribution: 'Concept de cryptographie à clé publique',
+                    context: 'Prix Turing 2015, rendent RSA possible'
+                },
+            ]
+        },
+        code: `from sympy import randprime, mod_inverse, Mod
 p, q = 61, 53
 n = p * q
 phi = (p-1) * (q-1)
 e = 17
 d = mod_inverse(e, phi)
 print(f'Public: (e={e}, n={n}), Private: d={d}')`,
-            output: 'Public: (e=17, n=3233), Private: d=...',
-            exercises: [
+        output: 'Public: (e=17, n=3233), Private: d=...',
+        exercises: [
             'Générer une paire de clés RSA avec p=11, q=13',
             'Chiffrer le message m=42',
             'Déchiffrer le message chiffré',
         ],
-            practicalApplication: 'HTTPS (SSL/TLS), signatures numériques, blockchain, messagerie sécurisée.'
-        },
+        practicalApplication: 'HTTPS (SSL/TLS), signatures numériques, blockchain, messagerie sécurisée.'
+    },
     {
-            id: 'day_028',
-            dayNumber: 28,
-            title: 'Théorie des Graphes',
-            difficulty: 'Intermédiaire',
-            masteryLevel: 'Intermédiaire',
-            unlocked: true,
-            xpReward: 35,
-            badge: '🏅 Théorie des Graphes',
-            africanAnalogy: `Un graphe est comme un réseau de villages reliés par des chemins. Les villages sont les sommets, les chemins sont les arêtes. Trouver le plus court chemin entre deux villages, c'est résoudre un problème de graphe.`,
-            theory: {
-                title: 'Graphes et Réseaux',
-                content: `Un graphe G = (V, E) est un ensemble de sommets V reliés par des arêtes E. Les graphes modélisent des réseaux : routes, internet, relations sociales.`,
-                mathematicalFoundation: `
+        id: 'day_028',
+        dayNumber: 28,
+        title: 'Théorie des Graphes',
+        difficulty: 'Intermédiaire',
+        masteryLevel: 'Intermédiaire',
+        unlocked: true,
+        xpReward: 35,
+        badge: '🏅 Théorie des Graphes',
+        africanAnalogy: `Un graphe est comme un réseau de villages reliés par des chemins. Les villages sont les sommets, les chemins sont les arêtes. Trouver le plus court chemin entre deux villages, c'est résoudre un problème de graphe.`,
+        theory: {
+            title: 'Graphes et Réseaux',
+            content: `Un graphe G = (V, E) est un ensemble de sommets V reliés par des arêtes E. Les graphes modélisent des réseaux : routes, internet, relations sociales.`,
+            mathematicalFoundation: `
                     - Graphe orienté vs non-orienté\n                - Degré d'un sommet : nombre d'arêtes incidentes\n                - Chemin : suite de sommets reliés\n                - Cycle : chemin fermé\n                - Connexité : existence de chemins entre tous sommets\n                - Arbre : graphe connexe sans cycle
                 `,
-                scientists: [
+            scientists: [
                 {
-                        name: 'Leonhard Euler',
-                        year: '1736',
-                        contribution: 'Problème des ponts de Königsberg',
-                        context: 'Premier problème de théorie des graphes'
-                    },
-                    {
-                        name: 'Gustav Kirchhoff',
-                        year: '1847',
-                        contribution: 'Lois des circuits électriques (graphes)',
-                        context: 'Applique les graphes à la physique'
-                    },
-                ]
-            },
-            code: `# SymPy n'a pas de module graphe natif, utiliser NetworkX
+                    name: 'Leonhard Euler',
+                    year: '1736',
+                    contribution: 'Problème des ponts de Königsberg',
+                    context: 'Premier problème de théorie des graphes'
+                },
+                {
+                    name: 'Gustav Kirchhoff',
+                    year: '1847',
+                    contribution: 'Lois des circuits électriques (graphes)',
+                    context: 'Applique les graphes à la physique'
+                },
+            ]
+        },
+        code: `# SymPy n'a pas de module graphe natif, utiliser NetworkX
 # Exemple conceptuel
 from sympy import Matrix
 # Matrice d'adjacence
 A = Matrix([[0,1,1],[1,0,1],[1,1,0]])
 A.eigenvals()`,
-            output: '{-1: 1, 2: 1}',
-            exercises: [
+        output: '{-1: 1, 2: 1}',
+        exercises: [
             'Dessiner un graphe K₅ (complet à 5 sommets)',
             'Vérifier si un graphe est connexe',
             'Trouver le plus court chemin (Dijkstra)',
         ],
-            practicalApplication: 'Réseaux sociaux, GPS (navigation), internet (routage), biologie (réseaux métaboliques).'
-        },
+        practicalApplication: 'Réseaux sociaux, GPS (navigation), internet (routage), biologie (réseaux métaboliques).'
+    },
     {
-            id: 'day_029',
-            dayNumber: 29,
-            title: 'Optimisation Linéaire',
-            difficulty: 'Avancé',
-            masteryLevel: 'Avancé',
-            unlocked: true,
-            xpReward: 40,
-            badge: '🏅 Optimisation Linéaire',
-            africanAnalogy: `L'optimisation linéaire cherche la meilleure solution sous contraintes. C'est comme un fermier qui veut maximiser sa récolte avec un terrain limité, un budget limité et des saisons fixes. Il doit trouver le meilleur équilibre.`,
-            theory: {
-                title: 'Programmation Linéaire',
-                content: `Maximiser (ou minimiser) une fonction linéaire sous contraintes linéaires. Le simplexe est l'algorithme classique de résolution.`,
-                mathematicalFoundation: `
+        id: 'day_029',
+        dayNumber: 29,
+        title: 'Optimisation Linéaire',
+        difficulty: 'Avancé',
+        masteryLevel: 'Avancé',
+        unlocked: true,
+        xpReward: 40,
+        badge: '🏅 Optimisation Linéaire',
+        africanAnalogy: `L'optimisation linéaire cherche la meilleure solution sous contraintes. C'est comme un fermier qui veut maximiser sa récolte avec un terrain limité, un budget limité et des saisons fixes. Il doit trouver le meilleur équilibre.`,
+        theory: {
+            title: 'Programmation Linéaire',
+            content: `Maximiser (ou minimiser) une fonction linéaire sous contraintes linéaires. Le simplexe est l'algorithme classique de résolution.`,
+            mathematicalFoundation: `
                     - Forme standard : max c^T x sous Ax ≤ b, x ≥ 0\n                - Région admissible : polyèdre convexe\n                - Théorème : l'optimum est à un sommet\n                - Algorithme du simplexe (Dantzig, 1947)\n                - Dualité : tout problème a un dual
                 `,
-                scientists: [
+            scientists: [
                 {
-                        name: 'George Dantzig',
-                        year: '1947',
-                        contribution: 'Algorithme du simplexe',
-                        context: 'Résout un problème d\'optimisation de l\'armée américaine'
-                    },
-                    {
-                        name: 'Leonid Kantorovich',
-                        year: '1939',
-                        contribution: 'Programmation linéaire en économie',
-                        context: 'Prix Nobel d\'économie 1975'
-                    },
-                ]
-            },
-            code: `# SymPy peut résoudre symboliquement
+                    name: 'George Dantzig',
+                    year: '1947',
+                    contribution: 'Algorithme du simplexe',
+                    context: 'Résout un problème d\'optimisation de l\'armée américaine'
+                },
+                {
+                    name: 'Leonid Kantorovich',
+                    year: '1939',
+                    contribution: 'Programmation linéaire en économie',
+                    context: 'Prix Nobel d\'économie 1975'
+                },
+            ]
+        },
+        code: `# SymPy peut résoudre symboliquement
 from sympy import symbols, solve
 x, y = symbols('x y', positive=True, real=True)
 # Exemple : max 3x + 2y sous x + y <= 4
 # Résolution manuelle ou avec solveurs externes`,
-            output: 'Solution optimale au sommet du polyèdre',
-            exercises: [
+        output: 'Solution optimale au sommet du polyèdre',
+        exercises: [
             'Résoudre un problème de production',
             'Problème du sac à dos (version continue)',
             'Trouver le dual d\'un problème',
         ],
-            practicalApplication: 'Logistique, planification de production, allocation de ressources, finance (portefeuille).'
-        },
+        practicalApplication: 'Logistique, planification de production, allocation de ressources, finance (portefeuille).'
+    },
     {
-            id: 'day_030',
-            dayNumber: 30,
-            title: 'Physique : Cinématique',
-            difficulty: 'Intermédiaire',
-            masteryLevel: 'Intermédiaire',
-            unlocked: true,
-            xpReward: 30,
-            badge: '🏅 Physique : Cinématique',
-            africanAnalogy: `La cinématique décrit le mouvement sans se soucier des causes. C'est comme raconter le voyage d'un oiseau : où il est, à quelle vitesse il vole, comment il accélère. Peu importe pourquoi il vole, on décrit juste sa trajectoire.`,
-            theory: {
-                title: 'Mouvement et Trajectoires',
-                content: `La cinématique étudie position, vitesse et accélération. SymPy peut résoudre symboliquement les équations du mouvement.`,
-                mathematicalFoundation: `
+        id: 'day_030',
+        dayNumber: 30,
+        title: 'Physique : Cinématique',
+        difficulty: 'Intermédiaire',
+        masteryLevel: 'Intermédiaire',
+        unlocked: true,
+        xpReward: 30,
+        badge: '🏅 Physique : Cinématique',
+        africanAnalogy: `La cinématique décrit le mouvement sans se soucier des causes. C'est comme raconter le voyage d'un oiseau : où il est, à quelle vitesse il vole, comment il accélère. Peu importe pourquoi il vole, on décrit juste sa trajectoire.`,
+        theory: {
+            title: 'Mouvement et Trajectoires',
+            content: `La cinématique étudie position, vitesse et accélération. SymPy peut résoudre symboliquement les équations du mouvement.`,
+            mathematicalFoundation: `
                     - Position : x(t)\n                - Vitesse : v(t) = dx/dt\n                - Accélération : a(t) = dv/dt = d²x/dt²\n                - Mouvement rectiligne uniforme : x = x₀ + vt\n                - Mouvement uniformément accéléré : x = x₀ + v₀t + ½at²\n                - Chute libre : a = -g = -9.81 m/s²
                 `,
-                scientists: [
+            scientists: [
                 {
-                        name: 'Galileo Galilei',
-                        year: '1638',
-                        contribution: 'Lois de la chute des corps',
-                        context: 'Expériences à la tour de Pise (légende), fonde la physique expérimentale'
-                    },
-                    {
-                        name: 'Isaac Newton',
-                        year: '1687',
-                        contribution: 'Lois du mouvement',
-                        context: 'Principia Mathematica, unifie mécanique terrestre et céleste'
-                    },
-                ]
-            },
-            code: `from sympy import symbols, Function, Eq, dsolve
+                    name: 'Galileo Galilei',
+                    year: '1638',
+                    contribution: 'Lois de la chute des corps',
+                    context: 'Expériences à la tour de Pise (légende), fonde la physique expérimentale'
+                },
+                {
+                    name: 'Isaac Newton',
+                    year: '1687',
+                    contribution: 'Lois du mouvement',
+                    context: 'Principia Mathematica, unifie mécanique terrestre et céleste'
+                },
+            ]
+        },
+        code: `from sympy import symbols, Function, Eq, dsolve
 t = symbols('t', positive=True)
 x = Function('x')
 # Mouvement avec accélération constante
 eq = Eq(x(t).diff(t, t), -9.81)
 dsolve(eq, x(t))`,
-            output: 'x(t) = C₁ + C₂*t - 4.905*t²',
-            exercises: [
+        output: 'x(t) = C₁ + C₂*t - 4.905*t²',
+        exercises: [
             'Calculer la vitesse finale après 5s de chute libre',
             'Trouver la hauteur maximale d\'un projectile',
             'Résoudre x\'\' = -g avec conditions initiales',
         ],
-            practicalApplication: 'Balistique, robotique, jeux vidéo (moteurs physiques), aérospatiale.'
-        },
+        practicalApplication: 'Balistique, robotique, jeux vidéo (moteurs physiques), aérospatiale.'
+    },
 
 ];
 
