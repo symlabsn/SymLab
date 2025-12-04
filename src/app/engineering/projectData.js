@@ -1133,7 +1133,7 @@ else:
 
 
     // ==================================================================================
-    // 🧪 CHIMIE (10 projets)
+    // 🧪 CHIMIE (15 projets)
     // ==================================================================================
     {
         id: 'chem-ph-titration',
@@ -1299,6 +1299,422 @@ display(DH_reaction)`
             }
         ]
     },
+    // NOUVEAUX PROJETS CHIMIE À INSÉRER APRÈS THERMOCHIMIE
+    {
+        id: 'chem-stoichiometry',
+        category: 'Chimie',
+        title: "Stœchiométrie",
+        level: "Lycée (Seconde)",
+        domain: "Chimie Générale",
+        icon: "⚖️",
+        difficulty: "Débutant",
+        duration: "1h",
+        description: "Équilibrer des équations chimiques et calculer les quantités de réactifs.",
+        history: {
+            year: "1789",
+            people: ["Antoine Lavoisier"],
+            context: "Lavoisier énonce la loi de conservation de la masse : 'Rien ne se perd, rien ne se crée, tout se transforme'. Fondement de la chimie quantitative moderne."
+        },
+        problemStatement: {
+            context: "Calculer la quantité d'oxygène nécessaire pour brûler du méthane (gaz naturel).",
+            objective: "Équilibrer CH₄ + O₂ → CO₂ + H₂O.",
+            analogy: "Comme une recette de cuisine : pour 1 œuf, il faut 100g de farine. Pas plus, pas moins."
+        },
+        steps: [
+            {
+                title: "1. Équilibrage",
+                explanation: "CH₄ + 2O₂ → CO₂ + 2H₂O.",
+                code: `from sympy import symbols, Eq, solve
+# Coefficients stœchiométriques
+a, b, c, d = symbols('a b c d', integer=True, positive=True)
+# Conservation des atomes
+# C: a = c
+# H: 4a = 2d
+# O: 2b = 2c + d
+eq1 = Eq(a, c)
+eq2 = Eq(4*a, 2*d)
+eq3 = Eq(2*b, 2*c + d)
+# On fixe a=1
+sol = solve([eq1, eq2, eq3, Eq(a, 1)], [a, b, c, d])
+print(f"Équation équilibrée : {sol[a]}CH₄ + {sol[b]}O₂ → {sol[c]}CO₂ + {sol[d]}H₂O")`
+            },
+            {
+                title: "2. Calcul de Masse",
+                explanation: "Pour 16g de CH₄, combien d'O₂ ?",
+                code: `# Masses molaires
+M_CH4 = 16  # g/mol
+M_O2 = 32   # g/mol
+n_CH4 = 16 / M_CH4  # 1 mole
+n_O2 = 2 * n_CH4    # Rapport 1:2
+m_O2 = n_O2 * M_O2
+print(f"Masse d'O₂ nécessaire : {m_O2}g")`
+            }
+        ]
+    },
+    {
+        id: 'chem-acid-base-equilibrium',
+        category: 'Chimie',
+        title: "Équilibre Acide-Base",
+        level: "Lycée (Terminale)",
+        domain: "Chimie des Solutions",
+        icon: "🧪",
+        difficulty: "Intermédiaire",
+        duration: "1h30",
+        description: "Calculer le pH d'une solution tampon.",
+        history: {
+            year: "1923",
+            people: ["Johannes Brønsted", "Thomas Lowry"],
+            context: "Brønsted et Lowry définissent les acides comme donneurs de protons (H⁺) et les bases comme accepteurs. Généralisation de la théorie d'Arrhenius."
+        },
+        problemStatement: {
+            context: "Fabriquer une solution tampon pour stabiliser le pH du sang.",
+            objective: "Utiliser l'équation de Henderson-Hasselbalch.",
+            analogy: "Comme un amortisseur de voiture : absorbe les chocs (ajouts d'acide ou de base)."
+        },
+        steps: [
+            {
+                title: "1. Équation de Henderson-Hasselbalch",
+                explanation: "pH = pKa + log([A⁻]/[HA]).",
+                code: `from sympy import symbols, log
+pKa, A_minus, HA = symbols('pKa A_minus HA')
+pH = pKa + log(A_minus / HA, 10)
+# Tampon acétique : pKa=4.76, [CH₃COO⁻]=0.1M, [CH₃COOH]=0.1M
+pH_val = pH.subs({pKa: 4.76, A_minus: 0.1, HA: 0.1})
+print(f"pH du tampon : {pH_val.evalf()}")`
+            },
+            {
+                title: "2. Capacité Tampon",
+                explanation: "Plus les concentrations sont élevées, mieux ça tamponne.",
+                code: `# Ajout de 0.01 mol de HCl à 1L de tampon
+HCl_added = 0.01
+new_HA = 0.1 + HCl_added
+new_A_minus = 0.1 - HCl_added
+new_pH = pKa + log(new_A_minus / new_HA, 10)
+print(f"Nouveau pH : {new_pH.subs(pKa, 4.76).evalf()}")`
+            }
+        ]
+    },
+    {
+        id: 'chem-redox',
+        category: 'Chimie',
+        title: "Réactions d'Oxydoréduction",
+        level: "Lycée (Première)",
+        domain: "Électrochimie",
+        icon: "🔋",
+        difficulty: "Intermédiaire",
+        duration: "1h",
+        description: "Comprendre les piles et l'électrolyse.",
+        history: {
+            year: "1836",
+            people: ["John Daniell"],
+            context: "Daniell invente la pile Zn/Cu, première source d'électricité stable. Révolution pour le télégraphe et l'électrochimie."
+        },
+        problemStatement: {
+            context: "Concevoir une pile pour alimenter un appareil portable.",
+            objective: "Calculer la tension de la pile avec l'équation de Nernst.",
+            analogy: "Comme une cascade : les électrons 'tombent' du zinc vers le cuivre, créant un courant."
+        },
+        steps: [
+            {
+                title: "1. Demi-Réactions",
+                explanation: "Oxydation : Zn → Zn²⁺ + 2e⁻, Réduction : Cu²⁺ + 2e⁻ → Cu.",
+                code: `# Potentiels standard
+E0_Zn = -0.76  # V
+E0_Cu = 0.34   # V
+E0_pile = E0_Cu - E0_Zn
+print(f"Tension standard de la pile : {E0_pile}V")`
+            },
+            {
+                title: "2. Équation de Nernst",
+                explanation: "E = E⁰ - (RT/nF)·ln(Q).",
+                code: `from sympy import symbols, log
+R, T, n, F = 8.314, 298, 2, 96485
+Zn2, Cu2 = symbols('Zn2 Cu2')
+Q = Zn2 / Cu2
+E = E0_pile - (R*T/(n*F)) * log(Q)
+# [Zn²⁺]=0.01M, [Cu²⁺]=1M
+E_val = E.subs({Zn2: 0.01, Cu2: 1})
+print(f"Tension réelle : {E_val.evalf()}V")`
+            }
+        ]
+    },
+    {
+        id: 'chem-organic-nomenclature',
+        category: 'Chimie',
+        title: "Nomenclature Organique",
+        level: "Lycée (Terminale)",
+        domain: "Chimie Organique",
+        icon: "🧬",
+        difficulty: "Intermédiaire",
+        duration: "1h",
+        description: "Nommer les molécules organiques selon les règles IUPAC.",
+        history: {
+            year: "1892",
+            people: ["IUPAC"],
+            context: "L'Union Internationale de Chimie Pure et Appliquée standardise la nomenclature pour éviter la confusion entre chimistes du monde entier."
+        },
+        problemStatement: {
+            context: "Identifier un médicament ou un polluant à partir de sa formule.",
+            objective: "Appliquer les règles IUPAC : chaîne principale, ramifications, fonctions.",
+            analogy: "Comme une adresse postale : pays, ville, rue, numéro. Chaque partie a sa place."
+        },
+        steps: [
+            {
+                title: "1. Alcanes",
+                explanation: "Chaîne carbonée saturée : méth-, éth-, prop-, but-.",
+                code: `# Exemple : CH₃-CH₂-CH₂-CH₃
+carbones = 4
+prefixes = {1: 'méth', 2: 'éth', 3: 'prop', 4: 'but', 5: 'pent', 6: 'hex'}
+nom = prefixes[carbones] + 'ane'
+print(f"Nom IUPAC : {nom}")  # butane`
+            },
+            {
+                title: "2. Avec Ramifications",
+                explanation: "2-méthylpropane (isobutane).",
+                code: `# CH₃-CH(CH₃)-CH₃
+chaine_principale = 3  # prop
+ramification = 'méthyl'
+position = 2
+nom_ramifie = f"{position}-{ramification}{prefixes[chaine_principale]}ane"
+print(f"Nom IUPAC : {nom_ramifie}")`
+            }
+        ]
+    },
+    {
+        id: 'chem-solubility',
+        category: 'Chimie',
+        title: "Solubilité & Précipitation",
+        level: "Université (L1)",
+        domain: "Chimie des Solutions",
+        icon: "💎",
+        difficulty: "Avancé",
+        duration: "1h30",
+        description: "Prédire si un précipité va se former.",
+        history: {
+            year: "1888",
+            people: ["Walther Nernst"],
+            context: "Nernst établit la relation entre solubilité et produit de solubilité (Ks), permettant de prédire les précipitations."
+        },
+        problemStatement: {
+            context: "Traiter l'eau dure en précipitant le calcaire.",
+            objective: "Comparer Q (quotient réactionnel) et Ks.",
+            analogy: "Comme du sucre dans le café : au-delà d'une limite, il ne se dissout plus et précipite."
+        },
+        steps: [
+            {
+                title: "1. Produit de Solubilité",
+                explanation: "AgCl(s) ⇌ Ag⁺ + Cl⁻, Ks = [Ag⁺][Cl⁻].",
+                code: `from sympy import symbols
+Ag, Cl, Ks = symbols('Ag Cl Ks')
+# Ks(AgCl) = 1.8×10⁻¹⁰
+Ks_val = 1.8e-10
+# [Ag⁺]=10⁻⁵M, [Cl⁻]=10⁻⁴M
+Q = 1e-5 * 1e-4
+print(f"Q = {Q}")
+print(f"Ks = {Ks_val}")
+if Q > Ks_val:
+    print("✅ Précipitation de AgCl")
+else:
+    print("❌ Pas de précipité")`
+            }
+        ]
+    },
+    {
+        id: 'chem-catalysis',
+        category: 'Chimie',
+        title: "Catalyse",
+        level: "Université (L2)",
+        domain: "Cinétique Chimique",
+        icon: "⚗️",
+        difficulty: "Avancé",
+        duration: "1h30",
+        description: "Accélérer une réaction sans être consommé.",
+        history: {
+            year: "1835",
+            people: ["Jöns Jacob Berzelius"],
+            context: "Berzelius invente le terme 'catalyse'. Aujourd'hui, 90% des procédés industriels utilisent des catalyseurs (pétrochimie, pharmacie)."
+        },
+        problemStatement: {
+            context: "Optimiser la synthèse de l'ammoniac (engrais) avec le procédé Haber-Bosch.",
+            objective: "Réduire l'énergie d'activation Ea.",
+            analogy: "Comme un raccourci en montagne : on arrive au même sommet, mais plus vite."
+        },
+        steps: [
+            {
+                title: "1. Loi d'Arrhenius",
+                explanation: "k = A·exp(-Ea/RT).",
+                code: `from sympy import symbols, exp
+A, Ea, R, T = symbols('A Ea R T')
+k = A * exp(-Ea / (R*T))
+# Sans catalyseur : Ea=100 kJ/mol
+# Avec catalyseur : Ea=50 kJ/mol
+R_val = 8.314
+T_val = 298
+k_sans = exp(-100000 / (R_val*T_val))
+k_avec = exp(-50000 / (R_val*T_val))
+print(f"Accélération : facteur {(k_avec/k_sans).evalf()}")`
+            }
+        ]
+    },
+    {
+        id: 'chem-lewis-structures',
+        category: 'Chimie',
+        title: "Structures de Lewis",
+        level: "Lycée (Première)",
+        domain: "Liaisons Chimiques",
+        icon: "🔗",
+        difficulty: "Débutant",
+        duration: "1h",
+        description: "Représenter les liaisons covalentes et doublets non liants.",
+        history: {
+            year: "1916",
+            people: ["Gilbert Lewis"],
+            context: "Lewis propose que les atomes partagent des électrons pour atteindre la règle de l'octet. Révolution dans la compréhension des liaisons."
+        },
+        problemStatement: {
+            context: "Prédire la géométrie d'une molécule (H₂O, CO₂, NH₃).",
+            objective: "Dessiner la structure de Lewis et appliquer VSEPR.",
+            analogy: "Comme des aimants qui se repoussent : les doublets d'électrons s'éloignent au maximum."
+        },
+        steps: [
+            {
+                title: "1. Règle de l'Octet",
+                explanation: "Chaque atome veut 8 électrons de valence.",
+                code: `# Exemple : H₂O
+# O : 6 électrons de valence
+# H : 1 électron chacun
+# Total : 6 + 1 + 1 = 8 électrons
+electrons_valence = {'O': 6, 'H': 1}
+total = electrons_valence['O'] + 2*electrons_valence['H']
+print(f"Électrons de valence : {total}")
+print("Structure : H-O-H avec 2 doublets non liants sur O")`
+            },
+            {
+                title: "2. Géométrie VSEPR",
+                explanation: "4 doublets → tétraédrique → coudée (2 liants + 2 non liants).",
+                code: `# H₂O : AX₂E₂ → coudée, angle ≈104.5°
+print("Géométrie de H₂O : coudée")
+print("Angle H-O-H : ~104.5°")`
+            }
+        ]
+    },
+    {
+        id: 'chem-polymers',
+        category: 'Chimie',
+        title: "Chimie des Polymères",
+        level: "Université (L2)",
+        domain: "Chimie Organique",
+        icon: "🧵",
+        difficulty: "Intermédiaire",
+        duration: "1h",
+        description: "Synthèse de plastiques et macromolécules.",
+        history: {
+            year: "1907",
+            people: ["Leo Baekeland"],
+            context: "Baekeland invente la bakélite, premier plastique synthétique. Début de l'ère des polymères qui transforme l'industrie mondiale."
+        },
+        problemStatement: {
+            context: "Fabriquer du nylon, du PET (bouteilles), du polystyrène.",
+            objective: "Polymérisation : n monomères → (monomère)ₙ.",
+            analogy: "Comme un collier de perles : on enfile des perles identiques pour faire une longue chaîne."
+        },
+        steps: [
+            {
+                title: "1. Degré de Polymérisation",
+                explanation: "n = M_polymère / M_monomère.",
+                code: `# Polyéthylène : (C₂H₄)ₙ
+M_monomere = 28  # g/mol (éthylène)
+M_polymere = 280000  # g/mol (exemple)
+n = M_polymere / M_monomere
+print(f"Degré de polymérisation : n = {n}")
+print(f"Le polymère contient {int(n)} unités d'éthylène")`
+            }
+        ]
+    },
+    {
+        id: 'chem-spectroscopy',
+        category: 'Chimie',
+        title: "Spectroscopie UV-Visible",
+        level: "Université (L2)",
+        domain: "Chimie Analytique",
+        icon: "🌈",
+        difficulty: "Avancé",
+        duration: "1h30",
+        description: "Déterminer la concentration d'une solution colorée.",
+        history: {
+            year: "1852",
+            people: ["August Beer", "Johann Lambert"],
+            context: "Beer et Lambert établissent la loi reliant absorbance et concentration, base de la spectrophotométrie moderne."
+        },
+        problemStatement: {
+            context: "Doser le fer dans le sang ou les nitrates dans l'eau.",
+            objective: "Loi de Beer-Lambert : A = ε·l·c.",
+            analogy: "Plus il y a de colorant dans l'eau, moins la lumière passe."
+        },
+        steps: [
+            {
+                title: "1. Loi de Beer-Lambert",
+                explanation: "A = ε·l·c (Absorbance = coefficient × longueur × concentration).",
+                code: `from sympy import symbols
+epsilon, l, c, A = symbols('epsilon l c A')
+# ε = 1000 L·mol⁻¹·cm⁻¹, l = 1 cm, A = 0.5
+c_val = A / (epsilon * l)
+print(f"Concentration : c = {c_val.subs({A: 0.5, epsilon: 1000, l: 1})} mol/L")`
+            },
+            {
+                title: "2. Droite d'Étalonnage",
+                explanation: "Mesurer A pour plusieurs concentrations connues.",
+                code: `# Points : (c, A)
+concentrations = [0.001, 0.002, 0.003, 0.004, 0.005]
+absorbances = [0.1, 0.2, 0.3, 0.4, 0.5]
+# Régression linéaire : A = a·c + b
+from sympy import symbols
+# Pente a = ε·l
+a = (absorbances[-1] - absorbances[0]) / (concentrations[-1] - concentrations[0])
+print(f"Pente (ε·l) : {a} L/mol")`
+            }
+        ]
+    },
+    {
+        id: 'chem-green-chemistry',
+        category: 'Chimie',
+        title: "Chimie Verte",
+        level: "Université (L3)",
+        domain: "Chimie Durable",
+        icon: "♻️",
+        difficulty: "Avancé",
+        duration: "1h30",
+        description: "Optimiser le rendement et minimiser les déchets.",
+        history: {
+            year: "1998",
+            people: ["Paul Anastas", "John Warner"],
+            context: "Les 12 principes de la chimie verte révolutionnent l'industrie chimique vers la durabilité et la réduction de l'impact environnemental."
+        },
+        problemStatement: {
+            context: "Concevoir une synthèse pharmaceutique éco-responsable.",
+            objective: "Maximiser l'économie d'atomes et le facteur E.",
+            analogy: "Comme cuisiner sans gaspillage : utiliser tous les ingrédients, rien ne va à la poubelle."
+        },
+        steps: [
+            {
+                title: "1. Économie d'Atomes",
+                explanation: "EA = (M_produit / Σ M_réactifs) × 100%.",
+                code: `# Synthèse : A + B → C + D (déchets)
+M_A, M_B, M_C, M_D = 100, 50, 120, 30
+EA = (M_C / (M_A + M_B)) * 100
+print(f"Économie d'atomes : {EA}%")
+print(f"Déchets : {M_D}g pour {M_C}g de produit")`
+            },
+            {
+                title: "2. Facteur E",
+                explanation: "E = masse_déchets / masse_produit.",
+                code: `E = M_D / M_C
+print(f"Facteur E : {E}")
+print("Objectif chimie verte : E < 1")`
+            }
+        ]
+    },
+
 
     // ==================================================================================
     // 🧬 BIOLOGIE (10 projets)
