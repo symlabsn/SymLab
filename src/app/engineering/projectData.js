@@ -590,7 +590,7 @@ print(f"Profit maximal : {max_profit}")`
 
 
     // ==================================================================================
-    // 🚀 PHYSIQUE (10 projets)
+    // 🚀 PHYSIQUE (15 projets)
     // ==================================================================================
     {
         id: 'phys-solar-system',
@@ -752,6 +752,385 @@ display(E)`
             }
         ]
     },
+    // NOUVEAUX PROJETS PHYSIQUE À INSÉRER APRÈS LE PUITS QUANTIQUE
+    {
+        id: 'phys-newton-laws',
+        category: 'Physique',
+        title: "Lois de Newton",
+        level: "Lycée (Seconde)",
+        domain: "Mécanique",
+        icon: "🍎",
+        difficulty: "Débutant",
+        duration: "1h",
+        description: "Comprendre F = ma et prédire le mouvement d'un objet.",
+        history: {
+            year: "1687",
+            people: ["Isaac Newton"],
+            context: "Newton unifie la physique terrestre et céleste dans ses Principia. La légende de la pomme symbolise l'universalité de la gravitation."
+        },
+        problemStatement: {
+            context: "Calculer la force nécessaire pour pousser une voiture en panne.",
+            objective: "Appliquer F = m·a pour trouver l'accélération.",
+            analogy: "Plus c'est lourd, plus il faut pousser fort pour accélérer."
+        },
+        steps: [
+            {
+                title: "1. Deuxième Loi de Newton",
+                explanation: "F = m·a (Force = masse × accélération).",
+                code: `from sympy import symbols, solve
+m, a, F = symbols('m a F')
+# Voiture de 1000 kg, force de 500 N
+eq = F - m*a
+a_val = solve(eq.subs({F: 500, m: 1000}), a)[0]
+print(f"Accélération : {a_val} m/s²")`
+            },
+            {
+                title: "2. Mouvement Uniformément Accéléré",
+                explanation: "v = v₀ + at, x = x₀ + v₀t + ½at².",
+                code: `t, v0, x0 = symbols('t v0 x0')
+v = v0 + a_val*t
+x = x0 + v0*t + (a_val*t**2)/2
+print(f"Vitesse : v(t) = {v}")
+print(f"Position : x(t) = {x}")`
+            }
+        ]
+    },
+    {
+        id: 'phys-energy-conservation',
+        category: 'Physique',
+        title: "Conservation de l'Énergie",
+        level: "Lycée (Première)",
+        domain: "Mécanique",
+        icon: "⚡",
+        difficulty: "Intermédiaire",
+        duration: "1h",
+        description: "L'énergie ne se perd pas, elle se transforme.",
+        history: {
+            year: "1847",
+            people: ["Hermann von Helmholtz", "James Joule"],
+            context: "Helmholtz formule le principe de conservation de l'énergie, unifiant chaleur, travail et mouvement. Fin du mythe du mouvement perpétuel."
+        },
+        problemStatement: {
+            context: "Un enfant descend un toboggan. À quelle vitesse arrive-t-il en bas ?",
+            objective: "Énergie potentielle → Énergie cinétique : mgh = ½mv².",
+            analogy: "Comme une bille qui roule : plus elle part de haut, plus elle va vite en bas."
+        },
+        steps: [
+            {
+                title: "1. Conservation",
+                explanation: "E_potentielle(haut) = E_cinétique(bas).",
+                code: `from sympy import symbols, solve, sqrt
+m, g, h, v = symbols('m g h v')
+# mgh = (1/2)mv²
+eq = m*g*h - (m*v**2)/2
+v_final = solve(eq, v)[1]  # Solution positive
+print(f"Vitesse finale : v = {v_final}")
+# Pour h=5m, g=9.81
+print(f"Exemple h=5m : v = {v_final.subs({g: 9.81, h: 5}).evalf()} m/s")`
+            }
+        ]
+    },
+    {
+        id: 'phys-ohm-law',
+        category: 'Physique',
+        title: "Loi d'Ohm",
+        level: "Lycée (Première)",
+        domain: "Électricité",
+        icon: "🔌",
+        difficulty: "Débutant",
+        duration: "45min",
+        description: "Relation entre tension, courant et résistance.",
+        history: {
+            year: "1827",
+            people: ["Georg Ohm"],
+            context: "Ohm découvre la relation linéaire U = RI, fondement de toute l'électronique. Initialement critiqué, il sera finalement honoré (unité : l'ohm Ω)."
+        },
+        problemStatement: {
+            context: "Calculer le courant dans une lampe branchée sur une prise.",
+            objective: "U = R·I.",
+            analogy: "L'eau dans un tuyau : la pression (tension) pousse l'eau (courant) à travers un tuyau étroit (résistance)."
+        },
+        steps: [
+            {
+                title: "1. Calcul du Courant",
+                explanation: "I = U/R.",
+                code: `from sympy import symbols
+U, R, I = symbols('U R I')
+# Lampe 220V, résistance 100Ω
+I_val = U / R
+print(f"Courant : I = {I_val.subs({U: 220, R: 100})} A")`
+            },
+            {
+                title: "2. Puissance Dissipée",
+                explanation: "P = U·I = R·I².",
+                code: `P = U * I_val
+print(f"Puissance : P = {P.subs({U: 220, R: 100})} W")`
+            }
+        ]
+    },
+    {
+        id: 'phys-snell-law',
+        category: 'Physique',
+        title: "Réfraction de la Lumière",
+        level: "Lycée (Seconde)",
+        domain: "Optique",
+        icon: "🌈",
+        difficulty: "Débutant",
+        duration: "1h",
+        description: "Loi de Snell-Descartes : pourquoi une paille semble cassée dans l'eau.",
+        history: {
+            year: "1621",
+            people: ["Willebrord Snell", "René Descartes"],
+            context: "Snell découvre expérimentalement la loi, Descartes la publie. Essentielle pour les lentilles, fibres optiques et mirages."
+        },
+        problemStatement: {
+            context: "Concevoir des lunettes ou des fibres optiques.",
+            objective: "n₁·sin(θ₁) = n₂·sin(θ₂).",
+            analogy: "Une voiture qui roule de l'asphalte au sable : elle tourne car une roue ralentit avant l'autre."
+        },
+        steps: [
+            {
+                title: "1. Angle de Réfraction",
+                explanation: "Passage air → eau.",
+                code: `from sympy import symbols, sin, asin, pi
+n1, n2, theta1, theta2 = symbols('n1 n2 theta1 theta2')
+# Air (n=1) → Eau (n=1.33), angle incident 30°
+eq = n1*sin(theta1) - n2*sin(theta2)
+theta2_val = asin((n1*sin(theta1))/n2)
+result = theta2_val.subs({n1: 1, n2: 1.33, theta1: pi/6})
+print(f"Angle réfracté : {result.evalf()} rad = {(result*180/pi).evalf()}°")`
+            }
+        ]
+    },
+    {
+        id: 'phys-doppler-effect',
+        category: 'Physique',
+        title: "Effet Doppler",
+        level: "Lycée (Terminale)",
+        domain: "Ondes",
+        icon: "🚑",
+        difficulty: "Intermédiaire",
+        duration: "1h",
+        description: "Pourquoi le son d'une ambulance change quand elle passe.",
+        history: {
+            year: "1842",
+            people: ["Christian Doppler"],
+            context: "Doppler prédit le décalage de fréquence pour les ondes. Confirmé pour le son, puis pour la lumière (redshift cosmologique)."
+        },
+        problemStatement: {
+            context: "Mesurer la vitesse d'une voiture avec un radar.",
+            objective: "f' = f·(v_son ± v_obs)/(v_son ∓ v_source).",
+            analogy: "Des vagues sur un lac : si vous nagez vers elles, elles arrivent plus vite."
+        },
+        steps: [
+            {
+                title: "1. Fréquence Perçue",
+                explanation: "Source qui s'approche.",
+                code: `from sympy import symbols
+f, v_son, v_source = symbols('f v_son v_source')
+# Ambulance 500 Hz, vitesse 30 m/s, son à 340 m/s
+f_prime = f * v_son / (v_son - v_source)
+print(f"Fréquence perçue : {f_prime.subs({f: 500, v_son: 340, v_source: 30}).evalf()} Hz")`
+            }
+        ]
+    },
+    {
+        id: 'phys-coulomb-law',
+        category: 'Physique',
+        title: "Loi de Coulomb",
+        level: "Lycée (Terminale)",
+        domain: "Électrostatique",
+        icon: "⚡",
+        difficulty: "Intermédiaire",
+        duration: "1h",
+        description: "Force entre charges électriques.",
+        history: {
+            year: "1785",
+            people: ["Charles-Augustin de Coulomb"],
+            context: "Coulomb mesure précisément la force électrostatique avec une balance de torsion, établissant l'analogie avec la gravitation de Newton."
+        },
+        problemStatement: {
+            context: "Calculer la force entre un proton et un électron dans un atome.",
+            objective: "F = k·q₁q₂/r².",
+            analogy: "Comme la gravitation, mais avec des charges au lieu de masses. Les opposés s'attirent."
+        },
+        steps: [
+            {
+                title: "1. Force Électrostatique",
+                explanation: "k = 9×10⁹ N·m²/C².",
+                code: `from sympy import symbols
+k, q1, q2, r = symbols('k q1 q2 r')
+F = k * q1 * q2 / r**2
+# Proton-électron à 1 Angström
+k_val = 9e9
+q_e = 1.6e-19
+r_val = 1e-10
+F_val = F.subs({k: k_val, q1: q_e, q2: -q_e, r: r_val})
+print(f"Force : {F_val} N (attractive)")`
+            }
+        ]
+    },
+    {
+        id: 'phys-faraday-induction',
+        category: 'Physique',
+        title: "Induction Électromagnétique",
+        level: "Université (L1)",
+        domain: "Électromagnétisme",
+        icon: "🧲",
+        difficulty: "Avancé",
+        duration: "1h30",
+        description: "Comment un aimant qui bouge crée de l'électricité.",
+        history: {
+            year: "1831",
+            people: ["Michael Faraday"],
+            context: "Faraday découvre l'induction, base des générateurs électriques et transformateurs. Révolution industrielle de l'électricité."
+        },
+        problemStatement: {
+            context: "Concevoir un générateur de vélo (dynamo).",
+            objective: "ε = -dΦ/dt (Loi de Faraday-Lenz).",
+            analogy: "Faire tourner une manivelle pour créer de l'électricité."
+        },
+        steps: [
+            {
+                title: "1. Flux Magnétique",
+                explanation: "Φ = B·A·cos(ωt).",
+                code: `from sympy import symbols, cos, diff, pi
+B, A, omega, t = symbols('B A omega t')
+Phi = B * A * cos(omega * t)
+print("Flux magnétique :")
+display(Phi)`
+            },
+            {
+                title: "2. Force Électromotrice",
+                explanation: "ε = -dΦ/dt.",
+                code: `epsilon = -diff(Phi, t)
+print("FEM induite :")
+display(epsilon)`
+            }
+        ]
+    },
+    {
+        id: 'phys-archimedes',
+        category: 'Physique',
+        title: "Poussée d'Archimède",
+        level: "Lycée (Seconde)",
+        domain: "Mécanique des Fluides",
+        icon: "🛳️",
+        difficulty: "Débutant",
+        duration: "45min",
+        description: "Pourquoi les bateaux flottent.",
+        history: {
+            year: "-250",
+            people: ["Archimède"],
+            context: "Archimède découvre le principe dans son bain (Eurêka !). Fondement de la navigation et de l'aéronautique."
+        },
+        problemStatement: {
+            context: "Concevoir un bateau qui ne coule pas.",
+            objective: "Poussée = ρ_fluide·V_immergé·g.",
+            analogy: "Un ballon dans l'eau : il remonte car l'eau pousse plus fort que le poids du ballon."
+        },
+        steps: [
+            {
+                title: "1. Calcul de la Poussée",
+                explanation: "F_Archimède = ρ·V·g.",
+                code: `from sympy import symbols
+rho, V, g = symbols('rho V g')
+F_A = rho * V * g
+# Cube de 1m³ dans l'eau (ρ=1000 kg/m³)
+print(f"Poussée : {F_A.subs({rho: 1000, V: 1, g: 9.81})} N")`
+            }
+        ]
+    },
+    {
+        id: 'phys-radioactivity',
+        category: 'Physique',
+        title: "Décroissance Radioactive",
+        level: "Lycée (Terminale)",
+        domain: "Physique Nucléaire",
+        icon: "☢️",
+        difficulty: "Intermédiaire",
+        duration: "1h",
+        description: "Demi-vie et datation au carbone 14.",
+        history: {
+            year: "1896",
+            people: ["Henri Becquerel", "Marie Curie"],
+            context: "Becquerel découvre la radioactivité par hasard. Marie Curie isole le radium et le polonium, révolutionnant la physique et la médecine."
+        },
+        problemStatement: {
+            context: "Dater un fossile ou un artefact archéologique.",
+            objective: "N(t) = N₀·e^(-λt).",
+            analogy: "Comme des grains de pop-corn qui éclatent : au début beaucoup, puis de moins en moins."
+        },
+        steps: [
+            {
+                title: "1. Loi de Décroissance",
+                explanation: "N(t) = N₀·exp(-λt).",
+                code: `from sympy import symbols, exp, log, solve
+N0, lam, t, t_half = symbols('N0 lambda t t_half')
+N = N0 * exp(-lam * t)
+# Demi-vie : N(t_1/2) = N0/2
+eq = N0/2 - N0*exp(-lam*t_half)
+t_half_expr = solve(eq, t_half)[0]
+print(f"Demi-vie : t_1/2 = {t_half_expr}")`
+            },
+            {
+                title: "2. Datation Carbone 14",
+                explanation: "t_1/2 = 5730 ans.",
+                code: `# Si on trouve 25% du C14 initial
+lam_val = log(2) / 5730
+t_age = -log(0.25) / lam_val
+print(f"Âge de l'échantillon : {t_age.evalf()} ans")`
+            }
+        ]
+    },
+    {
+        id: 'phys-photoelectric',
+        category: 'Physique',
+        title: "Effet Photoélectrique",
+        level: "Université (L2)",
+        domain: "Physique Quantique",
+        icon: "💡",
+        difficulty: "Avancé",
+        duration: "1h30",
+        description: "Comment la lumière arrache des électrons (Prix Nobel d'Einstein).",
+        history: {
+            year: "1905",
+            people: ["Albert Einstein"],
+            context: "Einstein explique l'effet photoélectrique en postulant que la lumière est composée de quanta (photons). Preuve de la dualité onde-corpuscule, Prix Nobel 1921."
+        },
+        problemStatement: {
+            context: "Comprendre le fonctionnement des panneaux solaires et capteurs photo.",
+            objective: "E_photon = hν = W + E_cinétique.",
+            analogy: "Comme des boules de billard : un photon frappe un électron et l'éjecte."
+        },
+        steps: [
+            {
+                title: "1. Énergie du Photon",
+                explanation: "E = h·ν (h = constante de Planck).",
+                code: `from sympy import symbols
+h, nu, W, E_k = symbols('h nu W E_k')
+# Lumière UV : λ=300nm, ν=c/λ
+c = 3e8  # m/s
+lam = 300e-9  # m
+nu_val = c / lam
+h_val = 6.626e-34  # J·s
+E_photon = h_val * nu_val
+print(f"Énergie du photon : {E_photon} J = {E_photon/1.6e-19} eV")`
+            },
+            {
+                title: "2. Énergie Cinétique de l'Électron",
+                explanation: "E_k = hν - W (W = travail de sortie).",
+                code: `W_val = 4.5 * 1.6e-19  # 4.5 eV en Joules
+E_k_val = E_photon - W_val
+print(f"Énergie cinétique : {E_k_val} J")
+if E_k_val > 0:
+    print("✅ L'électron est éjecté")
+else:
+    print("❌ Pas assez d'énergie")`
+            }
+        ]
+    },
+
 
     // ==================================================================================
     // 🧪 CHIMIE (10 projets)
