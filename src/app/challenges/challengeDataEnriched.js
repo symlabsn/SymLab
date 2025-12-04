@@ -952,6 +952,437 @@ t.area`,
             'Trouver les intersections cercle-droite',
         ],
             practicalApplication: 'Architecture, cartographie (SIG), infographie.'
+        },,
+    {
+            id: 'day_021',
+            dayNumber: 21,
+            title: 'Combinatoire',
+            difficulty: 'Intermédiaire',
+            masteryLevel: 'Fondamental',
+            unlocked: true,
+            xpReward: 25,
+            badge: '🏅 Combinatoire',
+            africanAnalogy: `La combinatoire est l'art de compter sans compter. C'est comme savoir combien de colliers différents on peut faire avec des perles colorées sans avoir à tous les fabriquer. Le griot connaît toutes les histoires possibles sans avoir à toutes les raconter.`,
+            theory: {
+                title: 'Analyse Combinatoire',
+                content: `La combinatoire étudie les arrangements, permutations et combinaisons d'objets. Elle répond à la question : 'De combien de façons peut-on...?'`,
+                mathematicalFoundation: `
+                    - Factorielle : n! = n × (n-1) × ... × 2 × 1\n                - Permutations : P(n,k) = n!/(n-k)!\n                - Combinaisons : C(n,k) = n!/(k!(n-k)!)\n                - Principe du tiroir (Pigeonhole)\n                - Formule du binôme : (a+b)ⁿ = Σ C(n,k) aⁿ⁻ᵏ bᵏ
+                `,
+                scientists: [
+                {
+                        name: 'Blaise Pascal',
+                        year: '1654',
+                        contribution: 'Triangle de Pascal et probabilités',
+                        context: 'Correspondance avec Fermat, naissance de la théorie des probabilités'
+                    },
+                    {
+                        name: 'Leonhard Euler',
+                        year: '1736',
+                        contribution: 'Problème des ponts de Königsberg, graphes',
+                        context: 'Fonde la théorie des graphes en résolvant un problème de promenade'
+                    },
+                ]
+            },
+            code: `from sympy import factorial, binomial
+n, k = 5, 2
+binomial(n, k)`,
+            output: '10',
+            exercises: [
+            'Calculer 10!',
+            'Combien de mains de 5 cartes dans un jeu de 52 ?',
+            'Développer (x+y)⁴ avec les coefficients binomiaux',
+        ],
+            practicalApplication: 'Loteries, codes correcteurs d\'erreurs, algorithmes de recherche, cryptographie.'
+        },
+    {
+            id: 'day_022',
+            dayNumber: 22,
+            title: 'Probabilités Discrètes',
+            difficulty: 'Intermédiaire',
+            masteryLevel: 'Intermédiaire',
+            unlocked: true,
+            xpReward: 30,
+            badge: '🏅 Probabilités Discrètes',
+            africanAnalogy: `Les probabilités sont comme prédire la pluie en observant les nuages. On ne sait pas exactement quand elle tombera, mais on peut dire : 'Il y a 70% de chances'. Le sage ne prédit pas l'avenir, il en mesure les possibilités.`,
+            theory: {
+                title: 'Théorie des Probabilités',
+                content: `Une probabilité mesure la chance qu'un événement se produise, entre 0 (impossible) et 1 (certain). SymPy peut calculer des probabilités exactes pour des variables discrètes.`,
+                mathematicalFoundation: `
+                    - Probabilité : P(A) = |A| / |Ω|\n                - Événements indépendants : P(A∩B) = P(A)×P(B)\n                - Probabilité conditionnelle : P(A|B) = P(A∩B)/P(B)\n                - Théorème de Bayes : P(A|B) = P(B|A)P(A)/P(B)\n                - Espérance : E[X] = Σ xᵢ P(X=xᵢ)
+                `,
+                scientists: [
+                {
+                        name: 'Pierre de Fermat',
+                        year: '1654',
+                        contribution: 'Co-fondateur de la théorie des probabilités',
+                        context: 'Problème des partis avec Pascal'
+                    },
+                    {
+                        name: 'Thomas Bayes',
+                        year: '1763',
+                        contribution: 'Théorème de Bayes (probabilités conditionnelles)',
+                        context: 'Publié après sa mort, révolutionne l\'inférence statistique'
+                    },
+                ]
+            },
+            code: `from sympy.stats import Die, P, E
+X = Die('X', 6)
+P(X > 4)`,
+            output: '1/3',
+            exercises: [
+            'Probabilité d\'obtenir un double six avec deux dés',
+            'Calculer l\'espérance d\'un dé à 6 faces',
+            'Appliquer le théorème de Bayes (test médical)',
+        ],
+            practicalApplication: 'Jeux de hasard, assurance, machine learning (classificateurs bayésiens), finance.'
+        },
+    {
+            id: 'day_023',
+            dayNumber: 23,
+            title: 'Statistiques Descriptives',
+            difficulty: 'Débutant',
+            masteryLevel: 'Fondamental',
+            unlocked: true,
+            xpReward: 20,
+            badge: '🏅 Statistiques Descriptives',
+            africanAnalogy: `Les statistiques résument une foule en quelques chiffres. Au lieu de décrire chaque personne du village, on dit : 'La taille moyenne est 1m70, l'âge médian est 30 ans'. C'est le portrait du groupe, pas de l'individu.`,
+            theory: {
+                title: 'Statistiques et Données',
+                content: `Les statistiques descriptives résument et visualisent des ensembles de données. Moyenne, médiane, écart-type caractérisent une distribution.`,
+                mathematicalFoundation: `
+                    - Moyenne : μ = (Σ xᵢ) / n\n                - Médiane : valeur centrale (50e percentile)\n                - Variance : σ² = Σ(xᵢ - μ)² / n\n                - Écart-type : σ = √variance\n                - Quartiles : Q1 (25%), Q2 (50%), Q3 (75%)
+                `,
+                scientists: [
+                {
+                        name: 'Carl Friedrich Gauss',
+                        year: '1809',
+                        contribution: 'Loi normale (courbe en cloche)',
+                        context: 'Méthode des moindres carrés pour l\'astronomie'
+                    },
+                    {
+                        name: 'Francis Galton',
+                        year: '1886',
+                        contribution: 'Corrélation et régression',
+                        context: 'Étudie l\'hérédité, invente la régression vers la moyenne'
+                    },
+                ]
+            },
+            code: `from sympy.stats import Normal, density, E, variance
+X = Normal('X', 0, 1)
+E(X), variance(X)`,
+            output: '(0, 1)',
+            exercises: [
+            'Calculer la moyenne de [1, 2, 3, 4, 5]',
+            'Trouver l\'écart-type d\'une distribution',
+            'Calculer P(X < 1) pour X ~ N(0,1)',
+        ],
+            practicalApplication: 'Sondages, contrôle qualité, analyse de données, sciences sociales.'
+        },
+    {
+            id: 'day_024',
+            dayNumber: 24,
+            title: 'Logique Booléenne',
+            difficulty: 'Débutant',
+            masteryLevel: 'Fondamental',
+            unlocked: true,
+            xpReward: 20,
+            badge: '🏅 Logique Booléenne',
+            africanAnalogy: `La logique booléenne est le langage du oui et du non, du vrai et du faux. C'est comme les portes d'un village : soit elles sont ouvertes (1), soit fermées (0). Pas de demi-mesure. Les ordinateurs pensent ainsi.`,
+            theory: {
+                title: 'Algèbre de Boole',
+                content: `L'algèbre booléenne manipule des valeurs binaires (Vrai/Faux, 1/0) avec des opérateurs logiques (ET, OU, NON). C'est la base de l'électronique numérique.`,
+                mathematicalFoundation: `
+                    - Opérateurs : AND (∧), OR (∨), NOT (¬)\n                - Lois de De Morgan : ¬(A∧B) = ¬A∨¬B\n                - Tables de vérité\n                - XOR (ou exclusif) : A⊕B = (A∨B)∧¬(A∧B)\n                - Forme normale disjonctive (DNF)
+                `,
+                scientists: [
+                {
+                        name: 'George Boole',
+                        year: '1854',
+                        contribution: 'Algèbre booléenne',
+                        context: 'Mathématicien autodidacte, révolutionne la logique'
+                    },
+                    {
+                        name: 'Claude Shannon',
+                        year: '1937',
+                        contribution: 'Application aux circuits électriques',
+                        context: 'Thèse de master fondatrice de l\'électronique numérique'
+                    },
+                ]
+            },
+            code: `from sympy.logic import And, Or, Not, simplify_logic
+from sympy import symbols
+x, y = symbols('x y')
+simplify_logic(Or(And(x, y), And(x, Not(y))))`,
+            output: 'x',
+            exercises: [
+            'Simplifier (A∧B)∨(A∧¬B)',
+            'Construire la table de vérité de XOR',
+            'Appliquer les lois de De Morgan',
+        ],
+            practicalApplication: 'Circuits logiques, processeurs, bases de données (requêtes SQL), IA (logique formelle).'
+        },
+    {
+            id: 'day_025',
+            dayNumber: 25,
+            title: 'Théorie des Nombres',
+            difficulty: 'Intermédiaire',
+            masteryLevel: 'Intermédiaire',
+            unlocked: true,
+            xpReward: 30,
+            badge: '🏅 Théorie des Nombres',
+            africanAnalogy: `Les nombres premiers sont les atomes des mathématiques. Tout nombre est fait de nombres premiers, comme toute matière est faite d'atomes. Trouver les nombres premiers, c'est découvrir les briques fondamentales de l'univers des nombres.`,
+            theory: {
+                title: 'Arithmétique et Primalité',
+                content: `La théorie des nombres étudie les propriétés des entiers. Les nombres premiers (divisibles seulement par 1 et eux-mêmes) sont au cœur de cette théorie.`,
+                mathematicalFoundation: `
+                    - Nombre premier : p divisible uniquement par 1 et p\n                - Théorème fondamental : tout n = p₁^a₁ × p₂^a₂ × ...\n                - PGCD : Plus Grand Commun Diviseur\n                - PPCM : Plus Petit Commun Multiple\n                - Infinité des nombres premiers (Euclide)
+                `,
+                scientists: [
+                {
+                        name: 'Euclide',
+                        year: '-300',
+                        contribution: 'Infinité des nombres premiers',
+                        context: 'Preuve élégante par l\'absurde dans Les Éléments'
+                    },
+                    {
+                        name: 'Évariste Galois',
+                        year: '1830',
+                        contribution: 'Théorie de Galois (corps finis)',
+                        context: 'Génie mort à 20 ans, révolutionne l\'algèbre abstraite'
+                    },
+                ]
+            },
+            code: `from sympy import isprime, factorint, gcd
+isprime(17), factorint(60)`,
+            output: '(True, {2: 2, 3: 1, 5: 1})',
+            exercises: [
+            'Trouver tous les nombres premiers < 100',
+            'Décomposer 1024 en facteurs premiers',
+            'Calculer PGCD(48, 18)',
+        ],
+            practicalApplication: 'Cryptographie RSA, hachage, codes correcteurs, tests de primalité.'
+        },
+    {
+            id: 'day_026',
+            dayNumber: 26,
+            title: 'Congruences',
+            difficulty: 'Intermédiaire',
+            masteryLevel: 'Intermédiaire',
+            unlocked: true,
+            xpReward: 30,
+            badge: '🏅 Congruences',
+            africanAnalogy: `Les congruences sont comme les jours de la semaine. Après dimanche vient lundi, après 7 jours on revient au même jour. En arithmétique modulaire, après 12 vient 1 (sur une horloge). Les nombres tournent en boucle.`,
+            theory: {
+                title: 'Arithmétique Modulaire',
+                content: `Deux nombres sont congrus modulo n s'ils ont le même reste dans la division par n. Notation : a ≡ b (mod n).`,
+                mathematicalFoundation: `
+                    - Définition : a ≡ b (mod n) ⟺ n | (a-b)\n                - Propriétés : (a+b) mod n, (a×b) mod n\n                - Inverse modulaire : ax ≡ 1 (mod n)\n                - Petit théorème de Fermat : aᵖ⁻¹ ≡ 1 (mod p) si p premier\n                - Théorème chinois des restes
+                `,
+                scientists: [
+                {
+                        name: 'Carl Friedrich Gauss',
+                        year: '1801',
+                        contribution: 'Disquisitiones Arithmeticae, formalise les congruences',
+                        context: 'Ouvrage fondateur de la théorie des nombres moderne'
+                    },
+                    {
+                        name: 'Pierre de Fermat',
+                        year: '1640',
+                        contribution: 'Petit théorème de Fermat',
+                        context: 'Magistrat et mathématicien amateur de génie'
+                    },
+                ]
+            },
+            code: `from sympy import Mod, mod_inverse
+Mod(17, 5), mod_inverse(3, 7)`,
+            output: '(2, 5)',
+            exercises: [
+            'Calculer 2^100 mod 7',
+            'Trouver l\'inverse de 5 modulo 11',
+            'Résoudre 3x ≡ 1 (mod 7)',
+        ],
+            practicalApplication: 'Cryptographie (RSA, Diffie-Hellman), hachage, générateurs pseudo-aléatoires.'
+        },
+    {
+            id: 'day_027',
+            dayNumber: 27,
+            title: 'Cryptographie RSA',
+            difficulty: 'Avancé',
+            masteryLevel: 'Expert',
+            unlocked: true,
+            xpReward: 50,
+            badge: '🏅 Cryptographie RSA',
+            africanAnalogy: `RSA est comme un cadenas magique. Tout le monde peut fermer le cadenas (chiffrer avec la clé publique), mais seul celui qui a la clé secrète peut l'ouvrir (déchiffrer). Le secret repose sur la difficulté de factoriser de très grands nombres.`,
+            theory: {
+                title: 'Cryptographie à Clé Publique',
+                content: `RSA (Rivest-Shamir-Adleman) est un algorithme de chiffrement asymétrique basé sur la difficulté de factoriser le produit de deux grands nombres premiers.`,
+                mathematicalFoundation: `
+                    - Génération de clés : choisir p, q premiers, n = p×q\n                - φ(n) = (p-1)(q-1) (indicatrice d'Euler)\n                - Choisir e tel que pgcd(e, φ(n)) = 1\n                - Calculer d tel que ed ≡ 1 (mod φ(n))\n                - Chiffrement : c = mᵉ mod n\n                - Déchiffrement : m = cᵈ mod n
+                `,
+                scientists: [
+                {
+                        name: 'Ron Rivest, Adi Shamir, Leonard Adleman',
+                        year: '1977',
+                        contribution: 'Invention de RSA',
+                        context: 'Révolutionne la cryptographie, permet le commerce électronique'
+                    },
+                    {
+                        name: 'Whitfield Diffie, Martin Hellman',
+                        year: '1976',
+                        contribution: 'Concept de cryptographie à clé publique',
+                        context: 'Prix Turing 2015, rendent RSA possible'
+                    },
+                ]
+            },
+            code: `from sympy import randprime, mod_inverse, Mod
+p, q = 61, 53
+n = p * q
+phi = (p-1) * (q-1)
+e = 17
+d = mod_inverse(e, phi)
+print(f'Public: (e={e}, n={n}), Private: d={d}')`,
+            output: 'Public: (e=17, n=3233), Private: d=...',
+            exercises: [
+            'Générer une paire de clés RSA avec p=11, q=13',
+            'Chiffrer le message m=42',
+            'Déchiffrer le message chiffré',
+        ],
+            practicalApplication: 'HTTPS (SSL/TLS), signatures numériques, blockchain, messagerie sécurisée.'
+        },
+    {
+            id: 'day_028',
+            dayNumber: 28,
+            title: 'Théorie des Graphes',
+            difficulty: 'Intermédiaire',
+            masteryLevel: 'Intermédiaire',
+            unlocked: true,
+            xpReward: 35,
+            badge: '🏅 Théorie des Graphes',
+            africanAnalogy: `Un graphe est comme un réseau de villages reliés par des chemins. Les villages sont les sommets, les chemins sont les arêtes. Trouver le plus court chemin entre deux villages, c'est résoudre un problème de graphe.`,
+            theory: {
+                title: 'Graphes et Réseaux',
+                content: `Un graphe G = (V, E) est un ensemble de sommets V reliés par des arêtes E. Les graphes modélisent des réseaux : routes, internet, relations sociales.`,
+                mathematicalFoundation: `
+                    - Graphe orienté vs non-orienté\n                - Degré d'un sommet : nombre d'arêtes incidentes\n                - Chemin : suite de sommets reliés\n                - Cycle : chemin fermé\n                - Connexité : existence de chemins entre tous sommets\n                - Arbre : graphe connexe sans cycle
+                `,
+                scientists: [
+                {
+                        name: 'Leonhard Euler',
+                        year: '1736',
+                        contribution: 'Problème des ponts de Königsberg',
+                        context: 'Premier problème de théorie des graphes'
+                    },
+                    {
+                        name: 'Gustav Kirchhoff',
+                        year: '1847',
+                        contribution: 'Lois des circuits électriques (graphes)',
+                        context: 'Applique les graphes à la physique'
+                    },
+                ]
+            },
+            code: `# SymPy n'a pas de module graphe natif, utiliser NetworkX
+# Exemple conceptuel
+from sympy import Matrix
+# Matrice d'adjacence
+A = Matrix([[0,1,1],[1,0,1],[1,1,0]])
+A.eigenvals()`,
+            output: '{-1: 1, 2: 1}',
+            exercises: [
+            'Dessiner un graphe K₅ (complet à 5 sommets)',
+            'Vérifier si un graphe est connexe',
+            'Trouver le plus court chemin (Dijkstra)',
+        ],
+            practicalApplication: 'Réseaux sociaux, GPS (navigation), internet (routage), biologie (réseaux métaboliques).'
+        },
+    {
+            id: 'day_029',
+            dayNumber: 29,
+            title: 'Optimisation Linéaire',
+            difficulty: 'Avancé',
+            masteryLevel: 'Avancé',
+            unlocked: true,
+            xpReward: 40,
+            badge: '🏅 Optimisation Linéaire',
+            africanAnalogy: `L'optimisation linéaire cherche la meilleure solution sous contraintes. C'est comme un fermier qui veut maximiser sa récolte avec un terrain limité, un budget limité et des saisons fixes. Il doit trouver le meilleur équilibre.`,
+            theory: {
+                title: 'Programmation Linéaire',
+                content: `Maximiser (ou minimiser) une fonction linéaire sous contraintes linéaires. Le simplexe est l'algorithme classique de résolution.`,
+                mathematicalFoundation: `
+                    - Forme standard : max c^T x sous Ax ≤ b, x ≥ 0\n                - Région admissible : polyèdre convexe\n                - Théorème : l'optimum est à un sommet\n                - Algorithme du simplexe (Dantzig, 1947)\n                - Dualité : tout problème a un dual
+                `,
+                scientists: [
+                {
+                        name: 'George Dantzig',
+                        year: '1947',
+                        contribution: 'Algorithme du simplexe',
+                        context: 'Résout un problème d\'optimisation de l\'armée américaine'
+                    },
+                    {
+                        name: 'Leonid Kantorovich',
+                        year: '1939',
+                        contribution: 'Programmation linéaire en économie',
+                        context: 'Prix Nobel d\'économie 1975'
+                    },
+                ]
+            },
+            code: `# SymPy peut résoudre symboliquement
+from sympy import symbols, solve
+x, y = symbols('x y', positive=True, real=True)
+# Exemple : max 3x + 2y sous x + y <= 4
+# Résolution manuelle ou avec solveurs externes`,
+            output: 'Solution optimale au sommet du polyèdre',
+            exercises: [
+            'Résoudre un problème de production',
+            'Problème du sac à dos (version continue)',
+            'Trouver le dual d\'un problème',
+        ],
+            practicalApplication: 'Logistique, planification de production, allocation de ressources, finance (portefeuille).'
+        },
+    {
+            id: 'day_030',
+            dayNumber: 30,
+            title: 'Physique : Cinématique',
+            difficulty: 'Intermédiaire',
+            masteryLevel: 'Intermédiaire',
+            unlocked: true,
+            xpReward: 30,
+            badge: '🏅 Physique : Cinématique',
+            africanAnalogy: `La cinématique décrit le mouvement sans se soucier des causes. C'est comme raconter le voyage d'un oiseau : où il est, à quelle vitesse il vole, comment il accélère. Peu importe pourquoi il vole, on décrit juste sa trajectoire.`,
+            theory: {
+                title: 'Mouvement et Trajectoires',
+                content: `La cinématique étudie position, vitesse et accélération. SymPy peut résoudre symboliquement les équations du mouvement.`,
+                mathematicalFoundation: `
+                    - Position : x(t)\n                - Vitesse : v(t) = dx/dt\n                - Accélération : a(t) = dv/dt = d²x/dt²\n                - Mouvement rectiligne uniforme : x = x₀ + vt\n                - Mouvement uniformément accéléré : x = x₀ + v₀t + ½at²\n                - Chute libre : a = -g = -9.81 m/s²
+                `,
+                scientists: [
+                {
+                        name: 'Galileo Galilei',
+                        year: '1638',
+                        contribution: 'Lois de la chute des corps',
+                        context: 'Expériences à la tour de Pise (légende), fonde la physique expérimentale'
+                    },
+                    {
+                        name: 'Isaac Newton',
+                        year: '1687',
+                        contribution: 'Lois du mouvement',
+                        context: 'Principia Mathematica, unifie mécanique terrestre et céleste'
+                    },
+                ]
+            },
+            code: `from sympy import symbols, Function, Eq, dsolve
+t = symbols('t', positive=True)
+x = Function('x')
+# Mouvement avec accélération constante
+eq = Eq(x(t).diff(t, t), -9.81)
+dsolve(eq, x(t))`,
+            output: 'x(t) = C₁ + C₂*t - 4.905*t²',
+            exercises: [
+            'Calculer la vitesse finale après 5s de chute libre',
+            'Trouver la hauteur maximale d\'un projectile',
+            'Résoudre x\'\' = -g avec conditions initiales',
+        ],
+            practicalApplication: 'Balistique, robotique, jeux vidéo (moteurs physiques), aérospatiale.'
         },
 
 ];

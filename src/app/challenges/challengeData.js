@@ -221,112 +221,112 @@ export const challenges = [
     },
     {
         "id": "day_021",
-        "title": "Jour 021 — Matrices symboliques",
-        "code": "from sympy import Matrix\nA = Matrix([[1,2],[3,4]])\nA",
-        "output": "\\(\\begin{pmatrix}1 & 2\\\\3 & 4\\end{pmatrix}\\)",
+        "title": "Jour 021 — Combinatoire",
+        "code": "from sympy import factorial, binomial\nn, k = 5, 2\nbinomial(n, k)",
+        "output": "10",
         "exercises": [
-            "Exercice 1 — Reproduire l'exécution du code et vérifier la sortie attendue.",
-            "Exercice 2 — Proposer une variante: modifier une partie du code pour obtenir un résultat connexe.",
-            "Exercice 3 — Donner une application pratique (court texte) reliant le thème à un problème réel."
+            "Calculer 10!",
+            "Combien de mains de 5 cartes dans un jeu de 52 ?",
+            "Développer (x+y)⁴ avec les coefficients binomiaux"
         ]
     },
     {
         "id": "day_022",
-        "title": "Jour 022 — Déterminant & trace",
-        "code": "from sympy import Matrix\nA=Matrix([[1,2],[3,4]])\nA.det(), A.trace()",
-        "output": "\\((-2,\\ 5)\\)",
+        "title": "Jour 022 — Probabilités Discrètes",
+        "code": "from sympy.stats import Die, P, E\nX = Die('X', 6)\nP(X > 4)",
+        "output": "1/3",
         "exercises": [
-            "Exercice 1 — Reproduire l'exécution du code et vérifier la sortie attendue.",
-            "Exercice 2 — Proposer une variante: modifier une partie du code pour obtenir un résultat connexe.",
-            "Exercice 3 — Donner une application pratique (court texte) reliant le thème à un problème réel."
+            "Probabilité d'obtenir un double six avec deux dés",
+            "Calculer l'espérance d'un dé à 6 faces",
+            "Appliquer le théorème de Bayes (test médical)"
         ]
     },
     {
         "id": "day_023",
-        "title": "Jour 023 — Inverse & systèmes matriciels",
-        "code": "from sympy import Matrix\nA=Matrix([[1,2],[3,4]])\nA.inv()",
-        "output": "\\(A^{-1} = \\begin{pmatrix}-2 & 1\\\\\\tfrac{3}{2} & -\\tfrac{1}{2}\\end{pmatrix}\\)",
+        "title": "Jour 023 — Statistiques Descriptives",
+        "code": "from sympy.stats import Normal, density, E, variance\nX = Normal('X', 0, 1)\nE(X), variance(X)",
+        "output": "(0, 1)",
         "exercises": [
-            "Exercice 1 — Reproduire l'exécution du code et vérifier la sortie attendue.",
-            "Exercice 2 — Proposer une variante: modifier une partie du code pour obtenir un résultat connexe.",
-            "Exercice 3 — Donner une application pratique (court texte) reliant le thème à un problème réel."
+            "Calculer la moyenne de [1, 2, 3, 4, 5]",
+            "Trouver l'écart-type d'une distribution",
+            "Calculer P(X < 1) pour X ~ N(0,1)"
         ]
     },
     {
         "id": "day_024",
-        "title": "Jour 024 — Valeurs propres",
-        "code": "from sympy import Matrix\nA=Matrix([[2,1],[1,2]])\nA.eigenvals()",
-        "output": "\\(\\{1:1,\\,3:1\\}\\)",
+        "title": "Jour 024 — Logique Booléenne",
+        "code": "from sympy.logic import And, Or, Not, simplify_logic\nfrom sympy import symbols\nx, y = symbols('x y')\nsimplify_logic(Or(And(x, y), And(x, Not(y))))",
+        "output": "x",
         "exercises": [
-            "Exercice 1 — Reproduire l'exécution du code et vérifier la sortie attendue.",
-            "Exercice 2 — Proposer une variante: modifier une partie du code pour obtenir un résultat connexe.",
-            "Exercice 3 — Donner une application pratique (court texte) reliant le thème à un problème réel."
+            "Simplifier (A∧B)∨(A∧¬B)",
+            "Construire la table de vérité de XOR",
+            "Appliquer les lois de De Morgan"
         ]
     },
     {
         "id": "day_025",
-        "title": "Jour 025 — Diagonalisation",
-        "code": "from sympy import Matrix\nA=Matrix([[2,1],[1,2]])\nA.diagonalize()",
-        "output": "\\((P,D) \\text{ with } D=\\operatorname{diag}(1,3)\\)",
+        "title": "Jour 025 — Théorie des Nombres",
+        "code": "from sympy import isprime, factorint, gcd\nisprime(17), factorint(60)",
+        "output": "(True, {2: 2, 3: 1, 5: 1})",
         "exercises": [
-            "Exercice 1 — Reproduire l'exécution du code et vérifier la sortie attendue.",
-            "Exercice 2 — Proposer une variante: modifier une partie du code pour obtenir un résultat connexe.",
-            "Exercice 3 — Donner une application pratique (court texte) reliant le thème à un problème réel."
+            "Trouver tous les nombres premiers < 100",
+            "Décomposer 1024 en facteurs premiers",
+            "Calculer PGCD(48, 18)"
         ]
     },
     {
         "id": "day_026",
-        "title": "Jour 026 — Dérivées partielles",
-        "code": "from sympy import symbols, diff\nx,y = symbols('x y')\ndiff(x**2 + x*y + y**2, x)",
-        "output": "\\(2x + y\\)",
+        "title": "Jour 026 — Congruences",
+        "code": "from sympy import Mod, mod_inverse\nMod(17, 5), mod_inverse(3, 7)",
+        "output": "(2, 5)",
         "exercises": [
-            "Exercice 1 — Reproduire l'exécution du code et vérifier la sortie attendue.",
-            "Exercice 2 — Proposer une variante: modifier une partie du code pour obtenir un résultat connexe.",
-            "Exercice 3 — Donner une application pratique (court texte) reliant le thème à un problème réel."
+            "Calculer 2^100 mod 7",
+            "Trouver l'inverse de 5 modulo 11",
+            "Résoudre 3x ≡ 1 (mod 7)"
         ]
     },
     {
         "id": "day_027",
-        "title": "Jour 027 — Hessian & convexité",
-        "code": "from sympy import symbols, hessian\nx,y = symbols('x y')\nf = x**2 + x*y + y**2\nhessian(f,(x,y))",
-        "output": "\\(\\begin{pmatrix}2 & 1\\\\1 & 2\\end{pmatrix}\\)",
+        "title": "Jour 027 — Cryptographie RSA",
+        "code": "from sympy import randprime, mod_inverse, Mod\np, q = 61, 53\nn = p * q\nphi = (p-1) * (q-1)\ne = 17\nd = mod_inverse(e, phi)\nprint(f'Public: (e={e}, n={n}), Private: d={d}')",
+        "output": "Public: (e=17, n=3233), Private: d=...",
         "exercises": [
-            "Exercice 1 — Reproduire l'exécution du code et vérifier la sortie attendue.",
-            "Exercice 2 — Proposer une variante: modifier une partie du code pour obtenir un résultat connexe.",
-            "Exercice 3 — Donner une application pratique (court texte) reliant le thème à un problème réel."
+            "Générer une paire de clés RSA avec p=11, q=13",
+            "Chiffrer le message m=42",
+            "Déchiffrer le message chiffré"
         ]
     },
     {
         "id": "day_028",
-        "title": "Jour 028 — Optimisation simple",
-        "code": "from sympy import symbols, diff, solve\nx = symbols('x')\nf = x**2 - 4*x + 3\n# Trouver le minimum\ncritical_points = solve(diff(f, x), x)\nprint(f\"Point critique: {critical_points}\")\nprint(f\"Valeur minimale: {f.subs(x, critical_points[0])}\")",
-        "output": "\\(\\text{Point critique: [2], Valeur minimale: -1}\\)",
+        "title": "Jour 028 — Théorie des Graphes",
+        "code": "# SymPy n'a pas de module graphe natif, utiliser NetworkX\n# Exemple conceptuel\nfrom sympy import Matrix\n# Matrice d'adjacence\nA = Matrix([[0,1,1],[1,0,1],[1,1,0]])\nA.eigenvals()",
+        "output": "{-1: 1, 2: 1}",
         "exercises": [
-            "Exercice 1 — Trouver le minimum de f(x) = x³ - 6x² + 9x + 1.",
-            "Exercice 2 — Optimiser une fonction à deux variables f(x,y) = x² + y² - 2x - 4y.",
-            "Exercice 3 — Application : maximiser le volume d'une boîte avec contrainte de surface."
+            "Dessiner un graphe K₅ (complet à 5 sommets)",
+            "Vérifier si un graphe est connexe",
+            "Trouver le plus court chemin (Dijkstra)"
         ]
     },
     {
         "id": "day_029",
-        "title": "Jour 029 — Lagrangiens",
-        "code": "from sympy import symbols\nx,y,lam = symbols('x y lam')\nL = x**2+y**2+lam*(x+y-1)\n[diff(L,v) for v in (x,y,lam)]",
-        "output": "\\([2x+\\lambda,\\,2y+\\lambda,\\,x+y-1]\\)",
+        "title": "Jour 029 — Optimisation Linéaire",
+        "code": "# SymPy peut résoudre symboliquement\nfrom sympy import symbols, solve\nx, y = symbols('x y', positive=True, real=True)\n# Exemple : max 3x + 2y sous x + y <= 4\n# Résolution manuelle ou avec solveurs externes",
+        "output": "Solution optimale au sommet du polyèdre",
         "exercises": [
-            "Exercice 1 — Reproduire l'exécution du code et vérifier la sortie attendue.",
-            "Exercice 2 — Proposer une variante: modifier une partie du code pour obtenir un résultat connexe.",
-            "Exercice 3 — Donner une application pratique (court texte) reliant le thème à un problème réel."
+            "Résoudre un problème de production",
+            "Problème du sac à dos (version continue)",
+            "Trouver le dual d'un problème"
         ]
     },
     {
         "id": "day_030",
-        "title": "Jour 030 — Mini-projet 2",
-        "code": "# Mini-projet: optimisation d'un exemple physique\n# livrable : notebook",
-        "output": "\\(\\text{Mini-projet (rapport + notebook)}\\)",
+        "title": "Jour 030 — Physique : Cinématique",
+        "code": "from sympy import symbols, Function, Eq, dsolve\nt = symbols('t', positive=True)\nx = Function('x')\n# Mouvement avec accélération constante\neq = Eq(x(t).diff(t, t), -9.81)\ndsolve(eq, x(t))",
+        "output": "x(t) = C₁ + C₂*t - 4.905*t²",
         "exercises": [
-            "Exercice 1 — Reproduire l'exécution du code et vérifier la sortie attendue.",
-            "Exercice 2 — Proposer une variante: modifier une partie du code pour obtenir un résultat connexe.",
-            "Exercice 3 — Donner une application pratique (court texte) reliant le thème à un problème réel."
+            "Calculer la vitesse finale après 5s de chute libre",
+            "Trouver la hauteur maximale d'un projectile",
+            "Résoudre x'' = -g avec conditions initiales"
         ]
     },
     {

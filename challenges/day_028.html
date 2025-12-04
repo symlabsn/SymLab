@@ -2,98 +2,102 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Jour 028 — Optimisation simple</title>
+<title>Jour 028 — Théorie des Graphes</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
-<link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.css" rel="stylesheet" />
-<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.js"></script>
-<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 <style>
-:root{
-  --bg:#0f172a; --panel:#071126; --accent:#06b6d4; --muted:#94a3b8; --card:#0b1220; --glass: rgba(255,255,255,0.06);
-  --white:#ffffff; --success:#10b981;
-}
-*{box-sizing:border-box}body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,'Helvetica Neue',Arial;background:linear-gradient(180deg,#f3f7fb,#eef7fb);color:#0b1220;-webkit-font-smoothing:antialiased}
+:root{--bg:#0f172a; --accent:#06b6d4; --muted:#94a3b8;}
+*{box-sizing:border-box}body{margin:0;font-family:Inter,system-ui;background:linear-gradient(180deg,#f3f7fb,#eef7fb);color:#0b1220}
 .header{background:linear-gradient(90deg,#0b3d91,#0ea5e9);color:white;padding:20px;border-radius:10px;margin:16px}
 .container{max-width:1100px;margin:0 auto;padding:16px}
-.grid{display:grid;grid-template-columns:300px 1fr;gap:18px}
-@media(max-width:900px){.grid{grid-template-columns:1fr}.toc{order:2}}
-.toc{position:sticky;top:20px;background:white;padding:14px;border-radius:10px;box-shadow:0 8px 30px rgba(2,6,23,0.08);height:calc(100vh - 48px);overflow:auto}
-.toc h3{margin:0 0 10px 0}
-.search{margin-bottom:8px}
-.search input{width:100%;padding:8px;border-radius:8px;border:1px solid #eff6ff}
-.toc-list{list-style:none;padding:0;margin:0}
-.toc-list li{margin:6px 0}
-.toc-list a{display:block;padding:8px;border-radius:8px;color:#0b1220;text-decoration:none;border:1px solid transparent}
-.toc-list a:hover{background:linear-gradient(90deg,#e6f6fb,#fff)}
-.page{background:white;padding:18px;border-radius:12px;box-shadow:0 12px 40px rgba(2,6,23,0.06)}
-.page h1{margin:0 0 8px 0}
-.meta{color:var(--muted);font-size:13px;margin-bottom:12px}
-.code{background:#0b1220;color:#d1fae5;padding:12px;border-radius:8px;overflow:auto;font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, 'Roboto Mono', monospace}
+.page{background:white;padding:24px;border-radius:12px;box-shadow:0 12px 40px rgba(2,6,23,0.06);max-width:900px;margin:0 auto}
+.page h1{margin:0 0 12px 0;font-size:2em}
+.page h2{margin:24px 0 12px 0;color:#0b3d91;border-bottom:2px solid #e6f6fb;padding-bottom:8px}
+.page h3{margin:20px 0 10px 0;color:#0ea5e9}
+.meta{color:var(--muted);font-size:13px;margin-bottom:16px}
+.analogy{background:linear-gradient(90deg,#fff7ed,#fff3e8);border-left:4px solid #f59e0b;padding:16px;border-radius:8px;margin:20px 0;font-style:italic}
+.theory{background:#f8fafc;padding:16px;border-radius:8px;margin:20px 0;border:1px solid #e6eef8}
+.scientist{background:white;border:1px solid #e6eef8;padding:12px;border-radius:8px;margin:10px 0}
+.scientist-name{font-weight:700;color:#0b3d91}
+.scientist-year{color:var(--muted);font-size:0.9em}
+.code{background:#0b1220;color:#d1fae5;padding:16px;border-radius:8px;overflow:auto;font-family:monospace;margin:16px 0}
 .output{background:linear-gradient(90deg,#fff7ed,#fff3e8);border-left:4px solid #f59e0b;padding:12px;border-radius:8px;margin-top:12px;color:#92400e}
-.exercises{margin-top:14px;padding:12px;background:#f8fafc;border-radius:8px;border:1px solid #eef2ff}
-.controls{display:flex;gap:8px;justify-content:space-between;margin-top:12px;align-items:center}
-.btn{background:var(--accent);color:white;padding:8px 12px;border-radius:8px;text-decoration:none;font-weight:600}
-.note{margin-top:12px;padding:10px;border-radius:8px;background:#fff; border:1px dashed #e6eef8}
-.footer{margin:18px 0;text-align:center;color:var(--muted)}
-.small{font-size:13px;color:var(--muted)}
+.exercises{margin-top:20px;padding:16px;background:#f8fafc;border-radius:8px;border:1px solid #eef2ff}
+.badge{display:inline-block;padding:4px 12px;border-radius:20px;font-size:0.85em;font-weight:600;margin:4px}
+.badge-level{background:#e0f2fe;color:#0369a1}
+.badge-mastery{background:#f3e8ff;color:#7c3aed}
+.badge-xp{background:#fef3c7;color:#92400e}
+.controls{display:flex;gap:12px;justify-content:space-between;margin-top:24px;padding-top:24px;border-top:2px solid #e6eef8}
+.btn{background:var(--accent);color:white;padding:10px 16px;border-radius:8px;text-decoration:none;font-weight:600;display:inline-block}
 </style>
 </head>
 <body>
-<header class="header container"><div style="display:flex;justify-content:space-between;align-items:center"><div><h1 style="margin:0;color:white">Jour 028 — Optimisation simple</h1><div class="small">Challenge 100 Jours SymPy</div></div><div style="text-align:right"><a class="btn" href="index.html">Retour à l'index</a></div></div></header>
-<div class="container grid">
-  <aside class="toc">
-    <h3>Navigation</h3>
-    <div class="search"><input id="searchBox" placeholder="Rechercher un thème..." /></div>
-    <ul class="toc-list">
-<li><a href="day_027.html">Jour 027 — Hessian & convexité</a></li>
-<li><a href="day_028.html" style="font-weight:700">Jour 028 — Optimisation simple</a></li>
-<li><a href="day_029.html">Jour 029 — Lagrangiens</a></li>
-    </ul>
-  </aside>
-  <main class="page">
-    <h1>Jour 028 — Optimisation simple</h1>
-    <div class="meta">Thème détaillé — code, sortie attendue et exercices.</div>
-    <h2>Description</h2>
-    <p>Exemple pédagogique ciblé sur <strong>Optimisation simple</strong>. Le code suivant est prêt à être collé dans un notebook Python avec SymPy.</p>
-    <h3>Code SymPy</h3>
-    <div class="code"><pre><code class="language-python">from sympy import symbols, diff, solve
-x = symbols('x')
-f = x**2 - 4*x + 3
-# Trouver le minimum
-critical_points = solve(diff(f, x), x)
-print(f"Point critique: {critical_points}")
-print(f"Valeur minimale: {f.subs(x, critical_points[0])}")</code></pre></div>
-    <div class="output">Sortie attendue : <span class="latex">\(\text{Point critique: [2], Valeur minimale: -1}\)</span></div>
-    <div class="exercises">
-      <h3>Exercices supplémentaires</h3>
-      <ol>
-<li>Exercice 1 — Trouver le minimum de f(x) = x³ - 6x² + 9x + 1.</li>
-<li>Exercice 2 — Optimiser une fonction à deux variables f(x,y) = x² + y² - 2x - 4y.</li>
-<li>Exercice 3 — Application : maximiser le volume d'une boîte avec contrainte de surface.</li>
-      </ol>
+<header class="header container">
+  <div style="display:flex;justify-content:space-between;align-items:center">
+    <div>
+      <h1 style="margin:0;color:white">Jour 028 — Théorie des Graphes</h1>
+      <div style="font-size:0.9em;opacity:0.9">Challenge 100 Jours SymPy</div>
     </div>
-    <div class="note"><strong>Notes :</strong> espace pour tes annotations et réponses.</div>
+    <div><a class="btn" href="index.html">← Index</a></div>
+  </div>
+</header>
+
+<div class="container">
+  <main class="page">
+    <div class="meta">
+      <span class="badge badge-level">🎯 Intermédiaire</span>
+      <span class="badge badge-mastery">📊 Intermédiaire</span>
+      <span class="badge badge-xp">⭐ +35 XP</span>
+    </div>
+
+    <h2>🌍 Analogie Africaine</h2>
+    <div class="analogy">Un graphe est comme un réseau de villages reliés par des chemins. Les villages sont les sommets, les chemins sont les arêtes. Trouver le plus court chemin entre deux villages, c'est résoudre un problème de graphe.</div>
+
+    <h2>📚 Théorie : Graphes et Réseaux</h2>
+    <div class="theory">
+      <p>Un graphe G = (V, E) est un ensemble de sommets V reliés par des arêtes E. Les graphes modélisent des réseaux : routes, internet, relations sociales.</p>
+      <h3>Fondements Mathématiques</h3>
+      <ul><li>Graphe orienté vs non-orienté</li><li>Degré d'un sommet : nombre d'arêtes incidentes</li><li>Chemin : suite de sommets reliés</li><li>Cycle : chemin fermé</li><li>Connexité : existence de chemins entre tous sommets</li><li>Arbre : graphe connexe sans cycle</li></ul>
+    </div>
+
+    <h2>👨‍🔬 Histoire & Scientifiques</h2>
+    
+    <div class="scientist">
+      <div class="scientist-name">Leonhard Euler</div>
+      <div class="scientist-year">1736</div>
+      <div class="scientist-contribution">
+        <strong>Contribution :</strong> Problème des ponts de Königsberg
+        <br><em>Contexte :</em> Premier problème de théorie des graphes
+      </div>
+    </div>
+    <div class="scientist">
+      <div class="scientist-name">Gustav Kirchhoff</div>
+      <div class="scientist-year">1847</div>
+      <div class="scientist-contribution">
+        <strong>Contribution :</strong> Lois des circuits électriques (graphes)
+        <br><em>Contexte :</em> Applique les graphes à la physique
+      </div>
+    </div>
+
+    <h2>💻 Code SymPy</h2>
+    <div class="code"><pre># SymPy n'a pas de module graphe natif, utiliser NetworkX
+# Exemple conceptuel
+from sympy import Matrix
+# Matrice d'adjacence
+A = Matrix([[0,1,1],[1,0,1],[1,1,0]])
+A.eigenvals()</pre></div>
+    <div class="output"><strong>Sortie attendue :</strong> {-1: 1, 2: 1}</div>
+
+    <h2>💪 Exercices Pratiques</h2>
+    <div class="exercises"><ol><li>Dessiner un graphe K₅ (complet à 5 sommets)</li><li>Vérifier si un graphe est connexe</li><li>Trouver le plus court chemin (Dijkstra)</li></ol></div>
+
+    <h2>🔬 Applications Pratiques</h2>
+    <p>Réseaux sociaux, GPS (navigation), internet (routage), biologie (réseaux métaboliques).</p>
+
     <div class="controls">
-      <div><a class="btn" href="day_027.html">Précédent</a></div>
-      <div><a class="btn" href="day_029.html">Suivant</a></div>
+      <a class="btn" href="day_027.html">← Précédent</a>
+      <a class="btn" href="day_029.html">Suivant →</a>
     </div>
   </main>
 </div>
-<footer class="container footer">© 2025 — El Hadji Momar FAYE</footer>
-<script>
-function initSearch() {
-  const input = document.getElementById('searchBox');
-  if(!input) return;
-  input.addEventListener('input', function() {
-    const q = this.value.toLowerCase();
-    document.querySelectorAll('.toc-list li').forEach(li => {
-      const text = li.textContent.toLowerCase();
-      li.style.display = text.includes(q) ? 'block' : 'none';
-    });
-  });
-}
-document.addEventListener('DOMContentLoaded', initSearch);
-</script>
 </body>
 </html>
