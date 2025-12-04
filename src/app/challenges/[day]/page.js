@@ -117,6 +117,21 @@ export default function ChallengeDayPage({ params }) {
                     )}
                 </div>
 
+                {/* Analogie Africaine */}
+                {enrichedData && enrichedData.africanAnalogy && (
+                    <div className="mb-8 bg-gradient-to-r from-orange-500/10 to-yellow-500/10 border border-orange-500/30 rounded-2xl p-6">
+                        <div className="flex items-start gap-4">
+                            <span className="text-4xl flex-shrink-0">🌍</span>
+                            <div>
+                                <h3 className="text-lg font-bold mb-2 text-orange-300">Analogie Africaine</h3>
+                                <p className="text-gray-300 leading-relaxed italic">
+                                    {enrichedData.africanAnalogy}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                )}
+
                 {/* Théorie Mathématique (si enrichie) */}
                 {enrichedData && enrichedData.theory && (
                     <div className="mb-8">
@@ -157,10 +172,15 @@ export default function ChallengeDayPage({ params }) {
                                             <div key={idx} className="bg-black/20 p-4 rounded-xl border border-white/5">
                                                 <div className="flex items-start gap-3">
                                                     <span className="text-2xl">👨‍🔬</span>
-                                                    <div>
+                                                    <div className="flex-1">
                                                         <div className="font-bold text-lg">{scientist.name}</div>
                                                         <div className="text-sm text-gray-500 mb-2">{scientist.year}</div>
-                                                        <div className="text-gray-300 text-sm">{scientist.contribution}</div>
+                                                        <div className="text-gray-300 text-sm mb-2">{scientist.contribution}</div>
+                                                        {scientist.context && (
+                                                            <div className="text-xs text-gray-400 italic border-l-2 border-[#00F5D4]/30 pl-3 mt-2">
+                                                                {scientist.context}
+                                                            </div>
+                                                        )}
                                                     </div>
                                                 </div>
                                             </div>
