@@ -227,118 +227,147 @@ export default function AboutPage() {
             </div>
 
 
-            {/* SECTION DÉDIÉE AU PITCH - Affichage Séquentiel */}
-            <div className="relative z-10 bg-gradient-to-b from-slate-950 via-black to-slate-950 py-20 mt-10">
-                {/* Effet de grille futuriste en arrière-plan */}
-                <div className="absolute inset-0 opacity-10">
-                    <div className="absolute inset-0" style={{
-                        backgroundImage: 'linear-gradient(#00F5D4 1px, transparent 1px), linear-gradient(90deg, #00F5D4 1px, transparent 1px)',
-                        backgroundSize: '50px 50px'
+
+            {/* SECTION DÉDIÉE AU PITCH - Expérience Immersive Verticale */}
+            <div className="relative z-10 bg-black py-32 mt-10 overflow-hidden">
+                {/* Arrière-plan dynamique */}
+                <div className="absolute inset-0">
+                    <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-purple-900/20 via-black to-black"></div>
+                    <div className="absolute top-0 left-0 w-full h-full" style={{
+                        backgroundImage: 'linear-gradient(rgba(0, 245, 212, 0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 245, 212, 0.05) 1px, transparent 1px)',
+                        backgroundSize: '100px 100px',
+                        transform: 'perspective(500px) rotateX(60deg) translateY(-100px) scale(2)',
+                        transformOrigin: 'top center'
                     }}></div>
                 </div>
 
-                <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    {/* Titre de la section pitch */}
-                    <div className="text-center mb-16">
-                        <div className="inline-block px-6 py-2 rounded-full bg-[#00F5D4]/10 border border-[#00F5D4]/30 mb-4">
-                            <span className="text-[#00F5D4] font-bold text-sm">PITCH DECK</span>
+                <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+                    {/* Intro Pitch */}
+                    <div className="text-center mb-32" style={{ animation: 'fadeInUp 1s ease-out' }}>
+                        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#00F5D4]/10 border border-[#00F5D4]/30 mb-6 animate-pulse">
+                            <span className="w-2 h-2 rounded-full bg-[#00F5D4]"></span>
+                            <span className="text-[#00F5D4] font-bold tracking-widest text-xs uppercase">Pitch Deck 2025</span>
                         </div>
-                        <h2 className="text-4xl md:text-5xl font-black mb-4 bg-clip-text text-transparent bg-gradient-to-r from-[#00F5D4] via-purple-500 to-pink-500">
-                            SymLab : L'Avenir de l'Éducation Scientifique en Afrique
+                        <h2 className="text-5xl md:text-7xl font-black mb-8 leading-tight">
+                            <span className="bg-clip-text text-transparent bg-gradient-to-r from-white via-gray-200 to-gray-500">
+                                L'Éducation Scientifique
+                            </span>
+                            <br />
+                            <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#00F5D4] via-purple-500 to-pink-500">
+                                Réinventée.
+                            </span>
                         </h2>
-                        <div className="h-1 w-32 mx-auto bg-gradient-to-r from-[#00F5D4] to-purple-500 rounded-full"></div>
+                        <p className="text-xl text-gray-400 max-w-2xl mx-auto leading-relaxed">
+                            Découvrez comment SymLab transforme les défis de l'Afrique en opportunités d'avenir.
+                        </p>
                     </div>
 
-                    {/* Statistiques avec animation séquentielle */}
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-20">
+                    {/* 1. LES CHIFFRES CLÉS (Vertical) */}
+                    <div className="space-y-24 mb-40">
+                        <div className="flex items-center gap-4 mb-12">
+                            <span className="text-8xl font-black text-white/5">01</span>
+                            <h3 className="text-3xl font-bold text-white">La Réalité du Terrain</h3>
+                        </div>
+
                         {pitchStats.map((stat, index) => (
                             <div
                                 key={index}
-                                className="group p-6 rounded-2xl bg-gradient-to-br from-white/10 to-white/5 border border-white/20 backdrop-blur-xl hover:scale-105 transition-all duration-500 hover:border-[#00F5D4]/50 hover:shadow-lg hover:shadow-[#00F5D4]/20"
-                                style={{
-                                    animation: `fadeInUp 0.6s ease-out ${index * 0.2}s both`
-                                }}
+                                className="relative group"
+                                style={{ animation: `fadeInUp 0.8s ease-out ${index * 0.2}s both` }}
                             >
-                                <div className="text-5xl mb-4 group-hover:scale-125 transition-transform duration-300">{stat.icon}</div>
-                                <div className={`text-4xl font-black bg-gradient-to-r ${stat.color} bg-clip-text text-transparent mb-2`}>
-                                    {stat.value}
+                                <div className="absolute -inset-1 bg-gradient-to-r from-[#00F5D4] via-purple-500 to-pink-500 rounded-3xl blur opacity-20 group-hover:opacity-50 transition duration-500"></div>
+                                <div className="relative p-10 rounded-3xl bg-[#0F1115] border border-white/10 flex flex-col md:flex-row items-center gap-8 md:gap-16 hover:transform hover:scale-[1.02] transition-all duration-500">
+                                    <div className="text-7xl md:text-8xl group-hover:scale-110 transition-transform duration-500 filter drop-shadow-[0_0_15px_rgba(255,255,255,0.3)]">
+                                        {stat.icon}
+                                    </div>
+                                    <div className="flex-1 text-center md:text-left">
+                                        <div className={`text-6xl md:text-7xl font-black bg-gradient-to-r ${stat.color} bg-clip-text text-transparent mb-2`}>
+                                            {stat.value}
+                                        </div>
+                                        <div className="text-2xl font-bold text-white mb-2">{stat.label}</div>
+                                        <div className="text-lg text-gray-400 font-mono border-l-2 border-[#00F5D4]/50 pl-4">
+                                            {stat.context}
+                                        </div>
+                                    </div>
                                 </div>
-                                <div className="text-sm font-bold text-white mb-1">{stat.label}</div>
-                                <div className="text-xs text-gray-400">{stat.context}</div>
                             </div>
                         ))}
                     </div>
 
-                    {/* Business Model avec animation séquentielle */}
-                    <div className="grid md:grid-cols-2 gap-8 mb-16">
+                    {/* 2. LE BUSINESS MODEL (Vertical) */}
+                    <div className="space-y-24 mb-40">
+                        <div className="flex items-center gap-4 mb-12">
+                            <span className="text-8xl font-black text-white/5">02</span>
+                            <h3 className="text-3xl font-bold text-white">Notre Stratégie</h3>
+                        </div>
+
                         {businessModel.map((item, index) => (
                             <div
                                 key={index}
-                                className={`group p-8 rounded-3xl bg-gradient-to-br ${item.color} border-2 ${item.borderColor} backdrop-blur-xl hover:scale-105 transition-all duration-500 hover:shadow-2xl`}
-                                style={{
-                                    animation: `slideInFromLeft 0.8s ease-out ${index * 0.3}s both`
-                                }}
+                                className="relative pl-8 md:pl-0"
+                                style={{ animation: `slideInFromRight 0.8s ease-out ${index * 0.2}s both` }}
                             >
-                                <div className="flex items-start gap-4 mb-6">
-                                    <div className="text-6xl group-hover:scale-125 group-hover:rotate-12 transition-all duration-300">{item.icon}</div>
-                                    <div>
-                                        <h3 className="text-3xl font-black text-white mb-2">{item.title}</h3>
-                                        <div className="px-3 py-1 rounded-full bg-[#00F5D4]/20 border border-[#00F5D4]/50 inline-block">
-                                            <span className="text-sm text-[#00F5D4] font-bold">{item.metrics}</span>
+                                {/* Ligne de temps connectrice pour mobile */}
+                                <div className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-[#00F5D4] to-purple-500 md:hidden"></div>
+
+                                <div className={`group p-10 rounded-3xl bg-gradient-to-br ${item.color} border border-white/10 backdrop-blur-xl hover:border-[#00F5D4]/50 transition-all duration-500`}>
+                                    <div className="flex flex-col md:flex-row gap-8 items-start">
+                                        <div className="p-4 rounded-2xl bg-black/30 border border-white/10 text-5xl shadow-xl group-hover:scale-110 group-hover:rotate-6 transition-transform duration-500">
+                                            {item.icon}
+                                        </div>
+                                        <div className="flex-1">
+                                            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
+                                                <h3 className="text-3xl font-black text-white">{item.title}</h3>
+                                                <span className="px-4 py-1.5 rounded-full bg-black/30 border border-white/20 text-[#00F5D4] font-mono text-sm font-bold shadow-inner">
+                                                    {item.metrics}
+                                                </span>
+                                            </div>
+                                            <p className="text-xl text-gray-200 leading-relaxed font-light">
+                                                {item.description}
+                                            </p>
                                         </div>
                                     </div>
                                 </div>
-                                <p className="text-gray-300 leading-relaxed text-lg">{item.description}</p>
                             </div>
                         ))}
                     </div>
 
-                    {/* Vision 2030 avec animation */}
-                    <div
-                        className="p-10 rounded-3xl bg-gradient-to-r from-purple-900/40 via-pink-900/40 to-orange-900/40 border-2 border-purple-500/50 backdrop-blur-xl relative overflow-hidden"
-                        style={{
-                            animation: 'fadeInUp 1s ease-out 1.2s both'
-                        }}
-                    >
-                        {/* Effet de particules */}
-                        <div className="absolute inset-0 opacity-20">
-                            {[...Array(20)].map((_, i) => (
-                                <div
-                                    key={i}
-                                    className="absolute w-1 h-1 bg-[#00F5D4] rounded-full"
-                                    style={{
-                                        left: `${Math.random() * 100}%`,
-                                        top: `${Math.random() * 100}%`,
-                                        animation: `float ${3 + Math.random() * 3}s ease-in-out infinite ${Math.random() * 2}s`
-                                    }}
-                                ></div>
-                            ))}
+                    {/* 3. VISION 2030 (Grand Final) */}
+                    <div className="relative py-20">
+                        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-purple-900/10 to-transparent blur-3xl"></div>
+
+                        <div className="text-center mb-20">
+                            <span className="text-8xl font-black text-white/5 block mb-4">03</span>
+                            <h3 className="text-4xl md:text-5xl font-black text-white mb-6">Vision 2030</h3>
+                            <p className="text-xl text-gray-400">L'impact que nous construisons ensemble</p>
                         </div>
 
-                        <div className="relative z-10">
-                            <h3 className="text-4xl font-black text-center mb-10 bg-clip-text text-transparent bg-gradient-to-r from-[#00F5D4] via-purple-400 to-pink-400">
-                                🚀 Vision 2030 & Impact Mesurable
-                            </h3>
-                            <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-                                {visionCards.map((card, index) => (
-                                    <div
-                                        key={index}
-                                        className="text-center group cursor-pointer"
-                                        style={{
-                                            animation: `bounceIn 0.6s ease-out ${1.5 + index * 0.15}s both`
-                                        }}
-                                    >
-                                        <div className="text-6xl mb-4 group-hover:scale-150 transition-transform duration-300">{card.icon}</div>
-                                        <div className={`text-5xl font-black bg-gradient-to-r ${card.gradient} bg-clip-text text-transparent mb-3 group-hover:scale-110 transition-transform`}>
+                        <div className="space-y-8">
+                            {visionCards.map((card, index) => (
+                                <div
+                                    key={index}
+                                    className="group relative overflow-hidden rounded-3xl bg-[#0F1115] border border-white/10 hover:border-[#00F5D4]/50 transition-all duration-500"
+                                    style={{ animation: `fadeInUp 0.8s ease-out ${index * 0.2}s both` }}
+                                >
+                                    <div className={`absolute inset-0 bg-gradient-to-r ${card.gradient} opacity-0 group-hover:opacity-10 transition-opacity duration-500`}></div>
+
+                                    <div className="relative p-8 flex items-center justify-between gap-6">
+                                        <div className="flex items-center gap-6">
+                                            <div className="text-5xl group-hover:scale-110 transition-transform duration-300">{card.icon}</div>
+                                            <div>
+                                                <div className="text-lg text-gray-400 group-hover:text-white transition-colors">{card.title}</div>
+                                                <div className="text-sm text-gray-500 group-hover:text-white/80">{card.label}</div>
+                                            </div>
+                                        </div>
+                                        <div className={`text-4xl md:text-5xl font-black bg-gradient-to-r ${card.gradient} bg-clip-text text-transparent group-hover:text-white transition-all`}>
                                             {card.stat}
                                         </div>
-                                        <div className="text-base font-bold text-white mb-2">{card.title}</div>
-                                        <div className="text-sm text-gray-400">{card.label}</div>
                                     </div>
-                                ))}
-                            </div>
+                                </div>
+                            ))}
                         </div>
                     </div>
+
                 </div>
             </div>
 
