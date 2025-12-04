@@ -615,6 +615,351 @@ Une petite quantité de masse peut libérer une énergie colossale (nucléaire).
             }
         ],
         relatedSimulations: ['radioactivity', 'quantum-mechanics', 'wave-interference']
+    },
+
+    'protein-synthesis': {
+        title: 'Synthèse des Protéines',
+        description: 'Visualisez la transcription et la traduction de l\'ADN',
+        type: 'dna',
+        config: {},
+        analogy: {
+            title: 'La Synthèse des Protéines comme une Chaîne de Production de Thiéboudienne',
+            content: `La synthèse des protéines, c'est comme une grande cuisine qui suit une recette pour préparer du thiéboudienne ! 🍚
+
+L'ADN est le grand livre de recettes gardé précieusement dans le coffre-fort (noyau).
+
+Transcription : Un cuisinier (ARN polymérase) copie la recette sur un papier (ARN messager) pour l'apporter en cuisine. On ne sort jamais le livre original !
+
+L'ARN messager sort du noyau et va vers les ribosomes (les cuisines).
+
+Traduction : Les ribosomes lisent la recette (ARN messager) et assemblent les ingrédients (acides aminés) dans le bon ordre pour faire le plat (protéine).
+
+Les ARN de transfert sont comme les serveurs qui apportent chaque ingrédient au bon moment.
+
+Chaque groupe de 3 lettres (codon) sur la recette correspond à un ingrédient spécifique. C'est le code génétique universel !`,
+        },
+        theory: `Synthèse des Protéines
+
+La synthèse des protéines se déroule en deux étapes principales : transcription et traduction.
+
+Transcription (Noyau)
+
+Initiation
+- L'ARN polymérase se fixe sur le promoteur du gène
+- Ouverture de la double hélice d'ADN
+
+Élongation
+- L'ARN polymérase lit le brin matrice (3' → 5')
+- Synthèse de l'ARN messager (5' → 3')
+- Appariement : A-U, T-A, G-C, C-G
+
+Terminaison
+- Signal de terminaison
+- Libération de l'ARN pré-messager
+- Maturation (épissage, coiffe, queue poly-A)
+
+Traduction (Ribosome)
+
+Code Génétique
+- 1 codon = 3 nucléotides = 1 acide aminé
+- 64 codons possibles, 20 acides aminés
+- Codon START : AUG (Méthionine)
+- Codons STOP : UAA, UAG, UGA
+
+Étapes
+1. Initiation : Ribosome se fixe sur l'ARNm
+2. Élongation : Ajout séquentiel des acides aminés
+3. Terminaison : Codon stop, libération de la protéine
+
+ARN de Transfert (ARNt)
+- Apporte les acides aminés
+- Anticodon complémentaire au codon
+- Liaison peptidique entre acides aminés`,
+        exercises: [
+            {
+                question: 'Où se déroule la transcription ?',
+                options: ['Cytoplasme', 'Ribosome', 'Noyau', 'Mitochondrie'],
+                correct: 2,
+                explanation: 'La transcription se passe dans le noyau où se trouve l\'ADN, comme le coffre-fort des recettes !'
+            },
+            {
+                question: 'Combien de nucléotides forment un codon ?',
+                options: ['1', '2', '3', '4'],
+                correct: 2,
+                explanation: 'Un codon est formé de 3 nucléotides qui codent pour un acide aminé.'
+            }
+        ],
+        relatedSimulations: ['genetics-dna', 'cell-structure', 'cell-division']
+    },
+
+    'advanced-photosynthesis': {
+        title: 'Photosynthèse Avancée',
+        description: 'Explorez en détail les réactions lumineuses et le cycle de Calvin',
+        type: 'plant-cell',
+        config: {},
+        analogy: {
+            title: 'La Photosynthèse comme une Usine Solaire Complète',
+            content: `La photosynthèse, c'est une usine en deux ateliers qui transforme la lumière en nourriture ! ☀️🌿
+
+Atelier 1 - Réactions Lumineuses (Thylakoïdes) :
+C'est comme des panneaux solaires qui capturent l'énergie du soleil.
+- La chlorophylle attrape les photons (grains de lumière)
+- L'eau est cassée en morceaux (photolyse) : H₂O → O₂ + H⁺ + e⁻
+- On fabrique des "batteries" (ATP) et des "chargeurs" (NADPH)
+- L'oxygène est libéré comme déchet (notre air !)
+
+Atelier 2 - Cycle de Calvin (Stroma) :
+C'est l'atelier de fabrication qui utilise les batteries.
+- Le CO₂ de l'air est capturé (fixation)
+- Avec l'énergie des batteries (ATP + NADPH), on construit du glucose
+- C'est comme assembler des briques de LEGO pour faire une maison
+
+Sans lumière, l'Atelier 1 s'arrête, mais l'Atelier 2 peut continuer un peu avec les réserves !`,
+        },
+        theory: `Photosynthèse Avancée
+
+Équation globale : 6 CO₂ + 6 H₂O + Lumière → C₆H₁₂O₆ + 6 O₂
+
+Phase Lumineuse (Thylakoïdes)
+
+Photosystème II (P680)
+- Absorption de photons
+- Photolyse de l'eau : 2 H₂O → O₂ + 4 H⁺ + 4 e⁻
+- Transfert d'électrons dans la chaîne de transport
+- Pompage de protons dans le lumen
+
+Photosystème I (P700)
+- Absorption de photons
+- Réduction du NADP⁺ en NADPH
+- NADP⁺ + 2e⁻ + H⁺ → NADPH
+
+Photophosphorylation
+- Gradient de protons (force proton-motrice)
+- ATP synthase produit ATP
+- ADP + Pi → ATP
+
+Bilan : Lumière + H₂O → O₂ + ATP + NADPH
+
+Phase Sombre - Cycle de Calvin (Stroma)
+
+1. Fixation du CO₂
+- RuBisCO fixe CO₂ sur RuBP (5C)
+- Formation de 2 molécules de PGA (3C)
+
+2. Réduction
+- PGA réduit en G3P (triose phosphate)
+- Utilisation d'ATP et NADPH
+
+3. Régénération du RuBP
+- Une partie du G3P régénère le RuBP
+- Le reste forme le glucose
+
+Bilan : 6 CO₂ + 18 ATP + 12 NADPH → C₆H₁₂O₆
+
+Facteurs Limitants
+- Intensité lumineuse
+- Concentration en CO₂
+- Température
+- Disponibilité en eau`,
+        exercises: [
+            {
+                question: 'Où se déroulent les réactions lumineuses ?',
+                options: ['Stroma', 'Thylakoïdes', 'Cytoplasme', 'Noyau'],
+                correct: 1,
+                explanation: 'Les réactions lumineuses se passent dans les thylakoïdes, comme des panneaux solaires !'
+            },
+            {
+                question: 'Quelle enzyme fixe le CO₂ dans le cycle de Calvin ?',
+                options: ['ATP synthase', 'RuBisCO', 'Chlorophylle', 'NADPH'],
+                correct: 1,
+                explanation: 'La RuBisCO est l\'enzyme qui capture le CO₂ de l\'air pour le fixer sur le RuBP.'
+            }
+        ],
+        relatedSimulations: ['photosynthesis', 'cell-structure', 'ecosystem-dynamics']
+    },
+
+    'synaptic-transmission': {
+        title: 'Transmission Synaptique',
+        description: 'Visualisez la communication entre neurones',
+        type: 'neuron',
+        config: {},
+        analogy: {
+            title: 'La Synapse comme le Passage de Témoin au Relais',
+            content: `La transmission synaptique, c'est comme une course de relais au stade ! 🏃‍♂️➡️🏃‍♀️
+
+Le premier coureur (neurone pré-synaptique) arrive à toute vitesse avec le témoin (influx nerveux).
+
+Mais attention ! Il y a un petit espace entre lui et le suivant (fente synaptique). Il ne peut pas toucher directement le prochain coureur !
+
+Alors il lance des petits ballons (neurotransmetteurs) par-dessus l'espace.
+
+Le deuxième coureur (neurone post-synaptique) attrape les ballons avec ses mains spéciales (récepteurs).
+
+Quand il attrape assez de ballons, il se met à courir à son tour (nouveau potentiel d'action) !
+
+Après, des ramasseurs (recapture) récupèrent les ballons pour les réutiliser ou les détruire (enzymes).
+
+C'est comme ça que ton cerveau transmet les messages à la vitesse de l'éclair !`,
+        },
+        theory: `Transmission Synaptique
+
+La synapse est la zone de communication entre deux neurones.
+
+Structure de la Synapse
+
+Neurone Pré-synaptique
+- Bouton terminal
+- Vésicules synaptiques (contiennent neurotransmetteurs)
+- Canaux calciques voltage-dépendants
+
+Fente Synaptique
+- Espace de 20-40 nm
+- Contient enzymes de dégradation
+
+Neurone Post-synaptique
+- Récepteurs membranaires
+- Canaux ioniques chimio-dépendants
+
+Mécanisme de Transmission
+
+1. Arrivée du Potentiel d'Action
+- Dépolarisation du bouton terminal
+- Ouverture des canaux Ca²⁺
+
+2. Libération des Neurotransmetteurs
+- Entrée de Ca²⁺
+- Fusion des vésicules avec la membrane
+- Exocytose des neurotransmetteurs
+
+3. Liaison aux Récepteurs
+- Diffusion dans la fente
+- Fixation sur récepteurs post-synaptiques
+- Ouverture de canaux ioniques
+
+4. Potentiel Post-synaptique
+- PPSE (excitateur) : dépolarisation
+- PPSI (inhibiteur) : hyperpolarisation
+- Sommation spatiale et temporelle
+
+5. Terminaison du Signal
+- Recapture par le neurone pré-synaptique
+- Dégradation enzymatique
+- Diffusion hors de la synapse
+
+Principaux Neurotransmetteurs
+- Acétylcholine (ACh)
+- Dopamine
+- Sérotonine
+- GABA (inhibiteur)
+- Glutamate (excitateur)
+- Noradrénaline`,
+        exercises: [
+            {
+                question: 'Quel ion déclenche la libération des neurotransmetteurs ?',
+                options: ['Na⁺', 'K⁺', 'Ca²⁺', 'Cl⁻'],
+                correct: 2,
+                explanation: 'L\'entrée de calcium (Ca²⁺) déclenche la fusion des vésicules et la libération des neurotransmetteurs !'
+            },
+            {
+                question: 'Comment s\'appelle l\'espace entre deux neurones ?',
+                options: ['Axone', 'Dendrite', 'Fente synaptique', 'Myéline'],
+                correct: 2,
+                explanation: 'La fente synaptique est le petit espace où les neurotransmetteurs doivent traverser.'
+            }
+        ],
+        relatedSimulations: ['nervous-system', 'cell-structure', 'protein-synthesis']
+    },
+
+    'evolution-selection': {
+        title: 'Évolution et Sélection Naturelle',
+        description: 'Simulez l\'évolution des populations par sélection naturelle',
+        type: 'dna',
+        config: {},
+        analogy: {
+            title: 'L\'Évolution comme l\'Adaptation des Pêcheurs du Fleuve',
+            content: `L'évolution, c'est comme les pêcheurs du fleuve Sénégal qui s'adaptent au fil des générations ! 🎣
+
+Il y a longtemps, certains pêcheurs avaient des filets à petites mailles, d'autres à grandes mailles (variation).
+
+Quand les gros poissons sont devenus rares, ceux avec les petits filets attrapaient plus de nourriture (sélection).
+
+Ces pêcheurs prospères ont eu plus d'enfants et leur ont appris à faire des petits filets (hérédité).
+
+Après plusieurs générations, presque tous les pêcheurs utilisent des petits filets (évolution de la population).
+
+Ce n'est pas que les pêcheurs ont "décidé" de changer. C'est l'environnement (manque de gros poissons) qui a favorisé ceux qui avaient déjà les bons outils !
+
+Les mutations sont comme des innovations accidentelles : parfois un pêcheur invente un nouveau type de filet par hasard. Si c'est utile, ça se répand !`,
+        },
+        theory: `Évolution et Sélection Naturelle
+
+L'évolution est la modification des caractéristiques héréditaires des populations au cours des générations.
+
+Principes de Darwin
+
+1. Variation
+- Les individus d'une population diffèrent
+- Variations héréditaires (génétiques)
+
+2. Surproduction
+- Plus de descendants que de ressources
+- Compétition pour la survie
+
+3. Sélection Naturelle
+- Les mieux adaptés survivent et se reproduisent
+- "Survie du plus apte"
+
+4. Hérédité
+- Transmission des caractères avantageux
+- Accumulation sur les générations
+
+Mécanismes de l'Évolution
+
+Mutations
+- Source de variation génétique
+- Aléatoires et rares
+- Peuvent être neutres, avantageuses ou désavantageuses
+
+Dérive Génétique
+- Changements aléatoires dans les petites populations
+- Effet fondateur, goulot d'étranglement
+
+Flux Génique
+- Migration d'individus entre populations
+- Introduction de nouveaux allèles
+
+Sélection Naturelle
+- Directionnelle : favorise un extrême
+- Stabilisante : favorise la moyenne
+- Disruptive : favorise les extrêmes
+
+Preuves de l'Évolution
+- Fossiles (paléontologie)
+- Anatomie comparée (organes homologues)
+- Embryologie
+- Biologie moléculaire (ADN, protéines)
+- Biogéographie
+
+Spéciation
+Formation de nouvelles espèces par :
+- Isolement géographique
+- Isolement reproductif
+- Divergence génétique`,
+        exercises: [
+            {
+                question: 'Qui a proposé la théorie de la sélection naturelle ?',
+                options: ['Mendel', 'Darwin', 'Lamarck', 'Watson'],
+                correct: 1,
+                explanation: 'Charles Darwin a proposé la théorie de la sélection naturelle en 1859 !'
+            },
+            {
+                question: 'Quelle est la source principale de variation génétique ?',
+                options: ['L\'environnement', 'Les mutations', 'L\'apprentissage', 'Le hasard'],
+                correct: 1,
+                explanation: 'Les mutations de l\'ADN sont la source principale de nouvelles variations génétiques.'
+            }
+        ],
+        relatedSimulations: ['genetics-dna', 'ecosystem-dynamics', 'cell-division']
     }
 };
 
