@@ -26,6 +26,26 @@ const allSimulationsData = {
     // Ajouter d'autres niveaux ici plus tard
 };
 
+// Fonction pour déterminer le niveau d'une simulation
+const getSimulationLevel = (simulationId) => {
+    if (collegeSimulationsData[simulationId]) {
+        return {
+            name: 'Collège (BFEM)',
+            description: '6ème - 3ème'
+        };
+    }
+    if (lyceeSimulationsData[simulationId]) {
+        return {
+            name: 'Lycée (BAC)',
+            description: 'Seconde - Terminale'
+        };
+    }
+    return {
+        name: 'Non défini',
+        description: ''
+    };
+};
+
 // Données par défaut si l'ID n'est pas trouvé
 const defaultSimulation = {
     title: 'Simulation non trouvée',
@@ -48,6 +68,7 @@ export default function SimulationDetailPage({ params }) {
     const [showExplanation, setShowExplanation] = useState(false);
 
     const simulation = allSimulationsData[resolvedParams.id] || defaultSimulation;
+    const simulationLevel = getSimulationLevel(resolvedParams.id);
 
     const handleAnswerSelect = (index) => {
         setSelectedAnswer(index);
@@ -247,7 +268,10 @@ export default function SimulationDetailPage({ params }) {
                             <div className="space-y-3 text-sm">
                                 <div>
                                     <p className="text-gray-400">Niveau</p>
-                                    <p className="font-semibold">Collège (BFEM)</p>
+                                    <p className="font-semibold">{simulationLevel.name}</p>
+                                    {simulationLevel.description && (
+                                        <p className="text-xs text-gray-500">{simulationLevel.description}</p>
+                                    )}
                                 </div>
                                 <div>
                                     <p className="text-gray-400">Type</p>
@@ -255,11 +279,13 @@ export default function SimulationDetailPage({ params }) {
                                 </div>
                                 <div>
                                     <p className="text-gray-400">Durée estimée</p>
-                                    <p className="font-semibold">20-30 minutes</p>
+                                    <p className="font-semibold">30-45 minutes</p>
                                 </div>
                                 <div>
                                     <p className="text-gray-400">Difficulté</p>
-                                    <p className="font-semibold text-green-400">Facile / Moyen</p>
+                                    <p className="font-semibold text-green-400">
+                                        {simulationLevel.name.includes('Collège') ? 'Facile / Moyen' : 'Moyen / Difficile'}
+                                    </p>
                                 </div>
                             </div>
                         </div>
