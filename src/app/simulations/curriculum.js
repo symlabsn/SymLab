@@ -303,16 +303,16 @@ export const simulationsCurriculum = {
                             {
                                 id: "protein-synthesis",
                                 title: "Synthèse des Protéines",
-                                description: "Suivez le processus de transcription et traduction",
+                                description: "Visualisez la transcription et la traduction de l'ADN",
                                 difficulty: "difficile",
                                 duration: "40 min",
                                 icon: "🧬",
                                 tags: ["ADN", "ARN", "protéines"]
                             },
                             {
-                                id: "photosynthesis-advanced",
+                                id: "advanced-photosynthesis",
                                 title: "Photosynthèse Avancée",
-                                description: "Explorez les réactions lumineuses et sombres",
+                                description: "Explorez en détail les réactions lumineuses et le cycle de Calvin",
                                 difficulty: "difficile",
                                 duration: "45 min",
                                 icon: "🌿",
@@ -361,9 +361,9 @@ export const simulationsCurriculum = {
                         title: "SVT",
                         simulations: [
                             {
-                                id: "neurotransmission",
+                                id: "synaptic-transmission",
                                 title: "Transmission Synaptique",
-                                description: "Observez la communication entre neurones",
+                                description: "Visualisez la communication entre neurones",
                                 difficulty: "très difficile",
                                 duration: "40 min",
                                 icon: "🧠",
@@ -372,7 +372,7 @@ export const simulationsCurriculum = {
                             {
                                 id: "evolution-selection",
                                 title: "Évolution et Sélection Naturelle",
-                                description: "Simulez l'évolution d'une population",
+                                description: "Simulez l'évolution des populations par sélection naturelle",
                                 difficulty: "très difficile",
                                 duration: "50 min",
                                 icon: "🦎",
