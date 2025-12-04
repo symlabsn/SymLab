@@ -1,13 +1,13 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, use } from 'react';
 import { challenges } from '../challengeData';
 import { challengesEnriched, progressionSystem, badges } from '../challengeDataEnriched';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 
 export default function ChallengeDayPage({ params }) {
-    const { day } = params;
+    const { day } = use(params);
 
     const challenge = challenges.find(c => c.id === day);
 
