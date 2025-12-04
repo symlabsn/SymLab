@@ -112,111 +112,111 @@ export const challenges = [
     {
         "id": "day_011",
         "title": "Jour 011 — Limites",
-        "code": "from sympy import symbols, limit, sin\nx = symbols('x')\nlimit(sin(x)/x, x, 0)",
-        "output": "\\(1\\)",
+        "code": "from sympy import symbols, limit, sin, oo\nx = symbols('x')\nlimit(sin(x)/x, x, 0)",
+        "output": "1",
         "exercises": [
-            "Exercice 1 — Reproduire l'exécution du code et vérifier la sortie attendue.",
-            "Exercice 2 — Proposer une variante: modifier une partie du code pour obtenir un résultat connexe.",
-            "Exercice 3 — Donner une application pratique (court texte) reliant le thème à un problème réel."
+            "Calculer la limite de (1+1/x)^x en l'infini",
+            "Trouver la limite de (x²-1)/(x-1) en 1",
+            "Étudier la limite de tan(x) en pi/2"
         ]
     },
     {
         "id": "day_012",
-        "title": "Jour 012 — Paramètres & constantes",
-        "code": "import sympy as sp\na = sp.symbols('a', positive=True)\nsp.solve(sp.Eq(a*sp.symbols('x'),1), sp.symbols('x'))",
-        "output": "\\(\\frac{1}{a}\\)",
+        "title": "Jour 012 — Séries de Taylor",
+        "code": "from sympy import symbols, sin, series\nx = symbols('x')\nseries(sin(x), x, 0, 6)",
+        "output": "x - x³/6 + x⁵/120 + O(x⁶)",
         "exercises": [
-            "Exercice 1 — Reproduire l'exécution du code et vérifier la sortie attendue.",
-            "Exercice 2 — Proposer une variante: modifier une partie du code pour obtenir un résultat connexe.",
-            "Exercice 3 — Donner une application pratique (court texte) reliant le thème à un problème réel."
+            "Développer e^x à l'ordre 5",
+            "Trouver la série de cos(x)",
+            "Approximer ln(1+x) autour de 0"
         ]
     },
     {
         "id": "day_013",
-        "title": "Jour 013 — Séries de Taylor",
-        "code": "from sympy import symbols, series, sin\nx = symbols('x')\nseries(sin(x), x, 0, 6)",
-        "output": "\\(x - \\frac{x^{3}}{6} + \\frac{x^{5}}{120} + O(x^{6})\\)",
+        "title": "Jour 013 — Matrices",
+        "code": "from sympy import Matrix, eye\nA = Matrix([[1, 2], [3, 4]])\nA.det()",
+        "output": "-2",
         "exercises": [
-            "Exercice 1 — Reproduire l'exécution du code et vérifier la sortie attendue.",
-            "Exercice 2 — Proposer une variante: modifier une partie du code pour obtenir un résultat connexe.",
-            "Exercice 3 — Donner une application pratique (court texte) reliant le thème à un problème réel."
+            "Calculer l'inverse d'une matrice 2x2",
+            "Multiplier deux matrices 3x3",
+            "Calculer la trace d'une matrice"
         ]
     },
     {
         "id": "day_014",
-        "title": "Jour 014 — Mini-projet 1",
-        "code": "# Mini-projet: résumé des jours 1-13\n# livrable : notebook",
-        "output": "\\(\\text{Mini-projet (document + notebook)}\\)",
+        "title": "Jour 014 — Valeurs Propres",
+        "code": "from sympy import Matrix\nA = Matrix([[1, 2], [2, 1]])\nA.eigenvals()",
+        "output": "{-1: 1, 3: 1} (valeur: multiplicité)",
         "exercises": [
-            "Exercice 1 — Reproduire l'exécution du code et vérifier la sortie attendue.",
-            "Exercice 2 — Proposer une variante: modifier une partie du code pour obtenir un résultat connexe.",
-            "Exercice 3 — Donner une application pratique (court texte) reliant le thème à un problème réel."
+            "Trouver les vecteurs propres de la matrice",
+            "Diagonaliser une matrice 2x2",
+            "Vérifier le théorème de Cayley-Hamilton"
         ]
     },
     {
         "id": "day_015",
-        "title": "Jour 015 — Factorisation avancée",
-        "code": "from sympy import symbols, factor\nx = symbols('x')\nfactor(x**4-5*x**2+4)",
-        "output": "\\((x - 2)(x - 1)(x + 1)(x + 2)\\)",
+        "title": "Jour 015 — Systèmes Linéaires",
+        "code": "from sympy import symbols, linsolve\nx, y, z = symbols('x y z')\nlinsolve([x + y + z - 1, x + y + 2*z - 3], (x, y, z))",
+        "output": "{(1 - y - z, y, 2)}",
         "exercises": [
-            "Exercice 1 — Reproduire l'exécution du code et vérifier la sortie attendue.",
-            "Exercice 2 — Proposer une variante: modifier une partie du code pour obtenir un résultat connexe.",
-            "Exercice 3 — Donner une application pratique (court texte) reliant le thème à un problème réel."
+            "Résoudre un système 3x3 unique",
+            "Résoudre un système paramétrique",
+            "Trouver l'intersection de deux plans"
         ]
     },
     {
         "id": "day_016",
-        "title": "Jour 016 — PGCD & division euclidienne",
-        "code": "from sympy import symbols, gcd\nx = symbols('x')\ngcd(x**3-1, x**2-1)",
-        "output": "\\(x - 1\\)",
+        "title": "Jour 016 — Équations Différentielles",
+        "code": "from sympy import Function, dsolve, Eq, Derivative, symbols\ny = Function('y')\nx = symbols('x')\ndsolve(Eq(y(x).diff(x, x) - y(x), 0), y(x))",
+        "output": "y(x) = C1*exp(-x) + C2*exp(x)",
         "exercises": [
-            "Exercice 1 — Reproduire l'exécution du code et vérifier la sortie attendue.",
-            "Exercice 2 — Proposer une variante: modifier une partie du code pour obtenir un résultat connexe.",
-            "Exercice 3 — Donner une application pratique (court texte) reliant le thème à un problème réel."
+            "Résoudre y' + y = 0",
+            "Résoudre l'oscillateur harmonique y'' + y = 0",
+            "Résoudre avec conditions initiales"
         ]
     },
     {
         "id": "day_017",
-        "title": "Jour 017 — Trigonométrie symbolique",
-        "code": "from sympy import symbols, simplify, sin, cos\nx = symbols('x')\nsimplify(sin(x)**2 + cos(x)**2)",
-        "output": "\\(1\\)",
+        "title": "Jour 017 — Transformée de Laplace",
+        "code": "from sympy import laplace_transform, symbols, exp\nt, s = symbols('t s')\nlaplace_transform(t * exp(-t), t, s)",
+        "output": "(1/(s + 1)**2, 0, True)",
         "exercises": [
-            "Exercice 1 — Reproduire l'exécution du code et vérifier la sortie attendue.",
-            "Exercice 2 — Proposer une variante: modifier une partie du code pour obtenir un résultat connexe.",
-            "Exercice 3 — Donner une application pratique (court texte) reliant le thème à un problème réel."
+            "Calculer la transformée de sin(t)",
+            "Calculer la transformée inverse de 1/s",
+            "Résoudre une EDO avec Laplace"
         ]
     },
     {
         "id": "day_018",
-        "title": "Jour 018 — Polynômes supérieurs",
-        "code": "from sympy import symbols, nroots\nx = symbols('x')\nnroots(x**5 - x + 1)",
-        "output": "\\(\\text{(5 racines numériques)}\\)",
+        "title": "Jour 018 — Transformée de Fourier",
+        "code": "from sympy import fourier_transform, exp, symbols, pi\nx, k = symbols('x k')\nfourier_transform(exp(-x**2), x, k)",
+        "output": "sqrt(pi)*exp(-pi**2*k**2)",
         "exercises": [
-            "Exercice 1 — Reproduire l'exécution du code et vérifier la sortie attendue.",
-            "Exercice 2 — Proposer une variante: modifier une partie du code pour obtenir un résultat connexe.",
-            "Exercice 3 — Donner une application pratique (court texte) reliant le thème à un problème réel."
+            "Calculer la transformée d'une porte (rect)",
+            "Calculer la transformée de cos(x)",
+            "Vérifier la linéarité"
         ]
     },
     {
         "id": "day_019",
-        "title": "Jour 019 — Partial fractions",
-        "code": "from sympy import symbols, apart\nx = symbols('x')\napart((x+2)/(x*(x-1)))",
-        "output": "\\(\\frac{2}{x}+\\frac{1}{x-1}\\)",
+        "title": "Jour 019 — Géométrie : Points & Lignes",
+        "code": "from sympy import Point, Line\np1, p2 = Point(0, 0), Point(1, 1)\nl = Line(p1, p2)\nl.equation()",
+        "output": "-x + y",
         "exercises": [
-            "Exercice 1 — Reproduire l'exécution du code et vérifier la sortie attendue.",
-            "Exercice 2 — Proposer une variante: modifier une partie du code pour obtenir un résultat connexe.",
-            "Exercice 3 — Donner une application pratique (court texte) reliant le thème à un problème réel."
+            "Calculer la distance entre deux points",
+            "Trouver l'intersection de deux droites",
+            "Projeter un point sur une droite"
         ]
     },
     {
         "id": "day_020",
-        "title": "Jour 020 — Systèmes linéaires",
-        "code": "from sympy import symbols, Eq, solve\nx,y = symbols('x y')\nsolve([Eq(2*x+3*y,6), Eq(x-y,1)], [x,y])",
-        "output": "\\(\\{x:\\tfrac{9}{5},\\,y:\\tfrac{4}{5}\\}\\)",
+        "title": "Jour 020 — Géométrie : Polygones",
+        "code": "from sympy import Polygon, Point\nt = Polygon(Point(0,0), Point(1,0), Point(0,1))\nt.area",
+        "output": "1/2",
         "exercises": [
-            "Exercice 1 — Reproduire l'exécution du code et vérifier la sortie attendue.",
-            "Exercice 2 — Proposer une variante: modifier une partie du code pour obtenir un résultat connexe.",
-            "Exercice 3 — Donner une application pratique (court texte) reliant le thème à un problème réel."
+            "Calculer l'aire d'un hexagone régulier",
+            "Vérifier si un point est dans un polygone",
+            "Trouver les intersections cercle-droite"
         ]
     },
     {
@@ -1055,4 +1055,4 @@ export const challenges = [
             "Exercice 3 — Donner une application pratique (court texte) reliant le thème à un problème réel."
         ]
     }
-];// Force reload
+];

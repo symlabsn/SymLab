@@ -530,7 +530,430 @@ export const challengesEnriched = [
             'Intégrer 1/(1+x²) et retrouver arctan'
         ],
         practicalApplication: 'Intégrales pour probabilités (lois continues), énergies (physique), volumes (géométrie).'
-    }
+    },
+    {
+            id: 'day_011',
+            dayNumber: 11,
+            title: 'Limites',
+            difficulty: 'Intermédiaire',
+            masteryLevel: 'Fondamental',
+            unlocked: true,
+            xpReward: 25,
+            badge: '🏅 Limites',
+            africanAnalogy: `La limite est comme s'approcher d'un puits sans jamais tomber dedans. On peut être aussi près qu'on veut du bord, à une distance infinitésimale, mais on reste sur la terre ferme. C'est l'art de frôler l'infini.`,
+            theory: {
+                title: 'Calcul de Limites',
+                content: `La limite décrit le comportement d'une fonction lorsqu'elle s'approche d'un point donné. C'est le concept fondateur de la continuité, de la dérivation et de l'intégration.`,
+                mathematicalFoundation: `
+                    - Définition (ε-δ) : ∀ε>0, ∃δ>0 t.q. |x-a|<δ ⇒ |f(x)-L|<ε\n                - Limites à l'infini : comportement asymptotique\n                - Continuité : lim f(x) = f(a)\n                - Règle de L'Hôpital : pour les formes indéterminées 0/0 ou ∞/∞
+                `,
+                scientists: [
+                {
+                        name: 'Augustin-Louis Cauchy',
+                        year: '1821',
+                        contribution: 'Définition rigoureuse de la limite',
+                        context: 'Formalise l\'analyse mathématique moderne'
+                    },
+                    {
+                        name: 'Karl Weierstrass',
+                        year: '1872',
+                        contribution: 'Définition epsilon-delta',
+                        context: 'Le père de l\'analyse moderne, rigueur absolue'
+                    },
+                ]
+            },
+            code: `from sympy import symbols, limit, sin, oo
+x = symbols('x')
+limit(sin(x)/x, x, 0)`,
+            output: '1',
+            exercises: [
+            'Calculer la limite de (1+1/x)^x en l\'infini',
+            'Trouver la limite de (x²-1)/(x-1) en 1',
+            'Étudier la limite de tan(x) en pi/2',
+        ],
+            practicalApplication: 'Analyse de stabilité, comportement asymptotique des algorithmes, physique théorique.'
+        },
+    {
+            id: 'day_012',
+            dayNumber: 12,
+            title: 'Séries de Taylor',
+            difficulty: 'Avancé',
+            masteryLevel: 'Avancé',
+            unlocked: true,
+            xpReward: 35,
+            badge: '🏅 Séries de Taylor',
+            africanAnalogy: `Une série de Taylor est comme reconstruire un arbre entier à partir d'une seule graine et de son code génétique. En connaissant la fonction et toutes ses dérivées en un seul point, on peut (souvent) reconstruire la fonction partout.`,
+            theory: {
+                title: 'Développement en Série',
+                content: `Les séries de Taylor permettent d'approximer des fonctions complexes par des polynômes. Plus on ajoute de termes, plus l'approximation est précise.`,
+                mathematicalFoundation: `
+                    - Formule : f(x) = Σ f⁽ⁿ⁾(a)/n! * (x-a)ⁿ\n                - Série de Maclaurin : Taylor en a=0\n                - Reste de Lagrange : erreur de l'approximation\n                - Rayon de convergence : domaine de validité
+                `,
+                scientists: [
+                {
+                        name: 'Brook Taylor',
+                        year: '1715',
+                        contribution: 'Théorème de Taylor',
+                        context: 'Mathématicien anglais, travaux sur les cordes vibrantes'
+                    },
+                    {
+                        name: 'Colin Maclaurin',
+                        year: '1742',
+                        contribution: 'Cas particulier en 0',
+                        context: 'Prodige écossais, professeur à 19 ans'
+                    },
+                ]
+            },
+            code: `from sympy import symbols, sin, series
+x = symbols('x')
+series(sin(x), x, 0, 6)`,
+            output: 'x - x³/6 + x⁵/120 + O(x⁶)',
+            exercises: [
+            'Développer e^x à l\'ordre 5',
+            'Trouver la série de cos(x)',
+            'Approximer ln(1+x) autour de 0',
+        ],
+            practicalApplication: 'Calculatrices (sin, cos), physique (petites oscillations), méthodes numériques.'
+        },
+    {
+            id: 'day_013',
+            dayNumber: 13,
+            title: 'Matrices',
+            difficulty: 'Intermédiaire',
+            masteryLevel: 'Intermédiaire',
+            unlocked: true,
+            xpReward: 30,
+            badge: '🏅 Matrices',
+            africanAnalogy: `Une matrice est comme un tableau de tissage. Chaque ligne et chaque colonne a sa place et son rôle. Multiplier des matrices, c'est comme croiser les fils pour créer un motif complexe à partir de motifs simples.`,
+            theory: {
+                title: 'Algèbre Linéaire',
+                content: `Les matrices sont des tableaux de nombres permettant de représenter des transformations linéaires et de résoudre des systèmes d'équations.`,
+                mathematicalFoundation: `
+                    - Opérations : addition, multiplication, transposition\n                - Déterminant : mesure du changement de volume\n                - Inverse : A⁻¹ t.q. AA⁻¹ = I\n                - Rang : dimension de l'image
+                `,
+                scientists: [
+                {
+                        name: 'Arthur Cayley',
+                        year: '1858',
+                        contribution: 'Définition moderne de la multiplication matricielle',
+                        context: 'Avocat et mathématicien, fonde la théorie des matrices'
+                    },
+                    {
+                        name: 'James Sylvester',
+                        year: '1850',
+                        contribution: 'Invente le terme \'matrice\'',
+                        context: 'Poète et mathématicien, ami de Cayley'
+                    },
+                ]
+            },
+            code: `from sympy import Matrix, eye
+A = Matrix([[1, 2], [3, 4]])
+A.det()`,
+            output: '-2',
+            exercises: [
+            'Calculer l\'inverse d\'une matrice 2x2',
+            'Multiplier deux matrices 3x3',
+            'Calculer la trace d\'une matrice',
+        ],
+            practicalApplication: 'Graphisme 3D, mécanique quantique, réseaux de neurones (Deep Learning).'
+        },
+    {
+            id: 'day_014',
+            dayNumber: 14,
+            title: 'Valeurs Propres',
+            difficulty: 'Avancé',
+            masteryLevel: 'Avancé',
+            unlocked: true,
+            xpReward: 40,
+            badge: '🏅 Valeurs Propres',
+            africanAnalogy: `Les vecteurs propres sont les piliers inébranlables d'une transformation. Quand tout tourne et se déforme autour d'eux, eux gardent leur direction, ne changeant que de taille (valeur propre). Ce sont les axes de stabilité du monde.`,
+            theory: {
+                title: 'Spectre d\'une Matrice',
+                content: `Les valeurs propres (λ) et vecteurs propres (v) satisfont Av = λv. Ils caractérisent la transformation représentée par la matrice.`,
+                mathematicalFoundation: `
+                    - Équation caractéristique : det(A - λI) = 0\n                - Diagonalisation : A = PDP⁻¹\n                - Théorème spectral : matrices symétriques réelles\n                - Espaces propres : noyau de (A - λI)
+                `,
+                scientists: [
+                {
+                        name: 'David Hilbert',
+                        year: '1900',
+                        contribution: 'Théorie spectrale',
+                        context: 'Géant des maths, pose les 23 problèmes du siècle'
+                    },
+                    {
+                        name: 'John von Neumann',
+                        year: '1932',
+                        contribution: 'Fondements mathématiques de la mécanique quantique',
+                        context: 'Utilise les opérateurs hermitiens pour les observables'
+                    },
+                ]
+            },
+            code: `from sympy import Matrix
+A = Matrix([[1, 2], [2, 1]])
+A.eigenvals()`,
+            output: '{-1: 1, 3: 1} (valeur: multiplicité)',
+            exercises: [
+            'Trouver les vecteurs propres de la matrice',
+            'Diagonaliser une matrice 2x2',
+            'Vérifier le théorème de Cayley-Hamilton',
+        ],
+            practicalApplication: 'Vibrations (modes propres), Google PageRank, reconnaissance faciale (Eigenfaces).'
+        },
+    {
+            id: 'day_015',
+            dayNumber: 15,
+            title: 'Systèmes Linéaires',
+            difficulty: 'Intermédiaire',
+            masteryLevel: 'Intermédiaire',
+            unlocked: true,
+            xpReward: 30,
+            badge: '🏅 Systèmes Linéaires',
+            africanAnalogy: `Un système linéaire est comme un nœud complexe de cordes. Chaque équation est une corde qui tire. La solution est le point d'équilibre où toutes les tensions s'annulent.`,
+            theory: {
+                title: 'Résolution de Systèmes',
+                content: `Un système linéaire Ax = b cherche le vecteur x. SymPy peut résoudre ces systèmes de manière exacte, même avec des paramètres symboliques.`,
+                mathematicalFoundation: `
+                    - Méthode de Gauss : échelonnement\n                - Règle de Cramer : xᵢ = det(Aᵢ)/det(A)\n                - Systèmes sous/sur-déterminés\n                - Solutions paramétriques
+                `,
+                scientists: [
+                {
+                        name: 'Carl Friedrich Gauss',
+                        year: '1810',
+                        contribution: 'Élimination de Gauss',
+                        context: 'Utilisé pour calculer l\'orbite de l\'astéroïde Cérès'
+                    },
+                    {
+                        name: 'Gabriel Cramer',
+                        year: '1750',
+                        contribution: 'Règle de Cramer',
+                        context: 'Méthode élégante mais coûteuse pour les systèmes'
+                    },
+                ]
+            },
+            code: `from sympy import symbols, linsolve
+x, y, z = symbols('x y z')
+linsolve([x + y + z - 1, x + y + 2*z - 3], (x, y, z))`,
+            output: '{(1 - y - z, y, 2)}',
+            exercises: [
+            'Résoudre un système 3x3 unique',
+            'Résoudre un système paramétrique',
+            'Trouver l\'intersection de deux plans',
+        ],
+            practicalApplication: 'Circuits électriques (Kirchhoff), équilibre statique, optimisation linéaire.'
+        },
+    {
+            id: 'day_016',
+            dayNumber: 16,
+            title: 'Équations Différentielles',
+            difficulty: 'Avancé',
+            masteryLevel: 'Avancé',
+            unlocked: true,
+            xpReward: 45,
+            badge: '🏅 Équations Différentielles',
+            africanAnalogy: `Une équation différentielle est la règle du jeu de la nature. Elle ne dit pas où on est, mais comment on bouge. Résoudre l'EDO, c'est prédire tout le voyage à partir de la règle de mouvement.`,
+            theory: {
+                title: 'EDO (Équations Différentielles Ordinaires)',
+                content: `Une EDO lie une fonction à ses dérivées. C'est le langage naturel de la physique pour décrire l'évolution des systèmes.`,
+                mathematicalFoundation: `
+                    - Ordre : dérivée la plus haute\n                - Linéarité : a(x)y'' + b(x)y' + c(x)y = f(x)\n                - Conditions initiales : y(0) = y₀\n                - Séparation des variables
+                `,
+                scientists: [
+                {
+                        name: 'Leonhard Euler',
+                        year: '1750',
+                        contribution: 'Méthodes de résolution et approximation',
+                        context: 'Fonde la mécanique analytique'
+                    },
+                    {
+                        name: 'Joseph-Louis Lagrange',
+                        year: '1788',
+                        contribution: 'Variation des constantes',
+                        context: 'Mécanique céleste et analytique'
+                    },
+                ]
+            },
+            code: `from sympy import Function, dsolve, Eq, Derivative, symbols
+y = Function('y')
+x = symbols('x')
+dsolve(Eq(y(x).diff(x, x) - y(x), 0), y(x))`,
+            output: 'y(x) = C1*exp(-x) + C2*exp(x)',
+            exercises: [
+            'Résoudre y\' + y = 0',
+            'Résoudre l\'oscillateur harmonique y\'\' + y = 0',
+            'Résoudre avec conditions initiales',
+        ],
+            practicalApplication: 'Dynamique des populations, circuits RLC, mécanique céleste, réaction chimique.'
+        },
+    {
+            id: 'day_017',
+            dayNumber: 17,
+            title: 'Transformée de Laplace',
+            difficulty: 'Avancé',
+            masteryLevel: 'Expert',
+            unlocked: true,
+            xpReward: 50,
+            badge: '🏅 Transformée de Laplace',
+            africanAnalogy: `La transformée de Laplace est comme traduire un poème difficile dans une langue simple. On transforme des équations différentielles complexes (domaine temporel) en équations algébriques simples (domaine fréquentiel), on résout, puis on retraduit.`,
+            theory: {
+                title: 'Analyse Opérationnelle',
+                content: `La transformée de Laplace convertit les dérivées en multiplications par s. Elle est idéale pour résoudre des EDO linéaires avec conditions initiales.`,
+                mathematicalFoundation: `
+                    - Définition : L{f(t)} = ∫₀^∞ e⁻ˢᵗ f(t) dt\n                - Propriété : L{f'} = sF(s) - f(0)\n                - Convolution : L{f*g} = F(s)G(s)\n                - Inverse : retour au domaine temporel
+                `,
+                scientists: [
+                {
+                        name: 'Pierre-Simon Laplace',
+                        year: '1785',
+                        contribution: 'Théorie des probabilités et transformée',
+                        context: 'Le \'Newton français\', déterministe absolu'
+                    },
+                    {
+                        name: 'Oliver Heaviside',
+                        year: '1890',
+                        contribution: 'Calcul opérationnel pour l\'électrotechnique',
+                        context: 'Rend la méthode pratique pour les ingénieurs'
+                    },
+                ]
+            },
+            code: `from sympy import laplace_transform, symbols, exp
+t, s = symbols('t s')
+laplace_transform(t * exp(-t), t, s)`,
+            output: '(1/(s + 1)**2, 0, True)',
+            exercises: [
+            'Calculer la transformée de sin(t)',
+            'Calculer la transformée inverse de 1/s',
+            'Résoudre une EDO avec Laplace',
+        ],
+            practicalApplication: 'Automatique (systèmes de contrôle), traitement du signal, circuits électriques.'
+        },
+    {
+            id: 'day_018',
+            dayNumber: 18,
+            title: 'Transformée de Fourier',
+            difficulty: 'Avancé',
+            masteryLevel: 'Expert',
+            unlocked: true,
+            xpReward: 50,
+            badge: '🏅 Transformée de Fourier',
+            africanAnalogy: `La transformée de Fourier est comme un prisme pour le son. Elle décompose n'importe quel bruit complexe en une somme de notes pures (fréquences). C'est l'oreille mathématique absolue.`,
+            theory: {
+                title: 'Analyse Harmonique',
+                content: `La transformée de Fourier décompose une fonction en une somme de sinusoïdes. Elle permet d'analyser le contenu fréquentiel d'un signal.`,
+                mathematicalFoundation: `
+                    - Définition : F(k) = ∫₋∞^∞ f(x)e⁻²ⁱᵖᵏˣ dx\n                - Séries de Fourier : pour fonctions périodiques\n                - Identité de Parseval : conservation de l'énergie\n                - FFT : algorithme rapide (numérique)
+                `,
+                scientists: [
+                {
+                        name: 'Joseph Fourier',
+                        year: '1822',
+                        contribution: 'Théorie analytique de la chaleur',
+                        context: 'Affirme que toute fonction peut s\'écrire comme somme de sinus'
+                    },
+                    {
+                        name: 'Dirichlet',
+                        year: '1829',
+                        contribution: 'Conditions de convergence',
+                        context: 'Donne une base rigoureuse à l\'intuition de Fourier'
+                    },
+                ]
+            },
+            code: `from sympy import fourier_transform, exp, symbols, pi
+x, k = symbols('x k')
+fourier_transform(exp(-x**2), x, k)`,
+            output: 'sqrt(pi)*exp(-pi**2*k**2)',
+            exercises: [
+            'Calculer la transformée d\'une porte (rect)',
+            'Calculer la transformée de cos(x)',
+            'Vérifier la linéarité',
+        ],
+            practicalApplication: 'MP3, JPEG, IRM, télécommunications (4G/5G), mécanique quantique.'
+        },
+    {
+            id: 'day_019',
+            dayNumber: 19,
+            title: 'Géométrie : Points & Lignes',
+            difficulty: 'Débutant',
+            masteryLevel: 'Fondamental',
+            unlocked: true,
+            xpReward: 20,
+            badge: '🏅 Géométrie : Points & Lignes',
+            africanAnalogy: `La géométrie analytique est le mariage de l'algèbre et de l'espace. Un point n'est plus juste une tache d'encre, c'est un couple de nombres (x,y). Une ligne n'est plus un trait, c'est une équation.`,
+            theory: {
+                title: 'Géométrie Analytique',
+                content: `SymPy possède un module de géométrie puissant pour manipuler des objets géométriques de manière exacte (intersections, distances, projections).`,
+                mathematicalFoundation: `
+                    - Point : P(x, y)\n                - Droite : ax + by + c = 0\n                - Segment : portion de droite\n                - Distance : d(A,B) = √((xB-xA)² + (yB-yA)²)
+                `,
+                scientists: [
+                {
+                        name: 'René Descartes',
+                        year: '1637',
+                        contribution: 'Géométrie cartésienne',
+                        context: 'Je pense donc je suis. Transforme la géométrie en algèbre'
+                    },
+                    {
+                        name: 'Euclide',
+                        year: '-300',
+                        contribution: 'Axiomes de la géométrie',
+                        context: 'Les Éléments, livre le plus lu après la Bible'
+                    },
+                ]
+            },
+            code: `from sympy import Point, Line
+p1, p2 = Point(0, 0), Point(1, 1)
+l = Line(p1, p2)
+l.equation()`,
+            output: '-x + y',
+            exercises: [
+            'Calculer la distance entre deux points',
+            'Trouver l\'intersection de deux droites',
+            'Projeter un point sur une droite',
+        ],
+            practicalApplication: 'CAO (Conception Assistée par Ordinateur), robotique, jeux vidéo.'
+        },
+    {
+            id: 'day_020',
+            dayNumber: 20,
+            title: 'Géométrie : Polygones',
+            difficulty: 'Intermédiaire',
+            masteryLevel: 'Intermédiaire',
+            unlocked: true,
+            xpReward: 30,
+            badge: '🏅 Géométrie : Polygones',
+            africanAnalogy: `Un polygone est un enclos fermé. Calculer son aire, c'est mesurer la terre à l'intérieur. SymPy le fait sans arpenteur, juste avec les coordonnées des piquets de clôture.`,
+            theory: {
+                title: 'Polygones et Cercles',
+                content: `Manipulation d'objets fermés : triangles, carrés, polygones réguliers et cercles. Calculs d'aires, de périmètres et d'intersections.`,
+                mathematicalFoundation: `
+                    - Aire (Shoelace formula) : 1/2 |Σ (xᵢyᵢ₊₁ - xᵢ₊₁yᵢ)|\n                - Centre de gravité : moyenne des coordonnées\n                - Cercle : (x-a)² + (y-b)² = R²\n                - Convexité
+                `,
+                scientists: [
+                {
+                        name: 'Archimède',
+                        year: '-250',
+                        contribution: 'Aire du cercle et de la parabole',
+                        context: 'Précurseur du calcul intégral par la méthode d\'exhaustion'
+                    },
+                    {
+                        name: 'Héron d'Alexandrie',
+                        year: '60',
+                        contribution: 'Formule de Héron (aire triangle)',
+                        context: 'Ingénieur grec, inventeur de la machine à vapeur'
+                    },
+                ]
+            },
+            code: `from sympy import Polygon, Point
+t = Polygon(Point(0,0), Point(1,0), Point(0,1))
+t.area`,
+            output: '1/2',
+            exercises: [
+            'Calculer l\'aire d\'un hexagone régulier',
+            'Vérifier si un point est dans un polygone',
+            'Trouver les intersections cercle-droite',
+        ],
+            practicalApplication: 'Architecture, cartographie (SIG), infographie.'
+        },
+
 ];
 
 // Système de progression (déverrouillage désactivé)
