@@ -45,7 +45,7 @@ export default function AboutPage() {
             icon: '⚠️',
             color: 'from-red-500/20 to-orange-500/20',
             borderColor: 'border-red-500/50',
-            description: 'Au Sénégal, 68% des élèves échouent aux examens scientifiques. Les cours magistraux abstraits, le manque de laboratoires (85% des écoles) et l\'absence d\'outils pédagogiques adaptés créent une génération déconnectée des STEM.',
+            description: 'Au Sénégal, 50% des élèves échouent aux examens scientifiques. Les cours magistraux abstraits, le manque de laboratoires (85% des écoles) et l\'absence d\'outils pédagogiques adaptés créent une génération déconnectée des STEM.',
             metrics: '2.3M élèves impactés'
         },
         {
