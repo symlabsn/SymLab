@@ -1,11 +1,24 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { challenges } from './challengeData';
+import { challengesEnriched, progressionSystem } from './challengeDataEnriched';
 
 export default function ChallengesPage() {
     const [searchTerm, setSearchTerm] = useState('');
+    const [completedDays, setCompletedDays] = useState([]);
+
+    useEffect(() => {
+        // Charger la progression depuis localStorage
+        const saved = localStorage.getItem('symlab_progress');
+        if (saved) {
+            setCompletedDays(JSON.parse(saved));
+        }
+    }, []);
+
+    const totalXP = progressionSystem.getTotalXP(completedDays);
+    const levelInfo = progressionSystem.getLevel(totalXP);
 
     const filteredChallenges = challenges.filter(challenge =>
         challenge.title.toLowerCase().includes(searchTerm.toLowerCase())
@@ -22,9 +35,22 @@ export default function ChallengesPage() {
                         </div>
                         <span className="font-bold text-xl tracking-tight">SymLab <span className="text-[#00F5D4]">Challenges</span></span>
                     </Link>
-                    <div className="flex gap-6 text-sm font-medium text-gray-400">
-                        <Link href="/engineering" className="hover:text-white transition-colors">Ingénierie</Link>
-                        <Link href="/code" className="hover:text-white transition-colors">Notebook</Link>
+                    <div className="flex gap-6 items-center">
+                        <div className="hidden md:flex items-center gap-4 px-4 py-2 rounded-full bg-white/5 border border-white/10">
+                            <div className="text-xs font-mono text-gray-400">
+                                Niveau {levelInfo.level} • {levelInfo.title}
+                            </div>
+                            <div className="text-xs font-bold text-[#00F5D4]">
+                                {totalXP} XP
+                            </div>
+                            <div className="text-xs text-gray-500">
+                                {completedDays.length}/100
+                            </div>
+                        </div>
+                        <div className="flex gap-4 text-sm font-medium text-gray-400">
+                            <Link href="/engineering" className="hover:text-white transition-colors">Ingénierie</Link>
+                            <Link href="/code" className="hover:text-white transition-colors">Notebook</Link>
+                        </div>
                     </div>
                 </div>
             </nav>
@@ -110,39 +136,77 @@ export default function ChallengesPage() {
                 </div>
 
                 <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-                    {filteredChallenges.map((challenge, index) => (
-                        <Link
-                            href={`/challenges/${challenge.id}`}
-                            key={challenge.id}
-                            className="group relative bg-[#0F1115] rounded-2xl border border-white/10 overflow-hidden hover:border-[#00F5D4]/50 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-[#00F5D4]/10 flex flex-col h-full"
-                        >
-                            <div className="absolute inset-0 bg-gradient-to-br from-[#00F5D4]/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                    {filteredChallenges.map((challenge, index) => {
+                        const enriched = challengesEnriched.find(c => c.id === challenge.id);
+                        const dayNumber = parseInt(challenge.id.split('_')[1]);
+                        const isUnlocked = enriched ? progressionSystem.isUnlocked(dayNumber, completedDays) : true;
+                        const isCompleted = completedDays.includes(challenge.id);
 
-                            <div className="p-5 relative z-10 flex flex-col h-full">
-                                <div className="flex justify-between items-start mb-3">
-                                    <span className="font-mono text-xs text-[#00F5D4] bg-[#00F5D4]/10 px-2 py-1 rounded-md border border-[#00F5D4]/20">
-                                        Jour {challenge.id.split('_')[1]}
-                                    </span>
-                                    {index < 10 && (
-                                        <span className="text-xs bg-white/10 px-2 py-1 rounded text-gray-300">🔥 Débutant</span>
+                        return (
+                            <Link
+                                href={`/challenges/${challenge.id}`}
+                                key={challenge.id}
+                                className={`group relative bg-[#0F1115] rounded-2xl border overflow-hidden transition-all duration-300 flex flex-col h-full ${isUnlocked
+                                        ? 'border-white/10 hover:border-[#00F5D4]/50 hover:-translate-y-1 hover:shadow-xl hover:shadow-[#00F5D4]/10'
+                                        : 'border-white/5 opacity-60 cursor-not-allowed'
+                                    }`}
+                            >
+                                {!isUnlocked && (
+                                    <div className="absolute inset-0 bg-black/60 backdrop-blur-sm z-20 flex items-center justify-center">
+                                        <div className="text-center">
+                                            <div className="text-4xl mb-2">🔒</div>
+                                            <div className="text-xs text-gray-400">Verrouillé</div>
+                                        </div>
+                                    </div>
+                                )}
+
+                                {isCompleted && (
+                                    <div className="absolute top-2 right-2 z-10 w-8 h-8 rounded-full bg-green-500 flex items-center justify-center text-white text-sm font-bold shadow-lg">
+                                        ✓
+                                    </div>
+                                )}
+
+                                <div className="absolute inset-0 bg-gradient-to-br from-[#00F5D4]/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+
+                                <div className="p-5 relative z-10 flex flex-col h-full">
+                                    <div className="flex justify-between items-start mb-3">
+                                        <span className="font-mono text-xs text-[#00F5D4] bg-[#00F5D4]/10 px-2 py-1 rounded-md border border-[#00F5D4]/20">
+                                            Jour {challenge.id.split('_')[1]}
+                                        </span>
+                                        {enriched && (
+                                            <span className="text-xs bg-white/10 px-2 py-1 rounded text-gray-300">
+                                                {enriched.difficulty}
+                                            </span>
+                                        )}
+                                    </div>
+
+                                    <h3 className="font-bold text-lg mb-3 group-hover:text-[#00F5D4] transition-colors line-clamp-2">
+                                        {challenge.title.replace(/Jour \d+ — /, '')}
+                                    </h3>
+
+                                    {enriched && (
+                                        <div className="mb-3 flex flex-wrap gap-1">
+                                            <span className="text-xs px-2 py-0.5 rounded bg-purple-500/10 text-purple-300">
+                                                {enriched.masteryLevel}
+                                            </span>
+                                            <span className="text-xs px-2 py-0.5 rounded bg-yellow-500/10 text-yellow-300">
+                                                +{enriched.xpReward} XP
+                                            </span>
+                                        </div>
                                     )}
-                                </div>
 
-                                <h3 className="font-bold text-lg mb-3 group-hover:text-[#00F5D4] transition-colors line-clamp-2">
-                                    {challenge.title.replace(/Jour \d+ — /, '')}
-                                </h3>
-
-                                <div className="mt-auto pt-4 border-t border-white/5 flex items-center justify-between text-xs text-gray-500">
-                                    <span className="flex items-center gap-1">
-                                        <code>sympy</code>
-                                    </span>
-                                    <span className="group-hover:translate-x-1 transition-transform">
-                                        Voir le défi →
-                                    </span>
+                                    <div className="mt-auto pt-4 border-t border-white/5 flex items-center justify-between text-xs text-gray-500">
+                                        <span className="flex items-center gap-1">
+                                            <code>sympy</code>
+                                        </span>
+                                        <span className="group-hover:translate-x-1 transition-transform">
+                                            {isUnlocked ? 'Voir le défi →' : 'Verrouillé'}
+                                        </span>
+                                    </div>
                                 </div>
-                            </div>
-                        </Link>
-                    ))}
+                            </Link>
+                        );
+                    })}
                 </div>
             </div>
         </main>
