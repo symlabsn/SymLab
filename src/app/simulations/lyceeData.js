@@ -356,7 +356,7 @@ Applications
     'acid-base-titration': {
         title: 'Dosage Acide-Base',
         description: 'Réalisez un titrage virtuel avec indicateurs colorés',
-        type: 'water',
+        type: 'chemical',
         config: {},
         analogy: {
             title: 'Le Dosage comme le Mélange Parfait du Jus de Bissap',
