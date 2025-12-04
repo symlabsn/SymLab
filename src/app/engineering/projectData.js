@@ -30,14 +30,14 @@ export const engineeringProjects = [
 p = randprime(100, 200)
 q = randprime(100, 200)
 n = p * q
-phi = (p-1)*(q-1)
+φ(n) = (p−1)(q−1)
 # Choix de e (exposant public)
 e = 65537
 print(f"Clé publique (n, e) : ({n}, {e})")`
             },
             {
                 title: "2. Chiffrement",
-                explanation: "Message chiffré C = M^e mod n.",
+                explanation: "Message chiffré C ≡ Mᵉ (mod n).",
                 code: `M = 42  # Message à chiffrer
 C = pow(M, e, n)
 print(f"Message chiffré : {C}")`
@@ -61,7 +61,7 @@ print(f"Message chiffré : {C}")`
         },
         problemStatement: {
             context: "Pourquoi les tournesols ont-ils des spirales parfaites ? La nature optimise l'espace pour capter la lumière.",
-            objective: "Calculer la limite du rapport F(n+1)/F(n) quand n tend vers l'infini.",
+            objective: "Calculer la limite du rapport F_{n+1}/F_n quand n tend vers l'infini.",
             analogy: "Arranger des graines pour qu'elles ne se fassent pas d'ombre, c'est comme garer des voitures dans un parking circulaire optimal."
         },
         steps: [
@@ -75,7 +75,7 @@ for i in range(10):
             },
             {
                 title: "2. Limite vers Phi",
-                explanation: "Le rapport tend vers (1+sqrt(5))/2.",
+                explanation: "Le rapport tend vers (1+√5)/2.",
                 code: `from sympy import solve, sqrt, Symbol
 x = Symbol('x')
 phi = solve(x**2 - x - 1, x)[1]
@@ -134,7 +134,7 @@ print(f"Limite du périmètre : {limite_P}")`
         },
         problemStatement: {
             context: "Comment votre téléphone transmet-il votre voix ? Il la décompose en fréquences.",
-            objective: "Calculer les coefficients an et bn pour un signal carré.",
+            objective: "Calculer les coefficients aₙ et bₙ pour un signal carré.",
             analogy: "Créer n'importe quelle couleur de peinture en mélangeant juste du rouge, du vert et du bleu (les sinus de base)."
         },
         steps: [
@@ -167,7 +167,7 @@ display(s.truncate(3))`
         },
         problemStatement: {
             context: "Dans une classe de 30 élèves, pariez-vous qu'il y a une paire d'anniversaires ?",
-            objective: "Calculer P(au moins une paire) = 1 - P(tous différents).",
+            objective: "Calculer ℗(au moins une paire) = 1 - ℗(tous différents).",
             analogy: "Serrer la main à tout le monde : avec 23 personnes, il y a 253 poignées de main possibles, donc beaucoup de chances de 'collision'."
         },
         steps: [
@@ -236,7 +236,7 @@ display(eq)`
         },
         problemStatement: {
             context: "Fabriquer une horloge qui bat exactement la seconde.",
-            objective: "Trouver la relation T = 2*pi*sqrt(L/g).",
+            objective: "Trouver la relation T = 2π√(L/g).",
             analogy: "Une balançoire : peu importe si on va haut ou pas, le temps de l'aller-retour est presque le même."
         },
         steps: [
@@ -274,7 +274,7 @@ print(f"Longueur nécessaire (m) : {sol_L[0].evalf()}")`
         steps: [
             {
                 title: "1. Facteur de Lorentz",
-                explanation: "gamma = 1 / sqrt(1 - v^2/c^2).",
+                explanation: "γ = 1/√(1 − v²/c²).",
                 code: `from sympy import symbols, sqrt
 v, c = symbols('v c')
 gamma = 1 / sqrt(1 - v**2/c**2)
@@ -309,7 +309,7 @@ display(gamma)`
                 explanation: "Calcul en fonction des températures.",
                 code: `from sympy import symbols
 Tc, Th = symbols('Tc Th')
-eta = 1 - Tc/Th
+η = 1 − Tc/Th
 print(f"Rendement max : {eta.subs({Th: 1000, Tc: 300})}")`
             }
         ]
@@ -373,10 +373,10 @@ display(E)`
         steps: [
             {
                 title: "1. Équation de Henderson-Hasselbalch",
-                explanation: "pH = pKa + log([A-]/[AH]).",
+                explanation: "pH = pKa + log₁₀([A-]/[AH]).",
                 code: `from sympy import symbols, log
 pKa, A_minus, AH = symbols('pKa A_minus AH')
-pH = pKa + log(A_minus / AH, 10)
+pH = pKa + log₁₀(A_minus / AH, 10)
 print("Formule du pH :")
 display(pH)`
             }
@@ -613,7 +613,7 @@ display(v)`
 P_AA = Rational(1, 4)
 P_Aa = Rational(2, 4)
 P_aa = Rational(1, 4)
-print(f"P(AA) = {P_AA}, P(Aa) = {P_Aa}, P(aa) = {P_aa}")`
+print(f"℗(AA) = {P_AA}, ℗(Aa) = {P_Aa}, ℗(aa) = {P_aa}")`
             }
         ]
     },
@@ -880,7 +880,7 @@ print(f"SHA-256 : {hash_obj.hexdigest()}")`
         },
         problemStatement: {
             context: "Dimensionner une poutre pour qu'elle ne plie pas trop sous le poids des voitures.",
-            objective: "Résoudre EI * y'' = M(x).",
+            objective: "Résoudre EI·y″ = M(x).",
             analogy: "Une planche posée entre deux tréteaux qui plie quand on marche dessus."
         },
         steps: [
@@ -953,9 +953,9 @@ display(As)`
                 explanation: "ΔP = f * (L/D) * (ρv²/2).",
                 code: `from sympy import symbols
 f, L, D, rho, v = symbols('f L D rho v')
-Delta_P = f * (L/D) * (rho*v**2/2)
+ΔP = f * (L/D) * (rho*v**2/2)
 print("Perte de charge :")
-display(Delta_P)`
+display(ΔP)`
             }
         ]
     },
