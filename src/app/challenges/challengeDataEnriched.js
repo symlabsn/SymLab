@@ -2756,6 +2756,469 @@ print(f'Température inversement proportionnelle à la masse')`,
             'Lien avec l\'entropie',
         ],
             practicalApplication: 'Gravité quantique, thermodynamique des trous noirs, cosmologie primordiale.'
+        },,
+    {
+            id: 'day_061',
+            dayNumber: 61,
+            title: 'Régression Linéaire',
+            difficulty: 'Intermédiaire',
+            masteryLevel: 'Intermédiaire',
+            unlocked: true,
+            xpReward: 35,
+            badge: '🏅 Régression Linéaire',
+            africanAnalogy: `La régression linéaire est comme tracer un chemin à travers une forêt d'arbres dispersés. On cherche la ligne droite qui passe au plus près de tous les arbres, minimisant la distance totale. C'est l'art de trouver la tendance cachée.`,
+            theory: {
+                title: 'Apprentissage Supervisé',
+                content: `La régression cherche à prédire une variable continue y à partir de x. La méthode des moindres carrés minimise l'erreur quadratique moyenne.`,
+                mathematicalFoundation: `
+                    - Modèle : y = ax + b + ε\n                - Fonction de coût : J(a,b) = (1/2m) Σ(h(x) - y)²\n                - Solution analytique (Équation normale) : θ = (XᵀX)⁻¹Xᵀy\n                - Descente de gradient : θ := θ - α∇J(θ)\n                - Coefficient de détermination R²
+                `,
+                scientists: [
+                {
+                        name: 'Adrien-Marie Legendre',
+                        year: '1805',
+                        contribution: 'Méthode des moindres carrés',
+                        context: 'Développée pour calculer les orbites des comètes'
+                    },
+                    {
+                        name: 'Carl Friedrich Gauss',
+                        year: '1809',
+                        contribution: 'Justification probabiliste',
+                        context: 'Montre que c\'est l\'estimateur du maximum de vraisemblance'
+                    },
+                ]
+            },
+            code: `from sympy import symbols, Sum, diff, solve
+a, b, i, n = symbols('a b i n')
+x, y = symbols('x y', cls=Function)
+# Minimiser la somme des carrés des erreurs
+S = Sum((a*x(i) + b - y(i))**2, (i, 1, n))
+# Dérivées partielles nulles
+eq1 = diff(S, a)
+eq2 = diff(S, b)
+print('Système à résoudre pour a et b')`,
+            output: 'Système d\'équations normales',
+            exercises: [
+            'Calculer la pente et l\'ordonnée à l\'origine pour 3 points',
+            'Prouver que la droite passe par le point moyen (x̄, ȳ)',
+            'Régression multivariée (concept)',
+        ],
+            practicalApplication: 'Prédiction des prix immobiliers, tendances économiques, calibration de capteurs.'
+        },
+    {
+            id: 'day_062',
+            dayNumber: 62,
+            title: 'Classification : Logistique',
+            difficulty: 'Intermédiaire',
+            masteryLevel: 'Avancé',
+            unlocked: true,
+            xpReward: 40,
+            badge: '🏅 Classification : Logistique',
+            africanAnalogy: `La classification est comme trier des fruits. Est-ce une pomme ou une orange ? La régression logistique trace une frontière floue. Près de la frontière, on hésite (50% de chance). Loin, on est sûr.`,
+            theory: {
+                title: 'Classification Binaire',
+                content: `Prédit une probabilité d'appartenance à une classe (0 ou 1) en utilisant la fonction sigmoïde. C'est la brique de base des réseaux de neurones.`,
+                mathematicalFoundation: `
+                    - Fonction Sigmoïde : σ(z) = 1 / (1 + e⁻ᶻ)\n                - Hypothèse : h(x) = σ(θᵀx)\n                - Frontière de décision : θᵀx = 0\n                - Coût Log-Loss (Entropie croisée)\n                - Maximum de vraisemblance
+                `,
+                scientists: [
+                {
+                        name: 'Pierre François Verhulst',
+                        year: '1838',
+                        contribution: 'Fonction logistique',
+                        context: 'Initialement pour la croissance des populations'
+                    },
+                    {
+                        name: 'David Cox',
+                        year: '1958',
+                        contribution: 'Régression logistique',
+                        context: 'Formalise le modèle pour les statistiques médicales'
+                    },
+                ]
+            },
+            code: `from sympy import exp, plot, symbols
+z = symbols('z')
+# Fonction Sigmoïde (activation)
+sigmoid = 1 / (1 + exp(-z))
+# Dérivée de la sigmoïde (utile pour le gradient)
+d_sigmoid = sigmoid.diff(z).simplify()
+print(f'Dérivée : {d_sigmoid}')`,
+            output: 'exp(-z)/(1 + exp(-z))**2',
+            exercises: [
+            'Montrer que σ\'(z) = σ(z)(1-σ(z))',
+            'Tracer la fonction de coût pour y=1',
+            'Calculer la probabilité pour z=0',
+        ],
+            practicalApplication: 'Détection de spam, diagnostic médical, scoring de crédit.'
+        },
+    {
+            id: 'day_063',
+            dayNumber: 63,
+            title: 'Réseaux de Neurones',
+            difficulty: 'Avancé',
+            masteryLevel: 'Expert',
+            unlocked: true,
+            xpReward: 45,
+            badge: '🏅 Réseaux de Neurones',
+            africanAnalogy: `Un réseau de neurones est comme un cerveau simplifié. Chaque neurone écoute ses voisins, vote, et transmet l'info. En ajustant la force des connexions (poids) par l'expérience, le réseau apprend à reconnaître des visages ou traduire des langues.`,
+            theory: {
+                title: 'Deep Learning',
+                content: `Composé de couches de neurones artificiels. L'apprentissage se fait par rétropropagation du gradient (Backpropagation) pour minimiser l'erreur.`,
+                mathematicalFoundation: `
+                    - Neurone : a = f(Wx + b)\n                - Fonctions d'activation : ReLU, Tanh, Softmax\n                - Propagation avant (Forward)\n                - Rétropropagation (Backward) : Règle de la chaîne\n                - Théorème d'approximation universelle
+                `,
+                scientists: [
+                {
+                        name: 'Frank Rosenblatt',
+                        year: '1957',
+                        contribution: 'Perceptron',
+                        context: 'Premier modèle de neurone artificiel apprenant'
+                    },
+                    {
+                        name: 'Geoffrey Hinton',
+                        year: '1986',
+                        contribution: 'Rétropropagation',
+                        context: 'Prix Turing, parrain de l\'IA moderne'
+                    },
+                ]
+            },
+            code: `from sympy import symbols, diff, Function
+x, w, b, y = symbols('x w b y')
+# Perceptron simple avec perte quadratique
+a = x * w + b # Activation linéaire pour simplifier
+Loss = (a - y)**2
+# Gradient pour la mise à jour du poids w
+grad_w = diff(Loss, w)
+print(f'Gradient dw : {grad_w}')`,
+            output: '2*x*(b + w*x - y)',
+            exercises: [
+            'Calculer le gradient pour une activation Sigmoïde',
+            'Architecture d\'un réseau pour XOR',
+            'Rôle du biais b',
+        ],
+            practicalApplication: 'Vision par ordinateur, reconnaissance vocale, traduction automatique, jeux (AlphaGo).'
+        },
+    {
+            id: 'day_064',
+            dayNumber: 64,
+            title: 'Clustering : K-Means',
+            difficulty: 'Intermédiaire',
+            masteryLevel: 'Avancé',
+            unlocked: true,
+            xpReward: 40,
+            badge: '🏅 Clustering : K-Means',
+            africanAnalogy: `Le clustering, c'est comme ranger une chambre en désordre. On regroupe les objets similaires : les livres avec les livres, les jouets avec les jouets. L'algorithme trouve tout seul les catégories naturelles sans qu'on lui dise quoi chercher.`,
+            theory: {
+                title: 'Apprentissage Non Supervisé',
+                content: `K-Means partitionne les données en K groupes (clusters) en minimisant la distance intra-classe. C'est un algorithme itératif.`,
+                mathematicalFoundation: `
+                    - Centroïde : moyenne des points du cluster\n                - Distance Euclidienne : d(x,y) = ||x-y||₂\n                - Inertie intra-classe : Σ ||x - μ_k||²\n                - Algorithme EM (Expectation-Maximization)\n                - Voronoï tessellation
+                `,
+                scientists: [
+                {
+                        name: 'Stuart Lloyd',
+                        year: '1957',
+                        contribution: 'Algorithme K-Means',
+                        context: 'Initialement pour la modulation par impulsions codées'
+                    },
+                    {
+                        name: 'Hugo Steinhaus',
+                        year: '1956',
+                        contribution: 'Formalisation du clustering',
+                        context: 'Pionnier de l\'analyse mathématique des jeux'
+                    },
+                ]
+            },
+            code: `from sympy import symbols, sqrt
+x1, y1, cx, cy = symbols('x1 y1 cx cy')
+# Distance au carré entre un point et un centroïde
+dist_sq = (x1 - cx)**2 + (y1 - cy)**2
+# Le centroïde optimal minimise cette distance (moyenne)
+# C'est un problème d'optimisation géométrique`,
+            output: 'Minimisation de la variance',
+            exercises: [
+            'Calculer le nouveau centroïde de 3 points',
+            'Pourquoi K-Means converge-t-il toujours ?',
+            'Choisir le bon K (méthode du coude)',
+        ],
+            practicalApplication: 'Segmentation client, compression d\'image, détection d\'anomalies.'
+        },
+    {
+            id: 'day_065',
+            dayNumber: 65,
+            title: 'PCA : Réduction Dim.',
+            difficulty: 'Avancé',
+            masteryLevel: 'Expert',
+            unlocked: true,
+            xpReward: 45,
+            badge: '🏅 PCA : Réduction Dim.',
+            africanAnalogy: `La PCA (Analyse en Composantes Principales) est comme prendre une photo d'une sculpture sous son meilleur angle. On passe de la 3D à la 2D en gardant le plus d'informations possible (l'ombre la plus large). On simplifie la réalité sans la trahir.`,
+            theory: {
+                title: 'Algèbre Linéaire Appliquée',
+                content: `Projette les données sur les axes de plus grande variance. Utilise la décomposition en valeurs propres de la matrice de covariance.`,
+                mathematicalFoundation: `
+                    - Matrice de covariance : Σ = (1/m) XᵀX\n                - Valeurs propres (λ) et Vecteurs propres (v)\n                - Variance expliquée : λ_i / Σλ_j\n                - Projection orthogonale\n                - Décorrélation des variables
+                `,
+                scientists: [
+                {
+                        name: 'Karl Pearson',
+                        year: '1901',
+                        contribution: 'Invention de la PCA',
+                        context: 'Père des statistiques modernes'
+                    },
+                    {
+                        name: 'Harold Hotelling',
+                        year: '1933',
+                        contribution: 'Développement théorique',
+                        context: 'Popularise la méthode en économétrie'
+                    },
+                ]
+            },
+            code: `from sympy import Matrix, eye
+# Matrice de covariance exemple (2D)
+C = Matrix([[4, 2], [2, 3]])
+# Diagonalisation pour trouver les axes principaux
+P, D = C.diagonalize()
+print(f'Valeurs propres (Variance) : {D}')`,
+            output: 'Matrix([[2, 0], [0, 5]])',
+            exercises: [
+            'Calculer les vecteurs propres d\'une matrice 2x2',
+            'Pourcentage de variance expliquée',
+            'Lien avec la SVD (Singular Value Decomposition)',
+        ],
+            practicalApplication: 'Compression de données, reconnaissance de visages (Eigenfaces), visualisation de données complexes.'
+        },
+    {
+            id: 'day_066',
+            dayNumber: 66,
+            title: 'Bayes Naïf',
+            difficulty: 'Intermédiaire',
+            masteryLevel: 'Avancé',
+            unlocked: true,
+            xpReward: 40,
+            badge: '🏅 Bayes Naïf',
+            africanAnalogy: `Le classifieur Bayes Naïf est comme un médecin qui diagnostique une maladie en combinant les symptômes. Fièvre ? Toux ? Fatigue ? Il calcule la probabilité de la grippe en supposant que chaque symptôme ajoute une preuve indépendante.`,
+            theory: {
+                title: 'Probabilités Bayésiennes',
+                content: `Utilise le théorème de Bayes avec l'hypothèse 'naïve' d'indépendance entre les caractéristiques. Très efficace pour le texte.`,
+                mathematicalFoundation: `
+                    - P(y|x) ∝ P(y) Π P(x_i|y)\n                - Prior P(y) : probabilité a priori\n                - Vraisemblance P(x_i|y)\n                - Indépendance conditionnelle\n                - Lissage de Laplace (pour éviter proba 0)
+                `,
+                scientists: [
+                {
+                        name: 'Thomas Bayes',
+                        year: '1763',
+                        contribution: 'Théorème de Bayes',
+                        context: 'Fondement de l\'inférence statistique'
+                    },
+                    {
+                        name: 'Pierre-Simon Laplace',
+                        year: '1812',
+                        contribution: 'Probabilités inverses',
+                        context: 'Développe la forme moderne du théorème'
+                    },
+                ]
+            },
+            code: `from sympy import symbols
+P_Spam = 0.4
+P_Ham = 0.6
+# Mot 'Gratuit' : P(Gratuit|Spam)=0.8, P(Gratuit|Ham)=0.1
+P_G_S = 0.8
+P_G_H = 0.1
+# Proba que ce soit un Spam sachant 'Gratuit'
+P_S_G = (P_G_S * P_Spam) / (P_G_S * P_Spam + P_G_H * P_Ham)
+print(f'P(Spam|Gratuit) = {P_S_G:.2f}')`,
+            output: 'P(Spam|Gratuit) = 0.84',
+            exercises: [
+            'Calculer la probabilité avec deux mots',
+            'Pourquoi l\'hypothèse naïve est-elle fausse mais utile ?',
+            'Gérer les mots inconnus',
+        ],
+            practicalApplication: 'Filtrage anti-spam, analyse de sentiment, classification de documents.'
+        },
+    {
+            id: 'day_067',
+            dayNumber: 67,
+            title: 'Arbres de Décision',
+            difficulty: 'Intermédiaire',
+            masteryLevel: 'Intermédiaire',
+            unlocked: true,
+            xpReward: 35,
+            badge: '🏅 Arbres de Décision',
+            africanAnalogy: `Un arbre de décision est comme le jeu 'Qui est-ce ?'. On pose une série de questions binaires : 'Est-ce un homme ?', 'A-t-il des lunettes ?'. Chaque réponse élimine des possibilités jusqu'à trouver la solution.`,
+            theory: {
+                title: 'Algorithmes Arborescents',
+                content: `Divise récursivement l'espace des données pour maximiser la pureté des nœuds. Interprétable et visuel.`,
+                mathematicalFoundation: `
+                    - Entropie de Shannon : H(S) = -Σ p_i log₂ p_i\n                - Gain d'information : H(S) - Σ |Sv|/|S| H(Sv)\n                - Indice de Gini : 1 - Σ p_i²\n                - Élagage (Pruning) pour éviter le surapprentissage\n                - Forêts aléatoires (Ensemble learning)
+                `,
+                scientists: [
+                {
+                        name: 'Claude Shannon',
+                        year: '1948',
+                        contribution: 'Théorie de l\'information',
+                        context: 'Définit l\'entropie, mesure de l\'incertitude'
+                    },
+                    {
+                        name: 'Leo Breiman',
+                        year: '1984',
+                        contribution: 'CART (Classification and Regression Trees)',
+                        context: 'Algorithme standard pour les arbres'
+                    },
+                ]
+            },
+            code: `from sympy import log
+# Calcul de l'entropie d'un ensemble binaire (5 oui, 5 non)
+p_oui = 0.5
+p_non = 0.5
+Entropie = -(p_oui * log(p_oui, 2) + p_non * log(p_non, 2))
+print(f'Entropie maximale (désordre) : {Entropie}')`,
+            output: 'Entropie maximale : 1.0',
+            exercises: [
+            'Calculer l\'entropie de (9 oui, 1 non)',
+            'Calculer le gain d\'information d\'une division',
+            'Différence entre Gini et Entropie',
+        ],
+            practicalApplication: 'Diagnostic médical, évaluation de risque crédit, systèmes experts.'
+        },
+    {
+            id: 'day_068',
+            dayNumber: 68,
+            title: 'Séries Temporelles',
+            difficulty: 'Avancé',
+            masteryLevel: 'Expert',
+            unlocked: true,
+            xpReward: 45,
+            badge: '🏅 Séries Temporelles',
+            africanAnalogy: `Analyser une série temporelle, c'est comme prédire la météo ou la bourse. On regarde le passé pour deviner le futur, en séparant la tendance de fond (saisons) du bruit aléatoire (vent).`,
+            theory: {
+                title: 'Analyse Prédictive',
+                content: `Modélisation de données séquentielles. Décomposition en tendance, saisonnalité et résidus.`,
+                mathematicalFoundation: `
+                    - Modèles AR (Auto-Régressif) : X_t = c + Σ φ_i X_{t-i} + ε_t\n                - Modèles MA (Moyenne Mobile)\n                - Stationnarité (Moyenne et variance constantes)\n                - Autocorrélation\n                - Bruit blanc
+                `,
+                scientists: [
+                {
+                        name: 'George Box & Gwilym Jenkins',
+                        year: '1970',
+                        contribution: 'Méthode Box-Jenkins (ARIMA)',
+                        context: 'Standardise l\'analyse des séries temporelles'
+                    },
+                    {
+                        name: 'Norbert Wiener',
+                        year: '1940',
+                        contribution: 'Filtrage de Wiener',
+                        context: 'Père de la cybernétique'
+                    },
+                ]
+            },
+            code: `from sympy import symbols, Function
+t = symbols('t', integer=True)
+X = Function('X')
+phi = 0.8
+# Processus AR(1) : X_t = 0.8 * X_{t-1}
+# C'est une récurrence linéaire
+# SymPy peut résoudre les récurrences (rsolve)`,
+            output: 'X(t) = C * 0.8^t',
+            exercises: [
+            'Calculer l\'autocorrélation d\'un AR(1)',
+            'Différence entre marche aléatoire et bruit blanc',
+            'Lissage exponentiel',
+        ],
+            practicalApplication: 'Prévision des ventes, cours de bourse, consommation électrique, climat.'
+        },
+    {
+            id: 'day_069',
+            dayNumber: 69,
+            title: 'Optimisation : Gradient',
+            difficulty: 'Avancé',
+            masteryLevel: 'Expert',
+            unlocked: true,
+            xpReward: 45,
+            badge: '🏅 Optimisation : Gradient',
+            africanAnalogy: `La descente de gradient, c'est comme descendre une montagne dans le brouillard. On ne voit pas le sommet ni la vallée, mais on sent la pente sous ses pieds. On fait un pas vers le bas, puis on recommence, jusqu'à trouver le point le plus bas.`,
+            theory: {
+                title: 'Optimisation Numérique',
+                content: `Algorithme fondamental pour entraîner les modèles de Machine Learning. Minimise une fonction de coût en suivant la direction opposée au gradient.`,
+                mathematicalFoundation: `
+                    - Gradient : ∇f(x)\n                - Mise à jour : x_{k+1} = x_k - α∇f(x_k)\n                - Taux d'apprentissage α (Learning rate)\n                - Convexité (garantie de minimum global)\n                - Gradient stochastique (SGD)
+                `,
+                scientists: [
+                {
+                        name: 'Augustin-Louis Cauchy',
+                        year: '1847',
+                        contribution: 'Méthode du gradient',
+                        context: 'Invente la méthode pour résoudre des systèmes d\'équations'
+                    },
+                    {
+                        name: 'Herbert Robbins',
+                        year: '1951',
+                        contribution: 'Approximation stochastique',
+                        context: 'Adapte la méthode aux données bruitées (SGD)'
+                    },
+                ]
+            },
+            code: `from sympy import symbols, diff
+x = symbols('x')
+# Fonction convexe f(x) = x^2 - 4x + 5
+f = x**2 - 4*x + 5
+# Gradient (dérivée)
+grad = diff(f, x)
+# Point critique (grad = 0)
+solution = solve(grad, x)
+print(f'Minimum en x = {solution[0]}')`,
+            output: 'Minimum en x = 2',
+            exercises: [
+            'Effectuer 3 pas de descente manuellement',
+            'Impact d\'un taux d\'apprentissage trop grand',
+            'Problème des minimums locaux',
+        ],
+            practicalApplication: 'Entraînement des réseaux de neurones, optimisation logistique, design technique.'
+        },
+    {
+            id: 'day_070',
+            dayNumber: 70,
+            title: 'Théorie de l\'Information',
+            difficulty: 'Expert',
+            masteryLevel: 'Maître',
+            unlocked: true,
+            xpReward: 50,
+            badge: '🏅 Théorie de l'Information',
+            africanAnalogy: `L'information se mesure, comme l'eau ou l'électricité. Un message surprenant contient beaucoup d'information ('Il neige au Sahara'). Un message évident en contient peu ('Le soleil se lève'). Le bit est l'atome d'information.`,
+            theory: {
+                title: 'Entropie et Codage',
+                content: `Quantifie l'information, la compression et la transmission. L'entropie mesure l'incertitude moyenne d'une variable aléatoire.`,
+                mathematicalFoundation: `
+                    - Information propre : I(x) = -log₂ p(x)\n                - Entropie : H(X) = E[I(x)]\n                - Divergence KL (Kullback-Leibler)\n                - Information mutuelle : I(X;Y) = H(X) - H(X|Y)\n                - Théorème du codage de source
+                `,
+                scientists: [
+                {
+                        name: 'Claude Shannon',
+                        year: '1948',
+                        contribution: 'Théorie mathématique de la communication',
+                        context: 'Fonde l\'ère numérique (bits, compression, correction d\'erreur)'
+                    },
+                    {
+                        name: 'John von Neumann',
+                        year: '1932',
+                        contribution: 'Entropie quantique',
+                        context: 'Suggère le nom \'entropie\' à Shannon'
+                    },
+                ]
+            },
+            code: `from sympy import log, Sum, symbols
+p = symbols('p', positive=True)
+# Entropie d'une pièce biaisée (Bernoulli)
+H = -(p * log(p, 2) + (1-p) * log(1-p, 2))
+# Maximum pour p=0.5 (pièce équilibrée)
+print('Entropie max pour p=0.5')`,
+            output: '1 bit',
+            exercises: [
+            'Calculer l\'entropie d\'un dé à 6 faces',
+            'Lien entre compression ZIP et entropie',
+            'Pourquoi le langage est-il redondant ?',
+        ],
+            practicalApplication: 'Compression (MP3, ZIP), cryptographie, télécommunications (5G, Fibre), Machine Learning.'
         },
 
 ];

@@ -661,101 +661,112 @@ export const challenges = [
     },
     {
         "id": "day_061",
-        "title": "Jour 061 — Pôles & zéros",
-        "code": "# Solve denominator == 0 to get poles",
-        "output": "\\(\\text{Poles = roots of } LCs^2+RCs+1\\)",
+        "title": "Jour 061 — Régression Linéaire",
+        "code": "from sympy import symbols, Sum, diff, solve\na, b, i, n = symbols('a b i n')\nx, y = symbols('x y', cls=Function)\n# Minimiser la somme des carrés des erreurs\nS = Sum((a*x(i) + b - y(i))**2, (i, 1, n))\n# Dérivées partielles nulles\neq1 = diff(S, a)\neq2 = diff(S, b)\nprint('Système à résoudre pour a et b')",
+        "output": "Système d'équations normales",
         "exercises": [
-            "Exercice 1 — Reproduire l'exécution du code et vérifier la sortie attendue.",
-            "Exercice 2 — Proposer une variante: modifier une partie du code pour obtenir un résultat connexe.",
-            "Exercice 3 — Donner une application pratique (court texte) reliant le thème à un problème réel."
+            "Calculer la pente et l'ordonnée à l'origine pour 3 points",
+            "Prouver que la droite passe par le point moyen (x̄, ȳ)",
+            "Régression multivariée (concept)"
         ]
     },
     {
         "id": "day_062",
-        "title": "Jour 062 — Transformée Z",
-        "code": "# Intro to Z-transform (symbolic)",
-        "output": "\\(\\text{Z-transform (symbolic)}\\)",
+        "title": "Jour 062 — Classification : Logistique",
+        "code": "from sympy import exp, plot, symbols\nz = symbols('z')\n# Fonction Sigmoïde (activation)\nsigmoid = 1 / (1 + exp(-z))\n# Dérivée de la sigmoïde (utile pour le gradient)\nd_sigmoid = sigmoid.diff(z).simplify()\nprint(f'Dérivée : {d_sigmoid}')",
+        "output": "exp(-z)/(1 + exp(-z))**2",
         "exercises": [
-            "Exercice 1 — Reproduire l'exécution du code et vérifier la sortie attendue.",
-            "Exercice 2 — Proposer une variante: modifier une partie du code pour obtenir un résultat connexe.",
-            "Exercice 3 — Donner une application pratique (court texte) reliant le thème à un problème réel."
+            "Montrer que σ'(z) = σ(z)(1-σ(z))",
+            "Tracer la fonction de coût pour y=1",
+            "Calculer la probabilité pour z=0"
         ]
     },
     {
         "id": "day_063",
-        "title": "Jour 063 — Laplace appliquée",
-        "code": "# Circuit analysis via Laplace (example)",
-        "output": "\\(H(s) \\text{ examples}\\)",
+        "title": "Jour 063 — Réseaux de Neurones",
+        "code": "from sympy import symbols, diff, Function\nx, w, b, y = symbols('x w b y')\n# Perceptron simple avec perte quadratique\na = x * w + b # Activation linéaire pour simplifier\nLoss = (a - y)**2\n# Gradient pour la mise à jour du poids w\ngrad_w = diff(Loss, w)\nprint(f'Gradient dw : {grad_w}')",
+        "output": "2*x*(b + w*x - y)",
         "exercises": [
-            "Exercice 1 — Reproduire l'exécution du code et vérifier la sortie attendue.",
-            "Exercice 2 — Proposer une variante: modifier une partie du code pour obtenir un résultat connexe.",
-            "Exercice 3 — Donner une application pratique (court texte) reliant le thème à un problème réel."
+            "Calculer le gradient pour une activation Sigmoïde",
+            "Architecture d'un réseau pour XOR",
+            "Rôle du biais b"
         ]
     },
     {
         "id": "day_064",
-        "title": "Jour 064 — Énergie masse-ressort",
-        "code": "# Define T (kinetic) and V (potential) symbolically",
-        "output": "\\(T+V \\text{ symbolic}\\)",
+        "title": "Jour 064 — Clustering : K-Means",
+        "code": "from sympy import symbols, sqrt\nx1, y1, cx, cy = symbols('x1 y1 cx cy')\n# Distance au carré entre un point et un centroïde\ndist_sq = (x1 - cx)**2 + (y1 - cy)**2\n# Le centroïde optimal minimise cette distance (moyenne)\n# C'est un problème d'optimisation géométrique",
+        "output": "Minimisation de la variance",
         "exercises": [
-            "Exercice 1 — Reproduire l'exécution du code et vérifier la sortie attendue.",
-            "Exercice 2 — Proposer une variante: modifier une partie du code pour obtenir un résultat connexe.",
-            "Exercice 3 — Donner une application pratique (court texte) reliant le thème à un problème réel."
+            "Calculer le nouveau centroïde de 3 points",
+            "Pourquoi K-Means converge-t-il toujours ?",
+            "Choisir le bon K (méthode du coude)"
         ]
     },
     {
         "id": "day_065",
-        "title": "Jour 065 — Masse-ressort amorti",
-        "code": "# Characteristic equation and discriminant",
-        "output": "\\(\\text{Roots depend on damping (over/crit/under)}\\)",
+        "title": "Jour 065 — PCA : Réduction Dim.",
+        "code": "from sympy import Matrix, eye\n# Matrice de covariance exemple (2D)\nC = Matrix([[4, 2], [2, 3]])\n# Diagonalisation pour trouver les axes principaux\nP, D = C.diagonalize()\nprint(f'Valeurs propres (Variance) : {D}')",
+        "output": "Matrix([[2, 0], [0, 5]])",
         "exercises": [
-            "Exercice 1 — Reproduire l'exécution du code et vérifier la sortie attendue.",
-            "Exercice 2 — Proposer une variante: modifier une partie du code pour obtenir un résultat connexe.",
-            "Exercice 3 — Donner une application pratique (court texte) reliant le thème à un problème réel."
+            "Calculer les vecteurs propres d'une matrice 2x2",
+            "Pourcentage de variance expliquée",
+            "Lien avec la SVD (Singular Value Decomposition)"
+        ]
+    },
+    {
+        "id": "day_066",
+        "title": "Jour 066 — Bayes Naïf",
+        "code": "from sympy import symbols\nP_Spam = 0.4\nP_Ham = 0.6\n# Mot 'Gratuit' : P(Gratuit|Spam)=0.8, P(Gratuit|Ham)=0.1\nP_G_S = 0.8\nP_G_H = 0.1\n# Proba que ce soit un Spam sachant 'Gratuit'\nP_S_G = (P_G_S * P_Spam) / (P_G_S * P_Spam + P_G_H * P_Ham)\nprint(f'P(Spam|Gratuit) = {P_S_G:.2f}')",
+        "output": "P(Spam|Gratuit) = 0.84",
+        "exercises": [
+            "Calculer la probabilité avec deux mots",
+            "Pourquoi l'hypothèse naïve est-elle fausse mais utile ?",
+            "Gérer les mots inconnus"
         ]
     },
     {
         "id": "day_067",
-        "title": "Jour 067 — Analyse modale",
-        "code": "# Build K and M matrices symbolically",
-        "output": "\\(\\text{Generalized eigenproblem } Kx=\\lambda M x\\)",
+        "title": "Jour 067 — Arbres de Décision",
+        "code": "from sympy import log\n# Calcul de l'entropie d'un ensemble binaire (5 oui, 5 non)\np_oui = 0.5\np_non = 0.5\nEntropie = -(p_oui * log(p_oui, 2) + p_non * log(p_non, 2))\nprint(f'Entropie maximale (désordre) : {Entropie}')",
+        "output": "Entropie maximale : 1.0",
         "exercises": [
-            "Exercice 1 — Reproduire l'exécution du code et vérifier la sortie attendue.",
-            "Exercice 2 — Proposer une variante: modifier une partie du code pour obtenir un résultat connexe.",
-            "Exercice 3 — Donner une application pratique (court texte) reliant le thème à un problème réel."
+            "Calculer l'entropie de (9 oui, 1 non)",
+            "Calculer le gain d'information d'une division",
+            "Différence entre Gini et Entropie"
         ]
     },
     {
         "id": "day_068",
-        "title": "Jour 068 — Thermodynamique symbolique",
-        "code": "# PV=nRT manipulations",
-        "output": "\\(PV=nRT\\)",
+        "title": "Jour 068 — Séries Temporelles",
+        "code": "from sympy import symbols, Function\nt = symbols('t', integer=True)\nX = Function('X')\nphi = 0.8\n# Processus AR(1) : X_t = 0.8 * X_{t-1}\n# C'est une récurrence linéaire\n# SymPy peut résoudre les récurrences (rsolve)",
+        "output": "X(t) = C * 0.8^t",
         "exercises": [
-            "Exercice 1 — Reproduire l'exécution du code et vérifier la sortie attendue.",
-            "Exercice 2 — Proposer une variante: modifier une partie du code pour obtenir un résultat connexe.",
-            "Exercice 3 — Donner une application pratique (court texte) reliant le thème à un problème réel."
+            "Calculer l'autocorrélation d'un AR(1)",
+            "Différence entre marche aléatoire et bruit blanc",
+            "Lissage exponentiel"
         ]
     },
     {
         "id": "day_069",
-        "title": "Jour 069 — Équilibre chimique",
-        "code": "# K equilibrium expressions symbolic",
-        "output": "\\(K = \\frac{[products]}{[reactants]}\\)",
+        "title": "Jour 069 — Optimisation : Gradient",
+        "code": "from sympy import symbols, diff\nx = symbols('x')\n# Fonction convexe f(x) = x^2 - 4x + 5\nf = x**2 - 4*x + 5\n# Gradient (dérivée)\ngrad = diff(f, x)\n# Point critique (grad = 0)\nsolution = solve(grad, x)\nprint(f'Minimum en x = {solution[0]}')",
+        "output": "Minimum en x = 2",
         "exercises": [
-            "Exercice 1 — Reproduire l'exécution du code et vérifier la sortie attendue.",
-            "Exercice 2 — Proposer une variante: modifier une partie du code pour obtenir un résultat connexe.",
-            "Exercice 3 — Donner une application pratique (court texte) reliant le thème à un problème réel."
+            "Effectuer 3 pas de descente manuellement",
+            "Impact d'un taux d'apprentissage trop grand",
+            "Problème des minimums locaux"
         ]
     },
     {
         "id": "day_070",
-        "title": "Jour 070 — Optique simplifiée",
-        "code": "# Wave equation symbolic form",
-        "output": "\\(\\text{Wave PDE (symbolic)}\\)",
+        "title": "Jour 070 — Théorie de l'Information",
+        "code": "from sympy import log, Sum, symbols\np = symbols('p', positive=True)\n# Entropie d'une pièce biaisée (Bernoulli)\nH = -(p * log(p, 2) + (1-p) * log(1-p, 2))\n# Maximum pour p=0.5 (pièce équilibrée)\nprint('Entropie max pour p=0.5')",
+        "output": "1 bit",
         "exercises": [
-            "Exercice 1 — Reproduire l'exécution du code et vérifier la sortie attendue.",
-            "Exercice 2 — Proposer une variante: modifier une partie du code pour obtenir un résultat connexe.",
-            "Exercice 3 — Donner une application pratique (court texte) reliant le thème à un problème réel."
+            "Calculer l'entropie d'un dé à 6 faces",
+            "Lien entre compression ZIP et entropie",
+            "Pourquoi le langage est-il redondant ?"
         ]
     },
     {

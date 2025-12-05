@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Jour 069 — Optimisation : Gradient</title>
+<title>Jour 066 — Bayes Naïf</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
 <style>
 :root{--bg:#0f172a; --accent:#06b6d4; --muted:#94a3b8;}
@@ -34,7 +34,7 @@
 <header class="header container">
   <div style="display:flex;justify-content:space-between;align-items:center">
     <div>
-      <h1 style="margin:0;color:white">Jour 069 — Optimisation : Gradient</h1>
+      <h1 style="margin:0;color:white">Jour 066 — Bayes Naïf</h1>
       <div style="font-size:0.9em;opacity:0.9">Challenge 100 Jours SymPy</div>
     </div>
     <div><a class="btn" href="index.html">← Index</a></div>
@@ -44,61 +44,61 @@
 <div class="container">
   <main class="page">
     <div class="meta">
-      <span class="badge badge-level">🎯 Avancé</span>
-      <span class="badge badge-mastery">📊 Expert</span>
-      <span class="badge badge-xp">⭐ +45 XP</span>
+      <span class="badge badge-level">🎯 Intermédiaire</span>
+      <span class="badge badge-mastery">📊 Avancé</span>
+      <span class="badge badge-xp">⭐ +40 XP</span>
     </div>
 
     <h2>🌍 Analogie Africaine</h2>
-    <div class="analogy">La descente de gradient, c'est comme descendre une montagne dans le brouillard. On ne voit pas le sommet ni la vallée, mais on sent la pente sous ses pieds. On fait un pas vers le bas, puis on recommence, jusqu'à trouver le point le plus bas.</div>
+    <div class="analogy">Le classifieur Bayes Naïf est comme un médecin qui diagnostique une maladie en combinant les symptômes. Fièvre ? Toux ? Fatigue ? Il calcule la probabilité de la grippe en supposant que chaque symptôme ajoute une preuve indépendante.</div>
 
-    <h2>📚 Théorie : Optimisation Numérique</h2>
+    <h2>📚 Théorie : Probabilités Bayésiennes</h2>
     <div class="theory">
-      <p>Algorithme fondamental pour entraîner les modèles de Machine Learning. Minimise une fonction de coût en suivant la direction opposée au gradient.</p>
+      <p>Utilise le théorème de Bayes avec l'hypothèse 'naïve' d'indépendance entre les caractéristiques. Très efficace pour le texte.</p>
       <h3>Fondements Mathématiques</h3>
-      <ul><li>Gradient : ∇f(x)</li><li>Mise à jour : x_{k+1} = x_k - α∇f(x_k)</li><li>Taux d'apprentissage α (Learning rate)</li><li>Convexité (garantie de minimum global)</li><li>Gradient stochastique (SGD)</li></ul>
+      <ul><li>P(y|x) ∝ P(y) Π P(x_i|y)</li><li>Prior P(y) : probabilité a priori</li><li>Vraisemblance P(x_i|y)</li><li>Indépendance conditionnelle</li><li>Lissage de Laplace (pour éviter proba 0)</li></ul>
     </div>
 
     <h2>👨‍🔬 Histoire & Scientifiques</h2>
     
     <div class="scientist">
-      <div class="scientist-name">Augustin-Louis Cauchy</div>
-      <div class="scientist-year">1847</div>
+      <div class="scientist-name">Thomas Bayes</div>
+      <div class="scientist-year">1763</div>
       <div class="scientist-contribution">
-        <strong>Contribution :</strong> Méthode du gradient
-        <br><em>Contexte :</em> Invente la méthode pour résoudre des systèmes d'équations
+        <strong>Contribution :</strong> Théorème de Bayes
+        <br><em>Contexte :</em> Fondement de l'inférence statistique
       </div>
     </div>
     <div class="scientist">
-      <div class="scientist-name">Herbert Robbins</div>
-      <div class="scientist-year">1951</div>
+      <div class="scientist-name">Pierre-Simon Laplace</div>
+      <div class="scientist-year">1812</div>
       <div class="scientist-contribution">
-        <strong>Contribution :</strong> Approximation stochastique
-        <br><em>Contexte :</em> Adapte la méthode aux données bruitées (SGD)
+        <strong>Contribution :</strong> Probabilités inverses
+        <br><em>Contexte :</em> Développe la forme moderne du théorème
       </div>
     </div>
 
     <h2>💻 Code SymPy</h2>
-    <div class="code"><pre>from sympy import symbols, diff
-x = symbols('x')
-# Fonction convexe f(x) = x^2 - 4x + 5
-f = x**2 - 4*x + 5
-# Gradient (dérivée)
-grad = diff(f, x)
-# Point critique (grad = 0)
-solution = solve(grad, x)
-print(f'Minimum en x = {solution[0]}')</pre></div>
-    <div class="output"><strong>Sortie attendue :</strong> Minimum en x = 2</div>
+    <div class="code"><pre>from sympy import symbols
+P_Spam = 0.4
+P_Ham = 0.6
+# Mot 'Gratuit' : P(Gratuit|Spam)=0.8, P(Gratuit|Ham)=0.1
+P_G_S = 0.8
+P_G_H = 0.1
+# Proba que ce soit un Spam sachant 'Gratuit'
+P_S_G = (P_G_S * P_Spam) / (P_G_S * P_Spam + P_G_H * P_Ham)
+print(f'P(Spam|Gratuit) = {P_S_G:.2f}')</pre></div>
+    <div class="output"><strong>Sortie attendue :</strong> P(Spam|Gratuit) = 0.84</div>
 
     <h2>💪 Exercices Pratiques</h2>
-    <div class="exercises"><ol><li>Effectuer 3 pas de descente manuellement</li><li>Impact d'un taux d'apprentissage trop grand</li><li>Problème des minimums locaux</li></ol></div>
+    <div class="exercises"><ol><li>Calculer la probabilité avec deux mots</li><li>Pourquoi l'hypothèse naïve est-elle fausse mais utile ?</li><li>Gérer les mots inconnus</li></ol></div>
 
     <h2>🔬 Applications Pratiques</h2>
-    <p>Entraînement des réseaux de neurones, optimisation logistique, design technique.</p>
+    <p>Filtrage anti-spam, analyse de sentiment, classification de documents.</p>
 
     <div class="controls">
-      <a class="btn" href="day_068.html">← Précédent</a>
-      <a class="btn" href="day_070.html">Suivant →</a>
+      <a class="btn" href="day_065.html">← Précédent</a>
+      <a class="btn" href="day_067.html">Suivant →</a>
     </div>
   </main>
 </div>
