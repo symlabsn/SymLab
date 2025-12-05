@@ -1838,590 +1838,590 @@ solve(Z.as_real_imag()[1], omega)`,
             'Puissance active et réactive',
         ],
         practicalApplication: 'Électronique, distribution d\'énergie, télécommunications, informatique.'
-    },,
+    },
     {
-            id: 'day_041',
-            dayNumber: 41,
-            title: 'Séries de Fourier',
-            difficulty: 'Avancé',
-            masteryLevel: 'Expert',
-            unlocked: true,
-            xpReward: 45,
-            badge: '🏅 Séries de Fourier',
-            africanAnalogy: `Une série de Fourier est comme décomposer un plat complexe en ses ingrédients de base. N'importe quel son, aussi complexe soit-il, est juste une somme de notes pures (sinusoïdes). C'est l'ADN des ondes.`,
-            theory: {
-                title: 'Analyse Harmonique',
-                content: `Toute fonction périodique peut s'écrire comme une somme infinie de sinus et cosinus. C'est la base du traitement du signal (MP3, JPEG, 4G).`,
-                mathematicalFoundation: `
+        id: 'day_041',
+        dayNumber: 41,
+        title: 'Séries de Fourier',
+        difficulty: 'Avancé',
+        masteryLevel: 'Expert',
+        unlocked: true,
+        xpReward: 45,
+        badge: '🏅 Séries de Fourier',
+        africanAnalogy: `Une série de Fourier est comme décomposer un plat complexe en ses ingrédients de base. N'importe quel son, aussi complexe soit-il, est juste une somme de notes pures (sinusoïdes). C'est l'ADN des ondes.`,
+        theory: {
+            title: 'Analyse Harmonique',
+            content: `Toute fonction périodique peut s'écrire comme une somme infinie de sinus et cosinus. C'est la base du traitement du signal (MP3, JPEG, 4G).`,
+            mathematicalFoundation: `
                     - f(t) = a₀ + Σ (aₙ cos(nωt) + bₙ sin(nωt))\n                - Coefficients : aₙ = (2/T) ∫ f(t)cos(nωt)dt\n                - Spectre de fréquence\n                - Théorème de Parseval (conservation de l'énergie)
                 `,
-                scientists: [
+            scientists: [
                 {
-                        name: 'Joseph Fourier',
-                        year: '1822',
-                        contribution: 'Théorie analytique de la chaleur',
-                        context: 'Invente cet outil pour résoudre l\'équation de la chaleur'
-                    },
-                    {
-                        name: 'Jean le Rond d'Alembert',
+                    name: 'Joseph Fourier',
+                    year: '1822',
+                    contribution: 'Théorie analytique de la chaleur',
+                    context: 'Invente cet outil pour résoudre l\'équation de la chaleur'
+                },
+                {
+                    name: 'Jean le Rond d'Alembert',
                         year: '1747',
-                        contribution: 'Équation des ondes',
-                        context: 'Prépare le terrain pour l\'analyse des vibrations'
-                    },
-                ]
-            },
-            code: `from sympy import fourier_series, pi, symbols, plot
+                    contribution: 'Équation des ondes',
+                    context: 'Prépare le terrain pour l\'analyse des vibrations'
+                },
+            ]
+        },
+        code: `from sympy import fourier_series, pi, symbols, plot
 x = symbols('x')
 # Série de Fourier d'un signal carré
 s = fourier_series(x, (x, -pi, pi))
 # Afficher les 3 premiers termes
 s.truncate(3)`,
-            output: '2*sin(x) - sin(2*x) + 2*sin(3*x)/3',
-            exercises: [
+        output: '2*sin(x) - sin(2*x) + 2*sin(3*x)/3',
+        exercises: [
             'Calculer la série de Fourier d\'une dent de scie',
             'Visualiser la convergence (phénomène de Gibbs)',
             'Calculer l\'énergie du signal',
         ],
-            practicalApplication: 'Compression audio/image, télécommunications, IRM, analyse des vibrations.'
-        },
+        practicalApplication: 'Compression audio/image, télécommunications, IRM, analyse des vibrations.'
+    },
     {
-            id: 'day_042',
-            dayNumber: 42,
-            title: 'Transformée de Laplace',
-            difficulty: 'Avancé',
-            masteryLevel: 'Expert',
-            unlocked: true,
-            xpReward: 45,
-            badge: '🏅 Transformée de Laplace',
-            africanAnalogy: `La transformée de Laplace est une machine à traduire. Elle transforme des problèmes difficiles de calcul (équations différentielles) en problèmes faciles d'algèbre. On résout dans le monde facile, puis on re-traduit vers le monde réel.`,
-            theory: {
-                title: 'Calcul Opérationnel',
-                content: `Transforme une fonction du temps f(t) en une fonction complexe F(s). Essentiel pour l'analyse des systèmes et l'automatique.`,
-                mathematicalFoundation: `
+        id: 'day_042',
+        dayNumber: 42,
+        title: 'Transformée de Laplace',
+        difficulty: 'Avancé',
+        masteryLevel: 'Expert',
+        unlocked: true,
+        xpReward: 45,
+        badge: '🏅 Transformée de Laplace',
+        africanAnalogy: `La transformée de Laplace est une machine à traduire. Elle transforme des problèmes difficiles de calcul (équations différentielles) en problèmes faciles d'algèbre. On résout dans le monde facile, puis on re-traduit vers le monde réel.`,
+        theory: {
+            title: 'Calcul Opérationnel',
+            content: `Transforme une fonction du temps f(t) en une fonction complexe F(s). Essentiel pour l'analyse des systèmes et l'automatique.`,
+            mathematicalFoundation: `
                     - L{f(t)} = ∫₀^∞ f(t)e^(-st)dt\n                - L{f'} = sF(s) - f(0)\n                - L{f''} = s²F(s) - sf(0) - f'(0)\n                - Théorème de la valeur finale\n                - Convolution : L{f*g} = F(s)G(s)
                 `,
-                scientists: [
+            scientists: [
                 {
-                        name: 'Pierre-Simon de Laplace',
-                        year: '1785',
-                        contribution: 'Théorie analytique des probabilités',
-                        context: 'Le \'Newton français\', développe cet outil puissant'
-                    },
-                    {
-                        name: 'Oliver Heaviside',
-                        year: '1880',
-                        contribution: 'Calcul opérationnel',
-                        context: 'Ingénieur autodidacte, applique Laplace à l\'électricité'
-                    },
-                ]
-            },
-            code: `from sympy import laplace_transform, inverse_laplace_transform, symbols, exp, sin
+                    name: 'Pierre-Simon de Laplace',
+                    year: '1785',
+                    contribution: 'Théorie analytique des probabilités',
+                    context: 'Le \'Newton français\', développe cet outil puissant'
+                },
+                {
+                    name: 'Oliver Heaviside',
+                    year: '1880',
+                    contribution: 'Calcul opérationnel',
+                    context: 'Ingénieur autodidacte, applique Laplace à l\'électricité'
+                },
+            ]
+        },
+        code: `from sympy import laplace_transform, inverse_laplace_transform, symbols, exp, sin
 t, s, a = symbols('t s a')
 # Transformée de sin(at)
 L = laplace_transform(sin(a*t), t, s)
 print(f'L{{sin(at)}} = {L[0]}')`,
-            output: 'L{sin(at)} = a/(a**2 + s**2)',
-            exercises: [
+        output: 'L{sin(at)} = a/(a**2 + s**2)',
+        exercises: [
             'Résoudre y\'\' + y = 0 avec Laplace',
             'Trouver la transformée inverse de 1/(s+1)^2',
             'Fonction de transfert d\'un circuit RC',
         ],
-            practicalApplication: 'Automatique (régulateurs PID), circuits électriques, mécanique (amortisseurs).'
-        },
+        practicalApplication: 'Automatique (régulateurs PID), circuits électriques, mécanique (amortisseurs).'
+    },
     {
-            id: 'day_043',
-            dayNumber: 43,
-            title: 'Équations Différentielles Partielles',
-            difficulty: 'Expert',
-            masteryLevel: 'Expert',
-            unlocked: true,
-            xpReward: 50,
-            badge: '🏅 Équations Différentielles Partielles',
-            africanAnalogy: `Une EDP décrit comment quelque chose change dans l'espace et le temps simultanément. Comme la chaleur qui se diffuse dans une barre de métal ou une vague qui se propage sur l'eau. C'est la symphonie de l'univers continu.`,
-            theory: {
-                title: 'Physique Mathématique',
-                content: `Les EDP modélisent la plupart des phénomènes physiques. La méthode de séparation des variables est une technique classique de résolution.`,
-                mathematicalFoundation: `
+        id: 'day_043',
+        dayNumber: 43,
+        title: 'Équations Différentielles Partielles',
+        difficulty: 'Expert',
+        masteryLevel: 'Expert',
+        unlocked: true,
+        xpReward: 50,
+        badge: '🏅 Équations Différentielles Partielles',
+        africanAnalogy: `Une EDP décrit comment quelque chose change dans l'espace et le temps simultanément. Comme la chaleur qui se diffuse dans une barre de métal ou une vague qui se propage sur l'eau. C'est la symphonie de l'univers continu.`,
+        theory: {
+            title: 'Physique Mathématique',
+            content: `Les EDP modélisent la plupart des phénomènes physiques. La méthode de séparation des variables est une technique classique de résolution.`,
+            mathematicalFoundation: `
                     - Équation de la chaleur : ∂u/∂t = α∇²u\n                - Équation des ondes : ∂²u/∂t² = c²∇²u\n                - Équation de Laplace : ∇²u = 0\n                - Conditions aux limites (Dirichlet, Neumann)\n                - Séparation des variables : u(x,t) = X(x)T(t)
                 `,
-                scientists: [
+            scientists: [
                 {
-                        name: 'Joseph Fourier',
-                        year: '1807',
-                        contribution: 'Propagation de la chaleur',
-                        context: 'Fonde la thermodynamique théorique'
-                    },
-                    {
-                        name: 'Bernhard Riemann',
-                        year: '1860',
-                        contribution: 'Ondes de choc',
-                        context: 'Travaux sur la dynamique des fluides'
-                    },
-                ]
-            },
-            code: `from sympy import Function, pde_separate, Eq, symbols
+                    name: 'Joseph Fourier',
+                    year: '1807',
+                    contribution: 'Propagation de la chaleur',
+                    context: 'Fonde la thermodynamique théorique'
+                },
+                {
+                    name: 'Bernhard Riemann',
+                    year: '1860',
+                    contribution: 'Ondes de choc',
+                    context: 'Travaux sur la dynamique des fluides'
+                },
+            ]
+        },
+        code: `from sympy import Function, pde_separate, Eq, symbols
 x, t, c = symbols('x t c')
 u = Function('u')(x, t)
 # Équation des ondes 1D
 eq = Eq(u.diff(t, 2), c**2 * u.diff(x, 2))
 # Séparation des variables u(x,t) = X(x)T(t)
 pde_separate(eq, u, [Function('X')(x), Function('T')(t)])`,
-            output: '[X\'\'(x)/X(x), T\'\'(t)/(c**2*T(t))]',
-            exercises: [
+        output: '[X\'\'(x)/X(x), T\'\'(t)/(c**2*T(t))]',
+        exercises: [
             'Résoudre l\'équation de la chaleur 1D',
             'Vérifier si f(x-ct) est solution de l\'équation d\'onde',
             'Équation de Laplace en coordonnées polaires',
         ],
-            practicalApplication: 'Météorologie, acoustique, finance (Black-Scholes), imagerie médicale.'
-        },
+        practicalApplication: 'Météorologie, acoustique, finance (Black-Scholes), imagerie médicale.'
+    },
     {
-            id: 'day_044',
-            dayNumber: 44,
-            title: 'Calcul Vectoriel',
-            difficulty: 'Avancé',
-            masteryLevel: 'Avancé',
-            unlocked: true,
-            xpReward: 40,
-            badge: '🏅 Calcul Vectoriel',
-            africanAnalogy: `Le calcul vectoriel est la langue des champs invisibles. Le gradient dit où ça monte le plus vite. La divergence dit où ça sort (source). Le rotationnel dit où ça tourne (tourbillon). C'est la carte météo des forces.`,
-            theory: {
-                title: 'Opérateurs Différentiels',
-                content: `Gradient, Divergence et Rotationnel sont les outils pour analyser les champs scalaires et vectoriels. Essentiel pour l'électromagnétisme et la mécanique des fluides.`,
-                mathematicalFoundation: `
+        id: 'day_044',
+        dayNumber: 44,
+        title: 'Calcul Vectoriel',
+        difficulty: 'Avancé',
+        masteryLevel: 'Avancé',
+        unlocked: true,
+        xpReward: 40,
+        badge: '🏅 Calcul Vectoriel',
+        africanAnalogy: `Le calcul vectoriel est la langue des champs invisibles. Le gradient dit où ça monte le plus vite. La divergence dit où ça sort (source). Le rotationnel dit où ça tourne (tourbillon). C'est la carte météo des forces.`,
+        theory: {
+            title: 'Opérateurs Différentiels',
+            content: `Gradient, Divergence et Rotationnel sont les outils pour analyser les champs scalaires et vectoriels. Essentiel pour l'électromagnétisme et la mécanique des fluides.`,
+            mathematicalFoundation: `
                     - Nabla : ∇ = (∂/∂x, ∂/∂y, ∂/∂z)\n                - Gradient : ∇f (vecteur pente)\n                - Divergence : ∇·F (flux sortant)\n                - Rotationnel : ∇×F (tendance à tourner)\n                - Théorèmes : Green, Stokes, Ostrogradsky
                 `,
-                scientists: [
+            scientists: [
                 {
-                        name: 'James Clerk Maxwell',
-                        year: '1865',
-                        contribution: 'Équations de Maxwell',
-                        context: 'Unifie électricité et magnétisme avec ces opérateurs'
-                    },
-                    {
-                        name: 'Josiah Willard Gibbs',
-                        year: '1880',
-                        contribution: 'Notation vectorielle moderne',
-                        context: 'Simplifie grandement les mathématiques de la physique'
-                    },
-                ]
-            },
-            code: `from sympy.vector import CoordSys3D, Del
+                    name: 'James Clerk Maxwell',
+                    year: '1865',
+                    contribution: 'Équations de Maxwell',
+                    context: 'Unifie électricité et magnétisme avec ces opérateurs'
+                },
+                {
+                    name: 'Josiah Willard Gibbs',
+                    year: '1880',
+                    contribution: 'Notation vectorielle moderne',
+                    context: 'Simplifie grandement les mathématiques de la physique'
+                },
+            ]
+        },
+        code: `from sympy.vector import CoordSys3D, Del
 C = CoordSys3D('C')
 delop = Del()
 # Champ scalaire f = x^2 + y^2
 f = C.x**2 + C.y**2
 # Gradient
 delop(f)`,
-            output: '2*C.x*C.i + 2*C.y*C.j',
-            exercises: [
+        output: '2*C.x*C.i + 2*C.y*C.j',
+        exercises: [
             'Calculer la divergence d\'un champ radial',
             'Calculer le rotationnel d\'un tourbillon',
             'Vérifier div(rot F) = 0',
         ],
-            practicalApplication: 'Électromagnétisme, météo (vents), écoulement de fluides, infographie 3D.'
-        },
+        practicalApplication: 'Électromagnétisme, météo (vents), écoulement de fluides, infographie 3D.'
+    },
     {
-            id: 'day_045',
-            dayNumber: 45,
-            title: 'Physique Q : Schrödinger',
-            difficulty: 'Expert',
-            masteryLevel: 'Expert',
-            unlocked: true,
-            xpReward: 50,
-            badge: '🏅 Physique Q : Schrödinger',
-            africanAnalogy: `En quantique, une particule n'est pas un point, c'est un nuage de probabilité. L'équation de Schrödinger décrit comment ce nuage danse et change de forme. On ne sait pas où est la particule, seulement où elle pourrait être.`,
-            theory: {
-                title: 'Mécanique Ondulatoire',
-                content: `L'équation de Schrödinger est l'équivalent quantique de F=ma. Elle décrit l'évolution de la fonction d'onde Ψ dont le module au carré donne la probabilité de présence.`,
-                mathematicalFoundation: `
+        id: 'day_045',
+        dayNumber: 45,
+        title: 'Physique Q : Schrödinger',
+        difficulty: 'Expert',
+        masteryLevel: 'Expert',
+        unlocked: true,
+        xpReward: 50,
+        badge: '🏅 Physique Q : Schrödinger',
+        africanAnalogy: `En quantique, une particule n'est pas un point, c'est un nuage de probabilité. L'équation de Schrödinger décrit comment ce nuage danse et change de forme. On ne sait pas où est la particule, seulement où elle pourrait être.`,
+        theory: {
+            title: 'Mécanique Ondulatoire',
+            content: `L'équation de Schrödinger est l'équivalent quantique de F=ma. Elle décrit l'évolution de la fonction d'onde Ψ dont le module au carré donne la probabilité de présence.`,
+            mathematicalFoundation: `
                     - iħ ∂Ψ/∂t = ĤΨ (Équation dépendante du temps)\n                - ĤΨ = EΨ (Équation indépendante du temps)\n                - Opérateur Hamiltonien : Ĥ = -ħ²/2m ∇² + V\n                - Normalisation : ∫|Ψ|²dV = 1\n                - Quantification de l'énergie
                 `,
-                scientists: [
+            scientists: [
                 {
-                        name: 'Erwin Schrödinger',
-                        year: '1926',
-                        contribution: 'Équation de Schrödinger',
-                        context: 'Prix Nobel, formule la mécanique ondulatoire'
-                    },
-                    {
-                        name: 'Max Born',
-                        year: '1926',
-                        contribution: 'Interprétation probabiliste',
-                        context: 'Donne le sens physique à la fonction d\'onde'
-                    },
-                ]
-            },
-            code: `from sympy import symbols, Function, Eq, dsolve, hbar, m
+                    name: 'Erwin Schrödinger',
+                    year: '1926',
+                    contribution: 'Équation de Schrödinger',
+                    context: 'Prix Nobel, formule la mécanique ondulatoire'
+                },
+                {
+                    name: 'Max Born',
+                    year: '1926',
+                    contribution: 'Interprétation probabiliste',
+                    context: 'Donne le sens physique à la fonction d\'onde'
+                },
+            ]
+        },
+        code: `from sympy import symbols, Function, Eq, dsolve, hbar, m
 x, E = symbols('x E')
 psi = Function('psi')(x)
 # Équation de Schrödinger 1D particule libre (V=0)
 eq = Eq(-hbar**2 / (2*m) * psi.diff(x, 2), E * psi)
 dsolve(eq, psi)`,
-            output: 'C1*exp(-i*x*sqrt(2mE)/hbar) + ...',
-            exercises: [
+        output: 'C1*exp(-i*x*sqrt(2mE)/hbar) + ...',
+        exercises: [
             'Particule dans une boîte 1D',
             'Normaliser une fonction d\'onde',
             'Calculer la probabilité de présence',
         ],
-            practicalApplication: 'Chimie quantique, semi-conducteurs, lasers, nanotechnologies.'
-        },
+        practicalApplication: 'Chimie quantique, semi-conducteurs, lasers, nanotechnologies.'
+    },
     {
-            id: 'day_046',
-            dayNumber: 46,
-            title: 'Physique Q : Heisenberg',
-            difficulty: 'Avancé',
-            masteryLevel: 'Avancé',
-            unlocked: true,
-            xpReward: 40,
-            badge: '🏅 Physique Q : Heisenberg',
-            africanAnalogy: `Le principe d'incertitude est comme essayer de prendre une photo nette d'une voiture de course. Si la photo est nette (position précise), on ne voit pas sa vitesse (flou de mouvement). Si on voit le flou (vitesse), on ne sait pas où elle est exactement.`,
-            theory: {
-                title: 'Incertitude Quantique',
-                content: `Il est impossible de connaître simultanément avec une précision infinie la position et la quantité de mouvement d'une particule. Ce n'est pas une limite technologique, mais fondamentale.`,
-                mathematicalFoundation: `
+        id: 'day_046',
+        dayNumber: 46,
+        title: 'Physique Q : Heisenberg',
+        difficulty: 'Avancé',
+        masteryLevel: 'Avancé',
+        unlocked: true,
+        xpReward: 40,
+        badge: '🏅 Physique Q : Heisenberg',
+        africanAnalogy: `Le principe d'incertitude est comme essayer de prendre une photo nette d'une voiture de course. Si la photo est nette (position précise), on ne voit pas sa vitesse (flou de mouvement). Si on voit le flou (vitesse), on ne sait pas où elle est exactement.`,
+        theory: {
+            title: 'Incertitude Quantique',
+            content: `Il est impossible de connaître simultanément avec une précision infinie la position et la quantité de mouvement d'une particule. Ce n'est pas une limite technologique, mais fondamentale.`,
+            mathematicalFoundation: `
                     - Δx · Δp ≥ ħ/2\n                - ΔE · Δt ≥ ħ/2\n                - Commutateur : [x, p] = iħ\n                - Opérateurs non-commutatifs\n                - Paquet d'ondes gaussien (état d'incertitude minimale)
                 `,
-                scientists: [
+            scientists: [
                 {
-                        name: 'Werner Heisenberg',
-                        year: '1927',
-                        contribution: 'Principe d\'incertitude',
-                        context: 'Fonde la mécanique matricielle'
-                    },
-                    {
-                        name: 'Niels Bohr',
-                        year: '1927',
-                        contribution: 'Principe de complémentarité',
-                        context: 'Onde et corpuscule sont deux aspects complémentaires'
-                    },
-                ]
-            },
-            code: `from sympy.physics.quantum import Commutator, Operator
+                    name: 'Werner Heisenberg',
+                    year: '1927',
+                    contribution: 'Principe d\'incertitude',
+                    context: 'Fonde la mécanique matricielle'
+                },
+                {
+                    name: 'Niels Bohr',
+                    year: '1927',
+                    contribution: 'Principe de complémentarité',
+                    context: 'Onde et corpuscule sont deux aspects complémentaires'
+                },
+            ]
+        },
+        code: `from sympy.physics.quantum import Commutator, Operator
 from sympy import I, hbar
 X = Operator('X')
 P = Operator('P')
 # Commutateur canonique
 Commutator(X, P).doit()`,
-            output: 'I*hbar',
-            exercises: [
+        output: 'I*hbar',
+        exercises: [
             'Calculer l\'incertitude minimale pour un électron',
             'Lien avec la transformée de Fourier',
             'Incertitude énergie-temps pour une particule instable',
         ],
-            practicalApplication: 'Microscopes électroniques, stabilité de la matière, vide quantique.'
-        },
+        practicalApplication: 'Microscopes électroniques, stabilité de la matière, vide quantique.'
+    },
     {
-            id: 'day_047',
-            dayNumber: 47,
-            title: 'Physique Q : Puits',
-            difficulty: 'Intermédiaire',
-            masteryLevel: 'Intermédiaire',
-            unlocked: true,
-            xpReward: 35,
-            badge: '🏅 Physique Q : Puits',
-            africanAnalogy: `Une particule dans un puits est comme une corde de guitare attachée aux deux bouts. Elle ne peut vibrer qu'à certaines fréquences précises. De même, l'énergie de la particule est 'quantifiée' : elle ne peut prendre que certaines valeurs, comme les barreaux d'une échelle.`,
-            theory: {
-                title: 'Puits de Potentiel Infini',
-                content: `Modèle simple mais fondamental montrant la quantification de l'énergie. La particule est confinée dans une région de l'espace.`,
-                mathematicalFoundation: `
+        id: 'day_047',
+        dayNumber: 47,
+        title: 'Physique Q : Puits',
+        difficulty: 'Intermédiaire',
+        masteryLevel: 'Intermédiaire',
+        unlocked: true,
+        xpReward: 35,
+        badge: '🏅 Physique Q : Puits',
+        africanAnalogy: `Une particule dans un puits est comme une corde de guitare attachée aux deux bouts. Elle ne peut vibrer qu'à certaines fréquences précises. De même, l'énergie de la particule est 'quantifiée' : elle ne peut prendre que certaines valeurs, comme les barreaux d'une échelle.`,
+        theory: {
+            title: 'Puits de Potentiel Infini',
+            content: `Modèle simple mais fondamental montrant la quantification de l'énergie. La particule est confinée dans une région de l'espace.`,
+            mathematicalFoundation: `
                     - V(x) = 0 pour 0 < x < L, ∞ ailleurs\n                - Conditions aux limites : Ψ(0) = Ψ(L) = 0\n                - Solutions : Ψₙ(x) = √(2/L) sin(nπx/L)\n                - Énergies : Eₙ = n²h² / (8mL²)\n                - Niveau fondamental E₁ > 0 (énergie de point zéro)
                 `,
-                scientists: [
+            scientists: [
                 {
-                        name: 'Louis de Broglie',
-                        year: '1924',
-                        contribution: 'Dualité onde-corpuscule',
-                        context: 'Hypothèse que toute matière a une longueur d\'onde'
-                    },
-                    {
-                        name: 'Wolfgang Pauli',
-                        year: '1925',
-                        contribution: 'Principe d\'exclusion',
-                        context: 'Explique la structure des atomes'
-                    },
-                ]
-            },
-            code: `from sympy import sin, pi, sqrt, integrate, symbols
+                    name: 'Louis de Broglie',
+                    year: '1924',
+                    contribution: 'Dualité onde-corpuscule',
+                    context: 'Hypothèse que toute matière a une longueur d\'onde'
+                },
+                {
+                    name: 'Wolfgang Pauli',
+                    year: '1925',
+                    contribution: 'Principe d\'exclusion',
+                    context: 'Explique la structure des atomes'
+                },
+            ]
+        },
+        code: `from sympy import sin, pi, sqrt, integrate, symbols
 n, x, L = symbols('n x L', positive=True, integer=True)
 # Fonction d'onde normalisée
 psi = sqrt(2/L) * sin(n*pi*x/L)
 # Vérifier la normalisation
 integrate(psi**2, (x, 0, L))`,
-            output: '1',
-            exercises: [
+        output: '1',
+        exercises: [
             'Calculer la différence d\'énergie E2 - E1',
             'Probabilité de trouver la particule au centre',
             'Puits de potentiel fini (effet tunnel)',
         ],
-            practicalApplication: 'Points quantiques (QLED), puits quantiques (lasers), nanostructures.'
-        },
+        practicalApplication: 'Points quantiques (QLED), puits quantiques (lasers), nanostructures.'
+    },
     {
-            id: 'day_048',
-            dayNumber: 48,
-            title: 'Physique Q : Spin',
-            difficulty: 'Expert',
-            masteryLevel: 'Expert',
-            unlocked: true,
-            xpReward: 50,
-            badge: '🏅 Physique Q : Spin',
-            africanAnalogy: `Le spin est comme si les particules tournaient sur elles-mêmes, mais c'est une rotation purement quantique sans équivalent classique. C'est comme une toupie qui ne peut pointer que vers le haut ou vers le bas, jamais entre les deux.`,
-            theory: {
-                title: 'Moment Cinétique Intrinsèque',
-                content: `Le spin est une propriété fondamentale des particules. Les fermions (électrons) ont un spin 1/2, les bosons (photons) un spin entier. Décrit par les matrices de Pauli.`,
-                mathematicalFoundation: `
+        id: 'day_048',
+        dayNumber: 48,
+        title: 'Physique Q : Spin',
+        difficulty: 'Expert',
+        masteryLevel: 'Expert',
+        unlocked: true,
+        xpReward: 50,
+        badge: '🏅 Physique Q : Spin',
+        africanAnalogy: `Le spin est comme si les particules tournaient sur elles-mêmes, mais c'est une rotation purement quantique sans équivalent classique. C'est comme une toupie qui ne peut pointer que vers le haut ou vers le bas, jamais entre les deux.`,
+        theory: {
+            title: 'Moment Cinétique Intrinsèque',
+            content: `Le spin est une propriété fondamentale des particules. Les fermions (électrons) ont un spin 1/2, les bosons (photons) un spin entier. Décrit par les matrices de Pauli.`,
+            mathematicalFoundation: `
                     - Spin 1/2 : états |↑⟩ et |↓⟩\n                - Matrices de Pauli : σx, σy, σz\n                - Algèbre des commutateurs : [σx, σy] = 2iσz\n                - Espace de Hilbert de dimension 2 (Qubit)\n                - Expérience de Stern-Gerlach
                 `,
-                scientists: [
+            scientists: [
                 {
-                        name: 'Paul Dirac',
-                        year: '1928',
-                        contribution: 'Équation de Dirac',
-                        context: 'Unifie quantique et relativité, prédit l\'antimatière et le spin'
-                    },
-                    {
-                        name: 'Wolfgang Pauli',
-                        year: '1924',
-                        contribution: 'Matrices de Pauli',
-                        context: 'Formalisme mathématique du spin'
-                    },
-                ]
-            },
-            code: `from sympy.physics.matrices import msigma
+                    name: 'Paul Dirac',
+                    year: '1928',
+                    contribution: 'Équation de Dirac',
+                    context: 'Unifie quantique et relativité, prédit l\'antimatière et le spin'
+                },
+                {
+                    name: 'Wolfgang Pauli',
+                    year: '1924',
+                    contribution: 'Matrices de Pauli',
+                    context: 'Formalisme mathématique du spin'
+                },
+            ]
+        },
+        code: `from sympy.physics.matrices import msigma
 # Matrices de Pauli
 sigma_x = msigma(1)
 sigma_y = msigma(2)
 # Commutateur [Sx, Sy]
 comm = sigma_x * sigma_y - sigma_y * sigma_x
 print(comm)`,
-            output: '2*I*sigma_z',
-            exercises: [
+        output: '2*I*sigma_z',
+        exercises: [
             'Vérifier σx² = I',
             'Calculer les valeurs propres de σz',
             'Représentation sur la sphère de Bloch',
         ],
-            practicalApplication: 'IRM (Résonance Magnétique Nucléaire), Ordinateur quantique (Qubits), Spintronique.'
-        },
+        practicalApplication: 'IRM (Résonance Magnétique Nucléaire), Ordinateur quantique (Qubits), Spintronique.'
+    },
     {
-            id: 'day_049',
-            dayNumber: 49,
-            title: 'Physique Q : Oscillateur',
-            difficulty: 'Expert',
-            masteryLevel: 'Expert',
-            unlocked: true,
-            xpReward: 50,
-            badge: '🏅 Physique Q : Oscillateur',
-            africanAnalogy: `L'oscillateur harmonique est le pendule de la mécanique quantique. Tout ce qui vibre (atomes, molécules, lumière) se comporte comme un oscillateur. C'est le modèle le plus important de la physique.`,
-            theory: {
-                title: 'Oscillateur Harmonique Quantique',
-                content: `Potentiel parabolique V(x) = 1/2 kx². Les niveaux d'énergie sont équidistants : Eₙ = ħω(n + 1/2). Utilise les opérateurs d'échelle (création/annihilation).`,
-                mathematicalFoundation: `
+        id: 'day_049',
+        dayNumber: 49,
+        title: 'Physique Q : Oscillateur',
+        difficulty: 'Expert',
+        masteryLevel: 'Expert',
+        unlocked: true,
+        xpReward: 50,
+        badge: '🏅 Physique Q : Oscillateur',
+        africanAnalogy: `L'oscillateur harmonique est le pendule de la mécanique quantique. Tout ce qui vibre (atomes, molécules, lumière) se comporte comme un oscillateur. C'est le modèle le plus important de la physique.`,
+        theory: {
+            title: 'Oscillateur Harmonique Quantique',
+            content: `Potentiel parabolique V(x) = 1/2 kx². Les niveaux d'énergie sont équidistants : Eₙ = ħω(n + 1/2). Utilise les opérateurs d'échelle (création/annihilation).`,
+            mathematicalFoundation: `
                     - Hamiltonien : H = p²/2m + 1/2 mω²x²\n                - Opérateurs échelle : a (annihilation), a† (création)\n                - H = ħω(a†a + 1/2)\n                - Fonctions d'onde : polynômes d'Hermite\n                - État fondamental gaussien
                 `,
-                scientists: [
+            scientists: [
                 {
-                        name: 'Max Planck',
-                        year: '1900',
-                        contribution: 'Quanta d\'énergie',
-                        context: 'Résout la catastrophe ultraviolette avec E=hν'
-                    },
-                    {
-                        name: 'Albert Einstein',
-                        year: '1905',
-                        contribution: 'Effet photoélectrique',
-                        context: 'Montre que la lumière est quantifiée (photons)'
-                    },
-                ]
-            },
-            code: `from sympy.physics.qho_1d import psi_n, E_n
+                    name: 'Max Planck',
+                    year: '1900',
+                    contribution: 'Quanta d\'énergie',
+                    context: 'Résout la catastrophe ultraviolette avec E=hν'
+                },
+                {
+                    name: 'Albert Einstein',
+                    year: '1905',
+                    contribution: 'Effet photoélectrique',
+                    context: 'Montre que la lumière est quantifiée (photons)'
+                },
+            ]
+        },
+        code: `from sympy.physics.qho_1d import psi_n, E_n
 from sympy import symbols, m, omega, hbar
 x = symbols('x')
 # Énergie du niveau n=0 (fondamental)
 E0 = E_n(0, omega)
 # Fonction d'onde n=0
 psi0 = psi_n(0, x, m, omega)`,
-            output: 'E0 = hbar*omega/2',
-            exercises: [
+        output: 'E0 = hbar*omega/2',
+        exercises: [
             'Vérifier l\'orthogonalité des états',
             'Calculer <x> et <p> dans l\'état fondamental',
             'Principe de correspondance (n grand)',
         ],
-            practicalApplication: 'Spectroscopie moléculaire, théorie quantique des champs, phonons.'
-        },
+        practicalApplication: 'Spectroscopie moléculaire, théorie quantique des champs, phonons.'
+    },
     {
-            id: 'day_050',
-            dayNumber: 50,
-            title: 'Physique Q : Intrication',
-            difficulty: 'Légendaire',
-            masteryLevel: 'Maître',
-            unlocked: true,
-            xpReward: 100,
-            badge: '🏅 Physique Q : Intrication',
-            africanAnalogy: `L'intrication est un lien fantôme entre deux particules. Même séparées par des années-lumière, elles forment un seul objet. Si on touche l'une, l'autre réagit instantanément. Einstein appelait ça 'action fantôme à distance'.`,
-            theory: {
-                title: 'Intrication et Paradoxe EPR',
-                content: `Deux particules intriquées ne peuvent être décrites séparément. L'état est global. La mesure de l'une fixe instantanément l'état de l'autre.`,
-                mathematicalFoundation: `
+        id: 'day_050',
+        dayNumber: 50,
+        title: 'Physique Q : Intrication',
+        difficulty: 'Légendaire',
+        masteryLevel: 'Maître',
+        unlocked: true,
+        xpReward: 100,
+        badge: '🏅 Physique Q : Intrication',
+        africanAnalogy: `L'intrication est un lien fantôme entre deux particules. Même séparées par des années-lumière, elles forment un seul objet. Si on touche l'une, l'autre réagit instantanément. Einstein appelait ça 'action fantôme à distance'.`,
+        theory: {
+            title: 'Intrication et Paradoxe EPR',
+            content: `Deux particules intriquées ne peuvent être décrites séparément. L'état est global. La mesure de l'une fixe instantanément l'état de l'autre.`,
+            mathematicalFoundation: `
                     - État de Bell : |Φ⁺⟩ = (|00⟩ + |11⟩)/√2\n                - Non-localité\n                - Inégalités de Bell : testent le réalisme local\n                - Matrice densité\n                - Téléportation quantique
                 `,
-                scientists: [
+            scientists: [
                 {
-                        name: 'Einstein, Podolsky, Rosen',
-                        year: '1935',
-                        contribution: 'Paradoxe EPR',
-                        context: 'Questionnent la complétude de la mécanique quantique'
-                    },
-                    {
-                        name: 'John Bell',
-                        year: '1964',
-                        contribution: 'Inégalités de Bell',
-                        context: 'Prouve qu\'on peut tester expérimentalement le débat EPR'
-                    },
-                    {
-                        name: 'Alain Aspect',
-                        year: '1982',
-                        contribution: 'Expérience d\'Aspect',
-                        context: 'Prix Nobel 2022, confirme la mécanique quantique'
-                    },
-                ]
-            },
-            code: `from sympy.physics.quantum.qubit import Qubit
+                    name: 'Einstein, Podolsky, Rosen',
+                    year: '1935',
+                    contribution: 'Paradoxe EPR',
+                    context: 'Questionnent la complétude de la mécanique quantique'
+                },
+                {
+                    name: 'John Bell',
+                    year: '1964',
+                    contribution: 'Inégalités de Bell',
+                    context: 'Prouve qu\'on peut tester expérimentalement le débat EPR'
+                },
+                {
+                    name: 'Alain Aspect',
+                    year: '1982',
+                    contribution: 'Expérience d\'Aspect',
+                    context: 'Prix Nobel 2022, confirme la mécanique quantique'
+                },
+            ]
+        },
+        code: `from sympy.physics.quantum.qubit import Qubit
 from sympy.physics.quantum.gate import H, CNOT
 # Création d'un état de Bell (intriqué)
 # |00> -> H -> (|00>+|10>)/sqrt(2) -> CNOT -> (|00>+|11>)/sqrt(2)
 q = Qubit('00')
 circuit = CNOT(0, 1) * H(0)
 state = circuit * q`,
-            output: 'sqrt(2)*|00>/2 + sqrt(2)*|11>/2',
-            exercises: [
+        output: 'sqrt(2)*|00>/2 + sqrt(2)*|11>/2',
+        exercises: [
             'Démontrer la violation des inégalités de Bell',
             'Protocole de téléportation quantique',
             'Cryptographie quantique (E91)',
         ],
-            practicalApplication: 'Ordinateur quantique, cryptographie inviolable, internet quantique.'
-        },,
+        practicalApplication: 'Ordinateur quantique, cryptographie inviolable, internet quantique.'
+    }, ,
     {
-            id: 'day_051',
-            dayNumber: 51,
-            title: 'Relativité : Temps',
-            difficulty: 'Avancé',
-            masteryLevel: 'Expert',
-            unlocked: true,
-            xpReward: 45,
-            badge: '🏅 Relativité : Temps',
-            africanAnalogy: `Le temps n'est pas une rivière qui coule partout à la même vitesse. C'est comme le rythme d'un tam-tam : si tu t'éloignes très vite, le son te parvient au ralenti. Pour celui qui voyage à la vitesse de la lumière, le temps s'arrête.`,
-            theory: {
-                title: 'Relativité Restreinte',
-                content: `Le temps et l'espace sont liés. La vitesse de la lumière c est constante pour tous les observateurs, ce qui implique que le temps se dilate et les longueurs se contractent à haute vitesse.`,
-                mathematicalFoundation: `
+        id: 'day_051',
+        dayNumber: 51,
+        title: 'Relativité : Temps',
+        difficulty: 'Avancé',
+        masteryLevel: 'Expert',
+        unlocked: true,
+        xpReward: 45,
+        badge: '🏅 Relativité : Temps',
+        africanAnalogy: `Le temps n'est pas une rivière qui coule partout à la même vitesse. C'est comme le rythme d'un tam-tam : si tu t'éloignes très vite, le son te parvient au ralenti. Pour celui qui voyage à la vitesse de la lumière, le temps s'arrête.`,
+        theory: {
+            title: 'Relativité Restreinte',
+            content: `Le temps et l'espace sont liés. La vitesse de la lumière c est constante pour tous les observateurs, ce qui implique que le temps se dilate et les longueurs se contractent à haute vitesse.`,
+            mathematicalFoundation: `
                     - Facteur de Lorentz : γ = 1 / √(1 - v²/c²)\n                - Dilatation du temps : Δt' = γΔt\n                - Contraction des longueurs : L' = L/γ\n                - Transformation de Lorentz (x, y, z, t) -> (x', y', z', t')\n                - Invariant d'intervalle : ds² = c²dt² - dx² - dy² - dz²
                 `,
-                scientists: [
+            scientists: [
                 {
-                        name: 'Albert Einstein',
-                        year: '1905',
-                        contribution: 'Relativité Restreinte',
-                        context: 'Annus Mirabilis, révolutionne la physique'
-                    },
-                    {
-                        name: 'Hendrik Lorentz',
-                        year: '1904',
-                        contribution: 'Transformations de Lorentz',
-                        context: 'Précurseur mathématique de la relativité'
-                    },
-                ]
-            },
-            code: `from sympy import symbols, sqrt, simplify
+                    name: 'Albert Einstein',
+                    year: '1905',
+                    contribution: 'Relativité Restreinte',
+                    context: 'Annus Mirabilis, révolutionne la physique'
+                },
+                {
+                    name: 'Hendrik Lorentz',
+                    year: '1904',
+                    contribution: 'Transformations de Lorentz',
+                    context: 'Précurseur mathématique de la relativité'
+                },
+            ]
+        },
+        code: `from sympy import symbols, sqrt, simplify
 v, c, t = symbols('v c t', positive=True)
 # Facteur de Lorentz
 gamma = 1 / sqrt(1 - v**2/c**2)
 # Temps propre vs Temps mesuré
 t_mesure = gamma * t
 print(f'Facteur gamma pour v=0.9c : {gamma.subs(v, 0.9*c)}')`,
-            output: '2.294',
-            exercises: [
+        output: '2.294',
+        exercises: [
             'Calculer le temps vécu par un astronaute (Paradoxe des jumeaux)',
             'Contraction d\'un vaisseau spatial',
             'Addition des vitesses relativistes',
         ],
-            practicalApplication: 'GPS (correction relativiste nécessaire), accélérateurs de particules, physique nucléaire.'
-        },
+        practicalApplication: 'GPS (correction relativiste nécessaire), accélérateurs de particules, physique nucléaire.'
+    },
     {
-            id: 'day_052',
-            dayNumber: 52,
-            title: 'Relativité : E=mc²',
-            difficulty: 'Avancé',
-            masteryLevel: 'Expert',
-            unlocked: true,
-            xpReward: 45,
-            badge: '🏅 Relativité : E=mc²',
-            africanAnalogy: `La matière est de l'énergie condensée, comme la glace est de l'eau figée. Un petit caillou contient assez d'énergie pour alimenter une ville, si on savait la libérer. C'est le secret du Soleil.`,
-            theory: {
-                title: 'Équivalence Masse-Énergie',
-                content: `La masse est une forme d'énergie. E=mc² signifie qu'une petite quantité de masse peut se transformer en une énorme quantité d'énergie (et inversement).`,
-                mathematicalFoundation: `
+        id: 'day_052',
+        dayNumber: 52,
+        title: 'Relativité : E=mc²',
+        difficulty: 'Avancé',
+        masteryLevel: 'Expert',
+        unlocked: true,
+        xpReward: 45,
+        badge: '🏅 Relativité : E=mc²',
+        africanAnalogy: `La matière est de l'énergie condensée, comme la glace est de l'eau figée. Un petit caillou contient assez d'énergie pour alimenter une ville, si on savait la libérer. C'est le secret du Soleil.`,
+        theory: {
+            title: 'Équivalence Masse-Énergie',
+            content: `La masse est une forme d'énergie. E=mc² signifie qu'une petite quantité de masse peut se transformer en une énorme quantité d'énergie (et inversement).`,
+            mathematicalFoundation: `
                     - Énergie au repos : E₀ = mc²\n                - Énergie totale : E = γmc²\n                - Impulsion : p = γmv\n                - Relation énergie-impulsion : E² = (pc)² + (mc²)²\n                - Masse invariante
                 `,
-                scientists: [
+            scientists: [
                 {
-                        name: 'Albert Einstein',
-                        year: '1905',
-                        contribution: 'E=mc²',
-                        context: 'Conséquence de la relativité restreinte'
-                    },
-                    {
-                        name: 'Lise Meitner',
-                        year: '1938',
-                        contribution: 'Fission nucléaire',
-                        context: 'Explique la perte de masse par la libération d\'énergie'
-                    },
-                ]
-            },
-            code: `from sympy import symbols, sqrt, solve, Eq
+                    name: 'Albert Einstein',
+                    year: '1905',
+                    contribution: 'E=mc²',
+                    context: 'Conséquence de la relativité restreinte'
+                },
+                {
+                    name: 'Lise Meitner',
+                    year: '1938',
+                    contribution: 'Fission nucléaire',
+                    context: 'Explique la perte de masse par la libération d\'énergie'
+                },
+            ]
+        },
+        code: `from sympy import symbols, sqrt, solve, Eq
 E, m, p, c = symbols('E m p c', positive=True)
 # Relation complète E^2 = p^2c^2 + m^2c^4
 # Trouver la masse si on connait E et p (physique des particules)
 eq = Eq(E**2, (p*c)**2 + (m*c**2)**2)
 solve(eq, m)`,
-            output: '[sqrt(E**2 - c**2*p**2)/c**2]',
-            exercises: [
+        output: '[sqrt(E**2 - c**2*p**2)/c**2]',
+        exercises: [
             'Calculer l\'énergie libérée par 1g de matière',
             'Défaut de masse dans une réaction nucléaire',
             'Énergie cinétique relativiste (E - mc²)',
         ],
-            practicalApplication: 'Centrales nucléaires, médecine (PET scan), astrophysique (étoiles).'
-        },
+        practicalApplication: 'Centrales nucléaires, médecine (PET scan), astrophysique (étoiles).'
+    },
     {
-            id: 'day_053',
-            dayNumber: 53,
-            title: 'Trous Noirs : Métrique',
-            difficulty: 'Expert',
-            masteryLevel: 'Maître',
-            unlocked: true,
-            xpReward: 55,
-            badge: '🏅 Trous Noirs : Métrique',
-            africanAnalogy: `Un trou noir courbe l'espace comme une bille de plomb sur un drap tendu, mais à l'extrême. Le drap se déchire presque, créant un puits sans fond. Même la lumière, la chose la plus rapide, ne peut pas remonter la pente.`,
-            theory: {
-                title: 'Relativité Générale',
-                content: `La gravité n'est pas une force, mais la courbure de l'espace-temps. La métrique de Schwarzschild décrit l'espace-temps autour d'une masse sphérique (étoile, trou noir).`,
-                mathematicalFoundation: `
+        id: 'day_053',
+        dayNumber: 53,
+        title: 'Trous Noirs : Métrique',
+        difficulty: 'Expert',
+        masteryLevel: 'Maître',
+        unlocked: true,
+        xpReward: 55,
+        badge: '🏅 Trous Noirs : Métrique',
+        africanAnalogy: `Un trou noir courbe l'espace comme une bille de plomb sur un drap tendu, mais à l'extrême. Le drap se déchire presque, créant un puits sans fond. Même la lumière, la chose la plus rapide, ne peut pas remonter la pente.`,
+        theory: {
+            title: 'Relativité Générale',
+            content: `La gravité n'est pas une force, mais la courbure de l'espace-temps. La métrique de Schwarzschild décrit l'espace-temps autour d'une masse sphérique (étoile, trou noir).`,
+            mathematicalFoundation: `
                     - Métrique : ds² = g_μν dx^μ dx^ν\n                - Rayon de Schwarzschild : Rs = 2GM/c²\n                - Horizon des événements\n                - Dilatation temporelle gravitationnelle\n                - Singularité
                 `,
-                scientists: [
+            scientists: [
                 {
-                        name: 'Karl Schwarzschild',
-                        year: '1916',
-                        contribution: 'Solution exacte des équations d\'Einstein',
-                        context: 'Trouvée dans les tranchées de la 1ère guerre mondiale'
-                    },
-                    {
-                        name: 'Albert Einstein',
-                        year: '1915',
-                        contribution: 'Relativité Générale',
-                        context: 'Une des plus belles théories de la physique'
-                    },
-                ]
-            },
-            code: `from sympy import symbols, diag, sin
+                    name: 'Karl Schwarzschild',
+                    year: '1916',
+                    contribution: 'Solution exacte des équations d\'Einstein',
+                    context: 'Trouvée dans les tranchées de la 1ère guerre mondiale'
+                },
+                {
+                    name: 'Albert Einstein',
+                    year: '1915',
+                    contribution: 'Relativité Générale',
+                    context: 'Une des plus belles théories de la physique'
+                },
+            ]
+        },
+        code: `from sympy import symbols, diag, sin
 from sympy.diffgeom import Manifold, Patch, CoordSystem
 # Définition symbolique de la métrique (simplifiée)
 t, r, theta, phi = symbols('t r theta phi')
@@ -2430,46 +2430,46 @@ Rs = 2*G*M/c**2
 # Composante g_tt (temps)
 g_tt = -(1 - Rs/r)
 print(f'Métrique g_tt : {g_tt}')`,
-            output: 'Métrique g_tt : -1 + 2*G*M/(c**2*r)',
-            exercises: [
+        output: 'Métrique g_tt : -1 + 2*G*M/(c**2*r)',
+        exercises: [
             'Calculer le rayon de Schwarzschild de la Terre',
             'Temps écoulé près de l\'horizon vs à l\'infini',
             'Vitesse de libération',
         ],
-            practicalApplication: 'Astronomie (Sagittarius A*), GPS (correction RG), ondes gravitationnelles.'
-        },
+        practicalApplication: 'Astronomie (Sagittarius A*), GPS (correction RG), ondes gravitationnelles.'
+    },
     {
-            id: 'day_054',
-            dayNumber: 54,
-            title: 'Géodésiques',
-            difficulty: 'Expert',
-            masteryLevel: 'Expert',
-            unlocked: true,
-            xpReward: 50,
-            badge: '🏅 Géodésiques',
-            africanAnalogy: `Dans un espace courbe, la ligne droite n'existe pas. Le chemin le plus court est une courbe, comme la trajectoire d'un avion sur Terre. La lumière suit ces 'lignes droites courbes' (géodésiques), c'est pourquoi la gravité dévie la lumière.`,
-            theory: {
-                title: 'Mouvement en Espace Courbe',
-                content: `Les objets en chute libre suivent les géodésiques de l'espace-temps. Cela explique les orbites et la déviation de la lumière par les étoiles.`,
-                mathematicalFoundation: `
+        id: 'day_054',
+        dayNumber: 54,
+        title: 'Géodésiques',
+        difficulty: 'Expert',
+        masteryLevel: 'Expert',
+        unlocked: true,
+        xpReward: 50,
+        badge: '🏅 Géodésiques',
+        africanAnalogy: `Dans un espace courbe, la ligne droite n'existe pas. Le chemin le plus court est une courbe, comme la trajectoire d'un avion sur Terre. La lumière suit ces 'lignes droites courbes' (géodésiques), c'est pourquoi la gravité dévie la lumière.`,
+        theory: {
+            title: 'Mouvement en Espace Courbe',
+            content: `Les objets en chute libre suivent les géodésiques de l'espace-temps. Cela explique les orbites et la déviation de la lumière par les étoiles.`,
+            mathematicalFoundation: `
                     - Équation des géodésiques\n                - Symboles de Christoffel : Γ^λ_μν\n                - Déviation de la lumière (Lentille gravitationnelle)\n                - Avance du périhélie de Mercure\n                - Redshift gravitationnel
                 `,
-                scientists: [
+            scientists: [
                 {
-                        name: 'Arthur Eddington',
-                        year: '1919',
-                        contribution: 'Confirmation expérimentale',
-                        context: 'Observe la déviation de la lumière lors d\'une éclipse'
-                    },
-                    {
-                        name: 'Bernhard Riemann',
-                        year: '1854',
-                        contribution: 'Géométrie Riemannienne',
-                        context: 'Mathématiques des espaces courbes'
-                    },
-                ]
-            },
-            code: `from sympy import symbols, Function, dsolve, Derivative
+                    name: 'Arthur Eddington',
+                    year: '1919',
+                    contribution: 'Confirmation expérimentale',
+                    context: 'Observe la déviation de la lumière lors d\'une éclipse'
+                },
+                {
+                    name: 'Bernhard Riemann',
+                    year: '1854',
+                    contribution: 'Géométrie Riemannienne',
+                    context: 'Mathématiques des espaces courbes'
+                },
+            ]
+        },
+        code: `from sympy import symbols, Function, dsolve, Derivative
 # Équation simplifiée d'une géodésique
 t = symbols('t')
 x = Function('x')(t)
@@ -2477,136 +2477,136 @@ x = Function('x')(t)
 Gamma = symbols('Gamma')
 eq = x.diff(t, 2) + Gamma * x.diff(t)**2
 dsolve(eq, x)`,
-            output: 'C1 + log(C2*t + 1)/Gamma',
-            exercises: [
+        output: 'C1 + log(C2*t + 1)/Gamma',
+        exercises: [
             'Calculer la déviation de la lumière par le Soleil',
             'Expliquer l\'avance du périhélie de Mercure',
             'Trajectoire d\'un photon autour d\'un trou noir',
         ],
-            practicalApplication: 'Astronomie, cosmologie, navigation spatiale de précision.'
-        },
+        practicalApplication: 'Astronomie, cosmologie, navigation spatiale de précision.'
+    },
     {
-            id: 'day_055',
-            dayNumber: 55,
-            title: 'Lois de Kepler',
-            difficulty: 'Intermédiaire',
-            masteryLevel: 'Intermédiaire',
-            unlocked: true,
-            xpReward: 35,
-            badge: '🏅 Lois de Kepler',
-            africanAnalogy: `Les planètes ne dansent pas n'importe comment. Elles suivent une valse précise en ellipse autour du Soleil. Plus elles sont proches, plus elles vont vite, comme un patineur qui replie ses bras.`,
-            theory: {
-                title: 'Mécanique Céleste',
-                content: `Les trois lois de Kepler décrivent le mouvement des planètes. Newton a montré qu'elles découlent de la force gravitationnelle en 1/r².`,
-                mathematicalFoundation: `
+        id: 'day_055',
+        dayNumber: 55,
+        title: 'Lois de Kepler',
+        difficulty: 'Intermédiaire',
+        masteryLevel: 'Intermédiaire',
+        unlocked: true,
+        xpReward: 35,
+        badge: '🏅 Lois de Kepler',
+        africanAnalogy: `Les planètes ne dansent pas n'importe comment. Elles suivent une valse précise en ellipse autour du Soleil. Plus elles sont proches, plus elles vont vite, comme un patineur qui replie ses bras.`,
+        theory: {
+            title: 'Mécanique Céleste',
+            content: `Les trois lois de Kepler décrivent le mouvement des planètes. Newton a montré qu'elles découlent de la force gravitationnelle en 1/r².`,
+            mathematicalFoundation: `
                     - 1ère loi : Orbites elliptiques (Soleil au foyer)\n                - 2ème loi : Loi des aires (dA/dt = constante)\n                - 3ème loi : T²/a³ = constante\n                - Excentricité e, Demi-grand axe a\n                - Vitesse orbitale
                 `,
-                scientists: [
+            scientists: [
                 {
-                        name: 'Johannes Kepler',
-                        year: '1609',
-                        contribution: 'Lois du mouvement planétaire',
-                        context: 'Analyse les données précises de Tycho Brahe'
-                    },
-                    {
-                        name: 'Isaac Newton',
-                        year: '1687',
-                        contribution: 'Gravitation universelle',
-                        context: 'Unifie la pomme et la Lune'
-                    },
-                ]
-            },
-            code: `from sympy import symbols, pi, solve, Eq
+                    name: 'Johannes Kepler',
+                    year: '1609',
+                    contribution: 'Lois du mouvement planétaire',
+                    context: 'Analyse les données précises de Tycho Brahe'
+                },
+                {
+                    name: 'Isaac Newton',
+                    year: '1687',
+                    contribution: 'Gravitation universelle',
+                    context: 'Unifie la pomme et la Lune'
+                },
+            ]
+        },
+        code: `from sympy import symbols, pi, solve, Eq
 T, a, G, M = symbols('T a G M')
 # 3ème loi de Kepler : T^2 / a^3 = 4*pi^2 / (GM)
 eq = Eq(T**2 / a**3, 4*pi**2 / (G*M))
 # Calculer la période T
 solve(eq, T)`,
-            output: '[-2*pi*a**(3/2)/sqrt(G*M), 2*pi*a**(3/2)/sqrt(G*M)]',
-            exercises: [
+        output: '[-2*pi*a**(3/2)/sqrt(G*M), 2*pi*a**(3/2)/sqrt(G*M)]',
+        exercises: [
             'Calculer la période de Mars',
             'Vitesse de la Terre à l\'aphélie vs périhélie',
             'Masse du Soleil à partir de l\'orbite terrestre',
         ],
-            practicalApplication: 'Lancement de satellites, missions interplanétaires, exoplanètes.'
-        },
+        practicalApplication: 'Lancement de satellites, missions interplanétaires, exoplanètes.'
+    },
     {
-            id: 'day_056',
-            dayNumber: 56,
-            title: 'Étoiles : HR',
-            difficulty: 'Intermédiaire',
-            masteryLevel: 'Avancé',
-            unlocked: true,
-            xpReward: 40,
-            badge: '🏅 Étoiles : HR',
-            africanAnalogy: `Les étoiles ont une vie. Elles naissent, brillent et meurent. Le diagramme HR est leur album photo de famille, classant les étoiles par couleur (température) et luminosité. Il raconte leur destin.`,
-            theory: {
-                title: 'Physique Stellaire',
-                content: `Le diagramme Hertzsprung-Russell (HR) est l'outil central de l'astrophysique stellaire. Il montre la Séquence Principale, les Géantes Rouges et les Naines Blanches.`,
-                mathematicalFoundation: `
+        id: 'day_056',
+        dayNumber: 56,
+        title: 'Étoiles : HR',
+        difficulty: 'Intermédiaire',
+        masteryLevel: 'Avancé',
+        unlocked: true,
+        xpReward: 40,
+        badge: '🏅 Étoiles : HR',
+        africanAnalogy: `Les étoiles ont une vie. Elles naissent, brillent et meurent. Le diagramme HR est leur album photo de famille, classant les étoiles par couleur (température) et luminosité. Il raconte leur destin.`,
+        theory: {
+            title: 'Physique Stellaire',
+            content: `Le diagramme Hertzsprung-Russell (HR) est l'outil central de l'astrophysique stellaire. Il montre la Séquence Principale, les Géantes Rouges et les Naines Blanches.`,
+            mathematicalFoundation: `
                     - Luminosité : L = 4πR²σT⁴ (Stefan-Boltzmann)\n                - Magnitude absolue vs apparente\n                - Classification spectrale (O B A F G K M)\n                - Fusion nucléaire (cycle pp, CNO)\n                - Équilibre hydrostatique
                 `,
-                scientists: [
+            scientists: [
                 {
-                        name: 'Ejnar Hertzsprung & Henry Norris Russell',
-                        year: '1910',
-                        contribution: 'Diagramme HR',
-                        context: 'Découverte indépendante de la relation couleur-luminosité'
-                    },
-                    {
-                        name: 'Cecilia Payne',
-                        year: '1925',
-                        contribution: 'Composition des étoiles',
-                        context: 'Montre que les étoiles sont surtout de l\'hydrogène'
-                    },
-                ]
-            },
-            code: `from sympy import symbols, solve, Eq
+                    name: 'Ejnar Hertzsprung & Henry Norris Russell',
+                    year: '1910',
+                    contribution: 'Diagramme HR',
+                    context: 'Découverte indépendante de la relation couleur-luminosité'
+                },
+                {
+                    name: 'Cecilia Payne',
+                    year: '1925',
+                    contribution: 'Composition des étoiles',
+                    context: 'Montre que les étoiles sont surtout de l\'hydrogène'
+                },
+            ]
+        },
+        code: `from sympy import symbols, solve, Eq
 L, R, T, sigma = symbols('L R T sigma')
 # Loi de Stefan-Boltzmann
 eq = Eq(L, 4*pi*R**2 * sigma * T**4)
 # Trouver le rayon R connaissant L et T
 solve(eq, R)`,
-            output: '[-sqrt(L)/(2*sqrt(pi)*sqrt(sigma)*T**2), ...]',
-            exercises: [
+        output: '[-sqrt(L)/(2*sqrt(pi)*sqrt(sigma)*T**2), ...]',
+        exercises: [
             'Calculer le rayon de Bételgeuse',
             'Estimer la durée de vie du Soleil',
             'Classer une étoile donnée (G2V)',
         ],
-            practicalApplication: 'Étude de l\'évolution stellaire, distance des étoiles, recherche de vie.'
-        },
+        practicalApplication: 'Étude de l\'évolution stellaire, distance des étoiles, recherche de vie.'
+    },
     {
-            id: 'day_057',
-            dayNumber: 57,
-            title: 'Cosmologie : Hubble',
-            difficulty: 'Avancé',
-            masteryLevel: 'Avancé',
-            unlocked: true,
-            xpReward: 40,
-            badge: '🏅 Cosmologie : Hubble',
-            africanAnalogy: `L'univers est comme un ballon qui gonfle. Les galaxies sont des points sur le ballon. Plus elles sont loin, plus elles s'éloignent vite, non pas parce qu'elles bougent, mais parce que l'espace entre elles grandit.`,
-            theory: {
-                title: 'Expansion de l\'Univers',
-                content: `La loi de Hubble-Lemaître relie la distance des galaxies à leur vitesse de récession. C'est la première preuve du Big Bang.`,
-                mathematicalFoundation: `
+        id: 'day_057',
+        dayNumber: 57,
+        title: 'Cosmologie : Hubble',
+        difficulty: 'Avancé',
+        masteryLevel: 'Avancé',
+        unlocked: true,
+        xpReward: 40,
+        badge: '🏅 Cosmologie : Hubble',
+        africanAnalogy: `L'univers est comme un ballon qui gonfle. Les galaxies sont des points sur le ballon. Plus elles sont loin, plus elles s'éloignent vite, non pas parce qu'elles bougent, mais parce que l'espace entre elles grandit.`,
+        theory: {
+            title: 'Expansion de l\'Univers',
+            content: `La loi de Hubble-Lemaître relie la distance des galaxies à leur vitesse de récession. C'est la première preuve du Big Bang.`,
+            mathematicalFoundation: `
                     - Loi de Hubble : v = H₀d\n                - Constante de Hubble H₀\n                - Redshift (décalage vers le rouge) : z = Δλ/λ\n                - v ≈ cz (pour v << c)\n                - Âge de l'univers ≈ 1/H₀
                 `,
-                scientists: [
+            scientists: [
                 {
-                        name: 'Edwin Hubble',
-                        year: '1929',
-                        contribution: 'Loi de Hubble',
-                        context: 'Observe que les galaxies s\'éloignent'
-                    },
-                    {
-                        name: 'Georges Lemaître',
-                        year: '1927',
-                        contribution: 'Atome primitif (Big Bang)',
-                        context: 'Prêtre et physicien, prédit l\'expansion avant Hubble'
-                    },
-                ]
-            },
-            code: `from sympy import symbols, units
+                    name: 'Edwin Hubble',
+                    year: '1929',
+                    contribution: 'Loi de Hubble',
+                    context: 'Observe que les galaxies s\'éloignent'
+                },
+                {
+                    name: 'Georges Lemaître',
+                    year: '1927',
+                    contribution: 'Atome primitif (Big Bang)',
+                    context: 'Prêtre et physicien, prédit l\'expansion avant Hubble'
+                },
+            ]
+        },
+        code: `from sympy import symbols, units
 v, H0, d = symbols('v H0 d')
 # Loi de Hubble
 # H0 approx 70 km/s/Mpc
@@ -2614,181 +2614,181 @@ val_H0 = 70 # km/s/Mpc
 dist = 100 # Mpc
 vitesse = val_H0 * dist
 print(f'Vitesse de récession : {vitesse} km/s')`,
-            output: 'Vitesse de récession : 7000 km/s',
-            exercises: [
+        output: 'Vitesse de récession : 7000 km/s',
+        exercises: [
             'Calculer l\'âge approximatif de l\'univers',
             'Distance d\'une galaxie avec z=0.1',
             'Horizon cosmologique',
         ],
-            practicalApplication: 'Cosmologie, destin de l\'univers, énergie noire.'
-        },
+        practicalApplication: 'Cosmologie, destin de l\'univers, énergie noire.'
+    },
     {
-            id: 'day_058',
-            dayNumber: 58,
-            title: 'Cosmologie : Big Bang',
-            difficulty: 'Expert',
-            masteryLevel: 'Expert',
-            unlocked: true,
-            xpReward: 50,
-            badge: '🏅 Cosmologie : Big Bang',
-            africanAnalogy: `Les équations de Friedmann sont le mode d'emploi de l'univers. Elles disent comment l'univers évolue en fonction de ce qu'il contient (matière, rayonnement, énergie noire). Elles prédisent si l'univers finira en glace (expansion infinie) ou en feu (Big Crunch).`,
-            theory: {
-                title: 'Équations de Friedmann',
-                content: `Dérivées de la Relativité Générale, elles décrivent l'évolution du facteur d'échelle a(t) de l'univers.`,
-                mathematicalFoundation: `
+        id: 'day_058',
+        dayNumber: 58,
+        title: 'Cosmologie : Big Bang',
+        difficulty: 'Expert',
+        masteryLevel: 'Expert',
+        unlocked: true,
+        xpReward: 50,
+        badge: '🏅 Cosmologie : Big Bang',
+        africanAnalogy: `Les équations de Friedmann sont le mode d'emploi de l'univers. Elles disent comment l'univers évolue en fonction de ce qu'il contient (matière, rayonnement, énergie noire). Elles prédisent si l'univers finira en glace (expansion infinie) ou en feu (Big Crunch).`,
+        theory: {
+            title: 'Équations de Friedmann',
+            content: `Dérivées de la Relativité Générale, elles décrivent l'évolution du facteur d'échelle a(t) de l'univers.`,
+            mathematicalFoundation: `
                     - Métrique FLRW (Friedmann-Lemaître-Robertson-Walker)\n                - Facteur d'échelle a(t)\n                - (ȧ/a)² = 8πGρ/3 - kc²/a² + Λc²/3\n                - Densité critique ρc\n                - Paramètres de densité Ω
                 `,
-                scientists: [
+            scientists: [
                 {
-                        name: 'Alexander Friedmann',
-                        year: '1922',
-                        contribution: 'Solutions dynamiques de la RG',
-                        context: 'Montre que l\'univers ne peut pas être statique'
-                    },
-                    {
-                        name: 'Arno Penzias & Robert Wilson',
-                        year: '1965',
-                        contribution: 'Fond diffus cosmologique (CMB)',
-                        context: 'Preuve observationnelle majeure du Big Bang'
-                    },
-                ]
-            },
-            code: `from sympy import symbols, Function, dsolve, Eq
+                    name: 'Alexander Friedmann',
+                    year: '1922',
+                    contribution: 'Solutions dynamiques de la RG',
+                    context: 'Montre que l\'univers ne peut pas être statique'
+                },
+                {
+                    name: 'Arno Penzias & Robert Wilson',
+                    year: '1965',
+                    contribution: 'Fond diffus cosmologique (CMB)',
+                    context: 'Preuve observationnelle majeure du Big Bang'
+                },
+            ]
+        },
+        code: `from sympy import symbols, Function, dsolve, Eq
 a = Function('a')
 t, k, rho = symbols('t k rho')
 # Équation simplifiée (univers plat k=0, dominé matière)
 # (a'/a)^2 ~ 1/a^3  => a' ~ a^(-1/2)
 eq = Eq(a(t).diff(t), t**(-1/2)) # Simplification conceptuelle
 # La vraie solution est a(t) ~ t^(2/3)`,
-            output: 'Modèle d\'univers en expansion',
-            exercises: [
+        output: 'Modèle d\'univers en expansion',
+        exercises: [
             'Évolution dans un univers dominé par le rayonnement',
             'Rôle de la constante cosmologique Λ',
             'Destin de l\'univers selon Ω',
         ],
-            practicalApplication: 'Modèle standard de la cosmologie, simulation de l\'univers.'
-        },
+        practicalApplication: 'Modèle standard de la cosmologie, simulation de l\'univers.'
+    },
     {
-            id: 'day_059',
-            dayNumber: 59,
-            title: 'Mécanique Céleste : N-Corps',
-            difficulty: 'Expert',
-            masteryLevel: 'Expert',
-            unlocked: true,
-            xpReward: 50,
-            badge: '🏅 Mécanique Céleste : N-Corps',
-            africanAnalogy: `Le problème à deux corps est une valse simple. Le problème à trois corps est un chaos imprévisible. Imaginez trois danseurs qui se tirent et se poussent tous en même temps sans rythme fixe. C'est le chaos déterministe.`,
-            theory: {
-                title: 'Problème à N Corps',
-                content: `Il n'existe pas de solution analytique générale pour N ≥ 3 corps. On doit utiliser des simulations numériques (intégrateurs symplectiques).`,
-                mathematicalFoundation: `
+        id: 'day_059',
+        dayNumber: 59,
+        title: 'Mécanique Céleste : N-Corps',
+        difficulty: 'Expert',
+        masteryLevel: 'Expert',
+        unlocked: true,
+        xpReward: 50,
+        badge: '🏅 Mécanique Céleste : N-Corps',
+        africanAnalogy: `Le problème à deux corps est une valse simple. Le problème à trois corps est un chaos imprévisible. Imaginez trois danseurs qui se tirent et se poussent tous en même temps sans rythme fixe. C'est le chaos déterministe.`,
+        theory: {
+            title: 'Problème à N Corps',
+            content: `Il n'existe pas de solution analytique générale pour N ≥ 3 corps. On doit utiliser des simulations numériques (intégrateurs symplectiques).`,
+            mathematicalFoundation: `
                     - Équations du mouvement : F_i = Σ G m_i m_j (r_j - r_i) / |r_ij|³\n                - Chaos et sensibilité aux conditions initiales\n                - Points de Lagrange\n                - Intégration numérique (Verlet, Runge-Kutta)\n                - Conservation de l'énergie et du moment cinétique
                 `,
-                scientists: [
+            scientists: [
                 {
-                        name: 'Henri Poincaré',
-                        year: '1890',
-                        contribution: 'Théorie du chaos',
-                        context: 'Découvre le chaos en étudiant le problème à 3 corps'
-                    },
-                    {
-                        name: 'Joseph-Louis Lagrange',
-                        year: '1772',
-                        contribution: 'Points de Lagrange',
-                        context: 'Solutions particulières stables'
-                    },
-                ]
-            },
-            code: `# Simulation conceptuelle (SymPy n'est pas fait pour la simu numérique lourde)
+                    name: 'Henri Poincaré',
+                    year: '1890',
+                    contribution: 'Théorie du chaos',
+                    context: 'Découvre le chaos en étudiant le problème à 3 corps'
+                },
+                {
+                    name: 'Joseph-Louis Lagrange',
+                    year: '1772',
+                    contribution: 'Points de Lagrange',
+                    context: 'Solutions particulières stables'
+                },
+            ]
+        },
+        code: `# Simulation conceptuelle (SymPy n'est pas fait pour la simu numérique lourde)
 from sympy import symbols, diff
 x1, y1, x2, y2 = symbols('x1 y1 x2 y2')
 V = 1/sqrt((x1-x2)**2 + (y1-y2)**2) # Potentiel grav
 Fx1 = -diff(V, x1)
 print(f'Force sur x1 : {Fx1}')`,
-            output: 'Force gravitationnelle symbolique',
-            exercises: [
+        output: 'Force gravitationnelle symbolique',
+        exercises: [
             'Stabilité du système Terre-Lune',
             'Points de Lagrange L4 et L5',
             'Effet de fronde gravitationnelle',
         ],
-            practicalApplication: 'Trajectoires de sondes (Voyager), formation du système solaire, dynamique galactique.'
-        },
+        practicalApplication: 'Trajectoires de sondes (Voyager), formation du système solaire, dynamique galactique.'
+    },
     {
-            id: 'day_060',
-            dayNumber: 60,
-            title: 'Trous Noirs : Hawking',
-            difficulty: 'Légendaire',
-            masteryLevel: 'Maître',
-            unlocked: true,
-            xpReward: 100,
-            badge: '🏅 Trous Noirs : Hawking',
-            africanAnalogy: `Les trous noirs ne sont pas si noirs. À cause de la mécanique quantique, ils 's'évaporent' lentement en émettant une faible lueur. C'est le chant du cygne d'un monstre cosmique qui finit par disparaître.`,
-            theory: {
-                title: 'Rayonnement de Hawking',
-                content: `Stephen Hawking a montré que les effets quantiques près de l'horizon des événements créent un rayonnement thermique. Les trous noirs perdent de la masse et finissent par s'évaporer.`,
-                mathematicalFoundation: `
+        id: 'day_060',
+        dayNumber: 60,
+        title: 'Trous Noirs : Hawking',
+        difficulty: 'Légendaire',
+        masteryLevel: 'Maître',
+        unlocked: true,
+        xpReward: 100,
+        badge: '🏅 Trous Noirs : Hawking',
+        africanAnalogy: `Les trous noirs ne sont pas si noirs. À cause de la mécanique quantique, ils 's'évaporent' lentement en émettant une faible lueur. C'est le chant du cygne d'un monstre cosmique qui finit par disparaître.`,
+        theory: {
+            title: 'Rayonnement de Hawking',
+            content: `Stephen Hawking a montré que les effets quantiques près de l'horizon des événements créent un rayonnement thermique. Les trous noirs perdent de la masse et finissent par s'évaporer.`,
+            mathematicalFoundation: `
                     - Température de Hawking : T = ħc³ / (8πGMk)\n                - Entropie de Bekenstein-Hawking : S = A / (4Lp²)\n                - Évaporation : dM/dt ∝ -1/M²\n                - Durée de vie : t ∝ M³\n                - Paradoxe de l'information
                 `,
-                scientists: [
+            scientists: [
                 {
-                        name: 'Stephen Hawking',
-                        year: '1974',
-                        contribution: 'Rayonnement des trous noirs',
-                        context: 'Unit thermodynamique, quantique et gravité'
-                    },
-                    {
-                        name: 'Jacob Bekenstein',
-                        year: '1973',
-                        contribution: 'Entropie des trous noirs',
-                        context: 'Suggère que l\'entropie est proportionnelle à la surface'
-                    },
-                ]
-            },
-            code: `from sympy import symbols, pi, hbar, c, G, k
+                    name: 'Stephen Hawking',
+                    year: '1974',
+                    contribution: 'Rayonnement des trous noirs',
+                    context: 'Unit thermodynamique, quantique et gravité'
+                },
+                {
+                    name: 'Jacob Bekenstein',
+                    year: '1973',
+                    contribution: 'Entropie des trous noirs',
+                    context: 'Suggère que l\'entropie est proportionnelle à la surface'
+                },
+            ]
+        },
+        code: `from sympy import symbols, pi, hbar, c, G, k
 M = symbols('M')
 # Température de Hawking
 T = hbar * c**3 / (8 * pi * G * M * k)
 print(f'Température inversement proportionnelle à la masse')`,
-            output: 'T ~ 1/M',
-            exercises: [
+        output: 'T ~ 1/M',
+        exercises: [
             'Calculer la température d\'un trou noir solaire',
             'Durée de vie d\'un micro trou noir',
             'Lien avec l\'entropie',
         ],
-            practicalApplication: 'Gravité quantique, thermodynamique des trous noirs, cosmologie primordiale.'
-        },,
+        practicalApplication: 'Gravité quantique, thermodynamique des trous noirs, cosmologie primordiale.'
+    }, ,
     {
-            id: 'day_061',
-            dayNumber: 61,
-            title: 'Régression Linéaire',
-            difficulty: 'Intermédiaire',
-            masteryLevel: 'Intermédiaire',
-            unlocked: true,
-            xpReward: 35,
-            badge: '🏅 Régression Linéaire',
-            africanAnalogy: `La régression linéaire est comme tracer un chemin à travers une forêt d'arbres dispersés. On cherche la ligne droite qui passe au plus près de tous les arbres, minimisant la distance totale. C'est l'art de trouver la tendance cachée.`,
-            theory: {
-                title: 'Apprentissage Supervisé',
-                content: `La régression cherche à prédire une variable continue y à partir de x. La méthode des moindres carrés minimise l'erreur quadratique moyenne.`,
-                mathematicalFoundation: `
+        id: 'day_061',
+        dayNumber: 61,
+        title: 'Régression Linéaire',
+        difficulty: 'Intermédiaire',
+        masteryLevel: 'Intermédiaire',
+        unlocked: true,
+        xpReward: 35,
+        badge: '🏅 Régression Linéaire',
+        africanAnalogy: `La régression linéaire est comme tracer un chemin à travers une forêt d'arbres dispersés. On cherche la ligne droite qui passe au plus près de tous les arbres, minimisant la distance totale. C'est l'art de trouver la tendance cachée.`,
+        theory: {
+            title: 'Apprentissage Supervisé',
+            content: `La régression cherche à prédire une variable continue y à partir de x. La méthode des moindres carrés minimise l'erreur quadratique moyenne.`,
+            mathematicalFoundation: `
                     - Modèle : y = ax + b + ε\n                - Fonction de coût : J(a,b) = (1/2m) Σ(h(x) - y)²\n                - Solution analytique (Équation normale) : θ = (XᵀX)⁻¹Xᵀy\n                - Descente de gradient : θ := θ - α∇J(θ)\n                - Coefficient de détermination R²
                 `,
-                scientists: [
+            scientists: [
                 {
-                        name: 'Adrien-Marie Legendre',
-                        year: '1805',
-                        contribution: 'Méthode des moindres carrés',
-                        context: 'Développée pour calculer les orbites des comètes'
-                    },
-                    {
-                        name: 'Carl Friedrich Gauss',
-                        year: '1809',
-                        contribution: 'Justification probabiliste',
-                        context: 'Montre que c\'est l\'estimateur du maximum de vraisemblance'
-                    },
-                ]
-            },
-            code: `from sympy import symbols, Sum, diff, solve
+                    name: 'Adrien-Marie Legendre',
+                    year: '1805',
+                    contribution: 'Méthode des moindres carrés',
+                    context: 'Développée pour calculer les orbites des comètes'
+                },
+                {
+                    name: 'Carl Friedrich Gauss',
+                    year: '1809',
+                    contribution: 'Justification probabiliste',
+                    context: 'Montre que c\'est l\'estimateur du maximum de vraisemblance'
+                },
+            ]
+        },
+        code: `from sympy import symbols, Sum, diff, solve
 a, b, i, n = symbols('a b i n')
 x, y = symbols('x y', cls=Function)
 # Minimiser la somme des carrés des erreurs
@@ -2797,92 +2797,92 @@ S = Sum((a*x(i) + b - y(i))**2, (i, 1, n))
 eq1 = diff(S, a)
 eq2 = diff(S, b)
 print('Système à résoudre pour a et b')`,
-            output: 'Système d\'équations normales',
-            exercises: [
+        output: 'Système d\'équations normales',
+        exercises: [
             'Calculer la pente et l\'ordonnée à l\'origine pour 3 points',
             'Prouver que la droite passe par le point moyen (x̄, ȳ)',
             'Régression multivariée (concept)',
         ],
-            practicalApplication: 'Prédiction des prix immobiliers, tendances économiques, calibration de capteurs.'
-        },
+        practicalApplication: 'Prédiction des prix immobiliers, tendances économiques, calibration de capteurs.'
+    },
     {
-            id: 'day_062',
-            dayNumber: 62,
-            title: 'Classification : Logistique',
-            difficulty: 'Intermédiaire',
-            masteryLevel: 'Avancé',
-            unlocked: true,
-            xpReward: 40,
-            badge: '🏅 Classification : Logistique',
-            africanAnalogy: `La classification est comme trier des fruits. Est-ce une pomme ou une orange ? La régression logistique trace une frontière floue. Près de la frontière, on hésite (50% de chance). Loin, on est sûr.`,
-            theory: {
-                title: 'Classification Binaire',
-                content: `Prédit une probabilité d'appartenance à une classe (0 ou 1) en utilisant la fonction sigmoïde. C'est la brique de base des réseaux de neurones.`,
-                mathematicalFoundation: `
+        id: 'day_062',
+        dayNumber: 62,
+        title: 'Classification : Logistique',
+        difficulty: 'Intermédiaire',
+        masteryLevel: 'Avancé',
+        unlocked: true,
+        xpReward: 40,
+        badge: '🏅 Classification : Logistique',
+        africanAnalogy: `La classification est comme trier des fruits. Est-ce une pomme ou une orange ? La régression logistique trace une frontière floue. Près de la frontière, on hésite (50% de chance). Loin, on est sûr.`,
+        theory: {
+            title: 'Classification Binaire',
+            content: `Prédit une probabilité d'appartenance à une classe (0 ou 1) en utilisant la fonction sigmoïde. C'est la brique de base des réseaux de neurones.`,
+            mathematicalFoundation: `
                     - Fonction Sigmoïde : σ(z) = 1 / (1 + e⁻ᶻ)\n                - Hypothèse : h(x) = σ(θᵀx)\n                - Frontière de décision : θᵀx = 0\n                - Coût Log-Loss (Entropie croisée)\n                - Maximum de vraisemblance
                 `,
-                scientists: [
+            scientists: [
                 {
-                        name: 'Pierre François Verhulst',
-                        year: '1838',
-                        contribution: 'Fonction logistique',
-                        context: 'Initialement pour la croissance des populations'
-                    },
-                    {
-                        name: 'David Cox',
-                        year: '1958',
-                        contribution: 'Régression logistique',
-                        context: 'Formalise le modèle pour les statistiques médicales'
-                    },
-                ]
-            },
-            code: `from sympy import exp, plot, symbols
+                    name: 'Pierre François Verhulst',
+                    year: '1838',
+                    contribution: 'Fonction logistique',
+                    context: 'Initialement pour la croissance des populations'
+                },
+                {
+                    name: 'David Cox',
+                    year: '1958',
+                    contribution: 'Régression logistique',
+                    context: 'Formalise le modèle pour les statistiques médicales'
+                },
+            ]
+        },
+        code: `from sympy import exp, plot, symbols
 z = symbols('z')
 # Fonction Sigmoïde (activation)
 sigmoid = 1 / (1 + exp(-z))
 # Dérivée de la sigmoïde (utile pour le gradient)
 d_sigmoid = sigmoid.diff(z).simplify()
 print(f'Dérivée : {d_sigmoid}')`,
-            output: 'exp(-z)/(1 + exp(-z))**2',
-            exercises: [
+        output: 'exp(-z)/(1 + exp(-z))**2',
+        exercises: [
             'Montrer que σ\'(z) = σ(z)(1-σ(z))',
             'Tracer la fonction de coût pour y=1',
             'Calculer la probabilité pour z=0',
         ],
-            practicalApplication: 'Détection de spam, diagnostic médical, scoring de crédit.'
-        },
+        practicalApplication: 'Détection de spam, diagnostic médical, scoring de crédit.'
+    },
     {
-            id: 'day_063',
-            dayNumber: 63,
-            title: 'Réseaux de Neurones',
-            difficulty: 'Avancé',
-            masteryLevel: 'Expert',
-            unlocked: true,
-            xpReward: 45,
-            badge: '🏅 Réseaux de Neurones',
-            africanAnalogy: `Un réseau de neurones est comme un cerveau simplifié. Chaque neurone écoute ses voisins, vote, et transmet l'info. En ajustant la force des connexions (poids) par l'expérience, le réseau apprend à reconnaître des visages ou traduire des langues.`,
-            theory: {
-                title: 'Deep Learning',
-                content: `Composé de couches de neurones artificiels. L'apprentissage se fait par rétropropagation du gradient (Backpropagation) pour minimiser l'erreur.`,
-                mathematicalFoundation: `
+        id: 'day_063',
+        dayNumber: 63,
+        title: 'Réseaux de Neurones',
+        difficulty: 'Avancé',
+        masteryLevel: 'Expert',
+        unlocked: true,
+        xpReward: 45,
+        badge: '🏅 Réseaux de Neurones',
+        africanAnalogy: `Un réseau de neurones est comme un cerveau simplifié. Chaque neurone écoute ses voisins, vote, et transmet l'info. En ajustant la force des connexions (poids) par l'expérience, le réseau apprend à reconnaître des visages ou traduire des langues.`,
+        theory: {
+            title: 'Deep Learning',
+            content: `Composé de couches de neurones artificiels. L'apprentissage se fait par rétropropagation du gradient (Backpropagation) pour minimiser l'erreur.`,
+            mathematicalFoundation: `
                     - Neurone : a = f(Wx + b)\n                - Fonctions d'activation : ReLU, Tanh, Softmax\n                - Propagation avant (Forward)\n                - Rétropropagation (Backward) : Règle de la chaîne\n                - Théorème d'approximation universelle
                 `,
-                scientists: [
+            scientists: [
                 {
-                        name: 'Frank Rosenblatt',
-                        year: '1957',
-                        contribution: 'Perceptron',
-                        context: 'Premier modèle de neurone artificiel apprenant'
-                    },
-                    {
-                        name: 'Geoffrey Hinton',
-                        year: '1986',
-                        contribution: 'Rétropropagation',
-                        context: 'Prix Turing, parrain de l\'IA moderne'
-                    },
-                ]
-            },
-            code: `from sympy import symbols, diff, Function
+                    name: 'Frank Rosenblatt',
+                    year: '1957',
+                    contribution: 'Perceptron',
+                    context: 'Premier modèle de neurone artificiel apprenant'
+                },
+                {
+                    name: 'Geoffrey Hinton',
+                    year: '1986',
+                    contribution: 'Rétropropagation',
+                    context: 'Prix Turing, parrain de l\'IA moderne'
+                },
+            ]
+        },
+        code: `from sympy import symbols, diff, Function
 x, w, b, y = symbols('x w b y')
 # Perceptron simple avec perte quadratique
 a = x * w + b # Activation linéaire pour simplifier
@@ -2890,136 +2890,136 @@ Loss = (a - y)**2
 # Gradient pour la mise à jour du poids w
 grad_w = diff(Loss, w)
 print(f'Gradient dw : {grad_w}')`,
-            output: '2*x*(b + w*x - y)',
-            exercises: [
+        output: '2*x*(b + w*x - y)',
+        exercises: [
             'Calculer le gradient pour une activation Sigmoïde',
             'Architecture d\'un réseau pour XOR',
             'Rôle du biais b',
         ],
-            practicalApplication: 'Vision par ordinateur, reconnaissance vocale, traduction automatique, jeux (AlphaGo).'
-        },
+        practicalApplication: 'Vision par ordinateur, reconnaissance vocale, traduction automatique, jeux (AlphaGo).'
+    },
     {
-            id: 'day_064',
-            dayNumber: 64,
-            title: 'Clustering : K-Means',
-            difficulty: 'Intermédiaire',
-            masteryLevel: 'Avancé',
-            unlocked: true,
-            xpReward: 40,
-            badge: '🏅 Clustering : K-Means',
-            africanAnalogy: `Le clustering, c'est comme ranger une chambre en désordre. On regroupe les objets similaires : les livres avec les livres, les jouets avec les jouets. L'algorithme trouve tout seul les catégories naturelles sans qu'on lui dise quoi chercher.`,
-            theory: {
-                title: 'Apprentissage Non Supervisé',
-                content: `K-Means partitionne les données en K groupes (clusters) en minimisant la distance intra-classe. C'est un algorithme itératif.`,
-                mathematicalFoundation: `
+        id: 'day_064',
+        dayNumber: 64,
+        title: 'Clustering : K-Means',
+        difficulty: 'Intermédiaire',
+        masteryLevel: 'Avancé',
+        unlocked: true,
+        xpReward: 40,
+        badge: '🏅 Clustering : K-Means',
+        africanAnalogy: `Le clustering, c'est comme ranger une chambre en désordre. On regroupe les objets similaires : les livres avec les livres, les jouets avec les jouets. L'algorithme trouve tout seul les catégories naturelles sans qu'on lui dise quoi chercher.`,
+        theory: {
+            title: 'Apprentissage Non Supervisé',
+            content: `K-Means partitionne les données en K groupes (clusters) en minimisant la distance intra-classe. C'est un algorithme itératif.`,
+            mathematicalFoundation: `
                     - Centroïde : moyenne des points du cluster\n                - Distance Euclidienne : d(x,y) = ||x-y||₂\n                - Inertie intra-classe : Σ ||x - μ_k||²\n                - Algorithme EM (Expectation-Maximization)\n                - Voronoï tessellation
                 `,
-                scientists: [
+            scientists: [
                 {
-                        name: 'Stuart Lloyd',
-                        year: '1957',
-                        contribution: 'Algorithme K-Means',
-                        context: 'Initialement pour la modulation par impulsions codées'
-                    },
-                    {
-                        name: 'Hugo Steinhaus',
-                        year: '1956',
-                        contribution: 'Formalisation du clustering',
-                        context: 'Pionnier de l\'analyse mathématique des jeux'
-                    },
-                ]
-            },
-            code: `from sympy import symbols, sqrt
+                    name: 'Stuart Lloyd',
+                    year: '1957',
+                    contribution: 'Algorithme K-Means',
+                    context: 'Initialement pour la modulation par impulsions codées'
+                },
+                {
+                    name: 'Hugo Steinhaus',
+                    year: '1956',
+                    contribution: 'Formalisation du clustering',
+                    context: 'Pionnier de l\'analyse mathématique des jeux'
+                },
+            ]
+        },
+        code: `from sympy import symbols, sqrt
 x1, y1, cx, cy = symbols('x1 y1 cx cy')
 # Distance au carré entre un point et un centroïde
 dist_sq = (x1 - cx)**2 + (y1 - cy)**2
 # Le centroïde optimal minimise cette distance (moyenne)
 # C'est un problème d'optimisation géométrique`,
-            output: 'Minimisation de la variance',
-            exercises: [
+        output: 'Minimisation de la variance',
+        exercises: [
             'Calculer le nouveau centroïde de 3 points',
             'Pourquoi K-Means converge-t-il toujours ?',
             'Choisir le bon K (méthode du coude)',
         ],
-            practicalApplication: 'Segmentation client, compression d\'image, détection d\'anomalies.'
-        },
+        practicalApplication: 'Segmentation client, compression d\'image, détection d\'anomalies.'
+    },
     {
-            id: 'day_065',
-            dayNumber: 65,
-            title: 'PCA : Réduction Dim.',
-            difficulty: 'Avancé',
-            masteryLevel: 'Expert',
-            unlocked: true,
-            xpReward: 45,
-            badge: '🏅 PCA : Réduction Dim.',
-            africanAnalogy: `La PCA (Analyse en Composantes Principales) est comme prendre une photo d'une sculpture sous son meilleur angle. On passe de la 3D à la 2D en gardant le plus d'informations possible (l'ombre la plus large). On simplifie la réalité sans la trahir.`,
-            theory: {
-                title: 'Algèbre Linéaire Appliquée',
-                content: `Projette les données sur les axes de plus grande variance. Utilise la décomposition en valeurs propres de la matrice de covariance.`,
-                mathematicalFoundation: `
+        id: 'day_065',
+        dayNumber: 65,
+        title: 'PCA : Réduction Dim.',
+        difficulty: 'Avancé',
+        masteryLevel: 'Expert',
+        unlocked: true,
+        xpReward: 45,
+        badge: '🏅 PCA : Réduction Dim.',
+        africanAnalogy: `La PCA (Analyse en Composantes Principales) est comme prendre une photo d'une sculpture sous son meilleur angle. On passe de la 3D à la 2D en gardant le plus d'informations possible (l'ombre la plus large). On simplifie la réalité sans la trahir.`,
+        theory: {
+            title: 'Algèbre Linéaire Appliquée',
+            content: `Projette les données sur les axes de plus grande variance. Utilise la décomposition en valeurs propres de la matrice de covariance.`,
+            mathematicalFoundation: `
                     - Matrice de covariance : Σ = (1/m) XᵀX\n                - Valeurs propres (λ) et Vecteurs propres (v)\n                - Variance expliquée : λ_i / Σλ_j\n                - Projection orthogonale\n                - Décorrélation des variables
                 `,
-                scientists: [
+            scientists: [
                 {
-                        name: 'Karl Pearson',
-                        year: '1901',
-                        contribution: 'Invention de la PCA',
-                        context: 'Père des statistiques modernes'
-                    },
-                    {
-                        name: 'Harold Hotelling',
-                        year: '1933',
-                        contribution: 'Développement théorique',
-                        context: 'Popularise la méthode en économétrie'
-                    },
-                ]
-            },
-            code: `from sympy import Matrix, eye
+                    name: 'Karl Pearson',
+                    year: '1901',
+                    contribution: 'Invention de la PCA',
+                    context: 'Père des statistiques modernes'
+                },
+                {
+                    name: 'Harold Hotelling',
+                    year: '1933',
+                    contribution: 'Développement théorique',
+                    context: 'Popularise la méthode en économétrie'
+                },
+            ]
+        },
+        code: `from sympy import Matrix, eye
 # Matrice de covariance exemple (2D)
 C = Matrix([[4, 2], [2, 3]])
 # Diagonalisation pour trouver les axes principaux
 P, D = C.diagonalize()
 print(f'Valeurs propres (Variance) : {D}')`,
-            output: 'Matrix([[2, 0], [0, 5]])',
-            exercises: [
+        output: 'Matrix([[2, 0], [0, 5]])',
+        exercises: [
             'Calculer les vecteurs propres d\'une matrice 2x2',
             'Pourcentage de variance expliquée',
             'Lien avec la SVD (Singular Value Decomposition)',
         ],
-            practicalApplication: 'Compression de données, reconnaissance de visages (Eigenfaces), visualisation de données complexes.'
-        },
+        practicalApplication: 'Compression de données, reconnaissance de visages (Eigenfaces), visualisation de données complexes.'
+    },
     {
-            id: 'day_066',
-            dayNumber: 66,
-            title: 'Bayes Naïf',
-            difficulty: 'Intermédiaire',
-            masteryLevel: 'Avancé',
-            unlocked: true,
-            xpReward: 40,
-            badge: '🏅 Bayes Naïf',
-            africanAnalogy: `Le classifieur Bayes Naïf est comme un médecin qui diagnostique une maladie en combinant les symptômes. Fièvre ? Toux ? Fatigue ? Il calcule la probabilité de la grippe en supposant que chaque symptôme ajoute une preuve indépendante.`,
-            theory: {
-                title: 'Probabilités Bayésiennes',
-                content: `Utilise le théorème de Bayes avec l'hypothèse 'naïve' d'indépendance entre les caractéristiques. Très efficace pour le texte.`,
-                mathematicalFoundation: `
+        id: 'day_066',
+        dayNumber: 66,
+        title: 'Bayes Naïf',
+        difficulty: 'Intermédiaire',
+        masteryLevel: 'Avancé',
+        unlocked: true,
+        xpReward: 40,
+        badge: '🏅 Bayes Naïf',
+        africanAnalogy: `Le classifieur Bayes Naïf est comme un médecin qui diagnostique une maladie en combinant les symptômes. Fièvre ? Toux ? Fatigue ? Il calcule la probabilité de la grippe en supposant que chaque symptôme ajoute une preuve indépendante.`,
+        theory: {
+            title: 'Probabilités Bayésiennes',
+            content: `Utilise le théorème de Bayes avec l'hypothèse 'naïve' d'indépendance entre les caractéristiques. Très efficace pour le texte.`,
+            mathematicalFoundation: `
                     - P(y|x) ∝ P(y) Π P(x_i|y)\n                - Prior P(y) : probabilité a priori\n                - Vraisemblance P(x_i|y)\n                - Indépendance conditionnelle\n                - Lissage de Laplace (pour éviter proba 0)
                 `,
-                scientists: [
+            scientists: [
                 {
-                        name: 'Thomas Bayes',
-                        year: '1763',
-                        contribution: 'Théorème de Bayes',
-                        context: 'Fondement de l\'inférence statistique'
-                    },
-                    {
-                        name: 'Pierre-Simon Laplace',
-                        year: '1812',
-                        contribution: 'Probabilités inverses',
-                        context: 'Développe la forme moderne du théorème'
-                    },
-                ]
-            },
-            code: `from sympy import symbols
+                    name: 'Thomas Bayes',
+                    year: '1763',
+                    contribution: 'Théorème de Bayes',
+                    context: 'Fondement de l\'inférence statistique'
+                },
+                {
+                    name: 'Pierre-Simon Laplace',
+                    year: '1812',
+                    contribution: 'Probabilités inverses',
+                    context: 'Développe la forme moderne du théorème'
+                },
+            ]
+        },
+        code: `from sympy import symbols
 P_Spam = 0.4
 P_Ham = 0.6
 # Mot 'Gratuit' : P(Gratuit|Spam)=0.8, P(Gratuit|Ham)=0.1
@@ -3028,137 +3028,137 @@ P_G_H = 0.1
 # Proba que ce soit un Spam sachant 'Gratuit'
 P_S_G = (P_G_S * P_Spam) / (P_G_S * P_Spam + P_G_H * P_Ham)
 print(f'P(Spam|Gratuit) = {P_S_G:.2f}')`,
-            output: 'P(Spam|Gratuit) = 0.84',
-            exercises: [
+        output: 'P(Spam|Gratuit) = 0.84',
+        exercises: [
             'Calculer la probabilité avec deux mots',
             'Pourquoi l\'hypothèse naïve est-elle fausse mais utile ?',
             'Gérer les mots inconnus',
         ],
-            practicalApplication: 'Filtrage anti-spam, analyse de sentiment, classification de documents.'
-        },
+        practicalApplication: 'Filtrage anti-spam, analyse de sentiment, classification de documents.'
+    },
     {
-            id: 'day_067',
-            dayNumber: 67,
-            title: 'Arbres de Décision',
-            difficulty: 'Intermédiaire',
-            masteryLevel: 'Intermédiaire',
-            unlocked: true,
-            xpReward: 35,
-            badge: '🏅 Arbres de Décision',
-            africanAnalogy: `Un arbre de décision est comme le jeu 'Qui est-ce ?'. On pose une série de questions binaires : 'Est-ce un homme ?', 'A-t-il des lunettes ?'. Chaque réponse élimine des possibilités jusqu'à trouver la solution.`,
-            theory: {
-                title: 'Algorithmes Arborescents',
-                content: `Divise récursivement l'espace des données pour maximiser la pureté des nœuds. Interprétable et visuel.`,
-                mathematicalFoundation: `
+        id: 'day_067',
+        dayNumber: 67,
+        title: 'Arbres de Décision',
+        difficulty: 'Intermédiaire',
+        masteryLevel: 'Intermédiaire',
+        unlocked: true,
+        xpReward: 35,
+        badge: '🏅 Arbres de Décision',
+        africanAnalogy: `Un arbre de décision est comme le jeu 'Qui est-ce ?'. On pose une série de questions binaires : 'Est-ce un homme ?', 'A-t-il des lunettes ?'. Chaque réponse élimine des possibilités jusqu'à trouver la solution.`,
+        theory: {
+            title: 'Algorithmes Arborescents',
+            content: `Divise récursivement l'espace des données pour maximiser la pureté des nœuds. Interprétable et visuel.`,
+            mathematicalFoundation: `
                     - Entropie de Shannon : H(S) = -Σ p_i log₂ p_i\n                - Gain d'information : H(S) - Σ |Sv|/|S| H(Sv)\n                - Indice de Gini : 1 - Σ p_i²\n                - Élagage (Pruning) pour éviter le surapprentissage\n                - Forêts aléatoires (Ensemble learning)
                 `,
-                scientists: [
+            scientists: [
                 {
-                        name: 'Claude Shannon',
-                        year: '1948',
-                        contribution: 'Théorie de l\'information',
-                        context: 'Définit l\'entropie, mesure de l\'incertitude'
-                    },
-                    {
-                        name: 'Leo Breiman',
-                        year: '1984',
-                        contribution: 'CART (Classification and Regression Trees)',
-                        context: 'Algorithme standard pour les arbres'
-                    },
-                ]
-            },
-            code: `from sympy import log
+                    name: 'Claude Shannon',
+                    year: '1948',
+                    contribution: 'Théorie de l\'information',
+                    context: 'Définit l\'entropie, mesure de l\'incertitude'
+                },
+                {
+                    name: 'Leo Breiman',
+                    year: '1984',
+                    contribution: 'CART (Classification and Regression Trees)',
+                    context: 'Algorithme standard pour les arbres'
+                },
+            ]
+        },
+        code: `from sympy import log
 # Calcul de l'entropie d'un ensemble binaire (5 oui, 5 non)
 p_oui = 0.5
 p_non = 0.5
 Entropie = -(p_oui * log(p_oui, 2) + p_non * log(p_non, 2))
 print(f'Entropie maximale (désordre) : {Entropie}')`,
-            output: 'Entropie maximale : 1.0',
-            exercises: [
+        output: 'Entropie maximale : 1.0',
+        exercises: [
             'Calculer l\'entropie de (9 oui, 1 non)',
             'Calculer le gain d\'information d\'une division',
             'Différence entre Gini et Entropie',
         ],
-            practicalApplication: 'Diagnostic médical, évaluation de risque crédit, systèmes experts.'
-        },
+        practicalApplication: 'Diagnostic médical, évaluation de risque crédit, systèmes experts.'
+    },
     {
-            id: 'day_068',
-            dayNumber: 68,
-            title: 'Séries Temporelles',
-            difficulty: 'Avancé',
-            masteryLevel: 'Expert',
-            unlocked: true,
-            xpReward: 45,
-            badge: '🏅 Séries Temporelles',
-            africanAnalogy: `Analyser une série temporelle, c'est comme prédire la météo ou la bourse. On regarde le passé pour deviner le futur, en séparant la tendance de fond (saisons) du bruit aléatoire (vent).`,
-            theory: {
-                title: 'Analyse Prédictive',
-                content: `Modélisation de données séquentielles. Décomposition en tendance, saisonnalité et résidus.`,
-                mathematicalFoundation: `
+        id: 'day_068',
+        dayNumber: 68,
+        title: 'Séries Temporelles',
+        difficulty: 'Avancé',
+        masteryLevel: 'Expert',
+        unlocked: true,
+        xpReward: 45,
+        badge: '🏅 Séries Temporelles',
+        africanAnalogy: `Analyser une série temporelle, c'est comme prédire la météo ou la bourse. On regarde le passé pour deviner le futur, en séparant la tendance de fond (saisons) du bruit aléatoire (vent).`,
+        theory: {
+            title: 'Analyse Prédictive',
+            content: `Modélisation de données séquentielles. Décomposition en tendance, saisonnalité et résidus.`,
+            mathematicalFoundation: `
                     - Modèles AR (Auto-Régressif) : X_t = c + Σ φ_i X_{t-i} + ε_t\n                - Modèles MA (Moyenne Mobile)\n                - Stationnarité (Moyenne et variance constantes)\n                - Autocorrélation\n                - Bruit blanc
                 `,
-                scientists: [
+            scientists: [
                 {
-                        name: 'George Box & Gwilym Jenkins',
-                        year: '1970',
-                        contribution: 'Méthode Box-Jenkins (ARIMA)',
-                        context: 'Standardise l\'analyse des séries temporelles'
-                    },
-                    {
-                        name: 'Norbert Wiener',
-                        year: '1940',
-                        contribution: 'Filtrage de Wiener',
-                        context: 'Père de la cybernétique'
-                    },
-                ]
-            },
-            code: `from sympy import symbols, Function
+                    name: 'George Box & Gwilym Jenkins',
+                    year: '1970',
+                    contribution: 'Méthode Box-Jenkins (ARIMA)',
+                    context: 'Standardise l\'analyse des séries temporelles'
+                },
+                {
+                    name: 'Norbert Wiener',
+                    year: '1940',
+                    contribution: 'Filtrage de Wiener',
+                    context: 'Père de la cybernétique'
+                },
+            ]
+        },
+        code: `from sympy import symbols, Function
 t = symbols('t', integer=True)
 X = Function('X')
 phi = 0.8
 # Processus AR(1) : X_t = 0.8 * X_{t-1}
 # C'est une récurrence linéaire
 # SymPy peut résoudre les récurrences (rsolve)`,
-            output: 'X(t) = C * 0.8^t',
-            exercises: [
+        output: 'X(t) = C * 0.8^t',
+        exercises: [
             'Calculer l\'autocorrélation d\'un AR(1)',
             'Différence entre marche aléatoire et bruit blanc',
             'Lissage exponentiel',
         ],
-            practicalApplication: 'Prévision des ventes, cours de bourse, consommation électrique, climat.'
-        },
+        practicalApplication: 'Prévision des ventes, cours de bourse, consommation électrique, climat.'
+    },
     {
-            id: 'day_069',
-            dayNumber: 69,
-            title: 'Optimisation : Gradient',
-            difficulty: 'Avancé',
-            masteryLevel: 'Expert',
-            unlocked: true,
-            xpReward: 45,
-            badge: '🏅 Optimisation : Gradient',
-            africanAnalogy: `La descente de gradient, c'est comme descendre une montagne dans le brouillard. On ne voit pas le sommet ni la vallée, mais on sent la pente sous ses pieds. On fait un pas vers le bas, puis on recommence, jusqu'à trouver le point le plus bas.`,
-            theory: {
-                title: 'Optimisation Numérique',
-                content: `Algorithme fondamental pour entraîner les modèles de Machine Learning. Minimise une fonction de coût en suivant la direction opposée au gradient.`,
-                mathematicalFoundation: `
+        id: 'day_069',
+        dayNumber: 69,
+        title: 'Optimisation : Gradient',
+        difficulty: 'Avancé',
+        masteryLevel: 'Expert',
+        unlocked: true,
+        xpReward: 45,
+        badge: '🏅 Optimisation : Gradient',
+        africanAnalogy: `La descente de gradient, c'est comme descendre une montagne dans le brouillard. On ne voit pas le sommet ni la vallée, mais on sent la pente sous ses pieds. On fait un pas vers le bas, puis on recommence, jusqu'à trouver le point le plus bas.`,
+        theory: {
+            title: 'Optimisation Numérique',
+            content: `Algorithme fondamental pour entraîner les modèles de Machine Learning. Minimise une fonction de coût en suivant la direction opposée au gradient.`,
+            mathematicalFoundation: `
                     - Gradient : ∇f(x)\n                - Mise à jour : x_{k+1} = x_k - α∇f(x_k)\n                - Taux d'apprentissage α (Learning rate)\n                - Convexité (garantie de minimum global)\n                - Gradient stochastique (SGD)
                 `,
-                scientists: [
+            scientists: [
                 {
-                        name: 'Augustin-Louis Cauchy',
-                        year: '1847',
-                        contribution: 'Méthode du gradient',
-                        context: 'Invente la méthode pour résoudre des systèmes d\'équations'
-                    },
-                    {
-                        name: 'Herbert Robbins',
-                        year: '1951',
-                        contribution: 'Approximation stochastique',
-                        context: 'Adapte la méthode aux données bruitées (SGD)'
-                    },
-                ]
-            },
-            code: `from sympy import symbols, diff
+                    name: 'Augustin-Louis Cauchy',
+                    year: '1847',
+                    contribution: 'Méthode du gradient',
+                    context: 'Invente la méthode pour résoudre des systèmes d\'équations'
+                },
+                {
+                    name: 'Herbert Robbins',
+                    year: '1951',
+                    contribution: 'Approximation stochastique',
+                    context: 'Adapte la méthode aux données bruitées (SGD)'
+                },
+            ]
+        },
+        code: `from sympy import symbols, diff
 x = symbols('x')
 # Fonction convexe f(x) = x^2 - 4x + 5
 f = x**2 - 4*x + 5
@@ -3167,58 +3167,58 @@ grad = diff(f, x)
 # Point critique (grad = 0)
 solution = solve(grad, x)
 print(f'Minimum en x = {solution[0]}')`,
-            output: 'Minimum en x = 2',
-            exercises: [
+        output: 'Minimum en x = 2',
+        exercises: [
             'Effectuer 3 pas de descente manuellement',
             'Impact d\'un taux d\'apprentissage trop grand',
             'Problème des minimums locaux',
         ],
-            practicalApplication: 'Entraînement des réseaux de neurones, optimisation logistique, design technique.'
-        },
+        practicalApplication: 'Entraînement des réseaux de neurones, optimisation logistique, design technique.'
+    },
     {
-            id: 'day_070',
-            dayNumber: 70,
-            title: 'Théorie de l\'Information',
-            difficulty: 'Expert',
-            masteryLevel: 'Maître',
-            unlocked: true,
-            xpReward: 50,
-            badge: '🏅 Théorie de l'Information',
+        id: 'day_070',
+        dayNumber: 70,
+        title: 'Théorie de l\'Information',
+        difficulty: 'Expert',
+        masteryLevel: 'Maître',
+        unlocked: true,
+        xpReward: 50,
+        badge: '🏅 Théorie de l'Information',
             africanAnalogy: `L'information se mesure, comme l'eau ou l'électricité. Un message surprenant contient beaucoup d'information ('Il neige au Sahara'). Un message évident en contient peu ('Le soleil se lève'). Le bit est l'atome d'information.`,
-            theory: {
-                title: 'Entropie et Codage',
-                content: `Quantifie l'information, la compression et la transmission. L'entropie mesure l'incertitude moyenne d'une variable aléatoire.`,
-                mathematicalFoundation: `
+    theory: {
+        title: 'Entropie et Codage',
+        content: `Quantifie l'information, la compression et la transmission. L'entropie mesure l'incertitude moyenne d'une variable aléatoire.`,
+        mathematicalFoundation: `
                     - Information propre : I(x) = -log₂ p(x)\n                - Entropie : H(X) = E[I(x)]\n                - Divergence KL (Kullback-Leibler)\n                - Information mutuelle : I(X;Y) = H(X) - H(X|Y)\n                - Théorème du codage de source
                 `,
-                scientists: [
-                {
-                        name: 'Claude Shannon',
-                        year: '1948',
-                        contribution: 'Théorie mathématique de la communication',
-                        context: 'Fonde l\'ère numérique (bits, compression, correction d\'erreur)'
-                    },
-                    {
-                        name: 'John von Neumann',
-                        year: '1932',
-                        contribution: 'Entropie quantique',
-                        context: 'Suggère le nom \'entropie\' à Shannon'
-                    },
-                ]
+        scientists: [
+            {
+                name: 'Claude Shannon',
+                year: '1948',
+                contribution: 'Théorie mathématique de la communication',
+                context: 'Fonde l\'ère numérique (bits, compression, correction d\'erreur)'
             },
-            code: `from sympy import log, Sum, symbols
+            {
+                name: 'John von Neumann',
+                year: '1932',
+                contribution: 'Entropie quantique',
+                context: 'Suggère le nom \'entropie\' à Shannon'
+            },
+        ]
+    },
+    code: `from sympy import log, Sum, symbols
 p = symbols('p', positive=True)
 # Entropie d'une pièce biaisée (Bernoulli)
 H = -(p * log(p, 2) + (1-p) * log(1-p, 2))
 # Maximum pour p=0.5 (pièce équilibrée)
 print('Entropie max pour p=0.5')`,
-            output: '1 bit',
-            exercises: [
-            'Calculer l\'entropie d\'un dé à 6 faces',
-            'Lien entre compression ZIP et entropie',
-            'Pourquoi le langage est-il redondant ?',
-        ],
-            practicalApplication: 'Compression (MP3, ZIP), cryptographie, télécommunications (5G, Fibre), Machine Learning.'
+    output: '1 bit',
+    exercises: [
+        'Calculer l\'entropie d\'un dé à 6 faces',
+        'Lien entre compression ZIP et entropie',
+        'Pourquoi le langage est-il redondant ?',
+    ],
+    practicalApplication: 'Compression (MP3, ZIP), cryptographie, télécommunications (5G, Fibre), Machine Learning.'
         },
 
 ];
