@@ -273,14 +273,14 @@ export default function CoursesPage() {
                                                 <div className="max-w-4xl mx-auto">
                                                     {/* Header Image if available */}
                                                     {activeChapter?.image && (
-                                                        <div className="relative h-64 w-full mb-8 rounded-2xl overflow-hidden border border-white/10 shadow-2xl">
+                                                        <div className="relative w-full mb-8 rounded-2xl overflow-hidden border border-white/10 shadow-2xl bg-black/40">
                                                             <img
                                                                 src={activeChapter.image}
                                                                 alt={activeChapter.title}
-                                                                className="w-full h-full object-cover"
+                                                                className="w-full h-64 sm:h-80 object-contain mx-auto"
                                                             />
-                                                            <div className="absolute inset-0 bg-gradient-to-t from-[#0F1115] via-transparent to-transparent"></div>
-                                                            <div className="absolute bottom-0 left-0 p-6">
+                                                            <div className="absolute inset-0 bg-gradient-to-t from-[#0F1115] via-transparent to-transparent pointer-events-none"></div>
+                                                            <div className="absolute bottom-0 left-0 p-6 pointer-events-none">
                                                                 <span className="px-3 py-1 rounded-full bg-blue-500/20 text-blue-300 text-xs font-bold uppercase tracking-wider border border-blue-500/20 backdrop-blur-sm mb-3 inline-block">
                                                                     {activeChapter.part?.split(':')[0] || 'Chapitre'}
                                                                 </span>
@@ -312,7 +312,7 @@ export default function CoursesPage() {
                                                         prose-p:text-gray-300 prose-p:leading-relaxed
                                                         prose-strong:text-white prose-strong:font-black
                                                         prose-ul:text-gray-300 prose-li:marker:text-blue-500
-                                                        prose-img:rounded-xl prose-img:border prose-img:border-white/10"
+                                                        prose-img:rounded-xl prose-img:border prose-img:border-white/10 prose-img:mx-auto prose-img:block prose-img:shadow-lg"
                                                         dangerouslySetInnerHTML={{ __html: activeChapter?.content }}
                                                     />
 
