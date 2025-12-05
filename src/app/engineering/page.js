@@ -7,6 +7,7 @@ import { engineeringProjects } from './projectData';
 export default function EngineeringPage() {
     const [selectedProject, setSelectedProject] = useState(null);
     const [activeCategory, setActiveCategory] = useState('Tous');
+    const [activeLevel, setActiveLevel] = useState('Tous');
 
     const categories = [
         'Tous',
@@ -18,9 +19,29 @@ export default function EngineeringPage() {
         'Élec & Info'
     ];
 
-    const filteredProjects = activeCategory === 'Tous'
-        ? engineeringProjects
-        : engineeringProjects.filter(p => p.category === activeCategory);
+    const levels = ['Tous', 'Lycée', 'Université'];
+
+    const levelOrder = {
+        'Lycée (Seconde)': 1,
+        'Lycée (Première)': 2,
+        'Lycée (Terminale)': 3,
+        'Université (L1)': 4,
+        'Université (L2)': 5,
+        'Université (L3)': 6,
+        'Université (Master)': 7
+    };
+
+    const filteredProjects = engineeringProjects
+        .filter(p => {
+            const matchesCategory = activeCategory === 'Tous' || p.category === activeCategory;
+            const matchesLevel = activeLevel === 'Tous' || p.level.startsWith(activeLevel);
+            return matchesCategory && matchesLevel;
+        })
+        .sort((a, b) => {
+            const orderA = levelOrder[a.level] || 99;
+            const orderB = levelOrder[b.level] || 99;
+            return orderA - orderB;
+        });
 
     return (
         <main className="min-h-screen bg-black text-white font-sans selection:bg-[#00F5D4] selection:text-black">
@@ -53,6 +74,24 @@ export default function EngineeringPage() {
                         L'Ingénierie par <br />
                         <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#00F5D4] via-blue-500 to-purple-600">la Pratique.</span>
                     </h1>
+                </div>
+            </div>
+
+            {/* Level Selector */}
+            <div className="flex justify-center mb-8 mt-8">
+                <div className="bg-white/5 p-1 rounded-full border border-white/10 flex backdrop-blur-sm">
+                    {levels.map((level) => (
+                        <button
+                            key={level}
+                            onClick={() => setActiveLevel(level)}
+                            className={`px-8 py-3 rounded-full text-sm font-bold transition-all duration-300 ${activeLevel === level
+                                ? 'bg-[#00F5D4] text-black shadow-lg shadow-[#00F5D4]/20'
+                                : 'text-gray-400 hover:text-white hover:bg-white/5'
+                                }`}
+                        >
+                            {level}
+                        </button>
+                    ))}
                 </div>
             </div>
 
