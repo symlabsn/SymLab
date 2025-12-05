@@ -8,8 +8,10 @@ import { challengesEnriched, progressionSystem } from './challengeDataEnriched';
 export default function ChallengesPage() {
     const [searchTerm, setSearchTerm] = useState('');
     const [completedDays, setCompletedDays] = useState([]);
+    const [mounted, setMounted] = useState(false);
 
     useEffect(() => {
+        setMounted(true);
         // Charger la progression depuis localStorage
         const saved = localStorage.getItem('symlab_progress');
         if (saved) {
@@ -17,12 +19,20 @@ export default function ChallengesPage() {
         }
     }, []);
 
+    // Éviter le rendu pendant le SSR
+    if (!mounted) {
+        return null;
+    }
+
     const totalXP = progressionSystem.getTotalXP(completedDays);
     const levelInfo = progressionSystem.getLevel(totalXP);
 
-    const filteredChallenges = challenges.filter(challenge =>
-        challenge.title.toLowerCase().includes(searchTerm.toLowerCase())
-    );
+    const filteredChallenges = challenges
+        .filter(challenge => {
+            // Ne montrer que les challenges qui ont des données enrichies
+            const hasEnrichedData = challengesEnriched.some(c => c.id === challenge.id);
+            return hasEnrichedData && challenge.title.toLowerCase().includes(searchTerm.toLowerCase());
+        });
 
     return (
         <main className="min-h-screen bg-black text-white font-sans selection:bg-[#00F5D4] selection:text-black">
@@ -131,7 +141,7 @@ export default function ChallengesPage() {
                 <div className="flex items-center justify-between mb-8">
                     <h2 className="text-2xl font-bold">Les Défis ({filteredChallenges.length})</h2>
                     <div className="text-sm text-gray-500 font-mono">
-                        Progression : {Math.round((filteredChallenges.length / 100) * 100)}%
+                        Progression : {challengesEnriched.length}/100 jours enrichis
                     </div>
                 </div>
 
@@ -147,8 +157,8 @@ export default function ChallengesPage() {
                                 href={`/challenges/${challenge.id}`}
                                 key={challenge.id}
                                 className={`group relative bg-[#0F1115] rounded-2xl border overflow-hidden transition-all duration-300 flex flex-col h-full ${isUnlocked
-                                        ? 'border-white/10 hover:border-[#00F5D4]/50 hover:-translate-y-1 hover:shadow-xl hover:shadow-[#00F5D4]/10'
-                                        : 'border-white/5 opacity-60 cursor-not-allowed'
+                                    ? 'border-white/10 hover:border-[#00F5D4]/50 hover:-translate-y-1 hover:shadow-xl hover:shadow-[#00F5D4]/10'
+                                    : 'border-white/5 opacity-60 cursor-not-allowed'
                                     }`}
                             >
                                 {!isUnlocked && (
