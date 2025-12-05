@@ -22,7 +22,7 @@ export default function Navbar() {
     { name: 'Simulations', href: '/simulations' },
     { name: 'Ingénierie', href: '/engineering' },
     { name: 'Challenges', href: '/challenges' },
-    { name: 'Vidéos', href: '/videos' },
+    { name: 'Studio IA', href: '/studio' },
   ];
 
   return (
