@@ -57,6 +57,13 @@ export default function ChallengesPage() {
                         <div className="flex gap-4 text-sm font-medium text-gray-400">
                             <Link href="/engineering" className="hover:text-white transition-colors">Ingénierie</Link>
                             <Link href="/code" className="hover:text-white transition-colors">Notebook</Link>
+                            <Link href="/about" className="relative hover:text-white transition-colors flex items-center gap-2 group/about">
+                                <span>À propos</span>
+                                <span className="flex h-2 w-2 relative">
+                                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#00F5D4] opacity-75"></span>
+                                    <span className="relative inline-flex rounded-full h-2 w-2 bg-[#00F5D4]"></span>
+                                </span>
+                            </Link>
                         </div>
                     </div>
                 </div>
@@ -102,14 +109,14 @@ export default function ChallengesPage() {
                     <span className="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center text-lg">📚</span>
                     Modules & Outils
                 </h2>
-                <div className="grid md:grid-cols-3 gap-6">
+                <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
                     <div className="bg-[#0F1115] border border-white/10 rounded-2xl p-6 hover:border-[#00F5D4]/30 transition-colors">
                         <div className="w-12 h-12 rounded-xl bg-orange-500/10 flex items-center justify-center text-2xl mb-4 text-orange-500">
                             🐍
                         </div>
                         <h3 className="text-xl font-bold mb-2">SymPy Core</h3>
                         <p className="text-gray-400 text-sm">
-                            Le cœur du calcul symbolique. Manipulation d'expressions, résolution d'équations, calcul infinitésimal (dérivées, intégrales, limites).
+                            Le cœur du calcul symbolique. Manipulation d'expressions, résolution d'équations, calcul infinitésimal.
                         </p>
                     </div>
                     <div className="bg-[#0F1115] border border-white/10 rounded-2xl p-6 hover:border-[#00F5D4]/30 transition-colors">
@@ -127,9 +134,20 @@ export default function ChallengesPage() {
                         </div>
                         <h3 className="text-xl font-bold mb-2">Jupyter & IPython</h3>
                         <p className="text-gray-400 text-sm">
-                            L'environnement interactif idéal pour expérimenter, documenter et partager vos découvertes mathématiques.
+                            L'environnement interactif idéal pour expérimenter, documenter et partager vos découvertes.
                         </p>
                     </div>
+                    <Link href="/engineering" className="bg-[#0F1115] border border-white/10 rounded-2xl p-6 hover:border-[#00F5D4]/30 transition-colors group cursor-pointer block">
+                        <div className="w-12 h-12 rounded-xl bg-green-500/10 flex items-center justify-center text-2xl mb-4 text-green-500 group-hover:scale-110 transition-transform">
+                            ⚙️
+                        </div>
+                        <h3 className="text-xl font-bold mb-2 flex items-center gap-2">
+                            Ingénierie <span className="text-xs bg-green-500/20 text-green-400 px-2 py-0.5 rounded-full">Nouveau</span>
+                        </h3>
+                        <p className="text-gray-400 text-sm">
+                            Projets appliqués : Robotique, Contrôle, Mécanique. Transformez les maths en systèmes réels.
+                        </p>
+                    </Link>
                 </div>
             </div>
 
