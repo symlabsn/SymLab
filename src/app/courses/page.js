@@ -6,6 +6,7 @@ import { courses } from './courseData';
 import { math6eData } from './data/math6e';
 import { math5eData } from './data/math5e';
 import { svt6eData } from './data/svt6e';
+import { svt5eData } from './data/svt5e';
 import { BookOpen, Download, Eye, ChevronRight, GraduationCap, Atom, Calculator, Dna, CheckCircle, XCircle, Menu, ArrowLeft } from 'lucide-react';
 
 export default function CoursesPage() {
@@ -26,7 +27,8 @@ export default function CoursesPage() {
     const structuredCourses = {
         'math-6e': math6eData,
         'math-5e': math5eData,
-        'svt-6e': svt6eData
+        'svt-6e': svt6eData,
+        'svt-5e': svt5eData
     };
 
     const filteredCourses = courses.filter(course => {
