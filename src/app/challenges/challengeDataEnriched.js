@@ -1383,354 +1383,354 @@ dsolve(eq, x(t))`,
             'Résoudre x\'\' = -g avec conditions initiales',
         ],
         practicalApplication: 'Balistique, robotique, jeux vidéo (moteurs physiques), aérospatiale.'
-    },,
+    },
     {
-            id: 'day_031',
-            dayNumber: 31,
-            title: 'Physique : Dynamique',
-            difficulty: 'Intermédiaire',
-            masteryLevel: 'Intermédiaire',
-            unlocked: true,
-            xpReward: 30,
-            badge: '🏅 Physique : Dynamique',
-            africanAnalogy: `La dynamique est l'étude des causes du mouvement. Si la cinématique décrit la danse, la dynamique explique la musique qui fait bouger les danseurs. C'est la force invisible qui pousse, tire et retient.`,
-            theory: {
-                title: 'Lois de Newton',
-                content: `La dynamique classique repose sur les trois lois de Newton reliant les forces au mouvement. SymPy permet de résoudre ces équations vectorielles.`,
-                mathematicalFoundation: `
+        id: 'day_031',
+        dayNumber: 31,
+        title: 'Physique : Dynamique',
+        difficulty: 'Intermédiaire',
+        masteryLevel: 'Intermédiaire',
+        unlocked: true,
+        xpReward: 30,
+        badge: '🏅 Physique : Dynamique',
+        africanAnalogy: `La dynamique est l'étude des causes du mouvement. Si la cinématique décrit la danse, la dynamique explique la musique qui fait bouger les danseurs. C'est la force invisible qui pousse, tire et retient.`,
+        theory: {
+            title: 'Lois de Newton',
+            content: `La dynamique classique repose sur les trois lois de Newton reliant les forces au mouvement. SymPy permet de résoudre ces équations vectorielles.`,
+            mathematicalFoundation: `
                     - 1ère loi (Inertie) : ΣF = 0 ⟺ v = constante\n                - 2ème loi (Fondamentale) : ΣF = ma\n                - 3ème loi (Action-Réaction) : F_AB = -F_BA\n                - Poids : P = mg\n                - Frottement : f = μN
                 `,
-                scientists: [
+            scientists: [
                 {
-                        name: 'Isaac Newton',
-                        year: '1687',
-                        contribution: 'Philosophiae Naturalis Principia Mathematica',
-                        context: 'Pose les bases de la mécanique classique'
-                    },
-                    {
-                        name: 'Émilie du Châtelet',
-                        year: '1740',
-                        contribution: 'Traduction et commentaire de Newton',
-                        context: 'Clarifie la notion d\'énergie cinétique'
-                    },
-                ]
-            },
-            code: `from sympy import symbols, Eq, solve
+                    name: 'Isaac Newton',
+                    year: '1687',
+                    contribution: 'Philosophiae Naturalis Principia Mathematica',
+                    context: 'Pose les bases de la mécanique classique'
+                },
+                {
+                    name: 'Émilie du Châtelet',
+                    year: '1740',
+                    contribution: 'Traduction et commentaire de Newton',
+                    context: 'Clarifie la notion d\'énergie cinétique'
+                },
+            ]
+        },
+        code: `from sympy import symbols, Eq, solve
 m, a, F_poussee, F_frottement = symbols('m a F_p F_f')
 # 2ème loi de Newton : F_p - F_f = ma
 eq = Eq(F_poussee - F_frottement, m * a)
 solve(eq, a)`,
-            output: '[(-F_f + F_p)/m]',
-            exercises: [
+        output: '[(-F_f + F_p)/m]',
+        exercises: [
             'Calculer l\'accélération d\'un bloc sur un plan incliné',
             'Déterminer la force nécessaire pour déplacer une masse',
             'Système de poulies (machine d\'Atwood)',
         ],
-            practicalApplication: 'Ingénierie automobile, aérospatiale, biomécanique, construction.'
-        },
+        practicalApplication: 'Ingénierie automobile, aérospatiale, biomécanique, construction.'
+    },
     {
-            id: 'day_032',
-            dayNumber: 32,
-            title: 'Physique : Énergie',
-            difficulty: 'Intermédiaire',
-            masteryLevel: 'Intermédiaire',
-            unlocked: true,
-            xpReward: 30,
-            badge: '🏅 Physique : Énergie',
-            africanAnalogy: `L'énergie est la monnaie de l'univers. Elle ne se crée ni ne se perd, elle change juste de main (transfert) ou de forme (transformation). Le travail est le prix à payer pour changer l'énergie d'un système.`,
-            theory: {
-                title: 'Travail et Énergie',
-                content: `Le théorème de l'énergie cinétique et la conservation de l'énergie mécanique sont des outils puissants pour résoudre des problèmes sans connaître les détails du mouvement.`,
-                mathematicalFoundation: `
+        id: 'day_032',
+        dayNumber: 32,
+        title: 'Physique : Énergie',
+        difficulty: 'Intermédiaire',
+        masteryLevel: 'Intermédiaire',
+        unlocked: true,
+        xpReward: 30,
+        badge: '🏅 Physique : Énergie',
+        africanAnalogy: `L'énergie est la monnaie de l'univers. Elle ne se crée ni ne se perd, elle change juste de main (transfert) ou de forme (transformation). Le travail est le prix à payer pour changer l'énergie d'un système.`,
+        theory: {
+            title: 'Travail et Énergie',
+            content: `Le théorème de l'énergie cinétique et la conservation de l'énergie mécanique sont des outils puissants pour résoudre des problèmes sans connaître les détails du mouvement.`,
+            mathematicalFoundation: `
                     - Travail : W = ∫ F · dl\n                - Énergie Cinétique : Ec = 1/2 mv²\n                - Énergie Potentielle (pesanteur) : Ep = mgh\n                - Conservation : Em = Ec + Ep = constante (si forces conservatives)\n                - Puissance : P = dW/dt = F · v
                 `,
-                scientists: [
+            scientists: [
                 {
-                        name: 'James Prescott Joule',
-                        year: '1843',
-                        contribution: 'Équivalent mécanique de la chaleur',
-                        context: 'Montre que chaleur et travail sont deux formes d\'énergie'
-                    },
-                    {
-                        name: 'Hermann von Helmholtz',
-                        year: '1847',
-                        contribution: 'Conservation de l\'énergie',
-                        context: 'Principe universel applicable à tous les phénomènes'
-                    },
-                ]
-            },
-            code: `from sympy import symbols, solve, Eq
+                    name: 'James Prescott Joule',
+                    year: '1843',
+                    contribution: 'Équivalent mécanique de la chaleur',
+                    context: 'Montre que chaleur et travail sont deux formes d\'énergie'
+                },
+                {
+                    name: 'Hermann von Helmholtz',
+                    year: '1847',
+                    contribution: 'Conservation de l\'énergie',
+                    context: 'Principe universel applicable à tous les phénomènes'
+                },
+            ]
+        },
+        code: `from sympy import symbols, solve, Eq
 m, v, g, h = symbols('m v g h')
 # Conservation : Ec_initiale + Ep_initiale = Ec_finale + Ep_finale
 # Chute libre : mgh = 1/2 mv^2
 eq = Eq(m*g*h, 1/2 * m * v**2)
 solve(eq, v)`,
-            output: '[-1.414*sqrt(g*h), 1.414*sqrt(g*h)]',
-            exercises: [
+        output: '[-1.414*sqrt(g*h), 1.414*sqrt(g*h)]',
+        exercises: [
             'Vitesse d\'un pendule au point bas',
             'Ressort comprimé (énergie élastique)',
             'Travail d\'une force variable',
         ],
-            practicalApplication: 'Montagnes russes, barrages hydroélectriques, moteurs, crash tests.'
-        },
+        practicalApplication: 'Montagnes russes, barrages hydroélectriques, moteurs, crash tests.'
+    },
     {
-            id: 'day_033',
-            dayNumber: 33,
-            title: 'Chimie : Équations',
-            difficulty: 'Débutant',
-            masteryLevel: 'Fondamental',
-            unlocked: true,
-            xpReward: 25,
-            badge: '🏅 Chimie : Équations',
-            africanAnalogy: `Une équation chimique est une recette de cuisine cosmique. Elle doit être parfaitement équilibrée : on ne peut pas sortir du four plus d'ingrédients qu'on en a mis. Les atomes se réarrangent, mais ne disparaissent pas.`,
-            theory: {
-                title: 'Stœchiométrie',
-                content: `L'équilibrage des équations chimiques assure la conservation de la matière (Lavoisier). C'est un système d'équations linéaires que SymPy peut résoudre.`,
-                mathematicalFoundation: `
+        id: 'day_033',
+        dayNumber: 33,
+        title: 'Chimie : Équations',
+        difficulty: 'Débutant',
+        masteryLevel: 'Fondamental',
+        unlocked: true,
+        xpReward: 25,
+        badge: '🏅 Chimie : Équations',
+        africanAnalogy: `Une équation chimique est une recette de cuisine cosmique. Elle doit être parfaitement équilibrée : on ne peut pas sortir du four plus d'ingrédients qu'on en a mis. Les atomes se réarrangent, mais ne disparaissent pas.`,
+        theory: {
+            title: 'Stœchiométrie',
+            content: `L'équilibrage des équations chimiques assure la conservation de la matière (Lavoisier). C'est un système d'équations linéaires que SymPy peut résoudre.`,
+            mathematicalFoundation: `
                     - Conservation de la masse\n                - Conservation des atomes\n                - Coefficients stœchiométriques entiers\n                - Réactif limitant
                 `,
-                scientists: [
+            scientists: [
                 {
-                        name: 'Antoine Lavoisier',
-                        year: '1789',
-                        contribution: 'Loi de conservation de la masse',
-                        context: '\'Rien ne se perd, rien ne se crée, tout se transforme\''
-                    },
-                    {
-                        name: 'John Dalton',
-                        year: '1803',
-                        contribution: 'Théorie atomique',
-                        context: 'Explique les proportions multiples dans les réactions'
-                    },
-                ]
-            },
-            code: `from sympy.chem import Balance
+                    name: 'Antoine Lavoisier',
+                    year: '1789',
+                    contribution: 'Loi de conservation de la masse',
+                    context: '\'Rien ne se perd, rien ne se crée, tout se transforme\''
+                },
+                {
+                    name: 'John Dalton',
+                    year: '1803',
+                    contribution: 'Théorie atomique',
+                    context: 'Explique les proportions multiples dans les réactions'
+                },
+            ]
+        },
+        code: `from sympy.chem import Balance
 # Combustion du méthane : CH4 + O2 -> CO2 + H2O
 reac = Balance([('C', 1), ('H', 4)], [('O', 2)], [('C', 1), ('O', 2)], [('H', 2), ('O', 1)])
 # Note: SymPy a un module chem, mais on peut aussi utiliser linsolve
 # Ici on simule le résultat pour l'exemple simple
 print('CH4 + 2O2 -> CO2 + 2H2O')`,
-            output: 'CH4 + 2O2 -> CO2 + 2H2O',
-            exercises: [
+        output: 'CH4 + 2O2 -> CO2 + 2H2O',
+        exercises: [
             'Équilibrer la photosynthèse',
             'Réaction acide-base',
             'Calculer la masse molaire',
         ],
-            practicalApplication: 'Industrie chimique, pharmacologie, environnement, cuisine.'
-        },
+        practicalApplication: 'Industrie chimique, pharmacologie, environnement, cuisine.'
+    },
     {
-            id: 'day_034',
-            dayNumber: 34,
-            title: 'Chimie : Cinétique',
-            difficulty: 'Avancé',
-            masteryLevel: 'Avancé',
-            unlocked: true,
-            xpReward: 40,
-            badge: '🏅 Chimie : Cinétique',
-            africanAnalogy: `La cinétique chimique est le chronomètre de la réaction. Certaines réactions sont des explosions instantanées, d'autres prennent des siècles comme la rouille. Comprendre la vitesse, c'est maîtriser le temps de la matière.`,
-            theory: {
-                title: 'Vitesse de Réaction',
-                content: `La vitesse dépend de la concentration des réactifs. Cela conduit à des équations différentielles décrivant l'évolution des concentrations dans le temps.`,
-                mathematicalFoundation: `
+        id: 'day_034',
+        dayNumber: 34,
+        title: 'Chimie : Cinétique',
+        difficulty: 'Avancé',
+        masteryLevel: 'Avancé',
+        unlocked: true,
+        xpReward: 40,
+        badge: '🏅 Chimie : Cinétique',
+        africanAnalogy: `La cinétique chimique est le chronomètre de la réaction. Certaines réactions sont des explosions instantanées, d'autres prennent des siècles comme la rouille. Comprendre la vitesse, c'est maîtriser le temps de la matière.`,
+        theory: {
+            title: 'Vitesse de Réaction',
+            content: `La vitesse dépend de la concentration des réactifs. Cela conduit à des équations différentielles décrivant l'évolution des concentrations dans le temps.`,
+            mathematicalFoundation: `
                     - Loi de vitesse : v = k[A]ⁿ\n                - Ordre de réaction (0, 1, 2)\n                - Loi d'Arrhenius : k = A exp(-Ea/RT)\n                - Demi-vie : temps pour consommer la moitié du réactif
                 `,
-                scientists: [
+            scientists: [
                 {
-                        name: 'Svante Arrhenius',
-                        year: '1889',
-                        contribution: 'Loi d\'Arrhenius (température)',
-                        context: 'Prix Nobel, lie vitesse et énergie d\'activation'
-                    },
-                    {
-                        name: 'Peter Waage & Cato Guldberg',
-                        year: '1864',
-                        contribution: 'Loi d\'action de masse',
-                        context: 'Formalisent l\'équilibre chimique'
-                    },
-                ]
-            },
-            code: `from sympy import Function, dsolve, Eq, symbols
+                    name: 'Svante Arrhenius',
+                    year: '1889',
+                    contribution: 'Loi d\'Arrhenius (température)',
+                    context: 'Prix Nobel, lie vitesse et énergie d\'activation'
+                },
+                {
+                    name: 'Peter Waage & Cato Guldberg',
+                    year: '1864',
+                    contribution: 'Loi d\'action de masse',
+                    context: 'Formalisent l\'équilibre chimique'
+                },
+            ]
+        },
+        code: `from sympy import Function, dsolve, Eq, symbols
 C = Function('C')
 t, k = symbols('t k')
 # Réaction d'ordre 1 : dC/dt = -kC
 eq = Eq(C(t).diff(t), -k * C(t))
 dsolve(eq, C(t))`,
-            output: 'C(t) = C1 * exp(-k*t)',
-            exercises: [
+        output: 'C(t) = C1 * exp(-k*t)',
+        exercises: [
             'Cinétique d\'ordre 2',
             'Calculer la demi-vie',
             'Influence de la température (Arrhenius)',
         ],
-            practicalApplication: 'Datation au carbone 14, conservation des aliments, catalyseurs, pharmacocinétique.'
-        },
+        practicalApplication: 'Datation au carbone 14, conservation des aliments, catalyseurs, pharmacocinétique.'
+    },
     {
-            id: 'day_035',
-            dayNumber: 35,
-            title: 'Biologie : Populations',
-            difficulty: 'Intermédiaire',
-            masteryLevel: 'Intermédiaire',
-            unlocked: true,
-            xpReward: 30,
-            badge: '🏅 Biologie : Populations',
-            africanAnalogy: `Une population grandit comme un feu de forêt. Au début, ça flambe (exponentiel), mais quand le bois manque (ressources limitées), le feu se stabilise. Modéliser la population, c'est prédire l'équilibre de la vie.`,
-            theory: {
-                title: 'Dynamique des Populations',
-                content: `Les modèles mathématiques décrivent l'évolution du nombre d'individus. Du modèle exponentiel simple (Malthus) au modèle logistique (Verhulst) avec capacité de charge.`,
-                mathematicalFoundation: `
+        id: 'day_035',
+        dayNumber: 35,
+        title: 'Biologie : Populations',
+        difficulty: 'Intermédiaire',
+        masteryLevel: 'Intermédiaire',
+        unlocked: true,
+        xpReward: 30,
+        badge: '🏅 Biologie : Populations',
+        africanAnalogy: `Une population grandit comme un feu de forêt. Au début, ça flambe (exponentiel), mais quand le bois manque (ressources limitées), le feu se stabilise. Modéliser la population, c'est prédire l'équilibre de la vie.`,
+        theory: {
+            title: 'Dynamique des Populations',
+            content: `Les modèles mathématiques décrivent l'évolution du nombre d'individus. Du modèle exponentiel simple (Malthus) au modèle logistique (Verhulst) avec capacité de charge.`,
+            mathematicalFoundation: `
                     - Croissance exponentielle : dN/dt = rN\n                - Modèle logistique : dN/dt = rN(1 - N/K)\n                - K : capacité de charge du milieu\n                - r : taux de croissance intrinsèque
                 `,
-                scientists: [
+            scientists: [
                 {
-                        name: 'Thomas Malthus',
-                        year: '1798',
-                        contribution: 'Essai sur le principe de population',
-                        context: 'Prédit une crise si la population dépasse les ressources'
-                    },
-                    {
-                        name: 'Pierre François Verhulst',
-                        year: '1838',
-                        contribution: 'Modèle logistique',
-                        context: 'Corrige Malthus en introduisant la saturation'
-                    },
-                ]
-            },
-            code: `from sympy import Function, dsolve, Eq, symbols
+                    name: 'Thomas Malthus',
+                    year: '1798',
+                    contribution: 'Essai sur le principe de population',
+                    context: 'Prédit une crise si la population dépasse les ressources'
+                },
+                {
+                    name: 'Pierre François Verhulst',
+                    year: '1838',
+                    contribution: 'Modèle logistique',
+                    context: 'Corrige Malthus en introduisant la saturation'
+                },
+            ]
+        },
+        code: `from sympy import Function, dsolve, Eq, symbols
 N = Function('N')
 t, r, K = symbols('t r K')
 # Modèle logistique
 eq = Eq(N(t).diff(t), r * N(t) * (1 - N(t)/K))
 # Solution générale (complexe, SymPy peut la trouver)`,
-            output: 'N(t) = K / (1 + C1*exp(-rt))',
-            exercises: [
+        output: 'N(t) = K / (1 + C1*exp(-rt))',
+        exercises: [
             'Résoudre le modèle exponentiel',
             'Trouver la population à l\'équilibre',
             'Modèle Proie-Prédateur (Lotka-Volterra)',
         ],
-            practicalApplication: 'Écologie, gestion des pêches, épidémiologie (propagation virus), démographie.'
-        },
+        practicalApplication: 'Écologie, gestion des pêches, épidémiologie (propagation virus), démographie.'
+    },
     {
-            id: 'day_036',
-            dayNumber: 36,
-            title: 'Biologie : Génétique',
-            difficulty: 'Débutant',
-            masteryLevel: 'Fondamental',
-            unlocked: true,
-            xpReward: 25,
-            badge: '🏅 Biologie : Génétique',
-            africanAnalogy: `La génétique est une loterie où les tickets sont les gènes. Chaque parent donne une moitié de son ticket. Les probabilités dictent les traits de l'enfant, comme un jeu de dés avec l'hérédité.`,
-            theory: {
-                title: 'Lois de Mendel',
-                content: `L'hérédité suit des règles probabilistes simples. Les carrés de Punnett permettent de visualiser les combinaisons d'allèles et de prédire les phénotypes.`,
-                mathematicalFoundation: `
+        id: 'day_036',
+        dayNumber: 36,
+        title: 'Biologie : Génétique',
+        difficulty: 'Débutant',
+        masteryLevel: 'Fondamental',
+        unlocked: true,
+        xpReward: 25,
+        badge: '🏅 Biologie : Génétique',
+        africanAnalogy: `La génétique est une loterie où les tickets sont les gènes. Chaque parent donne une moitié de son ticket. Les probabilités dictent les traits de l'enfant, comme un jeu de dés avec l'hérédité.`,
+        theory: {
+            title: 'Lois de Mendel',
+            content: `L'hérédité suit des règles probabilistes simples. Les carrés de Punnett permettent de visualiser les combinaisons d'allèles et de prédire les phénotypes.`,
+            mathematicalFoundation: `
                     - Allèles : Dominant (A) / Récessif (a)\n                - Génotype : AA, Aa, aa\n                - Phénotype : expression visible\n                - Probabilités de transmission : 1/2 par parent\n                - Loi de ségrégation indépendante
                 `,
-                scientists: [
+            scientists: [
                 {
-                        name: 'Gregor Mendel',
-                        year: '1865',
-                        contribution: 'Lois de l\'hérédité',
-                        context: 'Moine botaniste, découvre les lois en cultivant des pois'
-                    },
-                    {
-                        name: 'Thomas Hunt Morgan',
-                        year: '1910',
-                        contribution: 'Théorie chromosomique',
-                        context: 'Localise les gènes sur les chromosomes (drosophiles)'
-                    },
-                ]
-            },
-            code: `from sympy import Symbol, expand
+                    name: 'Gregor Mendel',
+                    year: '1865',
+                    contribution: 'Lois de l\'hérédité',
+                    context: 'Moine botaniste, découvre les lois en cultivant des pois'
+                },
+                {
+                    name: 'Thomas Hunt Morgan',
+                    year: '1910',
+                    contribution: 'Théorie chromosomique',
+                    context: 'Localise les gènes sur les chromosomes (drosophiles)'
+                },
+            ]
+        },
+        code: `from sympy import Symbol, expand
 # Croisement hybride Aa x Aa
 A, a = Symbol('A'), Symbol('a')
 parent1 = A + a
 parent2 = A + a
 # Distribution des génotypes
 expand(parent1 * parent2)`,
-            output: 'A**2 + 2*A*a + a**2',
-            exercises: [
+        output: 'A**2 + 2*A*a + a**2',
+        exercises: [
             'Interpréter A^2 + 2Aa + a^2',
             'Croisement dihybride (AABB x aabb)',
             'Calculer la probabilité d\'un trait récessif',
         ],
-            practicalApplication: 'Médecine génétique, agriculture (sélection), élevage, police scientifique.'
-        },
+        practicalApplication: 'Médecine génétique, agriculture (sélection), élevage, police scientifique.'
+    },
     {
-            id: 'day_037',
-            dayNumber: 37,
-            title: 'Économie : Finance',
-            difficulty: 'Intermédiaire',
-            masteryLevel: 'Intermédiaire',
-            unlocked: true,
-            xpReward: 30,
-            badge: '🏅 Économie : Finance',
-            africanAnalogy: `L'intérêt composé est la huitième merveille du monde. C'est de l'argent qui fait des bébés argent, qui eux-mêmes font des bébés. Avec le temps, une petite graine devient une forêt.`,
-            theory: {
-                title: 'Mathématiques Financières',
-                content: `Calcul des intérêts simples et composés, valeur actuelle et future, annuités. C'est la base de toute décision d'investissement.`,
-                mathematicalFoundation: `
+        id: 'day_037',
+        dayNumber: 37,
+        title: 'Économie : Finance',
+        difficulty: 'Intermédiaire',
+        masteryLevel: 'Intermédiaire',
+        unlocked: true,
+        xpReward: 30,
+        badge: '🏅 Économie : Finance',
+        africanAnalogy: `L'intérêt composé est la huitième merveille du monde. C'est de l'argent qui fait des bébés argent, qui eux-mêmes font des bébés. Avec le temps, une petite graine devient une forêt.`,
+        theory: {
+            title: 'Mathématiques Financières',
+            content: `Calcul des intérêts simples et composés, valeur actuelle et future, annuités. C'est la base de toute décision d'investissement.`,
+            mathematicalFoundation: `
                     - Intérêt simple : I = Crt\n                - Intérêt composé : A = P(1 + r/n)^(nt)\n                - Valeur Actuelle Nette (VAN)\n                - Taux de rentabilité interne (TRI)\n                - Amortissement d'emprunt
                 `,
-                scientists: [
+            scientists: [
                 {
-                        name: 'Fibonacci',
-                        year: '1202',
-                        contribution: 'Liber Abaci',
-                        context: 'Introduit les calculs commerciaux et les chiffres arabes en Europe'
-                    },
-                    {
-                        name: 'Irving Fisher',
-                        year: '1930',
-                        contribution: 'Théorie de l\'intérêt',
-                        context: 'Formalise le lien entre temps et valeur de l\'argent'
-                    },
-                ]
-            },
-            code: `from sympy import symbols, solve, Eq
+                    name: 'Fibonacci',
+                    year: '1202',
+                    contribution: 'Liber Abaci',
+                    context: 'Introduit les calculs commerciaux et les chiffres arabes en Europe'
+                },
+                {
+                    name: 'Irving Fisher',
+                    year: '1930',
+                    contribution: 'Théorie de l\'intérêt',
+                    context: 'Formalise le lien entre temps et valeur de l\'argent'
+                },
+            ]
+        },
+        code: `from sympy import symbols, solve, Eq
 P, r, t, A = symbols('P r t A')
 # Formule intérêt composé continu : A = P * exp(rt)
 # Combien de temps pour doubler son capital ? (A = 2P)
 eq = Eq(2*P, P * 2.718** (r*t))
 solve(eq, t)`,
-            output: '[0.693/r] (Règle de 72)',
-            exercises: [
+        output: '[0.693/r] (Règle de 72)',
+        exercises: [
             'Calculer les mensualités d\'un prêt',
             'Comparer deux investissements',
             'Calculer la valeur future d\'une épargne',
         ],
-            practicalApplication: 'Banque, immobilier, retraite, gestion de patrimoine, trading.'
-        },
+        practicalApplication: 'Banque, immobilier, retraite, gestion de patrimoine, trading.'
+    },
     {
-            id: 'day_038',
-            dayNumber: 38,
-            title: 'Économie : Marchés',
-            difficulty: 'Débutant',
-            masteryLevel: 'Fondamental',
-            unlocked: true,
-            xpReward: 25,
-            badge: '🏅 Économie : Marchés',
-            africanAnalogy: `Le marché est une danse entre ceux qui vendent et ceux qui achètent. Le prix est le point d'accord où la danse est harmonieuse. Si le prix est trop haut, la musique s'arrête (surplus). Trop bas, c'est la cohue (pénurie).`,
-            theory: {
-                title: 'Offre et Demande',
-                content: `Le modèle de l'offre et de la demande détermine le prix et la quantité d'équilibre dans un marché concurrentiel. C'est l'intersection de deux courbes.`,
-                mathematicalFoundation: `
+        id: 'day_038',
+        dayNumber: 38,
+        title: 'Économie : Marchés',
+        difficulty: 'Débutant',
+        masteryLevel: 'Fondamental',
+        unlocked: true,
+        xpReward: 25,
+        badge: '🏅 Économie : Marchés',
+        africanAnalogy: `Le marché est une danse entre ceux qui vendent et ceux qui achètent. Le prix est le point d'accord où la danse est harmonieuse. Si le prix est trop haut, la musique s'arrête (surplus). Trop bas, c'est la cohue (pénurie).`,
+        theory: {
+            title: 'Offre et Demande',
+            content: `Le modèle de l'offre et de la demande détermine le prix et la quantité d'équilibre dans un marché concurrentiel. C'est l'intersection de deux courbes.`,
+            mathematicalFoundation: `
                     - Fonction de demande : Qd = a - bP (décroissante)\n                - Fonction d'offre : Qs = c + dP (croissante)\n                - Équilibre : Qd = Qs\n                - Élasticité-prix : sensibilité de la demande\n                - Surplus du consommateur et du producteur
                 `,
-                scientists: [
+            scientists: [
                 {
-                        name: 'Adam Smith',
-                        year: '1776',
-                        contribution: 'La main invisible',
-                        context: 'La Richesse des Nations, fondation de l\'économie classique'
-                    },
-                    {
-                        name: 'Alfred Marshall',
-                        year: '1890',
-                        contribution: 'Courbes d\'offre et demande',
-                        context: 'Formalise l\'analyse graphique de l\'équilibre partiel'
-                    },
-                ]
-            },
-            code: `from sympy import symbols, Eq, solve
+                    name: 'Adam Smith',
+                    year: '1776',
+                    contribution: 'La main invisible',
+                    context: 'La Richesse des Nations, fondation de l\'économie classique'
+                },
+                {
+                    name: 'Alfred Marshall',
+                    year: '1890',
+                    contribution: 'Courbes d\'offre et demande',
+                    context: 'Formalise l\'analyse graphique de l\'équilibre partiel'
+                },
+            ]
+        },
+        code: `from sympy import symbols, Eq, solve
 P = symbols('P')
 Qd = 100 - 2*P  # Demande
 Qs = 20 + 3*P   # Offre
@@ -1739,46 +1739,46 @@ eq = Eq(Qd, Qs)
 prix_eq = solve(eq, P)[0]
 quantite_eq = Qd.subs(P, prix_eq)
 print(f'Prix: {prix_eq}, Quantité: {quantite_eq}')`,
-            output: 'Prix: 16, Quantité: 68',
-            exercises: [
+        output: 'Prix: 16, Quantité: 68',
+        exercises: [
             'Calculer l\'impact d\'une taxe',
             'Trouver le nouvel équilibre après un choc',
             'Calculer l\'élasticité',
         ],
-            practicalApplication: 'Fixation des prix, politiques publiques, stratégie d\'entreprise, marketing.'
-        },
+        practicalApplication: 'Fixation des prix, politiques publiques, stratégie d\'entreprise, marketing.'
+    },
     {
-            id: 'day_039',
-            dayNumber: 39,
-            title: 'Ingénierie : RDM',
-            difficulty: 'Avancé',
-            masteryLevel: 'Avancé',
-            unlocked: true,
-            xpReward: 40,
-            badge: '🏅 Ingénierie : RDM',
-            africanAnalogy: `La résistance des matériaux est l'art de savoir quand ça casse. Une poutre est comme un muscle : elle se tend et se comprime sous l'effort. L'ingénieur calcule la douleur de la matière pour éviter la fracture.`,
-            theory: {
-                title: 'Résistance des Matériaux',
-                content: `Calcul des contraintes et déformations dans les structures. L'équation de la poutre (Euler-Bernoulli) décrit la flexion sous charge.`,
-                mathematicalFoundation: `
+        id: 'day_039',
+        dayNumber: 39,
+        title: 'Ingénierie : RDM',
+        difficulty: 'Avancé',
+        masteryLevel: 'Avancé',
+        unlocked: true,
+        xpReward: 40,
+        badge: '🏅 Ingénierie : RDM',
+        africanAnalogy: `La résistance des matériaux est l'art de savoir quand ça casse. Une poutre est comme un muscle : elle se tend et se comprime sous l'effort. L'ingénieur calcule la douleur de la matière pour éviter la fracture.`,
+        theory: {
+            title: 'Résistance des Matériaux',
+            content: `Calcul des contraintes et déformations dans les structures. L'équation de la poutre (Euler-Bernoulli) décrit la flexion sous charge.`,
+            mathematicalFoundation: `
                     - Contrainte (σ) et Déformation (ε)\n                - Loi de Hooke : σ = Eε\n                - Moment fléchissant (M) et Effort tranchant (V)\n                - Équation de la poutre : EI y'''' = q(x)\n                - Flèche maximale
                 `,
-                scientists: [
+            scientists: [
                 {
-                        name: 'Galileo Galilei',
-                        year: '1638',
-                        contribution: 'Première théorie des poutres',
-                        context: 'Tente de comprendre la rupture des pierres et du bois'
-                    },
-                    {
-                        name: 'Euler & Bernoulli',
-                        year: '1750',
-                        contribution: 'Théorie Euler-Bernoulli',
-                        context: 'Modèle encore utilisé aujourd\'hui pour les poutres minces'
-                    },
-                ]
-            },
-            code: `from sympy import symbols, integrate
+                    name: 'Galileo Galilei',
+                    year: '1638',
+                    contribution: 'Première théorie des poutres',
+                    context: 'Tente de comprendre la rupture des pierres et du bois'
+                },
+                {
+                    name: 'Euler & Bernoulli',
+                    year: '1750',
+                    contribution: 'Théorie Euler-Bernoulli',
+                    context: 'Modèle encore utilisé aujourd\'hui pour les poutres minces'
+                },
+            ]
+        },
+        code: `from sympy import symbols, integrate
 x, L, F, E, I = symbols('x L F E I')
 # Moment fléchissant pour une poutre encastrée avec force au bout
 M = -F * (L - x)
@@ -1786,59 +1786,59 @@ M = -F * (L - x)
 # On intègre deux fois pour avoir y(x)
 y_prime_prime = M / (E*I)
 # ... intégration symbolique ...`,
-            output: 'Flèche max = F*L^3 / (3*E*I)',
-            exercises: [
+        output: 'Flèche max = F*L^3 / (3*E*I)',
+        exercises: [
             'Calculer la flèche d\'une poutre sur deux appuis',
             'Diagramme des moments',
             'Dimensionner une poutre en acier',
         ],
-            practicalApplication: 'Génie civil (ponts, bâtiments), aéronautique, mécanique, design.'
-        },
+        practicalApplication: 'Génie civil (ponts, bâtiments), aéronautique, mécanique, design.'
+    },
     {
-            id: 'day_040',
-            dayNumber: 40,
-            title: 'Ingénierie : Circuits',
-            difficulty: 'Intermédiaire',
-            masteryLevel: 'Intermédiaire',
-            unlocked: true,
-            xpReward: 35,
-            badge: '🏅 Ingénierie : Circuits',
-            africanAnalogy: `Un circuit électrique est comme un réseau de tuyaux d'eau. La tension est la pression, le courant est le débit, la résistance est un tuyau étroit. Le condensateur est un réservoir, l'inductance une roue à aubes.`,
-            theory: {
-                title: 'Analyse de Circuits',
-                content: `Les lois de Kirchhoff et la loi d'Ohm permettent de résoudre n'importe quel circuit. En régime alternatif, on utilise les impédances complexes.`,
-                mathematicalFoundation: `
+        id: 'day_040',
+        dayNumber: 40,
+        title: 'Ingénierie : Circuits',
+        difficulty: 'Intermédiaire',
+        masteryLevel: 'Intermédiaire',
+        unlocked: true,
+        xpReward: 35,
+        badge: '🏅 Ingénierie : Circuits',
+        africanAnalogy: `Un circuit électrique est comme un réseau de tuyaux d'eau. La tension est la pression, le courant est le débit, la résistance est un tuyau étroit. Le condensateur est un réservoir, l'inductance une roue à aubes.`,
+        theory: {
+            title: 'Analyse de Circuits',
+            content: `Les lois de Kirchhoff et la loi d'Ohm permettent de résoudre n'importe quel circuit. En régime alternatif, on utilise les impédances complexes.`,
+            mathematicalFoundation: `
                     - Loi d'Ohm : U = RI\n                - Loi des nœuds : ΣI = 0\n                - Loi des mailles : ΣU = 0\n                - Impédance complexe : Z_R=R, Z_L=jωL, Z_C=1/(jωC)\n                - Circuit RLC série/parallèle
                 `,
-                scientists: [
+            scientists: [
                 {
-                        name: 'Georg Ohm',
-                        year: '1827',
-                        contribution: 'Loi d\'Ohm',
-                        context: 'Relation fondamentale entre tension, courant et résistance'
-                    },
-                    {
-                        name: 'Gustav Kirchhoff',
-                        year: '1845',
-                        contribution: 'Lois des circuits',
-                        context: 'Généralisation de la conservation de la charge et de l\'énergie'
-                    },
-                ]
-            },
-            code: `from sympy import symbols, solve, I
+                    name: 'Georg Ohm',
+                    year: '1827',
+                    contribution: 'Loi d\'Ohm',
+                    context: 'Relation fondamentale entre tension, courant et résistance'
+                },
+                {
+                    name: 'Gustav Kirchhoff',
+                    year: '1845',
+                    contribution: 'Lois des circuits',
+                    context: 'Généralisation de la conservation de la charge et de l\'énergie'
+                },
+            ]
+        },
+        code: `from sympy import symbols, solve, I
 R, L, C, omega = symbols('R L C omega', real=True)
 # Impédance RLC série
 Z = R + I*omega*L + 1/(I*omega*C)
 # Fréquence de résonance (partie imaginaire nulle)
 solve(Z.as_real_imag()[1], omega)`,
-            output: '[1/sqrt(L*C), -1/sqrt(L*C)]',
-            exercises: [
+        output: '[1/sqrt(L*C), -1/sqrt(L*C)]',
+        exercises: [
             'Calculer le courant dans un pont de Wheatstone',
             'Filtre passe-bas RC',
             'Puissance active et réactive',
         ],
-            practicalApplication: 'Électronique, distribution d\'énergie, télécommunications, informatique.'
-        },
+        practicalApplication: 'Électronique, distribution d\'énergie, télécommunications, informatique.'
+    },
 
 ];
 
