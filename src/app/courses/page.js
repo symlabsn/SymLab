@@ -1,4 +1,3 @@
-```javascript
 'use client';
 
 import { useState } from 'react';
@@ -11,7 +10,7 @@ export default function CoursesPage() {
     const [activeLevel, setActiveLevel] = useState('6ème');
     const [activeSubject, setActiveSubject] = useState('Tous');
     const [selectedCourse, setSelectedCourse] = useState(null);
-    
+
     // Structured Course State
     const [activeChapter, setActiveChapter] = useState(null);
     const [showExercises, setShowExercises] = useState(false);
@@ -48,16 +47,16 @@ export default function CoursesPage() {
     const handleQuizSubmit = (chapterId, exerciseId, optionIndex) => {
         setQuizAnswers(prev => ({
             ...prev,
-            [`${ chapterId } -${ exerciseId } `]: optionIndex
+            [`${chapterId}-${exerciseId}`]: optionIndex
         }));
-        
+
         const chapter = structuredCourses[selectedCourse.id].chapters.find(c => c.id === chapterId);
         const exercise = chapter.exercises.find(e => e.id === exerciseId);
         const isCorrect = exercise.correctAnswer === optionIndex;
 
         setQuizResults(prev => ({
             ...prev,
-            [`${ chapterId } -${ exerciseId } `]: isCorrect
+            [`${chapterId}-${exerciseId}`]: isCorrect
         }));
     };
 
@@ -91,11 +90,10 @@ export default function CoursesPage() {
                                     <button
                                         key={level}
                                         onClick={() => setActiveLevel(level)}
-                                        className={`w - full flex items - center justify - between px - 4 py - 3 rounded - xl text - sm font - medium transition - all ${
-    activeLevel === level
-        ? 'bg-blue-600/10 text-blue-400 border border-blue-600/20'
-        : 'text-gray-400 hover:bg-white/5 hover:text-white'
-} `}
+                                        className={`w-full flex items-center justify-between px-4 py-3 rounded-xl text-sm font-medium transition-all ${activeLevel === level
+                                                ? 'bg-blue-600/10 text-blue-400 border border-blue-600/20'
+                                                : 'text-gray-400 hover:bg-white/5 hover:text-white'
+                                            }`}
                                     >
                                         {level}
                                         {activeLevel === level && <ChevronRight size={16} />}
@@ -107,8 +105,8 @@ export default function CoursesPage() {
                 )}
 
                 {/* Main Content */}
-                <div className={`flex - 1 ${ !selectedCourse ? 'md:ml-64' : '' } p - 6 md: p - 12`}>
-                    
+                <div className={`flex-1 ${!selectedCourse ? 'md:ml-64' : ''} p-6 md:p-12`}>
+
                     {!selectedCourse ? (
                         // COURSE LIST VIEW
                         <>
@@ -127,11 +125,10 @@ export default function CoursesPage() {
                                     <button
                                         key={subject}
                                         onClick={() => setActiveSubject(subject)}
-                                        className={`px - 4 py - 2 rounded - full text - sm font - bold whitespace - nowrap transition - all ${
-    activeSubject === subject
-        ? 'bg-white text-black'
-        : 'bg-white/5 text-gray-400 hover:bg-white/10 hover:text-white'
-} `}
+                                        className={`px-4 py-2 rounded-full text-sm font-bold whitespace-nowrap transition-all ${activeSubject === subject
+                                                ? 'bg-white text-black'
+                                                : 'bg-white/5 text-gray-400 hover:bg-white/10 hover:text-white'
+                                            }`}
                                     >
                                         {subject}
                                     </button>
@@ -146,14 +143,14 @@ export default function CoursesPage() {
                                             className="group bg-[#0F1115] rounded-2xl border border-white/10 p-6 hover:border-blue-500/50 transition-all hover:-translate-y-1 hover:shadow-xl hover:shadow-blue-500/10"
                                         >
                                             <div className="flex items-start justify-between mb-4">
-                                                <div className={`w - 12 h - 12 rounded - xl flex items - center justify - center text - 2xl bg - ${ course.color } -500 / 10 text - ${ course.color } -500`}>
+                                                <div className={`w-12 h-12 rounded-xl flex items-center justify-center text-2xl bg-${course.color}-500/10 text-${course.color}-500`}>
                                                     {course.icon}
                                                 </div>
                                                 <span className="px-2 py-1 rounded text-[10px] font-bold uppercase tracking-wider bg-white/5 text-gray-400 border border-white/5">
                                                     {course.subject}
                                                 </span>
                                             </div>
-                                            
+
                                             <h3 className="text-lg font-bold mb-2 group-hover:text-blue-400 transition-colors">
                                                 {course.title}
                                             </h3>
@@ -196,7 +193,7 @@ export default function CoursesPage() {
                         // STRUCTURED COURSE VIEW OR PDF VIEWER
                         <div className="h-[calc(100vh-8rem)] flex flex-col">
                             <div className="flex items-center gap-4 mb-6">
-                                <button 
+                                <button
                                     onClick={() => setSelectedCourse(null)}
                                     className="p-2 rounded-lg bg-white/5 hover:bg-white/10 text-white transition-colors"
                                 >
@@ -221,11 +218,10 @@ export default function CoursesPage() {
                                                         setActiveChapter(chapter);
                                                         setShowExercises(false);
                                                     }}
-                                                    className={`w - full text - left p - 3 rounded - lg text - sm transition - colors ${
-    activeChapter?.id === chapter.id
-        ? 'bg-blue-600 text-white font-bold'
-        : 'text-gray-400 hover:bg-white/5 hover:text-white'
-} `}
+                                                    className={`w-full text-left p-3 rounded-lg text-sm transition-colors ${activeChapter?.id === chapter.id
+                                                            ? 'bg-blue-600 text-white font-bold'
+                                                            : 'text-gray-400 hover:bg-white/5 hover:text-white'
+                                                        }`}
                                                 >
                                                     {chapter.title}
                                                 </button>
@@ -239,17 +235,15 @@ export default function CoursesPage() {
                                         <div className="flex border-b border-white/10">
                                             <button
                                                 onClick={() => setShowExercises(false)}
-                                                className={`flex - 1 py - 4 text - sm font - bold uppercase tracking - wider transition - colors ${
-    !showExercises ? 'bg-blue-600/10 text-blue-400 border-b-2 border-blue-500' : 'text-gray-500 hover:text-white'
-} `}
+                                                className={`flex-1 py-4 text-sm font-bold uppercase tracking-wider transition-colors ${!showExercises ? 'bg-blue-600/10 text-blue-400 border-b-2 border-blue-500' : 'text-gray-500 hover:text-white'
+                                                    }`}
                                             >
                                                 📖 Cours
                                             </button>
                                             <button
                                                 onClick={() => setShowExercises(true)}
-                                                className={`flex - 1 py - 4 text - sm font - bold uppercase tracking - wider transition - colors ${
-    showExercises ? 'bg-blue-600/10 text-blue-400 border-b-2 border-blue-500' : 'text-gray-500 hover:text-white'
-} `}
+                                                className={`flex-1 py-4 text-sm font-bold uppercase tracking-wider transition-colors ${showExercises ? 'bg-blue-600/10 text-blue-400 border-b-2 border-blue-500' : 'text-gray-500 hover:text-white'
+                                                    }`}
                                             >
                                                 ✏️ Exercices
                                             </button>
@@ -273,12 +267,12 @@ export default function CoursesPage() {
                                                                 </span>
                                                                 <h3 className="text-lg font-medium pt-1">{ex.question}</h3>
                                                             </div>
-                                                            
+
                                                             <div className="space-y-3 pl-12">
                                                                 {ex.options.map((option, optIdx) => {
-                                                                    const isSelected = quizAnswers[`${ activeChapter.id } -${ ex.id } `] === optIdx;
-                                                                    const isCorrect = quizResults[`${ activeChapter.id } -${ ex.id } `];
-                                                                    
+                                                                    const isSelected = quizAnswers[`${activeChapter.id}-${ex.id}`] === optIdx;
+                                                                    const isCorrect = quizResults[`${activeChapter.id}-${ex.id}`];
+
                                                                     let btnClass = "w-full text-left p-4 rounded-lg border transition-all ";
                                                                     if (isSelected) {
                                                                         if (isCorrect) btnClass += "bg-green-500/20 border-green-500 text-green-400";
@@ -291,7 +285,7 @@ export default function CoursesPage() {
                                                                         <button
                                                                             key={optIdx}
                                                                             onClick={() => handleQuizSubmit(activeChapter.id, ex.id, optIdx)}
-                                                                            disabled={quizAnswers[`${ activeChapter.id } -${ ex.id } `] !== undefined}
+                                                                            disabled={quizAnswers[`${activeChapter.id}-${ex.id}`] !== undefined}
                                                                             className={btnClass}
                                                                         >
                                                                             <div className="flex items-center justify-between">
@@ -304,9 +298,9 @@ export default function CoursesPage() {
                                                                     );
                                                                 })}
                                                             </div>
-                                                            
-                                                            {quizAnswers[`${ activeChapter.id } -${ ex.id } `] !== undefined && (
-                                                                <div className={`mt - 4 ml - 12 p - 4 rounded - lg text - sm ${ quizResults[`${activeChapter.id}-${ex.id}`] ? 'bg-green-900/20 text-green-300' : 'bg-red-900/20 text-red-300' } `}>
+
+                                                            {quizAnswers[`${activeChapter.id}-${ex.id}`] !== undefined && (
+                                                                <div className={`mt-4 ml-12 p-4 rounded-lg text-sm ${quizResults[`${activeChapter.id}-${ex.id}`] ? 'bg-green-900/20 text-green-300' : 'bg-red-900/20 text-red-300'}`}>
                                                                     <strong>Explication :</strong> {ex.explanation}
                                                                 </div>
                                                             )}
@@ -334,4 +328,3 @@ export default function CoursesPage() {
         </main>
     );
 }
-```
