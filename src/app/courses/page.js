@@ -1,17 +1,30 @@
+```javascript
 'use client';
 
 import { useState } from 'react';
 import Link from 'next/link';
 import { courses } from './courseData';
-import { BookOpen, Download, Eye, ChevronRight, GraduationCap, Atom, Calculator, Dna } from 'lucide-react';
+import { math6eData } from './data/math6e';
+import { BookOpen, Download, Eye, ChevronRight, GraduationCap, Atom, Calculator, Dna, CheckCircle, XCircle, Menu, ArrowLeft } from 'lucide-react';
 
 export default function CoursesPage() {
     const [activeLevel, setActiveLevel] = useState('6ème');
     const [activeSubject, setActiveSubject] = useState('Tous');
     const [selectedCourse, setSelectedCourse] = useState(null);
+    
+    // Structured Course State
+    const [activeChapter, setActiveChapter] = useState(null);
+    const [showExercises, setShowExercises] = useState(false);
+    const [quizAnswers, setQuizAnswers] = useState({});
+    const [quizResults, setQuizResults] = useState({});
 
     const levels = ['6ème', '5ème', '4ème', '3ème', 'Seconde', 'Première', 'Terminale'];
     const subjects = ['Tous', 'Mathématiques', 'Physique-Chimie', 'SVT'];
+
+    // Map course IDs to their structured data if available
+    const structuredCourses = {
+        'math-6e': math6eData
+    };
 
     const filteredCourses = courses.filter(course => {
         const matchLevel = course.level === activeLevel;
@@ -19,13 +32,33 @@ export default function CoursesPage() {
         return matchLevel && matchSubject;
     });
 
-    const getSubjectIcon = (subject) => {
-        switch (subject) {
-            case 'Mathématiques': return <Calculator size={20} />;
-            case 'Physique-Chimie': return <Atom size={20} />;
-            case 'SVT': return <Dna size={20} />;
-            default: return <BookOpen size={20} />;
+    const handleCourseSelect = (course) => {
+        setSelectedCourse(course);
+        // If structured data exists, select first chapter by default
+        if (structuredCourses[course.id]) {
+            setActiveChapter(structuredCourses[course.id].chapters[0]);
+            setShowExercises(false);
+            setQuizAnswers({});
+            setQuizResults({});
+        } else {
+            setActiveChapter(null);
         }
+    };
+
+    const handleQuizSubmit = (chapterId, exerciseId, optionIndex) => {
+        setQuizAnswers(prev => ({
+            ...prev,
+            [`${ chapterId } -${ exerciseId } `]: optionIndex
+        }));
+        
+        const chapter = structuredCourses[selectedCourse.id].chapters.find(c => c.id === chapterId);
+        const exercise = chapter.exercises.find(e => e.id === exerciseId);
+        const isCorrect = exercise.correctAnswer === optionIndex;
+
+        setQuizResults(prev => ({
+            ...prev,
+            [`${ chapterId } -${ exerciseId } `]: isCorrect
+        }));
     };
 
     return (
@@ -48,149 +81,257 @@ export default function CoursesPage() {
             </nav>
 
             <div className="flex flex-1 pt-16">
-                {/* Sidebar - Levels */}
-                <div className="w-64 border-r border-white/10 bg-[#0F1115] hidden md:flex flex-col fixed h-[calc(100vh-4rem)] overflow-y-auto">
-                    <div className="p-6">
-                        <h2 className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-4">Niveaux Scolaires</h2>
-                        <div className="space-y-1">
-                            {levels.map((level) => (
-                                <button
-                                    key={level}
-                                    onClick={() => setActiveLevel(level)}
-                                    className={`w-full flex items-center justify-between px-4 py-3 rounded-xl text-sm font-medium transition-all ${activeLevel === level
-                                            ? 'bg-blue-600/10 text-blue-400 border border-blue-600/20'
-                                            : 'text-gray-400 hover:bg-white/5 hover:text-white'
-                                        }`}
-                                >
-                                    {level}
-                                    {activeLevel === level && <ChevronRight size={16} />}
-                                </button>
-                            ))}
+                {/* Sidebar - Levels (Hidden if structured course is open) */}
+                {!selectedCourse && (
+                    <div className="w-64 border-r border-white/10 bg-[#0F1115] hidden md:flex flex-col fixed h-[calc(100vh-4rem)] overflow-y-auto">
+                        <div className="p-6">
+                            <h2 className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-4">Niveaux Scolaires</h2>
+                            <div className="space-y-1">
+                                {levels.map((level) => (
+                                    <button
+                                        key={level}
+                                        onClick={() => setActiveLevel(level)}
+                                        className={`w - full flex items - center justify - between px - 4 py - 3 rounded - xl text - sm font - medium transition - all ${
+    activeLevel === level
+        ? 'bg-blue-600/10 text-blue-400 border border-blue-600/20'
+        : 'text-gray-400 hover:bg-white/5 hover:text-white'
+} `}
+                                    >
+                                        {level}
+                                        {activeLevel === level && <ChevronRight size={16} />}
+                                    </button>
+                                ))}
+                            </div>
                         </div>
                     </div>
-                </div>
+                )}
 
                 {/* Main Content */}
-                <div className="flex-1 md:ml-64 p-6 md:p-12">
-                    {/* Header */}
-                    <div className="mb-12">
-                        <h1 className="text-4xl font-black mb-4 flex items-center gap-3">
-                            <GraduationCap size={40} className="text-blue-500" />
-                            Cours de {activeLevel}
-                        </h1>
-                        <p className="text-gray-400">
-                            Accédez aux ressources pédagogiques conformes au programme du Sénégal.
-                        </p>
-                    </div>
+                <div className={`flex - 1 ${ !selectedCourse ? 'md:ml-64' : '' } p - 6 md: p - 12`}>
+                    
+                    {!selectedCourse ? (
+                        // COURSE LIST VIEW
+                        <>
+                            <div className="mb-12">
+                                <h1 className="text-4xl font-black mb-4 flex items-center gap-3">
+                                    <GraduationCap size={40} className="text-blue-500" />
+                                    Cours de {activeLevel}
+                                </h1>
+                                <p className="text-gray-400">
+                                    Accédez aux ressources pédagogiques conformes au programme du Sénégal.
+                                </p>
+                            </div>
 
-                    {/* Subject Filters */}
-                    <div className="flex gap-2 mb-8 overflow-x-auto pb-2">
-                        {subjects.map(subject => (
-                            <button
-                                key={subject}
-                                onClick={() => setActiveSubject(subject)}
-                                className={`px-4 py-2 rounded-full text-sm font-bold whitespace-nowrap transition-all ${activeSubject === subject
-                                        ? 'bg-white text-black'
-                                        : 'bg-white/5 text-gray-400 hover:bg-white/10 hover:text-white'
-                                    }`}
-                            >
-                                {subject}
-                            </button>
-                        ))}
-                    </div>
+                            <div className="flex gap-2 mb-8 overflow-x-auto pb-2">
+                                {subjects.map(subject => (
+                                    <button
+                                        key={subject}
+                                        onClick={() => setActiveSubject(subject)}
+                                        className={`px - 4 py - 2 rounded - full text - sm font - bold whitespace - nowrap transition - all ${
+    activeSubject === subject
+        ? 'bg-white text-black'
+        : 'bg-white/5 text-gray-400 hover:bg-white/10 hover:text-white'
+} `}
+                                    >
+                                        {subject}
+                                    </button>
+                                ))}
+                            </div>
 
-                    {/* Course Grid */}
-                    {filteredCourses.length > 0 ? (
-                        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                            {filteredCourses.map((course) => (
-                                <div
-                                    key={course.id}
-                                    className="group bg-[#0F1115] rounded-2xl border border-white/10 p-6 hover:border-blue-500/50 transition-all hover:-translate-y-1 hover:shadow-xl hover:shadow-blue-500/10"
-                                >
-                                    <div className="flex items-start justify-between mb-4">
-                                        <div className={`w-12 h-12 rounded-xl flex items-center justify-center text-2xl bg-${course.color}-500/10 text-${course.color}-500`}>
-                                            {course.icon}
+                            {filteredCourses.length > 0 ? (
+                                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                                    {filteredCourses.map((course) => (
+                                        <div
+                                            key={course.id}
+                                            className="group bg-[#0F1115] rounded-2xl border border-white/10 p-6 hover:border-blue-500/50 transition-all hover:-translate-y-1 hover:shadow-xl hover:shadow-blue-500/10"
+                                        >
+                                            <div className="flex items-start justify-between mb-4">
+                                                <div className={`w - 12 h - 12 rounded - xl flex items - center justify - center text - 2xl bg - ${ course.color } -500 / 10 text - ${ course.color } -500`}>
+                                                    {course.icon}
+                                                </div>
+                                                <span className="px-2 py-1 rounded text-[10px] font-bold uppercase tracking-wider bg-white/5 text-gray-400 border border-white/5">
+                                                    {course.subject}
+                                                </span>
+                                            </div>
+                                            
+                                            <h3 className="text-lg font-bold mb-2 group-hover:text-blue-400 transition-colors">
+                                                {course.title}
+                                            </h3>
+                                            <p className="text-sm text-gray-500 mb-6 line-clamp-2">
+                                                {course.description}
+                                            </p>
+
+                                            <div className="flex gap-3">
+                                                <button
+                                                    onClick={() => handleCourseSelect(course)}
+                                                    className="flex-1 flex items-center justify-center gap-2 px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-500 text-white text-sm font-bold transition-colors"
+                                                >
+                                                    <Eye size={16} />
+                                                    {structuredCourses[course.id] ? 'Commencer' : 'Aperçu'}
+                                                </button>
+                                                <a
+                                                    href={course.file}
+                                                    download
+                                                    className="flex items-center justify-center w-10 h-10 rounded-lg bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white transition-colors border border-white/10"
+                                                >
+                                                    <Download size={16} />
+                                                </a>
+                                            </div>
                                         </div>
-                                        <span className="px-2 py-1 rounded text-[10px] font-bold uppercase tracking-wider bg-white/5 text-gray-400 border border-white/5">
-                                            {course.subject}
-                                        </span>
+                                    ))}
+                                </div>
+                            ) : (
+                                <div className="text-center py-20 bg-[#0F1115] rounded-3xl border border-white/5 border-dashed">
+                                    <div className="w-16 h-16 mx-auto rounded-full bg-white/5 flex items-center justify-center mb-4 text-gray-600">
+                                        <BookOpen size={32} />
+                                    </div>
+                                    <h3 className="text-xl font-bold text-gray-400 mb-2">Aucun cours disponible</h3>
+                                    <p className="text-gray-600">
+                                        Les ressources pour {activeSubject} en {activeLevel} seront bientôt ajoutées.
+                                    </p>
+                                </div>
+                            )}
+                        </>
+                    ) : (
+                        // STRUCTURED COURSE VIEW OR PDF VIEWER
+                        <div className="h-[calc(100vh-8rem)] flex flex-col">
+                            <div className="flex items-center gap-4 mb-6">
+                                <button 
+                                    onClick={() => setSelectedCourse(null)}
+                                    className="p-2 rounded-lg bg-white/5 hover:bg-white/10 text-white transition-colors"
+                                >
+                                    <ArrowLeft size={20} />
+                                </button>
+                                <h2 className="text-2xl font-bold">{selectedCourse.title}</h2>
+                            </div>
+
+                            {structuredCourses[selectedCourse.id] ? (
+                                // STRUCTURED VIEW (Chapters + Exercises)
+                                <div className="flex-1 flex gap-6 overflow-hidden">
+                                    {/* Chapters Sidebar */}
+                                    <div className="w-80 bg-[#0F1115] rounded-2xl border border-white/10 flex flex-col overflow-hidden">
+                                        <div className="p-4 border-b border-white/10 bg-white/5">
+                                            <h3 className="font-bold text-sm uppercase tracking-wider text-gray-400">Chapitres</h3>
+                                        </div>
+                                        <div className="flex-1 overflow-y-auto p-2 space-y-1">
+                                            {structuredCourses[selectedCourse.id].chapters.map((chapter) => (
+                                                <button
+                                                    key={chapter.id}
+                                                    onClick={() => {
+                                                        setActiveChapter(chapter);
+                                                        setShowExercises(false);
+                                                    }}
+                                                    className={`w - full text - left p - 3 rounded - lg text - sm transition - colors ${
+    activeChapter?.id === chapter.id
+        ? 'bg-blue-600 text-white font-bold'
+        : 'text-gray-400 hover:bg-white/5 hover:text-white'
+} `}
+                                                >
+                                                    {chapter.title}
+                                                </button>
+                                            ))}
+                                        </div>
                                     </div>
 
-                                    <h3 className="text-lg font-bold mb-2 group-hover:text-blue-400 transition-colors">
-                                        {course.title}
-                                    </h3>
-                                    <p className="text-sm text-gray-500 mb-6 line-clamp-2">
-                                        {course.description}
-                                    </p>
+                                    {/* Content Area */}
+                                    <div className="flex-1 bg-[#0F1115] rounded-2xl border border-white/10 flex flex-col overflow-hidden relative">
+                                        {/* Tabs */}
+                                        <div className="flex border-b border-white/10">
+                                            <button
+                                                onClick={() => setShowExercises(false)}
+                                                className={`flex - 1 py - 4 text - sm font - bold uppercase tracking - wider transition - colors ${
+    !showExercises ? 'bg-blue-600/10 text-blue-400 border-b-2 border-blue-500' : 'text-gray-500 hover:text-white'
+} `}
+                                            >
+                                                📖 Cours
+                                            </button>
+                                            <button
+                                                onClick={() => setShowExercises(true)}
+                                                className={`flex - 1 py - 4 text - sm font - bold uppercase tracking - wider transition - colors ${
+    showExercises ? 'bg-blue-600/10 text-blue-400 border-b-2 border-blue-500' : 'text-gray-500 hover:text-white'
+} `}
+                                            >
+                                                ✏️ Exercices
+                                            </button>
+                                        </div>
 
-                                    <div className="flex gap-3">
-                                        <button
-                                            onClick={() => setSelectedCourse(course)}
-                                            className="flex-1 flex items-center justify-center gap-2 px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-500 text-white text-sm font-bold transition-colors"
-                                        >
-                                            <Eye size={16} />
-                                            Aperçu
-                                        </button>
-                                        <a
-                                            href={course.file}
-                                            download
-                                            className="flex items-center justify-center w-10 h-10 rounded-lg bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white transition-colors border border-white/10"
-                                        >
-                                            <Download size={16} />
-                                        </a>
+                                        {/* Scrollable Content */}
+                                        <div className="flex-1 overflow-y-auto p-8">
+                                            {!showExercises ? (
+                                                <div className="prose prose-invert max-w-none">
+                                                    <h2 className="text-3xl font-bold mb-8 text-blue-400">{activeChapter?.title}</h2>
+                                                    <div dangerouslySetInnerHTML={{ __html: activeChapter?.content }} />
+                                                </div>
+                                            ) : (
+                                                <div className="max-w-3xl mx-auto space-y-8">
+                                                    <h2 className="text-2xl font-bold mb-6">Exercices d'application</h2>
+                                                    {activeChapter?.exercises.map((ex, idx) => (
+                                                        <div key={ex.id} className="bg-black/30 rounded-xl p-6 border border-white/10">
+                                                            <div className="flex items-start gap-4 mb-4">
+                                                                <span className="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center font-bold text-sm shrink-0">
+                                                                    {idx + 1}
+                                                                </span>
+                                                                <h3 className="text-lg font-medium pt-1">{ex.question}</h3>
+                                                            </div>
+                                                            
+                                                            <div className="space-y-3 pl-12">
+                                                                {ex.options.map((option, optIdx) => {
+                                                                    const isSelected = quizAnswers[`${ activeChapter.id } -${ ex.id } `] === optIdx;
+                                                                    const isCorrect = quizResults[`${ activeChapter.id } -${ ex.id } `];
+                                                                    
+                                                                    let btnClass = "w-full text-left p-4 rounded-lg border transition-all ";
+                                                                    if (isSelected) {
+                                                                        if (isCorrect) btnClass += "bg-green-500/20 border-green-500 text-green-400";
+                                                                        else btnClass += "bg-red-500/20 border-red-500 text-red-400";
+                                                                    } else {
+                                                                        btnClass += "bg-white/5 border-white/10 hover:bg-white/10";
+                                                                    }
+
+                                                                    return (
+                                                                        <button
+                                                                            key={optIdx}
+                                                                            onClick={() => handleQuizSubmit(activeChapter.id, ex.id, optIdx)}
+                                                                            disabled={quizAnswers[`${ activeChapter.id } -${ ex.id } `] !== undefined}
+                                                                            className={btnClass}
+                                                                        >
+                                                                            <div className="flex items-center justify-between">
+                                                                                <span>{option}</span>
+                                                                                {isSelected && (
+                                                                                    isCorrect ? <CheckCircle size={20} /> : <XCircle size={20} />
+                                                                                )}
+                                                                            </div>
+                                                                        </button>
+                                                                    );
+                                                                })}
+                                                            </div>
+                                                            
+                                                            {quizAnswers[`${ activeChapter.id } -${ ex.id } `] !== undefined && (
+                                                                <div className={`mt - 4 ml - 12 p - 4 rounded - lg text - sm ${ quizResults[`${activeChapter.id}-${ex.id}`] ? 'bg-green-900/20 text-green-300' : 'bg-red-900/20 text-red-300' } `}>
+                                                                    <strong>Explication :</strong> {ex.explanation}
+                                                                </div>
+                                                            )}
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            )}
+                                        </div>
                                     </div>
                                 </div>
-                            ))}
-                        </div>
-                    ) : (
-                        <div className="text-center py-20 bg-[#0F1115] rounded-3xl border border-white/5 border-dashed">
-                            <div className="w-16 h-16 mx-auto rounded-full bg-white/5 flex items-center justify-center mb-4 text-gray-600">
-                                <BookOpen size={32} />
-                            </div>
-                            <h3 className="text-xl font-bold text-gray-400 mb-2">Aucun cours disponible</h3>
-                            <p className="text-gray-600">
-                                Les ressources pour {activeSubject} en {activeLevel} seront bientôt ajoutées.
-                            </p>
+                            ) : (
+                                // FALLBACK PDF VIEWER
+                                <div className="flex-1 bg-[#0F1115] rounded-2xl border border-white/10 overflow-hidden">
+                                    <iframe
+                                        src={selectedCourse.file}
+                                        className="w-full h-full"
+                                        title={selectedCourse.title}
+                                    />
+                                </div>
+                            )}
                         </div>
                     )}
                 </div>
             </div>
-
-            {/* PDF Viewer Modal */}
-            {selectedCourse && (
-                <div className="fixed inset-0 z-[100] bg-black/95 backdrop-blur-sm flex items-center justify-center p-4 md:p-8">
-                    <div className="w-full h-full max-w-6xl bg-[#0F1115] rounded-2xl border border-white/10 flex flex-col shadow-2xl">
-                        <div className="flex items-center justify-between p-4 border-b border-white/10">
-                            <h3 className="font-bold flex items-center gap-2">
-                                {selectedCourse.icon} {selectedCourse.title}
-                            </h3>
-                            <div className="flex gap-2">
-                                <a
-                                    href={selectedCourse.file}
-                                    download
-                                    className="px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-500 text-white text-sm font-bold transition-colors flex items-center gap-2"
-                                >
-                                    <Download size={16} />
-                                    Télécharger
-                                </a>
-                                <button
-                                    onClick={() => setSelectedCourse(null)}
-                                    className="w-9 h-9 rounded-lg bg-white/10 hover:bg-white/20 flex items-center justify-center text-white transition-colors"
-                                >
-                                    ✕
-                                </button>
-                            </div>
-                        </div>
-                        <div className="flex-1 bg-gray-900 relative">
-                            <iframe
-                                src={selectedCourse.file}
-                                className="w-full h-full"
-                                title={selectedCourse.title}
-                            />
-                        </div>
-                    </div>
-                </div>
-            )}
         </main>
     );
 }
+```
