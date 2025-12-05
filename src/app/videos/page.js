@@ -1,107 +1,188 @@
 'use client';
 
-import { useState, useRef, useEffect, Suspense } from 'react';
+import { useState, Suspense } from 'react';
 import Link from 'next/link';
-import { Send, Video, Image as ImageIcon, Code, Sparkles, Play, Download, Maximize2, RefreshCw } from 'lucide-react';
+import { Video, Code, BookOpen, Cpu, Play, Download, Maximize2 } from 'lucide-react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { OrbitControls, Environment, Float, Text3D, Center } from '@react-three/drei';
-import * as THREE from 'three';
+import { useRef } from 'react';
 
-// --- 3D Components for "Direct Creation" ---
+// --- 3D Mathematical Visualizations ---
 
-function RotatingShape({ type, color }) {
+function PythagorasTheorem() {
+    return (
+        <group>
+            {/* Triangle */}
+            <mesh position={[0, 0, 0]}>
+                <boxGeometry args={[3, 0.1, 3]} />
+                <meshStandardMaterial color="#3B82F6" />
+            </mesh>
+            <mesh position={[1.5, 0, 1.5]}>
+                <boxGeometry args={[0.1, 2, 0.1]} />
+                <meshStandardMaterial color="#EF4444" />
+            </mesh>
+            <mesh position={[0, 1, 0]} rotation={[0, 0, Math.atan(2 / 3)]}>
+                <boxGeometry args={[0.1, Math.sqrt(13), 0.1]} />
+                <meshStandardMaterial color="#10B981" />
+            </mesh>
+        </group>
+    );
+}
+
+function FibonacciSpiral() {
     const meshRef = useRef();
-
     useFrame((state, delta) => {
         if (meshRef.current) {
-            meshRef.current.rotation.x += delta * 0.5;
-            meshRef.current.rotation.y += delta * 0.2;
+            meshRef.current.rotation.z += delta * 0.3;
         }
     });
 
-    let geometry;
-    switch (type) {
-        case 'cube': geometry = <boxGeometry args={[2, 2, 2]} />; break;
-        case 'sphere': geometry = <sphereGeometry args={[1.5, 32, 32]} />; break;
-        case 'torus': geometry = <torusGeometry args={[1.5, 0.5, 16, 100]} />; break;
-        case 'icosahedron': geometry = <icosahedronGeometry args={[1.5, 0]} />; break;
-        default: geometry = <boxGeometry args={[2, 2, 2]} />;
+    return (
+        <group ref={meshRef}>
+            {[1, 1, 2, 3, 5, 8].map((size, i) => (
+                <mesh key={i} position={[i * 0.5 - 1.5, 0, 0]}>
+                    <boxGeometry args={[size * 0.2, size * 0.2, 0.1]} />
+                    <meshStandardMaterial color={`hsl(${i * 60}, 70%, 60%)`} />
+                </mesh>
+            ))}
+        </group>
+    );
+}
+
+function DerivativeVisualization() {
+    const points = [];
+    for (let i = 0; i < 50; i++) {
+        const x = (i - 25) * 0.1;
+        const y = x * x * 0.1;
+        points.push([x, y, 0]);
     }
 
     return (
-        <Float speed={2} rotationIntensity={1} floatIntensity={1}>
-            <mesh ref={meshRef}>
-                {geometry}
-                <meshStandardMaterial color={color} roughness={0.3} metalness={0.8} />
-            </mesh>
-        </Float>
-    );
-}
-
-function SolarSystem() {
-    return (
         <group>
-            {/* Sun */}
-            <mesh>
-                <sphereGeometry args={[1.5, 32, 32]} />
-                <meshStandardMaterial emissive="#FDB813" emissiveIntensity={2} color="#FDB813" />
-            </mesh>
-            {/* Earth */}
-            <group rotation={[0, 0, 0.4]}> {/* Tilt */}
-                <mesh position={[4, 0, 0]}>
-                    <sphereGeometry args={[0.5, 32, 32]} />
-                    <meshStandardMaterial color="#4B70DD" roughness={0.5} />
+            {points.map((point, i) => (
+                <mesh key={i} position={point}>
+                    <sphereGeometry args={[0.05, 8, 8]} />
+                    <meshStandardMaterial color="#00F5D4" emissive="#00F5D4" />
                 </mesh>
-            </group>
+            ))}
         </group>
     );
 }
 
-function Molecule() {
+function MatrixTransformation() {
+    const meshRef = useRef();
+    useFrame((state) => {
+        if (meshRef.current) {
+            const t = state.clock.elapsedTime;
+            meshRef.current.rotation.y = t * 0.5;
+            meshRef.current.scale.x = 1 + Math.sin(t) * 0.3;
+        }
+    });
+
+    return (
+        <mesh ref={meshRef}>
+            <boxGeometry args={[2, 2, 2]} />
+            <meshStandardMaterial color="#8B5CF6" wireframe />
+        </mesh>
+    );
+}
+
+// --- Engineering Visualizations ---
+
+function Bridge() {
     return (
         <group>
+            {/* Deck */}
+            <mesh position={[0, -1, 0]}>
+                <boxGeometry args={[6, 0.2, 1]} />
+                <meshStandardMaterial color="#78716C" />
+            </mesh>
+            {/* Cables */}
+            {[-2, -1, 0, 1, 2].map((x, i) => (
+                <mesh key={i} position={[x, 0, 0]} rotation={[0, 0, 0.3]}>
+                    <cylinderGeometry args={[0.05, 0.05, 2]} />
+                    <meshStandardMaterial color="#FCD34D" />
+                </mesh>
+            ))}
+            {/* Tower */}
+            <mesh position={[0, 1, 0]}>
+                <boxGeometry args={[0.3, 4, 0.3]} />
+                <meshStandardMaterial color="#DC2626" />
+            </mesh>
+        </group>
+    );
+}
+
+function Gear() {
+    const meshRef = useRef();
+    useFrame((state, delta) => {
+        if (meshRef.current) {
+            meshRef.current.rotation.z += delta * 0.5;
+        }
+    });
+
+    return (
+        <group ref={meshRef}>
+            <mesh>
+                <cylinderGeometry args={[1.5, 1.5, 0.3, 8]} />
+                <meshStandardMaterial color="#F59E0B" metalness={0.8} />
+            </mesh>
+            {[0, 1, 2, 3, 4, 5, 6, 7].map((i) => (
+                <mesh key={i} position={[Math.cos(i * Math.PI / 4) * 1.8, Math.sin(i * Math.PI / 4) * 1.8, 0]}>
+                    <boxGeometry args={[0.3, 0.6, 0.3]} />
+                    <meshStandardMaterial color="#D97706" />
+                </mesh>
+            ))}
+        </group>
+    );
+}
+
+function Circuit() {
+    return (
+        <group>
+            {/* Resistor */}
+            <mesh position={[-2, 0, 0]}>
+                <boxGeometry args={[0.8, 0.3, 0.3]} />
+                <meshStandardMaterial color="#EF4444" />
+            </mesh>
+            {/* Capacitor */}
             <mesh position={[0, 0, 0]}>
-                <sphereGeometry args={[0.8, 32, 32]} />
-                <meshStandardMaterial color="red" />
+                <boxGeometry args={[0.2, 0.8, 0.3]} />
+                <meshStandardMaterial color="#3B82F6" />
             </mesh>
-            <mesh position={[1.2, 1.2, 0]}>
-                <sphereGeometry args={[0.5, 32, 32]} />
-                <meshStandardMaterial color="white" />
+            {/* Wires */}
+            <mesh position={[-1, 0, 0]} rotation={[0, 0, Math.PI / 2]}>
+                <cylinderGeometry args={[0.05, 0.05, 2]} />
+                <meshStandardMaterial color="#FCD34D" />
             </mesh>
-            <mesh position={[-1.2, 1.2, 0]}>
-                <sphereGeometry args={[0.5, 32, 32]} />
-                <meshStandardMaterial color="white" />
-            </mesh>
-            {/* Bonds */}
-            <mesh position={[0.6, 0.6, 0]} rotation={[0, 0, -0.785]}>
-                <cylinderGeometry args={[0.1, 0.1, 1.5]} />
-                <meshStandardMaterial color="gray" />
-            </mesh>
-            <mesh position={[-0.6, 0.6, 0]} rotation={[0, 0, 0.785]}>
-                <cylinderGeometry args={[0.1, 0.1, 1.5]} />
-                <meshStandardMaterial color="gray" />
+            <mesh position={[1, 0, 0]} rotation={[0, 0, Math.PI / 2]}>
+                <cylinderGeometry args={[0.05, 0.05, 2]} />
+                <meshStandardMaterial color="#FCD34D" />
             </mesh>
         </group>
     );
 }
 
-function DNAHelix() {
-    const count = 20;
+// --- Programming Visualizations ---
+
+function DataStructureTree() {
     return (
         <group>
-            {Array.from({ length: count }).map((_, i) => (
-                <group key={i} position={[0, (i - count / 2) * 0.5, 0]} rotation={[0, i * 0.5, 0]}>
-                    <mesh position={[1, 0, 0]}>
-                        <sphereGeometry args={[0.2, 16, 16]} />
-                        <meshStandardMaterial color="#FF0080" />
+            {/* Root */}
+            <mesh position={[0, 2, 0]}>
+                <sphereGeometry args={[0.3, 16, 16]} />
+                <meshStandardMaterial color="#10B981" />
+            </mesh>
+            {/* Children */}
+            {[-1, 1].map((x, i) => (
+                <group key={i}>
+                    <mesh position={[x, 1, 0]}>
+                        <sphereGeometry args={[0.25, 16, 16]} />
+                        <meshStandardMaterial color="#3B82F6" />
                     </mesh>
-                    <mesh position={[-1, 0, 0]}>
-                        <sphereGeometry args={[0.2, 16, 16]} />
-                        <meshStandardMaterial color="#00FFFF" />
-                    </mesh>
-                    <mesh rotation={[0, 0, 1.57]}>
-                        <cylinderGeometry args={[0.05, 0.05, 2]} />
-                        <meshStandardMaterial color="white" />
+                    <mesh position={[x / 2, 1.5, 0]} rotation={[0, 0, x * 0.5]}>
+                        <cylinderGeometry args={[0.05, 0.05, 1]} />
+                        <meshStandardMaterial color="#6B7280" />
                     </mesh>
                 </group>
             ))}
@@ -109,122 +190,84 @@ function DNAHelix() {
     );
 }
 
-function WaveFunction() {
-    const count = 50;
+function AlgorithmVisualization() {
+    const meshRef = useRef();
+    useFrame((state) => {
+        if (meshRef.current) {
+            meshRef.current.position.x = Math.sin(state.clock.elapsedTime) * 2;
+        }
+    });
+
     return (
         <group>
-            {Array.from({ length: count }).map((_, i) => {
-                const x = (i - count / 2) * 0.2;
-                const y = Math.sin(x);
-                return (
-                    <mesh key={i} position={[x, y, 0]}>
-                        <sphereGeometry args={[0.1, 8, 8]} />
-                        <meshStandardMaterial color="#00F5D4" emissive="#00F5D4" />
-                    </mesh>
-                );
-            })}
+            {[0, 1, 2, 3, 4].map((i) => (
+                <mesh key={i} position={[i - 2, 0, 0]}>
+                    <boxGeometry args={[0.3, (i + 1) * 0.5, 0.3]} />
+                    <meshStandardMaterial color="#8B5CF6" />
+                </mesh>
+            ))}
+            <mesh ref={meshRef} position={[0, 2, 0]}>
+                <sphereGeometry args={[0.2, 16, 16]} />
+                <meshStandardMaterial color="#EF4444" emissive="#EF4444" />
+            </mesh>
         </group>
     );
 }
 
-function ScenePreview({ config }) {
+function ScenePreview({ component: Component, title }) {
     return (
-        <div className="w-full h-64 md:h-80 bg-black/50 rounded-xl overflow-hidden border border-white/10 relative">
-            <Canvas camera={{ position: [0, 0, 6], fov: 50 }}>
-                <ambientLight intensity={0.5} />
-                <pointLight position={[10, 10, 10]} intensity={1} />
-                <Suspense fallback={null}>
-                    {config.scene === 'shape' && <RotatingShape type={config.shape} color={config.color} />}
-                    {config.scene === 'solar' && <SolarSystem />}
-                    {config.scene === 'molecule' && <Molecule />}
-                    {config.scene === 'dna' && <DNAHelix />}
-                    {config.scene === 'wave' && <WaveFunction />}
-                    <Environment preset="city" />
-                </Suspense>
-                <OrbitControls autoRotate autoRotateSpeed={2} />
-            </Canvas>
-            <div className="absolute bottom-3 right-3 px-2 py-1 bg-black/60 backdrop-blur rounded text-[10px] font-mono text-white/50 border border-white/5">
-                Rendu 3D Temps Réel
+        <div className="group relative bg-[#0F1115] rounded-2xl border border-white/10 overflow-hidden hover:border-[#00F5D4]/50 transition-all duration-300 cursor-pointer hover:-translate-y-1 hover:shadow-2xl hover:shadow-[#00F5D4]/10">
+            <div className="aspect-video bg-black/50 relative">
+                <Canvas camera={{ position: [0, 0, 6], fov: 50 }}>
+                    <ambientLight intensity={0.5} />
+                    <pointLight position={[10, 10, 10]} intensity={1} />
+                    <Suspense fallback={null}>
+                        <Component />
+                        <Environment preset="city" />
+                    </Suspense>
+                    <OrbitControls autoRotate autoRotateSpeed={1} enableZoom={false} />
+                </Canvas>
+                <div className="absolute top-3 right-3 px-2 py-1 bg-black/60 backdrop-blur rounded text-[10px] font-mono text-white/50 border border-white/5">
+                    3D Interactif
+                </div>
+            </div>
+            <div className="p-4">
+                <h3 className="font-bold text-white mb-1 group-hover:text-[#00F5D4] transition-colors">{title}</h3>
+                <p className="text-xs text-gray-500">Cliquez pour explorer en plein écran</p>
             </div>
         </div>
     );
 }
 
-// --- Main Page Component ---
-
 export default function VideosPage() {
-    const [prompt, setPrompt] = useState('');
-    const [isGenerating, setIsGenerating] = useState(false);
-    const [mode, setMode] = useState('video'); // 'video', 'image', 'code'
-    const [messages, setMessages] = useState([
-        { role: 'ai', content: "Bonjour ! Je suis le Studio IA de SymLab. Je peux générer des animations 3D, des illustrations et du code explicatif. Essayez 'Montre-moi un cube rouge' ou 'Simule le système solaire'." }
-    ]);
+    const [selectedCategory, setSelectedCategory] = useState('Tous');
+    const [selectedVisualization, setSelectedVisualization] = useState(null);
 
-    const chatEndRef = useRef(null);
+    const categories = ['Tous', 'Mathématiques', 'Ingénierie', 'Programmation', 'SymPy'];
 
-    const scrollToBottom = () => {
-        chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
-    };
+    const visualizations = [
+        // Mathématiques
+        { id: 1, category: 'Mathématiques', title: 'Théorème de Pythagore', component: PythagorasTheorem, code: 'from sympy import symbols, sqrt\na, b = symbols("a b")\nc = sqrt(a**2 + b**2)' },
+        { id: 2, category: 'Mathématiques', title: 'Suite de Fibonacci', component: FibonacciSpiral, code: 'from sympy import fibonacci\nfor i in range(10):\n    print(fibonacci(i))' },
+        { id: 3, category: 'Mathématiques', title: 'Dérivée de Fonction', component: DerivativeVisualization, code: 'from sympy import symbols, diff\nx = symbols("x")\nf = x**2\ndf = diff(f, x)  # 2*x' },
+        { id: 4, category: 'Mathématiques', title: 'Transformation Matricielle', component: MatrixTransformation, code: 'from sympy import Matrix\nM = Matrix([[1, 2], [3, 4]])\nM_inv = M.inv()' },
 
-    useEffect(() => {
-        scrollToBottom();
-    }, [messages]);
+        // Ingénierie
+        { id: 5, category: 'Ingénierie', title: 'Structure de Pont', component: Bridge, code: '# Calcul de charge\nfrom sympy import symbols\nF, L = symbols("F L")\nmoment = F * L / 2' },
+        { id: 6, category: 'Ingénierie', title: 'Engrenage Mécanique', component: Gear, code: '# Rapport de vitesse\nfrom sympy import symbols\nN1, N2 = symbols("N1 N2")\nratio = N1 / N2' },
+        { id: 7, category: 'Ingénierie', title: 'Circuit Électrique', component: Circuit, code: '# Loi d\'Ohm\nfrom sympy import symbols\nV, R = symbols("V R")\nI = V / R' },
 
-    const handleGenerate = async () => {
-        if (!prompt.trim()) return;
+        // Programmation
+        { id: 8, category: 'Programmation', title: 'Arbre Binaire', component: DataStructureTree, code: 'class Node:\n    def __init__(self, val):\n        self.val = val\n        self.left = None\n        self.right = None' },
+        { id: 9, category: 'Programmation', title: 'Tri à Bulles', component: AlgorithmVisualization, code: 'def bubble_sort(arr):\n    for i in range(len(arr)):\n        for j in range(len(arr)-i-1):\n            if arr[j] > arr[j+1]:\n                arr[j], arr[j+1] = arr[j+1], arr[j]' },
+    ];
 
-        const userPrompt = prompt;
-        setMessages(prev => [...prev, { role: 'user', content: userPrompt }]);
-        setPrompt('');
-        setIsGenerating(true);
-
-        // Simulate AI Logic
-        setTimeout(() => {
-            let response = { role: 'ai', content: "", attachment: null };
-            const lowerPrompt = userPrompt.toLowerCase();
-
-            if (mode === 'video') {
-                if (lowerPrompt.includes('cube')) {
-                    response.content = "J'ai généré une visualisation 3D d'un cube en rotation.";
-                    response.attachment = { type: '3d', config: { scene: 'shape', shape: 'cube', color: '#EF4444' } };
-                } else if (lowerPrompt.includes('sphère') || lowerPrompt.includes('boule')) {
-                    response.content = "Voici une sphère métallique.";
-                    response.attachment = { type: '3d', config: { scene: 'shape', shape: 'sphere', color: '#3B82F6' } };
-                } else if (lowerPrompt.includes('système') || lowerPrompt.includes('soleil') || lowerPrompt.includes('planète')) {
-                    response.content = "Simulation simplifiée du système solaire (Soleil et Terre).";
-                    response.attachment = { type: '3d', config: { scene: 'solar' } };
-                } else if (lowerPrompt.includes('molécule') || lowerPrompt.includes('atome') || lowerPrompt.includes('chimie')) {
-                    response.content = "Visualisation d'une molécule d'eau (H2O).";
-                    response.attachment = { type: '3d', config: { scene: 'molecule' } };
-                } else if (lowerPrompt.includes('dna') || lowerPrompt.includes('adn') || lowerPrompt.includes('biologie')) {
-                    response.content = "Structure en double hélice de l'ADN.";
-                    response.attachment = { type: '3d', config: { scene: 'dna' } };
-                } else if (lowerPrompt.includes('onde') || lowerPrompt.includes('sinus') || lowerPrompt.includes('fréquence')) {
-                    response.content = "Représentation d'une fonction d'onde sinusoïdale.";
-                    response.attachment = { type: '3d', config: { scene: 'wave' } };
-                } else {
-                    response.content = "Je génère une forme abstraite pour illustrer ce concept.";
-                    response.attachment = { type: '3d', config: { scene: 'shape', shape: 'torus', color: '#10B981' } };
-                }
-            } else if (mode === 'code') {
-                response.content = "Voici le code Python correspondant à votre demande.";
-                response.attachment = {
-                    type: 'code',
-                    title: 'script.py',
-                    content: `def solve_problem():\n    # Solution générée pour: ${userPrompt}\n    return "Solution"`
-                };
-            } else {
-                response.content = "Génération de l'image...";
-                response.attachment = { type: 'image' };
-            }
-
-            setMessages(prev => [...prev, response]);
-            setIsGenerating(false);
-        }, 1500);
-    };
+    const filteredVisualizations = selectedCategory === 'Tous'
+        ? visualizations
+        : visualizations.filter(v => v.category === selectedCategory);
 
     return (
-        <main className="min-h-screen bg-black text-white font-sans selection:bg-[#00F5D4] selection:text-black flex flex-col">
+        <main className="min-h-screen bg-black text-white font-sans selection:bg-[#00F5D4] selection:text-black">
             {/* Navbar */}
             <nav className="fixed top-0 w-full z-50 border-b border-white/10 bg-black/80 backdrop-blur-xl">
                 <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
@@ -232,153 +275,107 @@ export default function VideosPage() {
                         <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-purple-600 to-pink-600 flex items-center justify-center font-bold text-white group-hover:scale-110 transition-transform">
                             <Video size={18} />
                         </div>
-                        <span className="font-bold text-xl tracking-tight">SymLab <span className="text-purple-500">Studio</span></span>
+                        <span className="font-bold text-xl tracking-tight">SymLab <span className="text-purple-500">Vidéos</span></span>
                     </Link>
                     <div className="flex gap-6 text-sm font-medium text-gray-400">
                         <Link href="/engineering" className="hover:text-white transition-colors">Ingénierie</Link>
                         <Link href="/simulations" className="hover:text-white transition-colors">Simulations</Link>
+                        <Link href="/code" className="hover:text-white transition-colors">Notebook</Link>
                     </div>
                 </div>
             </nav>
 
-            {/* Main Content Area */}
-            <div className="flex-1 pt-16 flex">
-                {/* Sidebar - Tools */}
-                <div className="w-80 border-r border-white/10 bg-[#0F1115] p-6 hidden md:flex flex-col gap-8">
-                    <div>
-                        <h2 className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-4">Mode de Création</h2>
-                        <div className="space-y-2">
-                            <button
-                                onClick={() => setMode('video')}
-                                className={`w-full flex items-center gap-3 p-3 rounded-xl border transition-all ${mode === 'video' ? 'bg-purple-500/10 border-purple-500 text-purple-400' : 'bg-white/5 border-transparent text-gray-400 hover:bg-white/10'}`}
-                            >
-                                <Video size={20} />
-                                <div className="text-left">
-                                    <div className="font-bold text-sm">Animation 3D</div>
-                                    <div className="text-[10px] opacity-60">Rendu Temps Réel</div>
-                                </div>
-                            </button>
-                            <button
-                                onClick={() => setMode('image')}
-                                className={`w-full flex items-center gap-3 p-3 rounded-xl border transition-all ${mode === 'image' ? 'bg-pink-500/10 border-pink-500 text-pink-400' : 'bg-white/5 border-transparent text-gray-400 hover:bg-white/10'}`}
-                            >
-                                <ImageIcon size={20} />
-                                <div className="text-left">
-                                    <div className="font-bold text-sm">Illustration</div>
-                                    <div className="text-[10px] opacity-60">Concepts Visuels</div>
-                                </div>
-                            </button>
-                            <button
-                                onClick={() => setMode('code')}
-                                className={`w-full flex items-center gap-3 p-3 rounded-xl border transition-all ${mode === 'code' ? 'bg-blue-500/10 border-blue-500 text-blue-400' : 'bg-white/5 border-transparent text-gray-400 hover:bg-white/10'}`}
-                            >
-                                <Code size={20} />
-                                <div className="text-left">
-                                    <div className="font-bold text-sm">Code Snippet</div>
-                                    <div className="text-[10px] opacity-60">Python • JS</div>
-                                </div>
-                            </button>
-                        </div>
+            {/* Hero Section */}
+            <div className="relative pt-32 pb-12 px-4 overflow-hidden">
+                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[500px] bg-purple-600 rounded-full blur-[120px] opacity-10 pointer-events-none"></div>
+
+                <div className="max-w-4xl mx-auto text-center relative z-10">
+                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 mb-6">
+                        <span className="w-2 h-2 rounded-full bg-purple-500 animate-pulse"></span>
+                        <span className="text-xs font-mono text-purple-400 uppercase tracking-wider">Visualisations 3D Interactives</span>
                     </div>
-
-                    <div className="mt-auto">
-                        <div className="p-4 rounded-xl bg-gradient-to-br from-purple-900/20 to-pink-900/20 border border-purple-500/20">
-                            <div className="flex items-center gap-2 mb-2 text-purple-400">
-                                <Sparkles size={16} />
-                                <span className="text-xs font-bold uppercase">Capacités</span>
-                            </div>
-                            <p className="text-xs text-gray-400 leading-relaxed">
-                                Le Studio génère désormais des scènes 3D interactives directement dans le chat. Essayez de demander des formes géométriques ou des systèmes planétaires.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-
-                {/* Chat Area */}
-                <div className="flex-1 flex flex-col relative bg-black">
-                    {/* Messages */}
-                    <div className="flex-1 overflow-y-auto p-4 md:p-8 space-y-8 pb-32">
-                        {messages.map((msg, idx) => (
-                            <div key={idx} className={`flex gap-4 ${msg.role === 'user' ? 'flex-row-reverse' : ''}`}>
-                                <div className={`w-10 h-10 rounded-full flex items-center justify-center shrink-0 ${msg.role === 'ai' ? 'bg-gradient-to-br from-purple-600 to-pink-600' : 'bg-white/10'}`}>
-                                    {msg.role === 'ai' ? <Sparkles size={20} /> : <div className="font-bold">You</div>}
-                                </div>
-                                <div className={`max-w-2xl space-y-4 ${msg.role === 'user' ? 'items-end flex flex-col' : 'w-full'}`}>
-                                    <div className={`p-4 rounded-2xl ${msg.role === 'ai' ? 'bg-[#0F1115] border border-white/10' : 'bg-purple-600 text-white'}`}>
-                                        <p className="text-sm leading-relaxed">{msg.content}</p>
-                                    </div>
-
-                                    {/* Attachments */}
-                                    {msg.attachment && (
-                                        <div className="w-full rounded-xl overflow-hidden border border-white/10 bg-[#0a0a0a] animate-in fade-in slide-in-from-bottom-4">
-                                            {msg.attachment.type === '3d' && (
-                                                <ScenePreview config={msg.attachment.config} />
-                                            )}
-
-                                            {msg.attachment.type === 'code' && (
-                                                <div>
-                                                    <div className="flex items-center justify-between px-4 py-2 bg-white/5 border-b border-white/5">
-                                                        <span className="text-xs font-mono text-gray-500">{msg.attachment.title}</span>
-                                                        <div className="flex gap-2">
-                                                            <button className="p-1.5 hover:bg-white/10 rounded-lg text-gray-400 hover:text-white transition-colors">
-                                                                <Download size={14} />
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                    <div className="p-4 overflow-x-auto">
-                                                        <pre className="font-mono text-sm text-gray-300">
-                                                            <code>{msg.attachment.content}</code>
-                                                        </pre>
-                                                    </div>
-                                                </div>
-                                            )}
-
-                                            {msg.attachment.type === 'image' && (
-                                                <div className="aspect-video bg-gray-900 flex items-center justify-center text-gray-700">
-                                                    <div className="text-center">
-                                                        <ImageIcon size={48} className="mx-auto mb-2 opacity-20" />
-                                                        <span className="text-xs">Image Placeholder</span>
-                                                    </div>
-                                                </div>
-                                            )}
-                                        </div>
-                                    )}
-                                </div>
-                            </div>
-                        ))}
-                        <div ref={chatEndRef} />
-                    </div>
-
-                    {/* Input Area */}
-                    <div className="absolute bottom-0 left-0 w-full p-4 md:p-8 bg-gradient-to-t from-black via-black to-transparent">
-                        <div className="max-w-4xl mx-auto relative">
-                            <div className="absolute inset-0 bg-gradient-to-r from-purple-500/20 to-pink-500/20 rounded-2xl blur-xl opacity-50"></div>
-                            <div className="relative bg-[#0F1115] border border-white/10 rounded-2xl p-2 flex items-end gap-2 shadow-2xl">
-                                <textarea
-                                    value={prompt}
-                                    onChange={(e) => setPrompt(e.target.value)}
-                                    onKeyDown={(e) => {
-                                        if (e.key === 'Enter' && !e.shiftKey) {
-                                            e.preventDefault();
-                                            handleGenerate();
-                                        }
-                                    }}
-                                    placeholder={mode === 'video' ? "Décrivez l'animation 3D (ex: cube rouge, système solaire...)" : "Décrivez l'illustration..."}
-                                    className="flex-1 bg-transparent border-none text-white placeholder-gray-500 resize-none p-3 max-h-32 focus:ring-0 text-sm"
-                                    rows={1}
-                                />
-                                <button
-                                    onClick={handleGenerate}
-                                    disabled={isGenerating || !prompt.trim()}
-                                    className="p-3 rounded-xl bg-gradient-to-br from-purple-600 to-pink-600 text-white font-bold hover:scale-105 active:scale-95 transition-all disabled:opacity-50 disabled:hover:scale-100 shadow-lg shadow-purple-600/20"
-                                >
-                                    {isGenerating ? <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" /> : <Send size={20} />}
-                                </button>
-                            </div>
-                        </div>
-                    </div>
+                    <h1 className="text-5xl md:text-7xl font-black mb-6 leading-tight tracking-tight">
+                        Mathématiques & Code <br />
+                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-500 via-pink-500 to-[#00F5D4]">en 3D.</span>
+                    </h1>
+                    <p className="text-gray-400 text-lg max-w-2xl mx-auto">
+                        Explorez des concepts mathématiques, d'ingénierie et de programmation à travers des visualisations 3D interactives et du code SymPy.
+                    </p>
                 </div>
             </div>
+
+            {/* Category Filter */}
+            <div className="max-w-7xl mx-auto px-4 mb-12">
+                <div className="flex gap-2 justify-center flex-wrap">
+                    {categories.map(cat => (
+                        <button
+                            key={cat}
+                            onClick={() => setSelectedCategory(cat)}
+                            className={`px-6 py-2 rounded-full text-sm font-bold transition-all duration-300 ${selectedCategory === cat
+                                ? 'bg-purple-600 text-white shadow-lg shadow-purple-600/20 scale-105'
+                                : 'bg-white/5 text-gray-400 hover:bg-white/10 hover:text-white'
+                                }`}
+                        >
+                            {cat}
+                        </button>
+                    ))}
+                </div>
+            </div>
+
+            {/* Visualizations Grid */}
+            <div className="max-w-7xl mx-auto px-4 pb-32">
+                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {filteredVisualizations.map((viz) => (
+                        <div key={viz.id} onClick={() => setSelectedVisualization(viz)}>
+                            <ScenePreview component={viz.component} title={viz.title} />
+                        </div>
+                    ))}
+                </div>
+            </div>
+
+            {/* Modal for Full Screen View */}
+            {selectedVisualization && (
+                <div className="fixed inset-0 z-[100] bg-black/95 backdrop-blur-md flex items-center justify-center p-4" onClick={() => setSelectedVisualization(null)}>
+                    <div className="max-w-6xl w-full bg-[#0F1115] rounded-3xl border border-white/10 overflow-hidden" onClick={(e) => e.stopPropagation()}>
+                        <div className="flex items-center justify-between p-6 border-b border-white/10">
+                            <h2 className="text-2xl font-bold">{selectedVisualization.title}</h2>
+                            <button onClick={() => setSelectedVisualization(null)} className="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 transition-colors flex items-center justify-center">
+                                ✕
+                            </button>
+                        </div>
+
+                        <div className="grid md:grid-cols-2 gap-6 p-6">
+                            {/* 3D View */}
+                            <div className="aspect-square bg-black/50 rounded-xl overflow-hidden">
+                                <Canvas camera={{ position: [0, 0, 6], fov: 50 }}>
+                                    <ambientLight intensity={0.5} />
+                                    <pointLight position={[10, 10, 10]} intensity={1} />
+                                    <Suspense fallback={null}>
+                                        <selectedVisualization.component />
+                                        <Environment preset="city" />
+                                    </Suspense>
+                                    <OrbitControls autoRotate autoRotateSpeed={0.5} />
+                                </Canvas>
+                            </div>
+
+                            {/* Code View */}
+                            <div className="bg-black/50 rounded-xl border border-white/10 overflow-hidden">
+                                <div className="flex items-center justify-between px-4 py-2 bg-white/5 border-b border-white/5">
+                                    <span className="text-xs font-mono text-gray-500">Code SymPy / Python</span>
+                                    <button className="p-1.5 hover:bg-white/10 rounded-lg text-gray-400 hover:text-white transition-colors">
+                                        <Download size={14} />
+                                    </button>
+                                </div>
+                                <div className="p-4">
+                                    <pre className="font-mono text-sm text-gray-300 leading-relaxed">
+                                        <code>{selectedVisualization.code}</code>
+                                    </pre>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
         </main>
     );
 }
