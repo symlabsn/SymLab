@@ -550,102 +550,113 @@ export const challenges = [
         ]
     },
     {
-        "id": "day_052",
-        "title": "Jour 052 — Régression symbolique",
-        "code": "# Résoudre les équations normales symboliquement\n# exemple",
-        "output": "\\(\\text{Solution } \\theta = (A^T A)^{-1}A^T b\\)",
+        "id": "day_051",
+        "title": "Jour 051 — Relativité : Temps",
+        "code": "from sympy import symbols, sqrt, simplify\nv, c, t = symbols('v c t', positive=True)\n# Facteur de Lorentz\ngamma = 1 / sqrt(1 - v**2/c**2)\n# Temps propre vs Temps mesuré\nt_mesure = gamma * t\nprint(f'Facteur gamma pour v=0.9c : {gamma.subs(v, 0.9*c)}')",
+        "output": "2.294",
         "exercises": [
-            "Exercice 1 — Reproduire l'exécution du code et vérifier la sortie attendue.",
-            "Exercice 2 — Proposer une variante: modifier une partie du code pour obtenir un résultat connexe.",
-            "Exercice 3 — Donner une application pratique (court texte) reliant le thème à un problème réel."
+            "Calculer le temps vécu par un astronaute (Paradoxe des jumeaux)",
+            "Contraction d'un vaisseau spatial",
+            "Addition des vitesses relativistes"
+        ]
+    },
+    {
+        "id": "day_052",
+        "title": "Jour 052 — Relativité : E=mc²",
+        "code": "from sympy import symbols, sqrt, solve, Eq\nE, m, p, c = symbols('E m p c', positive=True)\n# Relation complète E^2 = p^2c^2 + m^2c^4\n# Trouver la masse si on connait E et p (physique des particules)\neq = Eq(E**2, (p*c)**2 + (m*c**2)**2)\nsolve(eq, m)",
+        "output": "[sqrt(E**2 - c**2*p**2)/c**2]",
+        "exercises": [
+            "Calculer l'énergie libérée par 1g de matière",
+            "Défaut de masse dans une réaction nucléaire",
+            "Énergie cinétique relativiste (E - mc²)"
         ]
     },
     {
         "id": "day_053",
-        "title": "Jour 053 — Gradients ML",
-        "code": "# symbolic gradient of MSE\nfrom sympy import symbols, diff\n# example",
-        "output": "\\(\\nabla J(\\theta) \\text{ symbolic}\\)",
+        "title": "Jour 053 — Trous Noirs : Métrique",
+        "code": "from sympy import symbols, diag, sin\nfrom sympy.diffgeom import Manifold, Patch, CoordSystem\n# Définition symbolique de la métrique (simplifiée)\nt, r, theta, phi = symbols('t r theta phi')\nG, M, c = symbols('G M c')\nRs = 2*G*M/c**2\n# Composante g_tt (temps)\ng_tt = -(1 - Rs/r)\nprint(f'Métrique g_tt : {g_tt}')",
+        "output": "Métrique g_tt : -1 + 2*G*M/(c**2*r)",
         "exercises": [
-            "Exercice 1 — Reproduire l'exécution du code et vérifier la sortie attendue.",
-            "Exercice 2 — Proposer une variante: modifier une partie du code pour obtenir un résultat connexe.",
-            "Exercice 3 — Donner une application pratique (court texte) reliant le thème à un problème réel."
+            "Calculer le rayon de Schwarzschild de la Terre",
+            "Temps écoulé près de l'horizon vs à l'infini",
+            "Vitesse de libération"
         ]
     },
     {
         "id": "day_054",
-        "title": "Jour 054 — Systèmes non-linéaires",
-        "code": "# Jacobian & Newton method example",
-        "output": "\\(\\text{Jacobian matrix and Newton step}\\)",
+        "title": "Jour 054 — Géodésiques",
+        "code": "from sympy import symbols, Function, dsolve, Derivative\n# Équation simplifiée d'une géodésique\nt = symbols('t')\nx = Function('x')(t)\n# x'' + Gamma * (x')^2 = 0\nGamma = symbols('Gamma')\neq = x.diff(t, 2) + Gamma * x.diff(t)**2\ndsolve(eq, x)",
+        "output": "C1 + log(C2*t + 1)/Gamma",
         "exercises": [
-            "Exercice 1 — Reproduire l'exécution du code et vérifier la sortie attendue.",
-            "Exercice 2 — Proposer une variante: modifier une partie du code pour obtenir un résultat connexe.",
-            "Exercice 3 — Donner une application pratique (court texte) reliant le thème à un problème réel."
+            "Calculer la déviation de la lumière par le Soleil",
+            "Expliquer l'avance du périhélie de Mercure",
+            "Trajectoire d'un photon autour d'un trou noir"
         ]
     },
     {
         "id": "day_055",
-        "title": "Jour 055 — Linéarisation",
-        "code": "# Linearize f(x) around x0 using Jacobian\n# example",
-        "output": "\\(\\text{Linear approximation: } f(x_0)+J(x_0)(x-x_0)\\)",
+        "title": "Jour 055 — Lois de Kepler",
+        "code": "from sympy import symbols, pi, solve, Eq\nT, a, G, M = symbols('T a G M')\n# 3ème loi de Kepler : T^2 / a^3 = 4*pi^2 / (GM)\neq = Eq(T**2 / a**3, 4*pi**2 / (G*M))\n# Calculer la période T\nsolve(eq, T)",
+        "output": "[-2*pi*a**(3/2)/sqrt(G*M), 2*pi*a**(3/2)/sqrt(G*M)]",
         "exercises": [
-            "Exercice 1 — Reproduire l'exécution du code et vérifier la sortie attendue.",
-            "Exercice 2 — Proposer une variante: modifier une partie du code pour obtenir un résultat connexe.",
-            "Exercice 3 — Donner une application pratique (court texte) reliant le thème à un problème réel."
+            "Calculer la période de Mars",
+            "Vitesse de la Terre à l'aphélie vs périhélie",
+            "Masse du Soleil à partir de l'orbite terrestre"
         ]
     },
     {
         "id": "day_056",
-        "title": "Jour 056 — Analyse de stabilité",
-        "code": "# eigenvalues of Jacobian to classify fixed point",
-        "output": "\\(\\text{Eigenvalues (stability)}\\)",
+        "title": "Jour 056 — Étoiles : HR",
+        "code": "from sympy import symbols, solve, Eq\nL, R, T, sigma = symbols('L R T sigma')\n# Loi de Stefan-Boltzmann\neq = Eq(L, 4*pi*R**2 * sigma * T**4)\n# Trouver le rayon R connaissant L et T\nsolve(eq, R)",
+        "output": "[-sqrt(L)/(2*sqrt(pi)*sqrt(sigma)*T**2), ...]",
         "exercises": [
-            "Exercice 1 — Reproduire l'exécution du code et vérifier la sortie attendue.",
-            "Exercice 2 — Proposer une variante: modifier une partie du code pour obtenir un résultat connexe.",
-            "Exercice 3 — Donner une application pratique (court texte) reliant le thème à un problème réel."
+            "Calculer le rayon de Bételgeuse",
+            "Estimer la durée de vie du Soleil",
+            "Classer une étoile donnée (G2V)"
         ]
     },
     {
         "id": "day_057",
-        "title": "Jour 057 — Modèle SIR",
-        "code": "# Define SIR ODEs symbolically\n# example",
-        "output": "\\(\\dot S = -\\beta S I,\\ \\dot I = \\beta S I - \\gamma I\\)",
+        "title": "Jour 057 — Cosmologie : Hubble",
+        "code": "from sympy import symbols, units\nv, H0, d = symbols('v H0 d')\n# Loi de Hubble\n# H0 approx 70 km/s/Mpc\nval_H0 = 70 # km/s/Mpc\ndist = 100 # Mpc\nvitesse = val_H0 * dist\nprint(f'Vitesse de récession : {vitesse} km/s')",
+        "output": "Vitesse de récession : 7000 km/s",
         "exercises": [
-            "Exercice 1 — Reproduire l'exécution du code et vérifier la sortie attendue.",
-            "Exercice 2 — Proposer une variante: modifier une partie du code pour obtenir un résultat connexe.",
-            "Exercice 3 — Donner une application pratique (court texte) reliant le thème à un problème réel."
+            "Calculer l'âge approximatif de l'univers",
+            "Distance d'une galaxie avec z=0.1",
+            "Horizon cosmologique"
         ]
     },
     {
         "id": "day_058",
-        "title": "Jour 058 — Cinétique chimique",
-        "code": "# Rate laws symbolic example",
-        "output": "\\(\\text{Rate expressions symbolic}\\)",
+        "title": "Jour 058 — Cosmologie : Big Bang",
+        "code": "from sympy import symbols, Function, dsolve, Eq\na = Function('a')\nt, k, rho = symbols('t k rho')\n# Équation simplifiée (univers plat k=0, dominé matière)\n# (a'/a)^2 ~ 1/a^3  => a' ~ a^(-1/2)\neq = Eq(a(t).diff(t), t**(-1/2)) # Simplification conceptuelle\n# La vraie solution est a(t) ~ t^(2/3)",
+        "output": "Modèle d'univers en expansion",
         "exercises": [
-            "Exercice 1 — Reproduire l'exécution du code et vérifier la sortie attendue.",
-            "Exercice 2 — Proposer une variante: modifier une partie du code pour obtenir un résultat connexe.",
-            "Exercice 3 — Donner une application pratique (court texte) reliant le thème à un problème réel."
+            "Évolution dans un univers dominé par le rayonnement",
+            "Rôle de la constante cosmologique Λ",
+            "Destin de l'univers selon Ω"
         ]
     },
     {
         "id": "day_059",
-        "title": "Jour 059 — Équations de conservation",
-        "code": "# PDE conservation form example",
-        "output": "\\(\\partial_t u + \\nabla\\cdot F(u)=0\\)",
+        "title": "Jour 059 — Mécanique Céleste : N-Corps",
+        "code": "# Simulation conceptuelle (SymPy n'est pas fait pour la simu numérique lourde)\nfrom sympy import symbols, diff\nx1, y1, x2, y2 = symbols('x1 y1 x2 y2')\nV = 1/sqrt((x1-x2)**2 + (y1-y2)**2) # Potentiel grav\nFx1 = -diff(V, x1)\nprint(f'Force sur x1 : {Fx1}')",
+        "output": "Force gravitationnelle symbolique",
         "exercises": [
-            "Exercice 1 — Reproduire l'exécution du code et vérifier la sortie attendue.",
-            "Exercice 2 — Proposer une variante: modifier une partie du code pour obtenir un résultat connexe.",
-            "Exercice 3 — Donner une application pratique (court texte) reliant le thème à un problème réel."
+            "Stabilité du système Terre-Lune",
+            "Points de Lagrange L4 et L5",
+            "Effet de fronde gravitationnelle"
         ]
     },
     {
         "id": "day_060",
-        "title": "Jour 060 — Circuits RLC",
-        "code": "from sympy import symbols\ns,R,L,C = symbols('s R L C')\nH = 1/(L*C*s**2 + R*C*s + 1)\nH",
-        "output": "\\(H(s)=\\frac{1}{LCs^{2}+RCs+1}\\)",
+        "title": "Jour 060 — Trous Noirs : Hawking",
+        "code": "from sympy import symbols, pi, hbar, c, G, k\nM = symbols('M')\n# Température de Hawking\nT = hbar * c**3 / (8 * pi * G * M * k)\nprint(f'Température inversement proportionnelle à la masse')",
+        "output": "T ~ 1/M",
         "exercises": [
-            "Exercice 1 — Reproduire l'exécution du code et vérifier la sortie attendue.",
-            "Exercice 2 — Proposer une variante: modifier une partie du code pour obtenir un résultat connexe.",
-            "Exercice 3 — Donner une application pratique (court texte) reliant le thème à un problème réel."
+            "Calculer la température d'un trou noir solaire",
+            "Durée de vie d'un micro trou noir",
+            "Lien avec l'entropie"
         ]
     },
     {

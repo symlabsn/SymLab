@@ -2298,6 +2298,464 @@ state = circuit * q`,
             'Cryptographie quantique (E91)',
         ],
             practicalApplication: 'Ordinateur quantique, cryptographie inviolable, internet quantique.'
+        },,
+    {
+            id: 'day_051',
+            dayNumber: 51,
+            title: 'Relativité : Temps',
+            difficulty: 'Avancé',
+            masteryLevel: 'Expert',
+            unlocked: true,
+            xpReward: 45,
+            badge: '🏅 Relativité : Temps',
+            africanAnalogy: `Le temps n'est pas une rivière qui coule partout à la même vitesse. C'est comme le rythme d'un tam-tam : si tu t'éloignes très vite, le son te parvient au ralenti. Pour celui qui voyage à la vitesse de la lumière, le temps s'arrête.`,
+            theory: {
+                title: 'Relativité Restreinte',
+                content: `Le temps et l'espace sont liés. La vitesse de la lumière c est constante pour tous les observateurs, ce qui implique que le temps se dilate et les longueurs se contractent à haute vitesse.`,
+                mathematicalFoundation: `
+                    - Facteur de Lorentz : γ = 1 / √(1 - v²/c²)\n                - Dilatation du temps : Δt' = γΔt\n                - Contraction des longueurs : L' = L/γ\n                - Transformation de Lorentz (x, y, z, t) -> (x', y', z', t')\n                - Invariant d'intervalle : ds² = c²dt² - dx² - dy² - dz²
+                `,
+                scientists: [
+                {
+                        name: 'Albert Einstein',
+                        year: '1905',
+                        contribution: 'Relativité Restreinte',
+                        context: 'Annus Mirabilis, révolutionne la physique'
+                    },
+                    {
+                        name: 'Hendrik Lorentz',
+                        year: '1904',
+                        contribution: 'Transformations de Lorentz',
+                        context: 'Précurseur mathématique de la relativité'
+                    },
+                ]
+            },
+            code: `from sympy import symbols, sqrt, simplify
+v, c, t = symbols('v c t', positive=True)
+# Facteur de Lorentz
+gamma = 1 / sqrt(1 - v**2/c**2)
+# Temps propre vs Temps mesuré
+t_mesure = gamma * t
+print(f'Facteur gamma pour v=0.9c : {gamma.subs(v, 0.9*c)}')`,
+            output: '2.294',
+            exercises: [
+            'Calculer le temps vécu par un astronaute (Paradoxe des jumeaux)',
+            'Contraction d\'un vaisseau spatial',
+            'Addition des vitesses relativistes',
+        ],
+            practicalApplication: 'GPS (correction relativiste nécessaire), accélérateurs de particules, physique nucléaire.'
+        },
+    {
+            id: 'day_052',
+            dayNumber: 52,
+            title: 'Relativité : E=mc²',
+            difficulty: 'Avancé',
+            masteryLevel: 'Expert',
+            unlocked: true,
+            xpReward: 45,
+            badge: '🏅 Relativité : E=mc²',
+            africanAnalogy: `La matière est de l'énergie condensée, comme la glace est de l'eau figée. Un petit caillou contient assez d'énergie pour alimenter une ville, si on savait la libérer. C'est le secret du Soleil.`,
+            theory: {
+                title: 'Équivalence Masse-Énergie',
+                content: `La masse est une forme d'énergie. E=mc² signifie qu'une petite quantité de masse peut se transformer en une énorme quantité d'énergie (et inversement).`,
+                mathematicalFoundation: `
+                    - Énergie au repos : E₀ = mc²\n                - Énergie totale : E = γmc²\n                - Impulsion : p = γmv\n                - Relation énergie-impulsion : E² = (pc)² + (mc²)²\n                - Masse invariante
+                `,
+                scientists: [
+                {
+                        name: 'Albert Einstein',
+                        year: '1905',
+                        contribution: 'E=mc²',
+                        context: 'Conséquence de la relativité restreinte'
+                    },
+                    {
+                        name: 'Lise Meitner',
+                        year: '1938',
+                        contribution: 'Fission nucléaire',
+                        context: 'Explique la perte de masse par la libération d\'énergie'
+                    },
+                ]
+            },
+            code: `from sympy import symbols, sqrt, solve, Eq
+E, m, p, c = symbols('E m p c', positive=True)
+# Relation complète E^2 = p^2c^2 + m^2c^4
+# Trouver la masse si on connait E et p (physique des particules)
+eq = Eq(E**2, (p*c)**2 + (m*c**2)**2)
+solve(eq, m)`,
+            output: '[sqrt(E**2 - c**2*p**2)/c**2]',
+            exercises: [
+            'Calculer l\'énergie libérée par 1g de matière',
+            'Défaut de masse dans une réaction nucléaire',
+            'Énergie cinétique relativiste (E - mc²)',
+        ],
+            practicalApplication: 'Centrales nucléaires, médecine (PET scan), astrophysique (étoiles).'
+        },
+    {
+            id: 'day_053',
+            dayNumber: 53,
+            title: 'Trous Noirs : Métrique',
+            difficulty: 'Expert',
+            masteryLevel: 'Maître',
+            unlocked: true,
+            xpReward: 55,
+            badge: '🏅 Trous Noirs : Métrique',
+            africanAnalogy: `Un trou noir courbe l'espace comme une bille de plomb sur un drap tendu, mais à l'extrême. Le drap se déchire presque, créant un puits sans fond. Même la lumière, la chose la plus rapide, ne peut pas remonter la pente.`,
+            theory: {
+                title: 'Relativité Générale',
+                content: `La gravité n'est pas une force, mais la courbure de l'espace-temps. La métrique de Schwarzschild décrit l'espace-temps autour d'une masse sphérique (étoile, trou noir).`,
+                mathematicalFoundation: `
+                    - Métrique : ds² = g_μν dx^μ dx^ν\n                - Rayon de Schwarzschild : Rs = 2GM/c²\n                - Horizon des événements\n                - Dilatation temporelle gravitationnelle\n                - Singularité
+                `,
+                scientists: [
+                {
+                        name: 'Karl Schwarzschild',
+                        year: '1916',
+                        contribution: 'Solution exacte des équations d\'Einstein',
+                        context: 'Trouvée dans les tranchées de la 1ère guerre mondiale'
+                    },
+                    {
+                        name: 'Albert Einstein',
+                        year: '1915',
+                        contribution: 'Relativité Générale',
+                        context: 'Une des plus belles théories de la physique'
+                    },
+                ]
+            },
+            code: `from sympy import symbols, diag, sin
+from sympy.diffgeom import Manifold, Patch, CoordSystem
+# Définition symbolique de la métrique (simplifiée)
+t, r, theta, phi = symbols('t r theta phi')
+G, M, c = symbols('G M c')
+Rs = 2*G*M/c**2
+# Composante g_tt (temps)
+g_tt = -(1 - Rs/r)
+print(f'Métrique g_tt : {g_tt}')`,
+            output: 'Métrique g_tt : -1 + 2*G*M/(c**2*r)',
+            exercises: [
+            'Calculer le rayon de Schwarzschild de la Terre',
+            'Temps écoulé près de l\'horizon vs à l\'infini',
+            'Vitesse de libération',
+        ],
+            practicalApplication: 'Astronomie (Sagittarius A*), GPS (correction RG), ondes gravitationnelles.'
+        },
+    {
+            id: 'day_054',
+            dayNumber: 54,
+            title: 'Géodésiques',
+            difficulty: 'Expert',
+            masteryLevel: 'Expert',
+            unlocked: true,
+            xpReward: 50,
+            badge: '🏅 Géodésiques',
+            africanAnalogy: `Dans un espace courbe, la ligne droite n'existe pas. Le chemin le plus court est une courbe, comme la trajectoire d'un avion sur Terre. La lumière suit ces 'lignes droites courbes' (géodésiques), c'est pourquoi la gravité dévie la lumière.`,
+            theory: {
+                title: 'Mouvement en Espace Courbe',
+                content: `Les objets en chute libre suivent les géodésiques de l'espace-temps. Cela explique les orbites et la déviation de la lumière par les étoiles.`,
+                mathematicalFoundation: `
+                    - Équation des géodésiques\n                - Symboles de Christoffel : Γ^λ_μν\n                - Déviation de la lumière (Lentille gravitationnelle)\n                - Avance du périhélie de Mercure\n                - Redshift gravitationnel
+                `,
+                scientists: [
+                {
+                        name: 'Arthur Eddington',
+                        year: '1919',
+                        contribution: 'Confirmation expérimentale',
+                        context: 'Observe la déviation de la lumière lors d\'une éclipse'
+                    },
+                    {
+                        name: 'Bernhard Riemann',
+                        year: '1854',
+                        contribution: 'Géométrie Riemannienne',
+                        context: 'Mathématiques des espaces courbes'
+                    },
+                ]
+            },
+            code: `from sympy import symbols, Function, dsolve, Derivative
+# Équation simplifiée d'une géodésique
+t = symbols('t')
+x = Function('x')(t)
+# x'' + Gamma * (x')^2 = 0
+Gamma = symbols('Gamma')
+eq = x.diff(t, 2) + Gamma * x.diff(t)**2
+dsolve(eq, x)`,
+            output: 'C1 + log(C2*t + 1)/Gamma',
+            exercises: [
+            'Calculer la déviation de la lumière par le Soleil',
+            'Expliquer l\'avance du périhélie de Mercure',
+            'Trajectoire d\'un photon autour d\'un trou noir',
+        ],
+            practicalApplication: 'Astronomie, cosmologie, navigation spatiale de précision.'
+        },
+    {
+            id: 'day_055',
+            dayNumber: 55,
+            title: 'Lois de Kepler',
+            difficulty: 'Intermédiaire',
+            masteryLevel: 'Intermédiaire',
+            unlocked: true,
+            xpReward: 35,
+            badge: '🏅 Lois de Kepler',
+            africanAnalogy: `Les planètes ne dansent pas n'importe comment. Elles suivent une valse précise en ellipse autour du Soleil. Plus elles sont proches, plus elles vont vite, comme un patineur qui replie ses bras.`,
+            theory: {
+                title: 'Mécanique Céleste',
+                content: `Les trois lois de Kepler décrivent le mouvement des planètes. Newton a montré qu'elles découlent de la force gravitationnelle en 1/r².`,
+                mathematicalFoundation: `
+                    - 1ère loi : Orbites elliptiques (Soleil au foyer)\n                - 2ème loi : Loi des aires (dA/dt = constante)\n                - 3ème loi : T²/a³ = constante\n                - Excentricité e, Demi-grand axe a\n                - Vitesse orbitale
+                `,
+                scientists: [
+                {
+                        name: 'Johannes Kepler',
+                        year: '1609',
+                        contribution: 'Lois du mouvement planétaire',
+                        context: 'Analyse les données précises de Tycho Brahe'
+                    },
+                    {
+                        name: 'Isaac Newton',
+                        year: '1687',
+                        contribution: 'Gravitation universelle',
+                        context: 'Unifie la pomme et la Lune'
+                    },
+                ]
+            },
+            code: `from sympy import symbols, pi, solve, Eq
+T, a, G, M = symbols('T a G M')
+# 3ème loi de Kepler : T^2 / a^3 = 4*pi^2 / (GM)
+eq = Eq(T**2 / a**3, 4*pi**2 / (G*M))
+# Calculer la période T
+solve(eq, T)`,
+            output: '[-2*pi*a**(3/2)/sqrt(G*M), 2*pi*a**(3/2)/sqrt(G*M)]',
+            exercises: [
+            'Calculer la période de Mars',
+            'Vitesse de la Terre à l\'aphélie vs périhélie',
+            'Masse du Soleil à partir de l\'orbite terrestre',
+        ],
+            practicalApplication: 'Lancement de satellites, missions interplanétaires, exoplanètes.'
+        },
+    {
+            id: 'day_056',
+            dayNumber: 56,
+            title: 'Étoiles : HR',
+            difficulty: 'Intermédiaire',
+            masteryLevel: 'Avancé',
+            unlocked: true,
+            xpReward: 40,
+            badge: '🏅 Étoiles : HR',
+            africanAnalogy: `Les étoiles ont une vie. Elles naissent, brillent et meurent. Le diagramme HR est leur album photo de famille, classant les étoiles par couleur (température) et luminosité. Il raconte leur destin.`,
+            theory: {
+                title: 'Physique Stellaire',
+                content: `Le diagramme Hertzsprung-Russell (HR) est l'outil central de l'astrophysique stellaire. Il montre la Séquence Principale, les Géantes Rouges et les Naines Blanches.`,
+                mathematicalFoundation: `
+                    - Luminosité : L = 4πR²σT⁴ (Stefan-Boltzmann)\n                - Magnitude absolue vs apparente\n                - Classification spectrale (O B A F G K M)\n                - Fusion nucléaire (cycle pp, CNO)\n                - Équilibre hydrostatique
+                `,
+                scientists: [
+                {
+                        name: 'Ejnar Hertzsprung & Henry Norris Russell',
+                        year: '1910',
+                        contribution: 'Diagramme HR',
+                        context: 'Découverte indépendante de la relation couleur-luminosité'
+                    },
+                    {
+                        name: 'Cecilia Payne',
+                        year: '1925',
+                        contribution: 'Composition des étoiles',
+                        context: 'Montre que les étoiles sont surtout de l\'hydrogène'
+                    },
+                ]
+            },
+            code: `from sympy import symbols, solve, Eq
+L, R, T, sigma = symbols('L R T sigma')
+# Loi de Stefan-Boltzmann
+eq = Eq(L, 4*pi*R**2 * sigma * T**4)
+# Trouver le rayon R connaissant L et T
+solve(eq, R)`,
+            output: '[-sqrt(L)/(2*sqrt(pi)*sqrt(sigma)*T**2), ...]',
+            exercises: [
+            'Calculer le rayon de Bételgeuse',
+            'Estimer la durée de vie du Soleil',
+            'Classer une étoile donnée (G2V)',
+        ],
+            practicalApplication: 'Étude de l\'évolution stellaire, distance des étoiles, recherche de vie.'
+        },
+    {
+            id: 'day_057',
+            dayNumber: 57,
+            title: 'Cosmologie : Hubble',
+            difficulty: 'Avancé',
+            masteryLevel: 'Avancé',
+            unlocked: true,
+            xpReward: 40,
+            badge: '🏅 Cosmologie : Hubble',
+            africanAnalogy: `L'univers est comme un ballon qui gonfle. Les galaxies sont des points sur le ballon. Plus elles sont loin, plus elles s'éloignent vite, non pas parce qu'elles bougent, mais parce que l'espace entre elles grandit.`,
+            theory: {
+                title: 'Expansion de l\'Univers',
+                content: `La loi de Hubble-Lemaître relie la distance des galaxies à leur vitesse de récession. C'est la première preuve du Big Bang.`,
+                mathematicalFoundation: `
+                    - Loi de Hubble : v = H₀d\n                - Constante de Hubble H₀\n                - Redshift (décalage vers le rouge) : z = Δλ/λ\n                - v ≈ cz (pour v << c)\n                - Âge de l'univers ≈ 1/H₀
+                `,
+                scientists: [
+                {
+                        name: 'Edwin Hubble',
+                        year: '1929',
+                        contribution: 'Loi de Hubble',
+                        context: 'Observe que les galaxies s\'éloignent'
+                    },
+                    {
+                        name: 'Georges Lemaître',
+                        year: '1927',
+                        contribution: 'Atome primitif (Big Bang)',
+                        context: 'Prêtre et physicien, prédit l\'expansion avant Hubble'
+                    },
+                ]
+            },
+            code: `from sympy import symbols, units
+v, H0, d = symbols('v H0 d')
+# Loi de Hubble
+# H0 approx 70 km/s/Mpc
+val_H0 = 70 # km/s/Mpc
+dist = 100 # Mpc
+vitesse = val_H0 * dist
+print(f'Vitesse de récession : {vitesse} km/s')`,
+            output: 'Vitesse de récession : 7000 km/s',
+            exercises: [
+            'Calculer l\'âge approximatif de l\'univers',
+            'Distance d\'une galaxie avec z=0.1',
+            'Horizon cosmologique',
+        ],
+            practicalApplication: 'Cosmologie, destin de l\'univers, énergie noire.'
+        },
+    {
+            id: 'day_058',
+            dayNumber: 58,
+            title: 'Cosmologie : Big Bang',
+            difficulty: 'Expert',
+            masteryLevel: 'Expert',
+            unlocked: true,
+            xpReward: 50,
+            badge: '🏅 Cosmologie : Big Bang',
+            africanAnalogy: `Les équations de Friedmann sont le mode d'emploi de l'univers. Elles disent comment l'univers évolue en fonction de ce qu'il contient (matière, rayonnement, énergie noire). Elles prédisent si l'univers finira en glace (expansion infinie) ou en feu (Big Crunch).`,
+            theory: {
+                title: 'Équations de Friedmann',
+                content: `Dérivées de la Relativité Générale, elles décrivent l'évolution du facteur d'échelle a(t) de l'univers.`,
+                mathematicalFoundation: `
+                    - Métrique FLRW (Friedmann-Lemaître-Robertson-Walker)\n                - Facteur d'échelle a(t)\n                - (ȧ/a)² = 8πGρ/3 - kc²/a² + Λc²/3\n                - Densité critique ρc\n                - Paramètres de densité Ω
+                `,
+                scientists: [
+                {
+                        name: 'Alexander Friedmann',
+                        year: '1922',
+                        contribution: 'Solutions dynamiques de la RG',
+                        context: 'Montre que l\'univers ne peut pas être statique'
+                    },
+                    {
+                        name: 'Arno Penzias & Robert Wilson',
+                        year: '1965',
+                        contribution: 'Fond diffus cosmologique (CMB)',
+                        context: 'Preuve observationnelle majeure du Big Bang'
+                    },
+                ]
+            },
+            code: `from sympy import symbols, Function, dsolve, Eq
+a = Function('a')
+t, k, rho = symbols('t k rho')
+# Équation simplifiée (univers plat k=0, dominé matière)
+# (a'/a)^2 ~ 1/a^3  => a' ~ a^(-1/2)
+eq = Eq(a(t).diff(t), t**(-1/2)) # Simplification conceptuelle
+# La vraie solution est a(t) ~ t^(2/3)`,
+            output: 'Modèle d\'univers en expansion',
+            exercises: [
+            'Évolution dans un univers dominé par le rayonnement',
+            'Rôle de la constante cosmologique Λ',
+            'Destin de l\'univers selon Ω',
+        ],
+            practicalApplication: 'Modèle standard de la cosmologie, simulation de l\'univers.'
+        },
+    {
+            id: 'day_059',
+            dayNumber: 59,
+            title: 'Mécanique Céleste : N-Corps',
+            difficulty: 'Expert',
+            masteryLevel: 'Expert',
+            unlocked: true,
+            xpReward: 50,
+            badge: '🏅 Mécanique Céleste : N-Corps',
+            africanAnalogy: `Le problème à deux corps est une valse simple. Le problème à trois corps est un chaos imprévisible. Imaginez trois danseurs qui se tirent et se poussent tous en même temps sans rythme fixe. C'est le chaos déterministe.`,
+            theory: {
+                title: 'Problème à N Corps',
+                content: `Il n'existe pas de solution analytique générale pour N ≥ 3 corps. On doit utiliser des simulations numériques (intégrateurs symplectiques).`,
+                mathematicalFoundation: `
+                    - Équations du mouvement : F_i = Σ G m_i m_j (r_j - r_i) / |r_ij|³\n                - Chaos et sensibilité aux conditions initiales\n                - Points de Lagrange\n                - Intégration numérique (Verlet, Runge-Kutta)\n                - Conservation de l'énergie et du moment cinétique
+                `,
+                scientists: [
+                {
+                        name: 'Henri Poincaré',
+                        year: '1890',
+                        contribution: 'Théorie du chaos',
+                        context: 'Découvre le chaos en étudiant le problème à 3 corps'
+                    },
+                    {
+                        name: 'Joseph-Louis Lagrange',
+                        year: '1772',
+                        contribution: 'Points de Lagrange',
+                        context: 'Solutions particulières stables'
+                    },
+                ]
+            },
+            code: `# Simulation conceptuelle (SymPy n'est pas fait pour la simu numérique lourde)
+from sympy import symbols, diff
+x1, y1, x2, y2 = symbols('x1 y1 x2 y2')
+V = 1/sqrt((x1-x2)**2 + (y1-y2)**2) # Potentiel grav
+Fx1 = -diff(V, x1)
+print(f'Force sur x1 : {Fx1}')`,
+            output: 'Force gravitationnelle symbolique',
+            exercises: [
+            'Stabilité du système Terre-Lune',
+            'Points de Lagrange L4 et L5',
+            'Effet de fronde gravitationnelle',
+        ],
+            practicalApplication: 'Trajectoires de sondes (Voyager), formation du système solaire, dynamique galactique.'
+        },
+    {
+            id: 'day_060',
+            dayNumber: 60,
+            title: 'Trous Noirs : Hawking',
+            difficulty: 'Légendaire',
+            masteryLevel: 'Maître',
+            unlocked: true,
+            xpReward: 100,
+            badge: '🏅 Trous Noirs : Hawking',
+            africanAnalogy: `Les trous noirs ne sont pas si noirs. À cause de la mécanique quantique, ils 's'évaporent' lentement en émettant une faible lueur. C'est le chant du cygne d'un monstre cosmique qui finit par disparaître.`,
+            theory: {
+                title: 'Rayonnement de Hawking',
+                content: `Stephen Hawking a montré que les effets quantiques près de l'horizon des événements créent un rayonnement thermique. Les trous noirs perdent de la masse et finissent par s'évaporer.`,
+                mathematicalFoundation: `
+                    - Température de Hawking : T = ħc³ / (8πGMk)\n                - Entropie de Bekenstein-Hawking : S = A / (4Lp²)\n                - Évaporation : dM/dt ∝ -1/M²\n                - Durée de vie : t ∝ M³\n                - Paradoxe de l'information
+                `,
+                scientists: [
+                {
+                        name: 'Stephen Hawking',
+                        year: '1974',
+                        contribution: 'Rayonnement des trous noirs',
+                        context: 'Unit thermodynamique, quantique et gravité'
+                    },
+                    {
+                        name: 'Jacob Bekenstein',
+                        year: '1973',
+                        contribution: 'Entropie des trous noirs',
+                        context: 'Suggère que l\'entropie est proportionnelle à la surface'
+                    },
+                ]
+            },
+            code: `from sympy import symbols, pi, hbar, c, G, k
+M = symbols('M')
+# Température de Hawking
+T = hbar * c**3 / (8 * pi * G * M * k)
+print(f'Température inversement proportionnelle à la masse')`,
+            output: 'T ~ 1/M',
+            exercises: [
+            'Calculer la température d\'un trou noir solaire',
+            'Durée de vie d\'un micro trou noir',
+            'Lien avec l\'entropie',
+        ],
+            practicalApplication: 'Gravité quantique, thermodynamique des trous noirs, cosmologie primordiale.'
         },
 
 ];

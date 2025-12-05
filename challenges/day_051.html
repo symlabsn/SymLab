@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Jour 054 — Géodésiques</title>
+<title>Jour 051 — Relativité : Temps</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
 <style>
 :root{--bg:#0f172a; --accent:#06b6d4; --muted:#94a3b8;}
@@ -34,7 +34,7 @@
 <header class="header container">
   <div style="display:flex;justify-content:space-between;align-items:center">
     <div>
-      <h1 style="margin:0;color:white">Jour 054 — Géodésiques</h1>
+      <h1 style="margin:0;color:white">Jour 051 — Relativité : Temps</h1>
       <div style="font-size:0.9em;opacity:0.9">Challenge 100 Jours SymPy</div>
     </div>
     <div><a class="btn" href="index.html">← Index</a></div>
@@ -44,60 +44,59 @@
 <div class="container">
   <main class="page">
     <div class="meta">
-      <span class="badge badge-level">🎯 Expert</span>
+      <span class="badge badge-level">🎯 Avancé</span>
       <span class="badge badge-mastery">📊 Expert</span>
-      <span class="badge badge-xp">⭐ +50 XP</span>
+      <span class="badge badge-xp">⭐ +45 XP</span>
     </div>
 
     <h2>🌍 Analogie Africaine</h2>
-    <div class="analogy">Dans un espace courbe, la ligne droite n'existe pas. Le chemin le plus court est une courbe, comme la trajectoire d'un avion sur Terre. La lumière suit ces 'lignes droites courbes' (géodésiques), c'est pourquoi la gravité dévie la lumière.</div>
+    <div class="analogy">Le temps n'est pas une rivière qui coule partout à la même vitesse. C'est comme le rythme d'un tam-tam : si tu t'éloignes très vite, le son te parvient au ralenti. Pour celui qui voyage à la vitesse de la lumière, le temps s'arrête.</div>
 
-    <h2>📚 Théorie : Mouvement en Espace Courbe</h2>
+    <h2>📚 Théorie : Relativité Restreinte</h2>
     <div class="theory">
-      <p>Les objets en chute libre suivent les géodésiques de l'espace-temps. Cela explique les orbites et la déviation de la lumière par les étoiles.</p>
+      <p>Le temps et l'espace sont liés. La vitesse de la lumière c est constante pour tous les observateurs, ce qui implique que le temps se dilate et les longueurs se contractent à haute vitesse.</p>
       <h3>Fondements Mathématiques</h3>
-      <ul><li>Équation des géodésiques</li><li>Symboles de Christoffel : Γ^λ_μν</li><li>Déviation de la lumière (Lentille gravitationnelle)</li><li>Avance du périhélie de Mercure</li><li>Redshift gravitationnel</li></ul>
+      <ul><li>Facteur de Lorentz : γ = 1 / √(1 - v²/c²)</li><li>Dilatation du temps : Δt' = γΔt</li><li>Contraction des longueurs : L' = L/γ</li><li>Transformation de Lorentz (x, y, z, t) -> (x', y', z', t')</li><li>Invariant d'intervalle : ds² = c²dt² - dx² - dy² - dz²</li></ul>
     </div>
 
     <h2>👨‍🔬 Histoire & Scientifiques</h2>
     
     <div class="scientist">
-      <div class="scientist-name">Arthur Eddington</div>
-      <div class="scientist-year">1919</div>
+      <div class="scientist-name">Albert Einstein</div>
+      <div class="scientist-year">1905</div>
       <div class="scientist-contribution">
-        <strong>Contribution :</strong> Confirmation expérimentale
-        <br><em>Contexte :</em> Observe la déviation de la lumière lors d'une éclipse
+        <strong>Contribution :</strong> Relativité Restreinte
+        <br><em>Contexte :</em> Annus Mirabilis, révolutionne la physique
       </div>
     </div>
     <div class="scientist">
-      <div class="scientist-name">Bernhard Riemann</div>
-      <div class="scientist-year">1854</div>
+      <div class="scientist-name">Hendrik Lorentz</div>
+      <div class="scientist-year">1904</div>
       <div class="scientist-contribution">
-        <strong>Contribution :</strong> Géométrie Riemannienne
-        <br><em>Contexte :</em> Mathématiques des espaces courbes
+        <strong>Contribution :</strong> Transformations de Lorentz
+        <br><em>Contexte :</em> Précurseur mathématique de la relativité
       </div>
     </div>
 
     <h2>💻 Code SymPy</h2>
-    <div class="code"><pre>from sympy import symbols, Function, dsolve, Derivative
-# Équation simplifiée d'une géodésique
-t = symbols('t')
-x = Function('x')(t)
-# x'' + Gamma * (x')^2 = 0
-Gamma = symbols('Gamma')
-eq = x.diff(t, 2) + Gamma * x.diff(t)**2
-dsolve(eq, x)</pre></div>
-    <div class="output"><strong>Sortie attendue :</strong> C1 + log(C2*t + 1)/Gamma</div>
+    <div class="code"><pre>from sympy import symbols, sqrt, simplify
+v, c, t = symbols('v c t', positive=True)
+# Facteur de Lorentz
+gamma = 1 / sqrt(1 - v**2/c**2)
+# Temps propre vs Temps mesuré
+t_mesure = gamma * t
+print(f'Facteur gamma pour v=0.9c : {gamma.subs(v, 0.9*c)}')</pre></div>
+    <div class="output"><strong>Sortie attendue :</strong> 2.294</div>
 
     <h2>💪 Exercices Pratiques</h2>
-    <div class="exercises"><ol><li>Calculer la déviation de la lumière par le Soleil</li><li>Expliquer l'avance du périhélie de Mercure</li><li>Trajectoire d'un photon autour d'un trou noir</li></ol></div>
+    <div class="exercises"><ol><li>Calculer le temps vécu par un astronaute (Paradoxe des jumeaux)</li><li>Contraction d'un vaisseau spatial</li><li>Addition des vitesses relativistes</li></ol></div>
 
     <h2>🔬 Applications Pratiques</h2>
-    <p>Astronomie, cosmologie, navigation spatiale de précision.</p>
+    <p>GPS (correction relativiste nécessaire), accélérateurs de particules, physique nucléaire.</p>
 
     <div class="controls">
-      <a class="btn" href="day_053.html">← Précédent</a>
-      <a class="btn" href="day_055.html">Suivant →</a>
+      <a class="btn" href="day_050.html">← Précédent</a>
+      <a class="btn" href="day_052.html">Suivant →</a>
     </div>
   </main>
 </div>
