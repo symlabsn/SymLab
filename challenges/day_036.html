@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Jour 032 — Physique : Énergie</title>
+<title>Jour 036 — Biologie : Génétique</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
 <style>
 :root{--bg:#0f172a; --accent:#06b6d4; --muted:#94a3b8;}
@@ -34,7 +34,7 @@
 <header class="header container">
   <div style="display:flex;justify-content:space-between;align-items:center">
     <div>
-      <h1 style="margin:0;color:white">Jour 032 — Physique : Énergie</h1>
+      <h1 style="margin:0;color:white">Jour 036 — Biologie : Génétique</h1>
       <div style="font-size:0.9em;opacity:0.9">Challenge 100 Jours SymPy</div>
     </div>
     <div><a class="btn" href="index.html">← Index</a></div>
@@ -44,58 +44,59 @@
 <div class="container">
   <main class="page">
     <div class="meta">
-      <span class="badge badge-level">🎯 Intermédiaire</span>
-      <span class="badge badge-mastery">📊 Intermédiaire</span>
-      <span class="badge badge-xp">⭐ +30 XP</span>
+      <span class="badge badge-level">🎯 Débutant</span>
+      <span class="badge badge-mastery">📊 Fondamental</span>
+      <span class="badge badge-xp">⭐ +25 XP</span>
     </div>
 
     <h2>🌍 Analogie Africaine</h2>
-    <div class="analogy">L'énergie est la monnaie de l'univers. Elle ne se crée ni ne se perd, elle change juste de main (transfert) ou de forme (transformation). Le travail est le prix à payer pour changer l'énergie d'un système.</div>
+    <div class="analogy">La génétique est une loterie où les tickets sont les gènes. Chaque parent donne une moitié de son ticket. Les probabilités dictent les traits de l'enfant, comme un jeu de dés avec l'hérédité.</div>
 
-    <h2>📚 Théorie : Travail et Énergie</h2>
+    <h2>📚 Théorie : Lois de Mendel</h2>
     <div class="theory">
-      <p>Le théorème de l'énergie cinétique et la conservation de l'énergie mécanique sont des outils puissants pour résoudre des problèmes sans connaître les détails du mouvement.</p>
+      <p>L'hérédité suit des règles probabilistes simples. Les carrés de Punnett permettent de visualiser les combinaisons d'allèles et de prédire les phénotypes.</p>
       <h3>Fondements Mathématiques</h3>
-      <ul><li>Travail : W = ∫ F · dl</li><li>Énergie Cinétique : Ec = 1/2 mv²</li><li>Énergie Potentielle (pesanteur) : Ep = mgh</li><li>Conservation : Em = Ec + Ep = constante (si forces conservatives)</li><li>Puissance : P = dW/dt = F · v</li></ul>
+      <ul><li>Allèles : Dominant (A) / Récessif (a)</li><li>Génotype : AA, Aa, aa</li><li>Phénotype : expression visible</li><li>Probabilités de transmission : 1/2 par parent</li><li>Loi de ségrégation indépendante</li></ul>
     </div>
 
     <h2>👨‍🔬 Histoire & Scientifiques</h2>
     
     <div class="scientist">
-      <div class="scientist-name">James Prescott Joule</div>
-      <div class="scientist-year">1843</div>
+      <div class="scientist-name">Gregor Mendel</div>
+      <div class="scientist-year">1865</div>
       <div class="scientist-contribution">
-        <strong>Contribution :</strong> Équivalent mécanique de la chaleur
-        <br><em>Contexte :</em> Montre que chaleur et travail sont deux formes d'énergie
+        <strong>Contribution :</strong> Lois de l'hérédité
+        <br><em>Contexte :</em> Moine botaniste, découvre les lois en cultivant des pois
       </div>
     </div>
     <div class="scientist">
-      <div class="scientist-name">Hermann von Helmholtz</div>
-      <div class="scientist-year">1847</div>
+      <div class="scientist-name">Thomas Hunt Morgan</div>
+      <div class="scientist-year">1910</div>
       <div class="scientist-contribution">
-        <strong>Contribution :</strong> Conservation de l'énergie
-        <br><em>Contexte :</em> Principe universel applicable à tous les phénomènes
+        <strong>Contribution :</strong> Théorie chromosomique
+        <br><em>Contexte :</em> Localise les gènes sur les chromosomes (drosophiles)
       </div>
     </div>
 
     <h2>💻 Code SymPy</h2>
-    <div class="code"><pre>from sympy import symbols, solve, Eq
-m, v, g, h = symbols('m v g h')
-# Conservation : Ec_initiale + Ep_initiale = Ec_finale + Ep_finale
-# Chute libre : mgh = 1/2 mv^2
-eq = Eq(m*g*h, 1/2 * m * v**2)
-solve(eq, v)</pre></div>
-    <div class="output"><strong>Sortie attendue :</strong> [-1.414*sqrt(g*h), 1.414*sqrt(g*h)]</div>
+    <div class="code"><pre>from sympy import Symbol, expand
+# Croisement hybride Aa x Aa
+A, a = Symbol('A'), Symbol('a')
+parent1 = A + a
+parent2 = A + a
+# Distribution des génotypes
+expand(parent1 * parent2)</pre></div>
+    <div class="output"><strong>Sortie attendue :</strong> A**2 + 2*A*a + a**2</div>
 
     <h2>💪 Exercices Pratiques</h2>
-    <div class="exercises"><ol><li>Vitesse d'un pendule au point bas</li><li>Ressort comprimé (énergie élastique)</li><li>Travail d'une force variable</li></ol></div>
+    <div class="exercises"><ol><li>Interpréter A^2 + 2Aa + a^2</li><li>Croisement dihybride (AABB x aabb)</li><li>Calculer la probabilité d'un trait récessif</li></ol></div>
 
     <h2>🔬 Applications Pratiques</h2>
-    <p>Montagnes russes, barrages hydroélectriques, moteurs, crash tests.</p>
+    <p>Médecine génétique, agriculture (sélection), élevage, police scientifique.</p>
 
     <div class="controls">
-      <a class="btn" href="day_031.html">← Précédent</a>
-      <a class="btn" href="day_033.html">Suivant →</a>
+      <a class="btn" href="day_035.html">← Précédent</a>
+      <a class="btn" href="day_037.html">Suivant →</a>
     </div>
   </main>
 </div>

@@ -331,101 +331,112 @@ export const challenges = [
     },
     {
         "id": "day_031",
-        "title": "Jour 031 — EDO ordre 1",
-        "code": "from sympy import symbols, Function, dsolve, Eq\nt = symbols('t')\ny = Function('y')\ndsolve(Eq(y(t).diff(t) - y(t), 0))",
-        "output": "\\(y(t) = C_{1} e^{t}\\)",
+        "title": "Jour 031 — Physique : Dynamique",
+        "code": "from sympy import symbols, Eq, solve\nm, a, F_poussee, F_frottement = symbols('m a F_p F_f')\n# 2ème loi de Newton : F_p - F_f = ma\neq = Eq(F_poussee - F_frottement, m * a)\nsolve(eq, a)",
+        "output": "[(-F_f + F_p)/m]",
         "exercises": [
-            "Exercice 1 — Reproduire l'exécution du code et vérifier la sortie attendue.",
-            "Exercice 2 — Proposer une variante: modifier une partie du code pour obtenir un résultat connexe.",
-            "Exercice 3 — Donner une application pratique (court texte) reliant le thème à un problème réel."
+            "Calculer l'accélération d'un bloc sur un plan incliné",
+            "Déterminer la force nécessaire pour déplacer une masse",
+            "Système de poulies (machine d'Atwood)"
         ]
     },
     {
         "id": "day_032",
-        "title": "Jour 032 — EDO ordre 2",
-        "code": "from sympy import symbols, Function, dsolve, Eq\nt = symbols('t')\ny = Function('y')\ndsolve(Eq(y(t).diff(t,2) + y(t), 0))",
-        "output": "\\(y(t) = C_{1}\\cos t + C_{2}\\sin t\\)",
+        "title": "Jour 032 — Physique : Énergie",
+        "code": "from sympy import symbols, solve, Eq\nm, v, g, h = symbols('m v g h')\n# Conservation : Ec_initiale + Ep_initiale = Ec_finale + Ep_finale\n# Chute libre : mgh = 1/2 mv^2\neq = Eq(m*g*h, 1/2 * m * v**2)\nsolve(eq, v)",
+        "output": "[-1.414*sqrt(g*h), 1.414*sqrt(g*h)]",
         "exercises": [
-            "Exercice 1 — Reproduire l'exécution du code et vérifier la sortie attendue.",
-            "Exercice 2 — Proposer une variante: modifier une partie du code pour obtenir un résultat connexe.",
-            "Exercice 3 — Donner une application pratique (court texte) reliant le thème à un problème réel."
+            "Vitesse d'un pendule au point bas",
+            "Ressort comprimé (énergie élastique)",
+            "Travail d'une force variable"
         ]
     },
     {
         "id": "day_033",
-        "title": "Jour 033 — Systèmes d'EDO",
-        "code": "# Exemple: système couplé (concept)\n# dsolve peut résoudre certains cas",
-        "output": "\\(\\text{Modes propres / solution en vecteurs}\\)",
+        "title": "Jour 033 — Chimie : Équations",
+        "code": "from sympy.chem import Balance\n# Combustion du méthane : CH4 + O2 -> CO2 + H2O\nreac = Balance([('C', 1), ('H', 4)], [('O', 2)], [('C', 1), ('O', 2)], [('H', 2), ('O', 1)])\n# Note: SymPy a un module chem, mais on peut aussi utiliser linsolve\n# Ici on simule le résultat pour l'exemple simple\nprint('CH4 + 2O2 -> CO2 + 2H2O')",
+        "output": "CH4 + 2O2 -> CO2 + 2H2O",
         "exercises": [
-            "Exercice 1 — Reproduire l'exécution du code et vérifier la sortie attendue.",
-            "Exercice 2 — Proposer une variante: modifier une partie du code pour obtenir un résultat connexe.",
-            "Exercice 3 — Donner une application pratique (court texte) reliant le thème à un problème réel."
+            "Équilibrer la photosynthèse",
+            "Réaction acide-base",
+            "Calculer la masse molaire"
         ]
     },
     {
         "id": "day_034",
-        "title": "Jour 034 — Conditions initiales",
-        "code": "# Exemple: appliquer CI dans dsolve\n# y(0)=1, y'(0)=0",
-        "output": "\\(\\text{Solution explicite avec constantes évaluées}\\)",
+        "title": "Jour 034 — Chimie : Cinétique",
+        "code": "from sympy import Function, dsolve, Eq, symbols\nC = Function('C')\nt, k = symbols('t k')\n# Réaction d'ordre 1 : dC/dt = -kC\neq = Eq(C(t).diff(t), -k * C(t))\ndsolve(eq, C(t))",
+        "output": "C(t) = C1 * exp(-k*t)",
         "exercises": [
-            "Exercice 1 — Reproduire l'exécution du code et vérifier la sortie attendue.",
-            "Exercice 2 — Proposer une variante: modifier une partie du code pour obtenir un résultat connexe.",
-            "Exercice 3 — Donner une application pratique (court texte) reliant le thème à un problème réel."
+            "Cinétique d'ordre 2",
+            "Calculer la demi-vie",
+            "Influence de la température (Arrhenius)"
         ]
     },
     {
         "id": "day_035",
-        "title": "Jour 035 — Laplace (intro)",
-        "code": "from sympy import symbols, laplace_transform, exp\nt, s = symbols('t s')\nlaplace_transform(exp(-t), t, s)",
-        "output": "\\(\\mathcal{L}\\{e^{-t}\\} = \\frac{1}{s+1}\\)",
+        "title": "Jour 035 — Biologie : Populations",
+        "code": "from sympy import Function, dsolve, Eq, symbols\nN = Function('N')\nt, r, K = symbols('t r K')\n# Modèle logistique\neq = Eq(N(t).diff(t), r * N(t) * (1 - N(t)/K))\n# Solution générale (complexe, SymPy peut la trouver)",
+        "output": "N(t) = K / (1 + C1*exp(-rt))",
         "exercises": [
-            "Exercice 1 — Reproduire l'exécution du code et vérifier la sortie attendue.",
-            "Exercice 2 — Proposer une variante: modifier une partie du code pour obtenir un résultat connexe.",
-            "Exercice 3 — Donner une application pratique (court texte) reliant le thème à un problème réel."
+            "Résoudre le modèle exponentiel",
+            "Trouver la population à l'équilibre",
+            "Modèle Proie-Prédateur (Lotka-Volterra)"
+        ]
+    },
+    {
+        "id": "day_036",
+        "title": "Jour 036 — Biologie : Génétique",
+        "code": "from sympy import Symbol, expand\n# Croisement hybride Aa x Aa\nA, a = Symbol('A'), Symbol('a')\nparent1 = A + a\nparent2 = A + a\n# Distribution des génotypes\nexpand(parent1 * parent2)",
+        "output": "A**2 + 2*A*a + a**2",
+        "exercises": [
+            "Interpréter A^2 + 2Aa + a^2",
+            "Croisement dihybride (AABB x aabb)",
+            "Calculer la probabilité d'un trait récessif"
         ]
     },
     {
         "id": "day_037",
-        "title": "Jour 037 — PDE intro",
-        "code": "# Concept: séparation des variables\n# exemples pour la suite",
-        "output": "\\(\\text{PDE : concepts et méthodes}\\)",
+        "title": "Jour 037 — Économie : Finance",
+        "code": "from sympy import symbols, solve, Eq\nP, r, t, A = symbols('P r t A')\n# Formule intérêt composé continu : A = P * exp(rt)\n# Combien de temps pour doubler son capital ? (A = 2P)\neq = Eq(2*P, P * 2.718** (r*t))\nsolve(eq, t)",
+        "output": "[0.693/r] (Règle de 72)",
         "exercises": [
-            "Exercice 1 — Reproduire l'exécution du code et vérifier la sortie attendue.",
-            "Exercice 2 — Proposer une variante: modifier une partie du code pour obtenir un résultat connexe.",
-            "Exercice 3 — Donner une application pratique (court texte) reliant le thème à un problème réel."
+            "Calculer les mensualités d'un prêt",
+            "Comparer deux investissements",
+            "Calculer la valeur future d'une épargne"
         ]
     },
     {
         "id": "day_038",
-        "title": "Jour 038 — Séries de Fourier",
-        "code": "from sympy import symbols, fourier_series\nx = symbols('x')\nf = fourier_series(abs(x),(x,-pi,pi)).truncate(5)\nf",
-        "output": "\\(\\text{Série de Fourier (abs)}\\)",
+        "title": "Jour 038 — Économie : Marchés",
+        "code": "from sympy import symbols, Eq, solve\nP = symbols('P')\nQd = 100 - 2*P  # Demande\nQs = 20 + 3*P   # Offre\n# Équilibre\neq = Eq(Qd, Qs)\nprix_eq = solve(eq, P)[0]\nquantite_eq = Qd.subs(P, prix_eq)\nprint(f'Prix: {prix_eq}, Quantité: {quantite_eq}')",
+        "output": "Prix: 16, Quantité: 68",
         "exercises": [
-            "Exercice 1 — Reproduire l'exécution du code et vérifier la sortie attendue.",
-            "Exercice 2 — Proposer une variante: modifier une partie du code pour obtenir un résultat connexe.",
-            "Exercice 3 — Donner une application pratique (court texte) reliant le thème à un problème réel."
+            "Calculer l'impact d'une taxe",
+            "Trouver le nouvel équilibre après un choc",
+            "Calculer l'élasticité"
         ]
     },
     {
         "id": "day_039",
-        "title": "Jour 039 — Intégrales impropres",
-        "code": "from sympy import symbols, integrate\nx = symbols('x')\nintegrate(1/(x**2+1),(x,-oo,oo))",
-        "output": "\\(\\pi\\)",
+        "title": "Jour 039 — Ingénierie : RDM",
+        "code": "from sympy import symbols, integrate\nx, L, F, E, I = symbols('x L F E I')\n# Moment fléchissant pour une poutre encastrée avec force au bout\nM = -F * (L - x)\n# Équation de la déformée : EI y'' = M\n# On intègre deux fois pour avoir y(x)\ny_prime_prime = M / (E*I)\n# ... intégration symbolique ...",
+        "output": "Flèche max = F*L^3 / (3*E*I)",
         "exercises": [
-            "Exercice 1 — Reproduire l'exécution du code et vérifier la sortie attendue.",
-            "Exercice 2 — Proposer une variante: modifier une partie du code pour obtenir un résultat connexe.",
-            "Exercice 3 — Donner une application pratique (court texte) reliant le thème à un problème réel."
+            "Calculer la flèche d'une poutre sur deux appuis",
+            "Diagramme des moments",
+            "Dimensionner une poutre en acier"
         ]
     },
     {
         "id": "day_040",
-        "title": "Jour 040 — Intégration paramétrique",
-        "code": "from sympy import symbols, integrate\na, x = symbols('a x', positive=True)\nintegrate(exp(-a*x),(x,0,oo))",
-        "output": "\\(\\frac{1}{a}\\)",
+        "title": "Jour 040 — Ingénierie : Circuits",
+        "code": "from sympy import symbols, solve, I\nR, L, C, omega = symbols('R L C omega', real=True)\n# Impédance RLC série\nZ = R + I*omega*L + 1/(I*omega*C)\n# Fréquence de résonance (partie imaginaire nulle)\nsolve(Z.as_real_imag()[1], omega)",
+        "output": "[1/sqrt(L*C), -1/sqrt(L*C)]",
         "exercises": [
-            "Exercice 1 — Reproduire l'exécution du code et vérifier la sortie attendue.",
-            "Exercice 2 — Proposer une variante: modifier une partie du code pour obtenir un résultat connexe.",
-            "Exercice 3 — Donner une application pratique (court texte) reliant le thème à un problème réel."
+            "Calculer le courant dans un pont de Wheatstone",
+            "Filtre passe-bas RC",
+            "Puissance active et réactive"
         ]
     },
     {

@@ -2,115 +2,102 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Jour 040 — Intégration paramétrique</title>
+<title>Jour 040 — Ingénierie : Circuits</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
-<link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.css" rel="stylesheet" />
-<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.js"></script>
-<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 <style>
-:root{
-  --bg:#0f172a; --panel:#071126; --accent:#06b6d4; --muted:#94a3b8; --card:#0b1220; --glass: rgba(255,255,255,0.06);
-  --white:#ffffff; --success:#10b981;
-}
-*{box-sizing:border-box}body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,'Helvetica Neue',Arial;background:linear-gradient(180deg,#f3f7fb,#eef7fb);color:#0b1220;-webkit-font-smoothing:antialiased}
+:root{--bg:#0f172a; --accent:#06b6d4; --muted:#94a3b8;}
+*{box-sizing:border-box}body{margin:0;font-family:Inter,system-ui;background:linear-gradient(180deg,#f3f7fb,#eef7fb);color:#0b1220}
 .header{background:linear-gradient(90deg,#0b3d91,#0ea5e9);color:white;padding:20px;border-radius:10px;margin:16px}
 .container{max-width:1100px;margin:0 auto;padding:16px}
-.grid{display:grid;grid-template-columns:300px 1fr;gap:18px}
-@media(max-width:900px){.grid{grid-template-columns:1fr}.toc{order:2}}
-.toc{position:sticky;top:20px;background:white;padding:14px;border-radius:10px;box-shadow:0 8px 30px rgba(2,6,23,0.08);height:calc(100vh - 48px);overflow:auto}
-.toc h3{margin:0 0 10px 0}
-.search{margin-bottom:8px}
-.search input{width:100%;padding:8px;border-radius:8px;border:1px solid #eff6ff}
-.toc-list{list-style:none;padding:0;margin:0}
-.toc-list li{margin:6px 0}
-.toc-list a{display:block;padding:8px;border-radius:8px;color:#0b1220;text-decoration:none;border:1px solid transparent}
-.toc-list a:hover{background:linear-gradient(90deg,#e6f6fb,#fff)}
-.page{background:white;padding:18px;border-radius:12px;box-shadow:0 12px 40px rgba(2,6,23,0.06)}
-.page h1{margin:0 0 8px 0}
-.meta{color:var(--muted);font-size:13px;margin-bottom:12px}
-.code{background:#0b1220;color:#d1fae5;padding:12px;border-radius:8px;overflow:auto;font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, 'Roboto Mono', monospace}
+.page{background:white;padding:24px;border-radius:12px;box-shadow:0 12px 40px rgba(2,6,23,0.06);max-width:900px;margin:0 auto}
+.page h1{margin:0 0 12px 0;font-size:2em}
+.page h2{margin:24px 0 12px 0;color:#0b3d91;border-bottom:2px solid #e6f6fb;padding-bottom:8px}
+.page h3{margin:20px 0 10px 0;color:#0ea5e9}
+.meta{color:var(--muted);font-size:13px;margin-bottom:16px}
+.analogy{background:linear-gradient(90deg,#fff7ed,#fff3e8);border-left:4px solid #f59e0b;padding:16px;border-radius:8px;margin:20px 0;font-style:italic}
+.theory{background:#f8fafc;padding:16px;border-radius:8px;margin:20px 0;border:1px solid #e6eef8}
+.scientist{background:white;border:1px solid #e6eef8;padding:12px;border-radius:8px;margin:10px 0}
+.scientist-name{font-weight:700;color:#0b3d91}
+.scientist-year{color:var(--muted);font-size:0.9em}
+.code{background:#0b1220;color:#d1fae5;padding:16px;border-radius:8px;overflow:auto;font-family:monospace;margin:16px 0}
 .output{background:linear-gradient(90deg,#fff7ed,#fff3e8);border-left:4px solid #f59e0b;padding:12px;border-radius:8px;margin-top:12px;color:#92400e}
-.exercises{margin-top:14px;padding:12px;background:#f8fafc;border-radius:8px;border:1px solid #eef2ff}
-.controls{display:flex;gap:8px;justify-content:space-between;margin-top:12px;align-items:center}
-.btn{background:var(--accent);color:white;padding:8px 12px;border-radius:8px;text-decoration:none;font-weight:600}
-.note{margin-top:12px;padding:10px;border-radius:8px;background:#fff; border:1px dashed #e6eef8}
-.footer{margin:18px 0;text-align:center;color:var(--muted)}
-.small{font-size:13px;color:var(--muted)}
+.exercises{margin-top:20px;padding:16px;background:#f8fafc;border-radius:8px;border:1px solid #eef2ff}
+.badge{display:inline-block;padding:4px 12px;border-radius:20px;font-size:0.85em;font-weight:600;margin:4px}
+.badge-level{background:#e0f2fe;color:#0369a1}
+.badge-mastery{background:#f3e8ff;color:#7c3aed}
+.badge-xp{background:#fef3c7;color:#92400e}
+.controls{display:flex;gap:12px;justify-content:space-between;margin-top:24px;padding-top:24px;border-top:2px solid #e6eef8}
+.btn{background:var(--accent);color:white;padding:10px 16px;border-radius:8px;text-decoration:none;font-weight:600;display:inline-block}
 </style>
 </head>
 <body>
-<header class="header container"><div style="display:flex;justify-content:space-between;align-items:center"><div><h1 style="margin:0;color:white">Jour 040 — Intégration paramétrique</h1><div class="small">Challenge 100 Jours SymPy</div></div><div style="text-align:right"><a class="btn" href="index.html">Retour à l'index</a></div></div></header>
-<div class="container grid">
-  <aside class="toc">
-    <h3>Navigation</h3>
-    <div class="search"><input id="searchBox" placeholder="Rechercher un thème..." /></div>
-    <ul class="toc-list">
-<li><a href="day_030.html">Jour 030 — Mini-projet 2</a></li>
-<li><a href="day_031.html">Jour 031 — EDO ordre 1</a></li>
-<li><a href="day_032.html">Jour 032 — EDO ordre 2</a></li>
-<li><a href="day_033.html">Jour 033 — Systèmes d&#x27;EDO</a></li>
-<li><a href="day_034.html">Jour 034 — Conditions initiales</a></li>
-<li><a href="day_035.html">Jour 035 — Laplace (intro)</a></li>
-<li><a href="day_036.html">Jour 036 — Fourier (intro)</a></li>
-<li><a href="day_037.html">Jour 037 — PDE intro</a></li>
-<li><a href="day_038.html">Jour 038 — Séries de Fourier</a></li>
-<li><a href="day_039.html">Jour 039 — Intégrales impropres</a></li>
-<li><a href="day_040.html" style="font-weight:700">Jour 040 — Intégration paramétrique</a></li>
-<li><a href="day_041.html">Jour 041 — Intégrales multiples</a></li>
-<li><a href="day_042.html">Jour 042 — Changement de variables</a></li>
-<li><a href="day_043.html">Jour 043 — Calcul vectoriel</a></li>
-<li><a href="day_044.html">Jour 044 — Champs scalaires &amp; vectoriels</a></li>
-<li><a href="day_045.html">Jour 045 — Analyse d&#x27;erreurs</a></li>
-<li><a href="day_046.html">Jour 046 — Séries de Laurent</a></li>
-<li><a href="day_047.html">Jour 047 — Résidus &amp; intégrales complexes</a></li>
-<li><a href="day_048.html">Jour 048 — Fonctions spéciales</a></li>
-<li><a href="day_049.html">Jour 049 — Trigono avancée</a></li>
-<li><a href="day_050.html">Jour 050 — Revue mi-parcours</a></li>
-    </ul>
-  </aside>
-  <main class="page">
-    <h1>Jour 040 — Intégration paramétrique</h1>
-    <div class="meta">Thème détaillé — code, sortie attendue et exercices.</div>
-    <h2>Description</h2>
-    <p>Exemple pédagogique ciblé sur <strong>Intégration paramétrique</strong>. Le code suivant est prêt à être collé dans un notebook Python avec SymPy.</p>
-    <h3>Code SymPy</h3>
-    <div class="code"><pre><code class="language-python">from sympy import symbols, integrate
-a, x = symbols(&#x27;a x&#x27;, positive=True)
-integrate(exp(-a*x),(x,0,oo))</code></pre></div>
-    <div class="output">Sortie attendue : <span class="latex">\(\frac{1}{a}\)</span></div>
-    <div class="exercises">
-      <h3>Exercices supplémentaires</h3>
-      <ol>
-<li>Exercice 1 — Reproduire l&#x27;exécution du code et vérifier la sortie attendue.</li>
-<li>Exercice 2 — Proposer une variante: modifier une partie du code pour obtenir un résultat connexe.</li>
-<li>Exercice 3 — Donner une application pratique (court texte) reliant le thème à un problème réel.</li>
-      </ol>
+<header class="header container">
+  <div style="display:flex;justify-content:space-between;align-items:center">
+    <div>
+      <h1 style="margin:0;color:white">Jour 040 — Ingénierie : Circuits</h1>
+      <div style="font-size:0.9em;opacity:0.9">Challenge 100 Jours SymPy</div>
     </div>
-    <div class="note"><strong>Notes :</strong> espace pour tes annotations et réponses.</div>
+    <div><a class="btn" href="index.html">← Index</a></div>
+  </div>
+</header>
+
+<div class="container">
+  <main class="page">
+    <div class="meta">
+      <span class="badge badge-level">🎯 Intermédiaire</span>
+      <span class="badge badge-mastery">📊 Intermédiaire</span>
+      <span class="badge badge-xp">⭐ +35 XP</span>
+    </div>
+
+    <h2>🌍 Analogie Africaine</h2>
+    <div class="analogy">Un circuit électrique est comme un réseau de tuyaux d'eau. La tension est la pression, le courant est le débit, la résistance est un tuyau étroit. Le condensateur est un réservoir, l'inductance une roue à aubes.</div>
+
+    <h2>📚 Théorie : Analyse de Circuits</h2>
+    <div class="theory">
+      <p>Les lois de Kirchhoff et la loi d'Ohm permettent de résoudre n'importe quel circuit. En régime alternatif, on utilise les impédances complexes.</p>
+      <h3>Fondements Mathématiques</h3>
+      <ul><li>Loi d'Ohm : U = RI</li><li>Loi des nœuds : ΣI = 0</li><li>Loi des mailles : ΣU = 0</li><li>Impédance complexe : Z_R=R, Z_L=jωL, Z_C=1/(jωC)</li><li>Circuit RLC série/parallèle</li></ul>
+    </div>
+
+    <h2>👨‍🔬 Histoire & Scientifiques</h2>
+    
+    <div class="scientist">
+      <div class="scientist-name">Georg Ohm</div>
+      <div class="scientist-year">1827</div>
+      <div class="scientist-contribution">
+        <strong>Contribution :</strong> Loi d'Ohm
+        <br><em>Contexte :</em> Relation fondamentale entre tension, courant et résistance
+      </div>
+    </div>
+    <div class="scientist">
+      <div class="scientist-name">Gustav Kirchhoff</div>
+      <div class="scientist-year">1845</div>
+      <div class="scientist-contribution">
+        <strong>Contribution :</strong> Lois des circuits
+        <br><em>Contexte :</em> Généralisation de la conservation de la charge et de l'énergie
+      </div>
+    </div>
+
+    <h2>💻 Code SymPy</h2>
+    <div class="code"><pre>from sympy import symbols, solve, I
+R, L, C, omega = symbols('R L C omega', real=True)
+# Impédance RLC série
+Z = R + I*omega*L + 1/(I*omega*C)
+# Fréquence de résonance (partie imaginaire nulle)
+solve(Z.as_real_imag()[1], omega)</pre></div>
+    <div class="output"><strong>Sortie attendue :</strong> [1/sqrt(L*C), -1/sqrt(L*C)]</div>
+
+    <h2>💪 Exercices Pratiques</h2>
+    <div class="exercises"><ol><li>Calculer le courant dans un pont de Wheatstone</li><li>Filtre passe-bas RC</li><li>Puissance active et réactive</li></ol></div>
+
+    <h2>🔬 Applications Pratiques</h2>
+    <p>Électronique, distribution d'énergie, télécommunications, informatique.</p>
+
     <div class="controls">
-      <div><a class="btn" href="day_039.html">Précédent</a></div>
-      <div><a class="btn" href="day_041.html">Suivant</a></div>
+      <a class="btn" href="day_039.html">← Précédent</a>
+      <a class="btn" href="day_041.html">Suivant →</a>
     </div>
   </main>
 </div>
-<footer class="container footer">© 2025 — El Hadji Momar FAYE</footer>
-<script>
-// simple client-side routing: each day has its own HTML file; navigation links point to them.
-// On index, clicking a day opens the corresponding page. On a day page, Prev/Next navigate.
-// For search in TOC (index page)
-function initSearch() {
-  const input = document.getElementById('searchBox');
-  if(!input) return;
-  input.addEventListener('input', function() {
-    const q = this.value.toLowerCase();
-    document.querySelectorAll('.toc-list li').forEach(li => {
-      const text = li.textContent.toLowerCase();
-      li.style.display = text.includes(q) ? 'block' : 'none';
-    });
-  });
-}
-document.addEventListener('DOMContentLoaded', initSearch);
-</script>
 </body>
 </html>
