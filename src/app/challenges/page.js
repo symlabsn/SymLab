@@ -27,7 +27,7 @@ export default function ChallengesPage() {
     const filteredChallenges = challenges
         .filter(challenge => {
             // Ne montrer que les challenges qui ont des données enrichies
-            const hasEnrichedData = challengesEnriched.some(c => c.id === challenge.id);
+            const hasEnrichedData = challengesEnriched.some(c => c && c.id === challenge.id);
             return hasEnrichedData && challenge.title.toLowerCase().includes(searchTerm.toLowerCase());
         });
 
@@ -144,7 +144,7 @@ export default function ChallengesPage() {
 
                 <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
                     {filteredChallenges.map((challenge, index) => {
-                        const enriched = challengesEnriched.find(c => c.id === challenge.id);
+                        const enriched = challengesEnriched.find(c => c && c.id === challenge.id);
                         const dayNumber = parseInt(challenge.id.split('_')[1]);
                         const isUnlocked = enriched ? progressionSystem.isUnlocked(dayNumber, completedDays) : true;
                         const isCompleted = completedDays.includes(challenge.id);
