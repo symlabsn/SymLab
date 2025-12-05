@@ -13,16 +13,13 @@ export default function ChallengesPage() {
     useEffect(() => {
         setMounted(true);
         // Charger la progression depuis localStorage
-        const saved = localStorage.getItem('symlab_progress');
-        if (saved) {
-            setCompletedDays(JSON.parse(saved));
+        if (typeof window !== 'undefined') {
+            const saved = localStorage.getItem('symlab_progress');
+            if (saved) {
+                setCompletedDays(JSON.parse(saved));
+            }
         }
     }, []);
-
-    // Éviter le rendu pendant le SSR
-    if (!mounted) {
-        return null;
-    }
 
     const totalXP = progressionSystem.getTotalXP(completedDays);
     const levelInfo = progressionSystem.getLevel(totalXP);
