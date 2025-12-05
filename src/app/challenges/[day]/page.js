@@ -5,6 +5,7 @@ import { challenges } from '../challengeData';
 import { challengesEnriched, progressionSystem, badges } from '../challengeDataEnriched';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
+import MathDisplay from '@/components/MathDisplay';
 
 export default function ChallengeDayPage({ params }) {
     const { day } = use(params);
@@ -243,7 +244,7 @@ export default function ChallengeDayPage({ params }) {
                                 <div className="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-[#00F5D4] to-blue-600"></div>
                                 <h3 className="text-sm font-bold text-gray-400 uppercase tracking-wider mb-3">Sortie Attendue</h3>
                                 <div className="font-mono text-[#00F5D4] bg-[#00F5D4]/5 p-4 rounded-xl border border-[#00F5D4]/10">
-                                    {displayChallenge.output}
+                                    <MathDisplay>{displayChallenge.output}</MathDisplay>
                                 </div>
                             </div>
                         )}
