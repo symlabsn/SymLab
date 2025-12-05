@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <title>Récapitulatif des Modules — SymLab</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&display=swap" rel="stylesheet">
+    <style>
+        body{background:#0f172a;color:white;font-family:'Inter',sans-serif;margin:0;padding:20px}
+        .container{max-width:1000px;margin:0 auto}
+        h1{text-align:center;font-size:3rem;background:linear-gradient(to right, #06b6d4, #7c3aed);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:50px}
+        
+        .module-card{background:#1e293b;border-radius:16px;margin-bottom:40px;overflow:hidden;border:1px solid #334155}
+        .module-header{background:#0f172a;padding:20px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #334155}
+        .module-header h2{margin:0;color:#94a3b8;font-size:1.2rem}
+        .range{background:#334155;padding:4px 10px;border-radius:12px;font-size:0.9rem}
+        
+        .module-body{padding:30px}
+        .module-body h3{font-size:1.8rem;margin:0 0 20px 0}
+        
+        .project-spotlight{background:linear-gradient(135deg, rgba(124, 58, 237, 0.2), rgba(6, 182, 212, 0.1));padding:20px;border-radius:12px;border:1px solid rgba(124, 58, 237, 0.3);margin-bottom:20px}
+        .project-spotlight h4{margin:0 0 10px 0;color:#e879f9}
+        
+        .challenge-grid{display:flex;flex-wrap:wrap;gap:8px}
+        .chip{display:flex;justify-content:center;align-items:center;width:36px;height:36px;background:#334155;border-radius:8px;color:#94a3b8;text-decoration:none;font-size:12px;transition:all 0.2s}
+        .chip:hover{background:#06b6d4;color:white;transform:scale(1.1)}
+        .project-chip{background:#e879f9;color:white;font-weight:bold;box-shadow:0 0 10px rgba(232, 121, 249, 0.5)}
+        
+        .btn-small{display:inline-block;margin-top:10px;background:#7c3aed;color:white;text-decoration:none;padding:5px 15px;border-radius:6px;font-size:0.9rem}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Programme & Progression</h1>
+        <div style="text-align:center;margin-bottom:40px">
+            <a href="index.html" style="color:#94a3b8;text-decoration:none">← Retour à l'accueil</a>
+        </div>
+        
+        <div class="module-card">
+            <div class="module-header">
+                <h2>Module Débutant</h2>
+                <span class="range">Jours 1 - 20</span>
+            </div>
+            <div class="module-body">
+                <h3>Fondations & Outils</h3>
+                <div class="project-spotlight">
+                    <h4>🏆 Projet de Validation : Architecte Géomètre</h4>
+                    <p>Comme l'architecte qui trace les plans de la case à impluvium, vous utilisez maintenant tous les outils géométriques (points, lignes, polygones) pour construire une structure complète et solide.</p>
+                    <a href="day_020.html" class="btn-small">Voir le Projet</a>
+                </div>
+                <div class="challenge-grid">
+                    <a href="day_001.html" class="chip " title="Installation & Premier Notebook">1</a><a href="day_002.html" class="chip " title="Symbols & Types">2</a><a href="day_003.html" class="chip " title="Manipulations de Base">3</a><a href="day_004.html" class="chip " title="Résolution d'Équations Simples">4</a><a href="day_005.html" class="chip " title="Affichage Mathématique">5</a><a href="day_006.html" class="chip " title="Polynômes">6</a><a href="day_007.html" class="chip " title="Simplification Rationnelle">7</a><a href="day_008.html" class="chip " title="Numérique vs Symbolique">8</a><a href="day_009.html" class="chip " title="Dérivation Symbolique">9</a><a href="day_010.html" class="chip " title="Intégration Symbolique">10</a><a href="day_011.html" class="chip " title="Limites">11</a><a href="day_012.html" class="chip " title="Séries de Taylor">12</a><a href="day_013.html" class="chip " title="Matrices">13</a><a href="day_014.html" class="chip " title="Valeurs Propres">14</a><a href="day_015.html" class="chip " title="Systèmes Linéaires">15</a><a href="day_016.html" class="chip " title="Équations Différentielles">16</a><a href="day_017.html" class="chip " title="Transformée de Laplace">17</a><a href="day_018.html" class="chip " title="Transformée de Fourier">18</a><a href="day_019.html" class="chip " title="Géométrie : Points & Lignes">19</a><a href="day_020.html" class="chip project-chip" title="PROJET : Architecte Géomètre">20</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="module-card">
+            <div class="module-header">
+                <h2>Module Intermédiaire</h2>
+                <span class="range">Jours 21 - 50</span>
+            </div>
+            <div class="module-body">
+                <h3>Mathématiques & Physique Appliquée</h3>
+                <div class="project-spotlight">
+                    <h4>🏆 Projet de Validation : Téléportation Quantique</h4>
+                    <p>Comme le message du tam-tam qui est entendu instantanément au village voisin, l'intrication quantique relie deux points distants. Ce projet consiste à construire le protocole complet de téléportation.</p>
+                    <a href="day_050.html" class="btn-small">Voir le Projet</a>
+                </div>
+                <div class="challenge-grid">
+                    <a href="day_021.html" class="chip " title="Combinatoire">21</a><a href="day_022.html" class="chip " title="Probabilités Discrètes">22</a><a href="day_023.html" class="chip " title="Statistiques Descriptives">23</a><a href="day_024.html" class="chip " title="Logique Booléenne">24</a><a href="day_025.html" class="chip " title="Théorie des Nombres">25</a><a href="day_026.html" class="chip " title="Congruences">26</a><a href="day_027.html" class="chip " title="Cryptographie RSA">27</a><a href="day_028.html" class="chip " title="Théorie des Graphes">28</a><a href="day_029.html" class="chip " title="Optimisation Linéaire">29</a><a href="day_030.html" class="chip " title="Physique : Cinématique">30</a><a href="day_031.html" class="chip " title="Physique : Dynamique">31</a><a href="day_032.html" class="chip " title="Physique : Énergie">32</a><a href="day_033.html" class="chip " title="Systèmes Linéaires">33</a><a href="day_034.html" class="chip " title="Chimie : Cinétique">34</a><a href="day_035.html" class="chip " title="Biologie : Populations">35</a><a href="day_036.html" class="chip " title="Probabilités Symboliques">36</a><a href="day_037.html" class="chip " title="Économie : Finance">37</a><a href="day_038.html" class="chip " title="Économie : Marchés">38</a><a href="day_039.html" class="chip " title="Ingénierie : RDM">39</a><a href="day_040.html" class="chip " title="Ingénierie : Circuits">40</a><a href="day_041.html" class="chip " title="Séries de Fourier">41</a><a href="day_042.html" class="chip " title="Transformée de Laplace">42</a><a href="day_043.html" class="chip " title="Équations Différentielles Partielles">43</a><a href="day_044.html" class="chip " title="Calcul Vectoriel">44</a><a href="day_045.html" class="chip " title="Physique Q : Schrödinger">45</a><a href="day_046.html" class="chip " title="Physique Q : Heisenberg">46</a><a href="day_047.html" class="chip " title="Physique Q : Puits">47</a><a href="day_048.html" class="chip " title="Physique Q : Spin">48</a><a href="day_049.html" class="chip " title="Physique Q : Oscillateur">49</a><a href="day_050.html" class="chip project-chip" title="PROJET : Téléportation Quantique">50</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="module-card">
+            <div class="module-header">
+                <h2>Module Avancé</h2>
+                <span class="range">Jours 51 - 80</span>
+            </div>
+            <div class="module-body">
+                <h3>Relativité, IA & Cryptographie</h3>
+                <div class="project-spotlight">
+                    <h4>🏆 Projet de Validation : Coffre-Fort Cryptographique</h4>
+                    <p>Le partage de secret de Shamir est comme une carte au trésor déchirée en morceaux. Il faut au moins k morceaux sur n pour reconstituer la carte. Avec k-1 morceaux, on ne sait rien du tout.</p>
+                    <a href="day_080.html" class="btn-small">Voir le Projet</a>
+                </div>
+                <div class="challenge-grid">
+                    <a href="day_051.html" class="chip " title="Relativité : Temps">51</a><a href="day_052.html" class="chip " title="Relativité : E=mc²">52</a><a href="day_053.html" class="chip " title="Formes Différentielles">53</a><a href="day_054.html" class="chip " title="Géodésiques">54</a><a href="day_055.html" class="chip " title="Lois de Kepler">55</a><a href="day_056.html" class="chip " title="Étoiles : HR">56</a><a href="day_057.html" class="chip " title="Cosmologie : Hubble">57</a><a href="day_058.html" class="chip " title="Cosmologie : Big Bang">58</a><a href="day_059.html" class="chip " title="Problème de Kepler">59</a><a href="day_060.html" class="chip " title="Trous Noirs : Hawking">60</a><a href="day_061.html" class="chip " title="Régression Linéaire">61</a><a href="day_062.html" class="chip " title="Classification : Logistique">62</a><a href="day_063.html" class="chip " title="Réseaux de Neurones">63</a><a href="day_064.html" class="chip " title="Clustering : K-Means">64</a><a href="day_065.html" class="chip " title="PCA : Réduction Dim.">65</a><a href="day_066.html" class="chip " title="Bayes Naïf">66</a><a href="day_067.html" class="chip " title="Arbres de Décision">67</a><a href="day_068.html" class="chip " title="Séries Temporelles">68</a><a href="day_069.html" class="chip " title="Optimisation : Gradient">69</a><a href="day_070.html" class="chip " title="Théorie de l'Information">70</a><a href="day_071.html" class="chip " title="Arithmétique Modulaire">71</a><a href="day_072.html" class="chip " title="Cryptographie RSA">72</a><a href="day_073.html" class="chip " title="Diffie-Hellman">73</a><a href="day_074.html" class="chip " title="Courbes Elliptiques">74</a><a href="day_075.html" class="chip " title="Hachage Cryptographique">75</a><a href="day_076.html" class="chip " title="Théorème Chinois">76</a><a href="day_077.html" class="chip " title="Test de Primalité">77</a><a href="day_078.html" class="chip " title="Factorisation">78</a><a href="day_079.html" class="chip " title="Générateurs Pseudo-Aléatoires">79</a><a href="day_080.html" class="chip project-chip" title="PROJET : Coffre-Fort Cryptographique">80</a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>

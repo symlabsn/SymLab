@@ -2,113 +2,201 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Jour 086 — Projet RLC complet</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+<title>Mouvement Brownien — SymLab</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.css" rel="stylesheet" />
 <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.js"></script>
-<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js"></script>
 <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 <style>
-:root{
-  --bg:#0f172a; --panel:#071126; --accent:#06b6d4; --muted:#94a3b8; --card:#0b1220; --glass: rgba(255,255,255,0.06);
-  --white:#ffffff; --success:#10b981;
-}
-*{box-sizing:border-box}body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,'Helvetica Neue',Arial;background:linear-gradient(180deg,#f3f7fb,#eef7fb);color:#0b1220;-webkit-font-smoothing:antialiased}
-.header{background:linear-gradient(90deg,#0b3d91,#0ea5e9);color:white;padding:20px;border-radius:10px;margin:16px}
-.container{max-width:1100px;margin:0 auto;padding:16px}
-.grid{display:grid;grid-template-columns:300px 1fr;gap:18px}
-@media(max-width:900px){.grid{grid-template-columns:1fr}.toc{order:2}}
-.toc{position:sticky;top:20px;background:white;padding:14px;border-radius:10px;box-shadow:0 8px 30px rgba(2,6,23,0.08);height:calc(100vh - 48px);overflow:auto}
-.toc h3{margin:0 0 10px 0}
-.search{margin-bottom:8px}
-.search input{width:100%;padding:8px;border-radius:8px;border:1px solid #eff6ff}
-.toc-list{list-style:none;padding:0;margin:0}
-.toc-list li{margin:6px 0}
-.toc-list a{display:block;padding:8px;border-radius:8px;color:#0b1220;text-decoration:none;border:1px solid transparent}
-.toc-list a:hover{background:linear-gradient(90deg,#e6f6fb,#fff)}
-.page{background:white;padding:18px;border-radius:12px;box-shadow:0 12px 40px rgba(2,6,23,0.06)}
-.page h1{margin:0 0 8px 0}
-.meta{color:var(--muted);font-size:13px;margin-bottom:12px}
-.code{background:#0b1220;color:#d1fae5;padding:12px;border-radius:8px;overflow:auto;font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, 'Roboto Mono', monospace}
-.output{background:linear-gradient(90deg,#fff7ed,#fff3e8);border-left:4px solid #f59e0b;padding:12px;border-radius:8px;margin-top:12px;color:#92400e}
-.exercises{margin-top:14px;padding:12px;background:#f8fafc;border-radius:8px;border:1px solid #eef2ff}
-.controls{display:flex;gap:8px;justify-content:space-between;margin-top:12px;align-items:center}
-.btn{background:var(--accent);color:white;padding:8px 12px;border-radius:8px;text-decoration:none;font-weight:600}
-.note{margin-top:12px;padding:10px;border-radius:8px;background:#fff; border:1px dashed #e6eef8}
-.footer{margin:18px 0;text-align:center;color:var(--muted)}
-.small{font-size:13px;color:var(--muted)}
+:root{ --bg:#0f172a; --panel:#1e293b; --accent:#06b6d4; --text:#e2e8f0; --muted:#94a3b8; --border:#334155; }
+body{margin:0;font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);line-height:1.6}
+a{color:var(--accent);text-decoration:none;transition:all 0.2s} a:hover{color:#38bdf8}
+.header{background:linear-gradient(90deg, #0f172a, #1e293b);padding:20px;border-bottom:1px solid var(--border);position:sticky;top:0;z-index:50}
+.container{max-width:1400px;margin:0 auto;padding:0 20px;display:grid;grid-template-columns:300px 1fr;gap:30px}
+.toc{height:calc(100vh - 80px);overflow-y:auto;padding-right:15px;position:sticky;top:80px}
+.toc ul{list-style:none;padding:0;font-size:14px}
+.toc li{margin-bottom:8px}
+.main-content{padding:30px 0;max-width:900px}
+
+/* Project Mode Styles */
+.project-mode .header{background:linear-gradient(90deg, #4c1d95, #7c3aed)}
+.badge-display{background:rgba(6,182,212,0.1);color:var(--accent);padding:4px 12px;border-radius:20px;font-size:12px;font-weight:600;display:inline-block;margin-bottom:10px}
+.analogy{background:#1e293b;border-left:4px solid #f59e0b;padding:20px;margin:20px 0;border-radius:0 8px 8px 0}
+
+h1{font-size:2.5rem;margin:0 0 10px 0;letter-spacing:-1px}
+h2{margin-top:40px;border-bottom:1px solid var(--border);padding-bottom:10px}
+.card{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:25px;margin-bottom:25px}
+pre{border-radius:8px;margin:0!important}
+.btn{display:inline-flex;align-items:center;padding:10px 20px;background:var(--accent);color:white;border-radius:8px;font-weight:600;margin-top:20px}
+.btn:hover{filter:brightness(1.1);color:white}
+.nav-buttons{display:flex;justify-content:space-between;margin-top:50px}
+
+@media(max-width:1000px){.container{display:block}.toc{display:none}}
 </style>
 </head>
-<body>
-<header class="header container"><div style="display:flex;justify-content:space-between;align-items:center"><div><h1 style="margin:0;color:white">Jour 086 — Projet RLC complet</h1><div class="small">Challenge 100 Jours SymPy</div></div><div style="text-align:right"><a class="btn" href="index.html">Retour à l'index</a></div></div></header>
-<div class="container grid">
-  <aside class="toc">
-    <h3>Navigation</h3>
-    <div class="search"><input id="searchBox" placeholder="Rechercher un thème..." /></div>
-    <ul class="toc-list">
-<li><a href="day_076.html">Jour 076 — EDO non-linéaires pratiques</a></li>
-<li><a href="day_077.html">Jour 077 — Bifurcations</a></li>
-<li><a href="day_078.html">Jour 078 — Analyse fréquentielle</a></li>
-<li><a href="day_079.html">Jour 079 — lambdify: codegen</a></li>
-<li><a href="day_080.html">Jour 080 — Validation vs simulation</a></li>
-<li><a href="day_081.html">Jour 081 — Reproductibilité notebooks</a></li>
-<li><a href="day_082.html">Jour 082 — Notebook -&gt; script</a></li>
-<li><a href="day_083.html">Jour 083 — Tests unitaires</a></li>
-<li><a href="day_084.html">Jour 084 — Performance &amp; simplification</a></li>
-<li><a href="day_085.html">Jour 085 — Visualisation</a></li>
-<li><a href="day_086.html" style="font-weight:700">Jour 086 — Projet RLC complet</a></li>
-<li><a href="day_087.html">Jour 087 — Projet robot 2R</a></li>
-<li><a href="day_088.html">Jour 088 — Projet SIR avancé</a></li>
-<li><a href="day_089.html">Jour 089 — Projet optimisation</a></li>
-<li><a href="day_090.html">Jour 090 — CI pour notebooks</a></li>
-<li><a href="day_091.html">Jour 091 — Slides from notebooks</a></li>
-<li><a href="day_092.html">Jour 092 — README techniques</a></li>
-<li><a href="day_093.html">Jour 093 — Préparation démos</a></li>
-<li><a href="day_094.html">Jour 094 — Peer review notebooks</a></li>
-<li><a href="day_095.html">Jour 095 — Packaging final</a></li>
-<li><a href="day_096.html">Jour 096 — Projet final démarrage</a></li>
-    </ul>
-  </aside>
-  <main class="page">
-    <h1>Jour 086 — Projet RLC complet</h1>
-    <div class="meta">Thème détaillé — code, sortie attendue et exercices.</div>
-    <h2>Description</h2>
-    <p>Exemple pédagogique ciblé sur <strong>Projet RLC complet</strong>. Le code suivant est prêt à être collé dans un notebook Python avec SymPy.</p>
-    <h3>Code SymPy</h3>
-    <div class="code"><pre><code class="language-python"># RLC full symbolic walkthrough</code></pre></div>
-    <div class="output">Sortie attendue : <span class="latex">\(\text{Transfer function, poles, step response}\)</span></div>
-    <div class="exercises">
-      <h3>Exercices supplémentaires</h3>
-      <ol>
-<li>Exercice 1 — Reproduire l&#x27;exécution du code et vérifier la sortie attendue.</li>
-<li>Exercice 2 — Proposer une variante: modifier une partie du code pour obtenir un résultat connexe.</li>
-<li>Exercice 3 — Donner une application pratique (court texte) reliant le thème à un problème réel.</li>
-      </ol>
+<body class="">
+
+<header class="header">
+    <div style="max-width:1400px;margin:0 auto;padding:0 20px;display:flex;justify-content:space-between;align-items:center">
+        <div style="font-weight:800;font-size:20px">SymLab <span style="opacity:0.5">Challenges</span></div>
+        <div style="display:flex;gap:15px;">
+            <a href="recap.html" style="color:white;opacity:0.8">Mode Récapitulatif</a>
+            <a href="index.html" class="btn" style="margin:0;padding:6px 15px;font-size:14px">Retour Index</a>
+        </div>
     </div>
-    <div class="note"><strong>Notes :</strong> espace pour tes annotations et réponses.</div>
-    <div class="controls">
-      <div><a class="btn" href="day_085.html">Précédent</a></div>
-      <div><a class="btn" href="day_087.html">Suivant</a></div>
-    </div>
-  </main>
+</header>
+
+<div class="container">
+    <aside class="toc">
+        <h3 style="color:var(--muted);text-transform:uppercase;font-size:12px;letter-spacing:1px">Programme</h3>
+        <ul><li><a href="day_001.html" style="; ">Jour 001 — Installation & Premier Notebook</a></li>
+<li><a href="day_002.html" style="; ">Jour 002 — Symbols & Types</a></li>
+<li><a href="day_003.html" style="; ">Jour 003 — Manipulations de Base</a></li>
+<li><a href="day_004.html" style="; ">Jour 004 — Résolution d'Équations Simples</a></li>
+<li><a href="day_005.html" style="; ">Jour 005 — Affichage Mathématique</a></li>
+<li><a href="day_006.html" style="; ">Jour 006 — Polynômes</a></li>
+<li><a href="day_007.html" style="; ">Jour 007 — Simplification Rationnelle</a></li>
+<li><a href="day_008.html" style="; ">Jour 008 — Numérique vs Symbolique</a></li>
+<li><a href="day_009.html" style="; ">Jour 009 — Dérivation Symbolique</a></li>
+<li><a href="day_010.html" style="; ">Jour 010 — Intégration Symbolique</a></li>
+<li><a href="day_011.html" style="; ">Jour 011 — Limites</a></li>
+<li><a href="day_012.html" style="; ">Jour 012 — Séries de Taylor</a></li>
+<li><a href="day_013.html" style="; ">Jour 013 — Matrices</a></li>
+<li><a href="day_014.html" style="; ">Jour 014 — Valeurs Propres</a></li>
+<li><a href="day_015.html" style="; ">Jour 015 — Systèmes Linéaires</a></li>
+<li><a href="day_016.html" style="; ">Jour 016 — Équations Différentielles</a></li>
+<li><a href="day_017.html" style="; ">Jour 017 — Transformée de Laplace</a></li>
+<li><a href="day_018.html" style="; ">Jour 018 — Transformée de Fourier</a></li>
+<li><a href="day_019.html" style="; ">Jour 019 — Géométrie : Points & Lignes</a></li>
+<li><a href="day_020.html" style="; color:#f59e0b;">Jour 020 — Architecte Géomètre</a></li>
+<li><a href="day_021.html" style="; ">Jour 021 — Combinatoire</a></li>
+<li><a href="day_022.html" style="; ">Jour 022 — Probabilités Discrètes</a></li>
+<li><a href="day_023.html" style="; ">Jour 023 — Statistiques Descriptives</a></li>
+<li><a href="day_024.html" style="; ">Jour 024 — Logique Booléenne</a></li>
+<li><a href="day_025.html" style="; ">Jour 025 — Théorie des Nombres</a></li>
+<li><a href="day_026.html" style="; ">Jour 026 — Congruences</a></li>
+<li><a href="day_027.html" style="; ">Jour 027 — Cryptographie RSA</a></li>
+<li><a href="day_028.html" style="; ">Jour 028 — Théorie des Graphes</a></li>
+<li><a href="day_029.html" style="; ">Jour 029 — Optimisation Linéaire</a></li>
+<li><a href="day_030.html" style="; ">Jour 030 — Physique : Cinématique</a></li>
+<li><a href="day_031.html" style="; ">Jour 031 — Physique : Dynamique</a></li>
+<li><a href="day_032.html" style="; ">Jour 032 — Physique : Énergie</a></li>
+<li><a href="day_033.html" style="; ">Jour 033 — Systèmes Linéaires</a></li>
+<li><a href="day_034.html" style="; ">Jour 034 — Chimie : Cinétique</a></li>
+<li><a href="day_035.html" style="; ">Jour 035 — Biologie : Populations</a></li>
+<li><a href="day_036.html" style="; ">Jour 036 — Probabilités Symboliques</a></li>
+<li><a href="day_037.html" style="; ">Jour 037 — Économie : Finance</a></li>
+<li><a href="day_038.html" style="; ">Jour 038 — Économie : Marchés</a></li>
+<li><a href="day_039.html" style="; ">Jour 039 — Ingénierie : RDM</a></li>
+<li><a href="day_040.html" style="; ">Jour 040 — Ingénierie : Circuits</a></li>
+<li><a href="day_041.html" style="; ">Jour 041 — Séries de Fourier</a></li>
+<li><a href="day_042.html" style="; ">Jour 042 — Transformée de Laplace</a></li>
+<li><a href="day_043.html" style="; ">Jour 043 — Équations Différentielles Partielles</a></li>
+<li><a href="day_044.html" style="; ">Jour 044 — Calcul Vectoriel</a></li>
+<li><a href="day_045.html" style="; ">Jour 045 — Physique Q : Schrödinger</a></li>
+<li><a href="day_046.html" style="; ">Jour 046 — Physique Q : Heisenberg</a></li>
+<li><a href="day_047.html" style="; ">Jour 047 — Physique Q : Puits</a></li>
+<li><a href="day_048.html" style="; ">Jour 048 — Physique Q : Spin</a></li>
+<li><a href="day_049.html" style="; ">Jour 049 — Physique Q : Oscillateur</a></li>
+<li><a href="day_050.html" style="; color:#f59e0b;">Jour 050 — Téléportation Quantique</a></li>
+<li><a href="day_051.html" style="; ">Jour 051 — Relativité : Temps</a></li>
+<li><a href="day_052.html" style="; ">Jour 052 — Relativité : E=mc²</a></li>
+<li><a href="day_053.html" style="; ">Jour 053 — Formes Différentielles</a></li>
+<li><a href="day_054.html" style="; ">Jour 054 — Géodésiques</a></li>
+<li><a href="day_055.html" style="; ">Jour 055 — Lois de Kepler</a></li>
+<li><a href="day_056.html" style="; ">Jour 056 — Étoiles : HR</a></li>
+<li><a href="day_057.html" style="; ">Jour 057 — Cosmologie : Hubble</a></li>
+<li><a href="day_058.html" style="; ">Jour 058 — Cosmologie : Big Bang</a></li>
+<li><a href="day_059.html" style="; ">Jour 059 — Problème de Kepler</a></li>
+<li><a href="day_060.html" style="; ">Jour 060 — Trous Noirs : Hawking</a></li>
+<li><a href="day_061.html" style="; ">Jour 061 — Régression Linéaire</a></li>
+<li><a href="day_062.html" style="; ">Jour 062 — Classification : Logistique</a></li>
+<li><a href="day_063.html" style="; ">Jour 063 — Réseaux de Neurones</a></li>
+<li><a href="day_064.html" style="; ">Jour 064 — Clustering : K-Means</a></li>
+<li><a href="day_065.html" style="; ">Jour 065 — PCA : Réduction Dim.</a></li>
+<li><a href="day_066.html" style="; ">Jour 066 — Bayes Naïf</a></li>
+<li><a href="day_067.html" style="; ">Jour 067 — Arbres de Décision</a></li>
+<li><a href="day_068.html" style="; ">Jour 068 — Séries Temporelles</a></li>
+<li><a href="day_069.html" style="; ">Jour 069 — Optimisation : Gradient</a></li>
+<li><a href="day_070.html" style="; ">Jour 070 — Théorie de l'Information</a></li>
+<li><a href="day_071.html" style="; ">Jour 071 — Arithmétique Modulaire</a></li>
+<li><a href="day_072.html" style="; ">Jour 072 — Cryptographie RSA</a></li>
+<li><a href="day_073.html" style="; ">Jour 073 — Diffie-Hellman</a></li>
+<li><a href="day_074.html" style="; ">Jour 074 — Courbes Elliptiques</a></li>
+<li><a href="day_075.html" style="; ">Jour 075 — Hachage Cryptographique</a></li>
+<li><a href="day_076.html" style="; ">Jour 076 — Théorème Chinois</a></li>
+<li><a href="day_077.html" style="; ">Jour 077 — Test de Primalité</a></li>
+<li><a href="day_078.html" style="; ">Jour 078 — Factorisation</a></li>
+<li><a href="day_079.html" style="; ">Jour 079 — Générateurs Pseudo-Aléatoires</a></li>
+<li><a href="day_080.html" style="; color:#f59e0b;">Jour 080 — Coffre-Fort Cryptographique</a></li>
+<li><a href="day_081.html" style="; ">Jour undefined — Théorie du Chaos</a></li>
+<li><a href="day_082.html" style="; ">Jour undefined — Fractales</a></li>
+<li><a href="day_083.html" style="; ">Jour undefined — Mécnique des Fluides</a></li>
+<li><a href="day_084.html" style="; ">Jour undefined — Épidémiologie (SIR)</a></li>
+<li><a href="day_085.html" style="; ">Jour undefined — Neurosciences</a></li>
+<li><a href="day_086.html" style="font-weight:700; color:#0ea5e9; border-left:3px solid #0ea5e9; padding-left:5px; ">Jour undefined — Mouvement Brownien</a></li>
+<li><a href="day_087.html" style="; ">Jour undefined — Calcul d'Itô</a></li>
+<li><a href="day_088.html" style="; ">Jour undefined — Finance : Black-Scholes</a></li>
+<li><a href="day_089.html" style="; ">Jour undefined — Introduction aux Tenseurs</a></li>
+<li><a href="day_090.html" style="; ">Jour undefined — Symboles de Christoffel</a></li>
+<li><a href="day_091.html" style="; ">Jour undefined — Courbure de Riemann</a></li>
+<li><a href="day_092.html" style="; ">Jour undefined — Métrique de Schwarzschild</a></li>
+<li><a href="day_093.html" style="; ">Jour undefined — Génération de Code (C/Fortran)</a></li>
+<li><a href="day_094.html" style="; ">Jour undefined — Optimisation (Lagrange)</a></li>
+<li><a href="day_095.html" style="; ">Jour undefined — Théorie du Contrôle</a></li>
+<li><a href="day_096.html" style="; ">Jour undefined — Mécanique Analytique (Lagrangien)</a></li>
+<li><a href="day_097.html" style="; ">Jour undefined — Mécanique Hamiltonienne</a></li>
+<li><a href="day_098.html" style="; ">Jour undefined — Théorie des Perturbations</a></li>
+<li><a href="day_099.html" style="; color:#f59e0b;">Jour undefined — Simulation Solaire</a></li>
+<li><a href="day_100.html" style="; color:#f59e0b;">Jour undefined — PROJET FINAL : Le Grand Œuvre</a></li></ul>
+    </aside>
+
+    <main class="main-content">
+        <span class="badge-display">Expert / Expert</span>
+        <h1>Mouvement Brownien</h1>
+        
+        
+        <div class="analogy">
+            <strong style="color:#f59e0b;display:block;margin-bottom:5px">🌍 Analogie</strong>
+            Imagine une feuille morte tombant dans un tourbillon de poussière, ou une chèvre errant au hasard pour brouter. Sa trajectoire est imprévisible à chaque pas, mais statistiquement modélisable.
+        </div>
+
+        <div class="card">
+            <h2>Théorie & Contexte</h2>
+            <p>Description mathématique du mouvement aléatoire des particules suspendues dans un fluide.</p>
+            
+            
+            <div style="background:#0f172a;padding:15px;border-radius:8px;margin-top:15px;font-family:monospace">
+                W_t - W_s ~ N(0, t-s)<br>Propriété de Markov.<br>Trajectoires continues mais nulle part différentiables.
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>Code & Pratique</h2>
+            <pre><code class="language-python">from sympy.stats import Normal, E, variance
+t = symbols('t', positive=True)
+# W(t) ~ N(0, t)
+W = Normal('W', 0, t)
+print(f'Variance: {variance(W)}')</code></pre>
+            <div style="margin-top:15px;padding:15px;background:#0f172a;border-radius:8px;border-left:4px solid var(--accent)">
+                <strong>Sortie attendue :</strong> Variance: t
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>Exercices</h2>
+            <ul>
+                <li>Simuler une marche aléatoire 1D</li><li>Calculer la traversée moyenne</li><li>Lien avec équation de la chaleur</li>
+            </ul>
+        </div>
+
+        <div class="nav-buttons">
+            <a href="day_085.html" class="btn" style="background:var(--panel)">← Jour Précédent</a>
+            <a href="day_087.html" class="btn">Jour Suivant →</a>
+        </div>
+    </main>
 </div>
-<footer class="container footer">© 2025 — El Hadji Momar FAYE</footer>
-<script>
-// simple client-side routing: each day has its own HTML file; navigation links point to them.
-// On index, clicking a day opens the corresponding page. On a day page, Prev/Next navigate.
-// For search in TOC (index page)
-function initSearch() {
-  const input = document.getElementById('searchBox');
-  if(!input) return;
-  input.addEventListener('input', function() {
-    const q = this.value.toLowerCase();
-    document.querySelectorAll('.toc-list li').forEach(li => {
-      const text = li.textContent.toLowerCase();
-      li.style.display = text.includes(q) ? 'block' : 'none';
-    });
-  });
-}
-document.addEventListener('DOMContentLoaded', initSearch);
-</script>
+
 </body>
 </html>
