@@ -11,7 +11,7 @@ export const svt3eData = {
             id: 'svt-3e-01',
             part: 'Partie 1 : Sciences de la Vie',
             title: '1. Le système nerveux',
-            story: "Votre corps est une ville connectée. Le cerveau est la mairie, les nerfs sont les câbles téléphoniques, et les messages électriques circulent à 100 m/s ! C'est le système nerveux qui coordonne tout.",
+            story: `Votre corps est une ville connectée. Le cerveau est la mairie, les nerfs sont les câbles téléphoniques, et les messages électriques circulent à 100 m/s ! C'est le système nerveux qui coordonne tout.`,
             content: `
                 <h3>1. Organisation</h3>
                 <ul>
@@ -42,7 +42,7 @@ export const svt3eData = {
             id: 'svt-3e-02',
             part: 'Partie 1 : Sciences de la Vie',
             title: '2. La Vision',
-            story: "L'œil est un appareil photo biologique. La lumière entre, traverse la lentille (le cristallin), et se projette sur l'écran (la rétine). Le cerveau développe ensuite la photo !",
+            story: `L'œil est un appareil photo biologique. La lumière entre, traverse la lentille (le cristallin), et se projette sur l'écran (la rétine). Le cerveau développe ensuite la photo !`,
             content: `
                 <h3>1. Anatomie de l'œil</h3>
                 <ul>
@@ -74,8 +74,8 @@ export const svt3eData = {
         {
             id: 'svt-3e-03',
             part: 'Partie 1 : Sciences de la Vie',
-            title: '3. La Respiration chez l'Homme',
-            story: "Inspirer, expirer... 20 000 fois par jour ! Vos poumons sont des éponges géantes qui capturent l'oxygène de l'air et rejettent le CO₂. C'est l'échange gazeux vital.",
+            title: '3. La Respiration chez l\'Homme',
+            story: `Inspirer, expirer... 20 000 fois par jour ! Vos poumons sont des éponges géantes qui capturent l'oxygène de l'air et rejettent le CO₂. C'est l'échange gazeux vital.`,
             content: `
                 <h3>1. Trajet de l'air</h3>
                 <p>Nez/Bouche → Trachée → Bronches → Bronchioles → Alvéoles pulmonaires.</p>
@@ -107,12 +107,12 @@ export const svt3eData = {
             id: 'svt-3e-04',
             part: 'Partie 1 : Sciences de la Vie',
             title: '4. Phénomènes énergétiques (Respiration cellulaire)',
-            story: "Vos cellules sont des mini-usines. Elles brûlent du glucose avec de l'oxygène pour fabriquer de l'énergie (ATP). C'est la respiration cellulaire, invisible mais essentielle.",
+            story: `Vos cellules sont des mini-usines. Elles brûlent du glucose avec de l'oxygène pour fabriquer de l'énergie (ATP). C'est la respiration cellulaire, invisible mais essentielle.`,
             content: `
                 <h3>1. L'équation</h3>
                 <p>Glucose + O₂ → CO₂ + H₂O + <strong>Énergie (ATP)</strong></p>
                 <h3>2. Les Mitochondries</h3>
-                <p>Organites cellulaires où se déroule cette réaction. Ce sont les 'centrales énergétiques' de la cellule.</p>
+                <p>Organites cellulaires où se déroule cette réaction. Ce sont les centrales énergétiques de la cellule.</p>
                 <h3>3. Lien avec la respiration</h3>
                 <p>Les poumons apportent l'O₂ et évacuent le CO₂ produit par les cellules.</p>
             `,
@@ -135,7 +135,7 @@ export const svt3eData = {
             id: 'svt-3e-05',
             part: 'Partie 1 : Sciences de la Vie',
             title: '5. La Fermentation',
-            story: "Pas d'oxygène ? Pas de problème pour certaines cellules ! Elles utilisent la fermentation. C'est moins efficace, mais ça permet de survivre. Le yaourt et le pain sont faits grâce à la fermentation.",
+            story: `Pas d'oxygène ? Pas de problème pour certaines cellules ! Elles utilisent la fermentation. C'est moins efficace, mais ça permet de survivre. Le yaourt et le pain sont faits grâce à la fermentation.`,
             content: `
                 <h3>1. Définition</h3>
                 <p>Dégradation du glucose <strong>sans oxygène</strong> pour produire de l'énergie.</p>
@@ -165,8 +165,8 @@ export const svt3eData = {
         {
             id: 'svt-3e-06',
             part: 'Partie 1 : Sciences de la Vie',
-            title: '6. Le Rein et l'excrétion urinaire',
-            story: "Vos reins sont des filtres ultra-performants. Ils nettoient le sang 50 fois par jour ! Ils éliminent les déchets (urée) et régulent l'eau et les sels. Sans eux, on s'empoisonne.",
+            title: '6. Le Rein et l\'excrétion urinaire',
+            story: `Vos reins sont des filtres ultra-performants. Ils nettoient le sang 50 fois par jour ! Ils éliminent les déchets (urée) et régulent l'eau et les sels. Sans eux, on s'empoisonne.`,
             content: `
                 <h3>1. Rôle du rein</h3>
                 <ul>
@@ -199,13 +199,13 @@ export const svt3eData = {
         {
             id: 'svt-3e-07',
             part: 'Partie 1 : Sciences de la Vie',
-            title: '7. L'Immunité et la réponse immunitaire',
-            story: "Votre corps est une forteresse assiégée par des millions d'ennemis invisibles (microbes). Heureusement, vous avez une armée : le système immunitaire. Il reconnaît, attaque et se souvient des intrus.",
+            title: '7. L\'Immunité et la réponse immunitaire',
+            story: `Votre corps est une forteresse assiégée par des millions d'ennemis invisibles (microbes). Heureusement, vous avez une armée : le système immunitaire. Il reconnaît, attaque et se souvient des intrus.`,
             content: `
                 <h3>1. Les barrières naturelles</h3>
                 <p>Peau, mucus, larmes, salive (première ligne de défense).</p>
                 <h3>2. Réponse immunitaire non spécifique</h3>
-                <p>Phagocytose : Les globules blancs (phagocytes) 'mangent' les microbes.</p>
+                <p>Phagocytose : Les globules blancs (phagocytes) mangent les microbes.</p>
                 <h3>3. Réponse immunitaire spécifique</h3>
                 <p>Lymphocytes produisent des anticorps spécifiques contre un antigène précis.</p>
             `,
@@ -228,7 +228,7 @@ export const svt3eData = {
             id: 'svt-3e-08',
             part: 'Partie 1 : Sciences de la Vie',
             title: '8. Le Système immunitaire',
-            story: "Votre armée immunitaire a plusieurs corps d'élite : les phagocytes (soldats de première ligne), les lymphocytes B (fabricants d'armes), les lymphocytes T (commandos). Ensemble, ils sont imbattables.",
+            story: `Votre armée immunitaire a plusieurs corps d'élite : les phagocytes (soldats de première ligne), les lymphocytes B (fabricants d'armes), les lymphocytes T (commandos). Ensemble, ils sont imbattables.`,
             content: `
                 <h3>1. Organes lymphoïdes</h3>
                 <ul>
@@ -261,7 +261,7 @@ export const svt3eData = {
             id: 'svt-3e-09',
             part: 'Partie 1 : Sciences de la Vie',
             title: '9. Les Groupes sanguins',
-            story: "Pourquoi ne peut-on pas transfuser n'importe quel sang à n'importe qui ? Parce que chaque groupe sanguin a des marqueurs différents (A, B, AB, O). Si on se trompe, c'est la catastrophe (agglutination) !",
+            story: `Pourquoi ne peut-on pas transfuser n'importe quel sang à n'importe qui ? Parce que chaque groupe sanguin a des marqueurs différents (A, B, AB, O). Si on se trompe, c'est la catastrophe (agglutination) !`,
             content: `
                 <h3>1. Système ABO</h3>
                 <ul>
@@ -291,8 +291,8 @@ export const svt3eData = {
         {
             id: 'svt-3e-10',
             part: 'Partie 1 : Sciences de la Vie',
-            title: '10. Aide à l'immunité(Vaccination)',
-            story: "Le vaccin, c'est un entraînement pour votre armée. On lui montre une version affaiblie de l'ennemi. Elle apprend à le reconnaître. Le jour où le vrai ennemi arrive, elle est prête !",
+            title: '10. Aide à l\'immunité (Vaccination)',
+            story: `Le vaccin, c'est un entraînement pour votre armée. On lui montre une version affaiblie de l'ennemi. Elle apprend à le reconnaître. Le jour où le vrai ennemi arrive, elle est prête !`,
             content: `
                 <h3>1. Principe du vaccin</h3>
                 <p>Injection d'un antigène affaibli ou tué. Le corps fabrique des anticorps et garde la mémoire.</p>
@@ -320,7 +320,7 @@ export const svt3eData = {
             id: 'svt-3e-11',
             part: 'Partie 1 : Sciences de la Vie',
             title: '11. Le VIH/SIDA',
-            story: "Le SIDA est une maladie qui détruit l'armée immunitaire elle-même. Le virus VIH attaque les lymphocytes T, les commandants de la défense. Sans eux, le corps ne peut plus se défendre.",
+            story: `Le SIDA est une maladie qui détruit l'armée immunitaire elle-même. Le virus VIH attaque les lymphocytes T, les commandants de la défense. Sans eux, le corps ne peut plus se défendre.`,
             content: `
                 <h3>1. Le VIH (Virus de l'Immunodéficience Humaine)</h3>
                 <p>Virus qui infecte et détruit les lymphocytes T CD4.</p>
@@ -360,7 +360,7 @@ export const svt3eData = {
             id: 'svt-3e-12',
             part: 'Partie 2 : Sciences de la Terre',
             title: '12. La Tectonique des plaques',
-            story: "La Terre n'est pas un bloc solide. Sa surface est un puzzle géant de plaques qui bougent lentement (quelques cm par an). Quand elles se rencontrent, ça fait des tremblements de terre et des volcans !",
+            story: `La Terre n'est pas un bloc solide. Sa surface est un puzzle géant de plaques qui bougent lentement (quelques cm par an). Quand elles se rencontrent, ça fait des tremblements de terre et des volcans !`,
             content: `
                 <h3>1. Structure de la Terre (Rappel)</h3>
                 <p>Croûte (fine) → Manteau (épais, chaud) → Noyau (fer liquide et solide).</p>
@@ -392,7 +392,7 @@ export const svt3eData = {
             id: 'svt-3e-13',
             part: 'Partie 2 : Sciences de la Terre',
             title: '13. Formation des roches métamorphiques',
-            story: "Imaginez une roche sédimentaire qui descend profondément dans la Terre. Sous l'effet de la pression et de la chaleur extrêmes, elle se transforme sans fondre. C'est le métamorphisme.",
+            story: `Imaginez une roche sédimentaire qui descend profondément dans la Terre. Sous l'effet de la pression et de la chaleur extrêmes, elle se transforme sans fondre. C'est le métamorphisme.`,
             content: `
                 <h3>1. Définition</h3>
                 <p>Transformation d'une roche à l'état solide sous l'effet de la température et/ou de la pression.</p>
@@ -426,7 +426,7 @@ export const svt3eData = {
             id: 'svt-3e-14',
             part: 'Partie 2 : Sciences de la Terre',
             title: '14. Le Cycle des roches',
-            story: "Les roches ne sont pas éternelles. Elles naissent, se transforment et meurent dans un cycle sans fin. Une roche sédimentaire peut devenir magmatique, puis métamorphique, puis à nouveau sédimentaire.",
+            story: `Les roches ne sont pas éternelles. Elles naissent, se transforment et meurent dans un cycle sans fin. Une roche sédimentaire peut devenir magmatique, puis métamorphique, puis à nouveau sédimentaire.`,
             content: `
                 <h3>1. Les 3 types de roches</h3>
                 <ul>
@@ -458,7 +458,7 @@ export const svt3eData = {
             id: 'svt-3e-15',
             part: 'Partie 2 : Sciences de la Terre',
             title: '15. La Chronologie en géologie',
-            story: "Comment savoir qu'une couche de roche a 100 millions d'années ? Les géologues sont des détectives du temps. Ils utilisent les fossiles et la radioactivité pour dater les roches.",
+            story: `Comment savoir qu'une couche de roche a 100 millions d'années ? Les géologues sont des détectives du temps. Ils utilisent les fossiles et la radioactivité pour dater les roches.`,
             content: `
                 <h3>1. Chronologie Relative</h3>
                 <p>Principe de superposition : La couche du dessous est plus vieille que celle du dessus.</p>
