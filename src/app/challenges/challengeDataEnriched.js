@@ -1871,8 +1871,8 @@ solve(Z.as_real_imag()[1], omega)`,
                     context: 'Invente cet outil pour résoudre l\'équation de la chaleur'
                 },
                 {
-                    name: 'Jean le Rond d'Alembert',
-                        year: '1747',
+                    name: 'Jean le Rond d\'Alembert',
+                    year: '1747',
                     contribution: 'Équation des ondes',
                     context: 'Prépare le terrain pour l\'analyse des vibrations'
                 },
@@ -3199,43 +3199,43 @@ print(f'Minimum en x = {solution[0]}')`,
         masteryLevel: 'Maître',
         unlocked: true,
         xpReward: 50,
-        badge: '🏅 Théorie de l'Information',
-            africanAnalogy: `L'information se mesure, comme l'eau ou l'électricité. Un message surprenant contient beaucoup d'information ('Il neige au Sahara'). Un message évident en contient peu ('Le soleil se lève'). Le bit est l'atome d'information.`,
-    theory: {
-        title: 'Entropie et Codage',
-        content: `Quantifie l'information, la compression et la transmission. L'entropie mesure l'incertitude moyenne d'une variable aléatoire.`,
-        mathematicalFoundation: `
+        badge: '🏅 Théorie de l\'Information',
+        africanAnalogy: `L\'information se mesure, comme l\'eau ou l\'électricité. Un message surprenant contient beaucoup d\'information (\'Il neige au Sahara\'). Un message évident en contient peu (\'Le soleil se lève\'). Le bit est l\'atome d\'information.`,
+        theory: {
+            title: 'Entropie et Codage',
+            content: `Quantifie l'information, la compression et la transmission. L'entropie mesure l'incertitude moyenne d'une variable aléatoire.`,
+            mathematicalFoundation: `
                     - Information propre : I(x) = -log₂ p(x)\n                - Entropie : H(X) = E[I(x)]\n                - Divergence KL (Kullback-Leibler)\n                - Information mutuelle : I(X;Y) = H(X) - H(X|Y)\n                - Théorème du codage de source
                 `,
-        scientists: [
-            {
-                name: 'Claude Shannon',
-                year: '1948',
-                contribution: 'Théorie mathématique de la communication',
-                context: 'Fonde l\'ère numérique (bits, compression, correction d\'erreur)'
-            },
-            {
-                name: 'John von Neumann',
-                year: '1932',
-                contribution: 'Entropie quantique',
-                context: 'Suggère le nom \'entropie\' à Shannon'
-            },
-        ]
-    },
-    code: `from sympy import log, Sum, symbols
+            scientists: [
+                {
+                    name: 'Claude Shannon',
+                    year: '1948',
+                    contribution: 'Théorie mathématique de la communication',
+                    context: 'Fonde l\'ère numérique (bits, compression, correction d\'erreur)'
+                },
+                {
+                    name: 'John von Neumann',
+                    year: '1932',
+                    contribution: 'Entropie quantique',
+                    context: 'Suggère le nom \'entropie\' à Shannon'
+                },
+            ]
+        },
+        code: `from sympy import log, Sum, symbols
 p = symbols('p', positive=True)
 # Entropie d'une pièce biaisée (Bernoulli)
 H = -(p * log(p, 2) + (1-p) * log(1-p, 2))
 # Maximum pour p=0.5 (pièce équilibrée)
 print('Entropie max pour p=0.5')`,
-    output: '1 bit',
-    exercises: [
-        'Calculer l\'entropie d\'un dé à 6 faces',
-        'Lien entre compression ZIP et entropie',
-        'Pourquoi le langage est-il redondant ?',
-    ],
-    practicalApplication: 'Compression (MP3, ZIP), cryptographie, télécommunications (5G, Fibre), Machine Learning.'
-        },
+        output: '1 bit',
+        exercises: [
+            'Calculer l\'entropie d\'un dé à 6 faces',
+            'Lien entre compression ZIP et entropie',
+            'Pourquoi le langage est-il redondant ?',
+        ],
+        practicalApplication: 'Compression (MP3, ZIP), cryptographie, télécommunications (5G, Fibre), Machine Learning.'
+    },
 
 ];
 
