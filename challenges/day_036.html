@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Jour 036 — Biologie : Génétique</title>
+<title>Jour 036 — Probabilités Symboliques</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
 <style>
 :root{--bg:#0f172a; --accent:#06b6d4; --muted:#94a3b8;}
@@ -34,7 +34,7 @@
 <header class="header container">
   <div style="display:flex;justify-content:space-between;align-items:center">
     <div>
-      <h1 style="margin:0;color:white">Jour 036 — Biologie : Génétique</h1>
+      <h1 style="margin:0;color:white">Jour 036 — Probabilités Symboliques</h1>
       <div style="font-size:0.9em;opacity:0.9">Challenge 100 Jours SymPy</div>
     </div>
     <div><a class="btn" href="index.html">← Index</a></div>
@@ -44,55 +44,54 @@
 <div class="container">
   <main class="page">
     <div class="meta">
-      <span class="badge badge-level">🎯 Débutant</span>
-      <span class="badge badge-mastery">📊 Fondamental</span>
-      <span class="badge badge-xp">⭐ +25 XP</span>
+      <span class="badge badge-level">🎯 Intermédiaire</span>
+      <span class="badge badge-mastery">📊 Intermédiaire</span>
+      <span class="badge badge-xp">⭐ +30 XP</span>
     </div>
 
     <h2>🌍 Analogie Africaine</h2>
-    <div class="analogy">La génétique est une loterie où les tickets sont les gènes. Chaque parent donne une moitié de son ticket. Les probabilités dictent les traits de l'enfant, comme un jeu de dés avec l'hérédité.</div>
+    <div class="analogy">Les probabilités sont comme prédire la pluie. Si on sait qu'il pleut 3 jours sur 10, la probabilité de pluie est 3/10. SymPy permet de calculer des probabilités exactes avec des fractions, pas des décimales approximatives.</div>
 
-    <h2>📚 Théorie : Lois de Mendel</h2>
+    <h2>📚 Théorie : Calcul des Probabilités</h2>
     <div class="theory">
-      <p>L'hérédité suit des règles probabilistes simples. Les carrés de Punnett permettent de visualiser les combinaisons d'allèles et de prédire les phénotypes.</p>
+      <p>Variables aléatoires discrètes et continues. Espérance, variance, lois de probabilité. SymPy peut manipuler des distributions symboliquement.</p>
       <h3>Fondements Mathématiques</h3>
-      <ul><li>Allèles : Dominant (A) / Récessif (a)</li><li>Génotype : AA, Aa, aa</li><li>Phénotype : expression visible</li><li>Probabilités de transmission : 1/2 par parent</li><li>Loi de ségrégation indépendante</li></ul>
+      <ul><li>Probabilité : P(A) ∈ [0,1]</li><li>Espérance : E[X] = Σ x·P(X=x)</li><li>Variance : Var(X) = E[(X-μ)²]</li><li>Loi binomiale, géométrique, Poisson</li><li>Théorème de Bayes</li></ul>
     </div>
 
     <h2>👨‍🔬 Histoire & Scientifiques</h2>
     
     <div class="scientist">
-      <div class="scientist-name">Gregor Mendel</div>
-      <div class="scientist-year">1865</div>
+      <div class="scientist-name">Blaise Pascal</div>
+      <div class="scientist-year">1654</div>
       <div class="scientist-contribution">
-        <strong>Contribution :</strong> Lois de l'hérédité
-        <br><em>Contexte :</em> Moine botaniste, découvre les lois en cultivant des pois
+        <strong>Contribution :</strong> Fondements des probabilités
+        <br><em>Contexte :</em> Correspondance avec Fermat sur les jeux de hasard
       </div>
     </div>
     <div class="scientist">
-      <div class="scientist-name">Thomas Hunt Morgan</div>
-      <div class="scientist-year">1910</div>
+      <div class="scientist-name">Andrey Kolmogorov</div>
+      <div class="scientist-year">1933</div>
       <div class="scientist-contribution">
-        <strong>Contribution :</strong> Théorie chromosomique
-        <br><em>Contexte :</em> Localise les gènes sur les chromosomes (drosophiles)
+        <strong>Contribution :</strong> Axiomes des probabilités
+        <br><em>Contexte :</em> Fonde la théorie moderne
       </div>
     </div>
 
     <h2>💻 Code SymPy</h2>
-    <div class="code"><pre>from sympy import Symbol, expand
-# Croisement hybride Aa x Aa
-A, a = Symbol('A'), Symbol('a')
-parent1 = A + a
-parent2 = A + a
-# Distribution des génotypes
-expand(parent1 * parent2)</pre></div>
-    <div class="output"><strong>Sortie attendue :</strong> A**2 + 2*A*a + a**2</div>
+    <div class="code"><pre>from sympy.stats import Die, E, variance
+X = Die('X', 6)  # Dé à 6 faces
+# Espérance
+print(f'E[X] = {E(X)}')
+# Variance
+print(f'Var(X) = {variance(X)}')</pre></div>
+    <div class="output"><strong>Sortie attendue :</strong> E[X] = 7/2, Var(X) = 35/12</div>
 
     <h2>💪 Exercices Pratiques</h2>
-    <div class="exercises"><ol><li>Interpréter A^2 + 2Aa + a^2</li><li>Croisement dihybride (AABB x aabb)</li><li>Calculer la probabilité d'un trait récessif</li></ol></div>
+    <div class="exercises"><ol><li>Calculer P(X > 4) pour un dé</li><li>Espérance d'une variable binomiale</li><li>Loi de la somme de deux dés</li></ol></div>
 
     <h2>🔬 Applications Pratiques</h2>
-    <p>Médecine génétique, agriculture (sélection), élevage, police scientifique.</p>
+    <p>Jeux, assurance, finance quantitative, physique statistique.</p>
 
     <div class="controls">
       <a class="btn" href="day_035.html">← Précédent</a>

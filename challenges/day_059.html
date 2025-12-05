@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Jour 059 — Mécanique Céleste : N-Corps</title>
+<title>Jour 059 — Problème de Kepler</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
 <style>
 :root{--bg:#0f172a; --accent:#06b6d4; --muted:#94a3b8;}
@@ -34,7 +34,7 @@
 <header class="header container">
   <div style="display:flex;justify-content:space-between;align-items:center">
     <div>
-      <h1 style="margin:0;color:white">Jour 059 — Mécanique Céleste : N-Corps</h1>
+      <h1 style="margin:0;color:white">Jour 059 — Problème de Kepler</h1>
       <div style="font-size:0.9em;opacity:0.9">Challenge 100 Jours SymPy</div>
     </div>
     <div><a class="btn" href="index.html">← Index</a></div>
@@ -44,54 +44,55 @@
 <div class="container">
   <main class="page">
     <div class="meta">
-      <span class="badge badge-level">🎯 Expert</span>
-      <span class="badge badge-mastery">📊 Expert</span>
-      <span class="badge badge-xp">⭐ +50 XP</span>
+      <span class="badge badge-level">🎯 Avancé</span>
+      <span class="badge badge-mastery">📊 Avancé</span>
+      <span class="badge badge-xp">⭐ +45 XP</span>
     </div>
 
     <h2>🌍 Analogie Africaine</h2>
-    <div class="analogy">Le problème à deux corps est une valse simple. Le problème à trois corps est un chaos imprévisible. Imaginez trois danseurs qui se tirent et se poussent tous en même temps sans rythme fixe. C'est le chaos déterministe.</div>
+    <div class="analogy">Le problème à 2 corps (Soleil-Terre) a une solution exacte et élégante. C'est comme une danse parfaitement chorégraphiée. Avec 3 corps (Soleil-Terre-Lune), la danse devient chaotique et imprévisible.</div>
 
-    <h2>📚 Théorie : Problème à N Corps</h2>
+    <h2>📚 Théorie : Mécanique Céleste Analytique</h2>
     <div class="theory">
-      <p>Il n'existe pas de solution analytique générale pour N ≥ 3 corps. On doit utiliser des simulations numériques (intégrateurs symplectiques).</p>
+      <p>Le problème à 2 corps sous gravitation newtonienne est complètement intégrable. Les orbites sont des coniques (ellipses, paraboles, hyperboles).</p>
       <h3>Fondements Mathématiques</h3>
-      <ul><li>Équations du mouvement : F_i = Σ G m_i m_j (r_j - r_i) / |r_ij|³</li><li>Chaos et sensibilité aux conditions initiales</li><li>Points de Lagrange</li><li>Intégration numérique (Verlet, Runge-Kutta)</li><li>Conservation de l'énergie et du moment cinétique</li></ul>
+      <ul><li>Force : F = -GMm/r²</li><li>Énergie : E = 1/2 mv² - GMm/r</li><li>Moment cinétique : L = r × mv (conservé)</li><li>Équation de l'orbite : r(θ) = p/(1 + e cos θ)</li><li>Excentricité e détermine le type de conique</li></ul>
     </div>
 
     <h2>👨‍🔬 Histoire & Scientifiques</h2>
     
     <div class="scientist">
-      <div class="scientist-name">Henri Poincaré</div>
-      <div class="scientist-year">1890</div>
+      <div class="scientist-name">Johannes Kepler</div>
+      <div class="scientist-year">1609</div>
       <div class="scientist-contribution">
-        <strong>Contribution :</strong> Théorie du chaos
-        <br><em>Contexte :</em> Découvre le chaos en étudiant le problème à 3 corps
+        <strong>Contribution :</strong> Lois empiriques
+        <br><em>Contexte :</em> Orbites elliptiques
       </div>
     </div>
     <div class="scientist">
-      <div class="scientist-name">Joseph-Louis Lagrange</div>
-      <div class="scientist-year">1772</div>
+      <div class="scientist-name">Isaac Newton</div>
+      <div class="scientist-year">1687</div>
       <div class="scientist-contribution">
-        <strong>Contribution :</strong> Points de Lagrange
-        <br><em>Contexte :</em> Solutions particulières stables
+        <strong>Contribution :</strong> Dérivation théorique
+        <br><em>Contexte :</em> Montre que F=1/r² implique les lois de Kepler
       </div>
     </div>
 
     <h2>💻 Code SymPy</h2>
-    <div class="code"><pre># Simulation conceptuelle (SymPy n'est pas fait pour la simu numérique lourde)
-from sympy import symbols, diff
-x1, y1, x2, y2 = symbols('x1 y1 x2 y2')
-V = 1/sqrt((x1-x2)**2 + (y1-y2)**2) # Potentiel grav
-Fx1 = -diff(V, x1)
-print(f'Force sur x1 : {Fx1}')</pre></div>
-    <div class="output"><strong>Sortie attendue :</strong> Force gravitationnelle symbolique</div>
+    <div class="code"><pre>from sympy import symbols, solve, sqrt, Eq
+G, M, m, r, v, E = symbols('G M m r v E')
+# Énergie totale
+E_eq = Eq(E, m*v**2/2 - G*M*m/r)
+# Vitesse de libération (E=0)
+v_lib = solve(E_eq.subs(E, 0), v)[1]
+print(f'v_libération = {v_lib}')</pre></div>
+    <div class="output"><strong>Sortie attendue :</strong> sqrt(2*G*M/r)</div>
 
     <h2>💪 Exercices Pratiques</h2>
-    <div class="exercises"><ol><li>Stabilité du système Terre-Lune</li><li>Points de Lagrange L4 et L5</li><li>Effet de fronde gravitationnelle</li></ol></div>
+    <div class="exercises"><ol><li>Calculer la période orbitale T(a)</li><li>Relation énergie-excentricité</li><li>Vitesse à l'aphélie vs périhélie</li></ol></div>
 
     <h2>🔬 Applications Pratiques</h2>
-    <p>Trajectoires de sondes (Voyager), formation du système solaire, dynamique galactique.</p>
+    <p>Missions spatiales, satellites, astéroïdes, exoplanètes.</p>
 
     <div class="controls">
       <a class="btn" href="day_058.html">← Précédent</a>

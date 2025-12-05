@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Jour 053 — Trous Noirs : Métrique</title>
+<title>Jour 053 — Formes Différentielles</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
 <style>
 :root{--bg:#0f172a; --accent:#06b6d4; --muted:#94a3b8;}
@@ -34,7 +34,7 @@
 <header class="header container">
   <div style="display:flex;justify-content:space-between;align-items:center">
     <div>
-      <h1 style="margin:0;color:white">Jour 053 — Trous Noirs : Métrique</h1>
+      <h1 style="margin:0;color:white">Jour 053 — Formes Différentielles</h1>
       <div style="font-size:0.9em;opacity:0.9">Challenge 100 Jours SymPy</div>
     </div>
     <div><a class="btn" href="index.html">← Index</a></div>
@@ -45,56 +45,55 @@
   <main class="page">
     <div class="meta">
       <span class="badge badge-level">🎯 Expert</span>
-      <span class="badge badge-mastery">📊 Maître</span>
-      <span class="badge badge-xp">⭐ +55 XP</span>
+      <span class="badge badge-mastery">📊 Expert</span>
+      <span class="badge badge-xp">⭐ +50 XP</span>
     </div>
 
     <h2>🌍 Analogie Africaine</h2>
-    <div class="analogy">Un trou noir courbe l'espace comme une bille de plomb sur un drap tendu, mais à l'extrême. Le drap se déchire presque, créant un puits sans fond. Même la lumière, la chose la plus rapide, ne peut pas remonter la pente.</div>
+    <div class="analogy">Une forme différentielle est comme une règle pour mesurer des surfaces courbes. Sur une sphère, mesurer une aire n'est pas comme sur un plan. Les formes différentielles généralisent l'intégration à des espaces courbes.</div>
 
-    <h2>📚 Théorie : Relativité Générale</h2>
+    <h2>📚 Théorie : Géométrie Différentielle</h2>
     <div class="theory">
-      <p>La gravité n'est pas une force, mais la courbure de l'espace-temps. La métrique de Schwarzschild décrit l'espace-temps autour d'une masse sphérique (étoile, trou noir).</p>
+      <p>Les formes différentielles généralisent les intégrales de ligne et de surface. Essentielles en physique théorique (électromagnétisme, relativité).</p>
       <h3>Fondements Mathématiques</h3>
-      <ul><li>Métrique : ds² = g_μν dx^μ dx^ν</li><li>Rayon de Schwarzschild : Rs = 2GM/c²</li><li>Horizon des événements</li><li>Dilatation temporelle gravitationnelle</li><li>Singularité</li></ul>
+      <ul><li>0-forme : fonction scalaire f</li><li>1-forme : ω = f dx + g dy</li><li>2-forme : ω = f dx∧dy</li><li>Produit extérieur (wedge) : dx∧dy = -dy∧dx</li><li>Dérivée extérieure : d(f dx) = df∧dx</li></ul>
     </div>
 
     <h2>👨‍🔬 Histoire & Scientifiques</h2>
     
     <div class="scientist">
-      <div class="scientist-name">Karl Schwarzschild</div>
-      <div class="scientist-year">1916</div>
+      <div class="scientist-name">Élie Cartan</div>
+      <div class="scientist-year">1899</div>
       <div class="scientist-contribution">
-        <strong>Contribution :</strong> Solution exacte des équations d'Einstein
-        <br><em>Contexte :</em> Trouvée dans les tranchées de la 1ère guerre mondiale
+        <strong>Contribution :</strong> Calcul différentiel extérieur
+        <br><em>Contexte :</em> Unifie calcul vectoriel et tensoriel
       </div>
     </div>
     <div class="scientist">
-      <div class="scientist-name">Albert Einstein</div>
-      <div class="scientist-year">1915</div>
+      <div class="scientist-name">Georges de Rham</div>
+      <div class="scientist-year">1931</div>
       <div class="scientist-contribution">
-        <strong>Contribution :</strong> Relativité Générale
-        <br><em>Contexte :</em> Une des plus belles théories de la physique
+        <strong>Contribution :</strong> Théorème de de Rham
+        <br><em>Contexte :</em> Lie topologie et analyse
       </div>
     </div>
 
     <h2>💻 Code SymPy</h2>
-    <div class="code"><pre>from sympy import symbols, diag, sin
+    <div class="code"><pre>from sympy import symbols, diff, Function
 from sympy.diffgeom import Manifold, Patch, CoordSystem
-# Définition symbolique de la métrique (simplifiée)
-t, r, theta, phi = symbols('t r theta phi')
-G, M, c = symbols('G M c')
-Rs = 2*G*M/c**2
-# Composante g_tt (temps)
-g_tt = -(1 - Rs/r)
-print(f'Métrique g_tt : {g_tt}')</pre></div>
-    <div class="output"><strong>Sortie attendue :</strong> Métrique g_tt : -1 + 2*G*M/(c**2*r)</div>
+M = Manifold('M', 2)
+patch = Patch('P', M)
+x, y = symbols('x y', real=True)
+rect = CoordSystem('rect', patch, [x, y])
+# 1-forme omega = x*dx + y*dy
+# Dérivée extérieure d(omega) = dx∧dy</pre></div>
+    <div class="output"><strong>Sortie attendue :</strong> d(omega) = dx∧dy</div>
 
     <h2>💪 Exercices Pratiques</h2>
-    <div class="exercises"><ol><li>Calculer le rayon de Schwarzschild de la Terre</li><li>Temps écoulé près de l'horizon vs à l'infini</li><li>Vitesse de libération</li></ol></div>
+    <div class="exercises"><ol><li>Calculer d(f dx) pour f=x²y</li><li>Vérifier que d(d(f)) = 0</li><li>Intégrale de ligne d'une 1-forme</li></ol></div>
 
     <h2>🔬 Applications Pratiques</h2>
-    <p>Astronomie (Sagittarius A*), GPS (correction RG), ondes gravitationnelles.</p>
+    <p>Électromagnétisme (équations de Maxwell), relativité générale, mécanique analytique.</p>
 
     <div class="controls">
       <a class="btn" href="day_052.html">← Précédent</a>

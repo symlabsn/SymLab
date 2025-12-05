@@ -1476,47 +1476,52 @@ solve(eq, v)`,
     {
         id: 'day_033',
         dayNumber: 33,
-        title: 'Chimie : Équations',
-        difficulty: 'Débutant',
-        masteryLevel: 'Fondamental',
+        title: 'Systèmes Linéaires',
+        difficulty: 'Intermédiaire',
+        masteryLevel: 'Intermédiaire',
         unlocked: true,
-        xpReward: 25,
-        badge: '🏅 Chimie : Équations',
-        africanAnalogy: `Une équation chimique est une recette de cuisine cosmique. Elle doit être parfaitement équilibrée : on ne peut pas sortir du four plus d'ingrédients qu'on en a mis. Les atomes se réarrangent, mais ne disparaissent pas.`,
+        xpReward: 30,
+        badge: '🏅 Systèmes Linéaires',
+        africanAnalogy: `Un système d'équations linéaires est comme un marché où plusieurs produits ont des prix liés. Si 2 mangues + 3 bananes = 500F et 1 mangue + 1 banane = 200F, on peut trouver le prix de chaque fruit en résolvant le système.`,
         theory: {
-            title: 'Stœchiométrie',
-            content: `L'équilibrage des équations chimiques assure la conservation de la matière (Lavoisier). C'est un système d'équations linéaires que SymPy peut résoudre.`,
+            title: 'Algèbre Linéaire',
+            content: `Résolution de systèmes Ax=b par élimination de Gauss, matrices inverses, ou décomposition LU. SymPy peut résoudre symboliquement.`,
             mathematicalFoundation: `
-                    - Conservation de la masse\n                - Conservation des atomes\n                - Coefficients stœchiométriques entiers\n                - Réactif limitant
-                `,
+                - Forme matricielle : Ax = b
+                - Élimination de Gauss (échelonnement)
+                - Déterminant et inversibilité
+                - Rang de la matrice
+                - Espace des solutions (unique, infini, vide)
+            `,
             scientists: [
                 {
-                    name: 'Antoine Lavoisier',
-                    year: '1789',
-                    contribution: 'Loi de conservation de la masse',
-                    context: '\'Rien ne se perd, rien ne se crée, tout se transforme\''
+                    name: 'Carl Friedrich Gauss',
+                    year: '1809',
+                    contribution: 'Méthode d\'élimination',
+                    context: 'Utilisée pour calculer l\'orbite de Cérès'
                 },
                 {
-                    name: 'John Dalton',
-                    year: '1803',
-                    contribution: 'Théorie atomique',
-                    context: 'Explique les proportions multiples dans les réactions'
+                    name: 'Arthur Cayley',
+                    year: '1858',
+                    contribution: 'Théorie des matrices',
+                    context: 'Formalise l\'algèbre matricielle'
                 },
             ]
         },
-        code: `from sympy.chem import Balance
-# Combustion du méthane : CH4 + O2 -> CO2 + H2O
-reac = Balance([('C', 1), ('H', 4)], [('O', 2)], [('C', 1), ('O', 2)], [('H', 2), ('O', 1)])
-# Note: SymPy a un module chem, mais on peut aussi utiliser linsolve
-# Ici on simule le résultat pour l'exemple simple
-print('CH4 + 2O2 -> CO2 + 2H2O')`,
-        output: 'CH4 + 2O2 -> CO2 + 2H2O',
+        code: `from sympy import symbols, Matrix, solve
+x, y, z = symbols('x y z')
+# Système 3x3
+A = Matrix([[2, 1, -1], [1, -1, 2], [3, 2, 1]])
+b = Matrix([8, -2, 14])
+# Solution
+A.LUsolve(b)`,
+        output: 'Matrix([[1], [2], [3]])',
         exercises: [
-            'Équilibrer la photosynthèse',
-            'Réaction acide-base',
-            'Calculer la masse molaire',
+            'Résoudre un système 2x2 à la main',
+            'Système avec paramètre symbolique',
+            'Interpréter géométriquement (intersection de plans)',
         ],
-        practicalApplication: 'Industrie chimique, pharmacologie, environnement, cuisine.'
+        practicalApplication: 'Circuits électriques, équilibre chimique, économie (Leontief), infographie 3D.'
     },
     {
         id: 'day_034',
@@ -1611,48 +1616,51 @@ eq = Eq(N(t).diff(t), r * N(t) * (1 - N(t)/K))
     {
         id: 'day_036',
         dayNumber: 36,
-        title: 'Biologie : Génétique',
-        difficulty: 'Débutant',
-        masteryLevel: 'Fondamental',
+        title: 'Probabilités Symboliques',
+        difficulty: 'Intermédiaire',
+        masteryLevel: 'Intermédiaire',
         unlocked: true,
-        xpReward: 25,
-        badge: '🏅 Biologie : Génétique',
-        africanAnalogy: `La génétique est une loterie où les tickets sont les gènes. Chaque parent donne une moitié de son ticket. Les probabilités dictent les traits de l'enfant, comme un jeu de dés avec l'hérédité.`,
+        xpReward: 30,
+        badge: '🏅 Probabilités Symboliques',
+        africanAnalogy: `Les probabilités sont comme prédire la pluie. Si on sait qu'il pleut 3 jours sur 10, la probabilité de pluie est 3/10. SymPy permet de calculer des probabilités exactes avec des fractions, pas des décimales approximatives.`,
         theory: {
-            title: 'Lois de Mendel',
-            content: `L'hérédité suit des règles probabilistes simples. Les carrés de Punnett permettent de visualiser les combinaisons d'allèles et de prédire les phénotypes.`,
+            title: 'Calcul des Probabilités',
+            content: `Variables aléatoires discrètes et continues. Espérance, variance, lois de probabilité. SymPy peut manipuler des distributions symboliquement.`,
             mathematicalFoundation: `
-                    - Allèles : Dominant (A) / Récessif (a)\n                - Génotype : AA, Aa, aa\n                - Phénotype : expression visible\n                - Probabilités de transmission : 1/2 par parent\n                - Loi de ségrégation indépendante
-                `,
+                - Probabilité : P(A) ∈ [0,1]
+                - Espérance : E[X] = Σ x·P(X=x)
+                - Variance : Var(X) = E[(X-μ)²]
+                - Loi binomiale, géométrique, Poisson
+                - Théorème de Bayes
+            `,
             scientists: [
                 {
-                    name: 'Gregor Mendel',
-                    year: '1865',
-                    contribution: 'Lois de l\'hérédité',
-                    context: 'Moine botaniste, découvre les lois en cultivant des pois'
+                    name: 'Blaise Pascal',
+                    year: '1654',
+                    contribution: 'Fondements des probabilités',
+                    context: 'Correspondance avec Fermat sur les jeux de hasard'
                 },
                 {
-                    name: 'Thomas Hunt Morgan',
-                    year: '1910',
-                    contribution: 'Théorie chromosomique',
-                    context: 'Localise les gènes sur les chromosomes (drosophiles)'
+                    name: 'Andrey Kolmogorov',
+                    year: '1933',
+                    contribution: 'Axiomes des probabilités',
+                    context: 'Fonde la théorie moderne'
                 },
             ]
         },
-        code: `from sympy import Symbol, expand
-# Croisement hybride Aa x Aa
-A, a = Symbol('A'), Symbol('a')
-parent1 = A + a
-parent2 = A + a
-# Distribution des génotypes
-expand(parent1 * parent2)`,
-        output: 'A**2 + 2*A*a + a**2',
+        code: `from sympy.stats import Die, E, variance
+X = Die('X', 6)  # Dé à 6 faces
+# Espérance
+print(f'E[X] = {E(X)}')
+# Variance
+print(f'Var(X) = {variance(X)}')`,
+        output: 'E[X] = 7/2, Var(X) = 35/12',
         exercises: [
-            'Interpréter A^2 + 2Aa + a^2',
-            'Croisement dihybride (AABB x aabb)',
-            'Calculer la probabilité d\'un trait récessif',
+            'Calculer P(X > 4) pour un dé',
+            'Espérance d\'une variable binomiale',
+            'Loi de la somme de deux dés',
         ],
-        practicalApplication: 'Médecine génétique, agriculture (sélection), élevage, police scientifique.'
+        practicalApplication: 'Jeux, assurance, finance quantitative, physique statistique.'
     },
     {
         id: 'day_037',
@@ -2393,50 +2401,53 @@ solve(eq, m)`,
     {
         id: 'day_053',
         dayNumber: 53,
-        title: 'Trous Noirs : Métrique',
+        title: 'Formes Différentielles',
         difficulty: 'Expert',
-        masteryLevel: 'Maître',
+        masteryLevel: 'Expert',
         unlocked: true,
-        xpReward: 55,
-        badge: '🏅 Trous Noirs : Métrique',
-        africanAnalogy: `Un trou noir courbe l'espace comme une bille de plomb sur un drap tendu, mais à l'extrême. Le drap se déchire presque, créant un puits sans fond. Même la lumière, la chose la plus rapide, ne peut pas remonter la pente.`,
+        xpReward: 50,
+        badge: '🏅 Formes Différentielles',
+        africanAnalogy: `Une forme différentielle est comme une règle pour mesurer des surfaces courbes. Sur une sphère, mesurer une aire n'est pas comme sur un plan. Les formes différentielles généralisent l'intégration à des espaces courbes.`,
         theory: {
-            title: 'Relativité Générale',
-            content: `La gravité n'est pas une force, mais la courbure de l'espace-temps. La métrique de Schwarzschild décrit l'espace-temps autour d'une masse sphérique (étoile, trou noir).`,
+            title: 'Géométrie Différentielle',
+            content: `Les formes différentielles généralisent les intégrales de ligne et de surface. Essentielles en physique théorique (électromagnétisme, relativité).`,
             mathematicalFoundation: `
-                    - Métrique : ds² = g_μν dx^μ dx^ν\n                - Rayon de Schwarzschild : Rs = 2GM/c²\n                - Horizon des événements\n                - Dilatation temporelle gravitationnelle\n                - Singularité
-                `,
+                - 0-forme : fonction scalaire f
+                - 1-forme : ω = f dx + g dy
+                - 2-forme : ω = f dx∧dy
+                - Produit extérieur (wedge) : dx∧dy = -dy∧dx
+                - Dérivée extérieure : d(f dx) = df∧dx
+            `,
             scientists: [
                 {
-                    name: 'Karl Schwarzschild',
-                    year: '1916',
-                    contribution: 'Solution exacte des équations d\'Einstein',
-                    context: 'Trouvée dans les tranchées de la 1ère guerre mondiale'
+                    name: 'Élie Cartan',
+                    year: '1899',
+                    contribution: 'Calcul différentiel extérieur',
+                    context: 'Unifie calcul vectoriel et tensoriel'
                 },
                 {
-                    name: 'Albert Einstein',
-                    year: '1915',
-                    contribution: 'Relativité Générale',
-                    context: 'Une des plus belles théories de la physique'
+                    name: 'Georges de Rham',
+                    year: '1931',
+                    contribution: 'Théorème de de Rham',
+                    context: 'Lie topologie et analyse'
                 },
             ]
         },
-        code: `from sympy import symbols, diag, sin
+        code: `from sympy import symbols, diff, Function
 from sympy.diffgeom import Manifold, Patch, CoordSystem
-# Définition symbolique de la métrique (simplifiée)
-t, r, theta, phi = symbols('t r theta phi')
-G, M, c = symbols('G M c')
-Rs = 2*G*M/c**2
-# Composante g_tt (temps)
-g_tt = -(1 - Rs/r)
-print(f'Métrique g_tt : {g_tt}')`,
-        output: 'Métrique g_tt : -1 + 2*G*M/(c**2*r)',
+M = Manifold('M', 2)
+patch = Patch('P', M)
+x, y = symbols('x y', real=True)
+rect = CoordSystem('rect', patch, [x, y])
+# 1-forme omega = x*dx + y*dy
+# Dérivée extérieure d(omega) = dx∧dy`,
+        output: 'd(omega) = dx∧dy',
         exercises: [
-            'Calculer le rayon de Schwarzschild de la Terre',
-            'Temps écoulé près de l\'horizon vs à l\'infini',
-            'Vitesse de libération',
+            'Calculer d(f dx) pour f=x²y',
+            'Vérifier que d(d(f)) = 0',
+            'Intégrale de ligne d\'une 1-forme',
         ],
-        practicalApplication: 'Astronomie (Sagittarius A*), GPS (correction RG), ondes gravitationnelles.'
+        practicalApplication: 'Électromagnétisme (équations de Maxwell), relativité générale, mécanique analytique.'
     },
     {
         id: 'day_054',
@@ -2671,47 +2682,52 @@ eq = Eq(a(t).diff(t), t**(-1/2)) # Simplification conceptuelle
     {
         id: 'day_059',
         dayNumber: 59,
-        title: 'Mécanique Céleste : N-Corps',
-        difficulty: 'Expert',
-        masteryLevel: 'Expert',
+        title: 'Problème de Kepler',
+        difficulty: 'Avancé',
+        masteryLevel: 'Avancé',
         unlocked: true,
-        xpReward: 50,
-        badge: '🏅 Mécanique Céleste : N-Corps',
-        africanAnalogy: `Le problème à deux corps est une valse simple. Le problème à trois corps est un chaos imprévisible. Imaginez trois danseurs qui se tirent et se poussent tous en même temps sans rythme fixe. C'est le chaos déterministe.`,
+        xpReward: 45,
+        badge: '🏅 Problème de Kepler',
+        africanAnalogy: `Le problème à 2 corps (Soleil-Terre) a une solution exacte et élégante. C'est comme une danse parfaitement chorégraphiée. Avec 3 corps (Soleil-Terre-Lune), la danse devient chaotique et imprévisible.`,
         theory: {
-            title: 'Problème à N Corps',
-            content: `Il n'existe pas de solution analytique générale pour N ≥ 3 corps. On doit utiliser des simulations numériques (intégrateurs symplectiques).`,
+            title: 'Mécanique Céleste Analytique',
+            content: `Le problème à 2 corps sous gravitation newtonienne est complètement intégrable. Les orbites sont des coniques (ellipses, paraboles, hyperboles).`,
             mathematicalFoundation: `
-                    - Équations du mouvement : F_i = Σ G m_i m_j (r_j - r_i) / |r_ij|³\n                - Chaos et sensibilité aux conditions initiales\n                - Points de Lagrange\n                - Intégration numérique (Verlet, Runge-Kutta)\n                - Conservation de l'énergie et du moment cinétique
-                `,
+                - Force : F = -GMm/r²
+                - Énergie : E = 1/2 mv² - GMm/r
+                - Moment cinétique : L = r × mv (conservé)
+                - Équation de l'orbite : r(θ) = p/(1 + e cos θ)
+                - Excentricité e détermine le type de conique
+            `,
             scientists: [
                 {
-                    name: 'Henri Poincaré',
-                    year: '1890',
-                    contribution: 'Théorie du chaos',
-                    context: 'Découvre le chaos en étudiant le problème à 3 corps'
+                    name: 'Johannes Kepler',
+                    year: '1609',
+                    contribution: 'Lois empiriques',
+                    context: 'Orbites elliptiques'
                 },
                 {
-                    name: 'Joseph-Louis Lagrange',
-                    year: '1772',
-                    contribution: 'Points de Lagrange',
-                    context: 'Solutions particulières stables'
+                    name: 'Isaac Newton',
+                    year: '1687',
+                    contribution: 'Dérivation théorique',
+                    context: 'Montre que F=1/r² implique les lois de Kepler'
                 },
             ]
         },
-        code: `# Simulation conceptuelle (SymPy n'est pas fait pour la simu numérique lourde)
-from sympy import symbols, diff
-x1, y1, x2, y2 = symbols('x1 y1 x2 y2')
-V = 1/sqrt((x1-x2)**2 + (y1-y2)**2) # Potentiel grav
-Fx1 = -diff(V, x1)
-print(f'Force sur x1 : {Fx1}')`,
-        output: 'Force gravitationnelle symbolique',
+        code: `from sympy import symbols, solve, sqrt, Eq
+G, M, m, r, v, E = symbols('G M m r v E')
+# Énergie totale
+E_eq = Eq(E, m*v**2/2 - G*M*m/r)
+# Vitesse de libération (E=0)
+v_lib = solve(E_eq.subs(E, 0), v)[1]
+print(f'v_libération = {v_lib}')`,
+        output: 'sqrt(2*G*M/r)',
         exercises: [
-            'Stabilité du système Terre-Lune',
-            'Points de Lagrange L4 et L5',
-            'Effet de fronde gravitationnelle',
+            'Calculer la période orbitale T(a)',
+            'Relation énergie-excentricité',
+            'Vitesse à l\'aphélie vs périhélie',
         ],
-        practicalApplication: 'Trajectoires de sondes (Voyager), formation du système solaire, dynamique galactique.'
+        practicalApplication: 'Missions spatiales, satellites, astéroïdes, exoplanètes.'
     },
     {
         id: 'day_060',

@@ -353,13 +353,13 @@ export const challenges = [
     },
     {
         "id": "day_033",
-        "title": "Jour 033 — Chimie : Équations",
-        "code": "from sympy.chem import Balance\n# Combustion du méthane : CH4 + O2 -> CO2 + H2O\nreac = Balance([('C', 1), ('H', 4)], [('O', 2)], [('C', 1), ('O', 2)], [('H', 2), ('O', 1)])\n# Note: SymPy a un module chem, mais on peut aussi utiliser linsolve\n# Ici on simule le résultat pour l'exemple simple\nprint('CH4 + 2O2 -> CO2 + 2H2O')",
-        "output": "CH4 + 2O2 -> CO2 + 2H2O",
+        "title": "Jour 033 — Systèmes Linéaires",
+        "code": "from sympy import symbols, Matrix, solve\nx, y, z = symbols('x y z')\n# Système 3x3\nA = Matrix([[2, 1, -1], [1, -1, 2], [3, 2, 1]])\nb = Matrix([8, -2, 14])\n# Solution\nA.LUsolve(b)",
+        "output": "Matrix([[1], [2], [3]])",
         "exercises": [
-            "Équilibrer la photosynthèse",
-            "Réaction acide-base",
-            "Calculer la masse molaire"
+            "Résoudre un système 2x2 à la main",
+            "Système avec paramètre symbolique",
+            "Interpréter géométriquement (intersection de plans)"
         ]
     },
     {
@@ -386,13 +386,13 @@ export const challenges = [
     },
     {
         "id": "day_036",
-        "title": "Jour 036 — Biologie : Génétique",
-        "code": "from sympy import Symbol, expand\n# Croisement hybride Aa x Aa\nA, a = Symbol('A'), Symbol('a')\nparent1 = A + a\nparent2 = A + a\n# Distribution des génotypes\nexpand(parent1 * parent2)",
-        "output": "A**2 + 2*A*a + a**2",
+        "title": "Jour 036 — Probabilités Symboliques",
+        "code": "from sympy.stats import Die, E, variance\nX = Die('X', 6)  # Dé à 6 faces\n# Espérance\nprint(f'E[X] = {E(X)}')\n# Variance\nprint(f'Var(X) = {variance(X)}')",
+        "output": "E[X] = 7/2, Var(X) = 35/12",
         "exercises": [
-            "Interpréter A^2 + 2Aa + a^2",
-            "Croisement dihybride (AABB x aabb)",
-            "Calculer la probabilité d'un trait récessif"
+            "Calculer P(X > 4) pour un dé",
+            "Espérance d'une variable binomiale",
+            "Loi de la somme de deux dés"
         ]
     },
     {
@@ -573,13 +573,13 @@ export const challenges = [
     },
     {
         "id": "day_053",
-        "title": "Jour 053 — Trous Noirs : Métrique",
-        "code": "from sympy import symbols, diag, sin\nfrom sympy.diffgeom import Manifold, Patch, CoordSystem\n# Définition symbolique de la métrique (simplifiée)\nt, r, theta, phi = symbols('t r theta phi')\nG, M, c = symbols('G M c')\nRs = 2*G*M/c**2\n# Composante g_tt (temps)\ng_tt = -(1 - Rs/r)\nprint(f'Métrique g_tt : {g_tt}')",
-        "output": "Métrique g_tt : -1 + 2*G*M/(c**2*r)",
+        "title": "Jour 053 — Formes Différentielles",
+        "code": "from sympy import symbols, diff, Function\nfrom sympy.diffgeom import Manifold, Patch, CoordSystem\nM = Manifold('M', 2)\npatch = Patch('P', M)\nx, y = symbols('x y', real=True)\nrect = CoordSystem('rect', patch, [x, y])\n# 1-forme omega = x*dx + y*dy\n# Dérivée extérieure d(omega) = dx∧dy",
+        "output": "d(omega) = dx∧dy",
         "exercises": [
-            "Calculer le rayon de Schwarzschild de la Terre",
-            "Temps écoulé près de l'horizon vs à l'infini",
-            "Vitesse de libération"
+            "Calculer d(f dx) pour f=x²y",
+            "Vérifier que d(d(f)) = 0",
+            "Intégrale de ligne d'une 1-forme"
         ]
     },
     {
@@ -639,13 +639,13 @@ export const challenges = [
     },
     {
         "id": "day_059",
-        "title": "Jour 059 — Mécanique Céleste : N-Corps",
-        "code": "# Simulation conceptuelle (SymPy n'est pas fait pour la simu numérique lourde)\nfrom sympy import symbols, diff\nx1, y1, x2, y2 = symbols('x1 y1 x2 y2')\nV = 1/sqrt((x1-x2)**2 + (y1-y2)**2) # Potentiel grav\nFx1 = -diff(V, x1)\nprint(f'Force sur x1 : {Fx1}')",
-        "output": "Force gravitationnelle symbolique",
+        "title": "Jour 059 — Problème de Kepler",
+        "code": "from sympy import symbols, solve, sqrt, Eq\nG, M, m, r, v, E = symbols('G M m r v E')\n# Énergie totale\nE_eq = Eq(E, m*v**2/2 - G*M*m/r)\n# Vitesse de libération (E=0)\nv_lib = solve(E_eq.subs(E, 0), v)[1]\nprint(f'v_libération = {v_lib}')",
+        "output": "sqrt(2*G*M/r)",
         "exercises": [
-            "Stabilité du système Terre-Lune",
-            "Points de Lagrange L4 et L5",
-            "Effet de fronde gravitationnelle"
+            "Calculer la période orbitale T(a)",
+            "Relation énergie-excentricité",
+            "Vitesse à l'aphélie vs périhélie"
         ]
     },
     {
