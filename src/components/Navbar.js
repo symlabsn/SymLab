@@ -20,9 +20,9 @@ export default function Navbar() {
     { name: 'Accueil', href: '/' },
     { name: 'Programmation', href: '/programming' },
     { name: 'Simulations', href: '/simulations' },
+    { name: 'Ingénierie', href: '/engineering' },
     { name: 'Challenges', href: '/challenges' },
     { name: 'Vidéos', href: '/videos' },
-    { name: 'Projets', href: '/projects' },
   ];
 
   return (
@@ -56,9 +56,15 @@ export default function Navbar() {
 
             <Link
               href="/about"
-              className="ml-4 px-4 py-2 rounded font-medium text-accent hover:underline transition-all"
+              className="ml-4 relative px-5 py-2 rounded-full bg-gradient-to-r from-[#00F5D4]/10 to-[#7C3AED]/10 border border-white/10 hover:border-[#00F5D4]/50 transition-all group"
             >
-              À propos
+              <span className="text-sm font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#00F5D4] to-[#7C3AED] group-hover:from-white group-hover:to-white transition-all">
+                À propos
+              </span>
+              <span className="absolute -top-1 -right-1 flex h-3 w-3">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#00F5D4] opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-3 w-3 bg-[#00F5D4]"></span>
+              </span>
             </Link>
           </div>
 
