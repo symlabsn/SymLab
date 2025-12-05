@@ -7,283 +7,381 @@ export const math6eData = {
         // ==========================================
         {
             id: 'chap-num-1',
+            part: 'Première Partie : Activités Numériques',
             title: '1. Nombres Décimaux Arithmétiques',
+            story: "Il était une fois, un roi qui voulait compter les étoiles. Il commença par 1, 2, 3... mais certaines étoiles brillaient moins fort, comme des moitiés d'étoiles. Il demanda à son savant d'inventer des nombres plus précis. Le savant inventa la virgule, une petite barrière magique qui permet de compter les miettes de pain aussi précisément que les pains entiers.",
             content: `
                 <h3>1. Introduction : L'Univers des Nombres</h3>
-                <p>Imaginez que les nombres sont comme des distances. Les nombres entiers (1, 2, 3...) sont des pas de géants. Mais parfois, on a besoin de faire de plus petits pas, des pas de fourmis. C'est là que les nombres décimaux entrent en jeu !</p>
+                <p>Les nombres entiers (1, 2, 3...) sont parfaits pour compter des objets entiers. Mais pour la précision, nous avons besoin des <strong>nombres décimaux</strong>.</p>
                 <div class="analogy">
-                    <strong>🌍 Analogie : Le Marché et la Monnaie</strong><br>
-                    Pensez à l'argent. Vous avez des billets de 1000F (Nombres entiers). Mais pour acheter un bonbon, vous avez besoin de pièces plus petites. Les décimaux sont comme la petite monnaie qui permet d'être précis au centime près.
+                    <strong>🌍 Analogie : Le Marché</strong><br>
+                    Les billets sont les nombres entiers (1000F, 2000F). Les pièces de monnaie sont les nombres décimaux (partie de l'unité).
                 </div>
 
-                <h3>2. La Virgule : La Frontière Magique</h3>
-                <p>Un nombre décimal est composé de deux mondes séparés par une virgule :</p>
+                <h3>2. La Virgule et les Rangs</h3>
+                <p>Dans <strong>12,345</strong>, la virgule sépare deux mondes.</p>
                 <ul>
-                    <li><strong>La Partie Entière</strong> (à gauche) : Le monde des grands objets (Unités, Dizaines, Centaines...)</li>
-                    <li><strong>La Partie Décimale</strong> (à droite) : Le monde des fragments (Dixièmes, Centièmes, Millièmes...)</li>
+                    <li>1 : Dizaines</li>
+                    <li>2 : Unités</li>
+                    <li><strong>,</strong> (Frontière)</li>
+                    <li>3 : Dixièmes (1/10)</li>
+                    <li>4 : Centièmes (1/100)</li>
+                    <li>5 : Millièmes (1/1000)</li>
                 </ul>
-
-                <h3>3. Écriture et Lecture</h3>
-                <p>Prenons le nombre <strong>12,345</strong>.</p>
-                <ul>
-                    <li>12 est la partie entière.</li>
-                    <li>0,345 est la partie décimale.</li>
-                </ul>
-                <p>On peut l'écrire sous forme de fraction décimale : 12345 / 1000.</p>
             `,
+            summary: [
+                "Un nombre décimal a une partie entière et une partie décimale.",
+                "La virgule sépare les unités des dixièmes.",
+                "Zéro inutile : 12,5 = 12,50 (à la fin) et 012 = 12 (au début).",
+                "Chaque rang est 10 fois plus petit que celui à sa gauche."
+            ],
             exercises: [
                 {
                     id: 'ex-1',
-                    question: "Dans le nombre 45,67, que représente le chiffre 6 ?",
-                    options: ["Les unités", "Les dizaines", "Les dixièmes", "Les centièmes"],
-                    correctAnswer: 2,
-                    explanation: "Le premier chiffre après la virgule représente les dixièmes."
+                    question: "Dans 123,456, quel est le chiffre des centièmes ?",
+                    options: ["4", "5", "6", "3"],
+                    correctAnswer: 1,
+                    explanation: "Après la virgule : 4 (dixièmes), 5 (centièmes), 6 (millièmes)."
                 },
                 {
                     id: 'ex-2',
-                    question: "Quelle est l'écriture fractionnaire de 0,5 ?",
-                    options: ["5/10", "1/5", "5/100", "50/1"],
-                    correctAnswer: 0,
-                    explanation: "0,5 c'est 5 dixièmes, donc 5/10."
+                    question: "Quelle est l'écriture décimale de 3 + 4/100 ?",
+                    options: ["3,4", "3,04", "3,004", "34"],
+                    correctAnswer: 1,
+                    explanation: "3 unités et 4 centièmes s'écrit 3,04."
+                },
+                {
+                    id: 'ex-3',
+                    question: "Le nombre 58,0 peut s'écrire :",
+                    options: ["5,8", "580", "58", "0,58"],
+                    correctAnswer: 2,
+                    explanation: "Le zéro après la virgule, s'il est tout seul ou à la fin, est 'inutile' pour la valeur."
                 }
             ]
         },
         {
             id: 'chap-num-2',
-            title: '2. Addition de Deux Nombres Décimaux Arithmétiques',
+            part: 'Première Partie : Activités Numériques',
+            title: '2. Addition de Nombres Décimaux',
+            story: "Imaginez des soldats de tailles différentes qui doivent défiler. Pour que le défilé soit beau, ils doivent s'aligner par les épaules. En mathématiques, l'épaule des nombres, c'est la virgule ! Si les virgules ne sont pas alignées, le calcul trébuche.",
             content: `
-                <h3>1. Le Secret de l'Alignement</h3>
-                <p>Pour additionner des nombres décimaux, la règle d'or est simple : <strong>Alignez les virgules !</strong></p>
+                <h3>1. La Règle d'Or : L'Alignement</h3>
+                <p>Pour additionner, on superpose les virgules verticalement.</p>
                 <div class="analogy">
-                    <strong>🎖 Analogie : Le Défilé Militaire</strong><br>
-                    Imaginez une armée. Les soldats doivent être parfaitement alignés : les unités sous les unités, les dixièmes sous les dixièmes. La virgule est le drapeau que tout le monde doit suivre. Si vous décalez les virgules, c'est le chaos !
+                    <strong>🏗 Analogie : L'Immeuble</strong><br>
+                    Les unités habitent au rez-de-chaussée. Les dixièmes au 1er sous-sol. Les dizaines au 1er étage. On n'additionne pas un étage avec un sous-sol !
                 </div>
-
-                <h3>2. La Technique</h3>
-                <ol>
-                    <li>Écrivez les nombres l'un sous l'autre en alignant les virgules verticalement.</li>
-                    <li>Vous pouvez ajouter des zéros "inutiles" à droite pour avoir le même nombre de chiffres après la virgule.</li>
-                    <li>Calculez comme une addition normale.</li>
-                    <li>N'oubliez pas de descendre la virgule dans le résultat !</li>
-                </ol>
             `,
+            summary: [
+                "Alignez toujours les virgules verticalement.",
+                "Ajoutez des zéros pour avoir le même nombre de chiffres après la virgule.",
+                "N'oubliez pas les retenues.",
+                "La virgule descend directement dans le résultat."
+            ],
             exercises: [
                 {
                     id: 'ex-add-1',
-                    question: "Combien font 12,5 + 3,75 ?",
+                    question: "12,5 + 3,75 =",
                     options: ["15,80", "16,25", "49,5", "15,25"],
                     correctAnswer: 1,
-                    explanation: "On pose : 12,50 + 3,75. 0+5=5, 5+7=12 (je retiens 1), 2+3+1=6, 1+0=1. Résultat : 16,25."
+                    explanation: "12,50 + 3,75 = 16,25."
+                },
+                {
+                    id: 'ex-add-2',
+                    question: "8 + 2,4 =",
+                    options: ["10", "10,4", "82,4", "8,24"],
+                    correctAnswer: 1,
+                    explanation: "8,0 + 2,4 = 10,4."
+                },
+                {
+                    id: 'ex-add-3',
+                    question: "Paul a 2,50€ et trouve 0,80€. Combien a-t-il ?",
+                    options: ["2,130€", "3,30€", "3,00€", "2,80€"],
+                    correctAnswer: 1,
+                    explanation: "2,50 + 0,80 = 3,30€."
                 }
             ]
         },
         {
             id: 'chap-num-3',
-            title: '3. Soustraction de Deux Nombres Décimaux Arithmétiques',
+            part: 'Première Partie : Activités Numériques',
+            title: '3. Soustraction de Nombres Décimaux',
+            story: "Un jour, un marchand devait rendre la monnaie sur un billet de 1000 pour un achat de 350,5. Il réalisa qu'il ne pouvait pas enlever 5 centimes s'il n'avait rien dans sa caisse de centimes. Il dut 'casser' un billet (une unité) pour avoir des pièces. C'est le secret de la retenue !",
             content: `
-                <h3>1. Combler le vide</h3>
-                <p>La soustraction fonctionne comme l'addition. L'alignement est crucial.</p>
+                <h3>1. Le Principe</h3>
+                <p>Comme l'addition, on aligne les virgules. Mais attention : l'ordre compte !</p>
                 <div class="analogy">
-                    <strong>🛒 Analogie : Le Rendu de Monnaie</strong><br>
-                    Si vous payez un article de 2,50€ avec un billet de 10€, la caissière calcule la différence. Elle doit savoir exactement combien de centimes et combien d'euros rendre. Elle ne mélange pas les euros et les centimes !
+                    <strong>🛒 Analogie : Rendre la Monnaie</strong><br>
+                    10 - 2,5 n'est pas 8,5. C'est 10,0 - 2,5. Pensez argent : 10€ moins 2,50€ fait 7,50€.
                 </div>
-
-                <h3>2. Attention aux Retenues !</h3>
-                <p>Quand on soustrait, si le chiffre du haut est plus petit, on doit "casser" une unité du rang supérieur. N'oubliez jamais d'ajouter des zéros pour faciliter le calcul : 10 - 2,5 se pose 10,0 - 2,5.</p>
             `,
+            summary: [
+                "Le grand nombre est toujours en haut.",
+                "Ajoutez des zéros pour combler les trous (ex: 10 devient 10,0).",
+                "Attention aux retenues qui traversent la virgule."
+            ],
             exercises: [
                 {
                     id: 'ex-sub-1',
-                    question: "Calculez 10 - 3,5",
-                    options: ["7,5", "6,5", "13,5", "6,0"],
+                    question: "10 - 0,1 =",
+                    options: ["9", "9,9", "0,9", "9,1"],
                     correctAnswer: 1,
-                    explanation: "On pose 10,0 - 3,5. 10 - 5 = 5. On descend la virgule. 10 - 4 = 6. Résultat : 6,5."
+                    explanation: "10,0 - 0,1 = 9,9."
+                },
+                {
+                    id: 'ex-sub-2',
+                    question: "15,5 - 5 =",
+                    options: ["10,5", "10", "15", "5,5"],
+                    correctAnswer: 0,
+                    explanation: "15,5 - 5,0 = 10,5."
+                },
+                {
+                    id: 'ex-sub-3',
+                    question: "Quelle est la différence entre 1 et 0,01 ?",
+                    options: ["0,09", "0,99", "0,9", "1,01"],
+                    correctAnswer: 1,
+                    explanation: "1,00 - 0,01 = 0,99."
                 }
             ]
         },
         {
             id: 'chap-num-4',
-            title: '4. Rangement des Nombres Décimaux Arithmétiques',
+            part: 'Première Partie : Activités Numériques',
+            title: '4. Rangement des Décimaux',
+            story: "Deux frères se disputaient pour savoir qui avait le plus gros morceau de gâteau. L'un avait 0,5 du gâteau, l'autre 0,45. Le deuxième disait '45 est plus grand que 5, donc j'ai gagné !'. Le sage leur expliqua que pour comparer, il faut regarder le poids réel : 0,50 est plus lourd que 0,45.",
             content: `
-                <h3>1. Qui est le plus grand ?</h3>
-                <p>Pour comparer deux nombres décimaux :</p>
+                <h3>1. Comparaison</h3>
                 <ol>
-                    <li>D'abord, comparez les parties entières. (12,5 > 9,9 car 12 > 9)</li>
-                    <li>Si les parties entières sont égales, comparez les parties décimales chiffre par chiffre, de gauche à droite.</li>
+                    <li>D'abord la partie entière.</li>
+                    <li>Ensuite les dixièmes, puis les centièmes...</li>
                 </ol>
-
                 <div class="analogy">
-                    <strong>⚖️ Analogie : La Pesée</strong><br>
-                    Imaginez une balance. On regarde d'abord les gros poids (partie entière). S'ils sont pareils, on regarde ensuite les petits poids (dixièmes), puis les plumes (centièmes). Attention ! 12,19 n'est PAS plus grand que 12,5 juste parce que 19 > 5. En réalité, 12,5 c'est 12,50 ! Et 50 > 19.
+                    <strong>⚖️ Analogie : La Balance</strong><br>
+                    Attention au piège de la longueur ! 4,1234 est PLUS PETIT que 4,5.
+                    Car 1 dixième < 5 dixièmes.
                 </div>
             `,
+            summary: [
+                "Ne comparez pas le nombre de chiffres, mais la valeur des rangs.",
+                "Comparez de gauche à droite.",
+                "Ajoutez des zéros mentaux : 4,5(00) vs 4,123.",
+                "Ordre croissant : du plus petit au plus grand."
+            ],
             exercises: [
                 {
-                    id: 'ex-rang-1',
-                    question: "Quel nombre est le plus grand : 4,5 ou 4,12 ?",
-                    options: ["4,12", "4,5", "Ils sont égaux", "On ne peut pas savoir"],
-                    correctAnswer: 1,
-                    explanation: "Comparez chiffre par chiffre : 4 = 4. Ensuite les dixièmes : 5 > 1. Donc 4,5 > 4,12."
+                    id: 'ex-comp-1',
+                    question: "Quel est le plus grand nombre ?",
+                    options: ["3,2", "3,19", "3,199", "3,09"],
+                    correctAnswer: 0,
+                    explanation: "3,2 = 3,200. C'est plus grand que 3,199."
+                },
+                {
+                    id: 'ex-comp-2',
+                    question: "Ranger 0,8 ; 0,81 ; 0,08 dans l'ordre croissant",
+                    options: ["0,08 < 0,8 < 0,81", "0,8 < 0,81 < 0,08", "0,08 < 0,81 < 0,8", "0,81 < 0,8 < 0,08"],
+                    correctAnswer: 0,
+                    explanation: "0,08 (le plus petit) < 0,80 < 0,81."
                 }
             ]
         },
         {
             id: 'chap-num-5',
-            title: '5. Multiplication de Nombres Décimaux Arithmétiques',
+            part: 'Première Partie : Activités Numériques',
+            title: '5. Multiplication',
+            story: "Multiplier, c'est comme utiliser une loupe. Parfois la loupe grossit (x2), parfois elle rétrécit (x0,5). La virgule se déplace comme si elle dansait, sautant autant de pas qu'il y a de chiffres derrière elle.",
             content: `
-                <h3>1. Ignorer la virgule... pour un instant</h3>
-                <p>Pour multiplier, oubliez les virgules au début ! Faites le calcul comme si c'étaient des nombres entiers.</p>
-                
-                <h3>2. Le retour de la virgule</h3>
-                <p>Une fois le calcul fini, comptez combien il y a de chiffres après la virgule AU TOTAL dans les deux nombres de départ. Placez la virgule dans le résultat pour avoir ce même nombre de chiffres.</p>
-
+                <h3>1. La Méthode</h3>
+                <p>On multiplie sans s'occuper des virgules. À la fin, on compte le total de chiffres après la virgule dans les facteurs et on le reporte au résultat.</p>
                 <div class="analogy">
-                    <strong>🔍 Analogie : La Loupe</strong><br>
-                    Multiplier, c'est comme zoomer. Si vous avez un zoom x10 sur l'un et x100 sur l'autre, votre image finale sera zoomée x1000. La virgule se déplace en fonction de tous les zooms cumulés.
+                    <strong>🔍 Analogie : Le Zoom</strong><br>
+                    2 chiffres après la virgule ici + 1 chiffre là = 3 chiffres après la virgule dans le résultat.
                 </div>
             `,
+            summary: [
+                "Ignorez les virgules pendant le calcul.",
+                "Comptez les chiffres décimaux des deux nombres.",
+                "Placez la virgule dans le résultat final.",
+                "Multiplier par 0,1 revient à diviser par 10."
+            ],
             exercises: [
                 {
                     id: 'ex-mul-1',
-                    question: "2,5 x 0,4 = ?",
-                    options: ["10", "1", "0,1", "100"],
+                    question: "0,5 x 0,5 =",
+                    options: ["0,25", "2,5", "0,5", "0,025"],
+                    correctAnswer: 0,
+                    explanation: "5x5=25. Deux chiffres après la virgule au total -> 0,25."
+                },
+                {
+                    id: 'ex-mul-2',
+                    question: "100 x 2,345 =",
+                    options: ["23,45", "234,5", "2345", "0,2345"],
                     correctAnswer: 1,
-                    explanation: "25 x 4 = 100. Il y a deux chiffres après la virgule au total (5 et 4). On décale la virgule de 2 rangs gauche : 1,00 soit 1."
+                    explanation: "Multiplier par 100 décale la virgule de 2 rangs vers la droite."
                 }
             ]
         },
         {
             id: 'chap-num-6',
-            title: '6. Division des Nombres Décimaux Arithmétiques',
+            part: 'Première Partie : Activités Numériques',
+            title: '6. Division Décimale',
+            story: "Partager un gâteau en 3, c'est facile. Mais partager 12,5 litres d'eau en 4 bouteilles ? Il faut être précis. La division décimale permet de ne rien gaspiller, même pas une goutte (le reste est nul ou très petit).",
             content: `
-                <h3>1. Division d'un décimal par un entier</h3>
-                <p>On pose la division normalement. Quand on abaisse le premier chiffre décimal (les dixièmes), on place aussitôt une virgule au quotient.</p>
-
-                <h3>2. Division par 10, 100, 1000</h3>
+                <h3>1. Division d'un décimal</h3>
+                <p>Quand on abaisse le premier chiffre après la virgule, on met une virgule au quotient.</p>
                 <div class="analogy">
-                    <strong>📉 Analogie : Le Rétrécissement</strong><br>
-                    Diviser par 10, c'est rendre le nombre 10 fois plus petit. La virgule "saute" d'un rang vers la gauche.
-                    <br>Exemple : 45,6 ÷ 10 = 4,56.
+                    <strong>💧 Analogie : Le Partage Équitable</strong><br>
+                    Pour partager 10€ en 4, on donne 2€ chacun, il reste 2€. On change ces 2€ en 200 centimes, et on donne 50 centimes. Total 2,50€.
                 </div>
             `,
+            summary: [
+                "Dès qu'on franchit la virgule au dividende, on la met au quotient.",
+                "On peut ajouter des zéros au reste pour continuer la division.",
+                "Diviser par 10 revient à décaler la virgule vers la gauche."
+            ],
             exercises: [
                 {
                     id: 'ex-div-1',
-                    question: "15,5 ÷ 5 = ?",
-                    options: ["3,5", "3,1", "3,05", "31"],
-                    correctAnswer: 1,
-                    explanation: "15 ÷ 5 = 3. On met la virgule. 5 ÷ 5 = 1. Résultat : 3,1."
+                    question: "5 ÷ 2 =",
+                    options: ["2,5", "2,2", "2,1", "3"],
+                    correctAnswer: 0,
+                    explanation: "La moitié de 5 est 2,5."
+                },
+                {
+                    id: 'ex-div-2',
+                    question: "12,4 ÷ 4 =",
+                    options: ["3,1", "3,01", "31", "0,31"],
+                    correctAnswer: 0,
+                    explanation: "12÷4=3. 4÷4=1. Donc 3,1."
                 }
             ]
         },
         {
             id: 'chap-num-7',
-            title: '7. Organisation d\'un Calcul',
+            part: 'Première Partie : Activités Numériques',
+            title: '7. Organisation des Calculs',
+            story: "Dans la ville des Mathématiques, il y a un code de la route strict. Les Parenthèses sont des ambulances prioritaires. Les Multiplications sont des camions rapides. Les Additions sont des piétons prudents. Si on ne respecte pas les priorités, c'est l'accident !",
             content: `
-                <h3>1. Les Priorités Opératoires (PEMDAS)</h3>
-                <p>Dans un calcul complexe, c'est la loi de la jungle, mais il y a des règles strictes !</p>
-                <ol>
-                    <li><strong>P</strong>arenthèses : Les VIP, on s'occupe d'eux en premier.</li>
-                    <li><strong>E</strong>xposants (puissances).</li>
-                    <li><strong>M</strong>ultiplications et <strong>D</strong>ivisions (de gauche à droite).</li>
-                    <li><strong>A</strong>dditions et <strong>S</strong>oustractions (de gauche à droite).</li>
-                </ol>
-
+                <h3>1. PEMDAS</h3>
+                <p>Ordre de priorité : Parenthèses > Exposants > Multiplications/Divisions > Additions/Soustractions.</p>
                 <div class="analogy">
-                    <strong>🚦 Analogie : Le Code de la Route</strong><br>
-                    Les parenthèses sont comme les ambulances avec sirène : priorité absolue ! Les multiplications sont comme les camions, prioritaires sur les voitures (additions). Si vous ne respectez pas les priorités, c'est l'accident de calcul !
+                    <strong>🚦 Analogie : La Priorité à Droite</strong><br>
+                    2 + 3 x 4. Le camion (x) passe avant le piéton (+).
+                    Donc 2 + 12 = 14.
                 </div>
             `,
+            summary: [
+                "Parenthèses d'abord !",
+                "Ensuite les multiplications et divisions.",
+                "Enfin les additions et soustractions (de gauche à droite).",
+                "2 + 3 x 5 = 17, pas 25."
+            ],
             exercises: [
                 {
                     id: 'ex-org-1',
-                    question: "Calculez : 2 + 3 x 4",
-                    options: ["20", "14", "10", "24"],
+                    question: "10 - 2 x 3 =",
+                    options: ["24", "4", "16", "8"],
                     correctAnswer: 1,
-                    explanation: "La multiplication est prioritaire. 3 x 4 = 12. Puis 2 + 12 = 14."
+                    explanation: "Multiplication prioritaire : 2x3=6. Puis 10-6=4."
+                },
+                {
+                    id: 'ex-org-2',
+                    question: "(10 - 2) x 3 =",
+                    options: ["24", "4", "16", "8"],
+                    correctAnswer: 0,
+                    explanation: "Parenthèses prioritaires : 10-2=8. Puis 8x3=24."
                 }
             ]
         },
         {
             id: 'chap-num-8',
+            part: 'Première Partie : Activités Numériques',
             title: '8. Proportionnalité',
+            story: "Un architecte dessine une maison minuscule. Si la porte mesure 2cm sur le papier et 2m en réalité, alors la fenêtre de 1cm doit mesurer 1m. Tout grandit ou rétrécit de la même façon. C'est la magie de la proportionnalité.",
             content: `
-                <h3>1. C'est quoi être proportionnel ?</h3>
-                <p>Deux grandeurs sont proportionnelles si on peut passer de l'une à l'autre en multipliant toujours par le même nombre (le coefficient de proportionnalité).</p>
-
+                <h3>1. Le Coefficient</h3>
+                <p>On passe d'une ligne à l'autre en multipliant par le même nombre.</p>
                 <div class="analogy">
-                    <strong>🥘 Analogie : La Recette de Cuisine</strong><br>
-                    Si une recette de thiéboudienne pour 4 personnes demande 2kg de riz, pour 8 personnes (le double), il faudra 4kg de riz (le double). C'est proportionnel ! Si vous mettez 10kg de riz, ce n'est plus la même recette !
+                    <strong>🗺 Analogie : L'Échelle</strong><br>
+                    Sur une carte, 1cm = 1km. Si je marche 5cm sur la carte, je marche 5km en vrai.
                 </div>
-
-                <h3>2. Le Tableau de Proportionnalité</h3>
-                <p>C'est un outil magique pour résoudre les problèmes. On utilise souvent la "règle de trois" ou le "produit en croix".</p>
             `,
+            summary: [
+                "Tableau de proportionnalité = mêmes règles pour toutes les colonnes.",
+                "Produit en croix pour trouver l'inconnu.",
+                "Prix au kilo : si 1kg coûte 5€, 2kg coûtent 10€."
+            ],
             exercises: [
                 {
                     id: 'ex-prop-1',
-                    question: "Si 3 stylos coûtent 1500F, combien coûtent 5 stylos ?",
-                    options: ["2000F", "2500F", "3000F", "5000F"],
-                    correctAnswer: 1,
-                    explanation: "1 stylo coûte 1500 ÷ 3 = 500F. Donc 5 stylos coûtent 5 x 500 = 2500F."
+                    question: "2 livres coûtent 10€. Combien coûtent 3 livres ?",
+                    options: ["15€", "12€", "20€", "13€"],
+                    correctAnswer: 0,
+                    explanation: "1 livre = 5€. Donc 3 livres = 15€."
                 }
             ]
         },
         {
             id: 'chap-num-9',
+            part: 'Première Partie : Activités Numériques',
             title: '9. Nombres Décimaux Relatifs',
+            story: "Il existe un monde miroir sous le sol. L'étage 0 sépare le ciel (positif) du sous-sol (négatif). Plus on descend, plus le chiffre grandit, mais plus on est 'bas' et 'froid'. -10 est beaucoup plus froid que -1 !",
             content: `
-                <h3>1. Au-delà du Zéro</h3>
-                <p>Jusqu'ici, 0 était le plus petit nombre. Mais il existe un monde "en dessous" de zéro ! Ce sont les nombres négatifs.</p>
-                <ul>
-                    <li>Nombres positifs : +1, +2, +12,5 (Le signe + est souvent invisible)</li>
-                    <li>Nombres négatifs : -1, -5, -20 (Le signe - est obligatoire)</li>
-                </ul>
-
+                <h3>1. Positifs et Négatifs</h3>
+                <p>Le signe (-) indique qu'on est en dessous de zéro.</p>
                 <div class="analogy">
-                    <strong>🌡 Analogie : Le Thermomètre et l'Ascenseur</strong><br>
-                    Imaginez un immeuble avec des sous-sols. Le rez-de-chaussée est le 0. Le 3ème étage est +3. Le 2ème sous-sol est -2.
-                    <br>Ou la température : quand il gèle, il fait -5°C. C'est plus froid que 0°C !
+                    <strong>🌡 Analogie : Le Thermomètre</strong><br>
+                    Il fait -5°. La température monte de 2°. Il fait -3°.
                 </div>
             `,
+            summary: [
+                "0 est à la fois positif et négatif.",
+                "Plus un nombre négatif est 'grand' (loin de zéro), plus il est petit en valeur (-100 < -1).",
+                "La distance à zéro s'appelle la valeur absolue."
+            ],
             exercises: [
                 {
                     id: 'ex-rel-1',
-                    question: "Quel nombre est le plus petit : -5 ou -2 ?",
-                    options: ["-5", "-2", "Ils sont égaux", "0"],
-                    correctAnswer: 0,
-                    explanation: "Dans les nombres négatifs, celui qui a la plus grande distance à zéro est le plus petit (le plus froid). -5 est plus bas que -2."
+                    question: "Quel est le plus petit ?",
+                    options: ["-1", "-1000", "0", "1"],
+                    correctAnswer: 1,
+                    explanation: "-1000 est très loin en dessous de zéro. C'est le plus petit."
+                },
+                {
+                    id: 'ex-rel-2',
+                    question: "-3 est situé entre :",
+                    options: ["-2 et -4", "-4 et -2", "0 et -5", "-2 et 0"],
+                    correctAnswer: 1,
+                    explanation: "Sur la droite : ... -4, -3, -2, -1, 0."
                 }
             ]
         },
         {
             id: 'chap-num-10',
-            title: '10. Repérage sur la Droite et le Plan',
+            part: 'Première Partie : Activités Numériques',
+            title: '10. Repérage',
+            story: "Pour trouver un trésor sur une carte, il ne suffit pas de dire 'il est là'. Il faut donner sa latitude et sa longitude. C'est l'adresse mathématique exacte du point.",
             content: `
-                <h3>1. La Droite Graduée</h3>
-                <p>Chaque nombre relatif a une adresse unique sur une droite graduée. L'origine est 0.</p>
-                
-                <h3>2. Le Repère Orthogonal (Le Plan)</h3>
-                <p>Pour se repérer sur une surface (2D), on a besoin de deux nombres :</p>
-                <ul>
-                    <li>L'abscisse (axe horizontal x)</li>
-                    <li>L'ordonnée (axe vertical y)</li>
-                </ul>
-                <p>On note les coordonnées : (x ; y)</p>
-
+                <h3>1. Coordonnées (x ; y)</h3>
+                <p>Abscisse (horizontal) d'abord, Ordonnée (vertical) ensuite.</p>
                 <div class="analogy">
-                    <strong>📍 Analogie : Le GPS et le Cinéma</strong><br>
-                    Pour trouver votre place au cinéma, vous avez besoin du numéro de la rangée (x) et du numéro du siège (y). Avec un seul numéro, vous êtes perdu !
-                    <br>Dans Dakar, c'est comme donner l'intersection de deux rues pour localiser un magasin.
+                    <strong>🏢 Analogie : L'Ascenseur</strong><br>
+                    Pour aller chez quelqu'un : je marche dans le hall (Abscisse) PUIS je prends l'ascenseur (Ordonnée).
+                    (3 ; 2) : J'avance de 3, je monte de 2.
                 </div>
             `,
+            summary: [
+                "Abscisse = Axe horizontal (x).",
+                "Ordonnée = Axe vertical (y).",
+                "Origine = (0 ; 0).",
+                "Ordre alphabétique : Abscisse avant Ordonnée."
+            ],
             exercises: [
                 {
                     id: 'ex-rep-1',
-                    question: "Dans les coordonnées (3 ; -2), que représente -2 ?",
-                    options: ["L'abscisse", "L'ordonnée", "L'origine", "La distance"],
-                    correctAnswer: 1,
-                    explanation: "Les coordonnées sont toujours dans l'ordre (Abscisse ; Ordonnée). Donc 3 est l'abscisse, -2 est l'ordonnée."
+                    question: "Le point A(2 ; 3) est :",
+                    options: ["À 2 vers la droite, 3 vers le haut", "À 3 vers la droite, 2 vers le haut", "Sur l'axe des abscisses", "Sur l'axe des ordonnées"],
+                    correctAnswer: 0,
+                    explanation: "2 en abscisse (droite), 3 en ordonnée (haut)."
                 }
             ]
         },
@@ -293,335 +391,295 @@ export const math6eData = {
         // ==========================================
         {
             id: 'chap-geo-1',
+            part: 'Deuxième Partie : Activités Géométriques',
             title: '11. Introduction à la Géométrie',
+            image: '/courses/images/math6e/geo_basics.png',
+            story: "Au commencement, il n'y avait rien. Puis apparut le Point, une poussière d'étoile. Deux points se donnèrent la main pour former un Segment. Puis ils s'élancèrent à l'infini pour devenir une Droite. La géométrie était née !",
             content: `
-                <h3>1. Les Briques de l'Univers</h3>
-                <p>La géométrie, c'est l'art de mesurer la Terre. Tout commence par des éléments simples :</p>
+                <h3>1. Les Fondations</h3>
                 <ul>
-                    <li><strong>Le Point :</strong> Une position exacte, sans taille. Comme une étoile lointaine dans le ciel. Notation : A, B.</li>
-                    <li><strong>La Droite :</strong> Une ligne infinie qui n'a ni début ni fin. Notation : (d) ou (AB).</li>
-                    <li><strong>Le Segment :</strong> Un morceau de droite délimité par deux points. Notation : [AB].</li>
-                    <li><strong>La Demi-droite :</strong> Une droite qui a un début mais pas de fin. Notation : [AB).</li>
+                    <li><strong>Point (x)</strong> : Une position précise.</li>
+                    <li><strong>Droite (AB)</strong> : Infinie, passe par A et B.</li>
+                    <li><strong>Segment [AB]</strong> : Fini, commence à A et finit à B.</li>
+                    <li><strong>Demi-droite [Ax)</strong> : Commence à A, infinie vers x.</li>
                 </ul>
-
                 <div class="analogy">
-                    <strong>🏗 Analogie : Le Fil et les Perles</strong><br>
-                    Imaginez un collier de perles infiniment long.
-                    <br>• Une perle est un <strong>point</strong>.
-                    <br>• Le fil qui traverse tout est la <strong>droite</strong>.
-                    <br>• Si vous coupez le fil entre deux perles, vous avez un <strong>segment</strong>.
-                    <br>• Le rayon laser d'un pointeur part du stylo (origine) et va à l'infini : c'est une <strong>demi-droite</strong>.
+                    <strong>✨ Analogie : Le Laser</strong><br>
+                    Le stylo laser est l'origine. Le rayon qui part est une demi-droite. Le tableau où il s'arrête est un point.
                 </div>
             `,
+            summary: [
+                "La notation est cruciale : [] = segment (fermé), () = droite (ouverte).",
+                "Par 2 points passe 1 seule droite.",
+                "3 points alignés sont sur la même droite."
+            ],
             exercises: [
                 {
                     id: 'ex-geo-1',
-                    question: "Quelle notation désigne une droite passant par A et B ?",
-                    options: ["[AB]", "(AB)", "[AB)", "AB"],
-                    correctAnswer: 1,
-                    explanation: "Les parenthèses indicate une droite (infinie). Les crochets indiquent un segment (fini)."
+                    question: "Quelle notation pour le segment d'extrémités A et B ?",
+                    options: ["(AB)", "[AB)", "[AB]", "AB"],
+                    correctAnswer: 2,
+                    explanation: "Les crochets [ ] indiquent que ça s'arrête aux extrémités (segment)."
                 },
                 {
                     id: 'ex-geo-2',
-                    question: "Combien de droites passent par deux points distincts ?",
-                    options: ["Aucune", "Une seule", "Deux", "Une infinité"],
-                    correctAnswer: 1,
-                    explanation: "C'est une règle d'or : par deux points, il ne passe qu'une seule et unique droite."
+                    question: "Une demi-droite a :",
+                    options: ["Deux extrémités", "Aucune extrémité", "Une origine et pas de fin", "Une longueur mesurable"],
+                    correctAnswer: 2,
+                    explanation: "Elle commence quelque part (origine) mais ne finit jamais."
                 }
             ]
         },
         {
             id: 'chap-geo-2',
+            part: 'Deuxième Partie : Activités Géométriques',
             title: '12. Le Cercle',
+            image: '/courses/images/math6e/geo_circles.png',
+            story: "Le Cercle est la forme la plus démocratique : tous ses points sont à la même distance du chef (le Centre). Personne n'est jaloux, tout le monde est à égalité !",
             content: `
-                <h3>1. La Ronde Parfaite</h3>
-                <p>Un cercle est l'ensemble de tous les points situés à la même distance d'un point central appelé le <strong>centre</strong>. Cette distance est le <strong>rayon</strong>.</p>
-                
-                <h3>2. Vocabulaire Essentiel</h3>
+                <h3>1. Définitions</h3>
+                <p>Le compas est l'outil du cercle. L'écartement est le rayon.</p>
                 <ul>
-                    <li><strong>Centre (O) :</strong> Le point au milieu.</li>
-                    <li><strong>Rayon (R) :</strong> La distance du centre au bord.</li>
-                    <li><strong>Diamètre (D) :</strong> La largeur maximale du cercle (D = 2 x R).</li>
-                    <li><strong>Corde :</strong> Un segment reliant deux points du cercle. Le diamètre est la plus longue corde.</li>
+                    <li><strong>Rayon</strong> : Du centre au bord.</li>
+                    <li><strong>Diamètre</strong> : Traverse le centre (2 x Rayon).</li>
+                    <li><strong>Corde</strong> : Relie deux points sans passer forcément par le centre.</li>
                 </ul>
-
-                <div class="analogy">
-                    <strong>🐐 Analogie : La Chèvre au Piquet</strong><br>
-                    Imaginez une chèvre attachée à un piquet par une corde tendue. Si elle tourne tout autour du piquet en gardant la corde tendue, elle dessine un <strong>cercle</strong> au sol.
-                    <br>• Le piquet est le <strong>centre</strong>.
-                    <br>• La longueur de la corde est le <strong>rayon</strong>.
-                </div>
             `,
+            summary: [
+                "Tous les rayons d'un même cercle ont la même longueur.",
+                "Le diamètre est la plus longue corde.",
+                "Périmètre = Diamètre x Pi (3,14)."
+            ],
             exercises: [
                 {
                     id: 'ex-cercle-1',
-                    question: "Si le rayon d'un cercle est de 5 cm, quel est son diamètre ?",
-                    options: ["2,5 cm", "5 cm", "10 cm", "25 cm"],
-                    correctAnswer: 2,
-                    explanation: "Le diamètre est toujours le double du rayon. 5 x 2 = 10 cm."
+                    question: "Si le diamètre est 10cm, le rayon est :",
+                    options: ["20cm", "5cm", "10cm", "3,14cm"],
+                    correctAnswer: 1,
+                    explanation: "Rayon = Diamètre / 2 = 5cm."
                 },
                 {
                     id: 'ex-cercle-2',
-                    question: "Comment appelle-t-on le périmètre d'un cercle ?",
-                    options: ["L'aire", "La circonférence", "Le diamètre", "L'arc"],
-                    correctAnswer: 1,
-                    explanation: "La longueur du contour du cercle s'appelle la circonférence."
+                    question: "Une corde passant par le centre s'appelle :",
+                    options: ["Un rayon", "Un arc", "Un diamètre", "Une tangente"],
+                    correctAnswer: 2,
+                    explanation: "C'est la définition du diamètre."
                 }
             ]
         },
         {
             id: 'chap-geo-3',
-            title: '13. Droites Perpendiculaires et Droites Parallèles',
+            part: 'Deuxième Partie : Activités Géométriques',
+            title: '13. Parallèles et Perpendiculaires',
+            story: "Deux droites marchaient dans le désert. L'une dit 'Jamais nous ne nous rencontrerons', c'étaient des Parallèles. Plus loin, deux autres droites se heurtèrent violemment en formant une croix parfaite : c'étaient des Perpendiculaires.",
             content: `
-                <h3>1. Droites Perpendiculaires (⊥)</h3>
-                <p>Deux droites sont perpendiculaires si elles se coupent en formant un <strong>angle droit (90°)</strong>. On utilise une <strong>équerre</strong> pour vérifier.</p>
-                
-                <h3>2. Droites Parallèles (//)</h3>
-                <p>Deux droites sont parallèles si elles ne se coupent <strong>jamais</strong>, même si on les prolonge à l'infini. Elles gardent toujours le même écartement.</p>
-
+                <h3>1. Position Relative</h3>
+                <ul>
+                    <li><strong>Sécantes</strong> : Se croisent.</li>
+                    <li><strong>Perpendiculaires (⊥)</strong> : Se croisent à angle droit (90°).</li>
+                    <li><strong>Parallèles (//)</strong> : Ne se croisent jamais (écartement constant).</li>
+                </ul>
                 <div class="analogy">
-                    <strong>🛤 Analogie : La Ville et le Train</strong><br>
-                    • <strong>Parallèles :</strong> Les rails d'un train. Ils ne doivent jamais se toucher, sinon le train déraille !
-                    <br>• <strong>Perpendiculaires :</strong> Un carrefour en ville avec des feux rouges. Les routes se croisent parfaitement en "croix" (+).
+                    <strong>🛤 Analogie : Ville et Train</strong><br>
+                    Perpendiculaires = Carrefour de feux rouges (+).
+                    Parallèles = Rails de train (=).
                 </div>
             `,
+            summary: [
+                "On utilise l'équerre pour les perpendiculaires.",
+                "Si deux droites sont perpendiculaires à une troisième, elles sont parallèles entre elles."
+            ],
             exercises: [
                 {
-                    id: 'ex-dp-1',
-                    question: "Quel instrument utilise-t-on pour tracer des perpendiculaires ?",
-                    options: ["Le compas", "La règle seule", "L'équerre", "Le rapporteur"],
+                    id: 'ex-d-1',
+                    question: "L'équerre sert à tracer des droites :",
+                    options: ["Parallèles", "Sécantes", "Perpendiculaires", "Quelconques"],
                     correctAnswer: 2,
-                    explanation: "L'équerre possède un angle droit spécialement conçu pour tracer des perpendiculaires."
-                },
-                {
-                    id: 'ex-dp-2',
-                    question: "Si (d1) est parallèle à (d2) et (d2) est parallèle à (d3), alors :",
-                    options: ["(d1) est perpendiculaire à (d3)", "(d1) est parallèle à (d3)", "Elles sont sécantes", "On ne peut pas savoir"],
-                    correctAnswer: 1,
-                    explanation: "Les amis de mes amis sont mes amis... version géométrie ! Si des rails suivent d'autres rails, ils vont tous dans la même direction."
+                    explanation: "L'angle droit de l'équerre permet de tracer des perpendiculaires."
                 }
             ]
         },
         {
             id: 'chap-geo-4',
-            title: '14. Symétrie Orthogonale par rapport à une Droite',
+            part: 'Deuxième Partie : Activités Géométriques',
+            title: '14. Symétrie Axiale',
+            story: "Narcisse se regarde dans l'étang. Il voit son reflet exact, mais inversé. Sa main droite est à gauche dans le reflet. La surface de l'eau est l'axe de symétrie.",
             content: `
                 <h3>1. L'Effet Miroir</h3>
-                <p>Deux figures sont symétriques par rapport à une droite (l'axe) si elles se superposent parfaitement quand on plie la feuille le long de cette droite.</p>
-                
-                <h3>2. Propriétés Magiques</h3>
-                <p>La symétrie conserve tout !</p>
-                <ul>
-                    <li>Les longueurs (segments)</li>
-                    <li>Les mesures d'angles</li>
-                    <li>Les formes</li>
-                    <li>Les aires</li>
-                </ul>
-                <p>La seule chose qui change, c'est le sens (gauche devient droite), comme dans un miroir.</p>
-
+                <p>Deux figures sont symétriques par rapport à une droite si elles se superposent par pliage.</p>
                 <div class="analogy">
-                    <strong>🦋 Analogie : Le Papillon et l'Encre</strong><br>
-                    Mettez une tache d'encre sur une feuille, pliez-la en deux. En rouvrant, vous avez deux taches identiques face à face. La pliure est l'<strong>axe de symétrie</strong>. C'est aussi comme se regarder dans un miroir ou les ailes d'un papillon.
+                    <strong>🦋 Analogie : Le Papillon</strong><br>
+                    Le corps du papillon est l'axe. L'aile gauche est le symétrique de l'aile droite.
                 </div>
             `,
+            summary: [
+                "La symétrie conserve les longueurs, les angles et les aires.",
+                "L'axe de symétrie est la médiatrice du segment reliant un point et son image."
+            ],
             exercises: [
                 {
                     id: 'ex-sym-1',
-                    question: "Le symétrique d'un segment de 5 cm est un segment de :",
-                    options: ["2,5 cm", "5 cm", "10 cm", "Cela dépend de l'axe"],
-                    correctAnswer: 1,
-                    explanation: "La symétrie conserve les longueurs. L'image a exactement la même taille que l'original."
+                    question: "Le symétrique d'un cercle par rapport à une droite est :",
+                    options: ["Un carré", "Une droite", "Un cercle de même rayon", "Un point"],
+                    correctAnswer: 2,
+                    explanation: "La symétrie conserve les formes et les dimensions."
                 }
             ]
         },
         {
             id: 'chap-geo-5',
-            title: '15. Angles',
+            part: 'Deuxième Partie : Activités Géométriques',
+            title: '15. Les Angles',
+            image: '/courses/images/math6e/geo_angles.png',
+            story: "L'Angle est la mesure de l'ouverture d'une bouche. Une petite bouche pincée est un angle aigu. Une bouche grande ouverte pour crier est un angle obtus. Une bouche fermée est un angle nul.",
             content: `
-                <h3>1. L'Ouverture</h3>
-                <p>Un angle est formé par deux demi-droites de même origine. C'est l'écartement entre les deux.</p>
-                
-                <h3>2. Les Familles d'Angles</h3>
+                <h3>1. Types d'Angles</h3>
                 <ul>
-                    <li><strong>Aigu :</strong> Plus petit qu'un angle droit (< 90°). Pointu, piquant.</li>
-                    <li><strong>Droit :</strong> Exactement 90° (coin d'une feuille).</li>
-                    <li><strong>Obtus :</strong> Plus grand qu'un angle droit (> 90°).</li>
-                    <li><strong>Plat :</strong> Complètement ouvert (180°), forme une ligne droite.</li>
+                    <li>Aigu : < 90° (Pointu)</li>
+                    <li>Droit : = 90° (Coin carré)</li>
+                    <li>Obtus : > 90° (Large)</li>
+                    <li>Plat : = 180° (Ligne droite)</li>
                 </ul>
-
                 <div class="analogy">
-                    <strong>🚪 Analogie : La Porte</strong><br>
-                    • Porte fermée = Angle nul (0°).
-                    <br>• Porte un peu ouverte = Angle aigu.
-                    <br>• Porte ouverte en grand (contre le mur) = Angle plat (180°).
-                    <br>• Coin du mur = Angle droit (90°).
+                    <strong>🕒 Analogie : L'Horloge</strong><br>
+                    3h00 : Angle droit.<br>
+                    6h00 : Angle plat.<br>
+                    1h00 : Angle aigu.
                 </div>
             `,
+            summary: [
+                "On mesure les angles avec un rapporteur.",
+                "L'unité est le degré (°).",
+                "Un tour complet fait 360°."
+            ],
             exercises: [
                 {
-                    id: 'ex-angle-1',
-                    question: "Un angle de 45° est un angle :",
-                    options: ["Obtus", "Droit", "Aigu", "Plat"],
+                    id: 'ex-ang-1',
+                    question: "Un angle de 91° est :",
+                    options: ["Aigu", "Droit", "Obtus", "Plat"],
                     correctAnswer: 2,
-                    explanation: "45 est plus petit que 90, donc c'est un angle aigu (pointu)."
-                },
-                {
-                    id: 'ex-angle-2',
-                    question: "La bissectrice d'un angle de 60° le partage en deux angles de :",
-                    options: ["20° chacun", "30° chacun", "40° chacun", "60° chacun"],
-                    correctAnswer: 1,
-                    explanation: "La bissectrice coupe l'angle en deux parts égales. 60 ÷ 2 = 30°."
+                    explanation: "C'est plus grand que 90°, donc c'est obtus."
                 }
             ]
         },
         {
             id: 'chap-geo-6',
+            part: 'Deuxième Partie : Activités Géométriques',
             title: '16. Polygones',
+            story: "La famille Polygone est nombreuse. M. Triangle a 3 côtés. Mme Quadrilatère en a 4. Leurs enfants s'appellent Rectangle, Losange et Carré. Carré est le chouchou, car il est parfait : tous ses côtés et angles sont égaux !",
             content: `
-                <h3>1. Les Figures à Plusieurs Côtés</h3>
-                <p>Un polygone est une figure fermée tracée à la règle.</p>
+                <h3>1. Triangles</h3>
                 <ul>
-                    <li>3 côtés : <strong>Triangle</strong></li>
-                    <li>4 côtés : <strong>Quadrilatère</strong></li>
-                    <li>5 côtés : <strong>Pentagone</strong></li>
-                    <li>6 côtés : <strong>Hexagone</strong></li>
+                    <li>Isocèle : 2 côtés égaux.</li>
+                    <li>Équilatéral : 3 côtés égaux.</li>
+                    <li>Rectangle : 1 angle droit.</li>
                 </ul>
-
-                <h3>2. Les Triangles Spéciaux</h3>
+                <h3>2. Quadrilatères</h3>
                 <ul>
-                    <li><strong>Isocèle :</strong> 2 côtés égaux (le chapeau pointu).</li>
-                    <li><strong>Équilatéral :</strong> 3 côtés égaux (parfait).</li>
-                    <li><strong>Rectangle :</strong> Possède un angle droit.</li>
-                </ul>
-
-                <h3>3. Les Quadrilatères Spéciaux</h3>
-                <ul>
-                    <li><strong>Rectangle :</strong> 4 angles droits.</li>
-                    <li><strong>Losange :</strong> 4 côtés égaux.</li>
-                    <li><strong>Carré :</strong> 4 angles droits ET 4 côtés égaux (le roi des quadrilatères).</li>
+                    <li>Rectangle : 4 angles droits.</li>
+                    <li>Losange : 4 côtés égaux.</li>
+                    <li>Carré : Rectangle + Losange (Tout parfait).</li>
                 </ul>
             `,
+            summary: [
+                "Un polygone est une ligne brisée fermée.",
+                "Le Carré est à la fois un rectangle et un losange."
+            ],
             exercises: [
                 {
                     id: 'ex-poly-1',
-                    question: "Quel quadrilatère a ses 4 côtés de même longueur ?",
-                    options: ["Le Rectangle", "Le Losange", "Le Trapèze", "Le Parallélogramme"],
-                    correctAnswer: 1,
-                    explanation: "Le losange se définit par ses 4 côtés égaux (comme le carré, mais le losange est la définition plus générale). Note: le carré est aussi un losange particulier."
-                },
-                {
-                    id: 'ex-poly-2',
-                    question: "Un triangle équilatéral a :",
-                    options: ["2 côtés égaux", "3 côtés égaux", "1 angle droit", "Aucun côté égal"],
-                    correctAnswer: 1,
-                    explanation: "Équi-latéral veut dire 'côtés égaux'. Les 3 sont identiques."
+                    question: "Je suis un quadrilatère avec 4 côtés égaux mais pas d'angle droit. Qui suis-je ?",
+                    options: ["Un Carré", "Un Rectangle", "Un Losange", "Un Trapèze"],
+                    correctAnswer: 2,
+                    explanation: "Côtés égaux = Losange. (Si j'avais des angles droits, je serais un Carré)."
                 }
             ]
         },
         {
             id: 'chap-geo-7',
-            title: '17. Aires',
+            part: 'Deuxième Partie : Activités Géométriques',
+            title: '17. Aires et Périmètres',
+            story: "Le paysan veut clôturer son champ (Périmètre) et semer du gazon (Aire). Il ne faut pas confondre le grillage avec l'herbe ! Un champ long et fin peut avoir beaucoup de grillage mais peu d'herbe.",
             content: `
-                <h3>1. Surface vs Périmètre</h3>
-                <p>Le <strong>périmètre</strong> est la longueur du contour (la clôture).<br>L'<strong>aire</strong> est la mesure de la surface intérieure (le gazon).</p>
-
-                <h3>2. Formules Magiques</h3>
+                <h3>1. Formules</h3>
                 <ul>
-                    <li><strong>Carré :</strong> Côté x Côté (c x c)</li>
-                    <li><strong>Rectangle :</strong> Longueur x largeur (L x l)</li>
-                    <li><strong>Triangle Rectangle :</strong> (Petit côté x Grand côté) ÷ 2</li>
-                    <li><strong>Disque (Cercle) :</strong> Rayon x Rayon x Pi (R x R x 3,14)</li>
+                    <li>Périmètre Rectangle = (L + l) x 2</li>
+                    <li>Aire Rectangle = L x l</li>
+                    <li>Aire Carré = c x c</li>
+                    <li>Aire Triangle Rectangle = (a x b) / 2</li>
                 </ul>
-
-                <div class="analogy">
-                    <strong>🎨 Analogie : Peinture et Clôture</strong><br>
-                    • Calculer le <strong>périmètre</strong> de votre chambre, c'est mesurer la longueur des plinthes.
-                    <br>• Calculer l'<strong>aire</strong>, c'est savoir combien de carreaux ou de moquette il faut acheter pour couvrir le sol.
-                </div>
             `,
+            summary: [
+                "Périmètre = Contour (m).",
+                "Aire = Surface (m²).",
+                "Attention aux unités : ne mélangez pas cm et m !"
+            ],
             exercises: [
                 {
                     id: 'ex-aire-1',
-                    question: "Quelle est l'aire d'un carré de 5 cm de côté ?",
-                    options: ["20 cm²", "25 cm²", "10 cm²", "5 cm²"],
-                    correctAnswer: 1,
-                    explanation: "Aire = c x c = 5 x 5 = 25 cm². Attention, l'unité est le centimètre carré !"
-                },
-                {
-                    id: 'ex-aire-2',
-                    question: "Un rectangle fait 4m de long et 3m de large. Son aire est :",
-                    options: ["7 m²", "12 m²", "14 m²", "24 m²"],
-                    correctAnswer: 1,
-                    explanation: "Aire = Longueur x largeur = 4 x 3 = 12 m²."
+                    question: "Un carré de 6m de côté a une aire de :",
+                    options: ["12m²", "24m²", "36m²", "6m²"],
+                    correctAnswer: 2,
+                    explanation: "6 x 6 = 36m²."
                 }
             ]
         },
         {
             id: 'chap-geo-8',
+            part: 'Deuxième Partie : Activités Géométriques',
             title: '18. Géométrie dans l\'Espace',
+            image: '/courses/images/math6e/geo_solids.png',
+            story: "Nous vivons dans un monde en 3D. Le Cube est un dé à jouer géant. Le Pavé est une brique. Le Cylindre est une boîte de conserve. Ils ont du volume, on peut les remplir d'eau !",
             content: `
-                <h3>1. Le Monde en 3D</h3>
-                <p>Dans l'espace, les figures ont du volume. On peut les remplir.</p>
+                <h3>1. Les Solides</h3>
                 <ul>
-                    <li><strong>Cube :</strong> 6 faces carrées identiques (comme un dé).</li>
-                    <li><strong>Parallélépipède (Pavé) :</strong> 6 faces rectangulaires (comme une boîte de chaussures ou une brique).</li>
-                    <li><strong>Cylindre :</strong> Comme une boîte de conserve.</li>
-                    <li><strong>Sphère :</strong> Comme un ballon de football.</li>
+                    <li><strong>Cube</strong> : 6 faces carrées.</li>
+                    <li><strong>Pavé droit</strong> : 6 faces rectangulaires.</li>
+                    <li><strong>Cylindre</strong> : 2 disques et une face courbe.</li>
                 </ul>
-
-                <h3>2. Patrons</h3>
-                <p>Un patron est le dessin à plat qui permet de construire le solide en le pliant. Imaginez déplier une boîte en carton.</p>
+                <h3>2. Patron</h3>
+                <p>C'est le solide mis à plat, prêt à être découpé et plié.</p>
             `,
+            summary: [
+                "Un solide occupe un volume.",
+                "Les faces du pavé sont des rectangles.",
+                "Le patron permet de construire le solide."
+            ],
             exercises: [
                 {
-                    id: 'ex-space-1',
-                    question: "Combien de faces possède un cube ?",
+                    id: 'ex-sol-1',
+                    question: "Combien de sommets a un cube ?",
                     options: ["4", "6", "8", "12"],
-                    correctAnswer: 1,
-                    explanation: "Un cube a 6 faces : dessus, dessous, devant, derrière, gauche, droite. Comme un dé à jouer !"
-                },
-                {
-                    id: 'ex-space-2',
-                    question: "Quel objet a la forme d'un cylindre ?",
-                    options: ["Une orange", "Une boîte de conserve", "Une pyramide", "Un livre"],
-                    correctAnswer: 1,
-                    explanation: "Une boîte de conserve a deux bases rondes et un corps droit : c'est un cylindre."
+                    correctAnswer: 2,
+                    explanation: "4 en haut + 4 en bas = 8 sommets."
                 }
             ]
         },
         {
             id: 'chap-geo-9',
-            title: '19. Repérage sur la Sphère',
+            part: 'Deuxième Partie : Activités Géométriques',
+            title: '19. Sphère et Globe',
+            story: "La Terre n'est pas plate ! C'est une boule (presque) parfaite. Pour voyager, les marins ont tracé des lignes imaginaires sur la mer : l'Équateur (la ceinture) et les Méridiens (les quartiers d'orange).",
             content: `
-                <h3>1. La Terre est Ronde</h3>
-                <p>Pour se repérer sur une sphère (comme la Terre), on a besoin de deux coordonnées spéciales :</p>
-                
-                <h3>2. Les Lignes Imaginaires</h3>
+                <h3>1. Se repérer</h3>
+                <p>Comme sur un plan, mais courbe.</p>
                 <ul>
-                    <li><strong>L'Équateur :</strong> La ceinture de la Terre (sépare Nord et Sud).</li>
-                    <li><strong>La Latitude :</strong> Distance au Nord ou au Sud de l'Équateur (parallèles).</li>
-                    <li><strong>La Longitude :</strong> Distance à l'Est ou à l'Ouest du méridien de Greenwich.</li>
+                    <li>Latitude (Nord/Sud) // Équateur</li>
+                    <li>Longitude (Est/Ouest) // Greenwich</li>
                 </ul>
-
-                <div class="analogy">
-                    <strong>🌐 Analogie : Le Quadrillage du Monde</strong><br>
-                    Imaginez une orange que l'on coupe en rondelles (latitude) et en quartiers (longitude). Pour dire où se trouve un pépin, on donne le numéro de la rondelle et celui du quartier. Dakar se trouve à 14° Nord (Latitude) et 17° Ouest (Longitude).
-                </div>
             `,
+            summary: [
+                "La Terre est une sphère.",
+                "L'Équateur divise la Terre en deux hémisphères.",
+                "Les pôles sont aux extrémités de l'axe de rotation."
+            ],
             exercises: [
                 {
-                    id: 'ex-sphere-1',
-                    question: "Quelle ligne imaginaire divise la Terre en deux hémisphères Nord et Sud ?",
-                    options: ["Le Méridien de Greenwich", "L'Équateur", "Le Tropique du Cancer", "Le Pôle Nord"],
+                    id: 'ex-sph-1',
+                    question: "Quelle ligne passe par les deux pôles ?",
+                    options: ["L'Équateur", "Un Méridien", "Un Parallèle", "L'Horizon"],
                     correctAnswer: 1,
-                    explanation: "L'Équateur est le cercle le plus large qui fait le tour de la Terre à mi-chemin des pôles."
-                },
-                {
-                    id: 'ex-sphere-2',
-                    question: "La latitude se mesure en :",
-                    options: ["Mètres", "Kilomètres", "Degrés", "Heures"],
-                    correctAnswer: 2,
-                    explanation: "Sur une sphère, on mesure des angles, donc des degrés (ex: 14° Nord)."
+                    explanation: "Les méridiens relient le pôle Nord au pôle Sud."
                 }
             ]
         }

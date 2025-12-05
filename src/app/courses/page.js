@@ -91,8 +91,8 @@ export default function CoursesPage() {
                                         key={level}
                                         onClick={() => setActiveLevel(level)}
                                         className={`w-full flex items-center justify-between px-4 py-3 rounded-xl text-sm font-medium transition-all ${activeLevel === level
-                                                ? 'bg-blue-600/10 text-blue-400 border border-blue-600/20'
-                                                : 'text-gray-400 hover:bg-white/5 hover:text-white'
+                                            ? 'bg-blue-600/10 text-blue-400 border border-blue-600/20'
+                                            : 'text-gray-400 hover:bg-white/5 hover:text-white'
                                             }`}
                                     >
                                         {level}
@@ -126,8 +126,8 @@ export default function CoursesPage() {
                                         key={subject}
                                         onClick={() => setActiveSubject(subject)}
                                         className={`px-4 py-2 rounded-full text-sm font-bold whitespace-nowrap transition-all ${activeSubject === subject
-                                                ? 'bg-white text-black'
-                                                : 'bg-white/5 text-gray-400 hover:bg-white/10 hover:text-white'
+                                            ? 'bg-white text-black'
+                                            : 'bg-white/5 text-gray-400 hover:bg-white/10 hover:text-white'
                                             }`}
                                     >
                                         {subject}
@@ -211,21 +211,37 @@ export default function CoursesPage() {
                                             <h3 className="font-bold text-sm uppercase tracking-wider text-gray-400">Chapitres</h3>
                                         </div>
                                         <div className="flex-1 overflow-y-auto p-2 space-y-1">
-                                            {structuredCourses[selectedCourse.id].chapters.map((chapter) => (
-                                                <button
-                                                    key={chapter.id}
-                                                    onClick={() => {
-                                                        setActiveChapter(chapter);
-                                                        setShowExercises(false);
-                                                    }}
-                                                    className={`w-full text-left p-3 rounded-lg text-sm transition-colors ${activeChapter?.id === chapter.id
-                                                            ? 'bg-blue-600 text-white font-bold'
-                                                            : 'text-gray-400 hover:bg-white/5 hover:text-white'
-                                                        }`}
-                                                >
-                                                    {chapter.title}
-                                                </button>
-                                            ))}
+                                            {structuredCourses[selectedCourse.id].chapters.map((chapter, index, arr) => {
+                                                const prevChapter = arr[index - 1];
+                                                const showDivider = !prevChapter || prevChapter.part !== chapter.part;
+
+                                                return (
+                                                    <div key={chapter.id}>
+                                                        {showDivider && chapter.part && (
+                                                            <div className="px-3 py-2 mt-4 mb-2 text-xs font-bold text-blue-400 uppercase tracking-widest bg-blue-500/5 rounded border border-blue-500/10 backdrop-blur-sm sticky top-0 z-10 mx-1">
+                                                                {chapter.part}
+                                                            </div>
+                                                        )}
+                                                        <button
+                                                            onClick={() => {
+                                                                setActiveChapter(chapter);
+                                                                setShowExercises(false);
+                                                            }}
+                                                            className={`w-full text-left p-3 rounded-lg text-sm transition-all border ${activeChapter?.id === chapter.id
+                                                                ? 'bg-blue-600 text-white font-bold border-blue-500 shadow-lg shadow-blue-900/20'
+                                                                : 'text-gray-400 border-transparent hover:bg-white/5 hover:text-white hover:border-white/5'
+                                                                }`}
+                                                        >
+                                                            <div className="flex items-center gap-3">
+                                                                <span className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold shrink-0 ${activeChapter?.id === chapter.id ? 'bg-white/20' : 'bg-white/5'}`}>
+                                                                    {index + 1}
+                                                                </span>
+                                                                {chapter.title.replace(/^\d+\.\s*/, '')}
+                                                            </div>
+                                                        </button>
+                                                    </div>
+                                                );
+                                            })}
                                         </div>
                                     </div>
 
@@ -235,14 +251,14 @@ export default function CoursesPage() {
                                         <div className="flex border-b border-white/10">
                                             <button
                                                 onClick={() => setShowExercises(false)}
-                                                className={`flex-1 py-4 text-sm font-bold uppercase tracking-wider transition-colors ${!showExercises ? 'bg-blue-600/10 text-blue-400 border-b-2 border-blue-500' : 'text-gray-500 hover:text-white'
+                                                className={`flex-1 py-4 text-sm font-bold uppercase tracking-wider transition-colors ${!showExercises ? 'bg-[#0F1115] text-blue-400 border-t-2 border-blue-500' : 'text-gray-500 hover:text-white bg-black/20'
                                                     }`}
                                             >
-                                                📖 Cours
+                                                📖 Leçon
                                             </button>
                                             <button
                                                 onClick={() => setShowExercises(true)}
-                                                className={`flex-1 py-4 text-sm font-bold uppercase tracking-wider transition-colors ${showExercises ? 'bg-blue-600/10 text-blue-400 border-b-2 border-blue-500' : 'text-gray-500 hover:text-white'
+                                                className={`flex-1 py-4 text-sm font-bold uppercase tracking-wider transition-colors ${showExercises ? 'bg-[#0F1115] text-blue-400 border-t-2 border-blue-500' : 'text-gray-500 hover:text-white bg-black/20'
                                                     }`}
                                             >
                                                 ✏️ Exercices
@@ -250,11 +266,70 @@ export default function CoursesPage() {
                                         </div>
 
                                         {/* Scrollable Content */}
-                                        <div className="flex-1 overflow-y-auto p-8">
+                                        <div className="flex-1 overflow-y-auto p-8 scrollbar-thin scrollbar-thumb-white/10 scrollbar-track-transparent">
                                             {!showExercises ? (
-                                                <div className="prose prose-invert max-w-none">
-                                                    <h2 className="text-3xl font-bold mb-8 text-blue-400">{activeChapter?.title}</h2>
-                                                    <div dangerouslySetInnerHTML={{ __html: activeChapter?.content }} />
+                                                <div className="max-w-4xl mx-auto">
+                                                    {/* Header Image if available */}
+                                                    {activeChapter?.image && (
+                                                        <div className="relative h-64 w-full mb-8 rounded-2xl overflow-hidden border border-white/10 shadow-2xl">
+                                                            <img
+                                                                src={activeChapter.image}
+                                                                alt={activeChapter.title}
+                                                                className="w-full h-full object-cover"
+                                                            />
+                                                            <div className="absolute inset-0 bg-gradient-to-t from-[#0F1115] via-transparent to-transparent"></div>
+                                                            <div className="absolute bottom-0 left-0 p-6">
+                                                                <span className="px-3 py-1 rounded-full bg-blue-500/20 text-blue-300 text-xs font-bold uppercase tracking-wider border border-blue-500/20 backdrop-blur-sm mb-3 inline-block">
+                                                                    {activeChapter.part?.split(':')[0] || 'Chapitre'}
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    )}
+
+                                                    <h2 className="text-4xl font-black mb-8 text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-purple-400 to-white leading-tight">
+                                                        {activeChapter?.title}
+                                                    </h2>
+
+                                                    {/* Story Section */}
+                                                    {activeChapter?.story && (
+                                                        <div className="mb-10 p-6 rounded-2xl bg-gradient-to-br from-indigo-900/20 to-purple-900/20 border border-indigo-500/20 relative overflow-hidden group hover:border-indigo-500/40 transition-all">
+                                                            <div className="absolute top-0 right-0 p-6 text-8xl opacity-5 group-hover:opacity-10 transition-opacity select-none">📖</div>
+                                                            <h3 className="text-lg font-bold text-indigo-300 mb-3 flex items-center gap-2">
+                                                                <span className="text-xl">✨</span> La Petite Histoire
+                                                            </h3>
+                                                            <p className="text-gray-300 italic leading-relaxed text-lg font-serif">
+                                                                "{activeChapter.story}"
+                                                            </p>
+                                                        </div>
+                                                    )}
+
+                                                    {/* Main Content */}
+                                                    <div
+                                                        className="prose prose-invert prose-lg max-w-none 
+                                                        prose-headings:text-gray-100 prose-headings:font-bold prose-headings:tracking-tight
+                                                        prose-p:text-gray-300 prose-p:leading-relaxed
+                                                        prose-strong:text-white prose-strong:font-black
+                                                        prose-ul:text-gray-300 prose-li:marker:text-blue-500
+                                                        prose-img:rounded-xl prose-img:border prose-img:border-white/10"
+                                                        dangerouslySetInnerHTML={{ __html: activeChapter?.content }}
+                                                    />
+
+                                                    {/* Key Points / Summary */}
+                                                    {activeChapter?.summary && (
+                                                        <div className="mt-12 p-6 rounded-2xl bg-emerald-900/10 border border-emerald-500/20">
+                                                            <h3 className="text-lg font-bold text-emerald-400 mb-4 flex items-center gap-2">
+                                                                <span className="text-xl">💡</span> Ce qu'il faut retenir
+                                                            </h3>
+                                                            <ul className="space-y-3">
+                                                                {activeChapter.summary.map((point, idx) => (
+                                                                    <li key={idx} className="flex items-start gap-3 text-gray-300 text-base">
+                                                                        <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 mt-2.5 shrink-0"></div>
+                                                                        <span>{point}</span>
+                                                                    </li>
+                                                                ))}
+                                                            </ul>
+                                                        </div>
+                                                    )}
                                                 </div>
                                             ) : (
                                                 <div className="max-w-3xl mx-auto space-y-8">
