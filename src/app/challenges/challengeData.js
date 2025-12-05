@@ -1,13 +1,13 @@
 export const challenges = [
     {
         "id": "day_001",
-        "title": "Jour 001 — Installation & premier notebook",
+        "title": "Jour 001 — Installation & Premier Notebook",
         "code": "import sympy as sp\nsp.__version__",
         "output": "version (ex: 1.12)",
         "exercises": [
-            "Installation : Installer SymPy avec pip install sympy",
-            "Vérification : Vérifier la version installée",
-            "Premier notebook : Créer votre premier notebook Jupyter"
+            "Installer SymPy avec pip install sympy",
+            "Vérifier la version installée",
+            "Créer votre premier notebook Jupyter"
         ]
     },
     {
@@ -34,79 +34,79 @@ export const challenges = [
     },
     {
         "id": "day_004",
-        "title": "Jour 004 — Résolution d'équations",
-        "code": "from sympy import symbols, Eq, solve\nx = symbols('x')\neq = Eq(x**2 - 5*x + 6, 0)\nsolve(eq, x)",
+        "title": "Jour 004 — Résolution d'Équations Simples",
+        "code": "from sympy import symbols, Eq, solve\nx = symbols('x')\nsolve(Eq(x**2-5*x+6,0), x)",
         "output": "[2, 3]",
         "exercises": [
-            "Résoudre l'équation x³ - 1 = 0",
-            "Trouver les racines de x² + 2x + 1 = 0",
-            "Résoudre le système : x + y = 5, x - y = 1"
+            "Résoudre x² - 4 = 0",
+            "Résoudre 2x² + 3x - 2 = 0",
+            "Vérifier les solutions avec les relations de Viète"
         ]
     },
     {
         "id": "day_005",
-        "title": "Jour 005 — Affichage mathématique",
-        "code": "from sympy import symbols, Integral, latex, init_printing\ninit_printing()\nx = symbols('x')\nexpr = Integral(1/x, x)\nexpr",
-        "output": "∫ 1/x dx",
+        "title": "Jour 005 — Affichage Mathématique",
+        "code": "from sympy import symbols, integrate, sin, pi, latex\nx = symbols('x')\nexpr = integrate(sin(x)/x, (x,0,pi))\nprint(latex(expr))",
+        "output": "\\frac{\\pi}{2}",
         "exercises": [
-            "Afficher une intégrale définie de 0 à l'infini",
-            "Générer le code LaTeX pour une fraction complexe",
-            "Utiliser pprint pour un affichage ASCII art"
+            "Afficher une fraction en LaTeX",
+            "Afficher une intégrale complexe",
+            "Utiliser pprint() pour un affichage ASCII"
         ]
     },
     {
         "id": "day_006",
         "title": "Jour 006 — Polynômes",
-        "code": "from sympy import symbols, Poly, roots\nx = symbols('x')\nP = x**3 - 6*x**2 + 11*x - 6\nroots(P)",
-        "output": "{1: 1, 2: 1, 3: 1}",
+        "code": "from sympy import symbols, Poly\nx = symbols('x')\np = Poly(x**4-5*x**2+4, x)\np.all_roots()",
+        "output": "[-2, -1, 1, 2]",
         "exercises": [
-            "Trouver les racines de x⁴ - 1",
-            "Construire un polynôme à partir de ses racines [1, -1, 2]",
-            "Obtenir les coefficients d'un polynôme"
+            "Trouver les racines de x³ - 6x² + 11x - 6",
+            "Décomposer en facteurs premiers",
+            "Calculer le PGCD de deux polynômes"
         ]
     },
     {
         "id": "day_007",
-        "title": "Jour 007 — Simplification rationnelle",
-        "code": "from sympy import symbols, simplify, apart, together\nx = symbols('x')\nexpr = (x**2 + 2*x + 1) / (x + 1)\nsimplify(expr)",
-        "output": "x + 1",
+        "title": "Jour 007 — Simplification Rationnelle",
+        "code": "from sympy import symbols, apart\nx = symbols('x')\napart((x**2+1)/(x*(x-1)))",
+        "output": "-1/x + 2/(x-1) + 1",
         "exercises": [
-            "Simplifier (x² - 9) / (x - 3)",
-            "Décomposer en éléments simples 1 / (x² - 1)",
-            "Mettre au même dénominateur 1/x + 1/y"
+            "Décomposer 1/(x²-1)",
+            "Décomposer (x+1)/(x²+x)",
+            "Intégrer une fraction rationnelle après décomposition"
         ]
     },
     {
         "id": "day_008",
         "title": "Jour 008 — Numérique vs Symbolique",
-        "code": "from sympy import pi, N\n# 50 décimales de Pi\nN(pi, 50)",
-        "output": "3.1415926535897932384626433832795028841971693993751",
+        "code": "import sympy as sp\n# Exact\nsp.sqrt(2)\n# Numérique avec 50 décimales\nsp.N(sp.pi, 50)",
+        "output": "π avec 50 décimales",
         "exercises": [
-            "Calculer racine de 2 avec 100 décimales",
-            "Comparer 1/3 symbolique et 1/3 numérique",
-            "Évaluer exp(1) avec 20 chiffres significatifs"
+            "Comparer √2 symbolique et numérique",
+            "Calculer e avec 100 décimales",
+            "Montrer l'erreur de 0.1 + 0.2 en Python standard"
         ]
     },
     {
         "id": "day_009",
-        "title": "Jour 009 — Dérivation symbolique",
-        "code": "from sympy import symbols, diff, sin, exp\nx = symbols('x')\nf = exp(x) * sin(x)\ndiff(f, x)",
-        "output": "exp(x)*sin(x) + exp(x)*cos(x)",
+        "title": "Jour 009 — Dérivation Symbolique",
+        "code": "from sympy import symbols, diff, exp, sin\nx = symbols('x')\ndiff(exp(x)*sin(x), x)",
+        "output": "eˣ·sin(x) + eˣ·cos(x)",
         "exercises": [
-            "Calculer la dérivée de x² * log(x)",
-            "Trouver la dérivée seconde de cos(x)",
-            "Dériver une fonction composée sin(x²)"
+            "Dériver x³·ln(x)",
+            "Dériver sin(x²)",
+            "Calculer la dérivée n-ième de eˣ"
         ]
     },
     {
         "id": "day_010",
-        "title": "Jour 010 — Intégration symbolique",
-        "code": "from sympy import symbols, integrate, sin, oo\nx = symbols('x')\nintegrate(sin(x), (x, 0, pi))",
-        "output": "2",
+        "title": "Jour 010 — Intégration Symbolique",
+        "code": "from sympy import symbols, integrate, exp, oo\nx = symbols('x')\nintegrate(exp(-x**2), (x, -oo, oo))",
+        "output": "√π",
         "exercises": [
-            "Calculer la primitive de x * exp(x)",
-            "Calculer l'intégrale définie de 1/(1+x²) de 0 à 1",
-            "Calculer une intégrale impropre (jusqu'à l'infini)"
+            "Intégrer x·eˣ par parties",
+            "Calculer ∫₀^π sin²(x) dx",
+            "Intégrer 1/(1+x²) et retrouver arctan"
         ]
     },
     {
@@ -210,7 +210,7 @@ export const challenges = [
     },
     {
         "id": "day_020",
-        "title": "Jour 020 — Géométrie : Polygones",
+        "title": "Jour 020 — Architecte Géomètre",
         "code": "from sympy import Polygon, Point\nt = Polygon(Point(0,0), Point(1,0), Point(0,1))\nt.area",
         "output": "1/2",
         "exercises": [
@@ -534,13 +534,13 @@ export const challenges = [
         "output": "E0 = hbar*omega/2",
         "exercises": [
             "Vérifier l'orthogonalité des états",
-            "Calculer  et  dans l'état fondamental",
+            "Calculer <x> et <p> dans l'état fondamental",
             "Principe de correspondance (n grand)"
         ]
     },
     {
         "id": "day_050",
-        "title": "Jour 050 — Physique Q : Intrication",
+        "title": "Jour 050 — Téléportation Quantique",
         "code": "from sympy.physics.quantum.qubit import Qubit\nfrom sympy.physics.quantum.gate import H, CNOT\n# Création d'un état de Bell (intriqué)\n# |00> -> H -> (|00>+|10>)/sqrt(2) -> CNOT -> (|00>+|11>)/sqrt(2)\nq = Qubit('00')\ncircuit = CNOT(0, 1) * H(0)\nstate = circuit * q",
         "output": "sqrt(2)*|00>/2 + sqrt(2)*|11>/2",
         "exercises": [
@@ -870,7 +870,7 @@ export const challenges = [
     },
     {
         "id": "day_080",
-        "title": "Jour 080 — Partage de Secret",
+        "title": "Jour 080 — Coffre-Fort Cryptographique",
         "code": "from sympy import symbols, interpolate\nx = symbols('x')\n# Secret S = 1234, seuil k=3\nS = 1234\n# Polynôme P(x) = 1234 + 166x + 94x^2 (aléatoire)\nP = S + 166*x + 94*x**2\n# Distribuer 5 parts\nshares = [(i, P.subs(x, i)) for i in range(1, 6)]\nprint(f'Parts: {shares[:3]}')\n# Reconstituer avec 3 parts\npoints = shares[:3]\nP_reconstructed = interpolate(points, x)\nprint(f'Secret reconstitué: {P_reconstructed.subs(x, 0)}')",
         "output": "Secret reconstitué: 1234",
         "exercises": [
@@ -881,222 +881,222 @@ export const challenges = [
     },
     {
         "id": "day_081",
-        "title": "Jour 081 — Reproductibilité notebooks",
-        "code": "# best practices: seed, environment, outputs",
-        "output": "\\(\\text{Reproducibility checklist}\\)",
+        "title": "Jour undefined — Théorie du Chaos",
+        "code": "from sympy import symbols, Function, dsolve\nt = symbols('t')\nx, y, z = symbols('x y z', cls=Function)\nsigma, rho, beta = 10, 28, 8/3\n# Le système ne se résout pas analytiquement !",
+        "output": "Système non-intégrable symboliquement",
         "exercises": [
-            "Exercice 1 — Reproduire l'exécution du code et vérifier la sortie attendue.",
-            "Exercice 2 — Proposer une variante: modifier une partie du code pour obtenir un résultat connexe.",
-            "Exercice 3 — Donner une application pratique (court texte) reliant le thème à un problème réel."
+            "Tracer l'attracteur numériquement",
+            "Calculer les points fixes",
+            "Analyser la stabilité (Jacobienne)"
         ]
     },
     {
         "id": "day_082",
-        "title": "Jour 082 — Notebook -&gt; script",
-        "code": "# nbconvert --to script usage and example",
-        "output": "\\(\\text{Exported .py script}\\)",
+        "title": "Jour undefined — Fractales",
+        "code": "from sympy import I, Abs\nz = 0\nc = 0.2 + 0.5*I\n# Première itération\nz = z**2 + c",
+        "output": "Suite complexe bornée ou divergente",
         "exercises": [
-            "Exercice 1 — Reproduire l'exécution du code et vérifier la sortie attendue.",
-            "Exercice 2 — Proposer une variante: modifier une partie du code pour obtenir un résultat connexe.",
-            "Exercice 3 — Donner une application pratique (court texte) reliant le thème à un problème réel."
+            "Générer le triangle de Sierpinski",
+            "Calculer la dimension fractale",
+            "Coder l'ensemble de Julia"
         ]
     },
     {
         "id": "day_083",
-        "title": "Jour 083 — Tests unitaires",
-        "code": "# pytest example for a symbolic function",
-        "output": "\\(\\text{Unit tests for symbolic code}\\)",
+        "title": "Jour undefined — Mécnique des Fluides",
+        "code": "from sympy.vector import CoordSys3D, Del\nC = CoordSys3D('C')\ndelop = Del()\n# Champ de vitesse v\nv = C.x*C.i + C.y*C.j\n# Divergence (incompressibilité ?)\ndelop.dot(v)",
+        "output": "2 (Fluide compressible car div != 0)",
         "exercises": [
-            "Exercice 1 — Reproduire l'exécution du code et vérifier la sortie attendue.",
-            "Exercice 2 — Proposer une variante: modifier une partie du code pour obtenir un résultat connexe.",
-            "Exercice 3 — Donner une application pratique (court texte) reliant le thème à un problème réel."
+            "Vérifier l'incompressibilité",
+            "Écoulement de Poiseuille",
+            "Tourbillon potentiel"
         ]
     },
     {
         "id": "day_084",
-        "title": "Jour 084 — Performance & simplification",
-        "code": "# simplify before lambdify for speed",
-        "output": "\\(\\text{Timing improvements}\\)",
+        "title": "Jour undefined — Épidémiologie (SIR)",
+        "code": "from sympy import symbols, Function, dsolve, Eq\nt, beta, gamma = symbols('t beta gamma')\nS, I, R = symbols('S I R', cls=Function)\n# Équation simplifiée pour I au début (S ~ 1)\neq = Eq(I(t).diff(t), (beta - gamma)*I(t))",
+        "output": "Croissance exponentielle si β > γ",
         "exercises": [
-            "Exercice 1 — Reproduire l'exécution du code et vérifier la sortie attendue.",
-            "Exercice 2 — Proposer une variante: modifier une partie du code pour obtenir un résultat connexe.",
-            "Exercice 3 — Donner une application pratique (court texte) reliant le thème à un problème réel."
+            "Calculer le pic épidémique",
+            "Intégrer la vaccination",
+            "Modèle SEIR (Exposed)"
         ]
     },
     {
         "id": "day_085",
-        "title": "Jour 085 — Visualisation",
-        "code": "# plotting symbolic curves with sympy.plot",
-        "output": "\\(\\text{Plot object / image}\\)",
+        "title": "Jour undefined — Neurosciences",
+        "code": "from sympy import exp, symbols\nV = symbols('V')\n# Fonction d'ouverture canal potassium (n)\nalpha_n = 0.01 * (V + 55) / (1 - exp(-(V + 55) / 10))",
+        "output": "Fonction de taux de transition",
         "exercises": [
-            "Exercice 1 — Reproduire l'exécution du code et vérifier la sortie attendue.",
-            "Exercice 2 — Proposer une variante: modifier une partie du code pour obtenir un résultat connexe.",
-            "Exercice 3 — Donner une application pratique (court texte) reliant le thème à un problème réel."
+            "Modèle \"Integrate and Fire\"",
+            "Simuler un train d'impulsions",
+            "Réseau de 2 neurones"
         ]
     },
     {
         "id": "day_086",
-        "title": "Jour 086 — Projet RLC complet",
-        "code": "# RLC full symbolic walkthrough",
-        "output": "\\(\\text{Transfer function, poles, step response}\\)",
+        "title": "Jour undefined — Mouvement Brownien",
+        "code": "from sympy.stats import Normal, E, variance\nt = symbols('t', positive=True)\n# W(t) ~ N(0, t)\nW = Normal('W', 0, t)\nprint(f'Variance: {variance(W)}')",
+        "output": "Variance: t",
         "exercises": [
-            "Exercice 1 — Reproduire l'exécution du code et vérifier la sortie attendue.",
-            "Exercice 2 — Proposer une variante: modifier une partie du code pour obtenir un résultat connexe.",
-            "Exercice 3 — Donner une application pratique (court texte) reliant le thème à un problème réel."
+            "Simuler une marche aléatoire 1D",
+            "Calculer la traversée moyenne",
+            "Lien avec équation de la chaleur"
         ]
     },
     {
         "id": "day_087",
-        "title": "Jour 087 — Projet robot 2R",
-        "code": "# dynamics & IK symbolic",
-        "output": "\\(\\text{Dynamics and IK expressions}\\)",
+        "title": "Jour undefined — Calcul d'Itô",
+        "code": "from sympy import symbols, Function, diff\nS, t, mu, sigma = symbols('S t mu sigma')\nf = Function('f')(S, t)\n# Terme de correction d'Itô (1/2 * sigma^2 * S^2 * f'')\ncorrection = 1/2 * sigma**2 * S**2 * f.diff(S, 2)",
+        "output": "Correction de convexité",
         "exercises": [
-            "Exercice 1 — Reproduire l'exécution du code et vérifier la sortie attendue.",
-            "Exercice 2 — Proposer une variante: modifier une partie du code pour obtenir un résultat connexe.",
-            "Exercice 3 — Donner une application pratique (court texte) reliant le thème à un problème réel."
+            "Appliquer le lemme à f(x) = x²",
+            "Différence Stratonovich vs Itô",
+            "Résoudre dX = X dW"
         ]
     },
     {
         "id": "day_088",
-        "title": "Jour 088 — Projet SIR avancé",
-        "code": "# SIR with parameter estimation symbolic setup",
-        "output": "\\(\\text{Symbolic ODE + params}\\)",
+        "title": "Jour undefined — Finance : Black-Scholes",
+        "code": "from sympy import erf, log, exp, sqrt, symbols\nS, K, T, r, sigma = symbols('S K T r sigma')\n# d1 de Black-Scholes\nd1 = (log(S/K) + (r + sigma**2/2)*T) / (sigma*sqrt(T))",
+        "output": "Formule analytique du prix",
         "exercises": [
-            "Exercice 1 — Reproduire l'exécution du code et vérifier la sortie attendue.",
-            "Exercice 2 — Proposer une variante: modifier une partie du code pour obtenir un résultat connexe.",
-            "Exercice 3 — Donner une application pratique (court texte) reliant le thème à un problème réel."
+            "Calculer le prix d'un Call",
+            "Calculer les \"Greques\" (Delta, Gamma)",
+            "Simuler un portefeuille de couverture"
         ]
     },
     {
         "id": "day_089",
-        "title": "Jour 089 — Projet optimisation",
-        "code": "# objective + constraints symbolic setup",
-        "output": "\\(\\text{KKT system}\\)",
+        "title": "Jour undefined — Introduction aux Tenseurs",
+        "code": "from sympy import Array, tensorproduct\nfrom sympy.abc import x, y, z\n# Tenseur de rang 2 (Matrice)\nA = Array([[x, y], [z, x**2]])\n# Produit tensoriel\ntensorproduct(A, A)",
+        "output": "Tenseur de rang 4",
         "exercises": [
-            "Exercice 1 — Reproduire l'exécution du code et vérifier la sortie attendue.",
-            "Exercice 2 — Proposer une variante: modifier une partie du code pour obtenir un résultat connexe.",
-            "Exercice 3 — Donner une application pratique (court texte) reliant le thème à un problème réel."
+            "Calculer la trace comme contraction",
+            "Manipuler des indices",
+            "Tenseur métrique Euclidien"
         ]
     },
     {
         "id": "day_090",
-        "title": "Jour 090 — CI pour notebooks",
-        "code": "# example GitHub Actions to run notebooks",
-        "output": "\\(\\text{YAML workflow}\\)",
+        "title": "Jour undefined — Symboles de Christoffel",
+        "code": "from sympy.diffgeom import Manifold, Patch, CoordSystem\nfrom sympy import symbols\n# Difficile en pur SymPy basique, nécessite diffgeom\n# Γ décrit comment les bases changent",
+        "output": "Correction de courbure",
         "exercises": [
-            "Exercice 1 — Reproduire l'exécution du code et vérifier la sortie attendue.",
-            "Exercice 2 — Proposer une variante: modifier une partie du code pour obtenir un résultat connexe.",
-            "Exercice 3 — Donner une application pratique (court texte) reliant le thème à un problème réel."
+            "Calculer Γ pour les coordonnées polaires",
+            "Calculer Γ pour une sphère",
+            "Lien avec la force centrifuge"
         ]
     },
     {
         "id": "day_091",
-        "title": "Jour 091 — Slides from notebooks",
-        "code": "# nbconvert --to slides usage",
-        "output": "\\(\\text{HTML slides}\\)",
+        "title": "Jour undefined — Courbure de Riemann",
+        "code": "from sympy import sin, symbols\n# Pour une sphère de rayon R\n# K = 1/R^2 (Courbure sectionnelle constante)",
+        "output": "R_1212 non nul sur la sphère",
         "exercises": [
-            "Exercice 1 — Reproduire l'exécution du code et vérifier la sortie attendue.",
-            "Exercice 2 — Proposer une variante: modifier une partie du code pour obtenir un résultat connexe.",
-            "Exercice 3 — Donner une application pratique (court texte) reliant le thème à un problème réel."
+            "Courbure d'un cylindre (nulle !)",
+            "Courbure d'une selle de cheval (négative)",
+            "Géodésiques déviées"
         ]
     },
     {
         "id": "day_092",
-        "title": "Jour 092 — README techniques",
-        "code": "# structure and metadata for notebooks",
-        "output": "\\(\\text{README template}\\)",
+        "title": "Jour undefined — Métrique de Schwarzschild",
+        "code": "from sympy import symbols, diag, sin\n# Métrique g_mu_nu\ng = diag(-(1-2*M/r), 1/(1-2*M/r), r**2, r**2*sin(theta)**2)",
+        "output": "Tenseur métrique 4x4",
         "exercises": [
-            "Exercice 1 — Reproduire l'exécution du code et vérifier la sortie attendue.",
-            "Exercice 2 — Proposer une variante: modifier une partie du code pour obtenir un résultat connexe.",
-            "Exercice 3 — Donner une application pratique (court texte) reliant le thème à un problème réel."
+            "Trouver l'horizon des événements",
+            "Calculer le décalage spectral gravitationnel",
+            "Orbites instables"
         ]
     },
     {
         "id": "day_093",
-        "title": "Jour 093 — Préparation démos",
-        "code": "# packaging and reproducible demo run",
-        "output": "\\(\\text{Runbook}\\)",
+        "title": "Jour undefined — Génération de Code (C/Fortran)",
+        "code": "from sympy.utilities.codegen import codegen\nfrom sympy import symbols, sin\nx, y = symbols('x y')\nexpr = (x + y)**10 * sin(x)\n# Générer du C\nprint(codegen(('f', expr), 'C')[0][1])",
+        "output": "double f(double x, double y) { ... }",
         "exercises": [
-            "Exercice 1 — Reproduire l'exécution du code et vérifier la sortie attendue.",
-            "Exercice 2 — Proposer une variante: modifier une partie du code pour obtenir un résultat connexe.",
-            "Exercice 3 — Donner une application pratique (court texte) reliant le thème à un problème réel."
+            "Générer une fonction pour résoudre Ax=b",
+            "Optimiser avec CSE",
+            "Wrapper avec f2py"
         ]
     },
     {
         "id": "day_094",
-        "title": "Jour 094 — Peer review notebooks",
-        "code": "# checklist items for reviewers",
-        "output": "\\(\\text{Peer review checklist}\\)",
+        "title": "Jour undefined — Optimisation (Lagrange)",
+        "code": "from sympy import symbols, grad, solve\nx, y, l = symbols('x y l')\nf = 4*x*y\ng = x**2/9 + y**2/16 - 1\n# Gradients et système",
+        "output": "Points critiques sur l'ellipse",
         "exercises": [
-            "Exercice 1 — Reproduire l'exécution du code et vérifier la sortie attendue.",
-            "Exercice 2 — Proposer une variante: modifier une partie du code pour obtenir un résultat connexe.",
-            "Exercice 3 — Donner une application pratique (court texte) reliant le thème à un problème réel."
+            "Maximiser le volume d'une boîte",
+            "Entropie maximale sous contrainte de moyenne",
+            "Support Vector Machines (Dual)"
         ]
     },
     {
         "id": "day_095",
-        "title": "Jour 095 — Packaging final",
-        "code": "# zip, metadata, license",
-        "output": "\\(\\text{Packaging manifest}\\)",
+        "title": "Jour undefined — Théorie du Contrôle",
+        "code": "from sympy import symbols, inverse_laplace_transform\ns, t, Kp, Ki = symbols('s t Kp Ki')\n# Fonction de transfert boucle fermée\nH = 1 / (s**2 + Kp*s + Ki)\n# Réponse impulsionnelle",
+        "output": "Amorti ou oscillant selon Kp",
         "exercises": [
-            "Exercice 1 — Reproduire l'exécution du code et vérifier la sortie attendue.",
-            "Exercice 2 — Proposer une variante: modifier une partie du code pour obtenir un résultat connexe.",
-            "Exercice 3 — Donner une application pratique (court texte) reliant le thème à un problème réel."
+            "Régler un PID",
+            "Stabilité (Routh-Hurwitz)",
+            "Pendule inversé"
         ]
     },
     {
         "id": "day_096",
-        "title": "Jour 096 — Projet final démarrage",
-        "code": "# kickoff checklist for final project",
-        "output": "\\(\\text{Kickoff tasks}\\)",
+        "title": "Jour undefined — Mécanique Analytique (Lagrangien)",
+        "code": "from sympy import symbols, diff, Function\nt = symbols('t')\nq = Function('q')(t)\nL = 1/2 * m * q.diff(t)**2 - 1/2 * k * q**2 # Oscillateur harmonique\n# Euler-Lagrange",
+        "output": "m*q'' + k*q = 0",
         "exercises": [
-            "Exercice 1 — Reproduire l'exécution du code et vérifier la sortie attendue.",
-            "Exercice 2 — Proposer une variante: modifier une partie du code pour obtenir un résultat connexe.",
-            "Exercice 3 — Donner une application pratique (court texte) reliant le thème à un problème réel."
+            "Pendule double (Chaos)",
+            "Brachistochrone",
+            "Champs classiques (Densité Lagrangienne)"
         ]
     },
     {
         "id": "day_097",
-        "title": "Jour 097 — Projet final dev",
-        "code": "# dev milestones and symbolic tests",
-        "output": "\\(\\text{Dev tasks}\\)",
+        "title": "Jour undefined — Mécanique Hamiltonienne",
+        "code": "from sympy import symbols, diff\np, q = symbols('p q')\nH = p**2/(2*m) + 1/2*k*q**2\n# Équations du mouvement",
+        "output": "Flux dans l'espace des phases",
         "exercises": [
-            "Exercice 1 — Reproduire l'exécution du code et vérifier la sortie attendue.",
-            "Exercice 2 — Proposer une variante: modifier une partie du code pour obtenir un résultat connexe.",
-            "Exercice 3 — Donner une application pratique (court texte) reliant le thème à un problème réel."
+            "Théorème de Liouville",
+            "Passage au quantique (H -> iħ∂/∂t)",
+            "Systèmes intégrables"
         ]
     },
     {
         "id": "day_098",
-        "title": "Jour 098 — Projet final tests",
-        "code": "# tests, CI, benchmarks",
-        "output": "\\(\\text{Test plan}\\)",
+        "title": "Jour undefined — Théorie des Perturbations",
+        "code": "from sympy import symbols, series, Function, Eq\neps = symbols('eps')\n# x^2 + x + eps = 0\n# Racine proche de 0 ?",
+        "output": "Développement asymptotique",
         "exercises": [
-            "Exercice 1 — Reproduire l'exécution du code et vérifier la sortie attendue.",
-            "Exercice 2 — Proposer une variante: modifier une partie du code pour obtenir un résultat connexe.",
-            "Exercice 3 — Donner une application pratique (court texte) reliant le thème à un problème réel."
+            "Anharmonicité du pendule",
+            "Effet Zeeman (Quantique)",
+            "Précession de Mercure"
         ]
     },
     {
         "id": "day_099",
-        "title": "Jour 099 — Répétition générale",
-        "code": "# rehearsal checklist for presentations",
-        "output": "\\(\\text{Timing & checklist}\\)",
+        "title": "Jour undefined — Simulation Solaire",
+        "code": "from sympy import symbols\n# Projet libre : Construire un solver complet\n# Entrée : Masse étoile, Composition\n# Sortie : Rayon, Luminosité, Durée de vie",
+        "output": "Le Soleil simulé",
         "exercises": [
-            "Exercice 1 — Reproduire l'exécution du code et vérifier la sortie attendue.",
-            "Exercice 2 — Proposer une variante: modifier une partie du code pour obtenir un résultat connexe.",
-            "Exercice 3 — Donner une application pratique (court texte) reliant le thème à un problème réel."
+            "Coder le système d'équations",
+            "Résoudre numériquement (scipy/sympy)",
+            "Tracer le diagramme HR"
         ]
     },
     {
         "id": "day_100",
-        "title": "Jour 100 — Clôture & certificats",
-        "code": "# final wrap-up, certificates",
-        "output": "\\(\\text{Certificate template}\\)",
+        "title": "Jour undefined — PROJET FINAL : Le Grand Œuvre",
+        "code": "# LE GRAND ŒUVRE\n# 1. Choisir un domaine (Physique, Bio, Finance...)\n# 2. Modéliser (Équations)\n# 3. Résoudre (SymPy)\n# 4. Simuler (NumPy/C)\n# 5. Visualiser (Plot)\n# Votre chef-d'œuvre commence ici.",
+        "output": "La connaissance absolue",
         "exercises": [
-            "Exercice 1 — Reproduire l'exécution du code et vérifier la sortie attendue.",
-            "Exercice 2 — Proposer une variante: modifier une partie du code pour obtenir un résultat connexe.",
-            "Exercice 3 — Donner une application pratique (court texte) reliant le thème à un problème réel."
+            "Valider le modèle",
+            "Optimiser la performance",
+            "Publier les résultats (Notebook)"
         ]
     }
 ];
