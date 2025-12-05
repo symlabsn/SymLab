@@ -881,7 +881,7 @@ export const challenges = [
     },
     {
         "id": "day_081",
-        "title": "Jour undefined — Théorie du Chaos",
+        "title": "Jour 081 — Théorie du Chaos",
         "code": "from sympy import symbols, Function, dsolve\nt = symbols('t')\nx, y, z = symbols('x y z', cls=Function)\nsigma, rho, beta = 10, 28, 8/3\n# Le système ne se résout pas analytiquement !",
         "output": "Système non-intégrable symboliquement",
         "exercises": [
@@ -892,7 +892,7 @@ export const challenges = [
     },
     {
         "id": "day_082",
-        "title": "Jour undefined — Fractales",
+        "title": "Jour 082 — Fractales",
         "code": "from sympy import I, Abs\nz = 0\nc = 0.2 + 0.5*I\n# Première itération\nz = z**2 + c",
         "output": "Suite complexe bornée ou divergente",
         "exercises": [
@@ -903,7 +903,7 @@ export const challenges = [
     },
     {
         "id": "day_083",
-        "title": "Jour undefined — Mécnique des Fluides",
+        "title": "Jour 083 — Mécnique des Fluides",
         "code": "from sympy.vector import CoordSys3D, Del\nC = CoordSys3D('C')\ndelop = Del()\n# Champ de vitesse v\nv = C.x*C.i + C.y*C.j\n# Divergence (incompressibilité ?)\ndelop.dot(v)",
         "output": "2 (Fluide compressible car div != 0)",
         "exercises": [
@@ -914,7 +914,7 @@ export const challenges = [
     },
     {
         "id": "day_084",
-        "title": "Jour undefined — Épidémiologie (SIR)",
+        "title": "Jour 084 — Épidémiologie (SIR)",
         "code": "from sympy import symbols, Function, dsolve, Eq\nt, beta, gamma = symbols('t beta gamma')\nS, I, R = symbols('S I R', cls=Function)\n# Équation simplifiée pour I au début (S ~ 1)\neq = Eq(I(t).diff(t), (beta - gamma)*I(t))",
         "output": "Croissance exponentielle si β > γ",
         "exercises": [
@@ -925,7 +925,7 @@ export const challenges = [
     },
     {
         "id": "day_085",
-        "title": "Jour undefined — Neurosciences",
+        "title": "Jour 085 — Neurosciences",
         "code": "from sympy import exp, symbols\nV = symbols('V')\n# Fonction d'ouverture canal potassium (n)\nalpha_n = 0.01 * (V + 55) / (1 - exp(-(V + 55) / 10))",
         "output": "Fonction de taux de transition",
         "exercises": [
@@ -936,7 +936,7 @@ export const challenges = [
     },
     {
         "id": "day_086",
-        "title": "Jour undefined — Mouvement Brownien",
+        "title": "Jour 086 — Mouvement Brownien",
         "code": "from sympy.stats import Normal, E, variance\nt = symbols('t', positive=True)\n# W(t) ~ N(0, t)\nW = Normal('W', 0, t)\nprint(f'Variance: {variance(W)}')",
         "output": "Variance: t",
         "exercises": [
@@ -947,7 +947,7 @@ export const challenges = [
     },
     {
         "id": "day_087",
-        "title": "Jour undefined — Calcul d'Itô",
+        "title": "Jour 087 — Calcul d'Itô",
         "code": "from sympy import symbols, Function, diff\nS, t, mu, sigma = symbols('S t mu sigma')\nf = Function('f')(S, t)\n# Terme de correction d'Itô (1/2 * sigma^2 * S^2 * f'')\ncorrection = 1/2 * sigma**2 * S**2 * f.diff(S, 2)",
         "output": "Correction de convexité",
         "exercises": [
@@ -958,7 +958,7 @@ export const challenges = [
     },
     {
         "id": "day_088",
-        "title": "Jour undefined — Finance : Black-Scholes",
+        "title": "Jour 088 — Finance : Black-Scholes",
         "code": "from sympy import erf, log, exp, sqrt, symbols\nS, K, T, r, sigma = symbols('S K T r sigma')\n# d1 de Black-Scholes\nd1 = (log(S/K) + (r + sigma**2/2)*T) / (sigma*sqrt(T))",
         "output": "Formule analytique du prix",
         "exercises": [
@@ -969,7 +969,7 @@ export const challenges = [
     },
     {
         "id": "day_089",
-        "title": "Jour undefined — Introduction aux Tenseurs",
+        "title": "Jour 089 — Introduction aux Tenseurs",
         "code": "from sympy import Array, tensorproduct\nfrom sympy.abc import x, y, z\n# Tenseur de rang 2 (Matrice)\nA = Array([[x, y], [z, x**2]])\n# Produit tensoriel\ntensorproduct(A, A)",
         "output": "Tenseur de rang 4",
         "exercises": [
@@ -980,7 +980,7 @@ export const challenges = [
     },
     {
         "id": "day_090",
-        "title": "Jour undefined — Symboles de Christoffel",
+        "title": "Jour 090 — Symboles de Christoffel",
         "code": "from sympy.diffgeom import Manifold, Patch, CoordSystem\nfrom sympy import symbols\n# Difficile en pur SymPy basique, nécessite diffgeom\n# Γ décrit comment les bases changent",
         "output": "Correction de courbure",
         "exercises": [
@@ -991,7 +991,7 @@ export const challenges = [
     },
     {
         "id": "day_091",
-        "title": "Jour undefined — Courbure de Riemann",
+        "title": "Jour 091 — Courbure de Riemann",
         "code": "from sympy import sin, symbols\n# Pour une sphère de rayon R\n# K = 1/R^2 (Courbure sectionnelle constante)",
         "output": "R_1212 non nul sur la sphère",
         "exercises": [
@@ -1002,7 +1002,7 @@ export const challenges = [
     },
     {
         "id": "day_092",
-        "title": "Jour undefined — Métrique de Schwarzschild",
+        "title": "Jour 092 — Métrique de Schwarzschild",
         "code": "from sympy import symbols, diag, sin\n# Métrique g_mu_nu\ng = diag(-(1-2*M/r), 1/(1-2*M/r), r**2, r**2*sin(theta)**2)",
         "output": "Tenseur métrique 4x4",
         "exercises": [
@@ -1013,7 +1013,7 @@ export const challenges = [
     },
     {
         "id": "day_093",
-        "title": "Jour undefined — Génération de Code (C/Fortran)",
+        "title": "Jour 093 — Génération de Code (C/Fortran)",
         "code": "from sympy.utilities.codegen import codegen\nfrom sympy import symbols, sin\nx, y = symbols('x y')\nexpr = (x + y)**10 * sin(x)\n# Générer du C\nprint(codegen(('f', expr), 'C')[0][1])",
         "output": "double f(double x, double y) { ... }",
         "exercises": [
@@ -1024,7 +1024,7 @@ export const challenges = [
     },
     {
         "id": "day_094",
-        "title": "Jour undefined — Optimisation (Lagrange)",
+        "title": "Jour 094 — Optimisation (Lagrange)",
         "code": "from sympy import symbols, grad, solve\nx, y, l = symbols('x y l')\nf = 4*x*y\ng = x**2/9 + y**2/16 - 1\n# Gradients et système",
         "output": "Points critiques sur l'ellipse",
         "exercises": [
@@ -1035,7 +1035,7 @@ export const challenges = [
     },
     {
         "id": "day_095",
-        "title": "Jour undefined — Théorie du Contrôle",
+        "title": "Jour 095 — Théorie du Contrôle",
         "code": "from sympy import symbols, inverse_laplace_transform\ns, t, Kp, Ki = symbols('s t Kp Ki')\n# Fonction de transfert boucle fermée\nH = 1 / (s**2 + Kp*s + Ki)\n# Réponse impulsionnelle",
         "output": "Amorti ou oscillant selon Kp",
         "exercises": [
@@ -1046,7 +1046,7 @@ export const challenges = [
     },
     {
         "id": "day_096",
-        "title": "Jour undefined — Mécanique Analytique (Lagrangien)",
+        "title": "Jour 096 — Mécanique Analytique (Lagrangien)",
         "code": "from sympy import symbols, diff, Function\nt = symbols('t')\nq = Function('q')(t)\nL = 1/2 * m * q.diff(t)**2 - 1/2 * k * q**2 # Oscillateur harmonique\n# Euler-Lagrange",
         "output": "m*q'' + k*q = 0",
         "exercises": [
@@ -1057,7 +1057,7 @@ export const challenges = [
     },
     {
         "id": "day_097",
-        "title": "Jour undefined — Mécanique Hamiltonienne",
+        "title": "Jour 097 — Mécanique Hamiltonienne",
         "code": "from sympy import symbols, diff\np, q = symbols('p q')\nH = p**2/(2*m) + 1/2*k*q**2\n# Équations du mouvement",
         "output": "Flux dans l'espace des phases",
         "exercises": [
@@ -1068,7 +1068,7 @@ export const challenges = [
     },
     {
         "id": "day_098",
-        "title": "Jour undefined — Théorie des Perturbations",
+        "title": "Jour 098 — Théorie des Perturbations",
         "code": "from sympy import symbols, series, Function, Eq\neps = symbols('eps')\n# x^2 + x + eps = 0\n# Racine proche de 0 ?",
         "output": "Développement asymptotique",
         "exercises": [
@@ -1079,7 +1079,7 @@ export const challenges = [
     },
     {
         "id": "day_099",
-        "title": "Jour undefined — Simulation Solaire",
+        "title": "Jour 099 — Simulation Solaire",
         "code": "from sympy import symbols\n# Projet libre : Construire un solver complet\n# Entrée : Masse étoile, Composition\n# Sortie : Rayon, Luminosité, Durée de vie",
         "output": "Le Soleil simulé",
         "exercises": [
@@ -1090,7 +1090,7 @@ export const challenges = [
     },
     {
         "id": "day_100",
-        "title": "Jour undefined — PROJET FINAL : Le Grand Œuvre",
+        "title": "Jour 100 — PROJET FINAL : Le Grand Œuvre",
         "code": "# LE GRAND ŒUVRE\n# 1. Choisir un domaine (Physique, Bio, Finance...)\n# 2. Modéliser (Équations)\n# 3. Résoudre (SymPy)\n# 4. Simuler (NumPy/C)\n# 5. Visualiser (Plot)\n# Votre chef-d'œuvre commence ici.",
         "output": "La connaissance absolue",
         "exercises": [

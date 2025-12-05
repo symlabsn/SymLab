@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Simplification Rationnelle — SymLab</title>
+<title>Jour 007 — Simplification Rationnelle</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.css" rel="stylesheet" />
 <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.js"></script>
@@ -17,40 +17,22 @@ a{color:var(--accent);text-decoration:none;transition:all 0.2s} a:hover{color:#3
 .toc{height:calc(100vh - 80px);overflow-y:auto;padding-right:15px;position:sticky;top:80px}
 .toc ul{list-style:none;padding:0;font-size:14px}
 .toc li{margin-bottom:8px}
-.main-content{padding:30px 0;max-width:900px}
-
-/* Project Mode Styles */
-.project-mode .header{background:linear-gradient(90deg, #4c1d95, #7c3aed)}
-.badge-display{background:rgba(6,182,212,0.1);color:var(--accent);padding:4px 12px;border-radius:20px;font-size:12px;font-weight:600;display:inline-block;margin-bottom:10px}
-.analogy{background:#1e293b;border-left:4px solid #f59e0b;padding:20px;margin:20px 0;border-radius:0 8px 8px 0}
-
-h1{font-size:2.5rem;margin:0 0 10px 0;letter-spacing:-1px}
-h2{margin-top:40px;border-bottom:1px solid var(--border);padding-bottom:10px}
 .card{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:25px;margin-bottom:25px}
 pre{border-radius:8px;margin:0!important}
 .btn{display:inline-flex;align-items:center;padding:10px 20px;background:var(--accent);color:white;border-radius:8px;font-weight:600;margin-top:20px}
-.btn:hover{filter:brightness(1.1);color:white}
 .nav-buttons{display:flex;justify-content:space-between;margin-top:50px}
-
 @media(max-width:1000px){.container{display:block}.toc{display:none}}
 </style>
 </head>
-<body class="">
-
+<body>
 <header class="header">
-    <div style="max-width:1400px;margin:0 auto;padding:0 20px;display:flex;justify-content:space-between;align-items:center">
+    <div style="max-width:1400px;margin:0 auto;display:flex;justify-content:space-between;align-items:center">
         <div style="font-weight:800;font-size:20px">SymLab <span style="opacity:0.5">Challenges</span></div>
-        <div style="display:flex;gap:15px;">
-            <a href="recap.html" style="color:white;opacity:0.8">Mode Récapitulatif</a>
-            <a href="index.html" class="btn" style="margin:0;padding:6px 15px;font-size:14px">Retour Index</a>
-        </div>
+        <div><a href="recap.html">Mode Récapitulatif</a> | <a href="index.html">Index</a></div>
     </div>
 </header>
-
 <div class="container">
-    <aside class="toc">
-        <h3 style="color:var(--muted);text-transform:uppercase;font-size:12px;letter-spacing:1px">Programme</h3>
-        <ul><li><a href="day_001.html" style="; ">Jour 001 — Installation & Premier Notebook</a></li>
+    <aside class="toc"><ul><li><a href="day_001.html" style="; ">Jour 001 — Installation & Premier Notebook</a></li>
 <li><a href="day_002.html" style="; ">Jour 002 — Symbols & Types</a></li>
 <li><a href="day_003.html" style="; ">Jour 003 — Manipulations de Base</a></li>
 <li><a href="day_004.html" style="; ">Jour 004 — Résolution d'Équations Simples</a></li>
@@ -130,71 +112,55 @@ pre{border-radius:8px;margin:0!important}
 <li><a href="day_078.html" style="; ">Jour 078 — Factorisation</a></li>
 <li><a href="day_079.html" style="; ">Jour 079 — Générateurs Pseudo-Aléatoires</a></li>
 <li><a href="day_080.html" style="; color:#f59e0b;">Jour 080 — Coffre-Fort Cryptographique</a></li>
-<li><a href="day_081.html" style="; ">Jour undefined — Théorie du Chaos</a></li>
-<li><a href="day_082.html" style="; ">Jour undefined — Fractales</a></li>
-<li><a href="day_083.html" style="; ">Jour undefined — Mécnique des Fluides</a></li>
-<li><a href="day_084.html" style="; ">Jour undefined — Épidémiologie (SIR)</a></li>
-<li><a href="day_085.html" style="; ">Jour undefined — Neurosciences</a></li>
-<li><a href="day_086.html" style="; ">Jour undefined — Mouvement Brownien</a></li>
-<li><a href="day_087.html" style="; ">Jour undefined — Calcul d'Itô</a></li>
-<li><a href="day_088.html" style="; ">Jour undefined — Finance : Black-Scholes</a></li>
-<li><a href="day_089.html" style="; ">Jour undefined — Introduction aux Tenseurs</a></li>
-<li><a href="day_090.html" style="; ">Jour undefined — Symboles de Christoffel</a></li>
-<li><a href="day_091.html" style="; ">Jour undefined — Courbure de Riemann</a></li>
-<li><a href="day_092.html" style="; ">Jour undefined — Métrique de Schwarzschild</a></li>
-<li><a href="day_093.html" style="; ">Jour undefined — Génération de Code (C/Fortran)</a></li>
-<li><a href="day_094.html" style="; ">Jour undefined — Optimisation (Lagrange)</a></li>
-<li><a href="day_095.html" style="; ">Jour undefined — Théorie du Contrôle</a></li>
-<li><a href="day_096.html" style="; ">Jour undefined — Mécanique Analytique (Lagrangien)</a></li>
-<li><a href="day_097.html" style="; ">Jour undefined — Mécanique Hamiltonienne</a></li>
-<li><a href="day_098.html" style="; ">Jour undefined — Théorie des Perturbations</a></li>
-<li><a href="day_099.html" style="; color:#f59e0b;">Jour undefined — Simulation Solaire</a></li>
-<li><a href="day_100.html" style="; color:#f59e0b;">Jour undefined — PROJET FINAL : Le Grand Œuvre</a></li></ul>
-    </aside>
-
-    <main class="main-content">
-        <span class="badge-display">Débutant / Intermédiaire</span>
-        <h1>Simplification Rationnelle</h1>
+<li><a href="day_081.html" style="; ">Jour 081 — Théorie du Chaos</a></li>
+<li><a href="day_082.html" style="; ">Jour 082 — Fractales</a></li>
+<li><a href="day_083.html" style="; ">Jour 083 — Mécnique des Fluides</a></li>
+<li><a href="day_084.html" style="; ">Jour 084 — Épidémiologie (SIR)</a></li>
+<li><a href="day_085.html" style="; ">Jour 085 — Neurosciences</a></li>
+<li><a href="day_086.html" style="; ">Jour 086 — Mouvement Brownien</a></li>
+<li><a href="day_087.html" style="; ">Jour 087 — Calcul d'Itô</a></li>
+<li><a href="day_088.html" style="; ">Jour 088 — Finance : Black-Scholes</a></li>
+<li><a href="day_089.html" style="; ">Jour 089 — Introduction aux Tenseurs</a></li>
+<li><a href="day_090.html" style="; ">Jour 090 — Symboles de Christoffel</a></li>
+<li><a href="day_091.html" style="; ">Jour 091 — Courbure de Riemann</a></li>
+<li><a href="day_092.html" style="; ">Jour 092 — Métrique de Schwarzschild</a></li>
+<li><a href="day_093.html" style="; ">Jour 093 — Génération de Code (C/Fortran)</a></li>
+<li><a href="day_094.html" style="; ">Jour 094 — Optimisation (Lagrange)</a></li>
+<li><a href="day_095.html" style="; ">Jour 095 — Théorie du Contrôle</a></li>
+<li><a href="day_096.html" style="; ">Jour 096 — Mécanique Analytique (Lagrangien)</a></li>
+<li><a href="day_097.html" style="; ">Jour 097 — Mécanique Hamiltonienne</a></li>
+<li><a href="day_098.html" style="; ">Jour 098 — Théorie des Perturbations</a></li>
+<li><a href="day_099.html" style="; color:#f59e0b;">Jour 099 — Simulation Solaire</a></li>
+<li><a href="day_100.html" style="; color:#f59e0b;">Jour 100 — PROJET FINAL : Le Grand Œuvre</a></li></ul></aside>
+    <main style="padding:30px 0;max-width:900px">
+        <span style="background:rgba(6,182,212,0.1);color:var(--accent);padding:4px 12px;border-radius:20px;font-size:12px;font-weight:600">Jour 007</span>
+        <h1 style="font-size:2.5rem;margin:10px 0 30px 0">Simplification Rationnelle</h1>
         
-        
-        <div class="analogy">
-            <strong style="color:#f59e0b;display:block;margin-bottom:5px">🌍 Analogie</strong>
-            Décomposer une fraction rationnelle, c'est comme partager équitablement la récolte entre plusieurs familles. Au lieu d'une grosse part complexe, on divise en parts simples que chacun peut comprendre et utiliser. Chaque famille (terme simple) reçoit sa juste part.
-        </div>
+        <div style="background:#1e293b;border-left:4px solid #f59e0b;padding:20px;margin:20px 0;border-radius:0 8px 8px 0"><strong style="color:#f59e0b;display:block;margin-bottom:5px">🌍 Analogie</strong>Décomposer une fraction rationnelle, c'est comme partager équitablement la récolte entre plusieurs familles. Au lieu d'une grosse part complexe, on divise en parts simples que chacun peut comprendre et utiliser. Chaque famille (terme simple) reçoit sa juste part.</div>
 
         <div class="card">
-            <h2>Théorie & Contexte</h2>
+            <h2>Théorie</h2>
             <p>Une fraction rationnelle est le quotient de deux polynômes. La décomposition en éléments simples permet de simplifier l'intégration et l'analyse.</p>
-            
-            
-            <div style="background:#0f172a;padding:15px;border-radius:8px;margin-top:15px;font-family:monospace">
-                <br>                **Décomposition en Éléments Simples :**<br>                Pour F(x) = P(x)/Q(x) avec deg(P) < deg(Q)<br>                <br>                Si Q(x) = (x-a)ⁿ(x-b)ᵐ... alors :<br>                F(x) = A₁/(x-a) + A₂/(x-a)² + ... + B₁/(x-b) + ...<br>                <br>                **Théorème de Heaviside (1893) :**<br>                Méthode des résidus pour calculer les coefficients<br>                <br>                **Applications :**<br>                - Transformée de Laplace inverse<br>                - Intégration de fractions rationnelles<br>                - Analyse de circuits électriques<br>            
-            </div>
         </div>
 
         <div class="card">
-            <h2>Code & Pratique</h2>
+            <h2>Code</h2>
             <pre><code class="language-python">from sympy import symbols, apart
 x = symbols('x')
 apart((x**2+1)/(x*(x-1)))</code></pre>
-            <div style="margin-top:15px;padding:15px;background:#0f172a;border-radius:8px;border-left:4px solid var(--accent)">
-                <strong>Sortie attendue :</strong> -1/x + 2/(x-1) + 1
-            </div>
+            <div style="margin-top:15px;padding:15px;background:#0f172a;border-radius:8px;border-left:4px solid var(--accent)"><strong>Sortie :</strong> -1/x + 2/(x-1) + 1</div>
         </div>
 
         <div class="card">
             <h2>Exercices</h2>
-            <ul>
-                <li>Décomposer 1/(x²-1)</li><li>Décomposer (x+1)/(x²+x)</li><li>Intégrer une fraction rationnelle après décomposition</li>
-            </ul>
+            <ul><li>Décomposer 1/(x²-1)</li><li>Décomposer (x+1)/(x²+x)</li><li>Intégrer une fraction rationnelle après décomposition</li></ul>
         </div>
 
         <div class="nav-buttons">
-            <a href="day_006.html" class="btn" style="background:var(--panel)">← Jour Précédent</a>
-            <a href="day_008.html" class="btn">Jour Suivant →</a>
+            <a href="day_006.html" class="btn" style="background:var(--panel)">← Précédent</a>
+            <a href="day_008.html" class="btn">Suivant →</a>
         </div>
     </main>
 </div>
-
 </body>
 </html>

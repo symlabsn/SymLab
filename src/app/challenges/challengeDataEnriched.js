@@ -3092,7 +3092,8 @@ export const challengesEnriched = [
             "Calculer les points fixes",
             "Analyser la stabilité (Jacobienne)"
         ],
-        "practicalApplication": "Météorologie, turbulence, cryptographie chaotique."
+        "practicalApplication": "Météorologie, turbulence, cryptographie chaotique.",
+        "dayNumber": 81
     },
     {
         "id": "day_082",
@@ -3122,7 +3123,8 @@ export const challengesEnriched = [
             "Calculer la dimension fractale",
             "Coder l'ensemble de Julia"
         ],
-        "practicalApplication": "Antennes, compression d'image, modélisation de côtes, finance."
+        "practicalApplication": "Antennes, compression d'image, modélisation de côtes, finance.",
+        "dayNumber": 82
     },
     {
         "id": "day_083",
@@ -3152,7 +3154,8 @@ export const challengesEnriched = [
             "Écoulement de Poiseuille",
             "Tourbillon potentiel"
         ],
-        "practicalApplication": "Aérodynamique, météo, pipelines, hémodynamique."
+        "practicalApplication": "Aérodynamique, météo, pipelines, hémodynamique.",
+        "dayNumber": 83
     },
     {
         "id": "day_084",
@@ -3182,7 +3185,8 @@ export const challengesEnriched = [
             "Intégrer la vaccination",
             "Modèle SEIR (Exposed)"
         ],
-        "practicalApplication": "Gestion pandemies (COVID-19), propagation de virus informatiques."
+        "practicalApplication": "Gestion pandemies (COVID-19), propagation de virus informatiques.",
+        "dayNumber": 84
     },
     {
         "id": "day_085",
@@ -3212,7 +3216,8 @@ export const challengesEnriched = [
             "Simuler un train d'impulsions",
             "Réseau de 2 neurones"
         ],
-        "practicalApplication": "IA, prothèses neurales, compréhension de l'épilepsie."
+        "practicalApplication": "IA, prothèses neurales, compréhension de l'épilepsie.",
+        "dayNumber": 85
     },
     {
         "id": "day_086",
@@ -3248,7 +3253,8 @@ export const challengesEnriched = [
             "Calculer la traversée moyenne",
             "Lien avec équation de la chaleur"
         ],
-        "practicalApplication": "Finance, diffusion physique, écologie."
+        "practicalApplication": "Finance, diffusion physique, écologie.",
+        "dayNumber": 86
     },
     {
         "id": "day_087",
@@ -3278,7 +3284,8 @@ export const challengesEnriched = [
             "Différence Stratonovich vs Itô",
             "Résoudre dX = X dW"
         ],
-        "practicalApplication": "Modélisation financière, filtrage de signal, bruit électronique."
+        "practicalApplication": "Modélisation financière, filtrage de signal, bruit électronique.",
+        "dayNumber": 87
     },
     {
         "id": "day_088",
@@ -3308,7 +3315,8 @@ export const challengesEnriched = [
             "Calculer les \"Greques\" (Delta, Gamma)",
             "Simuler un portefeuille de couverture"
         ],
-        "practicalApplication": "Trading, gestion de risques bancaires, assurance."
+        "practicalApplication": "Trading, gestion de risques bancaires, assurance.",
+        "dayNumber": 88
     },
     {
         "id": "day_089",
@@ -3338,7 +3346,8 @@ export const challengesEnriched = [
             "Manipuler des indices",
             "Tenseur métrique Euclidien"
         ],
-        "practicalApplication": "Relativité générale, mécanique des milieux continus, Deep Learning."
+        "practicalApplication": "Relativité générale, mécanique des milieux continus, Deep Learning.",
+        "dayNumber": 89
     },
     {
         "id": "day_090",
@@ -3368,7 +3377,8 @@ export const challengesEnriched = [
             "Calculer Γ pour une sphère",
             "Lien avec la force centrifuge"
         ],
-        "practicalApplication": "GPS (Relativité), robotique (bras articulés), géodésie."
+        "practicalApplication": "GPS (Relativité), robotique (bras articulés), géodésie.",
+        "dayNumber": 90
     },
     {
         "id": "day_091",
@@ -3398,7 +3408,8 @@ export const challengesEnriched = [
             "Courbure d'une selle de cheval (négative)",
             "Géodésiques déviées"
         ],
-        "practicalApplication": "Relativité Générale, cartographie, défauts dans les cristaux."
+        "practicalApplication": "Relativité Générale, cartographie, défauts dans les cristaux.",
+        "dayNumber": 91
     },
     {
         "id": "day_092",
@@ -3428,7 +3439,8 @@ export const challengesEnriched = [
             "Calculer le décalage spectral gravitationnel",
             "Orbites instables"
         ],
-        "practicalApplication": "Compréhension du cosmos, corrections GPS avancées, astronomie."
+        "practicalApplication": "Compréhension du cosmos, corrections GPS avancées, astronomie.",
+        "dayNumber": 92
     },
     {
         "id": "day_093",
@@ -3458,7 +3470,8 @@ export const challengesEnriched = [
             "Optimiser avec CSE",
             "Wrapper avec f2py"
         ],
-        "practicalApplication": "Simulations numériques lourdes, moteurs de jeux, finance HFT."
+        "practicalApplication": "Simulations numériques lourdes, moteurs de jeux, finance HFT.",
+        "dayNumber": 93
     },
     {
         "id": "day_094",
@@ -3488,7 +3501,8 @@ export const challengesEnriched = [
             "Entropie maximale sous contrainte de moyenne",
             "Support Vector Machines (Dual)"
         ],
-        "practicalApplication": "Économie, recherche opérationnelle, Machine Learning (SVM)."
+        "practicalApplication": "Économie, recherche opérationnelle, Machine Learning (SVM).",
+        "dayNumber": 94
     },
     {
         "id": "day_095",
@@ -3518,7 +3532,8 @@ export const challengesEnriched = [
             "Stabilité (Routh-Hurwitz)",
             "Pendule inversé"
         ],
-        "practicalApplication": "Drones, régulateur de vitesse, thermostats, pilotage automatique."
+        "practicalApplication": "Drones, régulateur de vitesse, thermostats, pilotage automatique.",
+        "dayNumber": 95
     },
     {
         "id": "day_096",
@@ -3548,7 +3563,8 @@ export const challengesEnriched = [
             "Brachistochrone",
             "Champs classiques (Densité Lagrangienne)"
         ],
-        "practicalApplication": "Physique des particules, robotique complexe, animation 3D."
+        "practicalApplication": "Physique des particules, robotique complexe, animation 3D.",
+        "dayNumber": 96
     },
     {
         "id": "day_097",
@@ -3578,7 +3594,8 @@ export const challengesEnriched = [
             "Passage au quantique (H -> iħ∂/∂t)",
             "Systèmes intégrables"
         ],
-        "practicalApplication": "Mécanique statistique, mécanique quantique, optique géométrique."
+        "practicalApplication": "Mécanique statistique, mécanique quantique, optique géométrique.",
+        "dayNumber": 97
     },
     {
         "id": "day_098",
@@ -3608,7 +3625,8 @@ export const challengesEnriched = [
             "Effet Zeeman (Quantique)",
             "Précession de Mercure"
         ],
-        "practicalApplication": "Mécanique céleste (orbites), chimie quantique, ingénierie."
+        "practicalApplication": "Mécanique céleste (orbites), chimie quantique, ingénierie.",
+        "dayNumber": 98
     },
     {
         "id": "day_099",
@@ -3638,7 +3656,8 @@ export const challengesEnriched = [
             "Résoudre numériquement (scipy/sympy)",
             "Tracer le diagramme HR"
         ],
-        "practicalApplication": "Astrophysique, fusion nucléaire (Iter)."
+        "practicalApplication": "Astrophysique, fusion nucléaire (Iter).",
+        "dayNumber": 99
     },
     {
         "id": "day_100",
@@ -3668,7 +3687,8 @@ export const challengesEnriched = [
             "Optimiser la performance",
             "Publier les résultats (Notebook)"
         ],
-        "practicalApplication": "Carrière scientifique, R&D, Innovation."
+        "practicalApplication": "Carrière scientifique, R&D, Innovation.",
+        "dayNumber": 100
     }
 ];
 
@@ -3698,18 +3718,18 @@ export const progressionSystem = {
 
 // Badges et récompenses
 export const badges = {
-    '🎯 Premier Pas': 'Commencer le voyage SymPy',
-    '🔤 Maître des Symboles': 'Maîtriser les variables symboliques',
-    '🔧 Manipulateur': 'Exceller en manipulation algébrique',
-    '🎯 Résolveur': 'Résoudre des équations complexes',
-    '📐 Visualiseur': 'Maîtriser l\'affichage LaTeX',
-    '📊 Analyste Polynomial': 'Expert en polynômes',
-    '🔬 Simplificateur': 'Simplifier les expressions',
-    '⚖️ Équilibriste': 'Comprendre exact vs numérique',
-    '📈 Dérivateur': 'Maîtriser le calcul différentiel',
-    '∫ Intégrateur': 'Maîtriser le calcul intégral',
-    '🏛️ Architecte': 'Valider le niveau Débutant',
-    '⚛️ Ingénieur Quantique': 'Valider le niveau Intermédiaire',
-    '🔐 Gardien du Secret': 'Valider le niveau Avancé',
-    '👑 Maître SymPy': 'Terminer le Grand Œuvre'
+    "🎯 Premier Pas": "Commencer le voyage SymPy",
+    "🔤 Maître des Symboles": "Maîtriser les variables symboliques",
+    "🔧 Manipulateur": "Exceller en manipulation algébrique",
+    "🎯 Résolveur": "Résoudre des équations complexes",
+    "📐 Visualiseur": "Maîtriser l'affichage LaTeX",
+    "📊 Analyste Polynomial": "Expert en polynômes",
+    "🔬 Simplificateur": "Simplifier les expressions",
+    "⚖️ Équilibriste": "Comprendre exact vs numérique",
+    "📈 Dérivateur": "Maîtriser le calcul différentiel",
+    "∫ Intégrateur": "Maîtriser le calcul intégral",
+    "🏛️ Architecte": "Valider le niveau Débutant",
+    "⚛️ Ingénieur Quantique": "Valider le niveau Intermédiaire",
+    "🔐 Gardien du Secret": "Valider le niveau Avancé",
+    "👑 Maître SymPy": "Terminer le Grand Œuvre"
 };
