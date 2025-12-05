@@ -6,7 +6,7 @@ import { courses } from './courseData';
 import { math6eData } from './data/math6e';
 import { math5eData } from './data/math5e';
 import { math4eData } from './data/math4e';
-// import { math3eData } from './data/math3e';
+import { math3eData } from './data/math3e';
 import { pc4eData } from './data/pc4e';
 // import { pc3eData } from './data/pc3e';
 import { svt6eData } from './data/svt6e';
@@ -34,7 +34,7 @@ export default function CoursesPage() {
         'math-6e': math6eData,
         'math-5e': math5eData,
         'math-4e': math4eData,
-        // 'math-3e': math3eData,
+        'math-3e': math3eData,
         'pc-4e': pc4eData,
         // 'pc-3e': pc3eData,
         'svt-6e': svt6eData,

@@ -10,7 +10,7 @@ export const math3eData = {
             id: 'alg-3e-01',
             part: 'Partie 1 : Activités Numériques',
             title: '1. Racine Carrée',
-            story: "Imaginez un carré de 25 m². Quelle est la longueur de son côté ? C'est 5m, car 5×5=25. La racine carrée, c'est l'opération inverse du carré. C'est comme 'défaire' une multiplication par elle-même.",
+            story: `Imaginez un carré de 25 m². Quelle est la longueur de son côté ? C'est 5m, car 5×5=25. La racine carrée, c'est l'opération inverse du carré. C'est comme défaire une multiplication par elle-même.`,
             content: `
                 <h3>1. Définition</h3>
                 <p>La racine carrée d'un nombre positif $a$ est le nombre positif dont le carré vaut $a$.</p>
@@ -47,7 +47,7 @@ export const math3eData = {
             id: 'alg-3e-02',
             part: 'Partie 1 : Activités Numériques',
             title: '2. Équations et Inéquations à une inconnue',
-            story: "Vous êtes maintenant des experts de la balance ! Cette année, on ajoute les équations avec des racines carrées et des fractions plus complexes. Le principe reste le même : isoler x.",
+            story: `Vous êtes maintenant des experts de la balance ! Cette année, on ajoute les équations avec des racines carrées et des fractions plus complexes. Le principe reste le même : isoler x.`,
             content: `
                 <h3>1. Équations du type $ax + b = cx + d$</h3>
                 <p>On regroupe les termes en x d'un côté et les constantes de l'autre.</p>
@@ -74,8 +74,8 @@ export const math3eData = {
         {
             id: 'alg-3e-03',
             part: 'Partie 1 : Activités Numériques',
-            title: '3. Systèmes d'équations à deux inconnues',
-            story: "Deux inconnues (x et y), deux équations. C'est comme deux indices dans une enquête. Ensemble, ils permettent de trouver les deux coupables !",
+            title: '3. Systèmes d\'équations à deux inconnues',
+            story: `Deux inconnues (x et y), deux équations. C'est comme deux indices dans une enquête. Ensemble, ils permettent de trouver les deux coupables !`,
             content: `
                 <h3>1. Méthode par Substitution</h3>
                 <p>On exprime une variable en fonction de l'autre dans une équation, puis on remplace.</p>
@@ -102,8 +102,8 @@ export const math3eData = {
         {
             id: 'alg-3e-04',
             part: 'Partie 1 : Activités Numériques',
-            title: '4. Systèmes d'inéquations',
-            story: "Maintenant, au lieu de chercher un point précis, on cherche une zone entière. C'est comme dire 'tous les points qui sont à la fois au-dessus de cette ligne ET en dessous de celle-là'.",
+            title: '4. Systèmes d\'inéquations',
+            story: `Maintenant, au lieu de chercher un point précis, on cherche une zone entière. C'est comme dire tous les points qui sont à la fois au-dessus de cette ligne ET en dessous de celle-là.`,
             content: `
                 <h3>1. Principe</h3>
                 <p>Résoudre chaque inéquation séparément, puis trouver l'intersection des solutions.</p>
@@ -129,7 +129,7 @@ export const math3eData = {
             id: 'alg-3e-05',
             part: 'Partie 1 : Activités Numériques',
             title: '5. Statistique',
-            story: "Les statistiques, c'est l'art de résumer des milliers de données en quelques chiffres clés : moyenne, médiane, étendue. C'est indispensable pour comprendre les sondages et les études.",
+            story: `Les statistiques, c'est l'art de résumer des milliers de données en quelques chiffres clés : moyenne, médiane, étendue. C'est indispensable pour comprendre les sondages et les études.`,
             content: `
                 <h3>1. Moyenne</h3>
                 <p>Somme des valeurs / Nombre de valeurs.</p>
@@ -159,7 +159,7 @@ export const math3eData = {
             id: 'alg-3e-06',
             part: 'Partie 1 : Activités Numériques',
             title: '6. Applications Affines',
-            story: "Une fonction affine, c'est une machine qui transforme x en ax+b. C'est la généralisation de la fonction linéaire. Son graphique est toujours une droite, mais qui ne passe pas forcément par l'origine.",
+            story: `Une fonction affine, c'est une machine qui transforme x en ax+b. C'est la généralisation de la fonction linéaire. Son graphique est toujours une droite, mais qui ne passe pas forcément par l'origine.`,
             content: `
                 <h3>1. Définition</h3>
                 <p>$f(x) = ax + b$</p>
@@ -199,7 +199,7 @@ export const math3eData = {
             id: 'geo-3e-07',
             part: 'Partie 2 : Activités Géométriques',
             title: '7. Théorème de Thalès',
-            story: "Thalès, c'est le roi de la proportionnalité en géométrie. Imaginez deux échelles parallèles appuyées contre un mur. Si vous montez deux fois plus haut sur l'une, vous montez deux fois plus haut sur l'autre. C'est Thalès !",
+            story: `Thalès, c'est le roi de la proportionnalité en géométrie. Imaginez deux échelles parallèles appuyées contre un mur. Si vous montez deux fois plus haut sur l'une, vous montez deux fois plus haut sur l'autre. C'est Thalès !`,
             content: `
                 <h3>1. Configuration</h3>
                 <p>Deux droites parallèles coupées par deux sécantes.</p>
@@ -213,9 +213,9 @@ export const math3eData = {
                 </div>
             `,
             summary: [
-                "Attention à l'ordre des points dans les rapports.",
-                "Réciproque : pour prouver que deux droites sont parallèles.",
-                "Contraposée : pour prouver qu'elles ne sont PAS parallèles."
+                "Milieu + Milieu → Parallèle.",
+                "Longueur = Moitié du 3ème côté.",
+                "Milieu + Parallèle → Milieu (Réciproque)."
             ],
             exercises: [
                 {
@@ -231,7 +231,7 @@ export const math3eData = {
             id: 'geo-3e-08',
             part: 'Partie 2 : Activités Géométriques',
             title: '8. Angles Inscrits',
-            story: "Un angle inscrit dans un cercle a un super-pouvoir : il vaut toujours la moitié de l'angle au centre qui intercepte le même arc. C'est magique et ça marche à tous les coups !",
+            story: `Un angle inscrit dans un cercle a un super-pouvoir : il vaut toujours la moitié de l'angle au centre qui intercepte le même arc. C'est magique et ça marche à tous les coups !`,
             content: `
                 <h3>1. Définition</h3>
                 <p>Un angle inscrit a son sommet sur le cercle et ses côtés passent par deux autres points du cercle.</p>
@@ -259,7 +259,7 @@ export const math3eData = {
             id: 'geo-3e-09',
             part: 'Partie 2 : Activités Géométriques',
             title: '9. Trigonométrie dans le triangle rectangle',
-            story: "SOH-CAH-TOA ! C'est le code secret pour retenir sinus, cosinus et tangente. Avec ces trois outils, vous pouvez calculer n'importe quelle longueur ou angle dans un triangle rectangle.",
+            story: `SOH-CAH-TOA ! C'est le code secret pour retenir sinus, cosinus et tangente. Avec ces trois outils, vous pouvez calculer n'importe quelle longueur ou angle dans un triangle rectangle.`,
             content: `
                 <h3>1. Les 3 Rapports</h3>
                 <ul>
@@ -288,8 +288,8 @@ export const math3eData = {
         {
             id: 'geo-3e-10',
             part: 'Partie 2 : Activités Géométriques',
-            title: '10. Géométrie dans l'espace',
-            story: "Retour à la 3D ! Cette fois, on étudie la sphère (la boule parfaite) et le cylindre (la canette de soda). Volumes et aires, c'est parti !",
+            title: '10. Géométrie dans l\'espace',
+            story: `Retour à la 3D ! Cette fois, on étudie la sphère (la boule parfaite) et le cylindre (la canette de soda). Volumes et aires, c'est parti !`,
             content: `
                 <h3>1. La Sphère</h3>
                 <ul>
@@ -325,7 +325,7 @@ export const math3eData = {
             id: 'geo-3e-11',
             part: 'Partie 2 : Activités Géométriques',
             title: '11. Vecteurs',
-            story: "Les vecteurs, c'est la suite de la 4ème. On approfondit avec les coordonnées et les opérations. Un vecteur, c'est toujours une flèche avec direction, sens et longueur.",
+            story: `Les vecteurs, c'est la suite de la 4ème. On approfondit avec les coordonnées et les opérations. Un vecteur, c'est toujours une flèche avec direction, sens et longueur.`,
             content: `
                 <h3>1. Coordonnées</h3>
                 <p>$\\vec{AB} \\begin{pmatrix} x_B - x_A \\\\ y_B - y_A \\end{pmatrix}$</p>
@@ -353,7 +353,7 @@ export const math3eData = {
             id: 'geo-3e-12',
             part: 'Partie 2 : Activités Géométriques',
             title: '12. Repérage dans le plan',
-            story: "Le repère, c'est le GPS des mathématiques. Chaque point a une adresse unique (x, y). Avec ça, on peut tout localiser et calculer des distances.",
+            story: `Le repère, c'est le GPS des mathématiques. Chaque point a une adresse unique (x, y). Avec ça, on peut tout localiser et calculer des distances.`,
             content: `
                 <h3>1. Coordonnées d'un point</h3>
                 <p>M(x, y) où x est l'abscisse et y l'ordonnée.</p>
@@ -381,7 +381,7 @@ export const math3eData = {
             id: 'geo-3e-13',
             part: 'Partie 2 : Activités Géométriques',
             title: '13. Transformations du plan',
-            story: "Les transformations, ce sont les mouvements géométriques : translation (glisser), rotation (tourner), symétrie (miroir), homothétie (zoom). Chacune a ses propriétés magiques.",
+            story: `Les transformations, ce sont les mouvements géométriques : translation (glisser), rotation (tourner), symétrie (miroir), homothétie (zoom). Chacune a ses propriétés magiques.`,
             content: `
                 <h3>1. Translation</h3>
                 <p>Glissement selon un vecteur $\\vec{u}$.</p>
