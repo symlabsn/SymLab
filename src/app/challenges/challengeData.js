@@ -441,101 +441,112 @@ export const challenges = [
     },
     {
         "id": "day_041",
-        "title": "Jour 041 — Intégrales multiples",
-        "code": "from sympy import symbols, integrate\nx,y = symbols('x y')\nintegrate(integrate(x*y,(x,0,1)),(y,0,1))",
-        "output": "\\(\\frac{1}{4}\\)",
+        "title": "Jour 041 — Séries de Fourier",
+        "code": "from sympy import fourier_series, pi, symbols, plot\nx = symbols('x')\n# Série de Fourier d'un signal carré\ns = fourier_series(x, (x, -pi, pi))\n# Afficher les 3 premiers termes\ns.truncate(3)",
+        "output": "2*sin(x) - sin(2*x) + 2*sin(3*x)/3",
         "exercises": [
-            "Exercice 1 — Reproduire l'exécution du code et vérifier la sortie attendue.",
-            "Exercice 2 — Proposer une variante: modifier une partie du code pour obtenir un résultat connexe.",
-            "Exercice 3 — Donner une application pratique (court texte) reliant le thème à un problème réel."
+            "Calculer la série de Fourier d'une dent de scie",
+            "Visualiser la convergence (phénomène de Gibbs)",
+            "Calculer l'énergie du signal"
         ]
     },
     {
         "id": "day_042",
-        "title": "Jour 042 — Changement de variables",
-        "code": "# Jacobian example (symbolic)\n# montrer calcul du Jacobien",
-        "output": "\\(\\text{Jacobian matrix}\\)",
+        "title": "Jour 042 — Transformée de Laplace",
+        "code": "from sympy import laplace_transform, inverse_laplace_transform, symbols, exp, sin\nt, s, a = symbols('t s a')\n# Transformée de sin(at)\nL = laplace_transform(sin(a*t), t, s)\nprint(f'L{{sin(at)}} = {L[0]}')",
+        "output": "L{sin(at)} = a/(a**2 + s**2)",
         "exercises": [
-            "Exercice 1 — Reproduire l'exécution du code et vérifier la sortie attendue.",
-            "Exercice 2 — Proposer une variante: modifier une partie du code pour obtenir un résultat connexe.",
-            "Exercice 3 — Donner une application pratique (court texte) reliant le thème à un problème réel."
+            "Résoudre y'' + y = 0 avec Laplace",
+            "Trouver la transformée inverse de 1/(s+1)^2",
+            "Fonction de transfert d'un circuit RC"
         ]
     },
     {
         "id": "day_043",
-        "title": "Jour 043 — Calcul vectoriel",
-        "code": "# grad/div/curl via sympy.vector\n# exemple",
-        "output": "\\(\\nabla f,\\ \\nabla\\cdot\\vec{F},\\ \\nabla\\times\\vec{F}\\)",
+        "title": "Jour 043 — Équations Différentielles Partielles",
+        "code": "from sympy import Function, pde_separate, Eq, symbols\nx, t, c = symbols('x t c')\nu = Function('u')(x, t)\n# Équation des ondes 1D\neq = Eq(u.diff(t, 2), c**2 * u.diff(x, 2))\n# Séparation des variables u(x,t) = X(x)T(t)\npde_separate(eq, u, [Function('X')(x), Function('T')(t)])",
+        "output": "[X''(x)/X(x), T''(t)/(c**2*T(t))]",
         "exercises": [
-            "Exercice 1 — Reproduire l'exécution du code et vérifier la sortie attendue.",
-            "Exercice 2 — Proposer une variante: modifier une partie du code pour obtenir un résultat connexe.",
-            "Exercice 3 — Donner une application pratique (court texte) reliant le thème à un problème réel."
+            "Résoudre l'équation de la chaleur 1D",
+            "Vérifier si f(x-ct) est solution de l'équation d'onde",
+            "Équation de Laplace en coordonnées polaires"
         ]
     },
     {
         "id": "day_044",
-        "title": "Jour 044 — Champs scalaires & vectoriels",
-        "code": "# Exemple: champ scalaire et gradient",
-        "output": "\\(\\text{Gradient symbolique}\\)",
+        "title": "Jour 044 — Calcul Vectoriel",
+        "code": "from sympy.vector import CoordSys3D, Del\nC = CoordSys3D('C')\ndelop = Del()\n# Champ scalaire f = x^2 + y^2\nf = C.x**2 + C.y**2\n# Gradient\ndelop(f)",
+        "output": "2*C.x*C.i + 2*C.y*C.j",
         "exercises": [
-            "Exercice 1 — Reproduire l'exécution du code et vérifier la sortie attendue.",
-            "Exercice 2 — Proposer une variante: modifier une partie du code pour obtenir un résultat connexe.",
-            "Exercice 3 — Donner une application pratique (court texte) reliant le thème à un problème réel."
+            "Calculer la divergence d'un champ radial",
+            "Calculer le rotationnel d'un tourbillon",
+            "Vérifier div(rot F) = 0"
         ]
     },
     {
         "id": "day_045",
-        "title": "Jour 045 — Analyse d'erreurs",
-        "code": "# Symbolic vs numeric errors; Taylor remainder\n# exemple",
-        "output": "\\(\\text{Expression d'erreur / majorant}\\)",
+        "title": "Jour 045 — Physique Q : Schrödinger",
+        "code": "from sympy import symbols, Function, Eq, dsolve, hbar, m\nx, E = symbols('x E')\npsi = Function('psi')(x)\n# Équation de Schrödinger 1D particule libre (V=0)\neq = Eq(-hbar**2 / (2*m) * psi.diff(x, 2), E * psi)\ndsolve(eq, psi)",
+        "output": "C1*exp(-i*x*sqrt(2mE)/hbar) + ...",
         "exercises": [
-            "Exercice 1 — Reproduire l'exécution du code et vérifier la sortie attendue.",
-            "Exercice 2 — Proposer une variante: modifier une partie du code pour obtenir un résultat connexe.",
-            "Exercice 3 — Donner une application pratique (court texte) reliant le thème à un problème réel."
+            "Particule dans une boîte 1D",
+            "Normaliser une fonction d'onde",
+            "Calculer la probabilité de présence"
         ]
     },
     {
         "id": "day_046",
-        "title": "Jour 046 — Séries de Laurent",
-        "code": "from sympy import symbols, series\nx = symbols('x')\nseries(1/(1-x), x, 1, 3)",
-        "output": "\\(\\text{Laurent autour de } x=1\\)",
+        "title": "Jour 046 — Physique Q : Heisenberg",
+        "code": "from sympy.physics.quantum import Commutator, Operator\nfrom sympy import I, hbar\nX = Operator('X')\nP = Operator('P')\n# Commutateur canonique\nCommutator(X, P).doit()",
+        "output": "I*hbar",
         "exercises": [
-            "Exercice 1 — Reproduire l'exécution du code et vérifier la sortie attendue.",
-            "Exercice 2 — Proposer une variante: modifier une partie du code pour obtenir un résultat connexe.",
-            "Exercice 3 — Donner une application pratique (court texte) reliant le thème à un problème réel."
+            "Calculer l'incertitude minimale pour un électron",
+            "Lien avec la transformée de Fourier",
+            "Incertitude énergie-temps pour une particule instable"
         ]
     },
     {
         "id": "day_047",
-        "title": "Jour 047 — Résidus & intégrales complexes",
-        "code": "# Résidu example using sympy.residue\n# compute residue",
-        "output": "\\(\\text{Résidu (valeur numérique/simple)}\\)",
+        "title": "Jour 047 — Physique Q : Puits",
+        "code": "from sympy import sin, pi, sqrt, integrate, symbols\nn, x, L = symbols('n x L', positive=True, integer=True)\n# Fonction d'onde normalisée\npsi = sqrt(2/L) * sin(n*pi*x/L)\n# Vérifier la normalisation\nintegrate(psi**2, (x, 0, L))",
+        "output": "1",
         "exercises": [
-            "Exercice 1 — Reproduire l'exécution du code et vérifier la sortie attendue.",
-            "Exercice 2 — Proposer une variante: modifier une partie du code pour obtenir un résultat connexe.",
-            "Exercice 3 — Donner une application pratique (court texte) reliant le thème à un problème réel."
+            "Calculer la différence d'énergie E2 - E1",
+            "Probabilité de trouver la particule au centre",
+            "Puits de potentiel fini (effet tunnel)"
+        ]
+    },
+    {
+        "id": "day_048",
+        "title": "Jour 048 — Physique Q : Spin",
+        "code": "from sympy.physics.matrices import msigma\n# Matrices de Pauli\nsigma_x = msigma(1)\nsigma_y = msigma(2)\n# Commutateur [Sx, Sy]\ncomm = sigma_x * sigma_y - sigma_y * sigma_x\nprint(comm)",
+        "output": "2*I*sigma_z",
+        "exercises": [
+            "Vérifier σx² = I",
+            "Calculer les valeurs propres de σz",
+            "Représentation sur la sphère de Bloch"
         ]
     },
     {
         "id": "day_049",
-        "title": "Jour 049 — Trigono avancée",
-        "code": "from sympy import symbols, trigsimp\nx = symbols('x')\ntrigsimp(sin(x)*cos(x))",
-        "output": "\\(\\frac{\\sin(2x)}{2}\\)",
+        "title": "Jour 049 — Physique Q : Oscillateur",
+        "code": "from sympy.physics.qho_1d import psi_n, E_n\nfrom sympy import symbols, m, omega, hbar\nx = symbols('x')\n# Énergie du niveau n=0 (fondamental)\nE0 = E_n(0, omega)\n# Fonction d'onde n=0\npsi0 = psi_n(0, x, m, omega)",
+        "output": "E0 = hbar*omega/2",
         "exercises": [
-            "Exercice 1 — Reproduire l'exécution du code et vérifier la sortie attendue.",
-            "Exercice 2 — Proposer une variante: modifier une partie du code pour obtenir un résultat connexe.",
-            "Exercice 3 — Donner une application pratique (court texte) reliant le thème à un problème réel."
+            "Vérifier l'orthogonalité des états",
+            "Calculer  et  dans l'état fondamental",
+            "Principe de correspondance (n grand)"
         ]
     },
     {
         "id": "day_050",
-        "title": "Jour 050 — Revue mi-parcours",
-        "code": "# Récapitulatif et QCM\n# corriger exercices",
-        "output": "\\(\\text{Revue / tests intermédiaires}\\)",
+        "title": "Jour 050 — Physique Q : Intrication",
+        "code": "from sympy.physics.quantum.qubit import Qubit\nfrom sympy.physics.quantum.gate import H, CNOT\n# Création d'un état de Bell (intriqué)\n# |00> -> H -> (|00>+|10>)/sqrt(2) -> CNOT -> (|00>+|11>)/sqrt(2)\nq = Qubit('00')\ncircuit = CNOT(0, 1) * H(0)\nstate = circuit * q",
+        "output": "sqrt(2)*|00>/2 + sqrt(2)*|11>/2",
         "exercises": [
-            "Exercice 1 — Reproduire l'exécution du code et vérifier la sortie attendue.",
-            "Exercice 2 — Proposer une variante: modifier une partie du code pour obtenir un résultat connexe.",
-            "Exercice 3 — Donner une application pratique (court texte) reliant le thème à un problème réel."
+            "Démontrer la violation des inégalités de Bell",
+            "Protocole de téléportation quantique",
+            "Cryptographie quantique (E91)"
         ]
     },
     {

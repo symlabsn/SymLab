@@ -1838,7 +1838,467 @@ solve(Z.as_real_imag()[1], omega)`,
             'Puissance active et réactive',
         ],
         practicalApplication: 'Électronique, distribution d\'énergie, télécommunications, informatique.'
-    },
+    },,
+    {
+            id: 'day_041',
+            dayNumber: 41,
+            title: 'Séries de Fourier',
+            difficulty: 'Avancé',
+            masteryLevel: 'Expert',
+            unlocked: true,
+            xpReward: 45,
+            badge: '🏅 Séries de Fourier',
+            africanAnalogy: `Une série de Fourier est comme décomposer un plat complexe en ses ingrédients de base. N'importe quel son, aussi complexe soit-il, est juste une somme de notes pures (sinusoïdes). C'est l'ADN des ondes.`,
+            theory: {
+                title: 'Analyse Harmonique',
+                content: `Toute fonction périodique peut s'écrire comme une somme infinie de sinus et cosinus. C'est la base du traitement du signal (MP3, JPEG, 4G).`,
+                mathematicalFoundation: `
+                    - f(t) = a₀ + Σ (aₙ cos(nωt) + bₙ sin(nωt))\n                - Coefficients : aₙ = (2/T) ∫ f(t)cos(nωt)dt\n                - Spectre de fréquence\n                - Théorème de Parseval (conservation de l'énergie)
+                `,
+                scientists: [
+                {
+                        name: 'Joseph Fourier',
+                        year: '1822',
+                        contribution: 'Théorie analytique de la chaleur',
+                        context: 'Invente cet outil pour résoudre l\'équation de la chaleur'
+                    },
+                    {
+                        name: 'Jean le Rond d'Alembert',
+                        year: '1747',
+                        contribution: 'Équation des ondes',
+                        context: 'Prépare le terrain pour l\'analyse des vibrations'
+                    },
+                ]
+            },
+            code: `from sympy import fourier_series, pi, symbols, plot
+x = symbols('x')
+# Série de Fourier d'un signal carré
+s = fourier_series(x, (x, -pi, pi))
+# Afficher les 3 premiers termes
+s.truncate(3)`,
+            output: '2*sin(x) - sin(2*x) + 2*sin(3*x)/3',
+            exercises: [
+            'Calculer la série de Fourier d\'une dent de scie',
+            'Visualiser la convergence (phénomène de Gibbs)',
+            'Calculer l\'énergie du signal',
+        ],
+            practicalApplication: 'Compression audio/image, télécommunications, IRM, analyse des vibrations.'
+        },
+    {
+            id: 'day_042',
+            dayNumber: 42,
+            title: 'Transformée de Laplace',
+            difficulty: 'Avancé',
+            masteryLevel: 'Expert',
+            unlocked: true,
+            xpReward: 45,
+            badge: '🏅 Transformée de Laplace',
+            africanAnalogy: `La transformée de Laplace est une machine à traduire. Elle transforme des problèmes difficiles de calcul (équations différentielles) en problèmes faciles d'algèbre. On résout dans le monde facile, puis on re-traduit vers le monde réel.`,
+            theory: {
+                title: 'Calcul Opérationnel',
+                content: `Transforme une fonction du temps f(t) en une fonction complexe F(s). Essentiel pour l'analyse des systèmes et l'automatique.`,
+                mathematicalFoundation: `
+                    - L{f(t)} = ∫₀^∞ f(t)e^(-st)dt\n                - L{f'} = sF(s) - f(0)\n                - L{f''} = s²F(s) - sf(0) - f'(0)\n                - Théorème de la valeur finale\n                - Convolution : L{f*g} = F(s)G(s)
+                `,
+                scientists: [
+                {
+                        name: 'Pierre-Simon de Laplace',
+                        year: '1785',
+                        contribution: 'Théorie analytique des probabilités',
+                        context: 'Le \'Newton français\', développe cet outil puissant'
+                    },
+                    {
+                        name: 'Oliver Heaviside',
+                        year: '1880',
+                        contribution: 'Calcul opérationnel',
+                        context: 'Ingénieur autodidacte, applique Laplace à l\'électricité'
+                    },
+                ]
+            },
+            code: `from sympy import laplace_transform, inverse_laplace_transform, symbols, exp, sin
+t, s, a = symbols('t s a')
+# Transformée de sin(at)
+L = laplace_transform(sin(a*t), t, s)
+print(f'L{{sin(at)}} = {L[0]}')`,
+            output: 'L{sin(at)} = a/(a**2 + s**2)',
+            exercises: [
+            'Résoudre y\'\' + y = 0 avec Laplace',
+            'Trouver la transformée inverse de 1/(s+1)^2',
+            'Fonction de transfert d\'un circuit RC',
+        ],
+            practicalApplication: 'Automatique (régulateurs PID), circuits électriques, mécanique (amortisseurs).'
+        },
+    {
+            id: 'day_043',
+            dayNumber: 43,
+            title: 'Équations Différentielles Partielles',
+            difficulty: 'Expert',
+            masteryLevel: 'Expert',
+            unlocked: true,
+            xpReward: 50,
+            badge: '🏅 Équations Différentielles Partielles',
+            africanAnalogy: `Une EDP décrit comment quelque chose change dans l'espace et le temps simultanément. Comme la chaleur qui se diffuse dans une barre de métal ou une vague qui se propage sur l'eau. C'est la symphonie de l'univers continu.`,
+            theory: {
+                title: 'Physique Mathématique',
+                content: `Les EDP modélisent la plupart des phénomènes physiques. La méthode de séparation des variables est une technique classique de résolution.`,
+                mathematicalFoundation: `
+                    - Équation de la chaleur : ∂u/∂t = α∇²u\n                - Équation des ondes : ∂²u/∂t² = c²∇²u\n                - Équation de Laplace : ∇²u = 0\n                - Conditions aux limites (Dirichlet, Neumann)\n                - Séparation des variables : u(x,t) = X(x)T(t)
+                `,
+                scientists: [
+                {
+                        name: 'Joseph Fourier',
+                        year: '1807',
+                        contribution: 'Propagation de la chaleur',
+                        context: 'Fonde la thermodynamique théorique'
+                    },
+                    {
+                        name: 'Bernhard Riemann',
+                        year: '1860',
+                        contribution: 'Ondes de choc',
+                        context: 'Travaux sur la dynamique des fluides'
+                    },
+                ]
+            },
+            code: `from sympy import Function, pde_separate, Eq, symbols
+x, t, c = symbols('x t c')
+u = Function('u')(x, t)
+# Équation des ondes 1D
+eq = Eq(u.diff(t, 2), c**2 * u.diff(x, 2))
+# Séparation des variables u(x,t) = X(x)T(t)
+pde_separate(eq, u, [Function('X')(x), Function('T')(t)])`,
+            output: '[X\'\'(x)/X(x), T\'\'(t)/(c**2*T(t))]',
+            exercises: [
+            'Résoudre l\'équation de la chaleur 1D',
+            'Vérifier si f(x-ct) est solution de l\'équation d\'onde',
+            'Équation de Laplace en coordonnées polaires',
+        ],
+            practicalApplication: 'Météorologie, acoustique, finance (Black-Scholes), imagerie médicale.'
+        },
+    {
+            id: 'day_044',
+            dayNumber: 44,
+            title: 'Calcul Vectoriel',
+            difficulty: 'Avancé',
+            masteryLevel: 'Avancé',
+            unlocked: true,
+            xpReward: 40,
+            badge: '🏅 Calcul Vectoriel',
+            africanAnalogy: `Le calcul vectoriel est la langue des champs invisibles. Le gradient dit où ça monte le plus vite. La divergence dit où ça sort (source). Le rotationnel dit où ça tourne (tourbillon). C'est la carte météo des forces.`,
+            theory: {
+                title: 'Opérateurs Différentiels',
+                content: `Gradient, Divergence et Rotationnel sont les outils pour analyser les champs scalaires et vectoriels. Essentiel pour l'électromagnétisme et la mécanique des fluides.`,
+                mathematicalFoundation: `
+                    - Nabla : ∇ = (∂/∂x, ∂/∂y, ∂/∂z)\n                - Gradient : ∇f (vecteur pente)\n                - Divergence : ∇·F (flux sortant)\n                - Rotationnel : ∇×F (tendance à tourner)\n                - Théorèmes : Green, Stokes, Ostrogradsky
+                `,
+                scientists: [
+                {
+                        name: 'James Clerk Maxwell',
+                        year: '1865',
+                        contribution: 'Équations de Maxwell',
+                        context: 'Unifie électricité et magnétisme avec ces opérateurs'
+                    },
+                    {
+                        name: 'Josiah Willard Gibbs',
+                        year: '1880',
+                        contribution: 'Notation vectorielle moderne',
+                        context: 'Simplifie grandement les mathématiques de la physique'
+                    },
+                ]
+            },
+            code: `from sympy.vector import CoordSys3D, Del
+C = CoordSys3D('C')
+delop = Del()
+# Champ scalaire f = x^2 + y^2
+f = C.x**2 + C.y**2
+# Gradient
+delop(f)`,
+            output: '2*C.x*C.i + 2*C.y*C.j',
+            exercises: [
+            'Calculer la divergence d\'un champ radial',
+            'Calculer le rotationnel d\'un tourbillon',
+            'Vérifier div(rot F) = 0',
+        ],
+            practicalApplication: 'Électromagnétisme, météo (vents), écoulement de fluides, infographie 3D.'
+        },
+    {
+            id: 'day_045',
+            dayNumber: 45,
+            title: 'Physique Q : Schrödinger',
+            difficulty: 'Expert',
+            masteryLevel: 'Expert',
+            unlocked: true,
+            xpReward: 50,
+            badge: '🏅 Physique Q : Schrödinger',
+            africanAnalogy: `En quantique, une particule n'est pas un point, c'est un nuage de probabilité. L'équation de Schrödinger décrit comment ce nuage danse et change de forme. On ne sait pas où est la particule, seulement où elle pourrait être.`,
+            theory: {
+                title: 'Mécanique Ondulatoire',
+                content: `L'équation de Schrödinger est l'équivalent quantique de F=ma. Elle décrit l'évolution de la fonction d'onde Ψ dont le module au carré donne la probabilité de présence.`,
+                mathematicalFoundation: `
+                    - iħ ∂Ψ/∂t = ĤΨ (Équation dépendante du temps)\n                - ĤΨ = EΨ (Équation indépendante du temps)\n                - Opérateur Hamiltonien : Ĥ = -ħ²/2m ∇² + V\n                - Normalisation : ∫|Ψ|²dV = 1\n                - Quantification de l'énergie
+                `,
+                scientists: [
+                {
+                        name: 'Erwin Schrödinger',
+                        year: '1926',
+                        contribution: 'Équation de Schrödinger',
+                        context: 'Prix Nobel, formule la mécanique ondulatoire'
+                    },
+                    {
+                        name: 'Max Born',
+                        year: '1926',
+                        contribution: 'Interprétation probabiliste',
+                        context: 'Donne le sens physique à la fonction d\'onde'
+                    },
+                ]
+            },
+            code: `from sympy import symbols, Function, Eq, dsolve, hbar, m
+x, E = symbols('x E')
+psi = Function('psi')(x)
+# Équation de Schrödinger 1D particule libre (V=0)
+eq = Eq(-hbar**2 / (2*m) * psi.diff(x, 2), E * psi)
+dsolve(eq, psi)`,
+            output: 'C1*exp(-i*x*sqrt(2mE)/hbar) + ...',
+            exercises: [
+            'Particule dans une boîte 1D',
+            'Normaliser une fonction d\'onde',
+            'Calculer la probabilité de présence',
+        ],
+            practicalApplication: 'Chimie quantique, semi-conducteurs, lasers, nanotechnologies.'
+        },
+    {
+            id: 'day_046',
+            dayNumber: 46,
+            title: 'Physique Q : Heisenberg',
+            difficulty: 'Avancé',
+            masteryLevel: 'Avancé',
+            unlocked: true,
+            xpReward: 40,
+            badge: '🏅 Physique Q : Heisenberg',
+            africanAnalogy: `Le principe d'incertitude est comme essayer de prendre une photo nette d'une voiture de course. Si la photo est nette (position précise), on ne voit pas sa vitesse (flou de mouvement). Si on voit le flou (vitesse), on ne sait pas où elle est exactement.`,
+            theory: {
+                title: 'Incertitude Quantique',
+                content: `Il est impossible de connaître simultanément avec une précision infinie la position et la quantité de mouvement d'une particule. Ce n'est pas une limite technologique, mais fondamentale.`,
+                mathematicalFoundation: `
+                    - Δx · Δp ≥ ħ/2\n                - ΔE · Δt ≥ ħ/2\n                - Commutateur : [x, p] = iħ\n                - Opérateurs non-commutatifs\n                - Paquet d'ondes gaussien (état d'incertitude minimale)
+                `,
+                scientists: [
+                {
+                        name: 'Werner Heisenberg',
+                        year: '1927',
+                        contribution: 'Principe d\'incertitude',
+                        context: 'Fonde la mécanique matricielle'
+                    },
+                    {
+                        name: 'Niels Bohr',
+                        year: '1927',
+                        contribution: 'Principe de complémentarité',
+                        context: 'Onde et corpuscule sont deux aspects complémentaires'
+                    },
+                ]
+            },
+            code: `from sympy.physics.quantum import Commutator, Operator
+from sympy import I, hbar
+X = Operator('X')
+P = Operator('P')
+# Commutateur canonique
+Commutator(X, P).doit()`,
+            output: 'I*hbar',
+            exercises: [
+            'Calculer l\'incertitude minimale pour un électron',
+            'Lien avec la transformée de Fourier',
+            'Incertitude énergie-temps pour une particule instable',
+        ],
+            practicalApplication: 'Microscopes électroniques, stabilité de la matière, vide quantique.'
+        },
+    {
+            id: 'day_047',
+            dayNumber: 47,
+            title: 'Physique Q : Puits',
+            difficulty: 'Intermédiaire',
+            masteryLevel: 'Intermédiaire',
+            unlocked: true,
+            xpReward: 35,
+            badge: '🏅 Physique Q : Puits',
+            africanAnalogy: `Une particule dans un puits est comme une corde de guitare attachée aux deux bouts. Elle ne peut vibrer qu'à certaines fréquences précises. De même, l'énergie de la particule est 'quantifiée' : elle ne peut prendre que certaines valeurs, comme les barreaux d'une échelle.`,
+            theory: {
+                title: 'Puits de Potentiel Infini',
+                content: `Modèle simple mais fondamental montrant la quantification de l'énergie. La particule est confinée dans une région de l'espace.`,
+                mathematicalFoundation: `
+                    - V(x) = 0 pour 0 < x < L, ∞ ailleurs\n                - Conditions aux limites : Ψ(0) = Ψ(L) = 0\n                - Solutions : Ψₙ(x) = √(2/L) sin(nπx/L)\n                - Énergies : Eₙ = n²h² / (8mL²)\n                - Niveau fondamental E₁ > 0 (énergie de point zéro)
+                `,
+                scientists: [
+                {
+                        name: 'Louis de Broglie',
+                        year: '1924',
+                        contribution: 'Dualité onde-corpuscule',
+                        context: 'Hypothèse que toute matière a une longueur d\'onde'
+                    },
+                    {
+                        name: 'Wolfgang Pauli',
+                        year: '1925',
+                        contribution: 'Principe d\'exclusion',
+                        context: 'Explique la structure des atomes'
+                    },
+                ]
+            },
+            code: `from sympy import sin, pi, sqrt, integrate, symbols
+n, x, L = symbols('n x L', positive=True, integer=True)
+# Fonction d'onde normalisée
+psi = sqrt(2/L) * sin(n*pi*x/L)
+# Vérifier la normalisation
+integrate(psi**2, (x, 0, L))`,
+            output: '1',
+            exercises: [
+            'Calculer la différence d\'énergie E2 - E1',
+            'Probabilité de trouver la particule au centre',
+            'Puits de potentiel fini (effet tunnel)',
+        ],
+            practicalApplication: 'Points quantiques (QLED), puits quantiques (lasers), nanostructures.'
+        },
+    {
+            id: 'day_048',
+            dayNumber: 48,
+            title: 'Physique Q : Spin',
+            difficulty: 'Expert',
+            masteryLevel: 'Expert',
+            unlocked: true,
+            xpReward: 50,
+            badge: '🏅 Physique Q : Spin',
+            africanAnalogy: `Le spin est comme si les particules tournaient sur elles-mêmes, mais c'est une rotation purement quantique sans équivalent classique. C'est comme une toupie qui ne peut pointer que vers le haut ou vers le bas, jamais entre les deux.`,
+            theory: {
+                title: 'Moment Cinétique Intrinsèque',
+                content: `Le spin est une propriété fondamentale des particules. Les fermions (électrons) ont un spin 1/2, les bosons (photons) un spin entier. Décrit par les matrices de Pauli.`,
+                mathematicalFoundation: `
+                    - Spin 1/2 : états |↑⟩ et |↓⟩\n                - Matrices de Pauli : σx, σy, σz\n                - Algèbre des commutateurs : [σx, σy] = 2iσz\n                - Espace de Hilbert de dimension 2 (Qubit)\n                - Expérience de Stern-Gerlach
+                `,
+                scientists: [
+                {
+                        name: 'Paul Dirac',
+                        year: '1928',
+                        contribution: 'Équation de Dirac',
+                        context: 'Unifie quantique et relativité, prédit l\'antimatière et le spin'
+                    },
+                    {
+                        name: 'Wolfgang Pauli',
+                        year: '1924',
+                        contribution: 'Matrices de Pauli',
+                        context: 'Formalisme mathématique du spin'
+                    },
+                ]
+            },
+            code: `from sympy.physics.matrices import msigma
+# Matrices de Pauli
+sigma_x = msigma(1)
+sigma_y = msigma(2)
+# Commutateur [Sx, Sy]
+comm = sigma_x * sigma_y - sigma_y * sigma_x
+print(comm)`,
+            output: '2*I*sigma_z',
+            exercises: [
+            'Vérifier σx² = I',
+            'Calculer les valeurs propres de σz',
+            'Représentation sur la sphère de Bloch',
+        ],
+            practicalApplication: 'IRM (Résonance Magnétique Nucléaire), Ordinateur quantique (Qubits), Spintronique.'
+        },
+    {
+            id: 'day_049',
+            dayNumber: 49,
+            title: 'Physique Q : Oscillateur',
+            difficulty: 'Expert',
+            masteryLevel: 'Expert',
+            unlocked: true,
+            xpReward: 50,
+            badge: '🏅 Physique Q : Oscillateur',
+            africanAnalogy: `L'oscillateur harmonique est le pendule de la mécanique quantique. Tout ce qui vibre (atomes, molécules, lumière) se comporte comme un oscillateur. C'est le modèle le plus important de la physique.`,
+            theory: {
+                title: 'Oscillateur Harmonique Quantique',
+                content: `Potentiel parabolique V(x) = 1/2 kx². Les niveaux d'énergie sont équidistants : Eₙ = ħω(n + 1/2). Utilise les opérateurs d'échelle (création/annihilation).`,
+                mathematicalFoundation: `
+                    - Hamiltonien : H = p²/2m + 1/2 mω²x²\n                - Opérateurs échelle : a (annihilation), a† (création)\n                - H = ħω(a†a + 1/2)\n                - Fonctions d'onde : polynômes d'Hermite\n                - État fondamental gaussien
+                `,
+                scientists: [
+                {
+                        name: 'Max Planck',
+                        year: '1900',
+                        contribution: 'Quanta d\'énergie',
+                        context: 'Résout la catastrophe ultraviolette avec E=hν'
+                    },
+                    {
+                        name: 'Albert Einstein',
+                        year: '1905',
+                        contribution: 'Effet photoélectrique',
+                        context: 'Montre que la lumière est quantifiée (photons)'
+                    },
+                ]
+            },
+            code: `from sympy.physics.qho_1d import psi_n, E_n
+from sympy import symbols, m, omega, hbar
+x = symbols('x')
+# Énergie du niveau n=0 (fondamental)
+E0 = E_n(0, omega)
+# Fonction d'onde n=0
+psi0 = psi_n(0, x, m, omega)`,
+            output: 'E0 = hbar*omega/2',
+            exercises: [
+            'Vérifier l\'orthogonalité des états',
+            'Calculer <x> et <p> dans l\'état fondamental',
+            'Principe de correspondance (n grand)',
+        ],
+            practicalApplication: 'Spectroscopie moléculaire, théorie quantique des champs, phonons.'
+        },
+    {
+            id: 'day_050',
+            dayNumber: 50,
+            title: 'Physique Q : Intrication',
+            difficulty: 'Légendaire',
+            masteryLevel: 'Maître',
+            unlocked: true,
+            xpReward: 100,
+            badge: '🏅 Physique Q : Intrication',
+            africanAnalogy: `L'intrication est un lien fantôme entre deux particules. Même séparées par des années-lumière, elles forment un seul objet. Si on touche l'une, l'autre réagit instantanément. Einstein appelait ça 'action fantôme à distance'.`,
+            theory: {
+                title: 'Intrication et Paradoxe EPR',
+                content: `Deux particules intriquées ne peuvent être décrites séparément. L'état est global. La mesure de l'une fixe instantanément l'état de l'autre.`,
+                mathematicalFoundation: `
+                    - État de Bell : |Φ⁺⟩ = (|00⟩ + |11⟩)/√2\n                - Non-localité\n                - Inégalités de Bell : testent le réalisme local\n                - Matrice densité\n                - Téléportation quantique
+                `,
+                scientists: [
+                {
+                        name: 'Einstein, Podolsky, Rosen',
+                        year: '1935',
+                        contribution: 'Paradoxe EPR',
+                        context: 'Questionnent la complétude de la mécanique quantique'
+                    },
+                    {
+                        name: 'John Bell',
+                        year: '1964',
+                        contribution: 'Inégalités de Bell',
+                        context: 'Prouve qu\'on peut tester expérimentalement le débat EPR'
+                    },
+                    {
+                        name: 'Alain Aspect',
+                        year: '1982',
+                        contribution: 'Expérience d\'Aspect',
+                        context: 'Prix Nobel 2022, confirme la mécanique quantique'
+                    },
+                ]
+            },
+            code: `from sympy.physics.quantum.qubit import Qubit
+from sympy.physics.quantum.gate import H, CNOT
+# Création d'un état de Bell (intriqué)
+# |00> -> H -> (|00>+|10>)/sqrt(2) -> CNOT -> (|00>+|11>)/sqrt(2)
+q = Qubit('00')
+circuit = CNOT(0, 1) * H(0)
+state = circuit * q`,
+            output: 'sqrt(2)*|00>/2 + sqrt(2)*|11>/2',
+            exercises: [
+            'Démontrer la violation des inégalités de Bell',
+            'Protocole de téléportation quantique',
+            'Cryptographie quantique (E91)',
+        ],
+            practicalApplication: 'Ordinateur quantique, cryptographie inviolable, internet quantique.'
+        },
 
 ];
 

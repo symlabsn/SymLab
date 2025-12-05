@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Jour 047 — Physique Q : Puits</title>
+<title>Jour 048 — Physique Q : Spin</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
 <style>
 :root{--bg:#0f172a; --accent:#06b6d4; --muted:#94a3b8;}
@@ -34,7 +34,7 @@
 <header class="header container">
   <div style="display:flex;justify-content:space-between;align-items:center">
     <div>
-      <h1 style="margin:0;color:white">Jour 047 — Physique Q : Puits</h1>
+      <h1 style="margin:0;color:white">Jour 048 — Physique Q : Spin</h1>
       <div style="font-size:0.9em;opacity:0.9">Challenge 100 Jours SymPy</div>
     </div>
     <div><a class="btn" href="index.html">← Index</a></div>
@@ -44,58 +44,59 @@
 <div class="container">
   <main class="page">
     <div class="meta">
-      <span class="badge badge-level">🎯 Intermédiaire</span>
-      <span class="badge badge-mastery">📊 Intermédiaire</span>
-      <span class="badge badge-xp">⭐ +35 XP</span>
+      <span class="badge badge-level">🎯 Expert</span>
+      <span class="badge badge-mastery">📊 Expert</span>
+      <span class="badge badge-xp">⭐ +50 XP</span>
     </div>
 
     <h2>🌍 Analogie Africaine</h2>
-    <div class="analogy">Une particule dans un puits est comme une corde de guitare attachée aux deux bouts. Elle ne peut vibrer qu'à certaines fréquences précises. De même, l'énergie de la particule est 'quantifiée' : elle ne peut prendre que certaines valeurs, comme les barreaux d'une échelle.</div>
+    <div class="analogy">Le spin est comme si les particules tournaient sur elles-mêmes, mais c'est une rotation purement quantique sans équivalent classique. C'est comme une toupie qui ne peut pointer que vers le haut ou vers le bas, jamais entre les deux.</div>
 
-    <h2>📚 Théorie : Puits de Potentiel Infini</h2>
+    <h2>📚 Théorie : Moment Cinétique Intrinsèque</h2>
     <div class="theory">
-      <p>Modèle simple mais fondamental montrant la quantification de l'énergie. La particule est confinée dans une région de l'espace.</p>
+      <p>Le spin est une propriété fondamentale des particules. Les fermions (électrons) ont un spin 1/2, les bosons (photons) un spin entier. Décrit par les matrices de Pauli.</p>
       <h3>Fondements Mathématiques</h3>
-      <ul><li>V(x) = 0 pour 0 < x < L, ∞ ailleurs</li><li>Conditions aux limites : Ψ(0) = Ψ(L) = 0</li><li>Solutions : Ψₙ(x) = √(2/L) sin(nπx/L)</li><li>Énergies : Eₙ = n²h² / (8mL²)</li><li>Niveau fondamental E₁ > 0 (énergie de point zéro)</li></ul>
+      <ul><li>Spin 1/2 : états |↑⟩ et |↓⟩</li><li>Matrices de Pauli : σx, σy, σz</li><li>Algèbre des commutateurs : [σx, σy] = 2iσz</li><li>Espace de Hilbert de dimension 2 (Qubit)</li><li>Expérience de Stern-Gerlach</li></ul>
     </div>
 
     <h2>👨‍🔬 Histoire & Scientifiques</h2>
     
     <div class="scientist">
-      <div class="scientist-name">Louis de Broglie</div>
-      <div class="scientist-year">1924</div>
+      <div class="scientist-name">Paul Dirac</div>
+      <div class="scientist-year">1928</div>
       <div class="scientist-contribution">
-        <strong>Contribution :</strong> Dualité onde-corpuscule
-        <br><em>Contexte :</em> Hypothèse que toute matière a une longueur d'onde
+        <strong>Contribution :</strong> Équation de Dirac
+        <br><em>Contexte :</em> Unifie quantique et relativité, prédit l'antimatière et le spin
       </div>
     </div>
     <div class="scientist">
       <div class="scientist-name">Wolfgang Pauli</div>
-      <div class="scientist-year">1925</div>
+      <div class="scientist-year">1924</div>
       <div class="scientist-contribution">
-        <strong>Contribution :</strong> Principe d'exclusion
-        <br><em>Contexte :</em> Explique la structure des atomes
+        <strong>Contribution :</strong> Matrices de Pauli
+        <br><em>Contexte :</em> Formalisme mathématique du spin
       </div>
     </div>
 
     <h2>💻 Code SymPy</h2>
-    <div class="code"><pre>from sympy import sin, pi, sqrt, integrate, symbols
-n, x, L = symbols('n x L', positive=True, integer=True)
-# Fonction d'onde normalisée
-psi = sqrt(2/L) * sin(n*pi*x/L)
-# Vérifier la normalisation
-integrate(psi**2, (x, 0, L))</pre></div>
-    <div class="output"><strong>Sortie attendue :</strong> 1</div>
+    <div class="code"><pre>from sympy.physics.matrices import msigma
+# Matrices de Pauli
+sigma_x = msigma(1)
+sigma_y = msigma(2)
+# Commutateur [Sx, Sy]
+comm = sigma_x * sigma_y - sigma_y * sigma_x
+print(comm)</pre></div>
+    <div class="output"><strong>Sortie attendue :</strong> 2*I*sigma_z</div>
 
     <h2>💪 Exercices Pratiques</h2>
-    <div class="exercises"><ol><li>Calculer la différence d'énergie E2 - E1</li><li>Probabilité de trouver la particule au centre</li><li>Puits de potentiel fini (effet tunnel)</li></ol></div>
+    <div class="exercises"><ol><li>Vérifier σx² = I</li><li>Calculer les valeurs propres de σz</li><li>Représentation sur la sphère de Bloch</li></ol></div>
 
     <h2>🔬 Applications Pratiques</h2>
-    <p>Points quantiques (QLED), puits quantiques (lasers), nanostructures.</p>
+    <p>IRM (Résonance Magnétique Nucléaire), Ordinateur quantique (Qubits), Spintronique.</p>
 
     <div class="controls">
-      <a class="btn" href="day_046.html">← Précédent</a>
-      <a class="btn" href="day_048.html">Suivant →</a>
+      <a class="btn" href="day_047.html">← Précédent</a>
+      <a class="btn" href="day_049.html">Suivant →</a>
     </div>
   </main>
 </div>
