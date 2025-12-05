@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { courses } from './courseData';
 import { math6eData } from './data/math6e';
+import { svt6eData } from './data/svt6e';
 import { BookOpen, Download, Eye, ChevronRight, GraduationCap, Atom, Calculator, Dna, CheckCircle, XCircle, Menu, ArrowLeft } from 'lucide-react';
 
 export default function CoursesPage() {
@@ -22,7 +23,8 @@ export default function CoursesPage() {
 
     // Map course IDs to their structured data if available
     const structuredCourses = {
-        'math-6e': math6eData
+        'math-6e': math6eData,
+        'svt-6e': svt6eData
     };
 
     const filteredCourses = courses.filter(course => {
@@ -248,7 +250,7 @@ export default function CoursesPage() {
                                     {/* Content Area */}
                                     <div className="flex-1 bg-[#0F1115] rounded-2xl border border-white/10 flex flex-col overflow-hidden relative">
                                         {/* Tabs */}
-                                        <div className="flex border-b border-white/10">
+                                        <div className="flex border-b border-white/10 bg-black/20">
                                             <button
                                                 onClick={() => setShowExercises(false)}
                                                 className={`flex-1 py-4 text-sm font-bold uppercase tracking-wider transition-colors ${!showExercises ? 'bg-[#0F1115] text-blue-400 border-t-2 border-blue-500' : 'text-gray-500 hover:text-white bg-black/20'
