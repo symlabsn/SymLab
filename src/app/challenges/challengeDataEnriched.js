@@ -3235,7 +3235,493 @@ print('Entropie max pour p=0.5')`,
             'Pourquoi le langage est-il redondant ?',
         ],
         practicalApplication: 'Compression (MP3, ZIP), cryptographie, télécommunications (5G, Fibre), Machine Learning.'
-    },
+    },,
+    {
+            id: 'day_071',
+            dayNumber: 71,
+            title: 'Arithmétique Modulaire',
+            difficulty: 'Intermédiaire',
+            masteryLevel: 'Intermédiaire',
+            unlocked: true,
+            xpReward: 35,
+            badge: '🏅 Arithmétique Modulaire',
+            africanAnalogy: `L'arithmétique modulaire est comme une horloge. Après 12, on revient à 1. En modulo 7, après 6 on revient à 0. C'est la base de toute la cryptographie moderne.`,
+            theory: {
+                title: 'Congruences',
+                content: `Les congruences modulo n sont essentielles en cryptographie. SymPy peut calculer symboliquement avec des modulos.`,
+                mathematicalFoundation: `
+                    - a ≡ b (mod n) ⟺ n | (a-b)\n                - Propriétés : (a+b) mod n, (a×b) mod n\n                - Inverse modulaire : ax ≡ 1 (mod n)\n                - Théorème d'Euler : a^φ(n) ≡ 1 (mod n)\n                - Petit théorème de Fermat : a^(p-1) ≡ 1 (mod p)
+                `,
+                scientists: [
+                {
+                        name: 'Carl Friedrich Gauss',
+                        year: '1801',
+                        contribution: 'Disquisitiones Arithmeticae',
+                        context: 'Fonde l\'arithmétique modulaire moderne'
+                    },
+                    {
+                        name: 'Leonhard Euler',
+                        year: '1763',
+                        contribution: 'Fonction φ (indicatrice)',
+                        context: 'Généralise Fermat'
+                    },
+                ]
+            },
+            code: `from sympy import mod_inverse, isprime
+# Inverse modulaire de 3 modulo 11
+a = 3
+n = 11
+inv = mod_inverse(a, n)
+print(f'{a} * {inv} ≡ 1 (mod {n})')
+print(f'Vérification: {(a * inv) % n}')`,
+            output: '3 * 4 ≡ 1 (mod 11), Vérification: 1',
+            exercises: [
+            'Calculer 7^100 mod 13',
+            'Résoudre 3x ≡ 5 (mod 11)',
+            'Vérifier le théorème de Fermat pour p=7',
+        ],
+            practicalApplication: 'Cryptographie RSA, signatures numériques, blockchain, hachage.'
+        },
+    {
+            id: 'day_072',
+            dayNumber: 72,
+            title: 'Cryptographie RSA',
+            difficulty: 'Avancé',
+            masteryLevel: 'Expert',
+            unlocked: true,
+            xpReward: 45,
+            badge: '🏅 Cryptographie RSA',
+            africanAnalogy: `RSA est comme un cadenas magique. Tout le monde peut fermer le cadenas (chiffrer avec la clé publique), mais seul celui qui a la clé privée peut l'ouvrir. C'est la magie des nombres premiers.`,
+            theory: {
+                title: 'Chiffrement Asymétrique',
+                content: `RSA repose sur la difficulté de factoriser de grands nombres. SymPy peut générer des clés et chiffrer/déchiffrer symboliquement.`,
+                mathematicalFoundation: `
+                    - Choisir p, q premiers distincts\n                - n = p × q, φ(n) = (p-1)(q-1)\n                - Choisir e tel que pgcd(e, φ(n)) = 1\n                - Calculer d ≡ e^(-1) (mod φ(n))\n                - Chiffrement : c ≡ m^e (mod n)\n                - Déchiffrement : m ≡ c^d (mod n)
+                `,
+                scientists: [
+                {
+                        name: 'Rivest, Shamir, Adleman',
+                        year: '1977',
+                        contribution: 'Algorithme RSA',
+                        context: 'Révolutionne la cryptographie'
+                    },
+                    {
+                        name: 'Whitfield Diffie & Martin Hellman',
+                        year: '1976',
+                        contribution: 'Cryptographie à clé publique',
+                        context: 'Concept fondateur'
+                    },
+                ]
+            },
+            code: `from sympy import nextprime, mod_inverse, gcd
+# Génération de clés RSA (petits nombres)
+p, q = 61, 53
+n = p * q
+phi = (p-1) * (q-1)
+e = 17  # Exposant public
+d = mod_inverse(e, phi)  # Exposant privé
+print(f'Clé publique: (e={e}, n={n})')
+print(f'Clé privée: (d={d}, n={n})')`,
+            output: 'Clé publique: (e=17, n=3233), Clé privée: (d=2753, n=3233)',
+            exercises: [
+            'Chiffrer le message m=123',
+            'Déchiffrer c=855',
+            'Pourquoi RSA est-il sûr ?',
+        ],
+            practicalApplication: 'HTTPS, signatures électroniques, Bitcoin, SSH.'
+        },
+    {
+            id: 'day_073',
+            dayNumber: 73,
+            title: 'Diffie-Hellman',
+            difficulty: 'Avancé',
+            masteryLevel: 'Avancé',
+            unlocked: true,
+            xpReward: 40,
+            badge: '🏅 Diffie-Hellman',
+            africanAnalogy: `Diffie-Hellman est comme mélanger deux couleurs en public. Alice a du rouge, Bob du bleu. Ils échangent leurs mélanges (rouge+jaune et bleu+jaune) mais personne ne peut deviner le mélange final (rouge+bleu+jaune) qu'ils partagent.`,
+            theory: {
+                title: 'Échange de Clés',
+                content: `Permet à deux parties de créer une clé secrète partagée sur un canal public. Repose sur le logarithme discret.`,
+                mathematicalFoundation: `
+                    - Choisir p premier et g générateur\n                - Alice choisit a secret, envoie A = g^a mod p\n                - Bob choisit b secret, envoie B = g^b mod p\n                - Clé partagée : K = g^(ab) mod p\n                - Alice calcule K = B^a, Bob calcule K = A^b\n                - Problème du log discret : difficile de trouver a sachant g^a
+                `,
+                scientists: [
+                {
+                        name: 'Whitfield Diffie',
+                        year: '1976',
+                        contribution: 'Échange de clés',
+                        context: 'Prix Turing 2015'
+                    },
+                    {
+                        name: 'Martin Hellman',
+                        year: '1976',
+                        contribution: 'Protocole DH',
+                        context: 'Fonde la crypto moderne'
+                    },
+                ]
+            },
+            code: `from sympy import isprime, primitive_root
+# Paramètres publics
+p = 23  # Nombre premier
+g = 5   # Générateur
+# Secrets
+a = 6  # Secret d'Alice
+b = 15 # Secret de Bob
+# Échange public
+A = pow(g, a, p)
+B = pow(g, b, p)
+# Clé partagée
+K_alice = pow(B, a, p)
+K_bob = pow(A, b, p)
+print(f'Clé partagée: {K_alice} = {K_bob}')`,
+            output: 'Clé partagée: 2 = 2',
+            exercises: [
+            'Vérifier que g=5 est un générateur mod 23',
+            'Calculer la clé pour a=10, b=20',
+            'Pourquoi le log discret est-il difficile ?',
+        ],
+            practicalApplication: 'TLS/SSL, VPN, Signal, WhatsApp (end-to-end encryption).'
+        },
+    {
+            id: 'day_074',
+            dayNumber: 74,
+            title: 'Courbes Elliptiques',
+            difficulty: 'Expert',
+            masteryLevel: 'Maître',
+            unlocked: true,
+            xpReward: 50,
+            badge: '🏅 Courbes Elliptiques',
+            africanAnalogy: `Une courbe elliptique est comme une route sinueuse sur laquelle on peut 'additionner' des points. Si on part d'un point et qu'on l'additionne à lui-même plusieurs fois, il est très difficile de retrouver combien de fois on l'a additionné.`,
+            theory: {
+                title: 'Cryptographie ECC',
+                content: `Les courbes elliptiques offrent la même sécurité que RSA avec des clés plus courtes. Utilisées dans Bitcoin et les smartphones.`,
+                mathematicalFoundation: `
+                    - Équation : y² = x³ + ax + b\n                - Addition de points : P + Q = R\n                - Loi de groupe sur les points\n                - Multiplication scalaire : nP = P + P + ... + P\n                - Problème du log discret elliptique (ECDLP)
+                `,
+                scientists: [
+                {
+                        name: 'Neal Koblitz',
+                        year: '1987',
+                        contribution: 'Cryptographie ECC',
+                        context: 'Indépendamment de Miller'
+                    },
+                    {
+                        name: 'Victor Miller',
+                        year: '1985',
+                        contribution: 'Crypto sur courbes elliptiques',
+                        context: 'Propose l\'utilisation en crypto'
+                    },
+                ]
+            },
+            code: `from sympy import symbols, solve, Eq
+x, y = symbols('x y')
+# Courbe elliptique y^2 = x^3 + 7 (Bitcoin)
+a, b = 0, 7
+# Points sur la courbe
+eq = Eq(y**2, x**3 + a*x + b)
+# Trouver y pour x=2
+solutions = solve(eq.subs(x, 2), y)
+print(f'Points pour x=2: {solutions}')`,
+            output: 'Points pour x=2: [-sqrt(15), sqrt(15)]',
+            exercises: [
+            'Vérifier qu\'un point est sur la courbe',
+            'Additionner deux points géométriquement',
+            'Comparer ECC et RSA (taille de clé)',
+        ],
+            practicalApplication: 'Bitcoin, Ethereum, certificats SSL, cartes à puce.'
+        },
+    {
+            id: 'day_075',
+            dayNumber: 75,
+            title: 'Hachage Cryptographique',
+            difficulty: 'Intermédiaire',
+            masteryLevel: 'Avancé',
+            unlocked: true,
+            xpReward: 40,
+            badge: '🏅 Hachage Cryptographique',
+            africanAnalogy: `Une fonction de hachage est comme une empreinte digitale pour les données. Deux fichiers différents ont des empreintes différentes. Impossible de reconstruire le fichier à partir de l'empreinte.`,
+            theory: {
+                title: 'Fonctions à Sens Unique',
+                content: `Les fonctions de hachage transforment des données de taille variable en une empreinte de taille fixe. Propriétés : déterministe, rapide, effet avalanche, résistance aux collisions.`,
+                mathematicalFoundation: `
+                    - h : {0,1}* → {0,1}^n\n                - Déterministe : h(m) toujours identique\n                - Résistance à la préimage\n                - Résistance aux collisions\n                - Effet avalanche : 1 bit change → 50% de h change
+                `,
+                scientists: [
+                {
+                        name: 'Ralph Merkle',
+                        year: '1979',
+                        contribution: 'Arbres de Merkle',
+                        context: 'Structure de données pour hachage'
+                    },
+                    {
+                        name: 'Ron Rivest',
+                        year: '1991',
+                        contribution: 'MD5',
+                        context: 'Fonction de hachage populaire (maintenant cassée)'
+                    },
+                ]
+            },
+            code: `from sympy import symbols, factorial, binomial
+# Paradoxe des anniversaires (collisions)
+n = symbols('n', positive=True, integer=True)
+# Probabilité de collision avec n personnes
+# P(collision) ≈ 1 - exp(-n²/2m) pour m=365
+# Pour hachage, m = 2^256 (SHA-256)
+print('Avec SHA-256 (2^256 sorties):')
+print('Besoin de 2^128 hachages pour 50% de collision')`,
+            output: 'Besoin de 2^128 hachages pour 50% de collision',
+            exercises: [
+            'Calculer P(collision) pour n=23, m=365',
+            'Pourquoi MD5 est-il cassé ?',
+            'Applications des arbres de Merkle',
+        ],
+            practicalApplication: 'Blockchain, vérification d\'intégrité, mots de passe, Git.'
+        },
+    {
+            id: 'day_076',
+            dayNumber: 76,
+            title: 'Théorème Chinois',
+            difficulty: 'Avancé',
+            masteryLevel: 'Avancé',
+            unlocked: true,
+            xpReward: 40,
+            badge: '🏅 Théorème Chinois',
+            africanAnalogy: `Le théorème chinois des restes est comme résoudre plusieurs énigmes indépendantes pour trouver un trésor. Si tu sais que le trésor est à 2 pas du baobab, 3 pas du puits, et 1 pas de la case, tu peux trouver sa position exacte.`,
+            theory: {
+                title: 'Systèmes de Congruences',
+                content: `Permet de résoudre des systèmes de congruences avec des modulos premiers entre eux. Essentiel pour RSA et le calcul rapide.`,
+                mathematicalFoundation: `
+                    - x ≡ a₁ (mod n₁)\n                - x ≡ a₂ (mod n₂)\n                - ...\n                - Si pgcd(nᵢ, nⱼ) = 1, solution unique mod N = ∏nᵢ\n                - Construction : x = Σ aᵢ Mᵢ yᵢ mod N
+                `,
+                scientists: [
+                {
+                        name: 'Sun Tzu',
+                        year: '~300',
+                        contribution: 'Premier énoncé',
+                        context: 'Mathématicien chinois ancien'
+                    },
+                    {
+                        name: 'Qin Jiushao',
+                        year: '1247',
+                        contribution: 'Algorithme général',
+                        context: 'Dynastie Song'
+                    },
+                ]
+            },
+            code: `from sympy.ntheory.modular import crt
+# Système : x ≡ 2 (mod 3), x ≡ 3 (mod 5), x ≡ 2 (mod 7)
+moduli = [3, 5, 7]
+remainders = [2, 3, 2]
+# Solution
+x = crt(moduli, remainders)
+print(f'Solution: x ≡ {x[0]} (mod {x[1]})')`,
+            output: 'Solution: x ≡ 23 (mod 105)',
+            exercises: [
+            'Vérifier la solution manuellement',
+            'Résoudre avec 4 congruences',
+            'Application à RSA (optimisation)',
+        ],
+            practicalApplication: 'Optimisation RSA, calcul parallèle, calendriers.'
+        },
+    {
+            id: 'day_077',
+            dayNumber: 77,
+            title: 'Test de Primalité',
+            difficulty: 'Avancé',
+            masteryLevel: 'Expert',
+            unlocked: true,
+            xpReward: 45,
+            badge: '🏅 Test de Primalité',
+            africanAnalogy: `Tester si un nombre est premier est comme vérifier si une porte est verrouillée. On peut essayer toutes les clés (division), ou utiliser un test rapide (Miller-Rabin) qui dit 'probablement verrouillée' avec grande confiance.`,
+            theory: {
+                title: 'Algorithmes Probabilistes',
+                content: `Les tests de primalité probabilistes (Miller-Rabin, Solovay-Strassen) sont rapides et fiables. Essentiels pour générer des clés RSA.`,
+                mathematicalFoundation: `
+                    - Test de Fermat : si a^(n-1) ≢ 1 (mod n), n composé\n                - Nombres de Carmichael : passent Fermat mais composés\n                - Test de Miller-Rabin : plus robuste\n                - Témoin de compositeness\n                - AKS : déterministe polynomial (2002)
+                `,
+                scientists: [
+                {
+                        name: 'Gary Miller',
+                        year: '1976',
+                        contribution: 'Test de Miller',
+                        context: 'Déterministe sous hypothèse de Riemann'
+                    },
+                    {
+                        name: 'Michael Rabin',
+                        year: '1980',
+                        contribution: 'Version probabiliste',
+                        context: 'Pratique et rapide'
+                    },
+                ]
+            },
+            code: `from sympy import isprime, randprime, nextprime
+# Tester la primalité
+n = 561  # Nombre de Carmichael
+print(f'{n} est premier ? {isprime(n)}')
+# Générer un grand nombre premier
+p = randprime(10**10, 10**10 + 1000)
+print(f'Premier aléatoire: {p}')`,
+            output: '561 est premier ? False, Premier aléatoire: ...',
+            exercises: [
+            'Implémenter le test de Fermat',
+            'Trouver un nombre de Carmichael',
+            'Comparer temps : division vs Miller-Rabin',
+        ],
+            practicalApplication: 'Génération de clés RSA, cryptographie, sécurité informatique.'
+        },
+    {
+            id: 'day_078',
+            dayNumber: 78,
+            title: 'Factorisation',
+            difficulty: 'Expert',
+            masteryLevel: 'Expert',
+            unlocked: true,
+            xpReward: 50,
+            badge: '🏅 Factorisation',
+            africanAnalogy: `Factoriser un grand nombre est comme casser un code secret. Multiplier deux grands nombres premiers est facile, mais retrouver les facteurs à partir du produit est extrêmement difficile. C'est la sécurité de RSA.`,
+            theory: {
+                title: 'Algorithmes de Factorisation',
+                content: `La factorisation de grands nombres est un problème difficile. Les meilleurs algorithmes (GNFS) sont sous-exponentiels mais restent lents.`,
+                mathematicalFoundation: `
+                    - Division par essais : O(√n)\n                - Rho de Pollard : O(n^(1/4))\n                - Crible quadratique : sous-exponentiel\n                - GNFS (General Number Field Sieve) : le plus rapide\n                - Algorithme de Shor (quantique) : polynomial
+                `,
+                scientists: [
+                {
+                        name: 'John Pollard',
+                        year: '1975',
+                        contribution: 'Algorithme rho',
+                        context: 'Méthode probabiliste élégante'
+                    },
+                    {
+                        name: 'Carl Pomerance',
+                        year: '1981',
+                        contribution: 'Crible quadratique',
+                        context: 'Amélioration majeure'
+                    },
+                ]
+            },
+            code: `from sympy import factorint, nextprime
+# Factorisation
+n = 1234567890
+factors = factorint(n)
+print(f'Factorisation de {n}:')
+print(factors)
+# Temps pour grands nombres
+p = nextprime(10**15)
+q = nextprime(10**15 + 100)
+rsa_n = p * q
+print(f'RSA-512 bits serait: {rsa_n}')`,
+            output: 'Factorisation de 1234567890: {2: 1, 3: 2, 5: 1, ...}',
+            exercises: [
+            'Factoriser 8051 avec rho de Pollard',
+            'Estimer le temps pour factoriser RSA-2048',
+            'Impact de l\'ordinateur quantique',
+        ],
+            practicalApplication: 'Cryptanalyse, sécurité RSA, challenge RSA.'
+        },
+    {
+            id: 'day_079',
+            dayNumber: 79,
+            title: 'Générateurs Pseudo-Aléatoires',
+            difficulty: 'Avancé',
+            masteryLevel: 'Avancé',
+            unlocked: true,
+            xpReward: 40,
+            badge: '🏅 Générateurs Pseudo-Aléatoires',
+            africanAnalogy: `Un générateur pseudo-aléatoire est comme une machine à sous déterministe. Si tu connais la graine (seed), tu peux prédire tous les résultats. Mais sans la graine, les nombres semblent aléatoires.`,
+            theory: {
+                title: 'Aléatoire Cryptographique',
+                content: `Les PRNG cryptographiques doivent être imprévisibles même si on connaît une partie de la séquence. Essentiels pour les clés et les nonces.`,
+                mathematicalFoundation: `
+                    - PRNG linéaire : Xₙ₊₁ = (aXₙ + c) mod m\n                - Période maximale : m\n                - Générateur de Blum Blum Shub : Xₙ₊₁ = Xₙ² mod M\n                - Tests statistiques (NIST)\n                - Entropie cryptographique
+                `,
+                scientists: [
+                {
+                        name: 'Blum, Blum, Shub',
+                        year: '1986',
+                        contribution: 'Générateur BBS',
+                        context: 'Prouvé cryptographiquement sûr'
+                    },
+                    {
+                        name: 'Donald Knuth',
+                        year: '1969',
+                        contribution: 'Analyse des PRNG',
+                        context: 'The Art of Computer Programming'
+                    },
+                ]
+            },
+            code: `from sympy import nextprime, mod_inverse
+# Générateur Blum Blum Shub (simplifié)
+p = nextprime(1000)
+q = nextprime(2000)
+M = p * q
+X0 = 7  # Graine
+# Générer 5 nombres
+X = X0
+for i in range(5):
+    X = (X**2) % M
+    print(f'X{i+1} = {X}')`,
+            output: 'X1 = ..., X2 = ..., ...',
+            exercises: [
+            'Implémenter un LCG',
+            'Tester la période d\'un PRNG',
+            'Pourquoi /dev/random est-il sûr ?',
+        ],
+            practicalApplication: 'Génération de clés, nonces, IV (vecteurs d\'initialisation), jeux.'
+        },
+    {
+            id: 'day_080',
+            dayNumber: 80,
+            title: 'Partage de Secret',
+            difficulty: 'Expert',
+            masteryLevel: 'Maître',
+            unlocked: true,
+            xpReward: 55,
+            badge: '🏅 Partage de Secret',
+            africanAnalogy: `Le partage de secret de Shamir est comme une carte au trésor déchirée en morceaux. Il faut au moins k morceaux sur n pour reconstituer la carte. Avec k-1 morceaux, on ne sait rien du tout.`,
+            theory: {
+                title: 'Schéma de Shamir',
+                content: `Permet de partager un secret entre n personnes tel que k personnes (seuil) sont nécessaires pour le reconstituer. Basé sur l'interpolation polynomiale.`,
+                mathematicalFoundation: `
+                    - Secret S, choisir polynôme P(x) = S + a₁x + ... + aₖ₋₁x^(k-1)\n                - Distribuer n points : (i, P(i)) pour i=1..n\n                - Reconstitution : interpolation de Lagrange\n                - k points suffisent, k-1 ne donnent aucune info\n                - Sécurité informationnelle théorique
+                `,
+                scientists: [
+                {
+                        name: 'Adi Shamir',
+                        year: '1979',
+                        contribution: 'Secret sharing',
+                        context: 'Le \'S\' de RSA'
+                    },
+                    {
+                        name: 'George Blakley',
+                        year: '1979',
+                        contribution: 'Schéma géométrique',
+                        context: 'Approche alternative'
+                    },
+                ]
+            },
+            code: `from sympy import symbols, interpolate
+x = symbols('x')
+# Secret S = 1234, seuil k=3
+S = 1234
+# Polynôme P(x) = 1234 + 166x + 94x^2 (aléatoire)
+P = S + 166*x + 94*x**2
+# Distribuer 5 parts
+shares = [(i, P.subs(x, i)) for i in range(1, 6)]
+print(f'Parts: {shares[:3]}')
+# Reconstituer avec 3 parts
+points = shares[:3]
+P_reconstructed = interpolate(points, x)
+print(f'Secret reconstitué: {P_reconstructed.subs(x, 0)}')`,
+            output: 'Secret reconstitué: 1234',
+            exercises: [
+            'Vérifier qu\'avec 2 parts on ne peut rien',
+            'Implémenter (3,5)-threshold',
+            'Application aux portefeuilles crypto',
+        ],
+            practicalApplication: 'Gestion de clés, coffres-forts numériques, blockchain, sécurité militaire.'
+        },
 
 ];
 

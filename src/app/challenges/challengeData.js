@@ -771,112 +771,112 @@ export const challenges = [
     },
     {
         "id": "day_071",
-        "title": "Jour 071 — Cinématique 2R",
-        "code": "from sympy import symbols, Matrix, cos, sin\nth1,th2,l1,l2 = symbols('th1 th2 l1 l2')\nx = l1*cos(th1)+l2*cos(th1+th2)\ny = l1*sin(th1)+l2*sin(th1+th2)\nMatrix([x,y])",
-        "output": "\\(\\begin{pmatrix}x\\\\y\\end{pmatrix}\\)",
+        "title": "Jour 071 — Arithmétique Modulaire",
+        "code": "from sympy import mod_inverse, isprime\n# Inverse modulaire de 3 modulo 11\na = 3\nn = 11\ninv = mod_inverse(a, n)\nprint(f'{a} * {inv} ≡ 1 (mod {n})')\nprint(f'Vérification: {(a * inv) % n}')",
+        "output": "3 * 4 ≡ 1 (mod 11), Vérification: 1",
         "exercises": [
-            "Exercice 1 — Reproduire l'exécution du code et vérifier la sortie attendue.",
-            "Exercice 2 — Proposer une variante: modifier une partie du code pour obtenir un résultat connexe.",
-            "Exercice 3 — Donner une application pratique (court texte) reliant le thème à un problème réel."
+            "Calculer 7^100 mod 13",
+            "Résoudre 3x ≡ 5 (mod 11)",
+            "Vérifier le théorème de Fermat pour p=7"
         ]
     },
     {
         "id": "day_072",
-        "title": "Jour 072 — Contrôle PID",
-        "code": "# PID law symbolic\n# example: U = Kp*e + Ki*∫e + Kd*de/dt",
-        "output": "\\(\\text{PID control law}\\)",
+        "title": "Jour 072 — Cryptographie RSA",
+        "code": "from sympy import nextprime, mod_inverse, gcd\n# Génération de clés RSA (petits nombres)\np, q = 61, 53\nn = p * q\nphi = (p-1) * (q-1)\ne = 17  # Exposant public\nd = mod_inverse(e, phi)  # Exposant privé\nprint(f'Clé publique: (e={e}, n={n})')\nprint(f'Clé privée: (d={d}, n={n})')",
+        "output": "Clé publique: (e=17, n=3233), Clé privée: (d=2753, n=3233)",
         "exercises": [
-            "Exercice 1 — Reproduire l'exécution du code et vérifier la sortie attendue.",
-            "Exercice 2 — Proposer une variante: modifier une partie du code pour obtenir un résultat connexe.",
-            "Exercice 3 — Donner une application pratique (court texte) reliant le thème à un problème réel."
+            "Chiffrer le message m=123",
+            "Déchiffrer c=855",
+            "Pourquoi RSA est-il sûr ?"
         ]
     },
     {
         "id": "day_073",
-        "title": "Jour 073 — Optimisation contrainte",
-        "code": "# KKT conditions symbolic example",
-        "output": "\\(\\text{KKT system}\\)",
+        "title": "Jour 073 — Diffie-Hellman",
+        "code": "from sympy import isprime, primitive_root\n# Paramètres publics\np = 23  # Nombre premier\ng = 5   # Générateur\n# Secrets\na = 6  # Secret d'Alice\nb = 15 # Secret de Bob\n# Échange public\nA = pow(g, a, p)\nB = pow(g, b, p)\n# Clé partagée\nK_alice = pow(B, a, p)\nK_bob = pow(A, b, p)\nprint(f'Clé partagée: {K_alice} = {K_bob}')",
+        "output": "Clé partagée: 2 = 2",
         "exercises": [
-            "Exercice 1 — Reproduire l'exécution du code et vérifier la sortie attendue.",
-            "Exercice 2 — Proposer une variante: modifier une partie du code pour obtenir un résultat connexe.",
-            "Exercice 3 — Donner une application pratique (court texte) reliant le thème à un problème réel."
+            "Vérifier que g=5 est un générateur mod 23",
+            "Calculer la clé pour a=10, b=20",
+            "Pourquoi le log discret est-il difficile ?"
         ]
     },
     {
         "id": "day_074",
-        "title": "Jour 074 — Hybrid symbolic-numeric",
-        "code": "from sympy import symbols, lambdify\nx= symbols('x')\nf = lambdify(x, sin(x), 'numpy')",
-        "output": "\\(\\text{Callable numpy function}\\)",
+        "title": "Jour 074 — Courbes Elliptiques",
+        "code": "from sympy import symbols, solve, Eq\nx, y = symbols('x y')\n# Courbe elliptique y^2 = x^3 + 7 (Bitcoin)\na, b = 0, 7\n# Points sur la courbe\neq = Eq(y**2, x**3 + a*x + b)\n# Trouver y pour x=2\nsolutions = solve(eq.subs(x, 2), y)\nprint(f'Points pour x=2: {solutions}')",
+        "output": "Points pour x=2: [-sqrt(15), sqrt(15)]",
         "exercises": [
-            "Exercice 1 — Reproduire l'exécution du code et vérifier la sortie attendue.",
-            "Exercice 2 — Proposer une variante: modifier une partie du code pour obtenir un résultat connexe.",
-            "Exercice 3 — Donner une application pratique (court texte) reliant le thème à un problème réel."
+            "Vérifier qu'un point est sur la courbe",
+            "Additionner deux points géométriquement",
+            "Comparer ECC et RSA (taille de clé)"
         ]
     },
     {
         "id": "day_075",
-        "title": "Jour 075 — Réduction de modèle",
-        "code": "# model order reduction ideas (symbolic)",
-        "output": "\\(\\text{Reduced model form}\\)",
+        "title": "Jour 075 — Hachage Cryptographique",
+        "code": "from sympy import symbols, factorial, binomial\n# Paradoxe des anniversaires (collisions)\nn = symbols('n', positive=True, integer=True)\n# Probabilité de collision avec n personnes\n# P(collision) ≈ 1 - exp(-n²/2m) pour m=365\n# Pour hachage, m = 2^256 (SHA-256)\nprint('Avec SHA-256 (2^256 sorties):')\nprint('Besoin de 2^128 hachages pour 50% de collision')",
+        "output": "Besoin de 2^128 hachages pour 50% de collision",
         "exercises": [
-            "Exercice 1 — Reproduire l'exécution du code et vérifier la sortie attendue.",
-            "Exercice 2 — Proposer une variante: modifier une partie du code pour obtenir un résultat connexe.",
-            "Exercice 3 — Donner une application pratique (court texte) reliant le thème à un problème réel."
+            "Calculer P(collision) pour n=23, m=365",
+            "Pourquoi MD5 est-il cassé ?",
+            "Applications des arbres de Merkle"
         ]
     },
     {
         "id": "day_076",
-        "title": "Jour 076 — EDO non-linéaires pratiques",
-        "code": "# Nonlinear ODE example and methods",
-        "output": "\\(\\text{Qualitative solution / bifurcation}\\)",
+        "title": "Jour 076 — Théorème Chinois",
+        "code": "from sympy.ntheory.modular import crt\n# Système : x ≡ 2 (mod 3), x ≡ 3 (mod 5), x ≡ 2 (mod 7)\nmoduli = [3, 5, 7]\nremainders = [2, 3, 2]\n# Solution\nx = crt(moduli, remainders)\nprint(f'Solution: x ≡ {x[0]} (mod {x[1]})')",
+        "output": "Solution: x ≡ 23 (mod 105)",
         "exercises": [
-            "Exercice 1 — Reproduire l'exécution du code et vérifier la sortie attendue.",
-            "Exercice 2 — Proposer une variante: modifier une partie du code pour obtenir un résultat connexe.",
-            "Exercice 3 — Donner une application pratique (court texte) reliant le thème à un problème réel."
+            "Vérifier la solution manuellement",
+            "Résoudre avec 4 congruences",
+            "Application à RSA (optimisation)"
         ]
     },
     {
         "id": "day_077",
-        "title": "Jour 077 — Bifurcations",
-        "code": "# illustrate saddle-node / pitchfork symbolically",
-        "output": "\\(\\text{Bifurcation conditions}\\)",
+        "title": "Jour 077 — Test de Primalité",
+        "code": "from sympy import isprime, randprime, nextprime\n# Tester la primalité\nn = 561  # Nombre de Carmichael\nprint(f'{n} est premier ? {isprime(n)}')\n# Générer un grand nombre premier\np = randprime(10**10, 10**10 + 1000)\nprint(f'Premier aléatoire: {p}')",
+        "output": "561 est premier ? False, Premier aléatoire: ...",
         "exercises": [
-            "Exercice 1 — Reproduire l'exécution du code et vérifier la sortie attendue.",
-            "Exercice 2 — Proposer une variante: modifier une partie du code pour obtenir un résultat connexe.",
-            "Exercice 3 — Donner une application pratique (court texte) reliant le thème à un problème réel."
+            "Implémenter le test de Fermat",
+            "Trouver un nombre de Carmichael",
+            "Comparer temps : division vs Miller-Rabin"
         ]
     },
     {
         "id": "day_078",
-        "title": "Jour 078 — Analyse fréquentielle",
-        "code": "# Bode symbolic approx from transfer function",
-        "output": "\\(\\text{Magnitude/phase symbolic}\\)",
+        "title": "Jour 078 — Factorisation",
+        "code": "from sympy import factorint, nextprime\n# Factorisation\nn = 1234567890\nfactors = factorint(n)\nprint(f'Factorisation de {n}:')\nprint(factors)\n# Temps pour grands nombres\np = nextprime(10**15)\nq = nextprime(10**15 + 100)\nrsa_n = p * q\nprint(f'RSA-512 bits serait: {rsa_n}')",
+        "output": "Factorisation de 1234567890: {2: 1, 3: 2, 5: 1, ...}",
         "exercises": [
-            "Exercice 1 — Reproduire l'exécution du code et vérifier la sortie attendue.",
-            "Exercice 2 — Proposer une variante: modifier une partie du code pour obtenir un résultat connexe.",
-            "Exercice 3 — Donner une application pratique (court texte) reliant le thème à un problème réel."
+            "Factoriser 8051 avec rho de Pollard",
+            "Estimer le temps pour factoriser RSA-2048",
+            "Impact de l'ordinateur quantique"
         ]
     },
     {
         "id": "day_079",
-        "title": "Jour 079 — lambdify: codegen",
-        "code": "from sympy import symbols, lambdify\nx= symbols('x')\nf = lambdify(x, sin(x), 'numpy')",
-        "output": "\\(\\text{Python callable function}\\)",
+        "title": "Jour 079 — Générateurs Pseudo-Aléatoires",
+        "code": "from sympy import nextprime, mod_inverse\n# Générateur Blum Blum Shub (simplifié)\np = nextprime(1000)\nq = nextprime(2000)\nM = p * q\nX0 = 7  # Graine\n# Générer 5 nombres\nX = X0\nfor i in range(5):\n    X = (X**2) % M\n    print(f'X{i+1} = {X}')",
+        "output": "X1 = ..., X2 = ..., ...",
         "exercises": [
-            "Exercice 1 — Reproduire l'exécution du code et vérifier la sortie attendue.",
-            "Exercice 2 — Proposer une variante: modifier une partie du code pour obtenir un résultat connexe.",
-            "Exercice 3 — Donner une application pratique (court texte) reliant le thème à un problème réel."
+            "Implémenter un LCG",
+            "Tester la période d'un PRNG",
+            "Pourquoi /dev/random est-il sûr ?"
         ]
     },
     {
         "id": "day_080",
-        "title": "Jour 080 — Validation vs simulation",
-        "code": "# compare symbolic solution to numeric integration (concept)",
-        "output": "\\(\\text{Comparison plots}\\)",
+        "title": "Jour 080 — Partage de Secret",
+        "code": "from sympy import symbols, interpolate\nx = symbols('x')\n# Secret S = 1234, seuil k=3\nS = 1234\n# Polynôme P(x) = 1234 + 166x + 94x^2 (aléatoire)\nP = S + 166*x + 94*x**2\n# Distribuer 5 parts\nshares = [(i, P.subs(x, i)) for i in range(1, 6)]\nprint(f'Parts: {shares[:3]}')\n# Reconstituer avec 3 parts\npoints = shares[:3]\nP_reconstructed = interpolate(points, x)\nprint(f'Secret reconstitué: {P_reconstructed.subs(x, 0)}')",
+        "output": "Secret reconstitué: 1234",
         "exercises": [
-            "Exercice 1 — Reproduire l'exécution du code et vérifier la sortie attendue.",
-            "Exercice 2 — Proposer une variante: modifier une partie du code pour obtenir un résultat connexe.",
-            "Exercice 3 — Donner une application pratique (court texte) reliant le thème à un problème réel."
+            "Vérifier qu'avec 2 parts on ne peut rien",
+            "Implémenter (3,5)-threshold",
+            "Application aux portefeuilles crypto"
         ]
     },
     {
