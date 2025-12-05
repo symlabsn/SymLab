@@ -6,8 +6,10 @@ import { courses } from './courseData';
 import { math6eData } from './data/math6e';
 import { math5eData } from './data/math5e';
 import { math4eData } from './data/math4e';
+import { pc4eData } from './data/pc4e';
 import { svt6eData } from './data/svt6e';
 import { svt5eData } from './data/svt5e';
+import { svt4eData } from './data/svt4e';
 import { BookOpen, Download, Eye, ChevronRight, GraduationCap, Atom, Calculator, Dna, CheckCircle, XCircle, Menu, ArrowLeft } from 'lucide-react';
 
 export default function CoursesPage() {
@@ -29,8 +31,10 @@ export default function CoursesPage() {
         'math-6e': math6eData,
         'math-5e': math5eData,
         'math-4e': math4eData,
+        'pc-4e': pc4eData,
         'svt-6e': svt6eData,
-        'svt-5e': svt5eData
+        'svt-5e': svt5eData,
+        'svt-4e': svt4eData
     };
 
     const filteredCourses = courses.filter(course => {
