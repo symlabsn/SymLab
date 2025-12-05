@@ -35,10 +35,10 @@ export default function Home() {
             accentColor: '#F43F5E' // Rose
         },
         {
-            id: 'vid',
-            title: 'Vidéos',
-            description: 'Capsules visuelles pour comprendre les STEM.',
-            href: '/videos',
+            id: 'cours',
+            title: 'Cours',
+            description: 'Ressources pédagogiques conformes au programme.',
+            href: '/courses',
             accentColor: '#10B981' // Green
         }
     ];

@@ -11,7 +11,7 @@ export default function Footer() {
       { name: 'Projets', href: '/projects' },
     ],
     resources: [
-      { name: 'Vidéos', href: '/videos' },
+      { name: 'Cours', href: '/courses' },
       { name: 'Ressources', href: '/ressources' },
       { name: 'Code Editor', href: '/code' },
       { name: 'Examens', href: '/exams' },
