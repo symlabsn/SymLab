@@ -289,6 +289,105 @@ function WaterMolecule() {
     );
 }
 
+// Composant Interférences d'Ondes
+function WaveInterference() {
+    return (
+        <group>
+            <Text position={[0, 3, 0]} fontSize={0.5} color="white">INTERFÉRENCES D'ONDES</Text>
+
+            {/* Source 1 */}
+            <mesh position={[-1.5, 0, 0]}>
+                <sphereGeometry args={[0.2, 32, 32]} />
+                <meshStandardMaterial color="#00F5D4" emissive="#00F5D4" emissiveIntensity={1} />
+            </mesh>
+            <Text position={[-1.5, -0.5, 0]} fontSize={0.3} color="#00F5D4">Source 1</Text>
+
+            {/* Source 2 */}
+            <mesh position={[1.5, 0, 0]}>
+                <sphereGeometry args={[0.2, 32, 32]} />
+                <meshStandardMaterial color="#7C3AED" emissive="#7C3AED" emissiveIntensity={1} />
+            </mesh>
+            <Text position={[1.5, -0.5, 0]} fontSize={0.3} color="#7C3AED">Source 2</Text>
+
+            {/* Ondes concentriques Source 1 */}
+            {Array.from({ length: 4 }).map((_, i) => (
+                <mesh key={`wave1-${i}`} position={[-1.5, 0, 0]} rotation={[Math.PI / 2, 0, 0]}>
+                    <torusGeometry args={[0.5 + i * 0.5, 0.02, 16, 32]} />
+                    <meshStandardMaterial color="#00F5D4" transparent opacity={0.6 - i * 0.1} />
+                </mesh>
+            ))}
+
+            {/* Ondes concentriques Source 2 */}
+            {Array.from({ length: 4 }).map((_, i) => (
+                <mesh key={`wave2-${i}`} position={[1.5, 0, 0]} rotation={[Math.PI / 2, 0, 0]}>
+                    <torusGeometry args={[0.5 + i * 0.5, 0.02, 16, 32]} />
+                    <meshStandardMaterial color="#7C3AED" transparent opacity={0.6 - i * 0.1} />
+                </mesh>
+            ))}
+
+            {/* Zone d'interférence constructive */}
+            <mesh position={[0, 0, 0]}>
+                <sphereGeometry args={[0.3, 32, 32]} />
+                <meshStandardMaterial color="#FCD34D" emissive="#FCD34D" emissiveIntensity={0.8} />
+            </mesh>
+            <Text position={[0, -1, 0]} fontSize={0.3} color="#FCD34D">Interférence Constructive</Text>
+        </group>
+    );
+}
+
+// Composant Circuit Électrique
+function ElectricCircuit() {
+    return (
+        <group>
+            <Text position={[0, 3, 0]} fontSize={0.5} color="white">CIRCUIT ÉLECTRIQUE</Text>
+
+            {/* Batterie/Pile */}
+            <mesh position={[-2, 0, 0]} rotation={[0, 0, Math.PI / 2]}>
+                <cylinderGeometry args={[0.3, 0.3, 1, 32]} />
+                <meshStandardMaterial color="#374151" />
+            </mesh>
+            <mesh position={[-2, 0.6, 0]} rotation={[0, 0, Math.PI / 2]}>
+                <cylinderGeometry args={[0.1, 0.1, 0.2, 32]} />
+                <meshStandardMaterial color="#EF4444" />
+            </mesh>
+            <Text position={[-2, -0.8, 0]} fontSize={0.3} color="white">Pile (+/-)</Text>
+
+            {/* Fils conducteurs */}
+            <mesh position={[0, 1, 0]} rotation={[0, 0, Math.PI / 2]}>
+                <cylinderGeometry args={[0.05, 0.05, 4, 16]} />
+                <meshStandardMaterial color="#F59E0B" />
+            </mesh>
+            <mesh position={[0, -1, 0]} rotation={[0, 0, Math.PI / 2]}>
+                <cylinderGeometry args={[0.05, 0.05, 4, 16]} />
+                <meshStandardMaterial color="#F59E0B" />
+            </mesh>
+
+            {/* Lampe */}
+            <mesh position={[2, 0, 0]}>
+                <sphereGeometry args={[0.4, 32, 32]} />
+                <meshStandardMaterial color="#FCD34D" emissive="#FCD34D" emissiveIntensity={1.5} />
+            </mesh>
+            <Text position={[2, -0.8, 0]} fontSize={0.3} color="#FCD34D">Lampe</Text>
+
+            {/* Interrupteur */}
+            <mesh position={[0, 1.5, 0]}>
+                <boxGeometry args={[0.3, 0.2, 0.2]} />
+                <meshStandardMaterial color="#10B981" />
+            </mesh>
+            <Text position={[0, 2, 0]} fontSize={0.3} color="#10B981">Interrupteur</Text>
+
+            {/* Électrons en mouvement */}
+            {Array.from({ length: 5 }).map((_, i) => (
+                <mesh key={i} position={[-1.5 + i * 0.8, 1, 0]}>
+                    <sphereGeometry args={[0.08, 16, 16]} />
+                    <meshStandardMaterial color="#00F5D4" emissive="#00F5D4" emissiveIntensity={1} />
+                </mesh>
+            ))}
+            <Text position={[0, -2, 0]} fontSize={0.3} color="white">Courant électrique →</Text>
+        </group>
+    );
+}
+
 // Composant Cellule (Amélioré avec étiquettes)
 function Cell() {
     return (
@@ -1424,10 +1523,6 @@ export default function Simulation3D({ type = 'atom', config = {} }) {
                 return <ThalesTheorem />;
             case 'trigonometry':
                 return <TrigUnitCircle />;
-            case 'neuron':
-                return <Neuron />;
-            case 'blood':
-                return <BloodStream />;
             case 'plant-growth':
                 return <PlantGrowth />;
             case 'food-chain':
