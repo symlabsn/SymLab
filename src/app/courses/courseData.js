@@ -156,6 +156,16 @@ export const courses = [
         icon: '🧪',
         color: 'emerald'
     },
+    {
+        id: 'svt-2s',
+        level: 'Seconde',
+        subject: 'SVT',
+        title: 'SVT 2nde S',
+        description: 'Écologie, Énergie, Géologie. Programme officiel du Sénégal.',
+        file: null,
+        icon: '🌿',
+        color: 'green'
+    },
 
     // --- Première ---
     {
