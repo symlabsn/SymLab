@@ -283,7 +283,7 @@ export const physTsData = {
             `,
             summary: [
                 "Le condensateur assure la continuité de la tension $u_C$.",
-                "$\tau$ est le temps pour atteindre 63% de la charge finale.",
+                "$\\tau$ est le temps pour atteindre 63% de la charge finale.",
                 "Utile pour les temporisations et le lissage de tension."
             ],
             exercises: [
@@ -483,7 +483,7 @@ export const physTsData = {
                     <li><strong>Fusion :</strong> Noyaux légers assemblés (Soleil, Bombe H). Libère beaucoup plus d'énergie.</li>
                 </ul>
                 <h3>4. Défaut de masse</h3>
-                <p>$\Delta E = \Delta m \times c^2$. La masse perdue devient énergie.</p>
+                <p>$\\Delta E = \\Delta m \\times c^2$. La masse perdue devient énergie.</p>
             `,
             summary: [
                 "Conservation du nombre de charge Z et de masse A (Lois de Soddy).",

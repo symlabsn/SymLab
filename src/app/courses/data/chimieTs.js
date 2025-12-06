@@ -133,10 +133,6 @@ export const chimieTsData = {
                 }
             ]
         },
-
-        // ==========================================
-        // PARTIE 2 : CINÉTIQUE
-        // ==========================================
         {
             id: 'cin-ts-04',
             part: 'Partie 2 : Cinétique Chimique',
@@ -169,10 +165,6 @@ export const chimieTsData = {
                 }
             ]
         },
-
-        // ==========================================
-        // PARTIE 3 : CHIMIE DES SOLUTIONS (ACIDES/BASES)
-        // ==========================================
         {
             id: 'sol-ts-05',
             part: 'Partie 3 : Acides et Bases',
