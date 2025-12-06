@@ -262,6 +262,16 @@ export const courses = [
         color: 'purple'
     },
     {
+        id: 'chimie-ts',
+        level: 'Terminale',
+        subject: 'Physique-Chimie',
+        title: 'Chimie Terminale S',
+        description: 'Chimie organique, Cinétique, Acides et Bases (pH, dosages).',
+        file: null,
+        icon: '🧪',
+        color: 'emerald'
+    },
+    {
         id: 'pc-wahab-ts',
         level: 'Terminale',
         subject: 'Physique-Chimie',
