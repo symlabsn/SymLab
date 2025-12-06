@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { courses } from './courseData';
 import { math6eData } from './data/math6e';
@@ -14,6 +14,9 @@ import { svt5eData } from './data/svt5e';
 import { svt4eData } from './data/svt4e';
 import { svt3eData } from './data/svt3e';
 import { BookOpen, Download, Eye, ChevronRight, GraduationCap, Atom, Calculator, Dna, CheckCircle, XCircle, Menu, ArrowLeft } from 'lucide-react';
+import 'katex/dist/katex.min.css';
+import renderMathInElement from 'katex/dist/contrib/auto-render';
+
 
 export default function CoursesPage() {
     const [activeLevel, setActiveLevel] = useState('6ème');
@@ -77,6 +80,27 @@ export default function CoursesPage() {
             [`${chapterId}-${exerciseId}`]: isCorrect
         }));
     };
+
+    // Render LaTeX formulas when chapter content changes
+    useEffect(() => {
+        if (activeChapter && typeof document !== 'undefined') {
+            // Wait a bit for DOM to update
+            setTimeout(() => {
+                try {
+                    renderMathInElement(document.body, {
+                        delimiters: [
+                            { left: '$$', right: '$$', display: true },
+                            { left: '$', right: '$', display: false },
+                        ],
+                        throwOnError: false,
+                        trust: true
+                    });
+                } catch (error) {
+                    console.error('KaTeX rendering error:', error);
+                }
+            }, 100);
+        }
+    }, [activeChapter, showExercises]);
 
     return (
         <main className="min-h-screen bg-black text-white font-sans selection:bg-[#00F5D4] selection:text-black flex flex-col">
