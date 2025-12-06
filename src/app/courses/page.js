@@ -16,6 +16,7 @@ import { svt3eData } from './data/svt3e';
 import { phys2sData } from './data/phys2s';
 import { chimie2sData } from './data/chimie2s';
 import { entrainement2sData } from './data/entrainement2s';
+import { math2sData } from './data/math2s';
 import { BookOpen, Download, Eye, ChevronRight, GraduationCap, Atom, Calculator, Dna, CheckCircle, XCircle, Menu, ArrowLeft } from 'lucide-react';
 import 'katex/dist/katex.min.css';
 import renderMathInElement from 'katex/dist/contrib/auto-render';
@@ -49,7 +50,8 @@ export default function CoursesPage() {
         'svt-3e': svt3eData,
         'phys-2s': phys2sData,
         'chimie-2s': chimie2sData,
-        'entrainement-2s': entrainement2sData
+        'entrainement-2s': entrainement2sData,
+        'math-2s': math2sData
     };
 
     const filteredCourses = courses.filter(course => {

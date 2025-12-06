@@ -117,6 +117,16 @@ export const courses = [
 
     // --- Seconde ---
     {
+        id: 'math-2s',
+        level: 'Seconde',
+        subject: 'Mathématiques',
+        title: 'Mathématiques 2nde S',
+        description: 'Programme complet : Algèbre, Analyse, Géométrie vectorielle et analytique.',
+        file: null,
+        icon: '📐',
+        color: 'blue'
+    },
+    {
         id: 'entrainement-2s',
         level: 'Seconde',
         subject: 'Physique-Chimie',
