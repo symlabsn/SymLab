@@ -106,3 +106,49 @@ body {
     transform: translateY(0);
   }
 }
+
+/* ========================================
+   📜 CUSTOM SCROLLBAR
+   ======================================== */
+
+/* Thin scrollbar */
+.scrollbar-thin {
+  scrollbar-width: thin;
+}
+
+/* Scrollbar track (background) */
+.scrollbar-track-transparent::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Scrollbar thumb (the draggable part) */
+.scrollbar-thumb-white\/20::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+}
+
+.scrollbar-thumb-white\/30::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.3);
+  border-radius: 10px;
+}
+
+/* Scrollbar width for webkit browsers */
+.scrollbar-thin::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+/* Hover effect */
+.hover\:scrollbar-thumb-white\/30:hover::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
+/* Firefox scrollbar */
+.scrollbar-thin {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
+}
+
+.scrollbar-thin:hover {
+  scrollbar-color: rgba(255, 255, 255, 0.3) transparent;
+}

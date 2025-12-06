@@ -248,11 +248,11 @@ export default function CoursesPage() {
                                 // STRUCTURED VIEW (Chapters + Exercises)
                                 <div className="flex-1 flex flex-col lg:flex-row gap-4 lg:gap-6 overflow-hidden">
                                     {/* Chapters Sidebar - Hidden on mobile, shown on large screens */}
-                                    <div className="hidden lg:block w-80 bg-[#0F1115] rounded-2xl border border-white/10 flex-col overflow-hidden">
-                                        <div className="p-4 border-b border-white/10 bg-white/5">
+                                    <div className="hidden lg:flex lg:flex-col w-80 bg-[#0F1115] rounded-2xl border border-white/10 overflow-hidden max-h-[calc(100vh-12rem)]">
+                                        <div className="p-4 border-b border-white/10 bg-white/5 flex-shrink-0">
                                             <h3 className="font-bold text-sm uppercase tracking-wider text-gray-400">Chapitres</h3>
                                         </div>
-                                        <div className="flex-1 overflow-y-auto p-2 space-y-1">
+                                        <div className="flex-1 overflow-y-auto p-2 space-y-1 scrollbar-thin scrollbar-thumb-white/20 scrollbar-track-transparent hover:scrollbar-thumb-white/30">
                                             {structuredCourses[selectedCourse.id].chapters.map((chapter, index, arr) => {
                                                 const prevChapter = arr[index - 1];
                                                 const showDivider = !prevChapter || prevChapter.part !== chapter.part;
