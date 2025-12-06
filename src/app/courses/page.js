@@ -15,6 +15,7 @@ import { svt4eData } from './data/svt4e';
 import { svt3eData } from './data/svt3e';
 import { phys2sData } from './data/phys2s';
 import { chimie2sData } from './data/chimie2s';
+import { entrainement2sData } from './data/entrainement2s';
 import { BookOpen, Download, Eye, ChevronRight, GraduationCap, Atom, Calculator, Dna, CheckCircle, XCircle, Menu, ArrowLeft } from 'lucide-react';
 import 'katex/dist/katex.min.css';
 import renderMathInElement from 'katex/dist/contrib/auto-render';
@@ -48,7 +49,7 @@ export default function CoursesPage() {
         'svt-3e': svt3eData,
         'phys-2s': phys2sData,
         'chimie-2s': chimie2sData,
-        'entrainement-2s': phys2sData // Placeholder: Will use Physics logic for now until dedicated file exists
+        'entrainement-2s': entrainement2sData
     };
 
     const filteredCourses = courses.filter(course => {
@@ -237,13 +238,6 @@ export default function CoursesPage() {
                                                     <Eye size={16} />
                                                     {structuredCourses[course.id] ? 'Commencer' : 'Aperçu'}
                                                 </button>
-                                                <a
-                                                    href={course.file}
-                                                    download
-                                                    className="flex items-center justify-center w-10 h-10 rounded-lg bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white transition-colors border border-white/10"
-                                                >
-                                                    <Download size={16} />
-                                                </a>
                                             </div>
                                         </div>
                                     ))}
@@ -342,20 +336,28 @@ export default function CoursesPage() {
 
                                         {/* Tabs */}
                                         <div className="flex border-b border-white/10 bg-black/20">
-                                            <button
-                                                onClick={() => setShowExercises(false)}
-                                                className={`flex-1 py-4 text-sm font-bold uppercase tracking-wider transition-colors ${!showExercises ? 'bg-[#0F1115] text-blue-400 border-t-2 border-blue-500' : 'text-gray-500 hover:text-white bg-black/20'
-                                                    }`}
-                                            >
-                                                📖 Leçon
-                                            </button>
-                                            <button
-                                                onClick={() => setShowExercises(true)}
-                                                className={`flex-1 py-4 text-sm font-bold uppercase tracking-wider transition-colors ${showExercises ? 'bg-[#0F1115] text-blue-400 border-t-2 border-blue-500' : 'text-gray-500 hover:text-white bg-black/20'
-                                                    }`}
-                                            >
-                                                ✏️ Exercices
-                                            </button>
+                                            {selectedCourse.id === 'entrainement-2s' ? (
+                                                <div className="flex-1 py-4 text-sm font-bold uppercase tracking-wider text-blue-400 border-t-2 border-blue-500 bg-[#0F1115] text-center">
+                                                    ✏️ Exercices
+                                                </div>
+                                            ) : (
+                                                <>
+                                                    <button
+                                                        onClick={() => setShowExercises(false)}
+                                                        className={`flex-1 py-4 text-sm font-bold uppercase tracking-wider transition-colors ${!showExercises ? 'bg-[#0F1115] text-blue-400 border-t-2 border-blue-500' : 'text-gray-500 hover:text-white bg-black/20'
+                                                            }`}
+                                                    >
+                                                        📖 Leçon
+                                                    </button>
+                                                    <button
+                                                        onClick={() => setShowExercises(true)}
+                                                        className={`flex-1 py-4 text-sm font-bold uppercase tracking-wider transition-colors ${showExercises ? 'bg-[#0F1115] text-blue-400 border-t-2 border-blue-500' : 'text-gray-500 hover:text-white bg-black/20'
+                                                            }`}
+                                                    >
+                                                        ✏️ Exercices
+                                                    </button>
+                                                </>
+                                            )}
                                         </div>
 
                                         {/* Scrollable Content */}
