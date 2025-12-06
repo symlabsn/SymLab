@@ -189,14 +189,14 @@ export const courses = [
         color: 'purple'
     },
     {
-        id: 'chimie-wahab-1s',
+        id: 'chimie-1s',
         level: 'Première',
         subject: 'Physique-Chimie',
-        title: 'Chimie (Wahab Diop) 1ère S',
-        description: 'Cours et exercices corrigés.',
+        title: 'Chimie 1ère S',
+        description: 'Programme complet : Organique, Oxydoréduction, Électrolyse.',
         file: '/courses/Wahab Diop-CHIMIE WPS-lsll.pdf',
         icon: '🧪',
-        color: 'purple'
+        color: 'emerald'
     },
 
     // --- Terminale ---

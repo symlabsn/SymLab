@@ -16,6 +16,7 @@ import { svt3eData } from './data/svt3e';
 import { phys2sData } from './data/phys2s';
 import { phys1sData } from './data/phys1s';
 import { chimie2sData } from './data/chimie2s';
+import { chimie1sData } from './data/chimie1s';
 import { entrainement2sData } from './data/entrainement2s';
 import { math2sData } from './data/math2s';
 import { svt2sData } from './data/svt2s';
@@ -53,6 +54,7 @@ export default function CoursesPage() {
         'phys-2s': phys2sData,
         'phys-1s': phys1sData,
         'chimie-2s': chimie2sData,
+        'chimie-1s': chimie1sData,
         'entrainement-2s': entrainement2sData,
         'math-2s': math2sData,
         'svt-2s': svt2sData
