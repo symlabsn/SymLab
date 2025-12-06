@@ -232,6 +232,16 @@ export const courses = [
 
     // --- Terminale ---
     {
+        id: 'math-ts',
+        level: 'Terminale',
+        subject: 'Mathématiques',
+        title: 'Mathématiques Tle S',
+        description: 'Analyse, Algèbre, Probabilités. Programme complet conforme.',
+        file: null,
+        icon: '📐',
+        color: 'blue'
+    },
+    {
         id: 'pc-ts',
         level: 'Terminale',
         subject: 'Physique-Chimie',
