@@ -1,3 +1,5 @@
+import { Text } from '@react-three/drei';
+
 // Composant ADN (Double Hélice)
 export function DNAHelix() {
     const numPairs = 12;

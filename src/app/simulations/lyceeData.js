@@ -73,7 +73,7 @@ Diabète : Dysfonctionnement de ce système.`,
     'vision-eye': {
         title: 'L\'Œil et la Vision',
         description: 'Formation des images et lentilles',
-        type: 'wave',
+        type: 'lens-optics',
         config: {},
         analogy: {
             title: 'L\'Œil est un Appareil Photo',
@@ -137,7 +137,7 @@ Plus l'ouverture est petite (a petit), plus ça diffracte (θ grand, la tache s'
     'electrolysis': {
         title: 'Électrolyse',
         description: 'Réactions chimiques forcées par le courant',
-        type: 'chemical',
+        type: 'electrochemical',
         config: {},
         analogy: {
             title: 'Remonter le Courant de la Rivière',
@@ -688,7 +688,7 @@ Rth : Résistance thermique (capacité à isoler).`,
     'redox-reactions': {
         title: 'Oxydoréduction',
         description: 'Piles et échange d\'électrons',
-        type: 'chemical',
+        type: 'electrochemical',
         config: {},
         analogy: {
             title: 'Le Troc d\'Électrons',

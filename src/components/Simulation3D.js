@@ -2,6 +2,9 @@
 
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls, PerspectiveCamera, Environment, Stars, Text, Line } from '@react-three/drei';
+import { DNAHelix } from './DNAHelix';
+import { LensOptics } from './LensOptics';
+import { ElectrochemicalCell } from './ElectrochemicalCell';
 
 // ... (existing helper components)
 
@@ -1529,6 +1532,10 @@ export default function Simulation3D({ type = 'atom', config = {} }) {
                 return <FoodChain />;
             case 'vertebrate-classification':
                 return <VertebrateClassification />;
+            case 'lens-optics':
+                return <LensOptics />;
+            case 'electrochemical':
+                return <ElectrochemicalCell />;
             default:
                 return <Atom {...config} />;
         }

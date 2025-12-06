@@ -1,3 +1,5 @@
+import { Text } from '@react-three/drei';
+
 // Composant Pile Électrochimique (Oxydoréduction)
 export function ElectrochemicalCell() {
     return (

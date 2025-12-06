@@ -1,3 +1,5 @@
+import { Text } from '@react-three/drei';
+
 // Composant Lentilles Optiques (Vision et Réfraction)
 export function LensOptics() {
     return (
