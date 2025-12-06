@@ -101,33 +101,13 @@ export const svtTsData = {
             id: 'chap-16',
             part: 'Deuxième partie : Activité cardiaque',
             title: '16. Automatisme cardiaque',
-            content: `
-                <h3>Origine du battement</h3>
-                <p>Le cœur est doué d'automatisme grâce au tissu nodal (cellules auto-excitables).</p>
-                <ul>
-                    <li>Nœud sinusal (Keith & Flack) : impose le rythme.</li>
-                    <li>Nœud septal et Faisceau de His : conduction.</li>
-                </ul>
-            `,
-            summary: ["Cœur isolé bat toujours.", "Rythme sinusal ~100 bpm sans innervation."],
-            exercises: []
+            content: `<h3>Origine</h3><p>Tissu nodal : Nœud sinusal (rythme), Nœud septal, Faisceau de His.</p>`
         },
         {
             id: 'chap-17',
             part: 'Deuxième partie : Activité cardiaque',
             title: '17. Activité cardiaque et pression artérielle',
-            content: `
-                <h3>Régulation</h3>
-                <p>Le système nerveux végétatif adapte le rythme cardiaque :</p>
-                <ul>
-                    <li>Parasympathique (Nerfs X) : Cardio-modérateur (Acétylcholine).</li>
-                    <li>Sympathique : Cardio-accélérateur (Noradrénaline).</li>
-                </ul>
-                <h3>Pression Artérielle</h3>
-                <p>Régulée à court terme par le baroréflexe (boucle de régulation nerveuse).</p>
-            `,
-            summary: ["Barorécepteurs (sinus carotide).", "Centre bulbaire intègre les infos."],
-            exercises: []
+            content: `<h3>Régulation</h3><p>Nerf Vague (Ralentisseur) vs Sympathique (Accélérateur). Baroréflexe.</p>`
         },
 
         // =====================================
@@ -137,85 +117,41 @@ export const svtTsData = {
             id: 'chap-18',
             part: 'Reproduction',
             title: '18. Fécondation et problèmes liés',
-            content: `
-                <h3>La Fécondation</h3>
-                <p>Rencontre des gamètes dans le tiers supérieur des trompes. Fusion des membranes, puis des pronuclei (Caryogamie). Rétablissement de la diploïdie.</p>
-                <h3>Problèmes</h3>
-                <p>Stérilité (masculine/féminine), Contraception (méthodes hormonales, mécaniques), PMA (FIVETE).</p>
-            `,
-            summary: ["Monospermie : un seul spermatozoïde féconde l'ovule.", "Capacitation des spermatozoïdes nécessaire."],
-            exercises: []
+            content: `<h3>Processus</h3><p>Rencontre des gamètes. Caryogamie. Problèmes : Stérilité, Contraception.</p>`
         },
         {
             id: 'chap-19',
             part: 'Reproduction',
             title: '19. Régulation des appareils génitaux',
-            content: `
-                <h3>Chez l'homme</h3>
-                <p>GnRH (Hypothalamus) -> FSH/LH (Hypophyse) -> Testostérone (Testicule). Rétrocontrôle négatif constant.</p>
-                <h3>Chez la femme</h3>
-                <p>Cycles sexuels. Rétrocontrôle négatif la plupart du temps, mais <strong>positif</strong> avant l'ovulation (Pic de LH).</p>
-            `,
-            summary: ["FSH stimule la gamétogenèse.", "LH stimule la production hormonale (testostérone/progestérone)."],
-            exercises: []
+            content: `<h3>Hormones</h3><p>Axe Gonadotrope. Rétrocontrôles (Négatif/Positif).</p>`
         },
         {
             id: 'chap-20',
             part: 'Reproduction',
             title: '20. Gestation, accouchement et lactation',
-            content: `
-                <h3>Gestation</h3>
-                <p>Maintien du corps jaune puis placenta. Sécrétion HCG, Oestrogènes, Progestérone (silence utérin).</p>
-                <h3>Accouchement</h3>
-                <p>Chute de progestérone + Pic d'Ocytocine (contractions).</p>
-                <h3>Lactation</h3>
-                <p>Préparée par oestrogènes/progestérone. Déclenchée par prolactine. Entretien par succion (réflexe).</p>
-            `,
-            summary: ["HCG = hormone de grossesse (détectée par tests).", "Ocytocine = Hormone de l'amour et de l'accouchement."],
-            exercises: []
+            content: `<h3>Grossesse</h3><p>HCG, Progestérone. Accouchement (Ocytocine). Lactation (Prolactine).</p>`
         },
         {
             id: 'chap-21',
             part: 'Reproduction',
             title: '21. Reproduction chez les spermaphytes',
-            content: `
-                <h3>Cycle de vie</h3>
-                <p>Alternance de phases (Sporophyte 2n / Gamétophyte n).</p>
-                <h3>Fécondation</h3>
-                <p>Double fécondation des Angiospermes : Zygote principal (Plante) + Zygote accessoire (Albumen/Réserves).</p>
-            `,
-            summary: ["Fleur = Appareil reproducteur.", "Graine protégée par le fruit."],
-            exercises: []
+            content: `<h3>Fécondation</h3><p>Double fécondation. Graine et Fruit.</p>`
         },
 
         // =====================================
-        // GÉNÉTIQUE & HÉRÉDITÉ (22-23, 29)
+        // GÉNÉTIQUE (22-23)
         // =====================================
         {
             id: 'chap-22',
             part: 'Génétique',
-            title: '22. Lois statistiques de l\'hérédité',
-            content: `
-                <h3>Lois de Mendel</h3>
-                <p>1. Uniformité des hybrides F1 (si parents purs).<br>2. Pureté des gamètes (disjonction des allèles).<br>3. Indépendance des caractères.</p>
-                <h3>Cas particuliers</h3>
-                <p>Codominance, Gènes liés (Linkage), Crossing-over.</p>
-            `,
-            summary: ["F1 hétérogène = Parents non purs.", "Test-cross révèle le génotype du dominant."],
-            exercises: []
+            title: '22. Hérédité : Lois statistiques',
+            content: `<h3>Mendel</h3><p>Monohybridisme/Dihybridisme. Test-cross.</p>`
         },
         {
             id: 'chap-23',
             part: 'Génétique',
             title: '23. Hérédité humaine',
-            content: `
-                <h3>Particularités</h3>
-                <p>Pas de croisements dirigés. Analyse de pedigree (arbres). Fécondité faible, génération longue.</p>
-                <h3>Maladies</h3>
-                <p>Autosomiques (Dominantes/Récessives). Gonosomiques (Liées à X ou Y). Anomalies chromosomiques (Trisomies).</p>
-            `,
-            summary: ["Garçon atteint, Mère saine -> Lié à X récessif probable.", "Consanguinité augmente le risque récessif."],
-            exercises: []
+            content: `<h3>Pathologies</h3><p>Maladies autosomiques/gonosomiques. Arbres généalogiques.</p>`
         },
 
         // =====================================
@@ -224,41 +160,20 @@ export const svtTsData = {
         {
             id: 'chap-24',
             part: 'Immunologie',
-            title: '24. Intégrité de l\'organisme (Système Immu)',
-            content: `
-                <h3>Le Soi et le Non-Soi</h3>
-                <p>Marqueurs du Soi : CMH (HLA chez l'homme). Tout ce qui est différent est antigène.</p>
-                <h3>Acteurs</h3>
-                <p>Organes lymphoïdes (Moelle, Thymus, Ganglions, Rate). Cellules : Phagocytes, Lymphocytes B et T.</p>
-            `,
-            summary: ["Le système immunitaire surveille en permanence.", "CMH classe I (toutes cellules) et II (cellules immunitaires)."],
-            exercises: []
+            title: '24. Intégrité de l\'organisme',
+            content: `<h3>Système Immunitaire</h3><p>Soi vs Non-Soi. Antigènes. CMH.</p>`
         },
         {
             id: 'chap-25',
             part: 'Immunologie',
             title: '25. La réponse immunitaire',
-            content: `
-                <h3>RIM Non Spécifique (Innée)</h3>
-                <p>Barrières, Inflammation, Phagocytose. Rapide et sans mémoire.</p>
-                <h3>RIM Spécifique (Acquise)</h3>
-                <p>Coopération cellulaire (Macrophage -> LT4).<br>- Humorale (LB -> Anticorps) : contre antigènes extracellulaires.<br>- Cellulaire (LT8 -> Cytotoxiques) : contre antigènes intracellulaires (virus, cancer).</p>
-            `,
-            summary: ["LT4 (Auxiliaires) = Pivot de la réponse spécifique.", "Interleukines = messagers chimiques."],
-            exercises: []
+            content: `<h3>Mécanismes</h3><p>Innée (Phagocytose) et Acquise (LB/Anticorps, LT8/Cytolyse).</p>`
         },
         {
             id: 'chap-26',
             part: 'Immunologie',
-            title: '26. Dysfonctionnement et Aides',
-            content: `
-                <h3>Dysfonctionnements</h3>
-                <p>Allergies (Hypersensibilité), Maladies auto-immunes, Immunodéficiences (VIH/SIDA).</p>
-                <h3>Aides</h3>
-                <p>Vaccination (Préventif, active la mémoire). Sérothérapie (Curatif, apporte des anticorps, transitoire).</p>
-            `,
-            summary: ["VIH cible les LT4.", "Vaccin = Antigène atténué."],
-            exercises: []
+            title: '26. Dysfonctionnement et aides',
+            content: `<h3>Pathologies</h3><p>Allergies, Maladies auto-immunes. Sérothérapie et Vaccination.</p>`
         },
 
         // =====================================
@@ -267,57 +182,206 @@ export const svtTsData = {
         {
             id: 'chap-27',
             part: 'Milieu Intérieur',
-            title: '27. Composition et rôle du milieu intérieur',
-            content: `
-                <h3>Définition</h3>
-                <p>Liquides extracellulaires (Sang + Lymphe + Liquide interstitiel) dans lesquels baignent les cellules.</p>
-                <h3>Rôle</h3>
-                <p>Interface d'échanges (Nutriments, Gaz, Déchets).</p>
-            `,
-            summary: ["Milieu intérieur = Mer intérieure de Claude Bernard.", "Stabilité vitale."],
-            exercises: []
+            title: '27. Composition et rôle',
+            content: `<h3>Homéostasie</h3><p>Sang, Lymphe. Équilibre vital.</p>`
         },
         {
             id: 'chap-28',
             part: 'Milieu Intérieur',
-            title: '28. Régulation de la constance (Homéostasie)',
-            content: `
-                <h3>Paramètres régulés</h3>
-                <p>pH, Température, Volémie, Pression osmotique, Glycémie.</p>
-                <h3>Systèmes de régulation</h3>
-                <p>Nerveux (rapide) et Hormonal (durable). Boucle de régulation : Capteur -> Centre -> Effecteur.</p>
-            `,
-            summary: ["Homéostasie = Équilibre dynamique.", "Rein et Poumon régulent le pH."],
-            exercises: []
+            title: '28. Régulation de la constance',
+            content: `<h3>Systèmes</h3><p>Nerveux et Hormonal. Glycémie, Pression artérielle.</p>`
         },
 
         // =====================================
-        // GÉNÉTIQUE (SUITE) & CONSIGNES (29-30)
+        // SUITE ET FIN (29-46)
         // =====================================
         {
             id: 'chap-29',
             part: 'Génétique',
             title: '29. La génétique',
-            content: `
-                <h3> Support moléculaire</h3>
-                <p>ADN (Double hélice). Gène (Séquence de nucléotides). Code génétique (Universel, dégénéré).</p>
-                <h3>Expression</h3>
-                <p>Transcription (Noyau : ADN->ARNm). Traduction (Cytoplasme : ARNm->Protéine).</p>
-            `,
-            summary: ["Mutation = Source de biodiversité (allèles).", "1 gène = 1 chaîne polypeptidique (souvent)."],
-            exercises: []
+            content: `<h3>Moléculaire</h3><p>ADN, ARN, Synthèse des protéines.</p>`
         },
         {
             id: 'chap-30',
             part: 'Méthodologie',
             title: '30. Consignes générales',
+            content: `<h3>Conseils</h3><p>Lire, planifier, rédiger.</p>`
+        },
+        {
+            id: 'chap-31',
+            part: 'Milieu Intérieur',
+            title: '31. La régulation de la glycémie',
             content: `
-                <h3>Réussir son épreuve</h3>
-                <p>Lire le sujet en entier. Gérer son temps. Soigner l'orthographe et la présentation.</p>
-                <p>Structurer : Introduction (Problématique), Développement (paragraphes argumentés), Conclusion (Réponse).</p>
+                <h3>Le système hyperglycémiant</h3>
+                <p>Glucagon (cellules alpha), Adrénaline, Cortisol.</p>
+                <h3>Le système hypoglycémiant</h3>
+                <p>Insuline (cellules bêta du pancréas). Agit sur le Foie, le Muscle et le Tissu adipeux.</p>
             `,
-            summary: ["Logique scientifique.", "Schémas clairs et légendés."],
-            exercises: []
+            summary: ["Glycémie = 1g/L.", "L'insuline est la seule hormone hypoglycémiante."]
+        },
+        {
+            id: 'chap-32',
+            part: 'Reproduction',
+            title: '32. La reproduction chez les spermaphytes',
+            content: `
+                <h3>Le cycle de développement</h3>
+                <p>Sporophyte -> Spores -> Gamétophyte -> Gamètes.</p>
+                <h3>La graine</h3>
+                <p>Résultat de la transformation de l'ovule. Dissémination par le vent, l'eau, les animaux.</p>
+            `,
+            summary: ["Spermaphytes = Plantes à graines."]
+        },
+        {
+            id: 'chap-33',
+            part: 'Activité Cardiaque',
+            title: '33. L\'activité cardiaque',
+            content: `
+                <h3>Révolution cardiaque</h3>
+                <p>Systole auriculaire -> Systole ventriculaire -> Diastole générale.</p>
+                <h3>Phénomènes sonores</h3>
+                <p>« Toum » (fermeture valves auriculo-ventriculaires) - « Ta » (fermeture valves sigmoïdes).</p>
+            `,
+            summary: ["ECG (Electrocardiogramme) pour explorer l'activité électrique."]
+        },
+        {
+            id: 'chap-34',
+            part: 'Activité Cardiaque',
+            title: '34. Activité cardiaque et pression artérielle',
+            content: `
+                <h3>La tension</h3>
+                <p>Pression exercée par le sang sur la paroi des artères. Dépend du débit et des résistances périphériques.</p>
+                <h3>Hypertension</h3>
+                <p>Facteur de risque cardiovasculaire majeur.</p>
+            `,
+            summary: ["PA = Débit x Résistance."]
+        },
+        {
+            id: 'chap-35',
+            part: 'Relations avec le milieu',
+            title: '35. L\'activité du muscle squelettique',
+            content: `
+                <h3>Secousse musculaire</h3>
+                <p>Contraction brève suite à un stimulus unique.</p>
+                <h3>Tétanos</h3>
+                <p>Plateau de contraction suite à une série de stimuli rapprochés (fusion complète ou incomplète).</p>
+                <h3>Fatigue musculaire</h3>
+                <p>Épuisement des réserves (glycogène) et accumulation de déchets (acide lactique).</p>
+            `,
+            summary: ["Le muscle transforme l'énergie chimique en travail mécanique."]
+        },
+        {
+            id: 'chap-36',
+            part: 'Immunologie',
+            title: '36. Le SIDA',
+            content: `
+                <h3>Le Virus VIH</h3>
+                <p>Rétrovirus à ARN. Cible les récepteurs CD4 (LT4).</p>
+                <h3>Phases de la maladie</h3>
+                <p>Primo-infection -> Phase asymptomatique (latence) -> SIDA déclaré (maladies opportunistes).</p>
+            `,
+            summary: ["Dépistage sérologique (ELISA, Western Blot).", "Trithérapie pour bloquer la multiplication."]
+        },
+        {
+            id: 'chap-37',
+            part: 'Reproduction',
+            title: '37. Organisation des appareils génitaux',
+            content: `
+                <h3>Homme</h3>
+                <p>Testicules (Tubes séminifères, Cellules de Leydig), Voies génitales, Glandes annexes.</p>
+                <h3>Femme</h3>
+                <p>Ovaires (Follicules), Trompes, Utérus, Vagin.</p>
+            `,
+            summary: ["Gonades = Organes producteurs de gamètes et d'hormones."]
+        },
+        {
+            id: 'chap-38',
+            part: 'Reproduction',
+            title: '38. Formation des gamètes',
+            content: `
+                <h3>Spermatogenèse</h3>
+                <p>Continue de la puberté à la mort. Multiplication -> Accroissement -> Maturation (Méiose) -> Différenciation (Spermiogenèse).</p>
+                <h3>Ovogenèse</h3>
+                <p>Discontinue. Débute vie fœtale, s'arrête en prophase I, reprend à la puberté (ovulation en métaphase II).</p>
+            `,
+            summary: ["Méiose réduit le nombre de chromosomes par 2."]
+        },
+        {
+            id: 'chap-39',
+            part: 'Reproduction',
+            title: '39. La fécondation',
+            content: `
+                <h3>Étapes clés</h3>
+                <p>Reconnaissance spécifique -> Réaction acrosomique -> Pénétration -> Réaction corticale (blocage polyspermie) -> Amphimixie (fusion des noyaux).</p>
+            `
+        },
+        {
+            id: 'chap-40',
+            part: 'Reproduction',
+            title: '40. Régulation du fonctionnement génital',
+            content: `
+                <h3>La boucle de régulation</h3>
+                <p>Hypothalamus (GnRH) -> Hypophyse (FSH/LH) -> Gonades (Hormones sexuelles) -> Organes cibles. Rétrocontrôles pour maintenir l'équilibre.</p>
+            `
+        },
+        {
+            id: 'chap-41',
+            part: 'Reproduction',
+            title: '41. Gestation et accouchement',
+            content: `
+                <h3>Physiologie fœtale</h3>
+                <p>Le placenta remplace les poumons, les reins et le tube digestif du fœtus.</p>
+                <h3>Mécanisme de l'accouchement</h3>
+                <p>Contractions utérines, dilatation du col, expulsion.</p>
+            `
+        },
+        {
+            id: 'chap-42',
+            part: 'Reproduction',
+            title: '42. La lactation',
+            content: `
+                <h3>Hormones</h3>
+                <p>Chute des hormones placentaires permet l'action de la Prolactine (sécrétion). L'Oxytocine permet l'éjection du lait.</p>
+                <h3>Avantages</h3>
+                <p>Lait maternel contient des anticorps et est parfaitement adapté aux besoins du nourrisson.</p>
+            `
+        },
+        {
+            id: 'chap-43',
+            part: 'Savoir-Faire',
+            title: '43. Comment traiter un devoir de SVT',
+            content: `
+                <h3>Les commandements</h3>
+                <p>1. Bien lire le sujet.<br>2. Mobiliser ses connaissances au brouillon.<br>3. Organiser son plan.<br>4. Rédiger clairement.</p>
+            `,
+            summary: ["Introduction = Définition, Problème, Plan.", "Conclusion = Réponse, Ouverture."]
+        },
+        {
+            id: 'chap-44',
+            part: 'Savoir-Faire',
+            title: '44. Comment construire un graphique',
+            content: `
+                <h3>Règles d'or</h3>
+                <p>- Titre explicite (Variation de y en fonction de x).<br>- Axes fléchés et nommés (Grandeurs + Unités).<br>- Échelle appropriée.<br>- Points marqués par des +.<br>- Courbe lissée à la main (pas de règle sauf droite).</p>
+            `
+        },
+        {
+            id: 'chap-45',
+            part: 'Savoir-Faire',
+            title: '45. Méthodologie d\'analyse graphique',
+            content: `
+                <h3>La démarche</h3>
+                <p>1. <strong>Présenter</strong> le document.<br>2. <strong>Décrire</strong> les variations (Augmente, Diminue, Constant) en citant des valeurs significatives.<br>3. <strong>Interpréter</strong> si demandé (Donner la signification biologique).</p>
+            `
+        },
+        {
+            id: 'chap-46',
+            part: 'Savoir-Faire',
+            title: '46. Raisonnement scientifique',
+            content: `
+                <h3>OHERIC</h3>
+                <p>Observation -> Hypothèse -> Expérience -> Résultats -> Interprétation -> Conclusion.</p>
+                <p>Utiliser les connecteurs logiques : "Je vois que...", "Or je sais que...", "Donc j'en déduis que...".</p>
+            `
         }
     ]
 };
