@@ -63,11 +63,11 @@ export const phys2sData = {
                 </div>
             `,
             summary: [
-                "**Électrisation par frottement** : Transfert d'électrons entre deux corps",
-                "**Électrisation par contact** : Partage de charges entre corps",
-                "**Électrisation par influence** : Redistribution sans contact",
-                "**Charge élémentaire** : $e = 1,6 \\times 10^{-19}$ C",
-                "**Loi de Coulomb** : $F = k\\frac{|q_1 q_2|}{r^2}$",
+                "<strong>Électrisation par frottement</strong> : Transfert d'électrons entre deux corps",
+                "<strong>Électrisation par contact</strong> : Partage de charges entre corps",
+                "<strong>Électrisation par influence</strong> : Redistribution sans contact",
+                "<strong>Charge élémentaire</strong> : $e = 1,6 \\times 10^{-19}$ C",
+                "<strong>Loi de Coulomb</strong> : $F = k\\frac{|q_1 q_2|}{r^2}$",
                 "Charges de même signe se repoussent, de signes opposés s'attirent"
             ],
             exercises: [
@@ -164,12 +164,12 @@ export const phys2sData = {
                 </div>
             `,
             summary: [
-                "**Courant électrique** : Déplacement ordonné de charges",
-                "**Dans les métaux** : Porteurs = électrons libres",
-                "**Sens conventionnel** : De (+) vers (-) à l'extérieur du générateur",
-                "**Conducteurs** : Laissent passer le courant (métaux, solutions ioniques)",
-                "**Isolants** : Ne laissent pas passer le courant (plastique, verre)",
-                "**Circuit fermé** : Nécessaire pour la circulation du courant"
+                "<strong>Courant électrique</strong> : Déplacement ordonné de charges",
+                "<strong>Dans les métaux</strong> : Porteurs = électrons libres",
+                "<strong>Sens conventionnel</strong> : De (+) vers (-) à l'extérieur du générateur",
+                "<strong>Conducteurs</strong> : Laissent passer le courant (métaux, solutions ioniques)",
+                "<strong>Isolants</strong> : Ne laissent pas passer le courant (plastique, verre)",
+                "<strong>Circuit fermé</strong> : Nécessaire pour la circulation du courant"
             ],
             exercises: [
                 {
@@ -278,11 +278,11 @@ export const phys2sData = {
                 </div>
             `,
             summary: [
-                "**Intensité** : $I = \\frac{Q}{t}$ (quantité de charge par unité de temps)",
-                "**Unité SI** : Ampère (A), avec $1A = 1C/s$",
-                "**Mesure** : Ampèremètre branché en SÉRIE",
-                "**Loi des nœuds** : $\\sum I_{arrivant} = \\sum I_{repartant}$",
-                "**Circuit série** : Intensité identique partout",
+                "<strong>Intensité</strong> : $I = \\frac{Q}{t}$ (quantité de charge par unité de temps)",
+                "<strong>Unité SI</strong> : Ampère (A), avec $1A = 1C/s$",
+                "<strong>Mesure</strong> : Ampèremètre branché en SÉRIE",
+                "<strong>Loi des nœuds</strong> : $\\sum I_{arrivant} = \\sum I_{repartant}$",
+                "<strong>Circuit série</strong> : Intensité identique partout",
                 "Conservation de la charge électrique"
             ],
             exercises: [
@@ -386,12 +386,12 @@ export const phys2sData = {
                 </div>
             `,
             summary: [
-                "**Tension** : Différence de potentiel électrique entre deux points",
-                "**Unité SI** : Volt (V)",
-                "**Mesure** : Voltmètre branché en PARALLÈLE",
-                "**Loi des mailles** : $\\sum U = 0$ dans une maille fermée",
-                "**Circuit série** : $U_{total} = U_1 + U_2 + ...$",
-                "**Circuit parallèle** : $U_1 = U_2 = ... = U_{générateur}$"
+                "<strong>Tension</strong> : Différence de potentiel électrique entre deux points",
+                "<strong>Unité SI</strong> : Volt (V)",
+                "<strong>Mesure</strong> : Voltmètre branché en PARALLÈLE",
+                "<strong>Loi des mailles</strong> : $\\sum U = 0$ dans une maille fermée",
+                "<strong>Circuit série</strong> : $U_{total} = U_1 + U_2 + ...$",
+                "<strong>Circuit parallèle</strong> : $U_1 = U_2 = ... = U_{générateur}$"
             ],
             exercises: [
                 {
@@ -518,12 +518,12 @@ export const phys2sData = {
                 </div>
             `,
             summary: [
-                "**Loi d'Ohm** : $U = R \\times I$ (pour un conducteur ohmique)",
-                "**Unité de résistance** : Ohm (Ω)",
-                "**Série** : $R_{eq} = R_1 + R_2 + ...$",
-                "**Parallèle** : $\\frac{1}{R_{eq}} = \\frac{1}{R_1} + \\frac{1}{R_2} + ...$",
-                "**Puissance dissipée** : $P = U \\times I = RI^2 = \\frac{U^2}{R}$",
-                "**Effet Joule** : Échauffement d'une résistance"
+                "<strong>Loi d'Ohm</strong> : $U = R \\times I$ (pour un conducteur ohmique)",
+                "<strong>Unité de résistance</strong> : Ohm (Ω)",
+                "<strong>Série</strong> : $R_{eq} = R_1 + R_2 + ...$",
+                "<strong>Parallèle</strong> : $\\frac{1}{R_{eq}} = \\frac{1}{R_1} + \\frac{1}{R_2} + ...$",
+                "<strong>Puissance dissipée</strong> : $P = U \\times I = RI^2 = \\frac{U^2}{R}$",
+                "<strong>Effet Joule</strong> : Échauffement d'une résistance"
             ],
             exercises: [
                 {
@@ -603,11 +603,11 @@ export const phys2sData = {
                 </div>
             `,
             summary: [
-                "**Loi d'Ohm générateur** : $U = E - rI$",
-                "**f.é.m ($E$)** : Tension à vide (caractéristique intrinsèque)",
-                "**Résistance interne ($r$)** : Cause des pertes d'énergie",
-                "**Bilan** : $P_{electrique} = P_{utile} + P_{thermique}$",
-                "**Court-circuit** : $I_{cc} = E/r$ (Dangereux)"
+                "<strong>Loi d'Ohm générateur</strong> : $U = E - rI$",
+                "<strong>f.é.m ($E$)</strong> : Tension à vide (caractéristique intrinsèque)",
+                "<strong>Résistance interne ($r$)</strong> : Cause des pertes d'énergie",
+                "<strong>Bilan</strong> : $P_{electrique} = P_{utile} + P_{thermique}$",
+                "<strong>Court-circuit</strong> : $I_{cc} = E/r$ (Dangereux)"
             ],
             exercises: [
                 {
@@ -694,11 +694,11 @@ export const phys2sData = {
                 </div>
             `,
             summary: [
-                "**Régime linéaire** : Contre-réaction sur l'entrée (-) $\\Rightarrow v_+ = v_-$",
-                "**Régime saturé** : Pas de contre-réaction $\\Rightarrow v_s = \\pm V_{sat}$",
-                "**Amplificateur Inverseur** : $G = -R_2/R_1$",
-                "**Amplificateur Non-Inverseur** : $G = 1 + R_2/R_1$",
-                "**Suiveur** : $U_s = U_e$ (Isolateur)"
+                "<strong>Régime linéaire</strong> : Contre-réaction sur l'entrée (-) $\\Rightarrow v_+ = v_-$",
+                "<strong>Régime saturé</strong> : Pas de contre-réaction $\\Rightarrow v_s = \\pm V_{sat}$",
+                "<strong>Amplificateur Inverseur</strong> : $G = -R_2/R_1$",
+                "<strong>Amplificateur Non-Inverseur</strong> : $G = 1 + R_2/R_1$",
+                "<strong>Suiveur</strong> : $U_s = U_e$ (Isolateur)"
             ],
             exercises: [
                 {
@@ -768,10 +768,10 @@ export const phys2sData = {
                 </div>
             `,
             summary: [
-                "**Mouvement relatif** : Dépend du référentiel choisi.",
-                "**Trajectoire** : Ligne décrite par le mobile.",
-                "**Vitesse moyenne** : $V_m = d/t$.",
-                "**Vecteur vitesse** : Toujours tangent à la trajectoire."
+                "<strong>Mouvement relatif</strong> : Dépend du référentiel choisi.",
+                "<strong>Trajectoire</strong> : Ligne décrite par le mobile.",
+                "<strong>Vitesse moyenne</strong> : $V_m = d/t$.",
+                "<strong>Vecteur vitesse</strong> : Toujours tangent à la trajectoire."
             ],
             exercises: [
                 {
@@ -902,8 +902,8 @@ export const phys2sData = {
                 </div>
             `,
             summary: [
-                "**Masse ($m$)** : Quantité de matière (kg), Invariable.",
-                "**Poids ($P$)** : Force d'attraction (N), Variable.",
+                "<strong>Masse ($m$)</strong> : Quantité de matière (kg), Invariable.",
+                "<strong>Poids ($P$)</strong> : Force d'attraction (N), Variable.",
                 "Relation fondamentale : $P = m \\times g$.",
                 "$g$ dépend de l'astre et de l'altitude."
             ],
@@ -1028,9 +1028,9 @@ export const phys2sData = {
                 </div>
             `,
             summary: [
-                "**Moment** : $\\mathcal{M} = F \\times d$ (unité N·m).",
-                "**Bras de levier** : Distance perpendiculaire axe-force.",
-                "**Théorème des moments** : $\\sum \\mathcal{M} = 0$ à l'équilibre.",
+                "<strong>Moment</strong> : $\\mathcal{M} = F \\times d$ (unité N·m).",
+                "<strong>Bras de levier</strong> : Distance perpendiculaire axe-force.",
+                "<strong>Théorème des moments</strong> : $\\sum \\mathcal{M} = 0$ à l'équilibre.",
                 "Plus le bras de levier est grand, plus l'effet de rotation est fort."
             ],
             exercises: [
@@ -1103,10 +1103,10 @@ export const phys2sData = {
                 </div>
             `,
             summary: [
-                "**Milieu homogène transparent** : Propagation en ligne droite.",
-                "**Vitesse (c)** : $3 \\times 10^8$ m/s.",
-                "**Rayon lumineux** : Modèle géométrique.",
-                "**Ombre/Pénombre** : Conséquence de la propagation rectiligne."
+                "<strong>Milieu homogène transparent</strong> : Propagation en ligne droite.",
+                "<strong>Vitesse (c)</strong> : $3 \\times 10^8$ m/s.",
+                "<strong>Rayon lumineux</strong> : Modèle géométrique.",
+                "<strong>Ombre/Pénombre</strong> : Conséquence de la propagation rectiligne."
             ],
             exercises: [
                 {
@@ -1172,10 +1172,10 @@ export const phys2sData = {
                 </div>
             `,
             summary: [
-                "**Réflexion** : Retour de la lumière dans le même milieu.",
-                "**Lois** : $i = r$ (angles par rapport à la normale).",
-                "**Image** : Virtuelle et symétrique.",
-                "**Miroir Plan** : Surface réfléchissante plane."
+                "<strong>Réflexion</strong> : Retour de la lumière dans le même milieu.",
+                "<strong>Lois</strong> : $i = r$ (angles par rapport à la normale).",
+                "<strong>Image</strong> : Virtuelle et symétrique.",
+                "<strong>Miroir Plan</strong> : Surface réfléchissante plane."
             ],
             exercises: [
                 {
@@ -1248,11 +1248,11 @@ export const phys2sData = {
                 </div>
             `,
             summary: [
-                "**Réfraction** : Déviation au changement de milieu.",
-                "**Loi fondamentale** : $n_1 \\sin(i_1) = n_2 \\sin(i_2)$.",
-                "**Indice ($n$)** : $n = c/v$.",
-                "**Réflexion totale** : Possible si $n_1 > n_2$ (bases de la fibre optique).",
-                "**Dispersion** : Décomposition de la lumière blanche (prisme)."
+                "<strong>Réfraction</strong> : Déviation au changement de milieu.",
+                "<strong>Loi fondamentale</strong> : $n_1 \\sin(i_1) = n_2 \\sin(i_2)$.",
+                "<strong>Indice ($n$)</strong> : $n = c/v$.",
+                "<strong>Réflexion totale</strong> : Possible si $n_1 > n_2$ (bases de la fibre optique).",
+                "<strong>Dispersion</strong> : Décomposition de la lumière blanche (prisme)."
             ],
             exercises: [
                 {

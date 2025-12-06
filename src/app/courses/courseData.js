@@ -117,34 +117,34 @@ export const courses = [
 
     // --- Seconde ---
     {
-        id: 'pc-2s',
+        id: 'entrainement-2s',
         level: 'Seconde',
         subject: 'Physique-Chimie',
-        title: 'Physique Chimie 2nde S',
-        description: 'Fascicule complet IA PG-CDC.',
-        file: '/courses/Fascicule PC Seconde S IA PG-CDC Février 2020 .pdf',
-        icon: '⚡',
-        color: 'purple'
+        title: 'Entraînement Intensif 2nde S',
+        description: 'Banque d\'exercices rigoureux de A à Z avec corrections détaillées pour tous les chapitres.',
+        file: null, // Interactive only
+        icon: '🏋️',
+        color: 'red'
     },
     {
         id: 'phys-2s',
         level: 'Seconde',
         subject: 'Physique-Chimie',
-        title: 'Physique (Wahab Diop) 2nde S',
-        description: 'Cours et exercices corrigés - Version interactive.',
+        title: 'Physique 2nde S',
+        description: 'Cours complet et exercices interactifs (Mécanique, Électricité, Optique).',
         file: '/courses/Wahab Diop-PHYSIQUE WSS-lsll.pdf',
         icon: '⚛️',
         color: 'purple'
     },
     {
-        id: 'chimie-wahab-2s',
+        id: 'chimie-2s',
         level: 'Seconde',
         subject: 'Physique-Chimie',
-        title: 'Chimie (Wahab Diop) 2nde S',
-        description: 'Cours et exercices corrigés.',
+        title: 'Chimie 2nde S',
+        description: 'Cours complet de Chimie : De l\'atome aux solutions aqueuses.',
         file: '/courses/Wahab Diop-CHIMIE WSS-lsll.pdf',
         icon: '🧪',
-        color: 'purple'
+        color: 'emerald'
     },
 
     // --- Première ---

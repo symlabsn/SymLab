@@ -14,6 +14,7 @@ import { svt5eData } from './data/svt5e';
 import { svt4eData } from './data/svt4e';
 import { svt3eData } from './data/svt3e';
 import { phys2sData } from './data/phys2s';
+import { chimie2sData } from './data/chimie2s';
 import { BookOpen, Download, Eye, ChevronRight, GraduationCap, Atom, Calculator, Dna, CheckCircle, XCircle, Menu, ArrowLeft } from 'lucide-react';
 import 'katex/dist/katex.min.css';
 import renderMathInElement from 'katex/dist/contrib/auto-render';
@@ -45,7 +46,9 @@ export default function CoursesPage() {
         'svt-5e': svt5eData,
         'svt-4e': svt4eData,
         'svt-3e': svt3eData,
-        'phys-2s': phys2sData
+        'phys-2s': phys2sData,
+        'chimie-2s': chimie2sData,
+        'entrainement-2s': phys2sData // Placeholder: Will use Physics logic for now until dedicated file exists
     };
 
     const filteredCourses = courses.filter(course => {
