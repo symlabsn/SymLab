@@ -15,9 +15,9 @@ export const math5eData = {
                 <h3>1. Définition</h3>
                 <p>La puissance d'un nombre est une manière d'écrire une multiplication répétée de ce même nombre.</p>
                 <ul>
-                    <li>$a^n = a \\times a \\times ... \\times a$ (n fois)</li>
-                    <li>$a^2$ se lit "a au carré" ($a \\times a$)</li>
-                    <li>$a^3$ se lit "a au cube" ($a \\times a \times a$)</li>
+                    <li>$a^n = a \times a \times ... \times a$ (n fois)</li>
+                    <li>$a^2$ se lit "a au carré" ($a \times a$)</li>
+                    <li>$a^3$ se lit "a au cube" ($a \times a \times a$)</li>
                 </ul>
                 <div class="analogy">
                     <strong>🚀 Analogie : Le Super-Multiplicateur</strong><br>
@@ -41,7 +41,7 @@ export const math5eData = {
                     question: "Que vaut $2^3$ ?",
                     options: ["6 (2 x 3)", "8 (2 x 2 x 2)", "5 (2 + 3)", "9"],
                     correctAnswer: 1,
-                    explanation: "La puissance indique le nombre de répétitions. $2^3 = 2 \\times 2 \\times 2 = 8$."
+                    explanation: "La puissance indique le nombre de répétitions. $2^3 = 2 \times 2 \times 2 = 8$."
                 },
                 {
                     id: 'ex-pui-2',
@@ -92,7 +92,7 @@ export const math5eData = {
             story: "Imaginez une pizza. Si vous la coupez en 4 et que vous mangez 3 parts, vous avez mangé les 3/4. La fraction est le langage du partage équitable.",
             content: `
                 <h3>1. Vocabulaire</h3>
-                <p>Une fraction s'écrit $\\frac{a}{b}$.</p>
+                <p>Une fraction s'écrit $\frac{a}{b}$.</p>
                 <ul>
                     <li><strong>Numérateur (a)</strong> : Nombre de parts qu'on prend (en haut).</li>
                     <li><strong>Dénominateur (b)</strong> : Nombre total de parts dans l'unité (en bas). Il ne peut jamais être égal à 0.</li>
@@ -129,7 +129,7 @@ export const math5eData = {
                 <p>Deux grandeurs sont proportionnelles si on peut passer de l'une à l'autre en multipliant par un même nombre appelé <strong>coefficient de proportionnalité</strong>.</p>
                 <h3>2. La règle de trois (ou produit en croix)</h3>
                 <p>Si j'ai 3 stylos pour 150F, combien coûtent 5 stylos ?</p>
-                <p>Calcul : $\\frac{150 \\times 5}{3} = 250$ F.</p>
+                <p>Calcul : $\frac{150 \times 5}{3} = 250$ F.</p>
                 <div class="analogy">
                     <strong>⚖️ Analogie : La Recette</strong><br>
                     Si la recette du gâteau demande 2 œufs pour 4 personnes, il faut 4 œufs pour 8 personnes. On double tout. On garde les proportions.
