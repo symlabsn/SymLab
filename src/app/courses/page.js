@@ -19,6 +19,7 @@ import { chimie2sData } from './data/chimie2s';
 import { chimie1sData } from './data/chimie1s';
 import { entrainement2sData } from './data/entrainement2s';
 import { math2sData } from './data/math2s';
+import { math1sData } from './data/math1s';
 import { svt2sData } from './data/svt2s';
 import { BookOpen, Download, Eye, ChevronRight, GraduationCap, Atom, Calculator, Dna, CheckCircle, XCircle, Menu, ArrowLeft } from 'lucide-react';
 import 'katex/dist/katex.min.css';
@@ -57,6 +58,7 @@ export default function CoursesPage() {
         'chimie-1s': chimie1sData,
         'entrainement-2s': entrainement2sData,
         'math-2s': math2sData,
+        'math-1s': math1sData,
         'svt-2s': svt2sData
     };
 

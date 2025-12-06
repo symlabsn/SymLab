@@ -169,6 +169,16 @@ export const courses = [
 
     // --- Première ---
     {
+        id: 'math-1s',
+        level: 'Première',
+        subject: 'Mathématiques',
+        title: 'Mathématiques 1ère S',
+        description: 'Programme complet : Analyse, Algèbre, Géométrie plane et espace.',
+        file: null,
+        icon: '📐',
+        color: 'blue'
+    },
+    {
         id: 'pc-1s',
         level: 'Première',
         subject: 'Physique-Chimie',
