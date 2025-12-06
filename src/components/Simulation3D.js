@@ -289,7 +289,7 @@ function WaterMolecule() {
     );
 }
 
-// Composant Cellule (exemple pour "Structure de la Cellule")
+// Composant Cellule (Amélioré avec étiquettes)
 function Cell() {
     return (
         <group>
@@ -303,30 +303,31 @@ function Cell() {
                     wireframe={false}
                 />
             </mesh>
+            <Text position={[0, 2.2, 0]} fontSize={0.3} color="#10B981">Membrane Cellulaire</Text>
 
             {/* Noyau */}
             <mesh position={[0, 0, 0]}>
                 <sphereGeometry args={[0.8, 32, 32]} />
                 <meshStandardMaterial color="#7C3AED" emissive="#7C3AED" emissiveIntensity={0.3} />
             </mesh>
+            <Text position={[0, 0, 1]} fontSize={0.3} color="white">Noyau (ADN)</Text>
 
             {/* Mitochondries */}
             {Array.from({ length: 5 }).map((_, i) => {
                 const angle = (i / 5) * Math.PI * 2;
                 const radius = 1.2;
                 return (
-                    <mesh
-                        key={`mito-${i}`}
-                        position={[
-                            Math.cos(angle) * radius,
-                            Math.sin(angle) * radius * 0.5,
-                            Math.sin(angle) * radius
-                        ]}
-                        scale={[0.3, 0.15, 0.15]}
-                    >
-                        <sphereGeometry args={[1, 16, 16]} />
-                        <meshStandardMaterial color="#F59E0B" />
-                    </mesh>
+                    <group key={`mito-${i}`} position={[
+                        Math.cos(angle) * radius,
+                        Math.sin(angle) * radius * 0.5,
+                        Math.sin(angle) * radius
+                    ]}>
+                        <mesh scale={[0.3, 0.15, 0.15]}>
+                            <sphereGeometry args={[1, 16, 16]} />
+                            <meshStandardMaterial color="#F59E0B" />
+                        </mesh>
+                        {i === 0 && <Text position={[0, 0.2, 0]} fontSize={0.2} color="#F59E0B">Mitochondrie (Énergie)</Text>}
+                    </group>
                 );
             })}
 
@@ -334,7 +335,7 @@ function Cell() {
             {Array.from({ length: 20 }).map((_, i) => {
                 const theta = Math.random() * Math.PI * 2;
                 const phi = Math.random() * Math.PI;
-                const radius = 1.5;
+                const radius = 1.6;
                 return (
                     <mesh
                         key={`ribosome-${i}`}
@@ -349,9 +350,132 @@ function Cell() {
                     </mesh>
                 );
             })}
+            <Text position={[1.5, -1.5, 0]} fontSize={0.2} color="#EC4899">Ribosomes</Text>
         </group>
     );
 }
+
+// Composant Cellule Végétale (Amélioré : Photosynthèse animée)
+function PlantCell() {
+    return (
+        <group>
+            <Text position={[0, 3.5, 0]} fontSize={0.5} color="#10B981">LA PHOTOSYNTHÈSE</Text>
+
+            {/* Paroi cellulaire (Verte et rigide) */}
+            <mesh>
+                <boxGeometry args={[3, 4, 1]} />
+                <meshStandardMaterial color="#10B981" transparent opacity={0.3} wireframe />
+            </mesh>
+            <mesh>
+                <boxGeometry args={[2.8, 3.8, 0.8]} />
+                <meshStandardMaterial color="#10B981" transparent opacity={0.1} />
+            </mesh>
+
+            {/* Chloroplastes */}
+            {Array.from({ length: 6 }).map((_, i) => (
+                <mesh
+                    key={`chloro-${i}`}
+                    position={[
+                        (Math.random() - 0.5) * 2,
+                        (Math.random() - 0.5) * 3,
+                        (Math.random() - 0.5) * 0.5
+                    ]}
+                >
+                    <capsuleGeometry args={[0.2, 0.4, 4, 8]} />
+                    <meshStandardMaterial color="#059669" />
+                </mesh>
+            ))}
+            <Text position={[0, 0, 0.6]} fontSize={0.3} color="#059669">Chloroplastes</Text>
+
+            {/* Soleil */}
+            <mesh position={[2.5, 2.5, 1]}>
+                <sphereGeometry args={[0.6, 32, 32]} />
+                <meshStandardMaterial color="#FCD34D" emissive="#FCD34D" emissiveIntensity={2} />
+            </mesh>
+            <Text position={[2.5, 3.3, 1]} fontSize={0.3} color="#FCD34D">Lumière</Text>
+
+            {/* Intrants (CO2 + H2O) */}
+            <Text position={[-2.5, 1, 0]} fontSize={0.4} color="white">CO2 + H2O →</Text>
+
+            {/* Extrants (O2 + Sucre) */}
+            <Text position={[2.5, -1, 0]} fontSize={0.4} color="white">→ Sucre + O2</Text>
+
+            {/* Rayons lumineux */}
+            <mesh position={[1.5, 1.5, 0.5]} rotation={[0, 0, Math.PI / 4]}>
+                <cylinderGeometry args={[0.02, 0.02, 2, 8]} />
+                <meshStandardMaterial color="#FCD34D" transparent opacity={0.6} />
+            </mesh>
+        </group>
+    );
+}
+
+// Composant États de la Matière (Amélioré : 3 états)
+function StatesOfMatter() {
+    return (
+        <group>
+            {/* SOLIDE */}
+            <group position={[-3, 0, 0]}>
+                <Text position={[0, 2, 0]} fontSize={0.4} color="white">SOLIDE (Glace)</Text>
+                <mesh>
+                    <boxGeometry args={[2, 2, 2]} />
+                    <meshStandardMaterial color="#9CA3AF" wireframe transparent opacity={0.1} />
+                </mesh>
+                {/* Particules serrées et vibrantes */}
+                {Array.from({ length: 27 }).map((_, i) => (
+                    <mesh key={i} position={[
+                        (i % 3) * 0.5 - 0.5,
+                        Math.floor((i / 3) % 3) * 0.5 - 0.5,
+                        Math.floor(i / 9) * 0.5 - 0.5
+                    ]}>
+                        <sphereGeometry args={[0.2]} />
+                        <meshStandardMaterial color="#3B82F6" />
+                    </mesh>
+                ))}
+            </group>
+
+            {/* LIQUIDE */}
+            <group position={[0, 0, 0]}>
+                <Text position={[0, 2, 0]} fontSize={0.4} color="white">LIQUIDE (Eau)</Text>
+                <mesh>
+                    <boxGeometry args={[2, 2, 2]} />
+                    <meshStandardMaterial color="#9CA3AF" wireframe transparent opacity={0.1} />
+                </mesh>
+                {/* Particules en bas, désordonnées */}
+                {Array.from({ length: 27 }).map((_, i) => (
+                    <mesh key={i} position={[
+                        (Math.random() - 0.5) * 1.5,
+                        (Math.random() - 0.5) * 1 - 0.5, // Plus vers le bas
+                        (Math.random() - 0.5) * 1.5
+                    ]}>
+                        <sphereGeometry args={[0.2]} />
+                        <meshStandardMaterial color="#3B82F6" />
+                    </mesh>
+                ))}
+            </group>
+
+            {/* GAZ */}
+            <group position={[3, 0, 0]}>
+                <Text position={[0, 2, 0]} fontSize={0.4} color="white">GAZ (Vapeur)</Text>
+                <mesh>
+                    <boxGeometry args={[2, 2, 2]} />
+                    <meshStandardMaterial color="#9CA3AF" wireframe transparent opacity={0.1} />
+                </mesh>
+                {/* Particules partout et espacées */}
+                {Array.from({ length: 15 }).map((_, i) => (
+                    <mesh key={i} position={[
+                        (Math.random() - 0.5) * 1.8,
+                        (Math.random() - 0.5) * 1.8,
+                        (Math.random() - 0.5) * 1.8
+                    ]}>
+                        <sphereGeometry args={[0.2]} />
+                        <meshStandardMaterial color="#60A5FA" transparent opacity={0.8} />
+                    </mesh>
+                ))}
+            </group>
+        </group>
+    );
+}
+
 
 // Composant Neurone (Système Nerveux)
 function Neuron() {
@@ -362,6 +486,7 @@ function Neuron() {
                 <sphereGeometry args={[1, 32, 32]} />
                 <meshStandardMaterial color="#FCD34D" emissive="#F59E0B" emissiveIntensity={0.5} />
             </mesh>
+            <Text position={[0, 1.5, 0]} fontSize={0.3} color="#FCD34D">Corps Cellulaire</Text>
 
             {/* Noyau */}
             <mesh position={[0, 0, 0.8]}>
@@ -374,6 +499,7 @@ function Neuron() {
                 <cylinderGeometry args={[0.2, 0.4, 4, 16]} />
                 <meshStandardMaterial color="#FCD34D" />
             </mesh>
+            <Text position={[2, 0.5, 0]} fontSize={0.3} color="#FCD34D">Axone</Text>
 
             {/* Dendrites (Ramifications) */}
             {Array.from({ length: 8 }).map((_, i) => {
@@ -387,12 +513,12 @@ function Neuron() {
                     </group>
                 );
             })}
+            <Text position={[-2.5, 0, 0]} fontSize={0.3} color="#FCD34D">Dendrites</Text>
 
             {/* Influx nerveux (Particule qui voyage) */}
             <mesh position={[0, 0, 0]}>
                 <sphereGeometry args={[0.15, 16, 16]} />
                 <meshStandardMaterial color="#00F5D4" emissive="#00F5D4" emissiveIntensity={2} />
-                {/* Animation simple via position dans le rendu final si possible, ici statique pour l'instant */}
             </mesh>
         </group>
     );
@@ -423,6 +549,7 @@ function BloodStream() {
                     <meshStandardMaterial color="#DC2626" />
                 </mesh>
             ))}
+            <Text position={[-3, 1.5, 0]} fontSize={0.3} color="#DC2626">Globules Rouges (O2)</Text>
 
             {/* Globules Blancs */}
             {Array.from({ length: 3 }).map((_, i) => (
@@ -438,71 +565,107 @@ function BloodStream() {
                     <meshStandardMaterial color="#F3F4F6" roughness={0.8} />
                 </mesh>
             ))}
+            <Text position={[3, -1.5, 0]} fontSize={0.3} color="white">Globules Blancs (Défense)</Text>
         </group>
     );
 }
 
-// Composant Cellule Végétale (Photosynthèse)
-function PlantCell() {
+// Composant Croissance Végétale
+function PlantGrowth() {
     return (
         <group>
-            {/* Paroi cellulaire (Verte et rigide) */}
-            <mesh>
-                <boxGeometry args={[3, 4, 1]} />
-                <meshStandardMaterial color="#10B981" transparent opacity={0.3} wireframe />
-            </mesh>
-            <mesh>
-                <boxGeometry args={[2.8, 3.8, 0.8]} />
-                <meshStandardMaterial color="#10B981" transparent opacity={0.1} />
+            <Text position={[0, 3, 0]} fontSize={0.5} color="#10B981">Croissance des Végétaux</Text>
+
+            {/* Sol */}
+            <mesh position={[0, -2, 0]} rotation={[-Math.PI / 2, 0, 0]}>
+                <planeGeometry args={[5, 5]} />
+                <meshStandardMaterial color="#8B4513" />
             </mesh>
 
-            {/* Chloroplastes (Usines vertes) */}
-            {Array.from({ length: 6 }).map((_, i) => (
-                <mesh
-                    key={`chloro-${i}`}
-                    position={[
-                        (Math.random() - 0.5) * 2,
-                        (Math.random() - 0.5) * 3,
-                        (Math.random() - 0.5) * 0.5
-                    ]}
-                >
-                    <capsuleGeometry args={[0.2, 0.4, 4, 8]} />
-                    <meshStandardMaterial color="#059669" />
+            {/* Plante (tige qui grandit - animée par scale) */}
+            <group position={[0, -2, 0]}>
+                <mesh position={[0, 1.5, 0]}>
+                    <cylinderGeometry args={[0.1, 0.1, 3, 8]} />
+                    <meshStandardMaterial color="#10B981" />
                 </mesh>
-            ))}
+                {/* Feuilles */}
+                <mesh position={[0.5, 2, 0]} rotation={[0, 0, -Math.PI / 4]}>
+                    <sphereGeometry args={[0.3, 32, 16]} scale={[1, 0.2, 0.5]} />
+                    <meshStandardMaterial color="#10B981" />
+                </mesh>
+                <mesh position={[-0.5, 1, 0]} rotation={[0, 0, Math.PI / 4]}>
+                    <sphereGeometry args={[0.3, 32, 16]} scale={[1, 0.2, 0.5]} />
+                    <meshStandardMaterial color="#10B981" />
+                </mesh>
+            </group>
 
-            {/* Soleil (Source d'énergie) */}
-            <mesh position={[2, 3, 2]}>
-                <sphereGeometry args={[0.5, 32, 32]} />
-                <meshStandardMaterial color="#FCD34D" emissive="#FCD34D" emissiveIntensity={2} />
-            </mesh>
+            <Text position={[2, -1, 0]} fontSize={0.3} color="white">Besoin: Eau, Lumière, Sels minéraux</Text>
         </group>
     );
 }
 
-// Composant États de la Matière (Particules)
-function StatesOfMatter() {
+// Composant Chaîne Alimentaire
+function FoodChain() {
     return (
         <group>
-            {/* Boîte contenant */}
-            <mesh>
-                <boxGeometry args={[4, 4, 4]} />
-                <meshStandardMaterial color="#9CA3AF" wireframe transparent opacity={0.2} />
-            </mesh>
+            <Text position={[0, 3, 0]} fontSize={0.5} color="white">Chaîne Alimentaire</Text>
 
-            {/* Particules */}
-            {Array.from({ length: 50 }).map((_, i) => (
-                <mesh
-                    key={`particle-${i}`}
-                    position={[
-                        (Math.random() - 0.5) * 3,
-                        (Math.random() - 0.5) * 3,
-                        (Math.random() - 0.5) * 3
-                    ]}
-                >
-                    <sphereGeometry args={[0.15, 16, 16]} />
-                    <meshStandardMaterial color="#3B82F6" />
+            {/* Producteur (Herbe) */}
+            <group position={[-3, -1, 0]}>
+                <mesh position={[0, 0.5, 0]}>
+                    <cylinderGeometry args={[0.05, 0.05, 1, 8]} />
+                    <meshStandardMaterial color="#10B981" />
                 </mesh>
+                <Text position={[0, -1, 0]} fontSize={0.3} color="#10B981">Producteur (Herbe)</Text>
+            </group>
+
+            {/* Consommateur 1 (Vache/Lapin - Cube Blanc) */}
+            <group position={[0, -1, 0]}>
+                <mesh position={[0, 0.5, 0]}>
+                    <boxGeometry args={[1, 1, 1]} />
+                    <meshStandardMaterial color="white" />
+                </mesh>
+                <Text position={[0, -1, 0]} fontSize={0.3} color="white">Consommateur I (Herbivore)</Text>
+            </group>
+
+            {/* Consommateur 2 (Lion - Cube Rouge) */}
+            <group position={[3, -1, 0]}>
+                <mesh position={[0, 0.5, 0]}>
+                    <boxGeometry args={[1.2, 1.2, 1.2]} />
+                    <meshStandardMaterial color="#EF4444" />
+                </mesh>
+                <Text position={[0, -1, 0]} fontSize={0.3} color="#EF4444">Consommateur II (Carnivore)</Text>
+            </group>
+
+            {/* Flèches */}
+            <Text position={[-1.5, 0, 0]} fontSize={0.5} color="white">→</Text>
+            <Text position={[1.5, 0, 0]} fontSize={0.5} color="white">→</Text>
+            <Text position={[0, -3, 0]} fontSize={0.3} color="gray">"Est mangé par"</Text>
+        </group>
+    );
+}
+
+// Composant Classification des Vertébrés
+function VertebrateClassification() {
+    const groups = [
+        { name: "Mammifères", color: "#FCD34D", pos: [-4, 0, 0] },
+        { name: "Oiseaux", color: "#60A5FA", pos: [-2, 0, 0] },
+        { name: "Reptiles", color: "#10B981", pos: [0, 0, 0] },
+        { name: "Amphibiens", color: "#8B5CF6", pos: [2, 0, 0] },
+        { name: "Poissons", color: "#EF4444", pos: [4, 0, 0] }
+    ];
+
+    return (
+        <group>
+            <Text position={[0, 3, 0]} fontSize={0.5} color="white">Classification des Vertébrés</Text>
+            {groups.map((g, i) => (
+                <group key={i} position={g.pos}>
+                    <mesh>
+                        <sphereGeometry args={[0.6]} />
+                        <meshStandardMaterial color={g.color} />
+                    </mesh>
+                    <Text position={[0, -1, 0]} fontSize={0.3} color="white">{g.name}</Text>
+                </group>
             ))}
         </group>
     );
@@ -989,6 +1152,16 @@ export default function Simulation3D({ type = 'atom', config = {} }) {
                 return <ThalesTheorem />;
             case 'trigonometry':
                 return <TrigUnitCircle />;
+            case 'neuron':
+                return <Neuron />;
+            case 'blood':
+                return <BloodStream />;
+            case 'plant-growth':
+                return <PlantGrowth />;
+            case 'food-chain':
+                return <FoodChain />;
+            case 'vertebrate-classification':
+                return <VertebrateClassification />;
             default:
                 return <Atom {...config} />;
         }

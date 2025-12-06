@@ -1405,7 +1405,7 @@ Moteur de voiture : η ≈ 25%
     'plant-growth': {
         title: 'Croissance des Plantes',
         description: 'Observez les étapes de la germination et de la croissance',
-        type: 'plant',
+        type: 'plant-growth',
         config: {},
         analogy: {
             title: 'La Croissance d\'une Plante comme un Enfant qui Grandit',
@@ -1457,7 +1457,7 @@ Les Étapes :
     'food-chain': {
         title: 'Chaînes Alimentaires',
         description: 'Comprenez les relations entre producteurs et consommateurs',
-        type: 'ecosystem',
+        type: 'food-chain',
         config: {},
         analogy: {
             title: 'La Chaîne Alimentaire comme le Repas de Famille',
@@ -1769,7 +1769,7 @@ Bissectrice : La droite qui coupe un angle en deux parties égales.`,
     'vertebrate-classification': {
         title: 'Classification des Vertébrés',
         description: 'Apprenez à classer les animaux selon leurs caractéristiques',
-        type: 'classification',
+        type: 'vertebrate-classification',
         config: {},
         analogy: {
             title: 'Classer les Animaux comme les Équipes de Navétanes',
