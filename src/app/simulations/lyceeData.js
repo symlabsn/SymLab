@@ -6,7 +6,7 @@ export const lyceeSimulationsData = {
     'magnetic-field-earth': {
         title: 'Champ Magnétique Terrestre',
         description: 'Boussole et pôles magnétiques',
-        type: 'force',
+        type: 'magnetic-field',
         config: {},
         analogy: {
             title: 'La Terre est un Aimant Géant',
@@ -108,7 +108,7 @@ Défauts :
     'diffraction-light': {
         title: 'Diffraction de la Lumière',
         description: 'Nature ondulatoire de la lumière',
-        type: 'wave',
+        type: 'diffraction',
         config: {},
         analogy: {
             title: 'La Lumière qui contourne les obstacles',

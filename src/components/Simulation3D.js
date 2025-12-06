@@ -1,10 +1,13 @@
 'use client';
+import { useRef, useMemo, useState } from 'react';
 
-import { Canvas } from '@react-three/fiber';
+import { Canvas, useFrame } from '@react-three/fiber';
 import { OrbitControls, PerspectiveCamera, Environment, Stars, Text, Line } from '@react-three/drei';
 import { DNAHelix } from './DNAHelix';
 import { LensOptics } from './LensOptics';
 import { ElectrochemicalCell } from './ElectrochemicalCell';
+import { MagneticField } from './MagneticField';
+import { Diffraction } from './Diffraction';
 
 // ... (existing helper components)
 
@@ -120,7 +123,11 @@ function ThalesTheorem() {
 // Composant Cercle Trigonométrique
 function TrigUnitCircle() {
     // Animation simple de l'angle
-    const angle = Date.now() * 0.001 % (Math.PI * 2);
+    const [angle, setAngle] = useState(0);
+    useFrame((state) => {
+        setAngle((state.clock.elapsedTime * 0.5) % (Math.PI * 2));
+    });
+    // const angle = Date.now() * 0.001 % (Math.PI * 2);
 
     return (
         <group>
@@ -141,23 +148,23 @@ function TrigUnitCircle() {
             </mesh>
 
             {/* Point mobile */}
-            <group rotation={[0, 0, 1]}> {/* Rotation statique pour l'exemple, idéalement animée */}
-                <mesh position={[2 * Math.cos(0.8), 2 * Math.sin(0.8), 0]}>
+            <group rotation={[0, 0, 0]}>
+                <mesh position={[2 * Math.cos(angle), 2 * Math.sin(angle), 0]}>
                     <sphereGeometry args={[0.15]} />
                     <meshStandardMaterial color="#FCD34D" />
                 </mesh>
 
                 {/* Lignes de projection */}
                 {/* Sinus (Verticale) */}
-                <mesh position={[2 * Math.cos(0.8), Math.sin(0.8), 0]}>
-                    <cylinderGeometry args={[0.02, 0.02, 2 * Math.sin(0.8), 8]} />
+                <mesh position={[2 * Math.cos(angle), Math.sin(angle), 0]}>
+                    <cylinderGeometry args={[0.02, 0.02, 2 * Math.sin(angle), 8]} />
                     <meshStandardMaterial color="#EF4444" />
                 </mesh>
                 <Text position={[2.2, 1, 0]} fontSize={0.3} color="#EF4444">Sin</Text>
 
                 {/* Cosinus (Horizontale) */}
-                <mesh position={[Math.cos(0.8), 0, 0]} rotation={[0, 0, Math.PI / 2]}>
-                    <cylinderGeometry args={[0.02, 0.02, 2 * Math.cos(0.8), 8]} />
+                <mesh position={[Math.cos(angle), 0, 0]} rotation={[0, 0, Math.PI / 2]}>
+                    <cylinderGeometry args={[0.02, 0.02, 2 * Math.cos(angle), 8]} />
                     <meshStandardMaterial color="#3B82F6" />
                 </mesh>
                 <Text position={[1, -0.3, 0]} fontSize={0.3} color="#3B82F6">Cos</Text>
@@ -228,6 +235,17 @@ function Atom({ protons = 6, neutrons = 6, electrons = 6 }) {
             </group>
 
             {/* Orbitales électroniques */}
+            <ElectronOrbitals electrons={electrons} />
+        </group>
+    );
+}
+
+function ElectronOrbitals({ electrons }) {
+    const [time, setTime] = useState(0);
+    useFrame((state) => setTime(state.clock.elapsedTime));
+
+    return (
+        <group>
             {Array.from({ length: electrons }).map((_, i) => {
                 const orbitRadius = 1.5 + Math.floor(i / 2) * 0.8;
                 const speed = 0.5 + Math.floor(i / 2) * 0.2;
@@ -244,9 +262,9 @@ function Atom({ protons = 6, neutrons = 6, electrons = 6 }) {
                         {/* Électron */}
                         <mesh
                             position={[
-                                Math.cos(Date.now() * 0.001 * speed + offset) * orbitRadius,
+                                Math.cos(time * speed + offset) * orbitRadius,
                                 0,
-                                Math.sin(Date.now() * 0.001 * speed + offset) * orbitRadius
+                                Math.sin(time * speed + offset) * orbitRadius
                             ]}
                         >
                             <sphereGeometry args={[0.1, 32, 32]} />
@@ -258,6 +276,7 @@ function Atom({ protons = 6, neutrons = 6, electrons = 6 }) {
         </group>
     );
 }
+
 
 // Composant Molécule d'eau (exemple pour "Géométrie Moléculaire")
 function WaterMolecule() {
@@ -434,7 +453,7 @@ function Cell() {
             })}
 
             {/* Ribosomes (petites sphères) */}
-            {Array.from({ length: 20 }).map((_, i) => {
+            {useMemo(() => Array.from({ length: 20 }).map((_, i) => {
                 const theta = Math.random() * Math.PI * 2;
                 const phi = Math.random() * Math.PI;
                 const radius = 1.6;
@@ -451,7 +470,7 @@ function Cell() {
                         <meshStandardMaterial color="#EC4899" />
                     </mesh>
                 );
-            })}
+            }), [])}
             <Text position={[1.5, -1.5, 0]} fontSize={0.2} color="#EC4899">Ribosomes</Text>
         </group>
     );
@@ -474,7 +493,7 @@ function PlantCell() {
             </mesh>
 
             {/* Chloroplastes */}
-            {Array.from({ length: 6 }).map((_, i) => (
+            {useMemo(() => Array.from({ length: 6 }).map((_, i) => (
                 <mesh
                     key={`chloro-${i}`}
                     position={[
@@ -486,7 +505,7 @@ function PlantCell() {
                     <capsuleGeometry args={[0.2, 0.4, 4, 8]} />
                     <meshStandardMaterial color="#059669" />
                 </mesh>
-            ))}
+            )), [])}
             <Text position={[0, 0, 0.6]} fontSize={0.3} color="#059669">Chloroplastes</Text>
 
             {/* Soleil */}
@@ -523,7 +542,7 @@ function StatesOfMatter() {
                     <meshStandardMaterial color="#9CA3AF" wireframe transparent opacity={0.1} />
                 </mesh>
                 {/* Particules serrées et vibrantes */}
-                {Array.from({ length: 27 }).map((_, i) => (
+                {useMemo(() => Array.from({ length: 27 }).map((_, i) => (
                     <mesh key={i} position={[
                         (i % 3) * 0.5 - 0.5,
                         Math.floor((i / 3) % 3) * 0.5 - 0.5,
@@ -532,7 +551,7 @@ function StatesOfMatter() {
                         <sphereGeometry args={[0.2]} />
                         <meshStandardMaterial color="#3B82F6" />
                     </mesh>
-                ))}
+                )), [])}
             </group>
 
             {/* LIQUIDE */}
@@ -543,7 +562,7 @@ function StatesOfMatter() {
                     <meshStandardMaterial color="#9CA3AF" wireframe transparent opacity={0.1} />
                 </mesh>
                 {/* Particules en bas, désordonnées */}
-                {Array.from({ length: 27 }).map((_, i) => (
+                {useMemo(() => Array.from({ length: 27 }).map((_, i) => (
                     <mesh key={i} position={[
                         (Math.random() - 0.5) * 1.5,
                         (Math.random() - 0.5) * 1 - 0.5, // Plus vers le bas
@@ -552,7 +571,7 @@ function StatesOfMatter() {
                         <sphereGeometry args={[0.2]} />
                         <meshStandardMaterial color="#3B82F6" />
                     </mesh>
-                ))}
+                )), [])}
             </group>
 
             {/* GAZ */}
@@ -563,7 +582,7 @@ function StatesOfMatter() {
                     <meshStandardMaterial color="#9CA3AF" wireframe transparent opacity={0.1} />
                 </mesh>
                 {/* Particules partout et espacées */}
-                {Array.from({ length: 15 }).map((_, i) => (
+                {useMemo(() => Array.from({ length: 15 }).map((_, i) => (
                     <mesh key={i} position={[
                         (Math.random() - 0.5) * 1.8,
                         (Math.random() - 0.5) * 1.8,
@@ -572,7 +591,7 @@ function StatesOfMatter() {
                         <sphereGeometry args={[0.2]} />
                         <meshStandardMaterial color="#60A5FA" transparent opacity={0.8} />
                     </mesh>
-                ))}
+                )), [])}
             </group>
         </group>
     );
@@ -637,7 +656,7 @@ function BloodStream() {
             </mesh>
 
             {/* Globules Rouges */}
-            {Array.from({ length: 15 }).map((_, i) => (
+            {useMemo(() => Array.from({ length: 15 }).map((_, i) => (
                 <mesh
                     key={`rbc-${i}`}
                     position={[
@@ -650,11 +669,11 @@ function BloodStream() {
                     <torusGeometry args={[0.3, 0.15, 16, 32]} />
                     <meshStandardMaterial color="#DC2626" />
                 </mesh>
-            ))}
+            )), [])}
             <Text position={[-3, 1.5, 0]} fontSize={0.3} color="#DC2626">Globules Rouges (O2)</Text>
 
             {/* Globules Blancs */}
-            {Array.from({ length: 3 }).map((_, i) => (
+            {useMemo(() => Array.from({ length: 3 }).map((_, i) => (
                 <mesh
                     key={`wbc-${i}`}
                     position={[
@@ -666,7 +685,7 @@ function BloodStream() {
                     <sphereGeometry args={[0.35, 32, 32]} />
                     <meshStandardMaterial color="#F3F4F6" roughness={0.8} />
                 </mesh>
-            ))}
+            )), [])}
             <Text position={[3, -1.5, 0]} fontSize={0.3} color="white">Globules Blancs (Défense)</Text>
         </group>
     );
@@ -773,121 +792,11 @@ function VertebrateClassification() {
     );
 }
 
-// Composant Plaques Tectoniques
-function TectonicPlates() {
-    return (
-        <group>
-            {/* Plaque 1 */}
-            <mesh position={[-1.5, 0, 0]}>
-                <boxGeometry args={[3, 0.5, 3]} />
-                <meshStandardMaterial color="#8B4513" />
-            </mesh>
 
-            {/* Plaque 2 */}
-            <mesh position={[1.5, 0.2, 0]}>
-                <boxGeometry args={[3, 0.5, 3]} />
-                <meshStandardMaterial color="#A0522D" />
-            </mesh>
 
-            {/* Magma (sous les plaques) */}
-            <mesh position={[0, -1, 0]}>
-                <sphereGeometry args={[2, 32, 32]} />
-                <meshStandardMaterial color="#FF4500" emissive="#FF4500" emissiveIntensity={0.5} />
-            </mesh>
 
-            {/* Volcan */}
-            <mesh position={[0, 0.5, 0]}>
-                <coneGeometry args={[0.5, 1.5, 32]} />
-                <meshStandardMaterial color="#654321" />
-            </mesh>
-        </group>
-    );
-}
 
-// Composant Réaction Chimique
-function ChemicalReaction() {
-    return (
-        <group>
-            {/* Molécules réactifs (gauche) */}
-            <group position={[-2, 0, 0]}>
-                <mesh position={[0, 0, 0]}>
-                    <sphereGeometry args={[0.3, 32, 32]} />
-                    <meshStandardMaterial color="#3B82F6" />
-                </mesh>
-                <mesh position={[0.6, 0, 0]}>
-                    <sphereGeometry args={[0.3, 32, 32]} />
-                    <meshStandardMaterial color="#EF4444" />
-                </mesh>
-            </group>
 
-            {/* Flèche de réaction */}
-            <mesh rotation={[0, 0, Math.PI / 2]}>
-                <cylinderGeometry args={[0.05, 0.05, 2, 16]} />
-                <meshStandardMaterial color="#FCD34D" />
-            </mesh>
-            <mesh position={[1, 0, 0]} rotation={[0, 0, -Math.PI / 4]}>
-                <coneGeometry args={[0.15, 0.4, 16]} />
-                <meshStandardMaterial color="#FCD34D" />
-            </mesh>
-
-            {/* Molécules produits (droite) */}
-            <group position={[2, 0, 0]}>
-                <mesh position={[0, 0.3, 0]}>
-                    <sphereGeometry args={[0.25, 32, 32]} />
-                    <meshStandardMaterial color="#10B981" />
-                </mesh>
-                <mesh position={[0, -0.3, 0]}>
-                    <sphereGeometry args={[0.25, 32, 32]} />
-                    <meshStandardMaterial color="#8B5CF6" />
-                </mesh>
-            </group>
-        </group>
-    );
-}
-
-// Composant Forces et Mouvement
-function ForcePhysics() {
-    return (
-        <group>
-            {/* Objet (cube) */}
-            <mesh position={[0, 0, 0]}>
-                <boxGeometry args={[1, 1, 1]} />
-                <meshStandardMaterial color="#3B82F6" />
-            </mesh>
-
-            {/* Vecteurs de force */}
-            {/* Force vers la droite */}
-            <group position={[1, 0, 0]}>
-                <mesh rotation={[0, 0, Math.PI / 2]}>
-                    <cylinderGeometry args={[0.05, 0.05, 1.5, 16]} />
-                    <meshStandardMaterial color="#EF4444" />
-                </mesh>
-                <mesh position={[0.75, 0, 0]} rotation={[0, 0, -Math.PI / 2]}>
-                    <coneGeometry args={[0.15, 0.4, 16]} />
-                    <meshStandardMaterial color="#EF4444" />
-                </mesh>
-            </group>
-
-            {/* Force de gravité (vers le bas) */}
-            <group position={[0, -1, 0]}>
-                <mesh>
-                    <cylinderGeometry args={[0.05, 0.05, 1, 16]} />
-                    <meshStandardMaterial color="#10B981" />
-                </mesh>
-                <mesh position={[0, -0.5, 0]} rotation={[Math.PI, 0, 0]}>
-                    <coneGeometry args={[0.15, 0.4, 16]} />
-                    <meshStandardMaterial color="#10B981" />
-                </mesh>
-            </group>
-
-            {/* Sol */}
-            <mesh position={[0, -2, 0]} rotation={[-Math.PI / 2, 0, 0]}>
-                <planeGeometry args={[6, 6]} />
-                <meshStandardMaterial color="#9CA3AF" transparent opacity={0.3} />
-            </mesh>
-        </group>
-    );
-}
 
 // Composant Système Immunitaire (Amélioré)
 function ImmuneSystem() {
@@ -1257,228 +1166,15 @@ function TectonicPlates() {
     );
 }
 
-// Composant ADN Helix
-function DNAHelix() {
-    const helixPoints = [];
-    const segments = 100;
 
-    for (let i = 0; i < segments; i++) {
-        const t = (i / segments) * Math.PI * 4;
-        const radius = 0.5;
 
-        // Brin 1
-        helixPoints.push({
-            position: [
-                Math.cos(t) * radius,
-                (i / segments) * 4 - 2,
-                Math.sin(t) * radius
-            ],
-            color: '#00F5D4'
-        });
 
-        // Brin 2
-        helixPoints.push({
-            position: [
-                Math.cos(t + Math.PI) * radius,
-                (i / segments) * 4 - 2,
-                Math.sin(t + Math.PI) * radius
-            ],
-            color: '#7C3AED'
-        });
-    }
 
-    return (
-        <group>
-            {helixPoints.map((point, i) => (
-                <mesh key={i} position={point.position}>
-                    <sphereGeometry args={[0.08, 16, 16]} />
-                    <meshStandardMaterial color={point.color} emissive={point.color} emissiveIntensity={0.5} />
-                </mesh>
-            ))}
 
-            {/* Liaisons entre les brins */}
-            {Array.from({ length: 20 }).map((_, i) => {
-                const t = (i / 20) * Math.PI * 4;
-                const radius = 0.5;
-                return (
-                    <mesh
-                        key={`bond-${i}`}
-                        position={[0, (i / 20) * 4 - 2, 0]}
-                        rotation={[0, t, Math.PI / 2]}
-                    >
-                        <cylinderGeometry args={[0.03, 0.03, radius * 2, 8]} />
-                        <meshStandardMaterial color="#F59E0B" />
-                    </mesh>
-                );
-            })}
-        </group>
-    );
-}
 
-// Composant Circuit Électrique
-function ElectricCircuit() {
-    return (
-        <group>
-            {/* Batterie */}
-            <mesh position={[-2, 0, 0]} rotation={[0, 0, Math.PI / 2]}>
-                <cylinderGeometry args={[0.3, 0.3, 1, 32]} />
-                <meshStandardMaterial color="#374151" />
-            </mesh>
-            <mesh position={[-2, 0.6, 0]} rotation={[0, 0, Math.PI / 2]}>
-                <cylinderGeometry args={[0.1, 0.1, 0.2, 32]} />
-                <meshStandardMaterial color="#EF4444" />
-            </mesh>
 
-            {/* Fils */}
-            <mesh position={[0, 1, 0]} rotation={[0, 0, Math.PI / 2]}>
-                <cylinderGeometry args={[0.05, 0.05, 4, 16]} />
-                <meshStandardMaterial color="#F59E0B" />
-            </mesh>
-            <mesh position={[0, -1, 0]} rotation={[0, 0, Math.PI / 2]}>
-                <cylinderGeometry args={[0.05, 0.05, 4, 16]} />
-                <meshStandardMaterial color="#F59E0B" />
-            </mesh>
-            <mesh position={[2, 0, 0]}>
-                <cylinderGeometry args={[0.05, 0.05, 2, 16]} />
-                <meshStandardMaterial color="#F59E0B" />
-            </mesh>
-            <mesh position={[-2, 0, 0]}>
-                <cylinderGeometry args={[0.05, 0.05, 2, 16]} />
-                <meshStandardMaterial color="#F59E0B" />
-            </mesh>
 
-            {/* Ampoule */}
-            <group position={[2, 0, 0]}>
-                <mesh position={[0, 0.5, 0]}>
-                    <sphereGeometry args={[0.4, 32, 32]} />
-                    <meshStandardMaterial color="#FCD34D" emissive="#FCD34D" emissiveIntensity={2} transparent opacity={0.8} />
-                </mesh>
-                <mesh position={[0, 0, 0]}>
-                    <cylinderGeometry args={[0.2, 0.2, 0.4, 32]} />
-                    <meshStandardMaterial color="#9CA3AF" />
-                </mesh>
-            </group>
 
-            {/* Électrons animés */}
-            {Array.from({ length: 10 }).map((_, i) => {
-                const t = (Date.now() * 0.001 + i * 0.5) % 4;
-                let pos = [0, 0, 0];
-                if (t < 1) pos = [-2 + t * 4, 1, 0]; // Haut
-                else if (t < 2) pos = [2, 1 - (t - 1) * 2, 0]; // Droite
-                else if (t < 3) pos = [2 - (t - 2) * 4, -1, 0]; // Bas
-                else pos = [-2, -1 + (t - 3) * 2, 0]; // Gauche
-
-                return (
-                    <mesh key={i} position={pos}>
-                        <sphereGeometry args={[0.08, 16, 16]} />
-                        <meshStandardMaterial color="#3B82F6" emissive="#3B82F6" />
-                    </mesh>
-                );
-            })}
-        </group>
-    );
-}
-
-// Composant Cycle de l'Eau
-function WaterCycle() {
-    return (
-        <group>
-            {/* Océan */}
-            <mesh position={[0, -2, 0]} rotation={[-Math.PI / 2, 0, 0]}>
-                <planeGeometry args={[10, 10]} />
-                <meshStandardMaterial color="#2563EB" transparent opacity={0.8} />
-            </mesh>
-
-            {/* Soleil */}
-            <mesh position={[3, 3, -2]}>
-                <sphereGeometry args={[1, 32, 32]} />
-                <meshStandardMaterial color="#FCD34D" emissive="#FCD34D" emissiveIntensity={2} />
-            </mesh>
-
-            {/* Nuages */}
-            <group position={[-2, 2, 0]}>
-                <mesh position={[0, 0, 0]}>
-                    <sphereGeometry args={[0.8, 32, 32]} />
-                    <meshStandardMaterial color="white" transparent opacity={0.8} />
-                </mesh>
-                <mesh position={[0.8, 0.2, 0]}>
-                    <sphereGeometry args={[0.6, 32, 32]} />
-                    <meshStandardMaterial color="white" transparent opacity={0.8} />
-                </mesh>
-                <mesh position={[-0.8, 0.2, 0]}>
-                    <sphereGeometry args={[0.6, 32, 32]} />
-                    <meshStandardMaterial color="white" transparent opacity={0.8} />
-                </mesh>
-            </group>
-
-            {/* Pluie (particules) */}
-            {Array.from({ length: 20 }).map((_, i) => (
-                <mesh key={i} position={[-2 + (Math.random() - 0.5), 1 - Math.random() * 2, (Math.random() - 0.5)]}>
-                    <capsuleGeometry args={[0.02, 0.2, 4, 8]} />
-                    <meshStandardMaterial color="#60A5FA" />
-                </mesh>
-            ))}
-
-            {/* Flèches d'évaporation */}
-            {Array.from({ length: 3 }).map((_, i) => (
-                <mesh key={`evap-${i}`} position={[1 + i, -1 + i * 0.5, 0]} rotation={[0, 0, Math.PI / 4]}>
-                    <cylinderGeometry args={[0.05, 0.05, 1, 8]} />
-                    <meshStandardMaterial color="white" transparent opacity={0.5} />
-                </mesh>
-            ))}
-        </group>
-    );
-}
-
-// Composant Système Digestif (Schématique)
-function DigestiveSystem() {
-    return (
-        <group>
-            {/* Œsophage */}
-            <mesh position={[0, 2, 0]}>
-                <cylinderGeometry args={[0.3, 0.3, 2, 32]} />
-                <meshStandardMaterial color="#FCA5A5" />
-            </mesh>
-
-            {/* Estomac */}
-            <mesh position={[0, 0.5, 0]} rotation={[0, 0, -0.2]}>
-                <sphereGeometry args={[0.8, 32, 32]} />
-                <meshStandardMaterial color="#EF4444" />
-            </mesh>
-
-            {/* Intestins */}
-            <group position={[0, -1.5, 0]}>
-                <mesh>
-                    <torusKnotGeometry args={[0.8, 0.3, 100, 16]} />
-                    <meshStandardMaterial color="#FDBA74" />
-                </mesh>
-            </group>
-        </group>
-    );
-}
-
-// Composant Ondes (Interférences)
-function WaveInterference() {
-    return (
-        <group>
-            {/* Surface de l'eau */}
-            <mesh rotation={[-Math.PI / 2, 0, 0]}>
-                <planeGeometry args={[8, 8, 64, 64]} />
-                <meshStandardMaterial color="#3B82F6" wireframe />
-            </mesh>
-
-            {/* Sources d'ondes */}
-            <mesh position={[-1, 0, 0]}>
-                <sphereGeometry args={[0.2, 16, 16]} />
-                <meshStandardMaterial color="white" />
-            </mesh>
-            <mesh position={[1, 0, 0]}>
-                <sphereGeometry args={[0.2, 16, 16]} />
-                <meshStandardMaterial color="white" />
-            </mesh>
-        </group>
-    );
-}
 
 // Composant principal de simulation 3D
 export default function Simulation3D({ type = 'atom', config = {} }) {
@@ -1536,6 +1232,10 @@ export default function Simulation3D({ type = 'atom', config = {} }) {
                 return <LensOptics />;
             case 'electrochemical':
                 return <ElectrochemicalCell />;
+            case 'magnetic-field':
+                return <MagneticField />;
+            case 'diffraction':
+                return <Diffraction />;
             default:
                 return <Atom {...config} />;
         }
