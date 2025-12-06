@@ -127,11 +127,11 @@ export const courses = [
         color: 'purple'
     },
     {
-        id: 'pc-wahab-2s',
+        id: 'phys-2s',
         level: 'Seconde',
         subject: 'Physique-Chimie',
         title: 'Physique (Wahab Diop) 2nde S',
-        description: 'Cours et exercices corrigés.',
+        description: 'Cours et exercices corrigés - Version interactive.',
         file: '/courses/Wahab Diop-PHYSIQUE WSS-lsll.pdf',
         icon: '⚛️',
         color: 'purple'
