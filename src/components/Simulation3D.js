@@ -816,6 +816,8 @@ export default function Simulation3D({ type = 'atom', config = {} }) {
                 return <ForcePhysics />;
             case 'immune':
                 return <ImmuneSystem />;
+            case 'human-body':
+                return <BloodStream />;
             case 'energy':
                 return <EnergyConservation />;
             default:

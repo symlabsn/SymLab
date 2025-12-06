@@ -516,47 +516,24 @@ export const simulationsCurriculum = {
                     physique: {
                         title: "Physique-Chimie",
                         simulations: [
-                            {
-                                id: "wave-interference",
-                                title: "Interférences d'Ondes",
-                                description: "Visualisez les phénomènes d'interférence lumineuse",
-                                difficulty: "moyen",
-                                duration: "30 min",
-                                icon: "🌊",
-                                tags: ["ondes", "lumière", "interférence"]
-                            },
-                            {
-                                id: "molecular-geometry",
-                                title: "Géométrie Moléculaire",
-                                description: "Construisez et visualisez des molécules en 3D",
-                                difficulty: "moyen",
-                                duration: "35 min",
-                                icon: "🔷",
-                                tags: ["molécules", "liaisons", "géométrie"]
-                            }
+                            { id: "rectilinear-motion", title: "Mouvement Rectiligne", description: "Vitesse, distance et temps", difficulty: "facile", duration: "20 min", icon: "🚗", tags: ["cinématique", "vitesse"] },
+                            { id: "refraction-light", title: "Réfraction de la Lumière", description: "Lois de Snell-Descartes", difficulty: "moyen", duration: "25 min", icon: "🌈", tags: ["optique", "lumière"] },
+                            { id: "light-spectrum", title: "Spectre Lumineux", description: "Dispersion par un prisme", difficulty: "facile", duration: "15 min", icon: "🎨", tags: ["lumière", "couleurs"] },
+                            { id: "gravitation-universal", title: "Gravitation Universelle", description: "Attraction entre les masses", difficulty: "moyen", duration: "30 min", icon: "🪐", tags: ["force", "newton"] },
+                            { id: "periodic-table", title: "Tableau Périodique", description: "Familles et classification", difficulty: "moyen", duration: "40 min", icon: "📊", tags: ["atomes", "chimie"] },
+                            { id: "molar-mass", title: "La Mole", description: "Quantité de matière", difficulty: "difficile", duration: "45 min", icon: "⚖️", tags: ["mole", "avogadro"] },
+                            { id: "magnetic-field-earth", title: "Champ Magnétique Terrestre", description: "Boussole et pôles", difficulty: "facile", duration: "20 min", icon: "🧭", tags: ["magnétisme", "terre"] },
+                            { id: "vision-eye", title: "L'Œil et la Vision", description: "Formation des images", difficulty: "moyen", duration: "30 min", icon: "👁️", tags: ["optique", "lentilles"] }
                         ]
                     },
                     svt: {
                         title: "SVT",
                         simulations: [
-                            {
-                                id: "cell-division",
-                                title: "Division Cellulaire (Mitose)",
-                                description: "Observez les étapes de la mitose en temps réel",
-                                difficulty: "moyen",
-                                duration: "30 min",
-                                icon: "🔬",
-                                tags: ["cellule", "mitose", "chromosomes"]
-                            },
-                            {
-                                id: "ecosystem-dynamics",
-                                title: "Dynamique des Écosystèmes",
-                                description: "Simulez les interactions dans un écosystème",
-                                difficulty: "moyen",
-                                duration: "40 min",
-                                icon: "🌳",
-                                tags: ["écologie", "chaîne alimentaire", "biodiversité"]
-                            }
+                            { id: "cell-respiration", title: "Respiration Cellulaire", description: "Production d'énergie", difficulty: "moyen", duration: "35 min", icon: "⚡", tags: ["énergie", "cellule"] },
+                            { id: "body-effort", title: "Organisme à l'Effort", description: "Adaptations physiologiques", difficulty: "facile", duration: "25 min", icon: "🏃", tags: ["cœur", "poumons"] },
+                            { id: "cell-division", title: "Division Cellulaire (Mitose)", description: "Cycle cellulaire", difficulty: "moyen", duration: "30 min", icon: "🔬", tags: ["cellule", "mitose"] },
+                            { id: "ecosystem-dynamics", title: "Dynamique des Écosystèmes", description: "Interactions", difficulty: "moyen", duration: "40 min", icon: "🌳", tags: ["écologie"] },
+                            { id: "homeostasis-regulation", title: "Régulation Glycémie", description: "Insuline et Glucagon", difficulty: "moyen", duration: "30 min", icon: "🍭", tags: ["hormones", "santé"] }
                         ]
                     }
                 }
@@ -567,113 +544,53 @@ export const simulationsCurriculum = {
                     physique: {
                         title: "Physique-Chimie",
                         simulations: [
-                            {
-                                id: "electromagnetic-induction",
-                                title: "Induction Électromagnétique",
-                                description: "Expérimentez avec les champs magnétiques et le courant",
-                                difficulty: "difficile",
-                                duration: "40 min",
-                                icon: "🧲",
-                                tags: ["électromagnétisme", "induction", "Faraday"]
-                            },
-                            {
-                                id: "acid-base-titration",
-                                title: "Dosage Acide-Base",
-                                description: "Réalisez un titrage virtuel avec indicateurs colorés",
-                                difficulty: "difficile",
-                                duration: "35 min",
-                                icon: "🧪",
-                                tags: ["chimie", "pH", "titrage"]
-                            }
+                            { id: "energy-conservation-skater", title: "Conservation de l'Énergie", description: "Cinétique et Potentielle", difficulty: "moyen", duration: "30 min", icon: "skateboard", tags: ["énergie", "mécanique"] },
+                            { id: "electromagnetic-induction", title: "Induction Électromagnétique", description: "Champs et courants", difficulty: "difficile", duration: "40 min", icon: "🧲", tags: ["aimant", "bobine"] },
+                            { id: "molar-concentration", title: "Concentration Molaire", description: "Solutions et dilutions", difficulty: "moyen", duration: "30 min", icon: "🧪", tags: ["chimie", "dosage"] },
+                            { id: "quality-control-titration", title: "Contrôle Qualité", description: "Titrage colorimétrique", difficulty: "moyen", duration: "40 min", icon: "🌡️", tags: ["dosage", "chimie"] },
+                            { id: "molecular-geometry", title: "Géométrie Moléculaire", description: "Modèle VSEPR", difficulty: "difficile", duration: "45 min", icon: "🔷", tags: ["atomes", "espace"] },
+                            { id: "electrolysis", title: "Électrolyse", description: "Réactions forcées", difficulty: "difficile", duration: "40 min", icon: "🔋", tags: ["redox", "pile"] }
                         ]
                     },
                     svt: {
                         title: "SVT",
                         simulations: [
-                            {
-                                id: "protein-synthesis",
-                                title: "Synthèse des Protéines",
-                                description: "Visualisez la transcription et la traduction de l'ADN",
-                                difficulty: "difficile",
-                                duration: "40 min",
-                                icon: "🧬",
-                                tags: ["ADN", "ARN", "protéines"]
-                            },
-                            {
-                                id: "advanced-photosynthesis",
-                                title: "Photosynthèse Avancée",
-                                description: "Explorez en détail les réactions lumineuses et le cycle de Calvin",
-                                difficulty: "difficile",
-                                duration: "45 min",
-                                icon: "🌿",
-                                tags: ["photosynthèse", "chloroplaste", "ATP"]
-                            }
+                            { id: "enzymatic-catalysis", title: "Catalyse Enzymatique", description: "Vitesse de réaction", difficulty: "difficile", duration: "40 min", icon: "🔑", tags: ["enzyme", "protéine"] },
+                            { id: "tectonics-plates", title: "Tectonique des Plaques", description: "Dérive et séismes", difficulty: "moyen", duration: "35 min", icon: "🌍", tags: ["géologie", "terre"] },
+                            { id: "greenhouse-effect", title: "Effet de Serre", description: "Bilan radiatif", difficulty: "moyen", duration: "25 min", icon: "🌡️", tags: ["climat", "réchauffement"] },
+                            { id: "protein-synthesis", title: "Synthèse des Protéines", description: "ADN vers Protéine", difficulty: "difficile", duration: "40 min", icon: "🧬", tags: ["génétique"] }
                         ]
                     }
                 }
             },
             terminale: {
-                title: "Terminale S (BAC)",
+                title: "Terminale S",
                 subjects: {
                     physique: {
                         title: "Physique-Chimie",
                         simulations: [
-                            {
-                                id: "quantum-mechanics",
-                                title: "Mécanique Quantique",
-                                description: "Visualisez les orbitales atomiques et la dualité onde-corpuscule",
-                                difficulty: "très difficile",
-                                duration: "50 min",
-                                icon: "⚛️",
-                                tags: ["quantique", "orbitales", "Schrödinger"]
-                            },
-                            {
-                                id: "radioactivity",
-                                title: "Radioactivité et Décroissance",
-                                description: "Simulez la désintégration radioactive",
-                                difficulty: "très difficile",
-                                duration: "45 min",
-                                icon: "☢️",
-                                tags: ["nucléaire", "radioactivité", "demi-vie"]
-                            },
-                            {
-                                id: "special-relativity",
-                                title: "Relativité Restreinte",
-                                description: "Explorez la dilatation du temps et la contraction des longueurs",
-                                difficulty: "très difficile",
-                                duration: "55 min",
-                                icon: "🚀",
-                                tags: ["Einstein", "relativité", "espace-temps"]
-                            }
+                            { id: "satellite-motion", title: "Mouvement des Satellites", description: "Lois de Kepler", difficulty: "difficile", duration: "45 min", icon: "🛰️", tags: ["gravitation", "espace"] },
+                            { id: "rc-circuit", title: "Circuit RC", description: "Condensateur", difficulty: "difficile", duration: "50 min", icon: "⚡", tags: ["électricité", "tps"] },
+                            { id: "wave-interference", title: "Interférences d'Ondes", description: "Fentes de Young", difficulty: "très difficile", duration: "50 min", icon: "🌊", tags: ["ondes", "lumière"] },
+                            { id: "diffraction-light", title: "Diffraction", description: "Nature ondulatoire", difficulty: "difficile", duration: "30 min", icon: "🌈", tags: ["lumière", "ondes"] },
+                            { id: "chemical-equilibrium", title: "Équilibre Chimique", description: "Quotient de réaction", difficulty: "difficile", duration: "45 min", icon: "⚖️", tags: ["chimie", "équilibre"] },
+                            { id: "acid-base-titration", title: "Dosage pH-métrique", description: "Suivi pH", difficulty: "difficile", duration: "45 min", icon: "⚗️", tags: ["chimie", "pH"] }
                         ]
                     },
                     svt: {
                         title: "SVT",
                         simulations: [
-                            {
-                                id: "synaptic-transmission",
-                                title: "Transmission Synaptique",
-                                description: "Visualisez la communication entre neurones",
-                                difficulty: "très difficile",
-                                duration: "40 min",
-                                icon: "🧠",
-                                tags: ["neurones", "synapse", "neurotransmetteurs"]
-                            },
-                            {
-                                id: "evolution-selection",
-                                title: "Évolution et Sélection Naturelle",
-                                description: "Simulez l'évolution des populations par sélection naturelle",
-                                difficulty: "très difficile",
-                                duration: "50 min",
-                                icon: "🦎",
-                                tags: ["évolution", "Darwin", "sélection"]
-                            }
+                            { id: "nerve-muscle-reflex", title: "Réflexe Myotatique", description: "Nerf et muscle", difficulty: "moyen", duration: "30 min", icon: "🦵", tags: ["nerf", "neurone"] },
+                            { id: "meiosis-diversity", title: "Méiose et Diversité", description: "Brassage génétique", difficulty: "difficile", duration: "45 min", icon: "🎲", tags: ["génétique", "reproduction"] },
+                            { id: "adaptive-immunity", title: "Immunité Adaptative", description: "Lymphocytes B et T", difficulty: "difficile", duration: "50 min", icon: "🛡️", tags: ["santé", "anticorps"] },
+                            { id: "geothermics", title: "Géothermie", description: "Énergie interne", difficulty: "moyen", duration: "30 min", icon: "🌋", tags: ["énergie", "terre"] }
                         ]
                     }
                 }
             }
         }
-    }
+    },
+
 };
 
 // Métadonnées pour les filtres et recherche

@@ -3,6 +3,1008 @@
 
 export const lyceeSimulationsData = {
     // ========== SECONDE ==========
+    'magnetic-field-earth': {
+        title: 'Champ Magnétique Terrestre',
+        description: 'Boussole et pôles magnétiques',
+        type: 'force',
+        config: {},
+        analogy: {
+            title: 'La Terre est un Aimant Géant',
+            content: `La Terre se comporte comme s'il y avait un énorme barreau aimanté en son centre ! 🌎🧲
+
+Le Pôle Nord géographique (en haut de la carte) attire le pôle NORD de la boussole.
+Donc... magnétiquement, c'est un Pôle SUD ! (Car les opposés s'attirent).
+C'est piégeux hein ?
+
+Ce champ magnétique nous protège des particules dangereuses du soleil (Vent solaire) comme un bouclier de force invisible.`
+        },
+        theory: `Champ Magnétique Terrestre
+La Terre possède un champ magnétique dipolaire généré par les mouvements de fer liquide dans le noyau externe (Effet dynamo).
+
+Boussole :
+- L'aiguille est un petit aimant.
+- Elle s'aligne sur les lignes de champ.
+- Indique le Nord Magnétique (légèrement différent du Nord Géographique, décalage = Déclinaison).
+
+Composantes du champ :
+- Horizontale (Bh)
+- Inclinaison (I) : Angle avec l'horizontale.`,
+        exercises: [
+            { question: 'Le pôle Nord de la boussole pointe vers...', options: ['Le Sud Magnétique (qui est au Nord Géographique)', 'Le Sud Géographique', 'L\'Est', 'Le ciel'], correct: 0, explanation: 'Le Nord de la boussole est attiré par le Sud magnétique terrestre (situé près du Pôle Nord géo).' },
+            { question: 'Quelle est l\'origine du champ magnétique terrestre ?', options: ['Des aimants enterrés', 'Le noyau de fer liquide', 'L\'atmosphère', 'La lune'], correct: 1, explanation: 'Les mouvements de convection du fer liquide dans le noyau externe créent le champ.' }
+        ],
+        relatedSimulations: ['electromagnetic-induction', 'forces-motion']
+    },
+    'homeostasis-regulation': {
+        title: 'Régulation de la Glycémie',
+        description: 'Insuline et Glucagon',
+        type: 'human-body',
+        config: {},
+        analogy: {
+            title: 'Le Thermostat du Sucre',
+            content: `Ton corps veut toujours avoir environ 1g de sucre par litre de sang. C'est la loi ! 🍬👮
+
+Si tu manges trop de bonbons (Hyperglycémie) :
+Le Pancréas envoie l'Insuline (les maçons) qui stocke le sucre dans le foie et les muscles.
+
+Si tu as faim et que tu cours (Hypoglycémie) :
+Le Pancréas envoie le Glucagon (les démolisseurs) qui casse les stocks pour libérer du sucre dans le sang.
+
+C'est un équilibre constant pour ne pas tomber dans les pommes ou abîmer les organes.`
+        },
+        theory: `Homéostasie : La Glycémie
+Maintien de la concentration de glucose sanguin (environ 1 g/L).
+
+Organe capteur et effecteur : Pancréas (Îlots de Langerhans).
+1. Cellules Bêta : Sécrètent l'Insuline (Hypoglycémiante) quand la glycémie monte.
+   - Favorise le stockage (Glycogénogenèse) dans le foie/muscles.
+   - Favorise l'entrée du glucose dans les cellules.
+
+2. Cellules Alpha : Sécrètent le Glucagon (Hyperglycémiante) quand la glycémie baisse.
+   - Favorise le déstockage (Glycogénolyse) hépatique.
+
+Diabète : Dysfonctionnement de ce système.`,
+        exercises: [
+            { question: 'Quelle hormone fait baisser le sucre dans le sang ?', options: ['Glucagon', 'Adrénaline', 'Insuline', 'Vitamine C'], correct: 2, explanation: 'L\'Insuline est la seule hormone hypoglycémiante.' },
+            { question: 'Où est stocké le glucose en réserve ?', options: ['Dans l\'estomac', 'Dans le foie et les muscles', 'Dans le cerveau', 'Dans les os'], correct: 1, explanation: 'Sous forme de Glycogène dans le foie et les muscles.' }
+        ],
+        relatedSimulations: ['physiological-changes', 'digestive-system']
+    },
+    'vision-eye': {
+        title: 'L\'Œil et la Vision',
+        description: 'Formation des images et lentilles',
+        type: 'wave',
+        config: {},
+        analogy: {
+            title: 'L\'Œil est un Appareil Photo',
+            content: `Ton œil fonctionne exactement comme une caméra ! 📷👁️
+
+- La Cornée et le Cristallin sont l'Objectif (Lentilles) : Ils font converger la lumière.
+- La Pupille est le Diaphragme : Elle s'ouvre ou se ferme selon la lumière.
+- La Rétine est le Capteur (Pellicule) : L'image s'imprime dessus... mais à l'envers !
+- Le Cerveau est l'Ordinateur : Il remet l'image à l'endroit.
+
+Si le cristallin est trop bombé (Myope), l'image se forme AVANT la rétine (flou de loin).
+S'il est trop plat (Hypermétrope), l'image se forme APRÈS la rétine (flou de près).`
+        },
+        theory: `Optique de l'Œil
+L'œil est un système optique convergent.
+
+Composants optiques :
+1. Cristallin : Lentille biconvexe souple.
+2. Accommodation : Le cristallin se bombe pour voir de près (augmente sa vergence).
+3. Rétine : Écran où se forme l'image (réelle et renversée).
+
+Défauts :
+- Myopie : Œil trop long ou trop convergent. Correction : Lentille divergente.
+- Hypermétropie : Œil trop court. Correction : Lentille convergente.
+- Presbytie : Le cristallin perd sa souplesse (ne peut plus accommoder).`,
+        exercises: [
+            { question: 'Sur la rétine, l\'image est...', options: ['À l\'endroit', 'À l\'envers', 'En noir et blanc', 'Floue'], correct: 1, explanation: 'L\'image formée par une lentille convergente (cristallin) est réelle et renversée.' },
+            { question: 'Pour corriger la myopie, on utilise une lentille...', options: ['Convergente', 'Divergente', 'Opaque', 'Neutre'], correct: 1, explanation: 'Le myope voit flou car ça converge trop tôt, il faut faire diverger la lumière.' }
+        ],
+        relatedSimulations: ['refraction-light', 'light-reflection']
+    },
+    'diffraction-light': {
+        title: 'Diffraction de la Lumière',
+        description: 'Nature ondulatoire de la lumière',
+        type: 'wave',
+        config: {},
+        analogy: {
+            title: 'La Lumière qui contourne les obstacles',
+            content: `Si tu cries derrière un mur, on t'entend. Le son contourne le mur. C'est la Diffraction. 🗣️🧱
+La lumière fait pareil, mais seulement si le trou est tout petit (minuscule) !
+
+Si la lumière passe par un trou d'épingle ou un cheveu, elle ne va pas tout droit. Elle s'étale !
+Ça prouve que la lumière est une ONDE (comme des vagues), pas juste des billes.`
+        },
+        theory: `Diffraction
+Modification de la direction de propagation d'une onde lorsqu'elle rencontre une ouverture ou un obstacle de dimension proche de sa longueur d'onde.
+
+Relation :
+θ = λ / a
+- θ : Écart angulaire (demi-largeur tache centrale).
+- λ : Longueur d'onde.
+- a : Taille de l'ouverture/obstacle.
+
+Plus l'ouverture est petite (a petit), plus ça diffracte (θ grand, la tache s'étale).`,
+        exercises: [
+            { question: 'La diffraction est plus visible si le trou est...', options: ['Très grand', 'Très petit', 'Carré', 'Rond'], correct: 1, explanation: 'Il faut que la taille du trou soit proche de la longueur d\'onde (très petite).' },
+            { question: 'La diffraction prouve que la lumière est...', options: ['Une particule', 'Une onde', 'De la chaleur', 'Magnétique'], correct: 1, explanation: 'C\'est une caractéristique des ondes.' }
+        ],
+        relatedSimulations: ['wave-interference', 'refraction-light']
+    },
+    'electrolysis': {
+        title: 'Électrolyse',
+        description: 'Réactions chimiques forcées par le courant',
+        type: 'chemical',
+        config: {},
+        analogy: {
+            title: 'Remonter le Courant de la Rivière',
+            content: `Dans une pile, la chimie crée de l'électricité (ça descend la rivière tout seul).
+Dans l'électrolyse, on utilise l'électricité pour FORCER une réaction chimique (on remonte la rivière à la rame) ! 🚣⚡
+
+On branche un générateur.
+- Il arrache les électrons d'un côté (Oxydation forcée).
+- Il les pousse de l'autre (Réduction forcée).
+
+C'est comme ça qu'on recharge ton téléphone ou qu'on plaque de l'or sur des bijoux !`
+        },
+        theory: `Électrolyse
+Transformation chimique forcée par le passage d'un courant électrique imposé par un générateur.
+Réaction inverse de la transformation spontanée.
+
+Pôles :
+- Anode (+) : Reliée au + du générateur. Oxydation (départ e⁻).
+- Cathode (-) : Reliée au - du générateur. Réduction (arrivée e⁻).
+
+Attention : Dans l'électrolyse, l'Anode est POSITIVE (contraire de la pile) ! Mais c'est toujours le siège de l'Oxydation.`,
+        exercises: [
+            { question: 'L\'électrolyse est une transformation...', options: ['Spontanée', 'Forcée', 'Naturelle', 'Rapide'], correct: 1, explanation: 'Elle nécessite un apport d\'énergie électrique externe.' },
+            { question: 'À la cathode (-), on a...', options: ['Une oxydation', 'Une réduction', 'Rien', 'Une explosion'], correct: 1, explanation: 'Cathode = Réduction (Consonne/Consonne).' }
+        ],
+        relatedSimulations: ['redox-reactions', 'ions-formation']
+    },
+    'quality-control-titration': {
+        title: 'Contrôle Qualité par Titrage',
+        description: 'Vérification de la teneur d\'un produit',
+        type: 'chemical',
+        config: {},
+        analogy: {
+            title: 'L\'Inspecteur des Étiquettes',
+            content: `Sur la bouteille de lait, c'est écrit "contient 10g de calcium". Vrai ou Faux ? 🥛🕵️
+Le chimiste fait un Titrage pour vérifier.
+
+Il prend le lait, et ajoute goutte à goutte un réactif qui "mange" le calcium.
+Il compte combien de gouttes il faut pour tout manger.
+S'il faut beaucoup de gouttes, c'est qu'il y a beaucoup de calcium !
+
+Si le résultat n'est pas bon, l'usine a triché (ou s'est trompée) !`
+        },
+        theory: `Titrage et Contrôle Qualité
+Utilisation du titrage pour vérifier une indication (concentration, masse, degré d'acidité).
+
+Méthodes :
+- Colorimétrique (changement couleur).
+- pH-métrique (suivi pH).
+- Conductimétrique (suivi conductivité).
+
+Calcul :
+À l'équivalence : n(titré) = n(titrant) / coeff
+m = n · M
+On compare la masse trouvée à la valeur affichée (écart relatif).`,
+        exercises: [
+            { question: 'Le but d\'un titrage est de...', options: ['Créer un nouveau produit', 'Déterminer une quantité inconnue', 'Chauffer la solution', 'Changer la couleur'], correct: 1, explanation: 'C\'est une méthode d\'analyse quantitative.' },
+            { question: 'L\'écart relatif permet de évaluer...', options: ['La température', 'La précision/justesse par rapport à la théorie', 'Le temps', 'Le coût'], correct: 1, explanation: 'C\'est l\'erreur en pourcentage entre la valeur mesurée et la valeur théorique.' }
+        ],
+        relatedSimulations: ['acid-base-titration', 'molar-concentration']
+    },
+    'meiosis-diversity': {
+        title: 'Méiose et Diversité',
+        description: 'Brassage génétique et formation des gamètes',
+        type: 'cell',
+        config: {},
+        analogy: {
+            title: 'Le Grand Mélange des Cartes',
+            content: `Pourquoi n'es-tu pas la copie conforme de ton frère ou ta sœur ? 🃏👨‍👩‍👧‍👦
+C'est grâce à la Méiose !
+
+Quand on fabrique les spermatozoïdes ou les ovules :
+1. Brassage Interchromosomique : On mélange les chromosomes de Papy et Mamy au hasard. (Comme battre un jeu de cartes).
+2. Brassage Intrachromosomique (Crossing-over) : Les chromosomes s'échangent des morceaux ! (Comme si on coupait et recollait des bouts de cartes).
+
+Résultat : Chaque bébé est une combinaison unique et inédite !`
+        },
+        theory: `Méiose et Diversité Génétique
+La méiose produit 4 cellules haploïdes (n) à partir d'une cellule diploïde (2n).
+
+1. Brassage Intrachromosomique (Prophase I)
+- Échange de segments entre chromosomes homologues (Crossing-over).
+- Création de nouvelles combinaisons d'allèles.
+
+2. Brassage Interchromosomique (Anaphase I)
+- Séparation aléatoire des chromosomes homologues.
+- 2^23 combinaisons possibles chez l'homme !
+
+Fécondation : Rencontre aléatoire des gamètes, amplifie encore la diversité.`,
+        exercises: [
+            { question: 'La méiose produit...', options: ['2 cellules identiques', '4 cellules génétiquement différentes', '2 cellules différentes', '4 cellules identiques'], correct: 1, explanation: '4 gamètes tous différents grâce aux brassages.' },
+            { question: 'Le crossing-over a lieu en...', options: ['Prophase I', 'Métaphase I', 'Anaphase II', 'Télophase'], correct: 0, explanation: 'Lors de l\'appariement des homologues en début de méiose.' }
+        ],
+        relatedSimulations: ['dna-replication', 'cell-division']
+    },
+    'adaptive-immunity': {
+        title: 'Immunité Adaptative',
+        description: 'Lymphocytes B et T',
+        type: 'immune',
+        config: {},
+        analogy: {
+            title: 'Les Forces Spéciales du Corps',
+            content: `L'Immunité Innée (globules blancs normaux) tire sur tout ce qui bouge.
+L'Immunité Adaptative (LB et LT), c'est le GIGN ! 👮‍♂️🎯
+
+1. Ils identifient l'ennemi précis (Virus X ou Y).
+2. Les Lymphocytes B (B pour Bombardiers) fabriquent des missiles téléguidés (Anticorps) spécifiques à cet ennemi.
+3. Les Lymphocytes T (T pour Tueurs) vont au corps-à-corps détruire les cellules infectées (Le "Baiser de la mort").
+
+Ils gardent une MÉMOIRE. La prochaine fois que le virus revient, ils l'éliminent avant même que tu tombes malade !`
+        },
+        theory: `Immunité Adaptative (Spécifique)
+Intervient après l'immunité innée si l'infection persiste.
+
+1. Lymphocytes B (LB)
+- Immunité à médiation humorale.
+- Se différencient en Plasmocytes sécréteurs d'ANTICORPS.
+- Anticorps neutralisent les antigènes circulants.
+
+2. Lymphocytes T (LT)
+- LT CD4 (Auxiliaires) : Chefs d'orchestre, activent les autres.
+- LT CD8 (Cytotoxiques) : Détruisent les cellules infectées (Lyse).
+
+3. Mémoire Immunitaire : Base de la vaccination.`,
+        exercises: [
+            { question: 'Qui produit les anticorps ?', options: ['Les Lymphocytes T', 'Les Lymphocytes B (Plasmocytes)', 'Les Macrophages', 'Les globules rouges'], correct: 1, explanation: 'Les LB se transforment en usines à anticorps.' },
+            { question: 'Quel est le rôle des LT CD8 ?', options: ['Manger les bactéries', 'Produire des anticorps', 'Tuer les cellules infectées', 'Transporter l\'oxygène'], correct: 2, explanation: 'Ce sont des tueurs (cytotoxiques) qui détruisent les cellules corrompues.' }
+        ],
+        relatedSimulations: ['immune-system', 'cell-metabolism']
+    },
+    'geothermics': {
+        title: 'Géothermie',
+        description: 'L\'énergie de la Terre',
+        type: 'tectonics',
+        config: {},
+        analogy: {
+            title: 'La Bouilloire Souterraine',
+            content: `Sous nos pieds, ça chauffe ! 🌋🔥
+Plus on creuse, plus il fait chaud (Gradient géothermique).
+
+La Terre est comme une bouilloire qui ne s'éteint jamais (grâce à la radioactivité des roches).
+On peut utiliser cette chaleur pour :
+- Chauffer des maisons (Géothermie basse énergie).
+- Faire tourner des turbines et faire de l'électricité (Géothermie haute énergie, comme en Islande).
+
+C'est une énergie renouvelable et propre !`
+        },
+        theory: `Géothermie
+Exploitation de la chaleur interne de la Terre.
+
+Origine de la chaleur :
+- Désintégration radioactive (Uranium, Thorium, Potassium) dans le manteau/croûte.
+- Chaleur résiduelle de la formation de la Terre.
+
+Utilisation :
+1. Très basse énergie : Pompe à chaleur (maison).
+2. Basse énergie : Chauffage urbain (nappes chaudes).
+3. Haute énergie : Production d'électricité (Vapeur sous pression).
+
+Gradient géothermique moyen : +30°C par km de profondeur.`,
+        exercises: [
+            { question: 'D\'où vient la chaleur de la Terre ?', options: ['Du soleil', 'De la radioactivité des roches', 'Du magma uniquement', 'Des volcans'], correct: 1, explanation: 'Principalement de la désintégration des éléments radioactifs naturels.' },
+            { question: 'La géothermie est une énergie...', options: ['Fossile', 'Polluante', 'Renouvelable', 'Intermittente'], correct: 2, explanation: 'La chaleur de la Terre est inépuisable à notre échelle.' }
+        ],
+        relatedSimulations: ['radioactivity', 'tectonics-plates']
+    },
+    'rectilinear-motion': {
+        title: 'Mouvement Rectiligne',
+        description: 'Vitesse, distance et temps',
+        type: 'force',
+        config: {},
+        analogy: {
+            title: 'Le Taxi-Brousse sur l\'Autoroute',
+            content: `Le mouvement rectiligne uniforme, c'est comme un taxi-brousse sur l'autoroute à péage ! 🚐💨
+
+Si le chauffeur bloque son compteur à 100 km/h :
+- En 1 heure, il parcourt 100 km.
+- En 2 heures, il parcourt 200 km.
+C'est régulier, ça ne change pas. C'est "Uniforme".
+
+Si le chauffeur accélère pour doubler (Mouvement Accéléré), sa vitesse augmente.
+S'il freine pour le péage (Mouvement Décéléré), sa vitesse diminue.
+
+La distance, c'est comme le nombre de bornes kilométriques qu'il a passées.`
+        },
+        theory: `Mouvement et Vitesse
+1. Référentiel : Objet par rapport auquel on étudie le mouvement (ex: le sol).
+2. Trajectoire : Ensemble des positions occupées. Regtiligne = Ligne droite.
+3. Vitesse Moyenne : v = d / t (Distance / Temps).
+4. Mouvement Rectiligne Uniforme (MRU) : Vitesse constante.
+5. Mouvement Rectiligne Varié : La vitesse change (Accélération/Décélération).`,
+        exercises: [
+            { question: 'Si je fais 100km en 2h, quelle est ma vitesse ?', options: ['20 km/h', '50 km/h', '200 km/h', '100 km/h'], correct: 1, explanation: 'v = d/t = 100/2 = 50 km/h.' },
+            { question: 'Dans un MRU, l\'accélération est...', options: ['Constante', 'Nulle', 'Positive', 'Variable'], correct: 1, explanation: 'Si la vitesse est constante, l\'accélération est nulle (pas de changement).' }
+        ],
+        relatedSimulations: ['forces-motion', 'energy-conservation']
+    },
+    'refraction-light': {
+        title: 'Réfraction de la Lumière',
+        description: 'Loi de Snell-Descartes et déviation',
+        type: 'wave',
+        config: {},
+        analogy: {
+            title: 'Le Bâton Cassé dans l\'Eau',
+            content: `As-tu déjà mis un bâton dans l'eau ? On dirait qu'il est cassé ! 🥢💧
+C'est la Réfraction.
+
+Imagine une voiture qui roule sur le goudron (l'air, rapide) et qui arrive dans le sable (l'eau, lent) en biais.
+La roue qui touche le sable en premier ralentit, l'autre continue vite.
+Résultat : La voiture tourne brusquement !
+
+La lumière fait pareil quand elle change de milieu (Air -> Eau). Elle change de direction.`
+        },
+        theory: `Loi de Snell-Descartes
+n₁ · sin(i₁) = n₂ · sin(i₂)
+
+- n₁ et n₂ : Indices de réfraction des milieux (Air ≈ 1, Eau ≈ 1.33, Verre ≈ 1.5).
+- i₁ : Angle d'incidence.
+- i₂ : Angle de réfraction.
+
+Plus le milieu est "dense" optiquement (n grand), plus la lumière est freinée et se rapproche de la normale.`,
+        exercises: [
+            { question: 'Pourquoi le bâton semble brisé dans l\'eau ?', options: ['Magie', 'Réflexion', 'Réfraction', 'Diffraction'], correct: 2, explanation: 'C\'est la réfraction : la lumière change de direction en changeant de milieu.' },
+            { question: 'Si la lumière passe de l\'air à l\'eau, elle...', options: ['Accélère', 'Ralentit', 'Garde la même vitesse', 'S\'arrête'], correct: 1, explanation: 'Elle ralentit car l\'eau est plus réfringente que l\'air.' }
+        ],
+        relatedSimulations: ['light-reflection', 'wave-interference']
+    },
+    'light-spectrum': {
+        title: 'Spectres Lumineux',
+        description: 'Dispersion par un prisme et arc-en-ciel',
+        type: 'wave',
+        config: {},
+        analogy: {
+            title: 'L\'Arc-en-Ciel du Prisme',
+            content: `La lumière blanche du soleil est un mélange de toutes les couleurs ! 🌈
+Le prisme (ou la goutte de pluie) est comme un trieur.
+
+Le Rouge est le plus costaud, il est peu dévié.
+Le Violet est le plus fragile, il est très dévié.
+
+Résultat : Ils sont séparés à la sortie ! C'est comme trier des billes en les lançant dans un virage.`
+        },
+        theory: `Dispersion de la Lumière
+La lumière blanche est polychromatique (plusieurs longueurs d'onde).
+L'indice de réfraction du verre dépend de la longueur d'onde (couleur).
+- Le Violet (400nm) est plus dévié.
+- Le Rouge (800nm) est moins dévié.
+
+Spectre d'émission : Lumière émise par un gaz chaud (raies colorées sur fond noir).
+Spectre d'absorption : Lumière traversant un gaz froid (raies noires sur fond coloré).`,
+        exercises: [
+            { question: 'Quelle couleur est la plus déviée par un prisme ?', options: ['Rouge', 'Vert', 'Violet', 'Jaune'], correct: 2, explanation: 'Le Violet a la plus courte longueur d\'onde et est le plus dévié.' },
+            { question: 'Un corps chaud émet un spectre...', options: ['De raies', 'Continu', 'D\'absorption', 'Sonore'], correct: 1, explanation: 'Un corps chaud (comme le soleil ou une lampe) émet un spectre continu.' }
+        ],
+        relatedSimulations: ['refraction-light', 'wave-interference']
+    },
+    'gravitation-universal': {
+        title: 'Gravitation Universelle',
+        description: 'Attraction entre les masses',
+        type: 'force',
+        config: {},
+        analogy: {
+            title: 'L\'Aimant Universel',
+            content: `Tout attire tout dans l'univers ! 🌍🌕
+La Terre attire la Lune, mais la Lune attire aussi la Terre !
+
+C'est comme deux aimants.
+Plus ils sont gros (Masse), plus ils s'attirent fort.
+Plus ils sont loin (Distance), moins ils s'attirent.
+
+C'est cette force invisible qui garde nos pieds sur terre et la Lune dans le ciel.`
+        },
+        theory: `Loi de la Gravitation (Newton)
+F = G · (mA · mB) / d²
+
+- F : Force d'attraction (N)
+- G : Constante universelle (6.67 x 10⁻¹¹ N·m²/kg²)
+- mA, mB : Masses des corps (kg)
+- d : Distance entre les centres (m)
+
+La force diminue très vite quand la distance augmente (loi en carré inverse).`,
+        exercises: [
+            { question: 'Si la distance double, la force...', options: ['Double', 'Reste pareille', 'Est divisée par 2', 'Est divisée par 4'], correct: 3, explanation: 'La force est divisée par d² = 2² = 4.' },
+            { question: 'La force exercée par la Terre sur la Lune est...', options: ['Plus grande que celle de la Lune sur Terre', 'Plus petite', 'Égale', 'Nulle'], correct: 2, explanation: 'Action-Réaction : Les forces sont égales en intensité (mais opposées).' }
+        ],
+        relatedSimulations: ['weight-mass-relation', 'forces-motion']
+    },
+    'periodic-table': {
+        title: 'Tableau Périodique',
+        description: 'Classification des éléments chimiques',
+        type: 'atom',
+        config: {},
+        analogy: {
+            title: 'L\'Hôtel des Éléments',
+            content: `Le tableau périodique est un grand hôtel pour atomes ! 🏨
+- Les étages (Lignes/Périodes) : Plus on monte, plus les atomes ont de couches d'électrons.
+- Les chambres (Colonnes/Familles) : Tous les atomes d'une même colonne se ressemblent (même nombre d'électrons sur le balcon/couche externe).
+
+Colonne 1 (Alcalins) : Ils sont très réactifs, ils veulent donner 1 électron.
+Colonne 18 (Gaz Nobles) : Ce sont les riches satisfaits, ils ne réagissent avec personne.`
+        },
+        theory: `Classification Périodique (Mendeleïev)
+- Classés par numéro atomique Z croissant.
+- Périodes (Lignes) : Nombre de couches électroniques (K, L, M...).
+- Familles (Colonnes) : Même configuration électronique externe.
+  - Col 1 : Alcalins (ns¹)
+  - Col 2 : Alcalino-terreux (ns²)
+  - Col 17 : Halogènes (ns²np⁵)
+  - Col 18 : Gaz Nobles (ns²np⁶, stables)`,
+        exercises: [
+            { question: 'Les éléments de la même colonne ont...', options: ['La même masse', 'La même taille', 'Les mêmes propriétés chimiques', 'Le même nom'], correct: 2, explanation: 'Ils ont la même structure externe, donc les mêmes propriétés chimiques.' },
+            { question: 'Quel est le gaz noble de la période 1 ?', options: ['Hélium', 'Néon', 'Argon', 'Krypton'], correct: 0, explanation: 'L\'Hélium (He) est le gaz noble de la première ligne.' }
+        ],
+        relatedSimulations: ['atomic-structure', 'ions-formation']
+    },
+    'mole-concept': {
+        title: 'La Mole',
+        description: 'Quantité de matière et nombre d\'Avogadro',
+        type: 'atom',
+        config: {},
+        analogy: {
+            title: 'La Mole, c\'est comme la "Douzaine" des chimistes',
+            content: `Les atomes sont trop petits pour être comptés un par un.
+Alors les chimistes les comptent par "paquets", comme un vendeur d'œufs compte par "plateaux". 🥚📦
+
+Une "Mole", c'est juste un GIGA paquet !
+Ce paquet contient toujours 6,02 x 10²³ atomes (Nombre d'Avogadro).
+
+C'est colossal ! Si tu avais une mole de grains de riz, ça recouvrirait tout le Sénégal sur des kilomètres de haut !`
+        },
+        theory: `La Mole (n)
+Unité de quantité de matière.
+- Nombre d'Avogadro (NA) = 6.022 x 10²³ mol⁻¹
+- Relation : N = n · NA (N = nombre d'entités)
+
+Masse Molaire (M) : Masse d'une mole d'atomes (en g/mol).
+- n = m / M
+  (m en g, M en g/mol)
+
+Volume Molaire (Vm) : Pour les gaz.
+- n = V / Vm (Vm ≈ 22.4 ou 24 L/mol selon T°C)`,
+        exercises: [
+            { question: 'Combien d\'atomes dans 2 moles de Carbone ?', options: ['12', '6.02 x 10²³', '12.04 x 10²³', '24'], correct: 2, explanation: '2 x NA = 2 x 6.02x10²³ = 12.04 x 10²³.' },
+            { question: 'Quelle est l\'unité de la masse molaire ?', options: ['g', 'mol', 'g/mol', 'kg'], correct: 2, explanation: 'Grammes par mole (g/mol).' }
+        ],
+        relatedSimulations: ['atomic-structure', 'chemical-reactions']
+    },
+    'molar-concentration': {
+        title: 'Concentration Molaire',
+        description: 'Solutions et dilution',
+        type: 'chemical',
+        config: {},
+        analogy: {
+            title: 'Le Sirop de Menthe',
+            content: `La concentration, c'est la "force" de ton sirop ! 🥤
+- Si tu mets beaucoup de sirop dans peu d'eau : C'est concentré (fort).
+- Si tu rajoutes de l'eau : Tu dilues (ça devient moins fort).
+
+La quantité de sirop (moles) ne change pas quand tu rajoutes de l'eau, mais le volume total augmente, donc la concentration baisse.`
+        },
+        theory: `Concentration Molaire (C)
+C = n / V
+- C : Concentration (mol/L)
+- n : Quantité de matière (mol)
+- V : Volume de solution (L)
+
+Dilution :
+On conserve la quantité de matière : n_initiale = n_finale
+Ci · Vi = Cf · Vf
+(La concentration baisse car le volume augmente)`,
+        exercises: [
+            { question: 'Si je double le volume d\'eau, la concentration...', options: ['Double', 'Est divisée par 2', 'Ne change pas', 'Devient nulle'], correct: 1, explanation: 'C = n/V. Si V double, C est divisée par 2.' },
+            { question: 'L\'unité de la concentration molaire est...', options: ['g/L', 'mol/L', 'L/mol', '%'], correct: 1, explanation: 'Moles par Litre (mol/L).' }
+        ],
+        relatedSimulations: ['solutions-solubility', 'acid-base-titration']
+    },
+    'cell-metabolism': {
+        title: 'Métabolisme Cellulaire',
+        description: 'Respiration et Fermentation',
+        type: 'cell',
+        config: {},
+        analogy: {
+            title: 'Le Moteur Hybride de la Cellule',
+            content: `Ta cellule est comme une voiture hybride ! 🚗⚡
+Elle a besoin d'énergie (ATP) pour avancer.
+
+1. Respiration (Moteur Essence) : Utilise de l'Oxygène. C'est très efficace (36 ATP), ça va loin, mais ça pollue un peu (CO₂). Se passe dans les mitochondries.
+2. Fermentation (Moteur Électrique de secours) : Sans Oxygène. C'est peu efficace (2 ATP), c'est pour les petits trajets ou quand on étouffe (sprint).`
+        },
+        theory: `Métabolisme Énergétique
+Ensemble des réactions chimiques produisant de l'énergie.
+
+1. Respiration Cellulaire (Aérobie)
+- Utilise O₂
+- Combiustion complète du glucose
+- Glucose + 6O₂ → 6CO₂ + 6H₂O + 36 ATP
+- Haut rendement
+
+2. Fermentation (Anaérobie)
+- Sans O₂
+- Dégradation incomplète
+- Lactique (muscles) ou Alcoolique (levures)
+- Faible rendement (2 ATP)`,
+        exercises: [
+            { question: 'Quel processus produit le plus d\'énergie ?', options: ['Fermentation', 'Respiration', 'Digestion', 'Photosynthèse'], correct: 1, explanation: 'La respiration produit ~36 ATP contre 2 pour la fermentation.' },
+            { question: 'Quel gaz est nécessaire pour la respiration ?', options: ['CO₂', 'N₂', 'O₂', 'Méthane'], correct: 2, explanation: 'Le Dioxygène (O₂) est le carburant comburant.' }
+        ],
+        relatedSimulations: ['respiration-human', 'photosynthesis']
+    },
+    'solar-energy-flux': {
+        title: 'Flux d\'Énergie Solaire',
+        description: 'Albédo et Effet de serre',
+        type: 'water-cycle',
+        config: {},
+        analogy: {
+            title: 'La Terre sous une Couverture',
+            content: `L'Effet de Serre, c'est comme dormir sous une couverture épaisse ! 🛌
+Le soleil chauffe la Terre (la chaleur entre).
+La Terre essaie de renvoyer la chaleur vers l'espace.
+Mais les Gaz à Effet de Serre (CO₂, Méthane) agissent comme la couverture : ils gardent une partie de la chaleur.
+Sans ça, il ferait -18°C ! (On gèlerait).
+Mais avec trop de couvertures (pollution), on a trop chaud (Réchauffement Climatique) !
+
+L'Albédo, c'est le miroir : La glace blanche renvoie tout le soleil. L'océan noir absorbe tout.`
+        },
+        theory: `Bilan Radiatif Terrestre
+Le soleil envoie de l'énergie (Rayonnement solaire).
+
+1. Albédo : Pourcentage d'énergie réfléchie directement par l'atmosphère et le sol. (Moyenne Terre ≈ 30%).
+- Glace : fort albédo
+- Forêt/Océan : faible albédo
+
+2. Effet de Serre :
+- Le sol absorbe le solaire et réémet des Infrarouges (IR).
+- Les gaz (H₂O, CO₂, CH₄) absorbent ces IR et réchauffent l'atmosphère.
+- Indispensable à la vie, mais dangereux si amplifié.`,
+        exercises: [
+            { question: 'Si la glace fond, l\'albédo de la Terre...', options: ['Augmente', 'Diminue', 'Reste stable', 'S\'annule'], correct: 1, explanation: 'L\'océan sombre absorbe plus que la glace blanche. Donc l\'albédo baisse (et ça chauffe plus !).' },
+            { question: 'Quel est le principal gaz à effet de serre naturel ?', options: ['CO₂', 'Vapeur d\'eau', 'Ozone', 'Azote'], correct: 1, explanation: 'La vapeur d\'eau est le principal gaz à effet de serre naturel.' }
+        ],
+        relatedSimulations: ['water-cycle', 'ecosystem-dynamics']
+    },
+    'physiological-changes': {
+        title: 'Physiologie à l\'Effort',
+        description: 'Adaptation du corps au sport',
+        type: 'human-body',
+        config: {},
+        analogy: {
+            title: 'Le Corps en Mode Turbo',
+            content: `Quand tu cours, ton corps passe en mode Turbo ! 🏃💨
+Les muscles réclament plus d'énergie et d'oxygène.
+
+1. Le Cœur (La Pompe) accélère : Pour envoyer le sang (le carburant) plus vite.
+2. Les Poumons (La Ventilation) accélèrent : Pour charger plus d'oxygène et virer le CO₂.
+3. La Transpiration (Le Radiateur) : Pour refroidir le moteur qui chauffe !`
+        },
+        theory: `Adaptations à l'Effort Physique
+Pour répondre au besoin accru en O₂ et nutriments des muscles :
+
+1. Paramètres Cardiaques
+- Fréquence Cardiaque (FC) augmente.
+- Volume d'Éjection Systolique (VES) augmente.
+- Débit Cardiaque (DC = FC x VES) augmente fortement.
+
+2. Paramètres Ventilatoires
+- Fréquence Respiratoire augmente.
+- Volume courant augmente.
+- Débit Ventilatoire augmente.
+
+3. Vasodilatation des vaisseaux musculaires (plus de sang) et vasoconstriction digestive (moins de sang).`,
+        exercises: [
+            { question: 'Comment calcule-t-on le débit cardiaque ?', options: ['FC + VES', 'FC / VES', 'FC x VES', 'FC - VES'], correct: 2, explanation: 'Débit = Fréquence x Volume éjecté à chaque battement.' },
+            { question: 'Pourquoi transpire-t-on ?', options: ['Pour perdre du poids', 'Pour réguler la température', 'Pour éliminer l\'eau', 'Pour glisser'], correct: 1, explanation: 'L\'évaporation de la sueur refroidit le corps (Thermorégulation).' }
+        ],
+        relatedSimulations: ['respiration-human', 'blood-circulation']
+    },
+
+    // ========== PREMIÈRE ==========
+    'kinetic-potential-energy': {
+        title: 'Énergie Cinétique et Potentielle',
+        description: 'Montagnes russes et conservation',
+        type: 'energy',
+        config: {},
+        analogy: {
+            title: 'Le Skater dans la Rampe',
+            content: `C'est comme un skater dans une rampe en U ! 🛹
+En Haut (Départ) : Il est à l'arrêt, mais il est haut. Il a plein d'Énergie Potentielle (de hauteur), mais 0 Cinétique (vitesse).
+En Bas (Milieu) : Il va super vite ! Toute son énergie de hauteur s'est transformée en Vitesse (Cinétique).
+Remontée : Il ralentit (perd de la vitesse) mais gagne de la hauteur.
+
+Rien ne se perd, tout se transforme ! (Énergie Mécanique constante si pas de frottement).`
+        },
+        theory: `Conservation de l'Énergie Mécanique
+Em = Ec + Epp
+
+1. Énergie Cinétique (Ec) : Liée à la vitesse.
+Ec = 1/2 · m · v²
+(Objet lourd ou rapide = grosse énergie)
+
+2. Énergie Potentielle de Pesanteur (Epp) : Liée à la hauteur.
+Epp = m · g · h
+
+Conservation :
+Si les frottements sont négligeables, Em est constante.
+Quand l'objet tombe, Epp diminue et Ec augmente.`,
+        exercises: [
+            { question: 'Si la vitesse double, l\'énergie cinétique...', options: ['Double', 'Triple', 'Quadruple', 'Reste la même'], correct: 2, explanation: 'Ec dépend de v². Si v x 2, alors v² x 4. L\'énergie quadruple !' },
+            { question: 'Au sommet d\'une chute, l\'énergie potentielle est...', options: ['Nulle', 'Maximale', 'Minimale', 'Égale à cinétique'], correct: 1, explanation: 'Elle est maximale car la hauteur est maximale.' }
+        ],
+        relatedSimulations: ['energy-conservation', 'forces-motion']
+    },
+    'thermal-transfer': {
+        title: 'Transferts Thermiques',
+        description: 'Conduction, Convection, Rayonnement',
+        type: 'energy',
+        config: {},
+        analogy: {
+            title: 'La Marmite de Soupe',
+            content: `Comment chauffe la soupe ? 🍲🔥
+
+1. Conduction (La poignée chaude) : La chaleur passe de proche en proche dans le métal. Aïe ça brûle la main ! (Contact direct).
+2. Convection (Les remous) : La soupe chaude monte, la froide descend. Ça tourne dans la marmite ! (Mouvement de matière).
+3. Rayonnement (Le feu) : La chaleur du feu traverse l'air pour toucher la marmite sans contact. (Ondes invisibles).`
+        },
+        theory: `Modes de Transfert Thermique
+Le transfert se fait toujours du CHAUD vers le FROID.
+
+1. Conduction
+- Transfert sans déplacement de matière (vibration des atomes).
+- Solides (Métaux = bons conducteurs / Bois = isolant).
+
+2. Convection
+- Transfert avec déplacement de matière (courants).
+- Fluides (Liquides et Gaz).
+
+3. Rayonnement
+- Transfert par ondes électromagnétiques (Infrarouges).
+- Peut se faire dans le vide (Soleil).
+
+Flux Thermique (Φ) : Vitesse d'échange d'énergie (en Watt).
+Rth : Résistance thermique (capacité à isoler).`,
+        exercises: [
+            { question: 'Quel mode de transfert fonctionne dans le vide ?', options: ['Conduction', 'Convection', 'Rayonnement', 'Aucun'], correct: 2, explanation: 'Le rayonnement (comme celui du soleil) n\'a pas besoin de matière.' },
+            { question: 'Pourquoi l\'air chaud monte ?', options: ['Il est plus léger (moins dense)', 'Il est magique', 'Il est poussé par le bas', 'Il n\'aime pas le sol'], correct: 1, explanation: 'La dilatation thermique rend l\'air chaud moins dense, donc il monte (Convection).' }
+        ],
+        relatedSimulations: ['states-of-matter', 'solar-energy-flux']
+    },
+    'redox-reactions': {
+        title: 'Oxydoréduction',
+        description: 'Piles et échange d\'électrons',
+        type: 'chemical',
+        config: {},
+        analogy: {
+            title: 'Le Troc d\'Électrons',
+            content: `L'Oxydoréduction, c'est une bagarre pour des électrons ! 🥊⚡
+L'Oxydant est un voleur méchant : il PREND des électrons.
+Le Réducteur est un gentil donneur : il PERD des électrons.
+
+Moyen mnémotechnique : "L'Oxydant mord" (il prend).
+
+Dans une pile, on sépare le voleur et le donneur. Pour s'échanger l'électron, ils sont obligés de le faire passer par un fil électrique.
+Hop ! Ça crée du courant ! 💡`
+        },
+        theory: `Réactions d'Oxydoréduction
+Échange d'électrons entre deux couples Ox/Red.
+
+1. Définitions
+- Oxydant (Ox) : Capte des électrons.
+- Réducteur (Red) : Cède des électrons.
+- Ox + ne⁻ ⇌ Red
+
+2. Réaction
+Ox1 + Red2 → Red1 + Ox2
+(Le plus fort oxydant réagit avec le plus fort réducteur).
+
+3. Piles
+- Convertissent l'énergie chimique en électrique.
+- Anode (-) : Oxydation (Perte e⁻)
+- Cathode (+) : Réduction (Gain e⁻)
+- Pont salin : Assure la neutralité électrique.`,
+        exercises: [
+            { question: 'Un oxydant est une espèce qui...', options: ['Cède des électrons', 'Capte des électrons', 'Cède des protons', 'Reste neutre'], correct: 1, explanation: 'L\'Oxydant capte (mord) les électrons.' },
+            { question: 'À l\'anode d\'une pile, il y a...', options: ['Réduction', 'Oxydation', 'Précipitation', 'Rien'], correct: 1, explanation: 'Anode commence par A (voyelle) -> Oxydation commence par O (voyelle). (Moyen mnémotechnique !)' }
+        ],
+        relatedSimulations: ['chemical-reactions', 'ions-formation']
+    },
+    'organic-chemistry': {
+        title: 'Chimie Organique',
+        description: 'Alcanes, Alcools et nomenclature',
+        type: 'chemical',
+        config: {},
+        analogy: {
+            title: 'Le LEGO du Vivant',
+            content: `La chimie organique, c'est du LEGO avec du Carbone ! 🧱
+Le Carbone a 4 bras (tétravalent). Il doit toujours tenir 4 choses.
+
+A- Chaine principale : C'est la colonne vertébrale (le plus long train de carbones).
+M- Méth 1, Éth 2, Prop 3, But 4... (Maman Et Papa Bébés).
+
+B- Groupes Fonctionnels : Les accessoires qui changent tout !
+- OH (Alcool) : C'est la fête. 🍷
+- COOH (Acide) : Ça pique. 🍋
+- NH2 (Amine) : Ça sent le poisson. 🐟`
+        },
+        theory: `Chimie Organique
+Chimie des composés du Carbone (C).
+
+1. Alcanes (CnH2n+2)
+- Chaine carbonée saturée (liaisons simples).
+- Méthane, Éthane, Propane, Butane...
+- Combustibles (Gaz, Pétrole).
+
+2. Alcools (R-OH)
+- Groupe Hydroxyle (-OH).
+- Nomenclature : -ol (ex: Éthanol).
+- 3 classes : Primaire, Secondaire, Tertiaire.
+
+3. Isomères
+- Mêmes atomes, mais agencement différent.
+- Propriétés différentes.`,
+        exercises: [
+            { question: 'Quelle est la formule du Propane (3 carbones) ?', options: ['C3H6', 'C3H8', 'C3H3', 'C4H10'], correct: 1, explanation: 'Alcane Cn H2n+2 -> C3 H(2x3+2) -> C3H8.' },
+            { question: 'Quel groupe caractérise les alcools ?', options: ['-COOH', '-OH', '-NH2', '-CO-'], correct: 1, explanation: 'Le groupe Hydroxyle (-OH).' }
+        ],
+        relatedSimulations: ['molecular-geometry', 'chemical-reactions']
+    },
+    'dna-replication': {
+        title: 'Réplication de l\'ADN',
+        description: 'Duplication semi-conservative',
+        type: 'dna',
+        config: {},
+        analogy: {
+            title: 'La Photocopieuse à Zipper',
+            content: `Pour copier l'ADN, on ouvre la fermeture éclair ! 🧬🤐
+L'ADN est une double hélice (2 brins collés).
+
+1. L'Hélicase (le curseur du zip) ouvre les deux brins.
+2. L'ADN Polymérase (le maçon) construit un nouveau brin complémentaire sur chaque vieux brin.
+A avec T, C avec G.
+
+À la fin, on a 2 molécules d'ADN.
+Chacune a 1 vieux brin et 1 nouveau brin. C'est "Semi-Conservatif" (On garde la moitié de l'original).`
+        },
+        theory: `Réplication de l'ADN (Phase S)
+Mécanisme permettant de doubler la quantité d'ADN avant la division cellulaire.
+
+Mode Semi-Conservatif (Meselson & Stahl)
+Chaque molécule fille conserve un brin de la molécule mère.
+
+Enzymes clés :
+1. Hélicase : Ouvre la double hélice (rompt liaisons H).
+2. Primase : Pose une amorce ARN.
+3. ADN Polymérase : Synthétise le nouveau brin (5' vers 3') par complémentarité des bases (A-T, G-C).
+4. Ligase : Colle les fragments (Okazaki) sur le brin retardé.`,
+        exercises: [
+            { question: 'Le mode de réplication de l\'ADN est...', options: ['Conservatif', 'Dispersif', 'Semi-conservatif', 'Aléatoire'], correct: 2, explanation: 'On garde un brin ancien et on fabrique un nouveau.' },
+            { question: 'Quelle base va avec l\'Adénine (A) ?', options: ['Cytosine (C)', 'Guanine (G)', 'Thymine (T)', 'Uracile (U)'], correct: 2, explanation: 'A va toujours avec T (Aura Toujours). G avec C.' }
+        ],
+        relatedSimulations: ['cell-division', 'protein-synthesis']
+    },
+    'enzymes-properties': {
+        title: 'Propriétés des Enzymes',
+        description: 'Catalyse biologique et site actif',
+        type: 'biologie',
+        config: {},
+        analogy: {
+            title: 'L\'Enzyme : Clé et Serrure',
+            content: `Une enzyme est un ouvrier spécialisé super rapide (Catalyseur). 🔧⚡
+Chaque enzyme a une forme unique (Serrure).
+Elle ne travaille qu'avec une seule molécule précise qui a la bonne forme (Clé ou Substrat).
+
+Exemple : L'Amylase (dans la salive) est une pince qui coupe l'amidon (le pain) en sucre. Elle ne peut pas couper la viande !
+
+Si tu chauffes trop (Fièvre), l'enzyme fond et se déforme : La clé ne rentre plus, l'usine s'arrête !`
+        },
+        theory: `Enzymologie
+Les enzymes sont des catalyseurs biologiques (protéines).
+Elles accélèrent les réactions chimiques sans être consommées.
+
+Spécificité :
+1. De substrat : L'enzyme n'agit que sur une molécule précise (Modèle Clé-Serrure).
+2. D'action : Elle ne catalyse qu'un type de réaction (hydrolyse, synthèse...).
+
+Facteurs influençant l'activité :
+- Température (Optimum ~37°C chez l'homme, dénaturation si trop chaud).
+- pH (Optimum variable).
+- Concentration en substrat (Vitesse maximale Vmax).`,
+        exercises: [
+            { question: 'Si on bout une enzyme, elle...', options: ['Travaille plus vite', 'Est dénaturée (détruite)', 'Se multiplie', 'Devient un sucre'], correct: 1, explanation: 'La chaleur détruit la forme 3D de la protéine (Dénaturation), elle ne marche plus.' },
+            { question: 'Une enzyme est...', options: ['Un lipide', 'Un glucide', 'Une protéine', 'Un minéral'], correct: 2, explanation: 'La quasi-totalité des enzymes sont des protéines.' }
+        ],
+        relatedSimulations: ['protein-synthesis', 'digestive-system']
+    },
+    'tectonics-plates': {
+        title: 'Tectonique des Plaques',
+        description: 'Dérive des continents et séismes',
+        type: 'tectonics',
+        config: {},
+        analogy: {
+            title: 'Le Tapis Roulant Terrestre',
+            content: `La croûte terrestre n'est pas solide, c'est un puzzle de plaques qui flottent sur du magma (comme des biscuits sur de la confiture chaude) ! 🌍🍪
+
+Le magma en dessous tourne (convection), ce qui fait bouger les plaques.
+- Divergence : Elles s'écartent (Le trou se remplit de lave -> Dorsale/Volcan).
+- Convergence : Elles se cognent. La plus lourde (Océan) plonge sous l'autre (Subduction). Ça gratte, ça bloque... et CRAC ! Séisme ! 💥
+- Collision : Deux continents se cognent, ça se plisse -> Montagne (Himalaya).`
+        },
+        theory: `Tectonique des Plaques (Wegener)
+La lithosphère (rigide) est découpée en plaques qui bougent sur l'asthénosphère (visqueuse).
+
+Mouvements :
+1. Divergence (Accrétion) : Écartement, formation de croûte océanique (Dorsales).
+2. Convergence (Subduction) : Une plaque plonge sous l'autre (Fosses, Volcanisme explosif, Séismes profonds).
+3. Convergence (Collision) : Formation de chaînes de montagnes.
+4. Coulissage : Frottement latéral (Failles).
+
+Moteur : Courants de convection du manteau thermique.`,
+        exercises: [
+            { question: 'Que se passe-t-il au niveau d\'une dorsale ?', options: ['Destruction de croûte', 'Création de croûte océanique', 'Collision', 'Rien'], correct: 1, explanation: 'Les plaques s\'écartent et le magma monte pour créer du nouveau sol marin.' },
+            { question: 'Quel est le moteur du mouvement des plaques ?', options: ['Le vent', 'Les marées', 'La chaleur interne (convection)', 'Le magnétisme'], correct: 2, explanation: 'C\'est la chaleur du noyau qui crée des courants de convection dans le manteau.' }
+        ],
+        relatedSimulations: ['volcano-eruption', 'earth-movement']
+    },
+
+    // ========== TERMINALE ==========
+    'satellite-motion': {
+        title: 'Mouvement des Satellites',
+        description: 'Lois de Kepler et orbites',
+        type: 'force',
+        config: {},
+        analogy: {
+            title: 'La Fronde Cosmique',
+            content: `Un satellite, c'est comme une balle au bout d'une ficelle (la gravité) que tu fais tourner au-dessus de ta tête ! 🛰️🔄
+
+Il tombe en permanence vers la Terre, mais comme il a une grande vitesse horizontale, il "rate" la Terre à chaque fois !
+C'est la chute libre perpétuelle.
+
+Si tu coupes la ficelle (plus de gravité), il part tout droit.
+S'il ralentit, la ficelle le tire trop fort, il s'écrase.
+Il faut la vitesse parfaite pour rester en orbite.`
+        },
+        theory: `Lois de Kepler et Satellites
+
+1ère Loi (Orbites) : Les planètes décrivent des ellipses dont le Soleil est un des foyers.
+2ème Loi (Aires) : Le rayon vecteur balaie des aires égales en temps égaux (Plus vite près du soleil).
+3ème Loi (Périodes) : T² / r³ = Constante.
+
+Mouvement Circulaire Uniforme :
+- Vitesse v = √(G·M / r)
+- Période T = 2πr / v
+- Indépendant de la masse du satellite !`,
+        exercises: [
+            { question: 'Pour mettre un satellite plus haut, il doit aller...', options: ['Plus vite', 'Moins vite', 'Même vitesse', 'À l\'envers'], correct: 1, explanation: 'Plus on est loin, moins la gravité est forte, donc moins on a besoin d\'aller vite pour ne pas tomber. (v = racine(GM/r)). Attention c\'est contre-intuitif !' },
+            { question: 'Que se passe-t-il si la vitesse devient nulle ?', options: ['Il flotte', 'Il tombe tout droit', 'Il part dans l\'espace', 'Il explose'], correct: 1, explanation: 'Sans vitesse tangentielle, la gravité l\'attire directement vers le centre (Crash).' }
+        ],
+        relatedSimulations: ['gravitation-universal', 'forces-motion']
+    },
+    'rc-circuit': {
+        title: 'Circuit RC',
+        description: 'Charge et décharge d\'un condensateur',
+        type: 'circuit',
+        config: {},
+        analogy: {
+            title: 'Le Condensateur est un Seau d\'Eau',
+            content: `Un condensateur, c'est comme un seau 🪣 sous un robinet (Résistance).
+
+Charge : On ouvre le robinet.
+- Au début, le seau est vide, l'eau coule à flot (Intensité max).
+- Plus le seau se remplit, plus c'est dur de rajouter de l'eau (ça pousse contre). L'intensité baisse.
+- À la fin, le seau est plein, le courant s'arrête.
+
+Décharge : On perce le fond du seau.
+- Ça gicle fort au début (Tension max).
+- Puis ça coule de moins en moins fort jusqu'à être vide.`
+        },
+        theory: `Le Dipôle RC
+Association d'une Résistance (R) et d'un Condensateur (C).
+
+Loi d'additivité (Charge) : E = uR + uC = R·i + uC
+Équation différentielle : E = RC·(duC/dt) + uC
+
+Constante de temps (τ = Tau) :
+τ = R · C (en secondes)
+- À t = τ, le condensateur est chargé à 63%.
+- À t = 5τ, il est chargé à 99% (Régime permanent).
+
+Énergie stockée : E = 1/2 · C · uC²`,
+        exercises: [
+            { question: 'Quelle est l\'unité de la capacité C ?', options: ['Ohm', 'Volt', 'Farad', 'Ampère'], correct: 2, explanation: 'Le Farad (F).' },
+            { question: 'À 5 fois la constante de temps (5τ), le condensateur est...', options: ['Vide', 'À moitié plein', 'Quasi totalement chargé', 'Cassé'], correct: 2, explanation: 'On considère la charge terminée (99%) à 5τ.' }
+        ],
+        relatedSimulations: ['simple-circuits', 'electric-resistance']
+    },
+    'chemical-equilibrium': {
+        title: 'Équilibre Chimique',
+        description: 'Quotient de réaction et constante K',
+        type: 'chemical',
+        config: {},
+        analogy: {
+            title: 'L\'Équilibre des Voyageurs',
+            content: `Imagine deux villes A et B reliées par une route. 🏙️🚌🏙️
+
+Au début, tout le monde est à A.
+Les gens partent vers B (Réaction directe).
+Mais quand il y a du monde à B, certains veulent revenir à A (Réaction inverse) !
+
+L'Équilibre, c'est quand il y a autant de bus qui vont de A vers B que de B vers A.
+Les quantités de gens dans chaque ville ne changent plus, MAIS ça continue de bouger (Équilibre Dynamique). Ce n'est pas figé !`
+        },
+        theory: `Équilibre Chimique
+Une réaction est à l'équilibre quand les vitesses des réactions directe et inverse sont égales.
+aA + bB ⇌ cC + dD
+
+Quotient de Réaction (Qr) :
+Qr = ([C]ᶜ·[D]ᵈ) / ([A]ᵃ·[B]ᵇ)
+(Calculé à n'importe quel instant).
+
+Constante d'Équilibre (K) :
+C'est la valeur de Qr à l'état final d'équilibre. K ne dépend que de la Température.
+
+Critère d'évolution :
+- Qr < K : Évolution sens direct (→)
+- Qr > K : Évolution sens inverse (←)
+- Qr = K : Équilibre`,
+        exercises: [
+            { question: 'À l\'équilibre dynamique, la réaction...', options: ['S\'arrête', 'Continue dans les 2 sens à même vitesse', 'Va vers la droite', 'Va vers la gauche'], correct: 1, explanation: 'Rien ne s\'arrête au niveau micro ! Les échanges se compensent parfaitement.' },
+            { question: 'Si K est très grand (>10⁴), la réaction est...', options: ['Totale', 'Impossible', 'Limitée', 'Lente'], correct: 0, explanation: 'Si K est immense, on ne forme quasi que des produits. La réaction est considérée totale.' }
+        ],
+        relatedSimulations: ['reaction-mechanisms', 'acid-base-titration']
+    },
+    'nerve-muscle-reflex': {
+        title: 'Réflexe Myotatique',
+        description: 'Circuit neuronale et contraction',
+        type: 'neuron',
+        config: {},
+        analogy: {
+            title: 'Le Coup de Marteau sur le Genou',
+            content: `Pourquoi ta jambe saute quand le docteur tape le genou ? 🔨🦵
+C'est un Réflexe (Automatique, pas besoin de réfléchir).
+
+1. Le muscle est étiré brusquement (Ouhlà, on tire sur moi !).
+2. Un capteur envoie un SOS à la moelle épinière (Message Sensoriel).
+3. La moelle épinière répond DIRECTEMENT : "Contracte-toi vite pour ne pas déchirer !" (Message Moteur).
+4. Le muscle se contracte.
+
+Ça ne passe même pas par le cerveau ! C'est un aller-retour express (Arc Réflexe) pour protéger le muscle.`
+        },
+        theory: `Le Réflexe Myotatique
+Contraction involontaire d'un muscle en réponse à son propre étirement.
+
+Circuit (Arc Réflexe Monosynaptique) :
+1. Récepteur : Fuseau neuromusculaire (détecte l'étirement).
+2. Voie afférente : Neurone sensitif (vers la moelle).
+3. Centre nerveux : Moelle épinière (substance grise).
+4. Synapse : Connexion directe neurone sensitif - motoneurone.
+5. Voie efférente : Motoneurone (vers le muscle).
+6. Effecteur : Muscle (contraction).
+
+Rôle : Maintien de la posture et du tonus musculaire.`,
+        exercises: [
+            { question: 'Le centre nerveux du réflexe myotatique est...', options: ['Le cerveau', 'Le cervelet', 'La moelle épinière', 'Le muscle'], correct: 2, explanation: 'C\'est un réflexe médullaire (moelle), ce qui le rend très rapide.' },
+            { question: 'Combien de synapses dans ce réflexe ?', options: ['0', '1 (Monosynaptique)', 'Plusieurs', '100'], correct: 1, explanation: 'Une seule synapse entre le neurone sensitif et le moteur.' }
+        ],
+        relatedSimulations: ['nervous-system', 'synaptic-transmission']
+    },
+
+    // ========== ANCIENNES SIMULATIONS (Déjà présentes) ==========
     'wave-interference': {
         title: 'Interférences d\'Ondes',
         description: 'Visualisez les phénomènes d\'interférence lumineuse',
@@ -57,6 +1059,7 @@ Applications
 - Holographie
 - Traitement antireflet des lunettes
 - Interféromètres (détection ondes gravitationnelles)`,
+
         exercises: [
             {
                 question: 'Que se passe-t-il lors d\'une interférence constructive ?',
@@ -73,6 +1076,7 @@ Applications
         ],
         relatedSimulations: ['quantum-mechanics', 'special-relativity', 'light-reflection']
     },
+
 
     'molecular-geometry': {
         title: 'Géométrie Moléculaire',
