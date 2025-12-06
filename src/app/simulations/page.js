@@ -78,7 +78,7 @@ export default function SimulationsPage() {
                         <div className="flex flex-wrap gap-4 justify-center items-center">
                             <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 border border-white/20">
                                 <span className="text-2xl">🎓</span>
-                                <span className="text-sm font-semibold">Collège → Université</span>
+                                <span className="text-sm font-semibold">Collège → Lycée</span>
                             </div>
                             <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 border border-white/20">
                                 <span className="text-2xl">⚛️</span>
@@ -102,8 +102,8 @@ export default function SimulationsPage() {
                                 key={key}
                                 onClick={() => setSelectedLevel(key)}
                                 className={`flex items-center gap-3 px-6 py-3 rounded-xl font-bold transition-all duration-300 whitespace-nowrap ${selectedLevel === key
-                                        ? 'bg-gradient-to-r from-[#00F5D4] to-purple-500 text-black shadow-lg scale-105'
-                                        : 'bg-white/5 text-gray-400 hover:bg-white/10 border border-white/10'
+                                    ? 'bg-gradient-to-r from-[#00F5D4] to-purple-500 text-black shadow-lg scale-105'
+                                    : 'bg-white/5 text-gray-400 hover:bg-white/10 border border-white/10'
                                     }`}
                             >
                                 <span className="text-2xl">{data.icon}</span>
