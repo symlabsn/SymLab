@@ -128,12 +128,36 @@ export default function CoursesPage() {
                     {!selectedCourse ? (
                         // COURSE LIST VIEW
                         <>
-                            <div className="mb-12">
-                                <h1 className="text-4xl font-black mb-4 flex items-center gap-3">
+                            {/* Mobile Level Selector */}
+                            <div className="md:hidden mb-6">
+                                <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">
+                                    Niveau Scolaire
+                                </label>
+                                <select
+                                    value={activeLevel}
+                                    onChange={(e) => setActiveLevel(e.target.value)}
+                                    className="w-full px-4 py-3 rounded-xl bg-[#0F1115] border border-white/10 text-white font-medium focus:border-blue-500 focus:outline-none"
+                                >
+                                    <optgroup label="📚 Collège">
+                                        <option value="6ème">6ème</option>
+                                        <option value="5ème">5ème</option>
+                                        <option value="4ème">4ème</option>
+                                        <option value="3ème">3ème</option>
+                                    </optgroup>
+                                    <optgroup label="🎓 Lycée">
+                                        <option value="Seconde">Seconde</option>
+                                        <option value="Première">Première</option>
+                                        <option value="Terminale">Terminale</option>
+                                    </optgroup>
+                                </select>
+                            </div>
+
+                            <div className="mb-8 md:mb-12">
+                                <h1 className="text-2xl md:text-4xl font-black mb-4 flex items-center gap-3">
                                     <GraduationCap size={40} className="text-blue-500" />
                                     Cours de {activeLevel}
                                 </h1>
-                                <p className="text-gray-400">
+                                <p className="text-sm md:text-base text-gray-400">
                                     Accédez aux ressources pédagogiques conformes au programme du Sénégal.
                                 </p>
                             </div>
@@ -154,7 +178,7 @@ export default function CoursesPage() {
                             </div>
 
                             {filteredCourses.length > 0 ? (
-                                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
                                     {filteredCourses.map((course) => (
                                         <div
                                             key={course.id}
@@ -210,21 +234,21 @@ export default function CoursesPage() {
                     ) : (
                         // STRUCTURED COURSE VIEW OR PDF VIEWER
                         <div className="h-[calc(100vh-8rem)] flex flex-col">
-                            <div className="flex items-center gap-4 mb-6">
+                            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4 mb-6">
                                 <button
                                     onClick={() => setSelectedCourse(null)}
                                     className="p-2 rounded-lg bg-white/5 hover:bg-white/10 text-white transition-colors"
                                 >
                                     <ArrowLeft size={20} />
                                 </button>
-                                <h2 className="text-2xl font-bold">{selectedCourse.title}</h2>
+                                <h2 className="text-xl sm:text-2xl font-bold">{selectedCourse.title}</h2>
                             </div>
 
                             {structuredCourses[selectedCourse.id] ? (
                                 // STRUCTURED VIEW (Chapters + Exercises)
-                                <div className="flex-1 flex gap-6 overflow-hidden">
-                                    {/* Chapters Sidebar */}
-                                    <div className="w-80 bg-[#0F1115] rounded-2xl border border-white/10 flex flex-col overflow-hidden">
+                                <div className="flex-1 flex flex-col lg:flex-row gap-4 lg:gap-6 overflow-hidden">
+                                    {/* Chapters Sidebar - Hidden on mobile, shown on large screens */}
+                                    <div className="hidden lg:block w-80 bg-[#0F1115] rounded-2xl border border-white/10 flex-col overflow-hidden">
                                         <div className="p-4 border-b border-white/10 bg-white/5">
                                             <h3 className="font-bold text-sm uppercase tracking-wider text-gray-400">Chapitres</h3>
                                         </div>
@@ -265,6 +289,28 @@ export default function CoursesPage() {
 
                                     {/* Content Area */}
                                     <div className="flex-1 bg-[#0F1115] rounded-2xl border border-white/10 flex flex-col overflow-hidden relative">
+                                        {/* Mobile Chapter Selector */}
+                                        <div className="lg:hidden p-4 border-b border-white/10 bg-black/20">
+                                            <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">
+                                                Chapitre
+                                            </label>
+                                            <select
+                                                value={activeChapter?.id || ''}
+                                                onChange={(e) => {
+                                                    const chapter = structuredCourses[selectedCourse.id].chapters.find(c => c.id === e.target.value);
+                                                    setActiveChapter(chapter);
+                                                    setShowExercises(false);
+                                                }}
+                                                className="w-full px-3 py-2 rounded-lg bg-[#0F1115] border border-white/10 text-white text-sm focus:border-blue-500 focus:outline-none"
+                                            >
+                                                {structuredCourses[selectedCourse.id].chapters.map((chapter, index) => (
+                                                    <option key={chapter.id} value={chapter.id}>
+                                                        {index + 1}. {chapter.title.replace(/^\d+\.\s*/, '')}
+                                                    </option>
+                                                ))}
+                                            </select>
+                                        </div>
+
                                         {/* Tabs */}
                                         <div className="flex border-b border-white/10 bg-black/20">
                                             <button
