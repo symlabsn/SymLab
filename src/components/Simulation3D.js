@@ -787,15 +787,19 @@ function ForcePhysics() {
     );
 }
 
-// Composant Système Immunitaire
+// Composant Système Immunitaire (Amélioré)
 function ImmuneSystem() {
     return (
         <group>
+            <Text position={[0, 3, 0]} fontSize={0.5} color="white">DÉFENSE IMMUNITAIRE</Text>
+
             {/* Virus (ennemi) */}
             <mesh position={[0, 0, 0]}>
                 <icosahedronGeometry args={[0.5, 0]} />
-                <meshStandardMaterial color="#DC2626" />
+                <meshStandardMaterial color="#DC2626" emissive="#DC2626" emissiveIntensity={0.3} />
             </mesh>
+            <Text position={[0, -0.8, 0]} fontSize={0.3} color="#DC2626">Virus (Ennemi)</Text>
+
             {/* Spikes du virus */}
             {Array.from({ length: 8 }).map((_, i) => {
                 const angle = (i / 8) * Math.PI * 2;
@@ -825,6 +829,7 @@ function ImmuneSystem() {
                     <meshStandardMaterial color="#F3F4F6" />
                 </mesh>
             ))}
+            <Text position={[2.5, 0, 0]} fontSize={0.3} color="white">Globules Blancs</Text>
 
             {/* Anticorps (Y shape) */}
             {Array.from({ length: 3 }).map((_, i) => (
@@ -842,15 +847,18 @@ function ImmuneSystem() {
                     </mesh>
                 </group>
             ))}
+            <Text position={[-2, -2, 0]} fontSize={0.3} color="#FCD34D">Anticorps (Y)</Text>
         </group>
     );
 }
 
-// Composant Conservation de l'Énergie
+// Composant Conservation de l'Énergie (Amélioré)
 function EnergyConservation() {
     return (
         <group>
-            {/* Pendule */}
+            <Text position={[0, 3, 0]} fontSize={0.5} color="white">CONSERVATION DE L'ÉNERGIE</Text>
+
+            {/* Point d'attache */}
             <mesh position={[0, 2, 0]}>
                 <sphereGeometry args={[0.1, 16, 16]} />
                 <meshStandardMaterial color="#6B7280" />
@@ -867,18 +875,282 @@ function EnergyConservation() {
                 <sphereGeometry args={[0.3, 32, 32]} />
                 <meshStandardMaterial color="#3B82F6" />
             </mesh>
+            <Text position={[-1.5, -0.5, 0]} fontSize={0.3} color="#3B82F6">Masse</Text>
 
             {/* Énergie potentielle (haut) */}
             <mesh position={[-1.5, 0.5, 0]}>
                 <sphereGeometry args={[0.15, 16, 16]} />
                 <meshStandardMaterial color="#FCD34D" emissive="#FCD34D" emissiveIntensity={1} transparent opacity={0.7} />
             </mesh>
+            <Text position={[-2.5, 1, 0]} fontSize={0.3} color="#FCD34D">Ep (Potentielle)</Text>
+
+            {/* Position basse (énergie cinétique) */}
+            <mesh position={[0, -1, 0]}>
+                <sphereGeometry args={[0.15, 16, 16]} />
+                <meshStandardMaterial color="#EF4444" emissive="#EF4444" emissiveIntensity={1} transparent opacity={0.7} />
+            </mesh>
+            <Text position={[0.5, -1.5, 0]} fontSize={0.3} color="#EF4444">Ec (Cinétique)</Text>
 
             {/* Trajectoire */}
             <mesh rotation={[0, 0, Math.PI / 2]}>
                 <torusGeometry args={[1.5, 0.02, 16, 100, Math.PI]} />
                 <meshStandardMaterial color="#00F5D4" transparent opacity={0.3} />
             </mesh>
+
+            <Text position={[0, -2.5, 0]} fontSize={0.3} color="white">Ep + Ec = Constante</Text>
+        </group>
+    );
+}
+
+// Composant Cycle de l'Eau (Amélioré)
+function WaterCycle() {
+    return (
+        <group>
+            <Text position={[0, 3.5, 0]} fontSize={0.5} color="#3B82F6">CYCLE DE L'EAU</Text>
+
+            {/* Océan */}
+            <mesh position={[0, -2, 0]} rotation={[-Math.PI / 2, 0, 0]}>
+                <planeGeometry args={[6, 3]} />
+                <meshStandardMaterial color="#3B82F6" transparent opacity={0.6} />
+            </mesh>
+            <Text position={[-2, -1.5, 0]} fontSize={0.3} color="#3B82F6">Océan</Text>
+
+            {/* Soleil */}
+            <mesh position={[3, 2, 0]}>
+                <sphereGeometry args={[0.5, 32, 32]} />
+                <meshStandardMaterial color="#FCD34D" emissive="#FCD34D" emissiveIntensity={2} />
+            </mesh>
+            <Text position={[3, 2.8, 0]} fontSize={0.3} color="#FCD34D">Soleil</Text>
+
+            {/* Évaporation (flèches montantes) */}
+            <mesh position={[0, -0.5, 0]}>
+                <coneGeometry args={[0.1, 0.5, 8]} />
+                <meshStandardMaterial color="#60A5FA" transparent opacity={0.7} />
+            </mesh>
+            <Text position={[0.5, -0.5, 0]} fontSize={0.25} color="white">Évaporation</Text>
+
+            {/* Nuages */}
+            <group position={[0, 1.5, 0]}>
+                <mesh position={[0, 0, 0]}>
+                    <sphereGeometry args={[0.4, 16, 16]} />
+                    <meshStandardMaterial color="#E5E7EB" />
+                </mesh>
+                <mesh position={[0.5, 0.1, 0]}>
+                    <sphereGeometry args={[0.3, 16, 16]} />
+                    <meshStandardMaterial color="#E5E7EB" />
+                </mesh>
+                <mesh position={[-0.4, 0.05, 0]}>
+                    <sphereGeometry args={[0.35, 16, 16]} />
+                    <meshStandardMaterial color="#E5E7EB" />
+                </mesh>
+            </group>
+            <Text position={[0, 2.2, 0]} fontSize={0.3} color="white">Nuages (Condensation)</Text>
+
+            {/* Pluie */}
+            {Array.from({ length: 5 }).map((_, i) => (
+                <mesh key={i} position={[-1 + i * 0.5, 0.5, 0]}>
+                    <sphereGeometry args={[0.05, 8, 8]} />
+                    <meshStandardMaterial color="#3B82F6" />
+                </mesh>
+            ))}
+            <Text position={[-1.5, 0.8, 0]} fontSize={0.25} color="#3B82F6">Précipitations</Text>
+
+            {/* Montagne */}
+            <mesh position={[-2, -1, 0]}>
+                <coneGeometry args={[0.8, 1.5, 4]} />
+                <meshStandardMaterial color="#8B4513" />
+            </mesh>
+            <Text position={[-2, 0.2, 0]} fontSize={0.25} color="white">Montagne</Text>
+        </group>
+    );
+}
+
+// Composant Système Digestif (Amélioré)
+function DigestiveSystem() {
+    return (
+        <group>
+            <Text position={[0, 3, 0]} fontSize={0.5} color="white">SYSTÈME DIGESTIF</Text>
+
+            {/* Bouche */}
+            <mesh position={[0, 2, 0]}>
+                <sphereGeometry args={[0.3, 32, 32]} />
+                <meshStandardMaterial color="#EC4899" />
+            </mesh>
+            <Text position={[0.5, 2, 0]} fontSize={0.3} color="#EC4899">Bouche</Text>
+
+            {/* Œsophage */}
+            <mesh position={[0, 1, 0]}>
+                <cylinderGeometry args={[0.15, 0.15, 1.5, 16]} />
+                <meshStandardMaterial color="#F59E0B" />
+            </mesh>
+
+            {/* Estomac */}
+            <mesh position={[0, 0, 0]} scale={[1.2, 1, 0.8]}>
+                <sphereGeometry args={[0.6, 32, 32]} />
+                <meshStandardMaterial color="#EF4444" />
+            </mesh>
+            <Text position={[1, 0, 0]} fontSize={0.3} color="#EF4444">Estomac</Text>
+
+            {/* Intestin grêle */}
+            <group position={[0, -1, 0]}>
+                <mesh position={[0.3, 0, 0]}>
+                    <torusGeometry args={[0.4, 0.1, 16, 32]} />
+                    <meshStandardMaterial color="#10B981" />
+                </mesh>
+                <mesh position={[-0.3, -0.3, 0]}>
+                    <torusGeometry args={[0.3, 0.1, 16, 32]} />
+                    <meshStandardMaterial color="#10B981" />
+                </mesh>
+            </group>
+            <Text position={[1, -1, 0]} fontSize={0.3} color="#10B981">Intestin Grêle</Text>
+
+            {/* Gros intestin */}
+            <mesh position={[0, -2, 0]}>
+                <torusGeometry args={[0.5, 0.15, 16, 32]} />
+                <meshStandardMaterial color="#8B5CF6" />
+            </mesh>
+            <Text position={[1, -2, 0]} fontSize={0.3} color="#8B5CF6">Gros Intestin</Text>
+        </group>
+    );
+}
+
+// Composant Réaction Chimique (Amélioré)
+function ChemicalReaction() {
+    return (
+        <group>
+            <Text position={[0, 2.5, 0]} fontSize={0.5} color="white">RÉACTION CHIMIQUE</Text>
+
+            {/* Molécules réactifs (gauche) */}
+            <group position={[-2, 0, 0]}>
+                <mesh position={[0, 0, 0]}>
+                    <sphereGeometry args={[0.3, 32, 32]} />
+                    <meshStandardMaterial color="#3B82F6" />
+                </mesh>
+                <mesh position={[0.6, 0, 0]}>
+                    <sphereGeometry args={[0.3, 32, 32]} />
+                    <meshStandardMaterial color="#EF4444" />
+                </mesh>
+            </group>
+            <Text position={[-2, -0.8, 0]} fontSize={0.3} color="white">Réactifs (A + B)</Text>
+
+            {/* Flèche de réaction */}
+            <mesh rotation={[0, 0, Math.PI / 2]}>
+                <cylinderGeometry args={[0.05, 0.05, 2, 16]} />
+                <meshStandardMaterial color="#FCD34D" />
+            </mesh>
+            <mesh position={[1, 0, 0]} rotation={[0, 0, -Math.PI / 4]}>
+                <coneGeometry args={[0.15, 0.4, 16]} />
+                <meshStandardMaterial color="#FCD34D" />
+            </mesh>
+            <Text position={[0, 0.5, 0]} fontSize={0.4} color="#FCD34D">→</Text>
+
+            {/* Molécules produits (droite) */}
+            <group position={[2, 0, 0]}>
+                <mesh position={[0, 0.3, 0]}>
+                    <sphereGeometry args={[0.25, 32, 32]} />
+                    <meshStandardMaterial color="#10B981" />
+                </mesh>
+                <mesh position={[0, -0.3, 0]}>
+                    <sphereGeometry args={[0.25, 32, 32]} />
+                    <meshStandardMaterial color="#8B5CF6" />
+                </mesh>
+            </group>
+            <Text position={[2, -0.8, 0]} fontSize={0.3} color="white">Produits (C + D)</Text>
+
+            <Text position={[0, -1.5, 0]} fontSize={0.3} color="gray">Conservation de la matière</Text>
+        </group>
+    );
+}
+
+// Composant Forces et Mouvement (Amélioré)
+function ForcePhysics() {
+    return (
+        <group>
+            <Text position={[0, 2.5, 0]} fontSize={0.5} color="white">FORCES ET MOUVEMENT</Text>
+
+            {/* Objet (cube) */}
+            <mesh position={[0, 0, 0]}>
+                <boxGeometry args={[1, 1, 1]} />
+                <meshStandardMaterial color="#3B82F6" />
+            </mesh>
+            <Text position={[0, -0.8, 0]} fontSize={0.3} color="white">Objet (m)</Text>
+
+            {/* Vecteurs de force */}
+            {/* Force appliquée (vers la droite) */}
+            <group position={[1, 0, 0]}>
+                <mesh rotation={[0, 0, Math.PI / 2]}>
+                    <cylinderGeometry args={[0.05, 0.05, 1.5, 16]} />
+                    <meshStandardMaterial color="#EF4444" />
+                </mesh>
+                <mesh position={[0.75, 0, 0]} rotation={[0, 0, -Math.PI / 2]}>
+                    <coneGeometry args={[0.15, 0.4, 16]} />
+                    <meshStandardMaterial color="#EF4444" />
+                </mesh>
+            </group>
+            <Text position={[2, 0.5, 0]} fontSize={0.3} color="#EF4444">Force F</Text>
+
+            {/* Force de gravité (vers le bas) */}
+            <group position={[0, -1, 0]}>
+                <mesh>
+                    <cylinderGeometry args={[0.05, 0.05, 1, 16]} />
+                    <meshStandardMaterial color="#10B981" />
+                </mesh>
+                <mesh position={[0, -0.5, 0]} rotation={[Math.PI, 0, 0]}>
+                    <coneGeometry args={[0.15, 0.4, 16]} />
+                    <meshStandardMaterial color="#10B981" />
+                </mesh>
+            </group>
+            <Text position={[0.5, -1.5, 0]} fontSize={0.3} color="#10B981">Poids P</Text>
+
+            {/* Sol */}
+            <mesh position={[0, -2, 0]} rotation={[-Math.PI / 2, 0, 0]}>
+                <planeGeometry args={[6, 6]} />
+                <meshStandardMaterial color="#9CA3AF" transparent opacity={0.3} />
+            </mesh>
+            <Text position={[-2, -1.8, 0]} fontSize={0.25} color="gray">Sol</Text>
+
+            <Text position={[0, -2.8, 0]} fontSize={0.3} color="white">F = m × a</Text>
+        </group>
+    );
+}
+
+// Composant Plaques Tectoniques (Amélioré)
+function TectonicPlates() {
+    return (
+        <group>
+            <Text position={[0, 2.5, 0]} fontSize={0.5} color="white">TECTONIQUE DES PLAQUES</Text>
+
+            {/* Plaque 1 */}
+            <mesh position={[-1.5, 0, 0]}>
+                <boxGeometry args={[3, 0.5, 3]} />
+                <meshStandardMaterial color="#8B4513" />
+            </mesh>
+            <Text position={[-1.5, 0.5, 0]} fontSize={0.3} color="white">Plaque 1</Text>
+
+            {/* Plaque 2 */}
+            <mesh position={[1.5, 0.2, 0]}>
+                <boxGeometry args={[3, 0.5, 3]} />
+                <meshStandardMaterial color="#A0522D" />
+            </mesh>
+            <Text position={[1.5, 0.7, 0]} fontSize={0.3} color="white">Plaque 2</Text>
+
+            {/* Magma (sous les plaques) */}
+            <mesh position={[0, -1, 0]}>
+                <sphereGeometry args={[2, 32, 32]} />
+                <meshStandardMaterial color="#FF4500" emissive="#FF4500" emissiveIntensity={0.5} />
+            </mesh>
+            <Text position={[0, -2, 0]} fontSize={0.3} color="#FF4500">Magma (Chaud)</Text>
+
+            {/* Volcan */}
+            <mesh position={[0, 0.5, 0]}>
+                <coneGeometry args={[0.5, 1.5, 32]} />
+                <meshStandardMaterial color="#654321" />
+            </mesh>
+            <Text position={[0, 1.5, 0]} fontSize={0.3} color="white">Volcan</Text>
+
+            {/* Flèches de mouvement */}
+            <Text position={[-2.5, 0, 0]} fontSize={0.4} color="white">←</Text>
+            <Text position={[2.5, 0, 0]} fontSize={0.4} color="white">→</Text>
         </group>
     );
 }
