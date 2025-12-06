@@ -179,11 +179,11 @@ export const courses = [
         color: 'purple'
     },
     {
-        id: 'pc-wahab-1s',
+        id: 'phys-1s',
         level: 'Première',
         subject: 'Physique-Chimie',
-        title: 'Physique (Wahab Diop) 1ère S',
-        description: 'Cours et exercices corrigés.',
+        title: 'Physique 1ère S',
+        description: 'Programme complet : Énergie, Champs, Électronique, Optique.',
         file: '/courses/Wahab Diop-PHYSIQUE WPS-lsll.pdf',
         icon: '⚛️',
         color: 'purple'
