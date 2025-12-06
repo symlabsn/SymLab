@@ -119,9 +119,9 @@ export default function SimulationDetailPage({ params }) {
                 </div>
 
                 {/* Content */}
-                <div className="grid lg:grid-cols-3 gap-8">
+                <div className="grid lg:grid-cols-4 gap-8">
                     {/* Main Content */}
-                    <div className="lg:col-span-2">
+                    <div className="lg:col-span-3">
                         {activeTab === 'simulation' && (
                             <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
                                 <Simulation3D type={simulation.type} config={simulation.config} />

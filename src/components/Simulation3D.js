@@ -826,11 +826,11 @@ export default function Simulation3D({ type = 'atom', config = {} }) {
     };
 
     return (
-        <div className="w-full h-full min-h-[600px] rounded-2xl overflow-hidden bg-gradient-to-br from-black to-slate-900 border border-white/20">
+        <div className="w-full h-[calc(100vh-140px)] rounded-2xl overflow-hidden bg-gradient-to-br from-black to-slate-900 border border-white/20 relative">
             <Canvas>
                 <Suspense fallback={null}>
-                    {/* Caméra */}
-                    <PerspectiveCamera makeDefault position={[5, 3, 5]} />
+                    {/* Caméra - Centrée et reculée pour voir toute la cellule */}
+                    <PerspectiveCamera makeDefault position={[5, 4, 5]} />
 
                     {/* Contrôles */}
                     <OrbitControls
