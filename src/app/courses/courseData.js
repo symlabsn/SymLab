@@ -252,16 +252,6 @@ export const courses = [
         color: 'purple'
     },
     {
-        id: 'pc-ts',
-        level: 'Terminale',
-        subject: 'Physique-Chimie',
-        title: 'Physique Chimie Tle S',
-        description: 'Fascicule complet IA PG-CDC.',
-        file: '/courses/Fascicule PC Tle S IA PG-CDC Février 2020 (VF).pdf',
-        icon: '⚡',
-        color: 'purple'
-    },
-    {
         id: 'chimie-ts',
         level: 'Terminale',
         subject: 'Physique-Chimie',
@@ -270,26 +260,6 @@ export const courses = [
         file: null,
         icon: '🧪',
         color: 'emerald'
-    },
-    {
-        id: 'pc-wahab-ts',
-        level: 'Terminale',
-        subject: 'Physique-Chimie',
-        title: 'Physique (Wahab Diop) Tle S',
-        description: 'Cours et exercices corrigés.',
-        file: '/courses/Wahab Diop-PHYSIQUE WTS-lsll.pdf',
-        icon: '⚛️',
-        color: 'purple'
-    },
-    {
-        id: 'chimie-wahab-ts',
-        level: 'Terminale',
-        subject: 'Physique-Chimie',
-        title: 'Chimie (Wahab Diop) Tle S',
-        description: 'Cours et exercices corrigés.',
-        file: '/courses/Wahab Diop-CHIMIE WTS-lsll.pdf',
-        icon: '🧪',
-        color: 'purple'
     },
     {
         id: 'svt-ts',
