@@ -1399,7 +1399,1591 @@ Moteur de voiture : η ≈ 25%
             }
         ],
         relatedSimulations: ['forces-motion', 'chemical-reactions', 'simple-circuits']
-    }
+    },
+
+    // ========== 6ÈME (NOUVEAUX) ==========
+    'plant-growth': {
+        title: 'Croissance des Plantes',
+        description: 'Observez les étapes de la germination et de la croissance',
+        type: 'plant',
+        config: {},
+        analogy: {
+            title: 'La Croissance d\'une Plante comme un Enfant qui Grandit',
+            content: `Une plante qui pousse, c'est comme un enfant qui grandit ! 🌱
+            
+La graine est comme le bébé : elle dort et attend le bon moment.
+L'eau est comme le lait maternel : c'est ce qui la réveille et lui donne la force de sortir.
+
+La racine qui sort en premier, c'est comme les pieds de l'enfant : pour grandir, il faut d'abord bien tenir debout sur terre !
+
+La tige vers le soleil, c'est l'enfant qui grandit en taille chaque année.
+Les feuilles sont comme des mains ouvertes pour attraper la lumière.
+
+Si on ne l'arrose pas, elle fane, comme un enfant qui a faim et soif !`
+        },
+        theory: `La Germination et la Croissance
+
+La germination est le passage de la graine à la jeune plante.
+
+Les Besoins de la Germination :
+1. Eau (humidité) : Indispensable pour ramollir l'enveloppe et activer la vie.
+2. Air (oxygène) : La graine respire.
+3. Chaleur (température) : Il faut une température douce.
+(La lumière n'est pas toujours nécessaire pour germer, mais indispensable après !)
+
+Les Étapes :
+1. Gonflement de la graine
+2. Sortie de la radicule (racine)
+3. Sortie de la tigelle (tige)
+4. Apparition des premières feuilles (cotylédons)
+5. La plante devient autonome (photosynthèse)`,
+        exercises: [
+            {
+                question: 'Quel organe sort en premier de la graine ?',
+                options: ['La feuille', 'La fleur', 'La racine', 'La tige'],
+                correct: 2,
+                explanation: 'La racine sort en premier pour fixer la plante, comme les pieds pour tenir debout !'
+            },
+            {
+                question: 'Quel élément est indispensable pour le début de la germination ?',
+                options: ['Lumière', 'Eau', 'Terre', 'Engrais'],
+                correct: 1,
+                explanation: 'L\'eau est indispensable pour réveiller la graine qui dort !'
+            }
+        ],
+        relatedSimulations: ['photosynthesis', 'water-cycle']
+    },
+
+    'food-chain': {
+        title: 'Chaînes Alimentaires',
+        description: 'Comprenez les relations entre producteurs et consommateurs',
+        type: 'ecosystem',
+        config: {},
+        analogy: {
+            title: 'La Chaîne Alimentaire comme le Repas de Famille',
+            content: `La chaîne alimentaire, c'est comme la préparation du repas au Sénégal ! 🥘
+
+Les Producteurs (Plantes) sont comme les agriculteurs : ils produisent la nourriture (mil, riz, légumes) à partir de la terre et du soleil.
+
+Les Consommateurs Primaires (Herbivores) sont comme ceux qui achètent les légumes au marché : ils mangent ce que les producteurs ont fait. (Ex: la vache, le mouton).
+
+Les Consommateurs Secondaires (Carnivores) sont comme nous quand on mange le mouton de la Tabaski !
+
+Les Décomposeurs sont comme le nettoyage après la fête : ils recyclent tout ce qui reste pour que la terre redevienne propre et fertile pour les agriculteurs. C'est un cycle !`
+        },
+        theory: `Les Chaînes Alimentaires
+
+Une chaîne alimentaire représente "qui mange qui" dans un milieu naturel.
+
+Les Maillons de la Chaîne :
+
+1. Les Producteurs (Autotrophes)
+- Végétaux chlorophylliens (plantes vertes)
+- Produisent leur propre matière organique
+- Base de la chaîne
+
+2. Les Consommateurs (Hétérotrophes)
+- Primaires (Herbivores) : Mangent les plantes
+- Secondaires (Carnivores) : Mangent les herbivores
+- Tertiaires : Mangent les carnivores
+
+3. Les Décomposeurs
+- Bactéries, champignons, vers
+- Transforment la matière organique morte en matière minérale
+- Recyclage de la matière`,
+        exercises: [
+            {
+                question: 'Qui est toujours au début d\'une chaîne alimentaire ?',
+                options: ['Un herbivore', 'Un végétal vert', 'Un carnivore', 'Un décomposeur'],
+                correct: 1,
+                explanation: 'Les végétaux verts (producteurs) sont toujours au début car ils produisent la matière !'
+            },
+            {
+                question: 'Quel est le rôle des décomposeurs ?',
+                options: ['Chasser', 'Produire de l\'oxygène', 'Recycler la matière', 'Polluer'],
+                correct: 2,
+                explanation: 'Ils recyclent la matière morte pour la rendre à la terre, comme le nettoyage !'
+            }
+        ],
+        relatedSimulations: ['photosynthesis', 'ecosystem-dynamics']
+    },
+
+    'mixture-separation': {
+        title: 'Séparation des Mélanges',
+        description: 'Expérimentez la filtration, décantation et évaporation',
+        type: 'lab',
+        config: {},
+        analogy: {
+            title: 'Séparer les Mélanges comme Trier le Riz',
+            content: `Séparer des mélanges, c'est comme trier le riz ou préparer le couscous ! 🍚
+
+Filtration : C'est comme utiliser un tamis pour la farine. Les gros morceaux restent, la poudre fine passe. Ou comme filtrer le café Touba !
+
+Décantation : C'est comme quand on laisse reposer l'huile et l'eau. L'huile remonte, l'eau reste en bas. Ou quand la boue tombe au fond du seau d'eau.
+
+Évaporation : C'est comme faire du sel au Lac Rose. L'eau s'en va avec le soleil, et le sel reste au fond !
+
+Tri manuel : C'est comme enlever les petits cailloux du riz avant de le cuire.`
+        },
+        theory: `Les techniques de séparation
+
+Pour séparer les constituants d'un mélange, on utilise différentes techniques selon la nature du mélange.
+
+1. Décantation
+- Pour mélanges hétérogènes (liquide-solide ou liquide-liquide non miscible)
+- On laisse reposer : le plus lourd tombe au fond.
+- Ex : Eau boueuse, Huile et vinaigre.
+
+2. Filtration
+- Pour séparer un solide d'un liquide
+- Utilise un filtre (papier, tissu)
+- Le filtrat passe, le résidu reste.
+- Ex : Café, Eau et sable.
+
+3. Évaporation / Vaporisation
+- Pour récupérer un solide dissous dans un liquide
+- On chauffe le mélange : le liquide part en gaz, le solide reste.
+- Ex : Eau salée.
+
+4. Distillation
+- Pour séparer deux liquides miscibles
+- Basée sur la différence de température d'ébullition.`,
+        exercises: [
+            {
+                question: 'Quelle technique utiliser pour séparer l\'eau et le sable ?',
+                options: ['Distillation', 'Filtration', 'Aimantation', 'Chromatographie'],
+                correct: 1,
+                explanation: 'La filtration retient le sable dans le filtre et laisse passer l\'eau, comme pour le café !'
+            },
+            {
+                question: 'Comment récupérer le sel dans de l\'eau de mer ?',
+                options: ['Par filtration', 'Par décantation', 'Par évaporation', 'Par tamisage'],
+                correct: 2,
+                explanation: 'Il faut faire évaporer l\'eau (au soleil ou en chauffant) pour qu\'il ne reste que le sel.'
+            }
+        ],
+        relatedSimulations: ['states-of-matter', 'water-purification']
+    },
+
+    'volume-mass': {
+        title: 'Masse et Volume',
+        description: 'Apprenez à mesurer et différencier masse et volume',
+        type: 'lab',
+        config: {},
+        analogy: {
+            title: 'Masse et Volume : Le Sac de Riz et le Ballon',
+            content: `Ne confonds pas Masse et Volume ! C'est comme comparer un sac de riz et un gros ballon de plage. 🎈🍚
+
+Le Volume, c'est la PLACE que ça prend.
+Le ballon est gros, il prend beaucoup de place dans la chambre. Il a un grand volume.
+
+La Masse, c'est ce que ça PÈSE (la quantité de matière).
+Le sac de riz (50kg) est petit mais très lourd. Il a une grande masse.
+Le ballon est gros mais très léger (il n'y a que de l'air).
+
+Donc : Gros volume ne veut pas dire grande masse ! (Ex : Le coton vs Le fer).`
+        },
+        theory: `Masse et Volume
+
+1. La Masse (m)
+- Quantité de matière dans un objet
+- Unité légale : Kilogramme (kg)
+- Instrument : Balance
+- La masse ne change pas (sauf si on enlève de la matière).
+
+2. Le Volume (V)
+- Espace occupé par un objet
+- Unité légale : Mètre cube (m³), souvent Litre (L) pour les liquides.
+- 1 L = 1 dm³ = 1000 mL
+- Instrument : Éprouvette graduée (pour liquides).
+
+Relation Masse/Volume :
+- Des matières différentes ont des masses différentes pour un même volume (Densité).
+- 1L d'eau pèse 1 kg.
+- 1L d'huile pèse environ 0,9 kg (plus léger !).`,
+        exercises: [
+            {
+                question: 'Quel instrument mesure la masse ?',
+                options: ['Une règle', 'Une balance', 'Une éprouvette', 'Un thermomètre'],
+                correct: 1,
+                explanation: 'La balance sert à peser, donc à mesurer la masse !'
+            },
+            {
+                question: 'Qu\'est-ce qui est le plus lourd : 1kg de plomb ou 1kg de plumes ?',
+                options: ['Le plomb', 'Les plumes', 'C\'est pareil', 'Ça dépend'],
+                correct: 2,
+                explanation: 'C\'est pareil ! 1kg reste 1kg, c\'est la masse. Par contre le volume des plumes sera beaucoup plus grand !'
+            }
+        ],
+        relatedSimulations: ['density-buoyancy', 'states-of-matter']
+    },
+
+    'water-purification': {
+        title: 'Purification de l\'Eau',
+        description: 'Les étapes pour rendre l\'eau potable',
+        type: 'lab',
+        config: {},
+        analogy: {
+            title: 'Purifier l\'Eau comme Filtrer le Jus de Bissap',
+            content: `Rendre l'eau potable, c'est comme préparer un jus de Bissap bien propre ! 🥤
+
+1. Dégrillage : On enlève les grosses branches et feuilles, comme on trie les fleurs de bissap au début.
+2. Décantation : On laisse reposer pour que la boue tombe au fond.
+3. Filtration (Sable) : On fait passer l'eau à travers du sable fin, c'est comme le tissu fin pour filtrer le jus de bissap. Les petites saletés restent bloquées.
+4. Désinfection (Javel/Chlore) : On ajoute une goutte de produit pour tuer les microbes invisibles. C'est l'étape de sécurité finale !`
+        },
+        theory: `Le Traitement de l'Eau
+
+Pour rendre une eau naturelle potable, elle doit subir plusieurs traitements :
+
+1. Tamisage / Dégrillage
+Retient les gros déchets (branches, plastiques).
+
+2. Floculation / Décantation
+On ajoute un produit (floculant) qui agglomère les particules fines. Elles deviennent lourdes et tombent au fond.
+
+3. Filtration sur Sable
+L'eau traverse une couche de sable qui retient les particules restantes. L'eau devient claire (limpide).
+
+4. Ozonation / Chloration (Désinfection)
+Étape capitale : on tue les bactéries et virus pathogènes avec de l'ozone ou du chlore (Javel).
+
+L'eau est maintenant potable (honnête) !`,
+        exercises: [
+            {
+                question: 'Quelle étape tue les microbes ?',
+                options: ['Filtration', 'Décantation', 'Désinfection (Javel)', 'Tamisage'],
+                correct: 2,
+                explanation: 'Seule la désinfection (avec Javel ou Chlore) tue les microbes invisibles !'
+            },
+            {
+                question: 'A quoi sert la filtration sur sable ?',
+                options: ['Tuer les virus', 'Rendre l\'eau claire', 'Donner du goût', 'Refroidir l\'eau'],
+                correct: 1,
+                explanation: 'Le sable retient les petites particules et rend l\'eau claire et limpide.'
+            }
+        ],
+        relatedSimulations: ['mixture-separation', 'water-cycle']
+    },
+
+    'geometric-shapes': {
+        title: 'Formes Géométriques',
+        description: 'Explorez les propriétés des figures planes et solides',
+        type: 'geometry',
+        config: {},
+        analogy: {
+            title: 'Les Formes autour de Nous',
+            content: `La géométrie est partout au Sénégal ! 🕌🏠
+
+Le Rectangle : C'est comme un terrain de foot ou une porte.
+Le Carré : C'est comme un carreau de carrelage au sol.
+Le Cercle : C'est comme une bolée (bol) ou un rond-point.
+Le Triangle : C'est comme le toit d'une case ou une part de pastèque.
+
+Le Cube : C'est comme une boîte de sucre.
+Le Pavé droit : C'est comme une brique ou une boîte d'allumettes.
+Le Cylindre : C'est comme un fût d'eau ou une boîte de conserve.`
+        },
+        theory: `Figures Géométriques de Base
+
+1. Figures Planes (2D)
+- Carré : 4 côtés égaux, 4 angles droits.
+- Rectangle : Côtés opposés égaux, 4 angles droits.
+- Triangle : 3 côtés. (Isocèle, Équilatéral, Rectangle).
+- Cercle : Tous les points sont à la même distance du centre (rayon).
+
+2. Solides (3D)
+- Cube : 6 faces carrées identiques.
+- Pavé droit (Parallélépipède) : 6 faces rectangulaires.
+- Cylindre : 2 disques de base et une face courbe.
+- Sphère : Comme un ballon.
+
+Propriétés importantes :
+- Périmètre : Le tour de la figure.
+- Aire (Surface) : La place à l'intérieur.
+- Volume : La place à l'intérieur du solide.`,
+        exercises: [
+            {
+                question: 'Quelle figure a 4 côtés égaux et 4 angles droits ?',
+                options: ['Rectangle', 'Losange', 'Carré', 'Trapèze'],
+                correct: 2,
+                explanation: 'C\'est le carré ! Le rectangle a des angles droits mais pas forcément 4 côtés égaux.'
+            },
+            {
+                question: 'Quelle est la forme d\'une boîte d\'allumettes ?',
+                options: ['Cube', 'Pavé droit', 'Cylindre', 'Pyramide'],
+                correct: 1,
+                explanation: 'C\'est un pavé droit (ou parallélépipède rectangle).'
+            }
+        ],
+        relatedSimulations: ['angles-measurement', 'volume-mass']
+    },
+
+    'angles-measurement': {
+        title: 'Mesure des Angles',
+        description: 'Utilisez un rapporteur virtuel pour mesurer des angles',
+        type: 'geometry',
+        config: {},
+        analogy: {
+            title: 'Les Angles comme les Aiguilles d\'une Montre',
+            content: `Les angles, c'est comme l'ouverture entre deux aiguilles d'une montre ! ⌚
+
+Angle Nul (0°) : Midi pile (les aiguilles sont l'une sur l'autre).
+Angle Aigu (petit) : Comme 13h05 (petite ouverture). Moins que le coin d'une table.
+Angle Droit (90°) : Comme 15h00 (ou 9h00). C'est le coin parfait, comme le coin d'un livre ou d'un mur. "L'équerre" !
+Angle Obtus (grand) : Comme 13h20 (grande ouverture). Plus grand que le coin d'une table.
+Angle Plat (180°) : Comme 18h00 (les aiguilles forment une ligne droite).`
+        },
+        theory: `Les Angles
+
+Un angle est formé par deux demi-droites de même origine (le sommet).
+L'unité de mesure est le Degré (°).
+L'instrument de mesure est le Rapporteur.
+
+Classification :
+1. Angle Nul : 0°
+2. Angle Aigu : Entre 0° et 90°
+3. Angle Droit : 90° exact (les droites sont perpendiculaires)
+4. Angle Obtus : Entre 90° et 180°
+5. Angle Plat : 180° (alignement)
+6. Angle Plein : 360° (un tour complet)
+
+Bissectrice : La droite qui coupe un angle en deux parties égales.`,
+        exercises: [
+            {
+                question: 'Combien mesure un angle droit ?',
+                options: ['45°', '90°', '180°', '100°'],
+                correct: 1,
+                explanation: 'Un angle droit mesure exactement 90°. C\'est l\'angle de l\'équerre.'
+            },
+            {
+                question: 'Comment appelle-t-on un angle plus petit qu\'un angle droit ?',
+                options: ['Obtus', 'Plat', 'Aigu', 'Droit'],
+                correct: 2,
+                explanation: 'C\'est un angle aigu (il est pointu !).'
+            }
+        ],
+        relatedSimulations: ['geometric-shapes', 'triangles-properties']
+    },
+
+    'vertebrate-classification': {
+        title: 'Classification des Vertébrés',
+        description: 'Apprenez à classer les animaux selon leurs caractéristiques',
+        type: 'classification',
+        config: {},
+        analogy: {
+            title: 'Classer les Animaux comme les Équipes de Navétanes',
+            content: `Classer les animaux, c'est comme faire les groupes pour les Navétanes (tournoi de foot) ! 🦁🦅🐟
+
+On regarde leurs maillots (leur peau) et comment ils respirent :
+
+1. Les Poissons (Team Eau) : Ils ont des écailles non soudées et vivent dans l'eau. (Ex: Yaboy, Thiof).
+2. Les Amphibiens (Team Double-Jeu) : Peau nue et humide. Ils vivent dans l'eau bébés, et sur terre adultes. (Ex: Crapaud).
+3. Les Reptiles (Team Écailles Soudées) : Peau sèche avec écailles. Ils rampent souvent. (Ex: Margouillat, Serpent, Tortue).
+4. Les Oiseaux (Team Plumes) : Ils ont des plumes et un bec. (Ex: Poulet, Aigle).
+5. Les Mammifères (Team Poils & Lait) : Ils ont des poils (souvent) et allaitent leurs petits. (Ex: Chèvre, Lion, Homme, Baleine).`
+        },
+        theory: `Classification des Vertébrés
+
+Les vertébrés sont des animaux qui possèdent une colonne vertébrale (squelette interne). On les classe en 5 grandes classes selon leurs attributs :
+
+1. MAMMIFÈRES
+- Peau : Poils
+- Respiration : Pulmonaire
+- Température : Constante (Sang chaud)
+- Reproduction : Vivipares (bébé dans le ventre), allaitement.
+
+2. OISEAUX
+- Peau : Plumes
+- Respiration : Pulmonaire
+- Température : Constante
+- Reproduction : Ovipares (œufs à coquille dure).
+
+3. REPTILES
+- Peau : Écailles soudées (sèches)
+- Respiration : Pulmonaire
+- Température : Variable (Sang froid)
+- Reproduction : Ovipares (œufs à coquille molle).
+
+4. AMPHIBIENS (Batraciens)
+- Peau : Nue et humide
+- Respiration : Branchiale (larve), Pulmonaire/Cutanée (adulte)
+- Température : Variable
+- "Double vie" (eau/terre).
+
+5. POISSONS
+- Peau : Écailles non soudées (visqueuses)
+- Respiration : Branchiale (branchies)
+- Température : Variable
+- Vie aquatique.`,
+        exercises: [
+            {
+                question: 'À quelle classe appartient la chauve-souris ?',
+                options: ['Oiseau', 'Mammifère', 'Reptile', 'Amphibien'],
+                correct: 1,
+                explanation: 'La chauve-souris est un mammifère ! Elle a des poils et allaite ses petits (ce n\'est pas un oiseau malgré ses ailes).'
+            },
+            {
+                question: 'Quel est le point commun entre un serpent et un margouillat ?',
+                options: ['Ils vivent dans l\'eau', 'Ils ont des poils', 'Ce sont des reptiles', 'Ils ont des plumes'],
+                correct: 2,
+                explanation: 'Ce sont tous les deux des reptiles avec des écailles soudées.'
+            }
+        ],
+        relatedSimulations: ['food-chain', 'cell-structure']
+    },
+
+    // ========== 5ÈME (NOUVEAUX) ==========
+    'respiration-human': {
+        title: 'Respiration Humaine',
+        description: 'Mécanismes des poumons et échanges gazeux',
+        type: 'human-body',
+        config: {},
+        analogy: {
+            title: 'La Respiration comme un Soufflet de Forgeron',
+            content: `La respiration, c'est comme le soufflet d'un forgeron ! 🌬️
+
+L'Inspiration : C'est quand le forgeron écarte les poignées du soufflet pour faire entrer l'air. Tes côtes s'écartent et ton diaphragme descend comme si tu gonflais un ballon dans ton ventre.
+
+L'Expiration : C'est quand il appuie pour faire sortir l'air. Tes côtes redescendent et le diaphragme remonte, l'air est chassé.
+
+Les Alvéoles sont comme des milliers de petits sacs poreux où l'oxygène passe dans le sang (comme l'eau à travers un tissu) et le CO2 sort du sang.`
+        },
+        theory: `La Respiration chez l'Homme
+
+La respiration permet les échanges gazeux entre l'organisme et le milieu.
+
+1. Appareil Respiratoire
+- Fosses nasales (réchauffent l'air)
+- Trachée artère
+- Bronches (droite et gauche)
+- Poumons (contiennent les bronchioles et alvéoles)
+
+2. Les Mouvements Respiratoires
+- Inspiration (Active) : Augmentation du volume, l'air riche en O2 entre.
+- Expiration (Passive) : Diminution du volume, l'air riche en CO2 sort.
+
+3. Échanges Gazeux
+- Se font au niveau des alvéoles pulmonaires.
+- Le sang prend l'Oxygène (O2).
+- Le sang rejette le Dioxyde de Carbone (CO2).
+
+C'est vital pour produire de l'énergie dans nos cellules !`,
+        exercises: [
+            {
+                question: 'Quel gaz est indispensable à la vie que nous inspirons ?',
+                options: ['Azote', 'Dioxyde de carbone', 'Oxygène', 'Argon'],
+                correct: 2,
+                explanation: 'L\'oxygène (O2) est indispensable pour faire fonctionner nos organes.'
+            },
+            {
+                question: 'Où se font les échanges gazeux avec le sang ?',
+                options: ['Dans la trachée', 'Dans le nez', 'Dans les alvéoles', 'Dans le cœur'],
+                correct: 2,
+                explanation: 'C\'est dans les alvéoles, tout au bout des poumons, que l\'échange se fait.'
+            }
+        ],
+        relatedSimulations: ['blood-circulation', 'digestive-system']
+    },
+
+    'volcano-eruption': {
+        title: 'Éruptions Volcaniques',
+        description: 'Comprendre le fonctionnement des volcans',
+        type: 'geology',
+        config: {},
+        analogy: {
+            title: 'Le Volcan comme une Bouteille de Gaz Secouée',
+            content: `Un volcan, c'est comme une bouteille de Gazelle secouée ! 🌋🍾
+
+La Chambre Magmatique : C'est le liquide dans la bouteille.
+Le Gaz : C'est comme le gaz dans la boisson.
+La Cheminée : C'est le goulot de la bouteille.
+
+Tant que le bouchon est fermé (croûte terrestre solide), rien ne se passe.
+Mais si la pression est trop forte, le bouchon saute !
+
+- Si le gaz sort doucement (bouteille ouverte lentement) : C'est une éruption effusive (lave coule).
+- Si tout explose (bouteille secouée et ouverte d'un coup) : C'est une éruption explosive (cendres, bombes) !`
+        },
+        theory: `Les Éruptions Volcaniques
+
+Un volcan est une ouverture de la croûte terrestre rejetant du magma, des gaz et des cendres.
+
+Structure :
+- Chambre magmatique (réservoir profond)
+- Cheminée (conduit)
+- Cratère (sortie)
+
+Types d'éruptions :
+1. Effusives (Volcans rouges)
+- Magma fluide
+- Coulées de lave
+- Moins dangereux
+- Ex: Piton de la Fournaise
+
+2. Explosives (Volcans gris)
+- Magma visqueux (épais)
+- Nuées ardentes (gaz + cendres brûlants)
+- Très dangereux
+- Ex: Montagne Pelée
+
+Le magma dégazé en surface s'appelle la lave.`,
+        exercises: [
+            {
+                question: 'Comment appelle-t-on le magma une fois sorti du volcan ?',
+                options: ['Le Cratère', 'La Lave', 'La Cendre', 'Le Basalte'],
+                correct: 1,
+                explanation: 'Une fois dégazé à l\'air libre, le magma devient de la lave.'
+            },
+            {
+                question: 'Quel type d\'éruption est le plus dangereux ?',
+                options: ['Effusive', 'Explosive', 'Sous-marine', 'Éteinte'],
+                correct: 1,
+                explanation: 'Les éruptions explosives projettent des nuées ardentes très rapides et mortelles.'
+            }
+        ],
+        relatedSimulations: ['plate-tectonics', 'states-of-matter']
+    },
+
+    'earth-movement': {
+        title: 'Mouvements de la Terre',
+        description: 'Rotation, révolution et saisons',
+        type: 'astronomy',
+        config: {},
+        analogy: {
+            title: 'La Terre comme une Toupie qui Tourne autour d\'un Feu',
+            content: `La Terre est une toupie géante ! 🌍🌀🔥
+
+Rotation (Jour/Nuit) :
+La Terre tourne sur elle-même (toupie).
+C'est comme se tourner face au feu (jour) puis dos au feu (nuit).
+Ça prend 24h.
+
+Révolution (Année) :
+La Terre tourne aussi autour du Soleil (le grand feu de camp).
+Ça prend 365 jours (1 an).
+
+Les Saisons :
+La toupie est penchée ! C'est pour ça qu'il y a des saisons.
+Quand le Sénégal penche vers le Soleil : C'est l'été (chaud).
+Quand il penche loin du Soleil : C'est l'hiver (moins chaud).`
+        },
+        theory: `Les Mouvements de la Terre
+
+1. La Rotation (Sur elle-même)
+- Tourne d'Ouest en Est
+- Durée : 24 heures (jour sidéral 23h56min)
+- Conséquence : Alternance Jour/Nuit
+
+2. La Révolution (Autour du Soleil)
+- Orbite elliptique
+- Durée : 365,25 jours (une année)
+- Inclinaison de l'axe : 23,5°
+- Conséquence : Les Saisons (inégales durées jour/nuit)
+
+Solstices et Équinoxes :
+- Solstice Été : Jour le plus long (21 juin Nord)
+- Solstice Hiver : Nuit la plus longue (21 déc Nord)
+- Équinoxe : Jour = Nuit (21 mars, 21 sept).`,
+        exercises: [
+            {
+                question: 'Combien de temps met la Terre pour tourner autour du Soleil ?',
+                options: ['24 heures', '1 mois', '365 jours', '1000 jours'],
+                correct: 2,
+                explanation: 'C\'est la révolution, elle dure un an, soit 365 jours !'
+            },
+            {
+                question: 'Pourquoi y a-t-il le jour et la nuit ?',
+                options: ['Le soleil s\'éteint', 'La Terre tourne sur elle-même', 'La lune cache le soleil', 'Les nuages cachent le soleil'],
+                correct: 1,
+                explanation: 'C\'est la rotation de la Terre sur elle-même qui expose face au soleil ou non.'
+            }
+        ],
+        relatedSimulations: ['light-propagation', 'water-cycle']
+    },
+
+    'density-buoyancy': {
+        title: 'Densité et Flottabilité',
+        description: 'Pourquoi certains objets flottent et d\'autres coulent',
+        type: 'physics',
+        config: {},
+        analogy: {
+            title: 'Flotter ou Couler : Le Bois et le Caillou',
+            content: `Pourquoi le gros tronc d'arbre flotte et le petit caillou coule ? 🪵🪨
+
+C'est une histoire de DENSITÉ (lourdeur par rapport à la taille) !
+L'eau, c'est l'arbitre.
+- Si tu es plus dense que l'eau (plus "serré" comme le caillou) -> Tu perds, tu coules !
+- Si tu es moins dense que l'eau (plus "aéré" comme le bois) -> Tu gagnes, tu flottes !
+
+La Poussée d'Archimède :
+L'eau pousse vers le haut tout ce qu'on met dedans. C'est comme une main invisible qui te soulève dans la piscine.
+Si tu es léger pour ta taille, la main d'Archimède arrive à te porter !`
+        },
+        theory: `Densité et Poussée d'Archimède
+
+1. Masse volumique (ρ - rhô)
+- Masse par unité de volume (kg/m³)
+- Eau liquide = 1000 kg/m³
+
+2. Densité (d)
+- Rapport masse volumique objet / masse volumique eau.
+- d > 1 : L'objet coule.
+- d < 1 : L'objet flotte.
+- d = 1 : L'objet flotte entre deux eaux.
+
+3. Poussée d'Archimède
+"Tout corps plongé dans un fluide subit une poussée verticale, dirigée de bas en haut, égale au poids du fluide déplacé."
+
+C'est cette force qui permet aux bateaux en acier (très lourds) de flotter car ils déplacent beaucoup d'eau (grand volume d'air dans la coque) !`,
+        exercises: [
+            {
+                question: 'Si la densité d\'un objet est 0,8, que fait-il dans l\'eau (densité 1) ?',
+                options: ['Il coule', 'Il flotte', 'Il explose', 'Il dissout'],
+                correct: 1,
+                explanation: '0,8 est plus petit que 1, donc il est moins dense que l\'eau : il flotte !'
+            },
+            {
+                question: 'Pourquoi un navire en acier flotte-t-il ?',
+                options: ['L\'acier est léger', 'Il contient beaucoup d\'air (volume)', 'Il a un moteur', 'L\'eau est salée'],
+                correct: 1,
+                explanation: 'Grâce à sa forme creuse, il contient beaucoup d\'air et déplace un énorme volume d\'eau, créant une forte poussée d\'Archimède.'
+            }
+        ],
+        relatedSimulations: ['volume-mass', 'forces-motion']
+    },
+
+    'electric-resistance': {
+        title: 'Résistance Électrique',
+        description: 'L\'effet des résistances dans un circuit',
+        type: 'circuit',
+        config: {},
+        analogy: {
+            title: 'La Résistance comme un Embouteillage',
+            content: `Une résistance électrique, c'est comme un rétrécissement de la route ou un embouteillage ! 🚗🚕🚌
+
+Le courant électrique, ce sont les voitures qui circulent.
+Le fil normal, c'est l'autoroute à péage (ça roule vite !).
+
+La Résistance (le composant), c'est une zone de travaux ou une route ensablée.
+- Les voitures sont obligées de ralentir.
+- Ça frotte, ça chauffe (effet Joule), comme les pneus sur le sable !
+
+Plus la résistance est forte (gros embouteillage), moins le courant passe fort.`
+        },
+        theory: `La Résistance Électrique
+
+La résistance est la propriété d'un matériau à s'opposer au passage du courant électrique.
+
+1. Grandeur Physique
+- Symbole : R
+- Unité : Ohm (Ω - oméga)
+- Instrument : Ohmmètre
+
+2. Loi d'Ohm
+C'est la loi fondamentale : U = R x I
+- U : Tension (Volts)
+- R : Résistance (Ohms)
+- I : Intensité (Ampères)
+
+3. Effet Joule
+Le passage du courant dans une résistance dégage de la chaleur.
+Applications : Fer à repasser, radiateur, fusible, lampe à incandescence.`,
+        exercises: [
+            {
+                question: 'Quelle est l\'unité de la résistance ?',
+                options: ['Volt', 'Ampère', 'Ohm', 'Watt'],
+                correct: 2,
+                explanation: 'L\'unité est l\'Ohm, symbolisé par la lettre grecque oméga (Ω).'
+            },
+            {
+                question: 'Quel effet produit une résistance traversée par un courant ?',
+                options: ['Elle refroidit', 'Elle chauffe (Effet Joule)', 'Elle tourne', 'Elle s\'allume'],
+                correct: 1,
+                explanation: 'Elle dégage de la chaleur, c\'est l\'effet Joule (utile pour le chauffage/repassage).'
+            }
+        ],
+        relatedSimulations: ['simple-circuits', 'energy-conservation']
+    },
+
+    'solutions-solubility': {
+        title: 'Solutions et Solubilité',
+        description: 'Dissolution, saturation et concentration',
+        type: 'lab',
+        config: {},
+        analogy: {
+            title: 'Les Solutions comme le Café Touba Sucré',
+            content: `Faire une solution, c'est comme préparer le Café Touba ! ☕🍬
+
+Le Solvant (l'eau chaude) est celui qui accueille.
+Le Soluté (le sucre) est celui qui disparaît dedans.
+
+Dissolution : Le sucre se cache dans l'eau. Il est toujours là (c'est sucré), mais on ne le voit plus.
+
+Saturation : Si tu mets trop de sucre, l'eau ne peut plus "avaler". Le sucre reste au fond. Ta solution est saturée !
+
+Soluble (Sucre, Sel) : Ça se mélange.
+Insoluble (Sable, Cailloux) : Ça ne se mélange pas !`
+        },
+        theory: `Solutions et Solubilité
+
+Une solution est obtenue par dissolution d'un soluté dans un solvant.
+
+Définitions :
+- Solvant : Liquide qui dissout (généralement l'eau = solution aqueuse).
+- Soluté : Corps dissous (solide, liquide ou gaz).
+- Solution : Mélange homogène obtenu.
+
+Concentration Massique (C) :
+Masse de soluté par litre de solution.
+C = m / V (en g/L)
+
+Saturation :
+Limite de solubilité. Au-delà, le soluté ne se dissout plus et forme un dépôt.`  ,
+        exercises: [
+            {
+                question: 'Comment appelle-t-on le liquide qui dissout le solide ?',
+                options: ['Le Soluté', 'Le Solvant', 'Le Sirop', 'Le Mélange'],
+                correct: 1,
+                explanation: 'Le solvant (comme l\'eau) est le liquide qui dissout.'
+            },
+            {
+                question: 'Que se passe-t-il quand une solution est saturée ?',
+                options: ['Elle explose', 'Elle change de couleur', 'Le soluté ne se dissout plus', 'Elle devient gazeuse'],
+                correct: 2,
+                explanation: 'À saturation, le solvant ne peut plus accepter de soluté, le surplus tombe au fond.'
+            }
+        ],
+        relatedSimulations: ['mixture-separation', 'states-of-matter']
+    },
+
+    'triangles-properties': {
+        title: 'Propriétés des Triangles',
+        description: 'Explorez les hauteurs, médianes et médiatrices',
+        type: 'geometry',
+        config: {},
+        analogy: {
+            title: 'Les Triangles et leurs Lignes Spéciales',
+            content: `Le triangle a des lignes magiques ! 📐✨
+
+La Hauteur : C'est comme mesurer la taille de quelqu'un. On part du sommet (la tête) et on va tout droit au sol (perpendiculaire).
+
+La Médiatrice : C'est la ligne de la justice ! Elle passe pile au milieu du côté et est droite (perpendiculaire). Tout point dessus est à égale distance des deux bouts.
+
+La Médiane : C'est la ligne du partage. Elle part du sommet et coupe le côté opposé en plein milieu.
+
+La Bissectrice : La ligne qui coupe l'angle en deux parts égales, comme couper une part de gâteau équitablement !`
+        },
+        theory: `Droites Remarquables du Triangle
+
+1. Médiatrices
+- Perpendiculaires aux côtés en leur milieu.
+- Leur intersection est le centre du CERCLE CIRCONSCRIT (passe par les 3 sommets).
+
+2. Hauteurs
+- Passent par un sommet et sont perpendiculaires au côté opposé.
+- Leur intersection est l'ORTHOCENTRE.
+
+3. Médianes
+- Passent par un sommet et le milieu du côté opposé.
+- Leur intersection est le CENTRE DE GRAVITÉ (point d'équilibre).
+
+4. Bissectrices
+- Coupent les angles en deux.
+- Leur intersection est le centre du CERCLE INSCRIT.
+
+Propriété Somme des Angles :
+Dans tout triangle, Angle A + Angle B + Angle C = 180°.`,
+        exercises: [
+            {
+                question: 'Quelle droite passe par le milieu d\'un côté et est perpendiculaire ?',
+                options: ['La médiane', 'La hauteur', 'La médiatrice', 'La bissectrice'],
+                correct: 2,
+                explanation: 'C\'est la médiatrice ! Elle est "médi" (milieu) et droite (perpendiculaire).'
+            },
+            {
+                question: 'Combien vaut la somme des angles d\'un triangle ?',
+                options: ['90°', '180°', '360°', '100°'],
+                correct: 1,
+                explanation: 'Toujours 180°, quelle que soit la forme du triangle !'
+            }
+        ],
+        relatedSimulations: ['geometric-shapes', 'angles-measurement']
+    },
+
+    'fraction-visualizer': {
+        title: 'Visualiseur de Fractions',
+        description: 'Comprendre les fractions graphiquement',
+        type: 'fraction',
+        config: {},
+        analogy: {
+            title: 'Les Fractions comme le Partage du Gâteau',
+            content: `Les fractions, c'est juste du partage ! 🍰
+
+Imagine un gâteau d'anniversaire.
+Le Dénominateur (en bas), c'est en combien de parts TOTALES on a coupé le gâteau.
+Le Numérateur (en haut), c'est combien de parts on PREND.
+
+1/4 : On coupe en 4, on prend 1 part (Un quart).
+1/2 : On coupe en 2 (moitié).
+
+Si le numérateur est plus grand que le dénominateur (ex: 5/4), c'est qu'il te faut plus qu'un seul gâteau ! (1 gâteau entier + 1/4).`
+        },
+        theory: `Les Fractions
+
+Une fraction représente une partie d'un tout ou une division.
+Écriture : a / b
+- a est le Numérateur (nombre de parts prises)
+- b est le Dénominateur (nombre de parts totales)
+- b ne peut jamais être égal à 0 !
+
+Égalité :
+Deux fractions sont égales si on peut passer de l'une à l'autre en multipliant/divisant haut et bas par le même nombre (Simplification).
+Ex: 1/2 = 2/4 = 4/8
+
+Addition :
+Pour additionner, il faut le MÊME dénominateur.
+On ne peut pas additionner des choux et des carottes !`,
+        exercises: [
+            {
+                question: 'Dans la fraction 3/4, quel chiffre est le dénominateur ?',
+                options: ['3', '4', 'Les deux', 'Aucun'],
+                correct: 1,
+                explanation: 'C\'est le 4 (en bas) qui "dénomme" (donne le nom : quarts).'
+            },
+            {
+                question: 'Que vaut 1/2 + 1/2 ?',
+                options: ['1/4', '2/4', '1 (entier)', '2'],
+                correct: 2,
+                explanation: 'Une moitié plus une moitié, ça fait un entier (2/2 = 1) !'
+            }
+        ],
+        relatedSimulations: ['geometric-shapes', 'angles-measurement']
+    },
+
+    // ========== 4ÈME (NOUVEAUX) ==========
+    'blood-groups': {
+        title: 'Groupes Sanguins',
+        description: 'Comprendre les groupes A, B, AB, O et le rhésus',
+        type: 'blood',
+        config: {},
+        analogy: {
+            title: 'Les Groupes Sanguins comme des Maillots de Foot',
+            content: `Les groupes sanguins, c'est comme porter le maillot de son équipe ! ⚽👕
+
+Groupe A : Tu portes le maillot A.
+Groupe B : Tu portes le maillot B.
+Groupe AB : Tu portes les deux maillots A et B (super-receveur !).
+Groupe O : Tu ne portes PAS de maillot (super-donneur !).
+
+Le Système Immunitaire (la Police) déteste les maillots qu'il ne connait pas !
+- Si tu es A, ta police attaque le B.
+- Si tu es O, ta police attaque A et B (tu ne peux recevoir que du O).
+- Si tu es AB, ta police connait tout le monde, tu peux tout recevoir !`
+        },
+        theory: `Les Groupes Sanguins (Système ABO)
+
+Les globules rouges portent des marqueurs (antigènes) à leur surface.
+
+1. Les 4 Groupes
+- Groupe A : Antigènes A
+- Groupe B : Antigènes B
+- Groupe AB : Antigènes A et B
+- Groupe O : Aucun antigène
+
+2. Compatibilité (Transfusion)
+- On ne peut pas introduire un antigène étranger.
+- O est donneur universel (pas d'antigène).
+- AB est receveur universel.
+
+3. Facteur Rhésus (+ / -)
+- Un autre marqueur (antigène D).
+- + possède le marqueur.
+- - ne le possède pas.`,
+        exercises: [
+            {
+                question: 'Quel groupe est le "Docteur" universel (Donneur Universel) ?',
+                options: ['Groupe A', 'Groupe B', 'Groupe AB', 'Groupe O'],
+                correct: 3,
+                explanation: 'Le groupe O n\'a pas de marqueurs, il peut aller chez tout le monde sans se faire attaquer !'
+            },
+            {
+                question: 'Un patient du groupe A peut-il recevoir du sang B ?',
+                options: ['Oui', 'Non', 'Seulement le mardi', 'Seulement s\'il est Rh+'],
+                correct: 1,
+                explanation: 'Non ! Son corps va attaquer les marqueurs B qu\'il ne connait pas.'
+            }
+        ],
+        relatedSimulations: ['blood-circulation', 'immune-system']
+    },
+
+    'human-reproduction': {
+        title: 'Reproduction Humaine',
+        description: 'De la fécondation au développement',
+        type: 'biology',
+        config: {},
+        analogy: {
+            title: 'La Reproduction : La Rencontre d\'une Graine et d\'une Terre',
+            content: `C'est une histoire de rencontre ! 💕🌱
+
+Le spermatozoïde est comme une graine voyageuse qui apporte la moitié du plan.
+L'ovule est comme une graine dormante qui a l'autre moitié.
+
+La Fécondation : C'est quand ils se rencontrent et fusionnent. Ils forment une seule cellule (Zygote), le début de la vie.
+La Nidation : L'œuf s'installe dans l'utérus comme la graine se plante dans la bonne terre.
+
+Ensuite, le bébé grandit protégé dans le ventre, nourri par le cordon ombilical (comme la sève nourrit la plante).`
+        },
+        theory: `La Reproduction Humaine
+
+1. Les Gamètes (Cellules sexuelles)
+- Homme : Spermatozoïdes (mobiles, produits en continu).
+- Femme : Ovules (immobiles, cycle mensuel).
+
+2. La Fécondation
+- Rencontre des gamètes dans les trompes.
+- Fusion des noyaux -> Cellule œuf (Zygote).
+
+3. Le Développement
+- Embryon (2 premiers mois) : Formation des organes.
+- Fœtus (du 3ème mois à la naissance) : Croissance.
+- Durée grossesse : 9 mois.
+
+4. Le Placenta
+- Organe d'échange mère-enfant (oxygène, nutriments).`,
+        exercises: [
+            {
+                question: 'Où a lieu la fécondation ?',
+                options: ['Dans l\'utérus', 'Dans les trompes', 'Dans l\'estomac', 'Dans l\'ovaire'],
+                correct: 1,
+                explanation: 'La rencontre se fait généralement dans les trompes, avant de descendre vers l\'utérus.'
+            },
+            {
+                question: 'Comment s\'appelle le bébé après 3 mois de grossesse ?',
+                options: ['Un embryon', 'Un fœtus', 'Un zygote', 'Un nouveau-né'],
+                correct: 1,
+                explanation: 'À partir de 3 mois, tous les organes sont formés, il devient un fœtus et grandit juste.'
+            }
+        ],
+        relatedSimulations: ['genetics-dna', 'cell-division']
+    },
+
+    'light-propagation': {
+        title: 'Propagation de la Lumière',
+        description: 'Ombres, pénombre et éclipses',
+        type: 'optic',
+        config: {},
+        analogy: {
+            title: 'L\'Ombre et la Lumière : Le Parasol',
+            content: `La lumière voyage toujours tout droit, comme une flèche ! 🏹☀️
+
+L'Ombre : C'est quand tu mets un obstacle (parasol) devant la lumière. La lumière ne peut pas contourner, donc derrière, c'est noir.
+
+L'Éclipse Solaire : C'est quand la Lune joue au parasol pour la Terre ! Elle passe pile devant le Soleil et nous met à l'ombre en plein jour.
+
+L'Éclipse Lunaire : C'est quand la Terre joue au parasol pour la Lune. La Terre cache le Soleil à la Lune.`
+        },
+        theory: `Propagation Rectiligne de la Lumière
+
+1. Principe
+Dans un milieu transparent et homogène (air, vide), la lumière se propage en ligne droite.
+
+2. Les Ombres
+- Source ponctuelle : Ombre nette.
+- Source étendue : Ombre + Pénombre (zone floue).
+- Cône d'ombre : Zone sombre derrière l'objet.
+
+3. Les Éclipses
+- Éclipse de Soleil : Soleil - Lune - Terre alignés. (La Lune masque le Soleil).
+- Éclipse de Lune : Soleil - Terre - Lune alignés. (La Terre masque la Lune).`,
+        exercises: [
+            {
+                question: 'Comment se déplace la lumière ?',
+                options: ['En zigzag', 'En courbe', 'En ligne droite', 'En spirale'],
+                correct: 2,
+                explanation: 'Dans l\'air ou le vide, la lumière file toujours tout droit !'
+            },
+            {
+                question: 'Qu\'est-ce qui cause une éclipse de Soleil ?',
+                options: ['La Terre cache le Soleil', 'La Lune passe entre la Terre et le Soleil', 'Le Soleil s\'éteint', 'Les nuages'],
+                correct: 1,
+                explanation: 'C\'est la Lune qui passe devant le Soleil et nous fait de l\'ombre.'
+            }
+        ],
+        relatedSimulations: ['light-reflection', 'earth-movement']
+    },
+
+    'combustion-reaction': {
+        title: 'Les Combustions',
+        description: 'Le tétraèdre du feu et réactions',
+        type: 'chemistry',
+        config: {},
+        analogy: {
+            title: 'Le Feu a besoin de 3 Amis (Triangle du Feu)',
+            content: `Pour faire du feu pour le thé, il te faut obligatoirement 3 choses ! 🔥🍵
+
+1. Le Combustible (ce qui brûle) : Le charbon ou le bois.
+2. Le Comburant (ce qui fait brûler) : L'air (l'oxygène). Si tu étouffes le feu, il meurt.
+3. L'Énergie (l'étincelle) : L'allumette ou la chaleur pour démarrer.
+
+Si tu enlèves UN SEUL ami, le feu s'éteint direct !
+
+Combustion Complète (Flamme bleue) : Ça brûle bien, il y a assez d'air. Dégage CO2 et Eau.
+Combustion Incomplète (Flamme jaune/orange) : Pas assez d'air. Ça fume noir et dégage du CO (Gaz mortel !). Danger !`
+        },
+        theory: `Les Combustions
+
+Une combustion est une réaction chimique exothermique (dégage de la chaleur).
+
+1. Le Triangle du Feu
+Nécessite : Combustible + Comburant (O2) + Chaleur.
+
+2. Combustion du Carbone
+C + O2 -> CO2 (Dioxyde de carbone)
+
+3. Combustion du Butane (Gaz)
+- Complète (O2 suffisant) :
+  Butane + O2 -> CO2 + Eau (H2O)
+  (Flamme bleue, chauffe fort).
+
+- Incomplète (Manque d'O2) :
+  Produit du Carbone (fumée noire) et du Monoxyde de Carbone (CO).
+  Le CO est un gaz inodore, incolore et mortel (asphyxie).`,
+        exercises: [
+            {
+                question: 'Quel gaz est nécessaire pour faire brûler quelque chose ?',
+                options: ['Azote', 'Oxygène (Dioxygène)', 'Dioxyde de carbone', 'Méthane'],
+                correct: 1,
+                explanation: 'Le dioxygène (O2) est le comburant indispensable au feu.'
+            },
+            {
+                question: 'Quel est le danger d\'une combustion incomplète (flamme jaune) ?',
+                options: ['Elle ne chauffe pas', 'Elle produit de l\'eau', 'Elle produit du monoxyde de carbone (toxique)', 'Elle sent bon'],
+                correct: 2,
+                explanation: 'Elle produit du CO (monoxyde de carbone), un gaz mortel qu\'on ne sent pas !'
+            }
+        ],
+        relatedSimulations: ['chemical-reactions', 'states-of-matter']
+    },
+
+    'atom-molecule-intro': {
+        title: 'Atomes et Molécules',
+        description: 'Introduction à la structure de la matière',
+        type: 'atom',
+        config: {},
+        analogy: {
+            title: 'Atomes et Molécules : Les Briques Lego',
+            content: `La matière, c'est comme une construction en Lego ! 🧱
+
+L'Atome : C'est une seule brique Lego (Rouge, Bleue, etc.). C'est le plus petit morceau indivisible (en chimie).
+Ex: Atome d'Oxygène (O), Atome de Carbone (C).
+
+La Molécule : C'est un assemblage de plusieurs briques collées ensemble.
+Ex: Molécule d'eau (H2O) = 2 briques Hydrogène + 1 brique Oxygène.
+
+Corps Pur : Que des constructions identiques.
+Mélange : Plein de constructions différentes en vrac.`
+        },
+        theory: `Atomes et Molécules
+
+1. L'Atome
+- Constituant élémentaire de la matière.
+- Symbole : Une lettre majuscule (C, O, H, N).
+- Représenté par une sphère de couleur (Carbone=Noir, Oxygène=Rouge, Hydrogène=Blanc).
+
+2. La Molécule
+- Assemblage d'atomes liés entre eux.
+- Formule chimique : H2O (Eau), CO2 (Dioxyde de carbone), O2 (Dioxygène).
+
+3. Corps Purs
+- Corps pur simple : Molécules avec un seul type d'atome (O2, N2).
+- Corps pur composé : Molécules avec plusieurs types d'atomes (H2O, CH4).`,
+        exercises: [
+            {
+                question: 'Quel est le symbole de l\'atome de Carbone ?',
+                options: ['Ca', 'C', 'Co', 'K'],
+                correct: 1,
+                explanation: 'C\'est C ! (Ca c\'est Calcium, K c\'est Potassium).'
+            },
+            {
+                question: 'H2O est-il un atome ou une molécule ?',
+                options: ['Un atome', 'Une molécule', 'Un ion', 'Un mélange'],
+                correct: 1,
+                explanation: 'C\'est une molécule car elle contient plusieurs atomes (2 H et 1 O) attachés.'
+            }
+        ],
+        relatedSimulations: ['chemical-reactions', 'states-of-matter']
+    },
+
+    'pythagoras-theorem': {
+        title: 'Théorème de Pythagore',
+        description: 'Visualisation géométrique du théorème',
+        type: 'geometry',
+        config: {},
+        analogy: {
+            title: 'Pythagore et le Raccourci',
+            content: `Pythagore, c'est l'histoire d'un raccourci dans un terrain rectangulaire ! 📐🏃🏾‍♂️
+
+Imagine un terrain de foot coupé en diagonale.
+Tu as un Triangle Rectangle (avec un angle droit).
+
+Le grand côté en face de l'angle droit s'appelle l'Hypoténuse.
+
+Le Théorème dit :
+Le carré de la longueur de l'Hypoténuse est égal à la somme des carrés des deux autres côtés.
+a² + b² = c²
+
+C'est utile pour calculer une longueur qu'on ne connait pas, comme la longueur d'une échelle posée contre un mur !`
+        },
+        theory: `Théorème de Pythagore
+
+Condition : Le triangle doit être RECTANGLE (avoir un angle droit).
+
+Énoncé :
+"Dans un triangle rectangle, le carré de l'hypoténuse est égal à la somme des carrés des deux autres côtés."
+
+Si ABC est rectangle en A :
+BC² = AB² + AC²
+
+(BC est l'hypoténuse).
+
+Réciproque :
+Si dans un triangle, le carré du plus grand côté est égal à la somme des carrés des deux autres, alors ce triangle est rectangle. (Sert à prouver qu'il y a un angle droit).`,
+        exercises: [
+            {
+                question: 'À quoi sert le théorème de Pythagore ?',
+                options: ['Calculer des angles', 'Calculer une longueur dans un triangle rectangle', 'Calculer l\'aire d\'un cercle', 'Tracer des parallèles'],
+                correct: 1,
+                explanation: 'Il sert à calculer la longueur d\'un 3ème côté quand on connait les 2 autres dans un triangle rectangle.'
+            },
+            {
+                question: 'Comment s\'appelle le côté le plus long d\'un triangle rectangle ?',
+                options: ['La Cathète', 'L\'Hypoténuse', 'La Diagonale', 'Le Rayon'],
+                correct: 1,
+                explanation: 'C\'est l\'Hypoténuse. Il est toujours en face de l\'angle droit.'
+            }
+        ],
+        relatedSimulations: ['geometric-shapes', 'triangles-properties']
+    },
+
+    'linear-equations': {
+        title: 'Équations Linéaires',
+        description: 'Résolution graphique d\'équations',
+        type: 'graph',
+        config: {},
+        analogy: {
+            title: 'L\'Équation comme une Balance du Marché',
+            content: `Une équation, c'est comme une balance à deux plateaux à l'équilibre ! ⚖️
+
+Le signe "=" est le milieu de la balance.
+Ce qu'il y a à gauche pèse pareil que ce qu'il y a à droite.
+
+Le but est de trouver le poids mystère "x" (une mangue inconnue).
+
+Règle d'or : Si tu ajoutes ou enlèves quelque chose d'un côté, tu DOIS faire exactement pareil de l'autre côté pour garder l'équilibre.
+Si tu enlèves 2kg à gauche, enlève 2kg à droite !`
+        },
+        theory: `Équations du Premier Degré
+
+Une équation est une égalité contenant une inconnue (notée x).
+Résoudre l'équation, c'est trouver la valeur de x qui rend l'égalité vraie.
+
+Forme générale : ax + b = c
+
+Méthode de résolution :
+1. Isoler les x d'un côté et les nombres de l'autre.
+   (Changer de côté = Changer de signe).
+2. Diviser par le coefficient de x.
+
+Exemple : 2x + 3 = 11
+2x = 11 - 3
+2x = 8
+x = 8 / 2
+x = 4`,
+        exercises: [
+            {
+                question: 'Si 3x = 12, que vaut x ?',
+                options: ['3', '4', '9', '36'],
+                correct: 1,
+                explanation: 'x = 12 / 3 = 4. Car 3 fois 4 égale 12.'
+            },
+            {
+                question: 'Quelle est la première étape pour résoudre 2x + 5 = 15 ?',
+                options: ['Diviser par 2', 'Ajouter 5', 'Soustraire 5 des deux côtés', 'Multiplier par 15'],
+                correct: 2,
+                explanation: 'On se débarrasse d\'abord du +5 en faisant -5 des deux côtés : 2x = 10.'
+            }
+        ],
+        relatedSimulations: ['fraction-visualizer', 'pythagoras-theorem']
+    },
+
+    // ========== 3ÈME (NOUVEAUX) ==========
+    'microbes-bacteria': {
+        title: 'Microbes et Bactéries',
+        description: 'Diversité du monde microbien',
+        type: 'biology',
+        config: {},
+        analogy: {
+            title: 'Les Microbes : Les Bons, les Brutes et les Truands',
+            content: `Le monde des microbes, c'est comme une grande ville invisible ! 🏙️🦠
+
+1. Les Gentils (Bactéries du Yaourt/Intestin) : Ils nous aident à digérer et font le lait caillé (Sow). Ce sont les "bons citoyens".
+2. Les Méchants (Pathogènes) : Ils nous rendent malades (Choléra, Tuberculose). Ce sont les "bandits".
+3. Les Truands (Virus) : Ce ne sont même pas des cellules vivantes, mais des pirates qui squattent nos cellules pour se photocopier (Grippe, VIH) !
+
+Heureusement, notre corps a sa propre armée (Globules Blancs) pour les combattre !`
+        },
+        theory: `Microbes et Système Immunitaire
+
+Les micro-organismes (microbes) sont partout (air, eau, sol, corps).
+
+Classification :
+1. Bactéries (Cellules sans noyau) : Peuvent être utiles (fermentation) ou pathogènes. Se tuent avec des Antibiotiques.
+2. Virus (Parasites obligatoires) : Toujours parasites. Antibiotiques inefficaces.
+3. Champignons microscopiques (Levures, Moisissures).
+4. Protozoaires (Parasites comme le Plasmodium du Paludisme).
+
+Infection : Pénétration et multiplication des microbes dans l'organisme.
+
+Asepsie : Empêcher les microbes d'entrer (Hygiène, désinfection).
+Antisepsie : Tuer les microbes sur une plaie.`,
+        exercises: [
+            {
+                question: 'Quel médicament utilise-t-on contre les bactéries ?',
+                options: ['Le paracétamol', 'L\'antibiotique', 'Le vaccin', 'La vitamine C'],
+                correct: 1,
+                explanation: 'Les antibiotiques ("anti-vie") tuent les bactéries, mais ne marchent pas sur les virus !'
+            },
+            {
+                question: 'La levure de boulanger est-elle un microbe ?',
+                options: ['Oui, un champignon utile', 'Non, c\'est de la farine', 'Oui, un virus dangereux', 'Non, c\'est un minéral'],
+                correct: 0,
+                explanation: 'Oui ! C\'est un champignon microscopique utile pour faire lever le pain.'
+            }
+        ],
+        relatedSimulations: ['immune-system', 'cell-structure']
+    },
+
+    'chromosomes-division': {
+        title: 'Chromosomes',
+        description: 'Caryotypes et division cellulaire',
+        type: 'genetics',
+        config: {},
+        analogy: {
+            title: 'Les Chromosomes : Les Livres de Cuisine de la Vie',
+            content: `L'ADN, c'est la recette complète pour te fabriquer ! 🧬📖
+
+Les Chromosomes, ce sont les livres qui contiennent les recettes (Gènes).
+Chaque être humain a 46 livres (23 Paires) dans chaque cellule.
+
+- Tu reçois 23 livres de Papa.
+- Tu reçois 23 livres de Maman.
+
+La 23ème paire décide si tu es Garçon (XY) ou Fille (XX).
+
+La Trisomie 21, c'est quand il y a un livre en trop (3 livres au lieu de 2) au numéro 21. Une erreur d'impression !`
+        },
+        theory: `Les Chromosomes et l'Hérédité
+
+Les chromosomes sont le support de l'information génétique. Ils sont situés dans le noyau des cellules.
+
+Caryotype Humain :
+- 23 paires de chromosomes (soit 46).
+- 22 paires d'autosomes (identiques H/F).
+- 1 paire de chromosomes sexuels (XX pour femme, XY pour homme).
+
+Division Cellulaire (Mitose) :
+La cellule copie tous ses chromosomes puis se divise en deux. Chaque cellule fille reçoit les mêmes 46 chromosomes.
+
+Division Sexuelle (Méiose) :
+Pour fabriquer spermatozoïdes et ovules, on divise par deux. Ils n'ont que 23 chromosomes (un seul de chaque paire).`,
+        exercises: [
+            {
+                question: 'Combien de chromosomes possède une cellule humaine normale ?',
+                options: ['23', '46', '92', '12'],
+                correct: 1,
+                explanation: '46 chromosomes, organisés en 23 paires.'
+            },
+            {
+                question: 'Quel est le caryotype d\'un garçon ?',
+                options: ['XX', 'XY', 'YY', 'XO'],
+                correct: 1,
+                explanation: 'Les garçons ont un chromosome X (de maman) et un Y (de papa).'
+            }
+        ],
+        relatedSimulations: ['genetics-dna', 'human-reproduction']
+    },
+
+    'ions-formation': {
+        title: 'Formation des Ions',
+        description: 'Cations, anions et solutions ioniques',
+        type: 'chemistry',
+        config: {},
+        analogy: {
+            title: 'Les Ions : Des Atomes Électriques',
+            content: `Un atome est normalement neutre (autant de + que de -). ⚛️😐
+
+Mais parfois, il gagne ou perd des électrons (les petits - qui tournent autour).
+
+Le Cation (+) : C'est un atome qui a PERDU un électron. Il est devenu positif car le moins (-) est parti.
+C'est comme quelqu'un qui se décharge d'un poids négatif, il devient positif ! Ex: Sodium (Na+).
+
+L'Anion (-) : C'est un atome qui a GAGNÉ un électron. Il est devenu négatif car il a pris un truc négatif en plus.
+Ex: Chlorure (Cl-).
+
+Na+ et Cl- s'attirent comme des aimants pour former le Sel (NaCl) !`
+        },
+        theory: `Les Ions
+
+Un ion est un atome (ou groupe d'atomes) qui a perdu ou gagné un ou plusieurs électrons.
+
+1. Cation (Positif)
+- A perdu des électrons.
+- Ex : Na+ (Sodium), H+ (Hydrogène), Cu2+ (Cuivre).
+- Test : Soude (NaOH) donne un précipité coloré avec les ions métalliques (Bleu pour Cu2+, Rouille pour Fe3+).
+
+2. Anion (Négatif)
+- A gagné des électrons.
+- Ex : Cl- (Chlorure), OH- (Hydroxyde).
+- Test : Nitrate d'argent donne un précipité blanc avec Cl- (noircit à la lumière).
+
+3. Électrolyse
+Le courant électrique circule dans l'eau salée grâce au déplacement des ions (porteurs de charge).`,
+        exercises: [
+            {
+                question: 'Un atome qui perd un électron devient...',
+                options: ['Un ion négatif (Anion)', 'Un ion positif (Cation)', 'Un neutron', 'Une molécule'],
+                correct: 1,
+                explanation: 'Il perd une charge négative (-), donc il devient positif (+), c\'est un Cation !'
+            },
+            {
+                question: 'Quel ion donne une couleur bleue avec la soude ?',
+                options: ['Fer (Fe2+)', 'Cuivre (Cu2+)', 'Zinc (Zn2+)', 'Sodium (Na+)'],
+                correct: 1,
+                explanation: 'Le précipité bleu caractérique identifie les ions Cuivre II.'
+            }
+        ],
+        relatedSimulations: ['atomic-structure', 'ph-scale']
+    },
+
+    'ph-scale': {
+        title: 'Échelle de pH',
+        description: 'Acides, bases et indicateurs colorés',
+        type: 'lab',
+        config: {},
+        analogy: {
+            title: 'Le pH : Acide ou Basique ?',
+            content: `Le pH mesure si un liquide est "piquant" (Acide) ou "douceâtre/savonneux" (Basique). 🍋🧼
+
+L'échelle va de 0 à 14.
+7 est le Milieu (Neutre) : Comme l'eau pure. Ni l'un ni l'autre.
+
+0 à 7 (Acide) : C'est le Citron, le Vinaigre, l'Acide de batterie. Plus c'est proche de 0, plus ça brûle ! (Beaucoup d'ions H+).
+
+7 à 14 (Basique) : C'est l'Eau de Javel, la Soude, le Savon. Plus c'est proche de 14, plus ça ronge aussi ! (Beaucoup d'ions OH-).
+
+Attention : Acide + Base = Explosion (ou effervescence) et ça chauffe !`
+        },
+        theory: `Le Potentiel Hydrogène (pH)
+
+Le pH mesure l'acidité d'une solution aqueuse (concentration en ions H+).
+
+Échelle de pH (à 25°C) :
+- pH < 7 : Solution ACIDE (Riche en H+)
+- pH = 7 : Solution NEUTRE (Eau pure)
+- pH > 7 : Solution BASIQUE (Riche en OH-)
+
+Mesure du pH :
+- Papier pH (change de couleur)
+- Indicateurs colorés (BBT, Phénolphtaléine)
+- pH-mètre (précis)
+
+Dangers :
+Les acides et bases concentrés sont corrosifs (brûlent la peau et les vêtements). Toujours verser l'acide dans l'eau, jamais l'inverse !`,
+        exercises: [
+            {
+                question: 'Une solution de pH = 3 est...',
+                options: ['Neutre', 'Basique', 'Acide', 'Sucrée'],
+                correct: 2,
+                explanation: '3 est inférieur à 7, donc c\'est acide (comme du vinaigre) !'
+            },
+            {
+                question: 'Quelle est la valeur du pH de l\'eau pure ?',
+                options: ['0', '7', '14', '10'],
+                correct: 1,
+                explanation: 'L\'eau pure est neutre, son pH est de 7.'
+            }
+        ],
+        relatedSimulations: ['ions-formation', 'chemical-reactions']
+    },
+
+    'weight-mass-relation': {
+        title: 'Poids et Masse',
+        description: 'Relation P = m x g et gravité',
+        type: 'physics',
+        config: {},
+        analogy: {
+            title: 'Poids vs Masse : Terre vs Lune',
+            content: `La Masse, c'est ta quantité de viande ! (en kg). Elle ne change jamais, même sur la Lune. 🍖
+
+Le Poids, c'est la force avec laquelle la planète t'attire vers le sol ! (en Newton). 🌍🧲
+
+Sur Terre : La planète est grosse, elle tire fort. Tu pèses lourd sur la balance (qui mesure en fait le poids mais affiche des kg... c'est faux !).
+
+Sur la Lune : La Lune est petite, elle tire moins fort (6 fois moins). Tu serais super léger, tu pourrais faire des bonds de géant !
+MAIS ta masse (quantité de matière) serait exactement la même. Tu n'as pas maigri, tu es juste moins attiré !`
+        },
+        theory: `Poids et Masse
+
+1. La Masse (m)
+- Quantité de matière (liée au nombre d'atomes).
+- Invariable selon le lieu.
+- Unité : Kilogramme (kg).
+- Mesure : Balance.
+
+2. Le Poids (P)
+- Force d'attraction gravitationnelle exercée par la planète.
+- Variable selon le lieu (altitude, astre).
+- Unité : Newton (N).
+- Mesure : Dynamomètre.
+
+3. Relation P = m x g
+P : Poids (N)
+m : Masse (kg)
+g : Intensité de la pesanteur (N/kg).
+
+Sur Terre, g ≈ 9,8 (ou 10) N/kg.
+Sur la Lune, g ≈ 1,6 N/kg.`,
+        exercises: [
+            {
+                question: 'Quelle est l\'unité du Poids ?',
+                options: ['Kilogramme (kg)', 'Newton (N)', 'Joule (J)', 'Watt (W)'],
+                correct: 1,
+                explanation: 'Le poids est une force, il se mesure en Newtons (N) ! Le kg c\'est la masse.'
+            },
+            {
+                question: 'Si je vais sur la Lune, ma masse...',
+                options: ['Diminue', 'Augmente', 'Ne change pas', 'Devient nulle'],
+                correct: 2,
+                explanation: 'La masse (quantité de matière) ne change pas. C\'est le poids qui diminue.'
+            }
+        ],
+        relatedSimulations: ['forces-motion', 'volume-mass']
+    },
+
+    'thales-theorem': {
+        title: 'Théorème de Thalès',
+        description: 'Proportionnalité dans les triangles',
+        type: 'geometry',
+        config: {},
+        analogy: {
+            title: 'Thalès et l\'Ombre de la Pyramide',
+            content: `Thalès sert à mesurer des choses géantes sans monter dessus ! 📐🔺
+
+Imagine un petit triangle et un grand triangle emboîtés l'un dans l'autre (comme une échelle double).
+Si les bases sont parallèles, alors tout est PROPORTIONNEL.
+
+C'est comme une photo qu'on agrandit (zoom).
+- La hauteur de la photo zoomée est 2x plus grande.
+- La largeur est aussi 2x plus grande.
+
+Thalès a mesuré la pyramide en comparant son ombre avec l'ombre de son bâton.
+Ombre bâton / Hauteur bâton = Ombre Pyramide / Hauteur Pyramide.
+C'est magique !`
+        },
+        theory: `Théorème de Thalès
+
+Condition : Avoir deux droites sécantes coupées par deux droites PARALLÈLES.
+
+Énoncé :
+Dans un triangle ABC, si M est sur [AB], N est sur [AC] et que (MN) est parallèle à (BC), alors :
+
+AM / AB = AN / AC = MN / BC
+
+Cela signifie que les longueurs du petit triangle (AMN) sont proportionnelles aux longueurs du grand triangle (ABC).
+
+Usage :
+- Calculer une longueur inaccessible.
+- Vérifier si deux droites sont parallèles (Réciproque).`,
+        exercises: [
+            {
+                question: 'Quelle est la condition indispensable pour utiliser Thalès ?',
+                options: ['Un angle droit', 'Des droites parallèles', 'Un cercle', 'Un carré'],
+                correct: 1,
+                explanation: 'Il faut impérativement deux droites parallèles coupant deux sécantes'
+            },
+            {
+                question: 'Si le petit triangle est une réduction de coefficient 0.5 du grand, que valent ses côtés ?',
+                options: ['Le double', 'La moitié', 'Le carré', 'L\'identique'],
+                correct: 1,
+                explanation: 'Si le coefficient est 0.5 (1/2), les côtés mesurent la moitié.'
+            }
+        ],
+        relatedSimulations: ['triangles-properties', 'pythagoras-theorem']
+    },
+
+    'trig-circle': {
+        title: 'Cercle Trigonométrique',
+        description: 'Sinus, cosinus et tangente',
+        type: 'trigonometry',
+        config: {},
+        analogy: {
+            title: 'Le Cercle Trigo : La Roue du Destin',
+            content: `Le cercle trigonométrique, c'est comme une roue de vélo de rayon 1 ! 🎡
+
+Imagine un point sur la roue.
+- Le Cosinus (Cos), c'est son ombre sur le sol (axe horizontal).
+- Le Sinus (Sin), c'est son ombre sur le mur (axe vertical).
+
+Quand l'angle est 0 (à plat) :
+- L'ombre au sol est max (Cos = 1)
+- L'ombre au mur est nulle (Sin = 0)
+
+Quand l'angle est 90° (en haut) :
+- L'ombre au sol est nulle (Cos = 0)
+- L'ombre au mur est max (Sin = 1)
+
+C'est SOH CAH TOA !
+Sinus = Opposé / Hypoténuse
+Cosinus = Adjacent / Hypoténuse
+Tangente = Opposé / Adjacent`
+        },
+        theory: `Trigonométrie dans le Triangle Rectangle
+
+Pour un angle aigu x dans un triangle rectangle :
+
+1. Cosinus (cos x)
+= Côté Adjacent / Hypoténuse
+
+2. Sinus (sin x)
+= Côté Opposé / Hypoténuse
+
+3. Tangente (tan x)
+= Côté Opposé / Côté Adjacent
+= sin x / cos x
+
+Propriétés fondamentales :
+- cos² x + sin² x = 1
+- -1 ≤ cos x ≤ 1
+- -1 ≤ sin x ≤ 1
+
+Valeurs remarquables (30°, 45°, 60°) à connaître !`,
+        exercises: [
+            {
+                question: 'Dans SOHCAHTOA, que signifie le A de CAH ?',
+                options: ['Angle', 'Adjacent', 'Aire', 'Arc'],
+                correct: 1,
+                explanation: 'C-A-H signifie Cosinus = Adjacent / Hypoténuse.'
+            },
+            {
+                question: 'Quel côté est toujours le plus long dans le triangle rectangle ?',
+                options: ['Le côté opposé', 'Le côté adjacent', 'L\'hypoténuse', 'Ça dépend'],
+                correct: 2,
+                explanation: 'L\'hypoténuse est toujours le côté le plus long. Donc le sinus et le cosinus sont toujours ≤ 1.'
+            }
+        ],
+        relatedSimulations: ['pythagoras-theorem', 'geometric-shapes']
+    },
 };
 
 export default collegeSimulationsData;

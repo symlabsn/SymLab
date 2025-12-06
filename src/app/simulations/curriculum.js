@@ -31,6 +31,33 @@ export const simulationsCurriculum = {
                                 duration: "20 min",
                                 icon: "🌱",
                                 tags: ["plantes", "énergie", "chlorophylle"]
+                            },
+                            {
+                                id: "plant-growth",
+                                title: "Croissance des Plantes",
+                                description: "Observez les étapes de la germination et de la croissance",
+                                difficulty: "facile",
+                                duration: "15 min",
+                                icon: "🌻",
+                                tags: ["plantes", "germination", "nature"]
+                            },
+                            {
+                                id: "food-chain",
+                                title: "Chaînes Alimentaires",
+                                description: "Comprenez les relations entre producteurs et consommateurs",
+                                difficulty: "facile",
+                                duration: "20 min",
+                                icon: "🦁",
+                                tags: ["écologie", "animaux", "alimentation"]
+                            },
+                            {
+                                id: "vertebrate-classification",
+                                title: "Classification des Vertébrés",
+                                description: "Apprenez à classer les animaux selon leurs caractéristiques",
+                                difficulty: "facile",
+                                duration: "25 min",
+                                icon: "🐢",
+                                tags: ["animaux", "classification", "zoologie"]
                             }
                         ]
                     },
@@ -54,6 +81,56 @@ export const simulationsCurriculum = {
                                 duration: "20 min",
                                 icon: "💡",
                                 tags: ["électricité", "circuit", "courant"]
+                            },
+                            {
+                                id: "mixture-separation",
+                                title: "Séparation des Mélanges",
+                                description: "Expérimentez la filtration, décantation et évaporation",
+                                difficulty: "facile",
+                                duration: "20 min",
+                                icon: "🧪",
+                                tags: ["chimie", "mélanges", "expérience"]
+                            },
+                            {
+                                id: "volume-mass",
+                                title: "Masse et Volume",
+                                description: "Apprenez à mesurer et différencier masse et volume",
+                                difficulty: "facile",
+                                duration: "15 min",
+                                icon: "⚖️",
+                                tags: ["mesures", "physique", "balance"]
+                            },
+                            {
+                                id: "water-purification",
+                                title: "Purification de l'Eau",
+                                description: "Les étapes pour rendre l'eau potable",
+                                difficulty: "facile",
+                                duration: "25 min",
+                                icon: "💧",
+                                tags: ["eau", "environnement", "santé"]
+                            }
+                        ]
+                    },
+                    math: {
+                        title: "Mathématiques",
+                        simulations: [
+                            {
+                                id: "geometric-shapes",
+                                title: "Formes Géométriques",
+                                description: "Explorez les propriétés des figures planes et solides",
+                                difficulty: "facile",
+                                duration: "15 min",
+                                icon: "🔺",
+                                tags: ["géométrie", "formes", "espace"]
+                            },
+                            {
+                                id: "angles-measurement",
+                                title: "Mesure des Angles",
+                                description: "Utilisez un rapporteur virtuel pour mesurer des angles",
+                                difficulty: "facile",
+                                duration: "15 min",
+                                icon: "📐",
+                                tags: ["géométrie", "angles", "mesure"]
                             }
                         ]
                     }
@@ -82,6 +159,33 @@ export const simulationsCurriculum = {
                                 duration: "30 min",
                                 icon: "❤️",
                                 tags: ["cœur", "sang", "vaisseaux"]
+                            },
+                            {
+                                id: "respiration-human",
+                                title: "Respiration Humaine",
+                                description: "Mécanismes des poumons et échanges gazeux",
+                                difficulty: "moyen",
+                                duration: "20 min",
+                                icon: "🌬️",
+                                tags: ["corps", "poumons", "respiration"]
+                            },
+                            {
+                                id: "volcano-eruption",
+                                title: "Éruptions Volcaniques",
+                                description: "Comprendre le fonctionnement des volcans",
+                                difficulty: "moyen",
+                                duration: "25 min",
+                                icon: "🌋",
+                                tags: ["géologie", "volcans", "terre"]
+                            },
+                            {
+                                id: "earth-movement",
+                                title: "Mouvements de la Terre",
+                                description: "Rotation, révolution et saisons",
+                                difficulty: "moyen",
+                                duration: "20 min",
+                                icon: "🌍",
+                                tags: ["astronomie", "terre", "saisons"]
                             }
                         ]
                     },
@@ -105,6 +209,56 @@ export const simulationsCurriculum = {
                                 duration: "25 min",
                                 icon: "🔦",
                                 tags: ["optique", "lumière", "miroir"]
+                            },
+                            {
+                                id: "density-buoyancy",
+                                title: "Densité et Flottabilité",
+                                description: "Pourquoi certains objets flottent et d'autres coulent",
+                                difficulty: "moyen",
+                                duration: "20 min",
+                                icon: "⛵",
+                                tags: ["physique", "eau", "Archimède"]
+                            },
+                            {
+                                id: "electric-resistance",
+                                title: "Résistance Électrique",
+                                description: "L'effet des résistances dans un circuit",
+                                difficulty: "moyen",
+                                duration: "25 min",
+                                icon: "🔋",
+                                tags: ["électricité", "ohm", "circuit"]
+                            },
+                            {
+                                id: "solutions-solubility",
+                                title: "Solutions et Solubilité",
+                                description: "Dissolution, saturation et concentration",
+                                difficulty: "moyen",
+                                duration: "20 min",
+                                icon: "🧪",
+                                tags: ["chimie", "mélanges", "eau"]
+                            }
+                        ]
+                    },
+                    math: {
+                        title: "Mathématiques",
+                        simulations: [
+                            {
+                                id: "triangles-properties",
+                                title: "Propriétés des Triangles",
+                                description: "Explorez les hauteurs, médianes et médiatrices",
+                                difficulty: "moyen",
+                                duration: "25 min",
+                                icon: "📐",
+                                tags: ["géométrie", "triangles", "lignes"]
+                            },
+                            {
+                                id: "fraction-visualizer",
+                                title: "Visualiseur de Fractions",
+                                description: "Comprendre les fractions graphiquement",
+                                difficulty: "moyen",
+                                duration: "20 min",
+                                icon: "🍰",
+                                tags: ["nombres", "fractions", "calcul"]
                             }
                         ]
                     }
@@ -133,6 +287,24 @@ export const simulationsCurriculum = {
                                 duration: "25 min",
                                 icon: "🌍",
                                 tags: ["géologie", "séismes", "volcans"]
+                            },
+                            {
+                                id: "blood-groups",
+                                title: "Groupes Sanguins",
+                                description: "Comprendre les groupes A, B, AB, O et le rhésus",
+                                difficulty: "moyen",
+                                duration: "20 min",
+                                icon: "🩸",
+                                tags: ["sang", "santé", "hérédité"]
+                            },
+                            {
+                                id: "human-reproduction",
+                                title: "Reproduction Humaine",
+                                description: "De la fécondation au développement",
+                                difficulty: "moyen",
+                                duration: "30 min",
+                                icon: "👶",
+                                tags: ["anatomie", "vie", "biologie"]
                             }
                         ]
                     },
@@ -156,6 +328,56 @@ export const simulationsCurriculum = {
                                 duration: "25 min",
                                 icon: "🎯",
                                 tags: ["mécanique", "forces", "Newton"]
+                            },
+                            {
+                                id: "light-propagation",
+                                title: "Propagation Lumière",
+                                description: "Ombres, pénombre et éclipses",
+                                difficulty: "moyen",
+                                duration: "25 min",
+                                icon: "☀️",
+                                tags: ["optique", "espace", "lumière"]
+                            },
+                            {
+                                id: "combustion-reaction",
+                                title: "Les Combustions",
+                                description: "Le tétraèdre du feu et réactions",
+                                difficulty: "moyen",
+                                duration: "20 min",
+                                icon: "🔥",
+                                tags: ["chimie", "feu", "énergie"]
+                            },
+                            {
+                                id: "atom-molecule-intro",
+                                title: "Atomes et Molécules",
+                                description: "Introduction à la structure de la matière",
+                                difficulty: "moyen",
+                                duration: "25 min",
+                                icon: "⚛️",
+                                tags: ["chimie", "matière", "particules"]
+                            }
+                        ]
+                    },
+                    math: {
+                        title: "Mathématiques",
+                        simulations: [
+                            {
+                                id: "pythagoras-theorem",
+                                title: "Théorème de Pythagore",
+                                description: "Visualisation géométrique du théorème",
+                                difficulty: "moyen",
+                                duration: "25 min",
+                                icon: "📐",
+                                tags: ["géométrie", "triangle", "calcul"]
+                            },
+                            {
+                                id: "linear-equations",
+                                title: "Équations Linéaires",
+                                description: "Résolution graphique d'équations",
+                                difficulty: "moyen",
+                                duration: "30 min",
+                                icon: "📈",
+                                tags: ["algèbre", "courbes", "fonctions"]
                             }
                         ]
                     }
@@ -184,6 +406,24 @@ export const simulationsCurriculum = {
                                 duration: "30 min",
                                 icon: "🦠",
                                 tags: ["immunité", "anticorps", "vaccins"]
+                            },
+                            {
+                                id: "microbes-bacteria",
+                                title: "Microbes et Bactéries",
+                                description: "Diversité du monde microbien",
+                                difficulty: "difficile",
+                                duration: "25 min",
+                                icon: "🧫",
+                                tags: ["biologie", "santé", "microscope"]
+                            },
+                            {
+                                id: "chromosomes-division",
+                                title: "Chromosomes",
+                                description: "Caryotypes et division cellulaire",
+                                difficulty: "difficile",
+                                duration: "30 min",
+                                icon: "✖️",
+                                tags: ["génétique", "cellule", "noyau"]
                             }
                         ]
                     },
@@ -207,6 +447,56 @@ export const simulationsCurriculum = {
                                 duration: "35 min",
                                 icon: "⚡",
                                 tags: ["énergie", "conservation", "thermodynamique"]
+                            },
+                            {
+                                id: "ions-formation",
+                                title: "Formation des Ions",
+                                description: "Cations, anions et solutions ioniques",
+                                difficulty: "difficile",
+                                duration: "30 min",
+                                icon: "🔋",
+                                tags: ["chimie", "électricité", "matière"]
+                            },
+                            {
+                                id: "ph-scale",
+                                title: "Échelle de pH",
+                                description: "Acides, bases et indicateurs colorés",
+                                difficulty: "difficile",
+                                duration: "25 min",
+                                icon: "🧪",
+                                tags: ["chimie", "acidité", "mesure"]
+                            },
+                            {
+                                id: "weight-mass-relation",
+                                title: "Poids et Masse",
+                                description: "Relation P = m x g et gravité",
+                                difficulty: "difficile",
+                                duration: "25 min",
+                                icon: "⚖️",
+                                tags: ["physique", "newton", "espace"]
+                            }
+                        ]
+                    },
+                    math: {
+                        title: "Mathématiques",
+                        simulations: [
+                            {
+                                id: "thales-theorem",
+                                title: "Théorème de Thalès",
+                                description: "Proportionnalité dans les triangles",
+                                difficulty: "difficile",
+                                duration: "30 min",
+                                icon: "📐",
+                                tags: ["géométrie", "proportion", "calcul"]
+                            },
+                            {
+                                id: "trig-circle",
+                                title: "Cercle Trigonométrique",
+                                description: "Sinus, cosinus et tangente",
+                                difficulty: "difficile",
+                                duration: "35 min",
+                                icon: "⭕",
+                                tags: ["trigonométrie", "angles", "cercle"]
                             }
                         ]
                     }
