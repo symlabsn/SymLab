@@ -242,6 +242,16 @@ export const courses = [
         color: 'blue'
     },
     {
+        id: 'phys-ts',
+        level: 'Terminale',
+        subject: 'Physique-Chimie',
+        title: 'Physique Terminale S',
+        description: 'Cinématique, Électromagnétisme, Oscillations, Phénomènes corpusculaires.',
+        file: null,
+        icon: '⚛️',
+        color: 'purple'
+    },
+    {
         id: 'pc-ts',
         level: 'Terminale',
         subject: 'Physique-Chimie',
