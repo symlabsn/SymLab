@@ -209,6 +209,27 @@ export const courses = [
         color: 'emerald'
     },
 
+    {
+        id: 'svt-1s',
+        level: 'Première',
+        subject: 'SVT',
+        title: 'SVT 1ère S',
+        description: 'Programme complet : Biologie Cellulaire, Physiologie, Géologie.',
+        file: null,
+        icon: '🌿',
+        color: 'green'
+    },
+    {
+        id: 'svt-1l',
+        level: 'Première',
+        subject: 'SVT',
+        title: 'SVT 1ère L',
+        description: 'Programme L : Biologie, Nutrition, Géologie.',
+        file: null,
+        icon: '🍃', // Different icon/shade for L if possible, or same
+        color: 'teal'
+    },
+
     // --- Terminale ---
     {
         id: 'pc-ts',
