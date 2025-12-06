@@ -1,7 +1,170 @@
 'use client';
 
 import { Canvas } from '@react-three/fiber';
-import { OrbitControls, PerspectiveCamera, Environment, Stars } from '@react-three/drei';
+import { OrbitControls, PerspectiveCamera, Environment, Stars, Text, Line } from '@react-three/drei';
+
+// ... (existing helper components)
+
+// Composant Poids vs Masse (Terre vs Lune)
+function WeightMass() {
+    return (
+        <group>
+            {/* Terre */}
+            <group position={[-3, 0, 0]}>
+                <mesh position={[0, -2.5, 0]}>
+                    <sphereGeometry args={[2, 32, 32]} />
+                    <meshStandardMaterial color="#3B82F6" emissive="#1D4ED8" emissiveIntensity={0.2} />
+                </mesh>
+                <Text position={[0, -4, 0]} fontSize={0.5} color="white">Terre (g = 9.8)</Text>
+
+                {/* Objet sur Terre */}
+                <mesh position={[0, 0, 0]}>
+                    <boxGeometry args={[1, 1, 1]} />
+                    <meshStandardMaterial color="#FCD34D" />
+                </mesh>
+                {/* Vecteur Poids (Gros) */}
+                <mesh position={[0, -1.2, 0]} rotation={[Math.PI, 0, 0]}>
+                    <coneGeometry args={[0.2, 1.5, 16]} />
+                    <meshStandardMaterial color="#EF4444" />
+                </mesh>
+                <Text position={[1.2, 0, 0]} fontSize={0.4} color="#EF4444">P = 98 N</Text>
+            </group>
+
+            {/* Lune */}
+            <group position={[3, 0, 0]}>
+                <mesh position={[0, -2.5, 0]}>
+                    <sphereGeometry args={[1.2, 32, 32]} />
+                    <meshStandardMaterial color="#9CA3AF" emissive="#4B5563" emissiveIntensity={0.2} />
+                </mesh>
+                <Text position={[0, -4, 0]} fontSize={0.5} color="white">Lune (g = 1.6)</Text>
+
+                {/* Objet sur Lune (Même taille ! Masse identique) */}
+                <mesh position={[0, 0, 0]}>
+                    <boxGeometry args={[1, 1, 1]} />
+                    <meshStandardMaterial color="#FCD34D" />
+                </mesh>
+                {/* Vecteur Poids (Petit) */}
+                <mesh position={[0, -0.8, 0]} rotation={[Math.PI, 0, 0]}>
+                    <coneGeometry args={[0.2, 0.5, 16]} />
+                    <meshStandardMaterial color="#EF4444" />
+                </mesh>
+                <Text position={[1.2, 0, 0]} fontSize={0.4} color="#EF4444">P = 16 N</Text>
+            </group>
+
+            <Text position={[0, 3, 0]} fontSize={0.6} color="white">Masse = 10 kg (Constante)</Text>
+        </group>
+    );
+}
+
+// Composant Théorème de Thalès
+function ThalesTheorem() {
+    return (
+        <group>
+            {/* Sommet A */}
+            <mesh position={[0, 4, 0]}>
+                <sphereGeometry args={[0.2]} />
+                <meshStandardMaterial color="white" />
+            </mesh>
+            <Text position={[0, 4.3, 0]} fontSize={0.4} color="white">A</Text>
+
+            {/* Triangle ABC (Grand) */}
+            <group>
+                {/* Côté AB */}
+                <mesh position={[-1.5, 2, 0]} rotation={[0, 0, 0.58]}>
+                    <cylinderGeometry args={[0.05, 0.05, 5, 8]} />
+                    <meshStandardMaterial color="#3B82F6" />
+                </mesh>
+                {/* Côté AC */}
+                <mesh position={[1.5, 2, 0]} rotation={[0, 0, -0.58]}>
+                    <cylinderGeometry args={[0.05, 0.05, 5, 8]} />
+                    <meshStandardMaterial color="#3B82F6" />
+                </mesh>
+                {/* Base BC */}
+                <mesh position={[0, 0, 0]} rotation={[0, 0, Math.PI / 2]}>
+                    <cylinderGeometry args={[0.05, 0.05, 4.6, 8]} />
+                    <meshStandardMaterial color="#3B82F6" />
+                </mesh>
+                <Text position={[0, -0.4, 0]} fontSize={0.4} color="#3B82F6">BC</Text>
+            </group>
+
+            {/* Ligne Parallèle MN (Thalès) */}
+            <group position={[0, 2, 0]}>
+                <mesh rotation={[0, 0, Math.PI / 2]}>
+                    <cylinderGeometry args={[0.05, 0.05, 2.3, 8]} />
+                    <meshStandardMaterial color="#EF4444" />
+                </mesh>
+                <Text position={[0, 0.3, 0]} fontSize={0.4} color="#EF4444">MN</Text>
+            </group>
+
+            {/* Points */}
+            <mesh position={[-2.3, 0, 0]}><sphereGeometry args={[0.15]} /><meshStandardMaterial color="#3B82F6" /></mesh>
+            <Text position={[-2.6, 0, 0]} fontSize={0.4} color="white">B</Text>
+
+            <mesh position={[2.3, 0, 0]}><sphereGeometry args={[0.15]} /><meshStandardMaterial color="#3B82F6" /></mesh>
+            <Text position={[2.6, 0, 0]} fontSize={0.4} color="white">C</Text>
+
+            <mesh position={[-1.15, 2, 0]}><sphereGeometry args={[0.15]} /><meshStandardMaterial color="#EF4444" /></mesh>
+            <Text position={[-1.5, 2, 0]} fontSize={0.4} color="white">M</Text>
+
+            <mesh position={[1.15, 2, 0]}><sphereGeometry args={[0.15]} /><meshStandardMaterial color="#EF4444" /></mesh>
+            <Text position={[1.5, 2, 0]} fontSize={0.4} color="white">N</Text>
+
+            <Text position={[0, -2, 0]} fontSize={0.5} color="white">AM/AB = AN/AC = MN/BC</Text>
+        </group>
+    );
+}
+
+// Composant Cercle Trigonométrique
+function TrigUnitCircle() {
+    // Animation simple de l'angle
+    const angle = Date.now() * 0.001 % (Math.PI * 2);
+
+    return (
+        <group>
+            {/* Cercle Unité */}
+            <mesh rotation={[Math.PI / 2, 0, 0]}>
+                <torusGeometry args={[2, 0.05, 16, 100]} />
+                <meshStandardMaterial color="white" />
+            </mesh>
+
+            {/* Axes */}
+            <mesh rotation={[0, 0, Math.PI / 2]}> {/* Axe Y */}
+                <cylinderGeometry args={[0.03, 0.03, 5, 8]} />
+                <meshStandardMaterial color="gray" />
+            </mesh>
+            <mesh rotation={[0, 0, 0]}> {/* Axe X */}
+                <cylinderGeometry args={[0.03, 0.03, 5, 8]} rotation={[0, 0, Math.PI / 2]} />
+                <meshStandardMaterial color="gray" />
+            </mesh>
+
+            {/* Point mobile */}
+            <group rotation={[0, 0, 1]}> {/* Rotation statique pour l'exemple, idéalement animée */}
+                <mesh position={[2 * Math.cos(0.8), 2 * Math.sin(0.8), 0]}>
+                    <sphereGeometry args={[0.15]} />
+                    <meshStandardMaterial color="#FCD34D" />
+                </mesh>
+
+                {/* Lignes de projection */}
+                {/* Sinus (Verticale) */}
+                <mesh position={[2 * Math.cos(0.8), Math.sin(0.8), 0]}>
+                    <cylinderGeometry args={[0.02, 0.02, 2 * Math.sin(0.8), 8]} />
+                    <meshStandardMaterial color="#EF4444" />
+                </mesh>
+                <Text position={[2.2, 1, 0]} fontSize={0.3} color="#EF4444">Sin</Text>
+
+                {/* Cosinus (Horizontale) */}
+                <mesh position={[Math.cos(0.8), 0, 0]} rotation={[0, 0, Math.PI / 2]}>
+                    <cylinderGeometry args={[0.02, 0.02, 2 * Math.cos(0.8), 8]} />
+                    <meshStandardMaterial color="#3B82F6" />
+                </mesh>
+                <Text position={[1, -0.3, 0]} fontSize={0.3} color="#3B82F6">Cos</Text>
+            </group>
+
+            <Text position={[0, 3, 0]} fontSize={0.5} color="white">Cercle de Rayon 1</Text>
+        </group>
+    );
+}
+
 import { Suspense } from 'react';
 
 // Composant de chargement
@@ -820,6 +983,12 @@ export default function Simulation3D({ type = 'atom', config = {} }) {
                 return <BloodStream />;
             case 'energy':
                 return <EnergyConservation />;
+            case 'weight-mass':
+                return <WeightMass />;
+            case 'thales':
+                return <ThalesTheorem />;
+            case 'trigonometry':
+                return <TrigUnitCircle />;
             default:
                 return <Atom {...config} />;
         }

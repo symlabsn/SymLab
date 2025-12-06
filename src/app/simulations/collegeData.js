@@ -2820,7 +2820,7 @@ Les acides et bases concentrés sont corrosifs (brûlent la peau et les vêtemen
     'weight-mass-relation': {
         title: 'Poids et Masse',
         description: 'Relation P = m x g et gravité',
-        type: 'physics',
+        type: 'weight-mass',
         config: {},
         analogy: {
             title: 'Poids vs Masse : Terre vs Lune',
@@ -2874,7 +2874,7 @@ Sur la Lune, g ≈ 1,6 N/kg.`,
     'thales-theorem': {
         title: 'Théorème de Thalès',
         description: 'Proportionnalité dans les triangles',
-        type: 'geometry',
+        type: 'thales',
         config: {},
         analogy: {
             title: 'Thalès et l\'Ombre de la Pyramide',
