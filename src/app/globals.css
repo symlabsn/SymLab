@@ -152,3 +152,58 @@ body {
 .scrollbar-thin:hover {
   scrollbar-color: rgba(255, 255, 255, 0.3) transparent;
 }
+
+/* ========================================
+    EXERCISE CORRECTION STYLES
+   ======================================== */
+
+details.correction-box {
+  background-color: rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 0.75rem;
+  overflow: hidden;
+  margin-top: 1.5rem;
+  transition: all 0.3s ease;
+}
+
+details.correction-box summary {
+  padding: 1rem;
+  cursor: pointer;
+  font-weight: bold;
+  color: #60a5fa;
+  /* Blue-400 */
+  background-color: rgba(59, 130, 246, 0.1);
+  list-style: none;
+  /* Remove default triangle */
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: background-color 0.2s;
+}
+
+details.correction-box summary:hover {
+  background-color: rgba(59, 130, 246, 0.2);
+}
+
+details.correction-box summary::before {
+  content: '▶';
+  font-size: 0.8em;
+  transition: transform 0.3s ease;
+}
+
+details.correction-box[open] summary::before {
+  transform: rotate(90deg);
+}
+
+details.correction-box .correction-content {
+  padding: 1.5rem;
+  background-color: rgba(0, 0, 0, 0.3);
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  color: #e5e7eb;
+  /* Gray-200 */
+}
+
+details.correction-box[open] {
+  border-color: rgba(59, 130, 246, 0.3);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}

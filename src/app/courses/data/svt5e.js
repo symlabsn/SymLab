@@ -251,7 +251,7 @@ export const svt5eData = {
                 <h3>1. Les Spores</h3>
                 <p>Regardez sous une feuille de fougère : il y a des petits tas jaunes/marrons appelés <strong>sporanges</strong>. Ils contiennent des milliers de spores.</p>
                 <h3>2. Le Cycle</h3>
-                <p>La spore tombe au sol humide $ \rightarrow $ elle germe et donne une petite plante (le prothalle) $ \rightarrow $ fécondation (grâce à l'eau) $ \rightarrow $ nouvelle fougère.</p>
+                <p>La spore tombe au sol humide $ \\rightarrow $ elle germe et donne une petite plante (le prothalle) $ \\rightarrow $ fécondation (grâce à l'eau) $ \\rightarrow $ nouvelle fougère.</p>
             `,
             summary: [
                 "Plantes sans fleurs = Fougères, mousses, algues.",

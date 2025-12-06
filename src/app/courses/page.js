@@ -352,7 +352,7 @@ export default function CoursesPage() {
 
                                         {/* Tabs */}
                                         <div className="flex border-b border-white/10 bg-black/20">
-                                            {selectedCourse.id === 'entrainement-2s' ? (
+                                            {selectedCourse.id.includes('entrainement') ? (
                                                 <div className="flex-1 py-4 text-sm font-bold uppercase tracking-wider text-blue-400 border-t-2 border-blue-500 bg-[#0F1115] text-center">
                                                     ✏️ Exercices
                                                 </div>
@@ -378,7 +378,7 @@ export default function CoursesPage() {
 
                                         {/* Scrollable Content */}
                                         <div className="flex-1 overflow-y-auto p-8 scrollbar-thin scrollbar-thumb-white/10 scrollbar-track-transparent">
-                                            {!showExercises ? (
+                                            {!showExercises || selectedCourse.id.includes('entrainement') ? (
                                                 <div className="max-w-4xl mx-auto">
                                                     {/* Header Image if available */}
                                                     {activeChapter?.image && (
@@ -439,6 +439,59 @@ export default function CoursesPage() {
                                                                     </li>
                                                                 ))}
                                                             </ul>
+                                                        </div>
+                                                    )}
+                                                    {/* In Training Mode, Show Exercises Below Content */}
+                                                    {selectedCourse.id.includes('entrainement') && (
+                                                        <div className="mt-16 pt-10 border-t border-white/10 space-y-8">
+                                                            <h2 className="text-2xl font-bold mb-6">Questions</h2>
+                                                            {activeChapter?.exercises.map((ex, idx) => (
+                                                                <div key={ex.id} className="bg-black/30 rounded-xl p-6 border border-white/10">
+                                                                    <div className="flex items-start gap-4 mb-4">
+                                                                        <span className="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center font-bold text-sm shrink-0">
+                                                                            {idx + 1}
+                                                                        </span>
+                                                                        <h3 className="text-lg font-medium pt-1">{ex.question}</h3>
+                                                                    </div>
+
+                                                                    <div className="space-y-3 pl-12">
+                                                                        {ex.options.map((option, optIdx) => {
+                                                                            const isSelected = quizAnswers[`${activeChapter.id}-${ex.id}`] === optIdx;
+                                                                            const isCorrect = quizResults[`${activeChapter.id}-${ex.id}`];
+
+                                                                            let btnClass = "w-full text-left p-4 rounded-lg border transition-all ";
+                                                                            if (isSelected) {
+                                                                                if (isCorrect) btnClass += "bg-green-500/20 border-green-500 text-green-400";
+                                                                                else btnClass += "bg-red-500/20 border-red-500 text-red-400";
+                                                                            } else {
+                                                                                btnClass += "bg-white/5 border-white/10 hover:bg-white/10";
+                                                                            }
+
+                                                                            return (
+                                                                                <button
+                                                                                    key={optIdx}
+                                                                                    onClick={() => handleQuizSubmit(activeChapter.id, ex.id, optIdx)}
+                                                                                    disabled={quizAnswers[`${activeChapter.id}-${ex.id}`] !== undefined}
+                                                                                    className={btnClass}
+                                                                                >
+                                                                                    <div className="flex items-center justify-between">
+                                                                                        <span>{option}</span>
+                                                                                        {isSelected && (
+                                                                                            isCorrect ? <CheckCircle size={20} /> : <XCircle size={20} />
+                                                                                        )}
+                                                                                    </div>
+                                                                                </button>
+                                                                            );
+                                                                        })}
+                                                                    </div>
+
+                                                                    {quizAnswers[`${activeChapter.id}-${ex.id}`] !== undefined && (
+                                                                        <div className={`mt-4 ml-12 p-4 rounded-lg text-sm ${quizResults[`${activeChapter.id}-${ex.id}`] ? 'bg-green-900/20 text-green-300' : 'bg-red-900/20 text-red-300'}`}>
+                                                                            <strong>Explication :</strong> {ex.explanation}
+                                                                        </div>
+                                                                    )}
+                                                                </div>
+                                                            ))}
                                                         </div>
                                                     )}
                                                 </div>
