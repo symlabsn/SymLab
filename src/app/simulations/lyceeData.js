@@ -1964,7 +1964,561 @@ Formation de nouvelles espèces par :
             }
         ],
         relatedSimulations: ['genetics-dna', 'ecosystem-dynamics', 'cell-division']
-    }
+    },
+
+    // ========== NOUVELLES SIMULATIONS (Lot 1) ==========
+
+    'doppler-effect': {
+        title: 'Effet Doppler',
+        description: 'Changement de fréquence d\'une onde en mouvement',
+        type: 'wave',
+        config: {},
+        analogy: {
+            title: 'L\'Ambulance qui Passe',
+            content: `PIN-PON ! PIN-PON ! 🚑
+Quand l'ambulance vient vers toi, le son est AIGU (bzzz).
+Quand elle s'éloigne, le son devient GRAVE (beuhhh).
+
+C'est l'Effet Doppler !
+- En approche : L'ambulance "écrase" les ondes devant elle (Fréquence augmente).
+- En éloignement : Elle "étire" les ondes derrière elle (Fréquence diminue).
+
+C'est pareil pour les radars de vitesse des gendarmes !`
+        },
+        theory: `Effet Doppler
+Décalage de fréquence d'une onde acoustique ou électromagnétique observé entre les mesures à l'émission et à la réception, lorsque la distance entre l'émetteur et le récepteur varie au cours du temps.
+
+Formule simplifiée (v << c) :
+Δf = fR - fE = (v/c) · fE
+- v : vitesse relative
+- c : célérité de l'onde
+
+Applications : Radars routiers, Échographie, Astrophysique (Expansion de l'univers).`,
+        exercises: [
+            { question: 'Si une étoile s\'éloigne de la Terre, sa lumière se décale vers...', options: ['Le Bleu', 'Le Rouge', 'Le Vert', 'Le Noir'], correct: 1, explanation: 'Redshift : L\'éloignement étire les ondes vers les grandes longueurs d\'onde (Rouge).' },
+            { question: 'Une moto qui s\'approche émet un son...', options: ['Plus grave', 'Plus aigu', 'Identique', 'Sans son'], correct: 1, explanation: 'Les ondes sont comprimées, la fréquence reçue augmente (Aigu).' }
+        ],
+        relatedSimulations: ['sound-propagation', 'light-spectrum']
+    },
+    'kepler-laws': {
+        title: 'Lois de Kepler',
+        description: 'Mouvements des planètes et satellites',
+        type: 'force',
+        config: {},
+        analogy: {
+            title: 'Le Lanceur de Pierre',
+            content: `Imagine un lanceur qui fait tourner une pierre attachée à une corde.
+Si la corde raccourcit, la pierre tourne plus vite !
+
+Pour les planètes autour du Soleil :
+Quand la Terre est PROCHE du Soleil (Périhélie), elle accélère (comme si elle tombait vers lui).
+Quand elle est LOIN (Aphélie), elle ralentit.
+Et l'orbite n'est pas un rond parfait, c'est une Ellipse (un rond aplati).`
+        },
+        theory: `Les 3 Lois de Kepler
+
+1. Loi des Orbites : Les planètes décrivent des ellipses dont le Soleil occupe un des foyers.
+
+2. Loi des Aires : Le rayon vecteur balaie des aires égales en des temps égaux. (La planète va plus vite quand elle est près).
+
+3. Loi des Périodes : T² / a³ = k (constante)
+- T : Période de révolution
+- a : Demi-grand axe
+Permet de calculer la masse de l'astre central.`,
+        exercises: [
+            { question: 'La trajectoire d\'une planète est...', options: ['Un cercle parfait', 'Une ellipse', 'Une parabole', 'Une ligne droite'], correct: 1, explanation: 'Première loi de Kepler : Les orbites sont elliptiques.' },
+            { question: 'Quand la Terre est au plus près du Soleil, elle va...', options: ['Plus vite', 'Moins vite', 'À la même vitesse', 'En arrière'], correct: 0, explanation: 'Deuxième loi de Kepler (Loi des aires).' }
+        ],
+        relatedSimulations: ['gravitation-universal', 'satellite-motion']
+    },
+    'pendulum-oscillation': {
+        title: 'Oscillations : Le Pendule',
+        description: 'Mouvement périodique et énergie',
+        type: 'force',
+        config: {},
+        analogy: {
+            title: 'La Balançoire',
+            content: `Le pendule simple, c'est juste une balançoire sans personne dessus qui pousse ! 🎢
+
+Si tu la lâches d'en haut :
+- En haut : Elle s'arrête un instant (Vitesse = 0, Énergie Potentielle max).
+- En bas : Elle va le plus vite (Vitesse max, Énergie Cinétique max).
+
+Et ça continue (Période T) jusqu'à ce que les frottement l'arrêtent.
+Si tu raccourcis la corde, ça balance plus vite !`
+        },
+        theory: `Pendule Simple
+Oscillateur mécanique.
+
+Période (pour petites oscillations) :
+T = 2π · √(L / g)
+- L : Longueur du fil
+- g : Gravité
+
+Remarque : La période ne dépend PAS de la masse ! (Une boule lourde et une légère oscillent à la même vitesse).
+Échange constant entre Énergie Potentielle et Cinétique.`,
+        exercises: [
+            { question: 'Si je double la masse au bout du pendule, la période...', options: ['Double', 'Diminue', 'Reste la même', 'S\'annule'], correct: 2, explanation: 'La période T est indépendante de la masse m.' },
+            { question: 'Pour aller plus vite (diminuer T), il faut...', options: ['Raccourcir la corde', 'Allonger la corde', 'Pousser fort', 'Chauffer la corde'], correct: 0, explanation: 'T est proportionnel à la racine de la longueur L.' }
+        ],
+        relatedSimulations: ['energy-conservation-skater', 'rectilinear-motion']
+    },
+    'rlc-circuit': {
+        title: 'Circuit RLC',
+        description: 'Oscillations électriques libres',
+        type: 'circuit',
+        config: {},
+        analogy: {
+            title: 'Le Ressort Électrique',
+            content: `Un circuit RLC (Résistance, Bobine, Condensateur), c'est comme un poids accroché à un ressort.
+
+- Condensateur chargé = Ressort tendu (Stocke l'énergie Potentielle).
+- Bobine = Masse (Inertie, Stocke l'énergie Cinétique/Magnétique).
+- Résistance = Frottements (Perte d'énergie).
+
+L'énergie passe du condensateur à la bobine, puis revient... ça oscille !
+Mais la résistance "freine" le courant petit à petit (Amortissement).`
+        },
+        theory: `Circuit RLC Série
+Circuit comportant une Résistance, une Inductance (Bobine) et une Capacité.
+
+Oscillations amorties :
+La charge q(t) oscille autour de 0 avec une amplitude qui décroît exponentiellement.
+
+Période propre :
+T₀ = 2π · √(L · C)
+
+L'énergie totale se dissipe par effet Joule dans la résistance.`,
+        exercises: [
+            { question: 'Quel composant stocke l\'énergie magnétique ?', options: ['Le Condensateur', 'La Bobine', 'La Résistance', 'Le Générateur'], correct: 1, explanation: 'La bobine stocke l\'énergie sous forme de champ magnétique.' },
+            { question: 'Quel composant dissipe l\'énergie (amortissement) ?', options: ['La Résistance', 'La Bobine', 'Le Condensateur', 'L\'interrupteur'], correct: 0, explanation: 'La résistance transforme l\'énergie électrique en chaleur (Effet Joule).' }
+        ],
+        relatedSimulations: ['rc-circuit', 'electromagnetic-induction']
+    },
+    'photoelectric-effect': {
+        title: 'Effet Photoélectrique',
+        description: 'Lumière, Photons et Électrons',
+        type: 'atom',
+        config: {},
+        analogy: {
+            title: 'Le Champ de Cocos et la Pluie',
+            content: `Imagine un champ de noix de coco (électrons) sur un toit. 🥥
+Tu veux les faire tomber en jetant des cailloux (photons/lumière).
+
+Si tu jettes des millions de grains de sable (Lumière rouge intense) : RIEN ne tombe. (Pas assez d'énergie par choc).
+Si tu jettes UN SEUL gros caillou (Lumière violette faible) : CLACK ! Une coco tombe.
+
+Ça prouve que la lumière est faite de "paquets" (photons).
+Même peu de lumière suffit, si chaque paquet est assez fort.`
+        },
+        theory: `Effet Photoélectrique (Einstein, 1905)
+Émission d'électrons par un matériau soumis à la lumière.
+
+Interprétation corpusculaire :
+- La lumière est constituée de photons d'énergie E = h·ν.
+- Pour arracher un électron, il faut E > W (Travail d'extraction).
+- L'énergie cinétique restante est : Ec = h·ν - W.
+
+Application : Panneaux solaires photovoltaïques.`,
+        exercises: [
+            { question: 'Qui a expliqué l\'effet photoélectrique ?', options: ['Newton', 'Einstein', 'Maxwell', 'Curie'], correct: 1, explanation: 'Albert Einstein (Prix Nobel 1921).' },
+            { question: 'Pour arracher un électron, il faut une fréquence...', options: ['Suffisante (Seuil)', 'Nulle', 'Faible', 'Infinie'], correct: 0, explanation: 'Il faut que l\'énergie du photon (hν) dépasse le travail d\'extraction.' }
+        ],
+        relatedSimulations: ['quantum-mechanics', 'light-spectrum']
+    },
+    'fusion-fission': {
+        title: 'Fusion et Fission',
+        description: 'Énergie Nucléaire',
+        type: 'atom',
+        config: {},
+        analogy: {
+            title: 'Casser ou Coller des Légos',
+            content: `L'énergie nucléaire, c'est jouer avec le noyau des atomes. ⚛️🧱
+
+FISSION (Centrales nucléaires) :
+On prend un ÉNORME atome (Uranium, comme une grosse construction Lego) et on tire dedans. BOUM ! Il se casse en deux.
+Ça libère de l'énergie (et des déchets).
+
+FUSION (Le Soleil) :
+On prend deux PETITS atomes (Hydrogène) et on les écrase l'un contre l'autre très fort. PLOP ! Ils fusionnent pour en faire un plus gros (Hélium).
+Ça libère ENCORE PLUS d'énergie (et c'est propre).`
+        },
+        theory: `Réactions Nucléaires
+
+1. Fission :
+- Noyau lourd instable (U235) + neutron → 2 noyaux moyens + neutrons + ÉNERGIE.
+- Réaction en chaîne.
+
+2. Fusion :
+- 2 noyaux légers (Deutérium + Tritium) → Noyau plus lourd (Hélium) + neutron + ÉNERGIE.
+- Nécessite des températures extrêmes (millions de degrés).
+- Défaut de masse Δm transformé en énergie (E = mc²).`,
+        exercises: [
+            { question: 'Quelle réaction a lieu dans le Soleil ?', options: ['Fission', 'Fusion', 'Combustion', 'Évaporation'], correct: 1, explanation: 'Le Soleil fusionne des atomes d\'hydrogène en hélium.' },
+            { question: 'Les centrales nucléaires actuelles utilisent la...', options: ['Fission', 'Fusion', 'Géothermie', 'Éolien'], correct: 0, explanation: 'Elles cassent des atomes d\'uranium (Fission).' }
+        ],
+        relatedSimulations: ['radioactivity', 'molar-mass']
+    },
+    'esterification': {
+        title: 'Estérification',
+        description: 'Chimie des parfums et arômes',
+        type: 'chemical',
+        config: {},
+        analogy: {
+            title: 'Le Mariage Acide-Alcool',
+            content: `Comment fabriquer une odeur de banane ou de jasmin ? 🍌🌸
+On marie deux produits qui ne sentent pas bon !
+
+Monsieur Acide Carboxylique (Vinaigre...) + Madame Alcool = Bébé Ester (Parfum) + Eau.
+
+C'est une réaction lente et limitée (ils peuvent divorcer : c'est l'Hydrolyse !).
+Pour les forcer à rester mariés, on enlève l'eau au fur et à mesure (on sort la belle-mère ?).`
+        },
+        theory: `Estérification et Hydrolyse
+
+Équation bilan :
+R-COOH (Acide) + R'-OH (Alcool) ⇌ R-COO-R' (Ester) + H₂O (Eau)
+
+Caractéristiques :
+- Lente
+- Limitée (Équilibre chimique)
+- Athermique
+
+Pour améliorer le rendement :
+- Mettre un réactif en excès.
+- Éliminer un produit (l'eau ou l'ester) pendant la réaction.
+- Utiliser un catalyseur (Acide sulfurique) pour accélérer.`,
+        exercises: [
+            { question: 'Quel est le produit odorant de la réaction ?', options: ['L\'acide', 'L\'alcool', 'L\'ester', 'L\'eau'], correct: 2, explanation: 'Les esters sont responsables des arômes naturels de fruits et fleurs.' },
+            { question: 'Comment accélérer l\'estérification ?', options: ['Ajouter de l\'eau', 'Refroidir', 'Ajouter un catalyseur (H₂SO₄)', 'Mettre moins d\'alcool'], correct: 2, explanation: 'Un catalyseur augmente la vitesse sans changer l\'état final.' }
+        ],
+        relatedSimulations: ['chemical-equilibrium', 'organic-chemistry']
+    },
+    'soap-saponification': {
+        title: 'Saponification',
+        description: 'La chimie du Savon',
+        type: 'chemical',
+        config: {},
+        analogy: {
+            title: 'L\'Attaque de la Soude',
+            content: `Comment on fait du savon ? 🧼
+On prend du Gras (Huile ou Beurre de Karité) et on l'attaque avec une base très forte (Soude Caustique).
+
+C'est une bagarre totale et définitive !
+Le Gras est coupé en morceaux :
+- Une partie devient du Savon (Nettoyant).
+- L'autre devient de la Glycérine (Douceur).
+
+Contrairement à l'estérification, ici c'est irréversible : on ne peut pas refaire de l'huile avec du savon !`
+        },
+        theory: `Saponification
+
+Réaction entre un ester gras (Triglycéride) et une base forte (NaOH ou KOH).
+
+Équation :
+Triglycéride + 3 (Na+ + HO-) → 3 Savon (Carboxylate de sodium) + Glycérol
+
+Propriétés du savon :
+Structure amphiphile :
+- Tête hydrophile (aime l'eau).
+- Queue lipophile (aime le gras).
+Permet de former des micelles pour emprisonner la saleté.`,
+        exercises: [
+            { question: 'La saponification est une réaction...', options: ['Totale et rapide à chaud', 'Lente et limitée', 'Impossible', 'Gazeuse'], correct: 0, explanation: 'À chaud avec de la soude concentrée, elle est totale.' },
+            { question: 'Pourquoi le savon lave-t-il ?', options: ['Il est acide', 'Il est amphiphile (aime eau et gras)', 'Il est rouge', 'Il chauffe'], correct: 1, explanation: 'Il fait le pont entre l\'eau de lavage et le gras de la tache.' }
+        ],
+        relatedSimulations: ['esterification', 'molecular-geometry']
+    },
+    'chirality-molecules': {
+        title: 'Chiralité',
+        description: 'Molécules en miroir',
+        type: 'water',
+        config: {},
+        analogy: {
+            title: 'La Main Gauche et la Main Droite',
+            content: `Regarde tes mains. ✋🤚
+Elles se ressemblent, mais elles ne sont pas superposables !
+Tu ne peux pas mettre ton gant gauche à la main droite.
+
+C'est la Chiralité.
+Certaines molécules sont comme ça. Il y a la version "Gauche" et la version "Droite".
+Parfois, la version "Gauche" est un médicament (ex: Ibuprofène) et la version "Droite" est inutile ou toxique !`
+        },
+        theory: `Chiralité et Isomérie Optique
+
+Une molécule est chirale si elle n'est pas superposable à son image dans un miroir.
+Cause principale : Présence d'un Carbone Asymétrique (C*) lié à 4 groupes différents.
+
+Isomères optiques (Énantiomères) :
+- Mêmes propriétés physiques (sauf action sur la lumière polarisée).
+- Propriétés biologiques souvent très différentes (clé/serrure enzymatique).`,
+        exercises: [
+            { question: 'Une molécule chirale...', options: ['A un axe de symétrie', 'N\'est pas superposable à son image miroir', 'Est toujours toxique', 'Est gazeuse'], correct: 1, explanation: 'Comme une main ou une chaussure.' },
+            { question: 'Que faut-il souvent pour être chiral ?', options: ['Un Carbone Asymétrique', 'Une double liaison', 'De l\'oxygène', 'Deux azotes'], correct: 0, explanation: 'Un carbone lié à 4 atomes/groupes différents.' }
+        ],
+        relatedSimulations: ['molecular-geometry', 'enzyme-kinetics']
+    },
+
+    // ========== NOUVELLES SIMULATIONS (Lot 2) ==========
+
+    'muscle-contraction': {
+        title: 'Contraction Musculaire',
+        description: 'Mouvement et ATP',
+        type: 'human-body',
+        config: {},
+        analogy: {
+            title: 'Les Rameurs de la Pirogue',
+            content: `Dans tes muscles, il y a des milliers de petits filaments qui glissent les uns sur les autres.
+
+Imagine des rameurs (les têtes de Myosine) qui tirent sur des cordes (les filaments d'Actine).
+Pour ramer, il faut de l'énergie (ATP) et le signal du capitaine (Calcium).
+
+"Hisse et Oh !" : Le muscle se raccourcit, et ton bras se plie.`
+        },
+        theory: `Mécanisme de la Contraction Musculaire
+
+Glissement des myofilaments d'actine et de myosine dans le sarcomère.
+
+Cycle de contraction :
+1. Fixation de l'ATP sur la tête de myosine.
+2. Hydrolyse de l'ATP → Redressement de la tête.
+3. Fixation sur l'actine (Pons d'union) en présence de Ca²+.
+4. Pivotement de la tête (Libération ADP + Pi) → Glissement.
+5. Détachement (Nouvelle ATP obligatoire, sinon crampe/rigidité cadavérique).`,
+        exercises: [
+            { question: 'Quel ion est indispensable pour déclencher la contraction ?', options: ['Le Sodium', 'Le Calcium', 'Le Fer', 'Le Chlore'], correct: 1, explanation: 'Le Calcium libère les sites de fixation sur l\'actine.' },
+            { question: 'Quelle molécule fournit l\'énergie ?', options: ['L\'ADN', 'L\'ATP', 'L\'Eau', 'La Vitamine C'], correct: 1, explanation: 'L\'Adénosine TriPhosphate est la monnaie énergétique de la cellule.' }
+        ],
+        relatedSimulations: ['cell-respiration', 'synaptic-transmission']
+    },
+    'aids-virus': {
+        title: 'Le VIH et le Système Immunitaire',
+        description: 'Infection et Défense',
+        type: 'immune',
+        config: {},
+        analogy: {
+            title: 'Le Cheval de Troie',
+            content: `Le VIH est un virus très rusé.
+Il n'attaque pas les soldats de base (Anticorps), il attaque le GÉNÉRAL des armées (Lymphocytes T4) !
+
+Il rentre dans le quartier général en se déguisant, pirate l'usine de photocopieuse (noyau) pour se dupliquer, et détruit le général en sortant.
+Sans général pour donner les ordres, l'armée ne sait plus se défendre, même contre un petit rhume.`
+        },
+        theory: `Infection par le VIH
+
+Le Virus de l'Immunodéficience Humaine est un rétrovirus (ARN).
+
+Cycle :
+1. Fixation sur le récepteur CD4 des Lymphocytes T4.
+2. Pénétration et Rétrotranscription (ARN → ADN).
+3. Intégration dans l'ADN de la cellule.
+4. Transcription et Traduction de nouveaux virus.
+5. Bourgeonnement et destruction du LT4.
+
+Stade SIDA : Quand le taux de LT4 est trop bas, les maladies opportunistes apparaissent.`,
+        exercises: [
+            { question: 'Quelle cellule est la cible principale du VIH ?', options: ['Le Globule Rouge', 'Le Lymphocyte T4', 'Le Neurone', 'La Peau'], correct: 1, explanation: 'Le LT4 est le chef d\'orchestre de la réponse immunitaire.' },
+            { question: 'Le VIH est un rétrovirus, cela signifie qu\'il contient...', options: ['De l\'ADN', 'De l\'ARN', 'Des protéines seulement', 'Du sucre'], correct: 1, explanation: 'Son matériel génétique est l\'ARN, qu\'il convertit en ADN (Rétrotranscription).' }
+        ],
+        relatedSimulations: ['adaptive-immunity', 'protein-synthesis']
+    },
+    'climate-feedback': {
+        title: 'Rétroactions Climatiques',
+        description: 'Effet de serre et conséquences',
+        type: 'tectonics',
+        config: {},
+        analogy: {
+            title: 'L\'Effet Boule de Neige',
+            content: `La machine climatique peut s'emballer !
+
+Exemple de l'Albédo (L'effet miroir de la glace) :
+1. Il fait chaud, la glace fond.
+2. Moins de glace = Moins de surface blanche pour réfléchir le soleil.
+3. L'océan (sombre) absorbe plus de chaleur.
+4. Il fait ENCORE PLUS chaud, donc encore plus de glace fond...
+
+C'est une boucle vicieuse (Rétroaction Positive).`
+        },
+        theory: `Rétroactions Climatiques
+
+Amplificateurs du réchauffement (Positives) :
+- Fonte des glaces (Baisse Albédo).
+- Fonte du Permafrost (Libération de Méthane).
+- Vapeur d'eau (Gaz à effet de serre puissant).
+
+Stabilisateurs (Négatives) :
+- Photosynthèse (Puits de carbone), mais limitée.
+- Océans (Absorbe CO2), mais s'acidifient.`,
+        exercises: [
+            { question: 'Quand la banquise fond, la Terre absorbe...', options: ['Moins de chaleur', 'Plus de chaleur', 'Pareil', 'Du froid'], correct: 1, explanation: 'L\'eau sombre absorbe les rayons, la glace blanche les renvoyait (Albédo).' },
+            { question: 'Le CO2 est un gaz à...', options: ['Effet de serre', 'Effet de froid', 'Odeur de rose', 'Couleur verte'], correct: 0, explanation: 'Il piège le rayonnement infrarouge émis par la Terre.' }
+        ],
+        relatedSimulations: ['greenhouse-effect', 'ecosystem-dynamics']
+    },
+    'plant-growth': {
+        title: 'Croissance des Végétaux',
+        description: 'Auxine et phototropisme',
+        type: 'plant-cell',
+        config: {},
+        analogy: {
+            title: 'La Plante qui Cherche le Soleil',
+            content: `Pourquoi les plantes poussent-elles vers la lumière ? 🌻
+Parce qu'elles ont une hormone (l'Auxine) qui déteste le soleil !
+
+L'auxine se cache du côté à l'ombre de la tige.
+Elle fait grandir les cellules de ce côté-là plus vite.
+Résultat : La tige se courbe vers la lumière !
+
+C'est comme si tu avais une jambe qui grandissait plus vite que l'autre, tu tournerais en rond.`
+        },
+        theory: `Développement Végétal
+
+Méristèmes : Zones de division cellulaire (Mitose).
+
+Auxine : Hormone végétale (Phytohormone) responsable de l'élongation cellulaire.
+
+Phototropisme :
+- Éclairement anisotrope (un seul côté).
+- Migration de l'auxine vers la face sombre.
+- Élongation plus forte face sombre.
+- Courbure vers la lumière.`,
+        exercises: [
+            { question: 'L\'auxine est une hormone qui...', options: ['Tue la plante', 'Fait grandir les cellules', 'Fait rougir les fruits', 'Attire les abeilles'], correct: 1, explanation: 'Elle stimule l\'élongation cellulaire.' },
+            { question: 'Si la lumière vient de droite, l\'auxine va...', options: ['À droite', 'À gauche (à l\'ombre)', 'En haut', 'En bas'], correct: 1, explanation: 'Elle fuit la lumière, provoquant la croissance du côté gauche pour courber vers la droite.' }
+        ],
+        relatedSimulations: ['photosynthesis', 'cell-division']
+    },
+    'enzyme-kinetics': {
+        title: 'Cinétique Enzymatique',
+        description: 'Vitesse des réactions biologiques',
+        type: 'chemical',
+        config: {},
+        analogy: {
+            title: 'Les Ouvriers de l\'Usine',
+            content: `Les enzymes sont comme des ouvriers qui assemblent des pièces (substrats).
+
+Au début, si tu ajoutes des pièces, ça va plus vite.
+Mais si tu as 10 ouvriers et que tu amènes 1000 pièces d'un coup... ça n'ira pas plus vite !
+Tous les ouvriers sont occupés (Saturation).
+Vitesse Maximale (Vmax) atteinte.
+
+Il faut embaucher plus d'ouvriers (plus d'enzymes) pour accélérer.`
+        },
+        theory: `Cinétique Enzymatique
+
+L'enzyme (E) catalyse la transformation du Substrat (S) en Produit (P).
+E + S ⇌ ES → E + P
+
+Vitesse de réaction (v = d[P]/dt) :
+- Augmente avec [S] au début.
+- Plafonne quand toutes les enzymes sont occupées (Saturation).
+
+Facteurs influents :
+- Température (Optimum).
+- pH (Optimum).
+- Concentration en Enzyme.`,
+        exercises: [
+            { question: 'Quand toutes les enzymes sont occupées, on dit qu\'il y a...', options: ['Fatigue', 'Saturation', 'Grève', 'Vacances'], correct: 1, explanation: 'Le complexe ES est formé partout, la vitesse est maximale.' },
+            { question: 'Si on chauffe trop une enzyme, elle...', options: ['Travaille plus vite', 'Se dénature (casse)', 'Fond', 'S\'évapore'], correct: 1, explanation: 'Comme le blanc d\'œuf qui cuit, la protéine perd sa forme et sa fonction.' }
+        ],
+        relatedSimulations: ['protein-synthesis', 'digestive-system']
+    },
+    'beer-lambert-law': {
+        title: 'Loi de Beer-Lambert',
+        description: 'Dosage par spectrophotométrie',
+        type: 'water',
+        config: {},
+        analogy: {
+            title: 'Le Verre de Bissap',
+            content: `Comment savoir si le jus de Bissap est concentré sans le goûter ? 🥤
+On regarde sa couleur !
+
+- Plus c'est foncé, plus c'est concentré.
+- Plus le verre est large, plus ça paraît foncé.
+
+C'est la loi de Beer-Lambert :
+L'assombrissement (Absorbance) dépend de la Concentration et de l'Épaisseur.`
+        },
+        theory: `Loi de Beer-Lambert
+
+Absorbance (A) d'une solution colorée :
+A = ε · l · C
+
+- A : Absorbance (sans unité)
+- ε : Coefficient d'extinction molaire (dépend de la molécule et de la longueur d'onde)
+- l : Longueur de la cuve (cm)
+- C : Concentration (mol/L)
+
+A est proportionnel à C. La courbe d'étalonnage est une droite passant par l'origine.` ,
+        exercises: [
+            { question: 'Si la concentration double, l\'absorbance...', options: ['Double', 'Reste pareille', 'Diminue', 'Devient nulle'], correct: 0, explanation: 'Il y a proportionnalité directe (Relation linéaire).' },
+            { question: 'Pour doser une solution bleue, on utilise une lumière...', options: ['Bleue', 'Rouge/Orange (Complémentaire)', 'Noire', 'Invisible'], correct: 1, explanation: 'La solution est bleue car elle absorbe les autres couleurs (surtout l\'orange/rouge).' }
+        ],
+        relatedSimulations: ['molar-concentration', 'light-spectrum']
+    },
+    'radioactive-dating': {
+        title: 'Datation Carbone 14',
+        description: 'Comment savoir l\'âge d\'une momie ?',
+        type: 'atom',
+        config: {},
+        analogy: {
+            title: 'Le Sablier Géant',
+            content: `Le Carbone 14 est comme un sablier intégré dans tous les êtres vivants. ⏳💀
+
+Tant qu'on est vivant, on le remplit (en mangeant/respirant).
+Quand on meurt, le sablier se vide doucement (le C14 disparaît).
+Il faut 5700 ans pour qu'il se vide à moitié (Demi-Vie).
+
+Si on trouve un os avec la moitié de la dose normale, il a 5700 ans !
+S'il reste un quart, il a 2 x 5700 = 11 400 ans.`
+        },
+        theory: `Datation Absolue
+
+Loi de décroissance radioactive :
+N(t) = N₀ · e^(-λt)
+
+Demi-vie (t1/2) : Temps pour que la moitié des noyaux se désintègrent.
+Pour C14, t1/2 = 5730 ans.
+
+Utilisable pour dater des objets organiques (bois, os, tissu) de moins de 50 000 ans.
+Pour les roches plus anciennes, on utilise Uranium-Plomb ou Potassium-Argon.`,
+        exercises: [
+            { question: 'Après deux demi-vies, il reste...', options: ['Rien', 'La moitié (50%)', 'Le quart (25%)', 'Tout'], correct: 2, explanation: '100% -> 50% -> 25%.' },
+            { question: 'Peut-on dater un dinosaure (65 millions d\'années) au Carbone 14 ?', options: ['Oui', 'Non', 'Peut-être', 'Seulement les T-Rex'], correct: 1, explanation: 'Non, tout le C14 a disparu depuis longtemps. Il faut d\'autres isotopes.' }
+        ],
+        relatedSimulations: ['radioactivity', 'nuclear-fusion']
+    },
+    'laser-principle': {
+        title: 'Le Laser',
+        description: 'Émission stimulée de lumière',
+        type: 'wave',
+        config: {},
+        analogy: {
+            title: 'L\'Armée de Clones',
+            content: `La lumière normale (ampoule), c'est comme une foule qui sort d'un stade : ça part dans tous les sens, en désordre.
+
+Le LASER, c'est un défilé militaire :
+- Tous les soldats sont habillés pareil (Monochromatique : 1 seule couleur).
+- Ils marchent tous au même pas (Cohérence).
+- Ils vont tous dans la même direction (Directivité).
+
+C'est pour ça qu'un laser peut aller jusqu'à la Lune sans s'élargir !`
+        },
+        theory: `LASER (Light Amplification by Stimulated Emission of Radiation)
+
+Principes clés :
+1. Pompage optique : Exciter les atomes (Inversion de population).
+2. Émission stimulée : Un photon incident provoque l'émission d'un photon JUMEAU (même fréquence, phase, direction).
+3. Amplification : Miroirs parallèles pour faire passer la lumière plusieurs fois.
+
+Propriétés : Monochromatique, Cohérent, Directif, Puissant.`,
+        exercises: [
+            { question: 'Que signifie le "S" de LASER ?', options: ['Soleil', 'Stimulated (Stimulée)', 'Super', 'Speed'], correct: 1, explanation: 'Émission Stimulée de rayonnement.' },
+            { question: 'La lumière d\'un laser est...', options: ['Multicolore', 'Monochromatique', 'Froide', 'Invisible'], correct: 1, explanation: 'Elle ne contient qu\'une seule longueur d\'onde (couleur pure).' }
+        ],
+        relatedSimulations: ['light-spectrum', 'quantum-mechanics']
+    },
+
 };
 
 export default lyceeSimulationsData;

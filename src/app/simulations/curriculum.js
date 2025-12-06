@@ -108,6 +108,15 @@ export const simulationsCurriculum = {
                                 duration: "25 min",
                                 icon: "💧",
                                 tags: ["eau", "environnement", "santé"]
+                            },
+                            {
+                                id: "simple-machines",
+                                title: "Machines Simples",
+                                description: "Leviers et poulies",
+                                difficulty: "facile",
+                                duration: "20 min",
+                                icon: "🏗️",
+                                tags: ["physique", "force", "levier"]
                             }
                         ]
                     },
@@ -355,6 +364,15 @@ export const simulationsCurriculum = {
                                 duration: "25 min",
                                 icon: "⚛️",
                                 tags: ["chimie", "matière", "particules"]
+                            },
+                            {
+                                id: "sound-propagation",
+                                title: "Propagation du Son",
+                                description: "Vitesse et nature du son",
+                                difficulty: "moyen",
+                                duration: "20 min",
+                                icon: "🔊",
+                                tags: ["physique", "son", "ondes"]
                             }
                         ]
                     },
@@ -549,7 +567,8 @@ export const simulationsCurriculum = {
                             { id: "molar-concentration", title: "Concentration Molaire", description: "Solutions et dilutions", difficulty: "moyen", duration: "30 min", icon: "🧪", tags: ["chimie", "dosage"] },
                             { id: "quality-control-titration", title: "Contrôle Qualité", description: "Titrage colorimétrique", difficulty: "moyen", duration: "40 min", icon: "🌡️", tags: ["dosage", "chimie"] },
                             { id: "molecular-geometry", title: "Géométrie Moléculaire", description: "Modèle VSEPR", difficulty: "difficile", duration: "45 min", icon: "🔷", tags: ["atomes", "espace"] },
-                            { id: "electrolysis", title: "Électrolyse", description: "Réactions forcées", difficulty: "difficile", duration: "40 min", icon: "🔋", tags: ["redox", "pile"] }
+                            { id: "electrolysis", title: "Électrolyse", description: "Réactions forcées", difficulty: "difficile", duration: "40 min", icon: "🔋", tags: ["redox", "pile"] },
+                            { id: "beer-lambert-law", title: "Loi de Beer-Lambert", description: "Dosage spectrophotométrique", difficulty: "moyen", duration: "30 min", icon: "🌈", tags: ["chimie", "lumière"] }
                         ]
                     },
                     svt: {
@@ -558,7 +577,9 @@ export const simulationsCurriculum = {
                             { id: "enzymatic-catalysis", title: "Catalyse Enzymatique", description: "Vitesse de réaction", difficulty: "difficile", duration: "40 min", icon: "🔑", tags: ["enzyme", "protéine"] },
                             { id: "tectonics-plates", title: "Tectonique des Plaques", description: "Dérive et séismes", difficulty: "moyen", duration: "35 min", icon: "🌍", tags: ["géologie", "terre"] },
                             { id: "greenhouse-effect", title: "Effet de Serre", description: "Bilan radiatif", difficulty: "moyen", duration: "25 min", icon: "🌡️", tags: ["climat", "réchauffement"] },
-                            { id: "protein-synthesis", title: "Synthèse des Protéines", description: "ADN vers Protéine", difficulty: "difficile", duration: "40 min", icon: "🧬", tags: ["génétique"] }
+                            { id: "protein-synthesis", title: "Synthèse des Protéines", description: "ADN vers Protéine", difficulty: "difficile", duration: "40 min", icon: "🧬", tags: ["génétique"] },
+                            { id: "plant-growth", title: "Croissance Végétale", description: "Auxine et Phototropisme", difficulty: "moyen", duration: "30 min", icon: "🌻", tags: ["plante", "hormone"] },
+                            { id: "enzyme-kinetics", title: "Cinétique Enzymatique", description: "Vitesse et Saturation", difficulty: "difficile", duration: "40 min", icon: "⏱️", tags: ["enzyme", "vitesse"] }
                         ]
                     }
                 }
@@ -574,7 +595,18 @@ export const simulationsCurriculum = {
                             { id: "wave-interference", title: "Interférences d'Ondes", description: "Fentes de Young", difficulty: "très difficile", duration: "50 min", icon: "🌊", tags: ["ondes", "lumière"] },
                             { id: "diffraction-light", title: "Diffraction", description: "Nature ondulatoire", difficulty: "difficile", duration: "30 min", icon: "🌈", tags: ["lumière", "ondes"] },
                             { id: "chemical-equilibrium", title: "Équilibre Chimique", description: "Quotient de réaction", difficulty: "difficile", duration: "45 min", icon: "⚖️", tags: ["chimie", "équilibre"] },
-                            { id: "acid-base-titration", title: "Dosage pH-métrique", description: "Suivi pH", difficulty: "difficile", duration: "45 min", icon: "⚗️", tags: ["chimie", "pH"] }
+                            { id: "acid-base-titration", title: "Dosage pH-métrique", description: "Suivi pH", difficulty: "difficile", duration: "45 min", icon: "⚗️", tags: ["chimie", "pH"] },
+                            { id: "doppler-effect", title: "Effet Doppler", description: "Mouvement et fréquence", difficulty: "moyen", duration: "30 min", icon: "🚑", tags: ["ondes", "son"] },
+                            { id: "kepler-laws", title: "Lois de Kepler", description: "Orbite des planètes", difficulty: "difficile", duration: "40 min", icon: "🪐", tags: ["gravitation", "espace"] },
+                            { id: "pendulum-oscillation", title: "Oscillateurs", description: "Pendule simple", difficulty: "moyen", duration: "30 min", icon: "🕰️", tags: ["mécanique", "temps"] },
+                            { id: "rlc-circuit", title: "Circuit RLC", description: "Oscillations électriques", difficulty: "très difficile", duration: "50 min", icon: "⚡", tags: ["électricité", "radio"] },
+                            { id: "photoelectric-effect", title: "Effet Photoélectrique", description: "Photons et électrons", difficulty: "très difficile", duration: "40 min", icon: "☀️", tags: ["quantique", "lumière"] },
+                            { id: "fusion-fission", title: "Nucléaire : Fusion/Fission", description: "Énergie de l'atome", difficulty: "très difficile", duration: "45 min", icon: "☢️", tags: ["nucléaire", "énergie"] },
+                            { id: "esterification", title: "Estérification", description: "Synthèse d'arômes", difficulty: "moyen", duration: "40 min", icon: "🍓", tags: ["chimie", "organique"] },
+                            { id: "soap-saponification", title: "Saponification", description: "Fabrication du savon", difficulty: "moyen", duration: "35 min", icon: "🧼", tags: ["chimie", "organique"] },
+                            { id: "chirality-molecules", title: "Chiralité", description: "Isomérie spatiale", difficulty: "difficile", duration: "30 min", icon: "✋", tags: ["chimie", "espace"] },
+                            { id: "radioactive-dating", title: "Datation Carbone 14", description: "Loi de décroissance", difficulty: "moyen", duration: "30 min", icon: "🦴", tags: ["nucléaire", "temps"] },
+                            { id: "laser-principle", title: "Le Laser", description: "Émission stimulée", difficulty: "difficile", duration: "40 min", icon: "🔴", tags: ["optique", "quantique"] }
                         ]
                     },
                     svt: {
@@ -583,7 +615,10 @@ export const simulationsCurriculum = {
                             { id: "nerve-muscle-reflex", title: "Réflexe Myotatique", description: "Nerf et muscle", difficulty: "moyen", duration: "30 min", icon: "🦵", tags: ["nerf", "neurone"] },
                             { id: "meiosis-diversity", title: "Méiose et Diversité", description: "Brassage génétique", difficulty: "difficile", duration: "45 min", icon: "🎲", tags: ["génétique", "reproduction"] },
                             { id: "adaptive-immunity", title: "Immunité Adaptative", description: "Lymphocytes B et T", difficulty: "difficile", duration: "50 min", icon: "🛡️", tags: ["santé", "anticorps"] },
-                            { id: "geothermics", title: "Géothermie", description: "Énergie interne", difficulty: "moyen", duration: "30 min", icon: "🌋", tags: ["énergie", "terre"] }
+                            { id: "geothermics", title: "Géothermie", description: "Énergie interne", difficulty: "moyen", duration: "30 min", icon: "🌋", tags: ["énergie", "terre"] },
+                            { id: "muscle-contraction", title: "Contraction Musculaire", description: "ATP et Mouvement", difficulty: "difficile", duration: "40 min", icon: "💪", tags: ["muscle", "énergie"] },
+                            { id: "aids-virus", title: "VIH et Système Immunitaire", description: "Infection virale", difficulty: "moyen", duration: "35 min", icon: "🦠", tags: ["santé", "virus"] },
+                            { id: "climate-feedback", title: "Rétroactions Climatiques", description: "Système Terre", difficulty: "difficile", duration: "40 min", icon: "🌡️", tags: ["climat", "écologie"] }
                         ]
                     }
                 }

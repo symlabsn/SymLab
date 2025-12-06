@@ -2984,6 +2984,144 @@ Valeurs remarquables (30°, 45°, 60°) à connaître !`,
         ],
         relatedSimulations: ['pythagoras-theorem', 'geometric-shapes']
     },
+
+    // ========== NOUVELLES SIMULATIONS 6ème - 3ème ==========
+
+    'water-cycle': {
+        title: 'Le Cycle de l\'Eau',
+        description: 'Suivez le parcours d\'une goutte d\'eau sur Terre',
+        type: 'water-cycle',
+        config: {},
+        analogy: {
+            title: 'Le Voyage de l\'Eau',
+            content: `L'eau voyage comme un commerçant qui fait le tour du Sénégal ! 🚌💧
+
+1. Évaporation (Mer → Ciel) : Le soleil chauffe l'océan, l'eau monte comme la fumée du thé chaud.
+2. Condensation (Ciel → Nuages) : En haut, il fait froid, la vapeur se rassemble pour former des nuages (comme la buée sur la vitre).
+3. Précipitations (Nuages → Terre) : Les nuages sont trop lourds, il pleut (Hivernage !).
+4. Infiltration/Ruissellement : L'eau remplit les nappes et les fleuves, et retourne à la mer.
+
+Et ça recommence ! C'est un cycle éternel.`
+        },
+        theory: `Le Cycle de l'Eau (Cycle Hydrologique)
+
+Étapes principales :
+1. Évaporation : Passage de l'état liquide à gazeux (Océans, Lacs).
+2. Transpiration : Évaporation de l'eau par les plantes (Forêts).
+3. Condensation : Formation des nuages (Vapeur → Gouttelettes).
+4. Précipitations : Pluie, Neige, Grêle.
+5. Ruissellement : Écoulement de l'eau vers les rivières.
+6. Infiltration : Pénétration dans le sol (Nappes phréatiques).`,
+        exercises: [
+            { question: 'Quel moteur fait tourner le cycle de l\'eau ?', options: ['Le vent', 'Le Soleil', 'La Lune', 'Les arbres'], correct: 1, explanation: 'C\'est l\'énergie solaire qui chauffe l\'eau et provoque l\'évaporation.' },
+            { question: 'Comment l\'eau retourne-t-elle à l\'état liquide dans les nuages ?', options: ['Par fusion', 'Par condensation', 'Par ébullition', 'Par solidification'], correct: 1, explanation: 'La vapeur se refroidit et redevient liquide (Condensation).' }
+        ],
+        relatedSimulations: ['states-of-matter', 'climate-change']
+    },
+
+    'simple-machines': {
+        title: 'Machines Simples : Levier',
+        description: 'Comment soulever lourd avec moins d\'effort',
+        type: 'force',
+        config: {},
+        analogy: {
+            title: 'La Balançoire Magique',
+            content: `Pourquoi un petit enfant peut soulever un adulte sur une balançoire à bascule (Tape-Cul) ? ⚖️
+
+C'est grâce au LEVIER !
+Si l'adulte s'assoit près du centre (pivot) et l'enfant très loin... Hop ! L'enfant descend et l'adulte monte.
+
+C'est le même principe pour ouvrir une bouteille de Gazelle avec un décapsuleur ou soulever une voiture avec un cric.
+Plus le manche est long, moins on force !`
+        },
+        theory: `Le Levier
+
+Un levier est une barre rigide mobile autour d'un point d'appui (Pivot).
+
+Loi des moments :
+Force 1 x Distance 1 = Force 2 x Distance 2
+
+Pour soulever une charge lourde (F2) avec une petite force (F1), il faut que la distance (D1) soit très grande.
+"Donnez-moi un point d'appui et je soulèverai le monde." - Archimède`,
+        exercises: [
+            { question: 'Pour soulever plus facilemement, il faut placer le point d\'appui...', options: ['Loin de la charge', 'Près de la charge', 'Au milieu exactement', 'Supprimer le point d\'appui'], correct: 1, explanation: 'Plus le pivot est près de la charge, plus le bras de levier est avantageux.' },
+            { question: 'Un ciseau est-il un levier ?', options: ['Oui', 'Non', 'Seulement pour le papier', 'C\'est une poulie'], correct: 0, explanation: 'Oui, c\'est un double levier autour de la vis centrale.' }
+        ],
+        relatedSimulations: ['forces-motion', 'weight-mass']
+    },
+
+    'volcano-eruption': {
+        title: 'Éruption Volcanique',
+        description: 'Structure de la Terre et Volcans',
+        type: 'tectonics',
+        config: {},
+        analogy: {
+            title: 'La Marmite de Bouillie',
+            content: `La Terre est comme une marmite de bouillie bouillante (le Magma) avec un couvercle un peu cassé (la Croûte Terrestre). 🌋🥘
+
+Quand la bouillie bout trop fort, elle cherche à sortir par les fissures !
+- Si la bouillie est liquide (Rouge), elle coule doucement (Lave).
+- Si la bouillie est pâteuse (Grise) et que ça explose, ça projette des morceaux partout (Cendres et Bombes).
+
+Les volcans sont les soupapes de sécurité de la Terre.`
+        },
+        theory: `Volcanisme
+
+Magma : Roche fondue en profondeur (gaz + liquide).
+Lave : Magma dégazé qui coule en surface.
+
+Types d'éruptions :
+1. Effusive (Volcan Rouge) :
+- Lave fluide, coulées.
+- Peu dangereux directement.
+- Ex: Piton de la Fournaise.
+
+2. Explosive (Volcan Gris) :
+- Lave visqueuse, gaz sous pression.
+- Nuées ardentes (gaz brûlants + cendres).
+- Très dangereux.`,
+        exercises: [
+            { question: 'Quelle est la différence entre magma et lave ?', options: ['La couleur', 'Le magma est en profondeur, la lave en surface', 'La température', 'Aucune'], correct: 1, explanation: 'Le magma contient encore ses gaz sous pression sous terre.' },
+            { question: 'Quel type de volcan est le plus dangereux ?', options: ['Effusif', 'Explosif', 'Éteint', 'Sous-marin'], correct: 1, explanation: 'Les volcans explosifs projettent des nuées ardentes mortelles.' }
+        ],
+        relatedSimulations: ['tectonics-plates', 'geothermics']
+    },
+
+    'sound-propagation': {
+        title: 'Propagation du Son',
+        description: 'Comment le son voyage-t-il ?',
+        type: 'wave',
+        config: {},
+        analogy: {
+            title: 'Le Tam-Tam Invisible',
+            content: `Le son, c'est comme une bousculade dans la foule ! 🥁🗣️
+
+Quand tu tapes sur le Tam-Tam, la peau vibre.
+Elle pousse l'air devant elle, qui pousse l'air d'à côté, qui pousse l'air suivant... jusqu'à ton oreille !
+
+Dans le vide (espace), il n'y a personne à pousser (pas d'air). Donc pas de son !
+C'est pour ça que dans Star Wars, les explosions devraient être silencieuses.`
+        },
+        theory: `Le Son
+
+C'est une onde mécanique progressive.
+Il a besoin d'un milieu matériel pour se propager (Air, Eau, Solide).
+
+Vitesse du son :
+- Air : 340 m/s (environ 1200 km/h).
+- Eau : 1500 m/s (ça va plus vite !).
+- Acier : 5000 m/s.
+
+Fréquence (Hz) :
+- Grave = Basse fréquence.
+- Aigu = Haute fréquence.
+- Oreille humaine : 20 Hz à 20 000 Hz.`,
+        exercises: [
+            { question: 'Le son peut-il se propager sur la Lune ?', options: ['Oui, très vite', 'Oui, mais doucement', 'Non, c\'est le vide', 'Seulement la nuit'], correct: 2, explanation: 'Il n\'y a pas d\'atmosphère (air) sur la Lune pour transmettre les vibrations.' },
+            { question: 'On voit l\'éclair avant d\'entendre le tonnerre car...', options: ['L\'œil est plus rapide', 'La lumière est plus rapide que le son', 'Le son fait un détour', 'C\'est une illusion'], correct: 1, explanation: 'Lumière (300 000 km/s) >> Son (340 m/s).' }
+        ],
+        relatedSimulations: ['light-speed', 'wave-interference']
+    }
 };
 
 export default collegeSimulationsData;
