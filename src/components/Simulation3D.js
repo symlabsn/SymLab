@@ -1,59 +1,50 @@
-'use client';
+return (
+    <group>
+        {/* Terre */}
+        <group position={[-3, 0, 0]}>
+            <mesh position={[0, -2.5, 0]}>
+                <sphereGeometry args={[2, 32, 32]} />
+                <meshStandardMaterial color="#3B82F6" emissive="#1D4ED8" emissiveIntensity={0.2} />
+            </mesh>
+            <Text position={[0, -4, 0]} fontSize={0.5} color="white">Terre (g = 9.8)</Text>
 
-import { Canvas } from '@react-three/fiber';
-import { OrbitControls, PerspectiveCamera, Environment, Stars, Text, Line } from '@react-three/drei';
-
-// ... (existing helper components)
-
-// Composant Poids vs Masse (Terre vs Lune)
-function WeightMass() {
-    return (
-        <group>
-            {/* Terre */}
-            <group position={[-3, 0, 0]}>
-                <mesh position={[0, -2.5, 0]}>
-                    <sphereGeometry args={[2, 32, 32]} />
-                    <meshStandardMaterial color="#3B82F6" emissive="#1D4ED8" emissiveIntensity={0.2} />
-                </mesh>
-                <Text position={[0, -4, 0]} fontSize={0.5} color="white">Terre (g = 9.8)</Text>
-
-                {/* Objet sur Terre */}
-                <mesh position={[0, 0, 0]}>
-                    <boxGeometry args={[1, 1, 1]} />
-                    <meshStandardMaterial color="#FCD34D" />
-                </mesh>
-                {/* Vecteur Poids (Gros) */}
-                <mesh position={[0, -1.2, 0]} rotation={[Math.PI, 0, 0]}>
-                    <coneGeometry args={[0.2, 1.5, 16]} />
-                    <meshStandardMaterial color="#EF4444" />
-                </mesh>
-                <Text position={[1.2, 0, 0]} fontSize={0.4} color="#EF4444">P = 98 N</Text>
-            </group>
-
-            {/* Lune */}
-            <group position={[3, 0, 0]}>
-                <mesh position={[0, -2.5, 0]}>
-                    <sphereGeometry args={[1.2, 32, 32]} />
-                    <meshStandardMaterial color="#9CA3AF" emissive="#4B5563" emissiveIntensity={0.2} />
-                </mesh>
-                <Text position={[0, -4, 0]} fontSize={0.5} color="white">Lune (g = 1.6)</Text>
-
-                {/* Objet sur Lune (Même taille ! Masse identique) */}
-                <mesh position={[0, 0, 0]}>
-                    <boxGeometry args={[1, 1, 1]} />
-                    <meshStandardMaterial color="#FCD34D" />
-                </mesh>
-                {/* Vecteur Poids (Petit) */}
-                <mesh position={[0, -0.8, 0]} rotation={[Math.PI, 0, 0]}>
-                    <coneGeometry args={[0.2, 0.5, 16]} />
-                    <meshStandardMaterial color="#EF4444" />
-                </mesh>
-                <Text position={[1.2, 0, 0]} fontSize={0.4} color="#EF4444">P = 16 N</Text>
-            </group>
-
-            <Text position={[0, 3, 0]} fontSize={0.6} color="white">Masse = 10 kg (Constante)</Text>
+            {/* Objet sur Terre */}
+            <mesh position={[0, 0, 0]}>
+                <boxGeometry args={[1, 1, 1]} />
+                <meshStandardMaterial color="#FCD34D" />
+            </mesh>
+            {/* Vecteur Poids (Gros) */}
+            <mesh position={[0, -1.2, 0]} rotation={[Math.PI, 0, 0]}>
+                <coneGeometry args={[0.2, 1.5, 16]} />
+                <meshStandardMaterial color="#EF4444" />
+            </mesh>
+            <Text position={[1.2, 0, 0]} fontSize={0.4} color="#EF4444">P = 98 N</Text>
         </group>
-    );
+
+        {/* Lune */}
+        <group position={[3, 0, 0]}>
+            <mesh position={[0, -2.5, 0]}>
+                <sphereGeometry args={[1.2, 32, 32]} />
+                <meshStandardMaterial color="#9CA3AF" emissive="#4B5563" emissiveIntensity={0.2} />
+            </mesh>
+            <Text position={[0, -4, 0]} fontSize={0.5} color="white">Lune (g = 1.6)</Text>
+
+            {/* Objet sur Lune (Même taille ! Masse identique) */}
+            <mesh position={[0, 0, 0]}>
+                <boxGeometry args={[1, 1, 1]} />
+                <meshStandardMaterial color="#FCD34D" />
+            </mesh>
+            {/* Vecteur Poids (Petit) */}
+            <mesh position={[0, -0.8, 0]} rotation={[Math.PI, 0, 0]}>
+                <coneGeometry args={[0.2, 0.5, 16]} />
+                <meshStandardMaterial color="#EF4444" />
+            </mesh>
+            <Text position={[1.2, 0, 0]} fontSize={0.4} color="#EF4444">P = 16 N</Text>
+        </group>
+
+        <Text position={[0, 3, 0]} fontSize={0.6} color="white">Masse = 10 kg (Constante)</Text>
+    </group>
+);
 }
 
 // Composant Théorème de Thalès
