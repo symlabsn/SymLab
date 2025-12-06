@@ -179,14 +179,14 @@ export const courses = [
         color: 'blue'
     },
     {
-        id: 'pc-1s',
+        id: 'entrainement-1s',
         level: 'Première',
         subject: 'Physique-Chimie',
-        title: 'Physique Chimie 1ère S',
-        description: 'Fascicule complet IA PG-CDC.',
-        file: '/courses/Fascicule  PC 1ère S IA PG-CDC Février 2020 (V.pdf',
-        icon: '⚡',
-        color: 'purple'
+        title: 'Entraînement PC 1ère S',
+        description: 'Exercices corrigés et Problèmes de synthèse (Énergie, Redox, Organique).',
+        file: null,
+        icon: '🏋️',
+        color: 'orange'
     },
     {
         id: 'phys-1s',

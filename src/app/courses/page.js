@@ -18,6 +18,7 @@ import { phys1sData } from './data/phys1s';
 import { chimie2sData } from './data/chimie2s';
 import { chimie1sData } from './data/chimie1s';
 import { entrainement2sData } from './data/entrainement2s';
+import { entrainement1sData } from './data/entrainement1s';
 import { math2sData } from './data/math2s';
 import { math1sData } from './data/math1s';
 import { svt2sData } from './data/svt2s';
@@ -59,6 +60,7 @@ export default function CoursesPage() {
         'chimie-2s': chimie2sData,
         'chimie-1s': chimie1sData,
         'entrainement-2s': entrainement2sData,
+        'entrainement-1s': entrainement1sData,
         'math-2s': math2sData,
         'math-1s': math1sData,
         'svt-2s': svt2sData,
