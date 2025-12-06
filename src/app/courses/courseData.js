@@ -270,5 +270,15 @@ export const courses = [
         file: '/courses/Wahab Diop-CHIMIE WTS-lsll.pdf',
         icon: '🧪',
         color: 'purple'
+    },
+    {
+        id: 'svt-ts',
+        level: 'Terminale',
+        subject: 'SVT',
+        title: 'SVT Terminale S',
+        description: 'Neurophysiologie, Immunologie, Génétique. Programme complet conforme.',
+        file: null,
+        icon: '🌿',
+        color: 'green'
     }
 ];
