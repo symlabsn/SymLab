@@ -1,157 +1,158 @@
-import React from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 
 export default function RichText({ children }) {
-    // Fonction pour parser le formatage inline (gras, italique, code)
+    const [katexReady, setKatexReady] = useState(false);
+    const containerRef = useRef(null);
+
+    // Wait for KaTeX to be available in the window
+    useEffect(() => {
+        if (typeof window !== 'undefined' && window.katex) {
+            setKatexReady(true);
+        } else {
+            const interval = setInterval(() => {
+                if (window.katex) {
+                    setKatexReady(true);
+                    clearInterval(interval);
+                }
+            }, 100);
+            return () => clearInterval(interval);
+        }
+    }, []);
+
+    // Re-render math when Ready
+    useEffect(() => {
+        if (katexReady && containerRef.current && window.katex) {
+            // Find all math spans and render
+            const mathElements = containerRef.current.querySelectorAll('[data-tex]');
+            mathElements.forEach(elem => {
+                const tex = elem.getAttribute('data-tex');
+                const isDisplay = elem.getAttribute('data-display') === 'true';
+                try {
+                    window.katex.render(tex, elem, {
+                        displayMode: isDisplay,
+                        throwOnError: false,
+                        macros: {
+                            "\\R": "\\mathbb{R}",
+                            "\\N": "\\mathbb{N}"
+                        }
+                    });
+                } catch (e) {
+                    elem.innerText = tex;
+                    console.error("KaTeX error:", e);
+                }
+            });
+        }
+    }, [katexReady, children]);
+
     const parseInline = (text) => {
         if (!text) return null;
+        // Split by math delimiters $...$ or $$...$$ first to protect latex
+        // Then parse markdown bold/italic inside non-math parts (rare overlap but cleaner)
+        // OR simply split by all tokens.
+        // Let's do a simple split that respects order.
 
-        // On sépare le texte par les marqueurs de formatage
-        // Regex pour capturer : **gras**, *italique*, `code`
-        const parts = text.split(/(\*\*.*?\*\*|\*.*?\*|`.*?`)/g);
+        // Regex for tokens: $$math$$, $math$, **bold**, *italic*, `code`
+        const regex = /(\$\$[\s\S]*?\$\$|\$[\s\S]*?\$|\*\*.*?\*\*|\*.*?\*|`[^`]+`)/g;
+        const parts = text.split(regex);
 
         return parts.map((part, index) => {
-            // Gras : **texte**
+            if (part.startsWith('$$') && part.endsWith('$$')) {
+                const tex = part.slice(2, -2);
+                return (
+                    <span key={index} className="block my-4 text-center overflow-x-auto" data-tex={tex} data-display="true">
+                        {/* Placeholder until hydration */}
+                        {tex}
+                    </span>
+                );
+            }
+            if (part.startsWith('$') && part.endsWith('$')) {
+                const tex = part.slice(1, -1);
+                return (
+                    <span key={index} className="px-1 text-[#00F5D4]" data-tex={tex} data-display="false">
+                        {tex}
+                    </span>
+                );
+            }
             if (part.startsWith('**') && part.endsWith('**')) {
-                return (
-                    <strong key={index} className="font-bold text-white">
-                        {part.slice(2, -2)}
-                    </strong>
-                );
+                return <strong key={index} className="font-bold text-white">{part.slice(2, -2)}</strong>;
             }
-            // Italique : *texte*
-            if (part.startsWith('*') && part.endsWith('*') && part.length > 2) {
-                return (
-                    <em key={index} className="italic text-gray-400">
-                        {part.slice(1, -1)}
-                    </em>
-                );
+            if (part.startsWith('*') && part.endsWith('*')) {
+                return <em key={index} className="italic text-gray-400">{part.slice(1, -1)}</em>;
             }
-            // Code inline : `texte`
             if (part.startsWith('`') && part.endsWith('`')) {
                 return (
-                    <code key={index} className="bg-white/10 text-[#00F5D4] px-1.5 py-0.5 rounded font-mono text-sm border border-white/5">
+                    <code key={index} className="bg-white/10 text-yellow-300 px-1 rounded font-mono text-sm">
                         {part.slice(1, -1)}
                     </code>
                 );
             }
-            // Texte normal
             return part;
         });
     };
 
-    // Convertir le texte avec formatage en JSX
-    const renderText = (text) => {
-        if (!text) return null;
-
-        // Diviser en paragraphes
-        const paragraphs = text.split('\n\n');
-
-        return paragraphs.map((para, idx) => {
-            // Titres (lignes commençant par #)
-            if (para.startsWith('###')) {
-                return (
-                    <h4 key={idx} className="text-xl font-bold text-white mt-8 mb-4 flex items-center gap-3">
-                        <span className="flex items-center justify-center w-8 h-8 rounded-lg bg-[#00F5D4]/10 text-[#00F5D4] text-lg">▸</span>
-                        {parseInline(para.replace('###', '').trim())}
-                    </h4>
-                );
-            }
-
-            if (para.startsWith('##')) {
-                return (
-                    <h3 key={idx} className="text-2xl md:text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-400 mt-10 mb-6">
-                        {parseInline(para.replace('##', '').trim())}
-                    </h3>
-                );
-            }
-
-            // Listes (lignes commençant par -)
-            if (para.includes('\n-') || para.startsWith('-')) {
-                const items = para.split('\n').filter(line => line.trim().startsWith('-'));
-                return (
-                    <ul key={idx} className="space-y-3 my-6 ml-2">
-                        {items.map((item, i) => (
-                            <li key={i} className="text-gray-300 flex items-start gap-4 group">
-                                <span className="text-[#00F5D4] mt-1.5 flex-shrink-0 transition-transform group-hover:scale-125 duration-300">•</span>
-                                <span className="leading-relaxed">{parseInline(item.replace('-', '').trim())}</span>
-                            </li>
-                        ))}
-                    </ul>
-                );
-            }
-
-            // Listes numérotées
-            if (para.match(/^\d+\./m) || para.match(/^\d+\./)) {
-                const items = para.split('\n').filter(line => line.match(/^\d+\./));
-                return (
-                    <ol key={idx} className="space-y-4 my-6 ml-2">
-                        {items.map((item, i) => {
-                            const [num, ...rest] = item.split('.');
-                            return (
-                                <li key={i} className="text-gray-300 flex items-start gap-4">
-                                    <span className="flex items-center justify-center w-6 h-6 rounded-full bg-[#7C3AED]/20 text-[#7C3AED] font-bold text-xs flex-shrink-0 mt-0.5 border border-[#7C3AED]/30">
-                                        {num}
-                                    </span>
-                                    <span className="leading-relaxed">{parseInline(rest.join('.').trim())}</span>
-                                </li>
-                            );
-                        })}
-                    </ol>
-                );
-            }
-
-            // Équations LaTeX (simplifiées pour l'affichage texte)
-            if (para.includes('$')) {
-                // Rendu MathJax/KaTeX via dangerouslySetInnerHTML si window.katex est disponible
-                // On utilise un useEffect pour le rendu côté client si nécessaire, mais ici on fait simple
-                // On va parser les blocs $$...$$ et $...$
-
-                const parts = para.split(/(\$\$[\s\S]*?\$\$|\$[\s\S]*?\$)/g);
-                return (
-                    <p key={idx} className="text-gray-300 leading-relaxed my-4 text-base md:text-lg">
-                        {parts.map((part, i) => {
-                            if (part.startsWith('$$') && part.endsWith('$$')) {
-                                const tex = part.slice(2, -2);
-                                return (
-                                    <span key={i} className="block my-4 text-center overflow-x-auto" ref={node => {
-                                        if (node && window.katex) {
-                                            try {
-                                                window.katex.render(tex, node, { displayMode: true, throwOnError: false });
-                                            } catch (e) { node.innerText = tex; }
-                                        }
-                                    }} />
-                                );
-                            }
-                            if (part.startsWith('$') && part.endsWith('$')) {
-                                const tex = part.slice(1, -1);
-                                return (
-                                    <span key={i} ref={node => {
-                                        if (node && window.katex) {
-                                            try {
-                                                window.katex.render(tex, node, { displayMode: false, throwOnError: false });
-                                            } catch (e) { node.innerText = tex; }
-                                        }
-                                    }} />
-                                );
-                            }
-                            return parseInline(part);
-                        })}
-                    </p>
-                );
-            }
-
-            // Paragraphe normal
+    const renderBlock = (block, idx) => {
+        // Headers
+        if (block.startsWith('### ')) {
             return (
-                <p key={idx} className="text-gray-300 leading-relaxed my-4 text-base md:text-lg">
-                    {parseInline(para)}
-                </p>
+                <h4 key={idx} className="text-xl font-bold text-[#00F5D4] mt-8 mb-4 border-l-4 border-[#00F5D4] pl-3">
+                    {parseInline(block.replace('### ', ''))}
+                </h4>
             );
-        });
+        }
+        if (block.startsWith('## ')) {
+            return (
+                <h3 key={idx} className="text-2xl font-bold text-white mt-10 mb-6 pb-2 border-b border-white/10">
+                    {parseInline(block.replace('## ', ''))}
+                </h3>
+            );
+        }
+
+        // List Item (Bullet)
+        if (block.startsWith('- ')) {
+            return (
+                <div key={idx} className="flex gap-3 my-2 ml-4">
+                    <span className="text-[#00F5D4]">•</span>
+                    <span className="text-gray-300">{parseInline(block.slice(2))}</span>
+                </div>
+            );
+        }
+
+        // List Item (Numbered) '1. '
+        const numMatch = block.match(/^(\d+)\.\s+(.*)/);
+        if (numMatch) {
+            return (
+                <div key={idx} className="flex gap-3 my-2 ml-4">
+                    <span className="font-bold text-[#7C3AED] min-w-[1.5rem]">{numMatch[1]}.</span>
+                    <span className="text-gray-300">{parseInline(numMatch[2])}</span>
+                </div>
+            );
+        }
+
+        // Regular Paragraph - preserve line breaks by treating as separate block if it's just text
+        // But here we receive line-by-line from the splitter below?
+        // Actually best to render generic text with <p> or <div> but handle empty lines as spacers.
+        if (block.trim() === '') return <div key={idx} className="h-4" />;
+
+        return (
+            <p key={idx} className="text-gray-300 leading-relaxed my-2">
+                {parseInline(block)}
+            </p>
+        );
+    };
+
+    // Pre-process children into lines/blocks
+    const processContent = (input) => {
+        if (!input) return [];
+        // Split by newline to handle line-by-line formatting (lists etc)
+        // But we want to keep some paragraph structure?
+        // Simple approach: Split by \n, render each line as a block.
+        // This fixes the "swallowed text" issue.
+        return input.split('\n');
     };
 
     return (
-        <div className="prose prose-invert max-w-none">
-            {renderText(children)}
+        <div className="prose prose-invert max-w-none font-sans" ref={containerRef}>
+            {processContent(children).map((line, i) => renderBlock(line, i))}
         </div>
     );
 }
