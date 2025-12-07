@@ -8,7 +8,7 @@ export default function Footer() {
       { name: 'Simulations', href: '/simulations' },
       { name: 'Python Lab', href: '/programming' },
       { name: 'QCM', href: '/challenges' },
-      { name: 'Projets', href: '/projects' },
+      { name: 'Projets', href: '/programming?chapter=projects' },
     ],
     resources: [
       { name: 'Cours', href: '/courses' },

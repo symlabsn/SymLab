@@ -1,7 +1,8 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
 import pythonCurriculum from './curriculum';
 import RichText from '@/components/RichText';
 
@@ -9,6 +10,20 @@ export default function ProgrammingPage() {
     const [selectedChapter, setSelectedChapter] = useState(null);
     const [selectedLesson, setSelectedLesson] = useState(null);
     const [copiedCode, setCopiedCode] = useState(null);
+    const searchParams = useSearchParams();
+
+    useEffect(() => {
+        const chapterId = searchParams.get('chapter');
+        if (chapterId) {
+            setSelectedChapter(chapterId);
+            setTimeout(() => {
+                const element = document.getElementById(chapterId);
+                if (element) {
+                    element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            }, 500);
+        }
+    }, [searchParams]);
 
     const handleCopyCode = (code, lessonId) => {
         navigator.clipboard.writeText(code);
@@ -67,6 +82,7 @@ export default function ProgrammingPage() {
                 {pythonCurriculum.map((chapter, chapterIdx) => (
                     <div
                         key={chapter.id}
+                        id={chapter.id}
                         className={`sci-card p-6 transition-all duration-300 ${chapter.isHighlight ? 'ring-2 ring-[#00F5D4]/50' : ''}`}
                         style={{
                             '--accent-color': chapter.color,
@@ -187,8 +203,8 @@ export default function ProgrammingPage() {
                                                             </div>
                                                             <button
                                                                 className={`text-xs px-3 py-1 rounded transition-all ${copiedCode === lessonId
-                                                                        ? 'bg-green-500/20 text-green-400'
-                                                                        : 'bg-[#00F5D4]/20 text-[#00F5D4] hover:bg-[#00F5D4]/30'
+                                                                    ? 'bg-green-500/20 text-green-400'
+                                                                    : 'bg-[#00F5D4]/20 text-[#00F5D4] hover:bg-[#00F5D4]/30'
                                                                     }`}
                                                                 onClick={(e) => {
                                                                     e.stopPropagation();
@@ -234,14 +250,14 @@ export default function ProgrammingPage() {
                         Prêt à coder ?
                     </h2>
                     <p className="text-gray-300 text-lg mb-8 max-w-2xl mx-auto">
-                        Ouvrez l'éditeur Python interactif et testez tout ce que vous venez d'apprendre !
+                        Ouvrez l&apos;éditeur Python interactif et testez tout ce que vous venez d&apos;apprendre !
                     </p>
                     <Link
                         href="/code"
                         className="inline-block px-10 py-4 rounded-xl font-bold text-lg text-black transition-all duration-300 hover:scale-105 hover:shadow-2xl"
                         style={{ background: 'linear-gradient(135deg, #00F5D4, #7C3AED)' }}
                     >
-                        Ouvrir l'Éditeur Python →
+                        Ouvrir l&apos;Éditeur Python →
                     </Link>
                 </div>
             </section>
