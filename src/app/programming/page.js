@@ -1,12 +1,12 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import pythonCurriculum from './curriculum';
 import RichText from '@/components/RichText';
 
-export default function ProgrammingPage() {
+function ProgrammingContent() {
     const [selectedChapter, setSelectedChapter] = useState(null);
     const [selectedLesson, setSelectedLesson] = useState(null);
     const [copiedCode, setCopiedCode] = useState(null);
@@ -262,5 +262,13 @@ export default function ProgrammingPage() {
                 </div>
             </section>
         </main>
+    );
+}
+
+export default function ProgrammingPage() {
+    return (
+        <Suspense fallback={<div className="min-h-screen bg-black flex items-center justify-center text-[#00F5D4]">Chargement...</div>}>
+            <ProgrammingContent />
+        </Suspense>
     );
 }
