@@ -28,6 +28,9 @@ import { mathTsData } from './data/mathTs';
 import { svtTsData } from './data/svtTs';
 import { physTsData } from './data/physTs';
 import { chimieTsData } from './data/chimieTs';
+import { machineLearningData } from './data/machineLearning';
+import { mathForMLData } from './data/mathForML';
+import { visualizationData } from './data/visualization';
 import { BookOpen, Download, Eye, ChevronRight, GraduationCap, Atom, Calculator, Dna, CheckCircle, XCircle, Menu, ArrowLeft } from 'lucide-react';
 import 'katex/dist/katex.min.css';
 import renderMathInElement from 'katex/dist/contrib/auto-render';
@@ -44,8 +47,8 @@ export default function CoursesPage() {
     const [quizAnswers, setQuizAnswers] = useState({});
     const [quizResults, setQuizResults] = useState({});
 
-    const levels = ['6ème', '5ème', '4ème', '3ème', 'Seconde', 'Première', 'Terminale'];
-    const subjects = ['Tous', 'Mathématiques', 'Physique-Chimie', 'SVT'];
+    const levels = ['6ème', '5ème', '4ème', '3ème', 'Seconde', 'Première', 'Terminale', 'Supérieur'];
+    const subjects = ['Tous', 'Mathématiques', 'Physique-Chimie', 'SVT', 'Informatique'];
 
     // Map course IDs to their structured data if available
     const structuredCourses = {
@@ -73,7 +76,10 @@ export default function CoursesPage() {
         'math-ts': mathTsData,
         'svt-ts': svtTsData,
         'phys-ts': physTsData,
-        'chimie-ts': chimieTsData
+        'chimie-ts': chimieTsData,
+        'ml-intro': machineLearningData,
+        'math-ml': mathForMLData,
+        'vis-data': visualizationData
     };
 
     const filteredCourses = courses.filter(course => {
@@ -202,6 +208,9 @@ export default function CoursesPage() {
                                         <option value="Seconde">Seconde</option>
                                         <option value="Première">Première</option>
                                         <option value="Terminale">Terminale</option>
+                                    </optgroup>
+                                    <optgroup label="🚀 Supérieur">
+                                        <option value="Supérieur">Supérieur & Pro</option>
                                     </optgroup>
                                 </select>
                             </div>

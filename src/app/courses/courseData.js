@@ -270,5 +270,40 @@ export const courses = [
         file: null,
         icon: '🌿',
         color: 'green'
+    },
+
+    // ==================================================================================
+    // 🚀 RESSOURCES PRO & DATA SCIENCE
+    // ==================================================================================
+
+    {
+        id: 'ml-intro',
+        level: 'Supérieur',
+        subject: 'Informatique',
+        title: 'Introduction au Machine Learning',
+        description: 'Découvrez les algorithmes qui changent le monde : Régression, Réseaux de Neurones, Deep Learning.',
+        file: null,
+        icon: '🤖',
+        color: 'indigo'
+    },
+    {
+        id: 'math-ml',
+        level: 'Supérieur',
+        subject: 'Mathématiques',
+        title: 'Mathématiques pour l\'IA',
+        description: 'Les fondements mathématiques indispensables : Algèbre Linéaire, Gradients, Probabilités Bayesiennes.',
+        file: null,
+        icon: '♾️',
+        color: 'cyan'
+    },
+    {
+        id: 'vis-data',
+        level: 'Supérieur',
+        subject: 'Informatique',
+        title: 'Visualisation de Données & Projets',
+        description: 'Maîtrisez l\'art du Storytelling avec la Data. Matplotlib, Seaborn et Showcase de projets SymLab.',
+        file: null,
+        icon: '📊',
+        color: 'pink'
     }
 ];
