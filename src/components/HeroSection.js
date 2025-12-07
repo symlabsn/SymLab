@@ -4,10 +4,10 @@ import ParticleBackground from '@/components/ParticleBackground';
 export default function HeroSection({ title, subtitle }) {
   return (
     <section className="relative pt-32 pb-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-    {/* particle background */}
-    <ParticleBackground />
-        
-    <div className="bento-card py-16 px-6 border-highlight bg-gradient-to-b from-[rgba(15,12,41,0.8)] to-[rgba(15,12,41,0.4)]">
+      {/* particle background */}
+      <ParticleBackground />
+
+      <div className="bento-card py-16 px-6 border-highlight bg-gradient-to-b from-[rgba(15,12,41,0.8)] to-[rgba(15,12,41,0.4)]">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
 
           {/* Left: content */}
@@ -30,7 +30,7 @@ export default function HeroSection({ title, subtitle }) {
               <a href="/programming" className="px-6 py-3 rounded-lg bg-[rgba(255,255,255,0.95)] text-black font-semibold hover:scale-105 transition-transform">
                 Commencer Gratuitement
               </a>
-              <a href="/apropos" className="px-6 py-3 rounded-lg bg-transparent border border-[rgba(255,255,255,0.06)] text-white font-medium hover:bg-[rgba(255,255,255,0.03)] transition-colors">
+              <a href="/about" className="px-6 py-3 rounded-lg bg-transparent border border-[rgba(255,255,255,0.06)] text-white font-medium hover:bg-[rgba(255,255,255,0.03)] transition-colors">
                 En savoir plus
               </a>
             </div>

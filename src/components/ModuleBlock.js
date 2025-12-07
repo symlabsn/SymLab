@@ -31,9 +31,18 @@ export default function ModuleBlock({ href, title, description, accentColor, cla
           {title}
         </h3>
 
-        <p className="text-gray-400 text-lg font-light leading-relaxed max-w-sm">
+        <p className="text-gray-400 text-lg font-light leading-relaxed max-w-sm mb-6">
           {description}
         </p>
+
+        {/* Action Footer */}
+        <div className="flex items-center gap-2 text-sm font-bold uppercase tracking-wider transition-all duration-300 group-hover:gap-4" style={{ color: accentColor }}>
+          <span>Explorer le module</span>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M5 12H19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+            <path d="M12 5L19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        </div>
       </div>
 
       <Link href={href} className="absolute inset-0 z-20" aria-label={`Ouvrir ${title}`}>
