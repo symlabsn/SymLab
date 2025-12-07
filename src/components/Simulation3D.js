@@ -8,6 +8,7 @@ import { LensOptics } from './LensOptics';
 import { ElectrochemicalCell } from './ElectrochemicalCell';
 import { MagneticField } from './MagneticField';
 import { Diffraction } from './Diffraction';
+import { Titration } from './Titration';
 
 // ... (existing helper components)
 
@@ -315,7 +316,7 @@ function WaterMolecule() {
 function WaveInterference() {
     return (
         <group>
-            <Text position={[0, 3, 0]} fontSize={0.5} color="white">INTERFÉRENCES D'ONDES</Text>
+            <Text position={[0, 3, 0]} fontSize={0.5} color="white">INTERFÉRENCES D&apos;ONDES</Text>
 
             {/* Source 1 */}
             <mesh position={[-1.5, 0, 0]}>
@@ -410,8 +411,25 @@ function ElectricCircuit() {
     );
 }
 
+const generateRibosomePositions = (count) => {
+    return Array.from({ length: count }).map((_, i) => {
+        const theta = Math.random() * Math.PI * 2;
+        const phi = Math.random() * Math.PI;
+        const radius = 1.6;
+        return {
+            key: `ribosome-${i}`,
+            position: [
+                radius * Math.sin(phi) * Math.cos(theta),
+                radius * Math.sin(phi) * Math.sin(theta),
+                radius * Math.cos(phi)
+            ]
+        };
+    });
+};
+
 // Composant Cellule (Amélioré avec étiquettes)
 function Cell() {
+    const ribosomes = useMemo(() => generateRibosomePositions(20), []);
     return (
         <group>
             {/* Membrane cellulaire */}
@@ -453,31 +471,35 @@ function Cell() {
             })}
 
             {/* Ribosomes (petites sphères) */}
-            {useMemo(() => Array.from({ length: 20 }).map((_, i) => {
-                const theta = Math.random() * Math.PI * 2;
-                const phi = Math.random() * Math.PI;
-                const radius = 1.6;
-                return (
-                    <mesh
-                        key={`ribosome-${i}`}
-                        position={[
-                            radius * Math.sin(phi) * Math.cos(theta),
-                            radius * Math.sin(phi) * Math.sin(theta),
-                            radius * Math.cos(phi)
-                        ]}
-                    >
-                        <sphereGeometry args={[0.05, 8, 8]} />
-                        <meshStandardMaterial color="#EC4899" />
-                    </mesh>
-                );
-            }), [])}
+            {/* Ribosomes (petites sphères) */}
+            {ribosomes.map((data) => (
+                <mesh
+                    key={data.key}
+                    position={data.position}
+                >
+                    <sphereGeometry args={[0.05, 8, 8]} />
+                    <meshStandardMaterial color="#EC4899" />
+                </mesh>
+            ))}
             <Text position={[1.5, -1.5, 0]} fontSize={0.2} color="#EC4899">Ribosomes</Text>
         </group>
     );
 }
 
+const generateChloroplastPositions = (count) => {
+    return Array.from({ length: count }).map((_, i) => ({
+        key: `chloro-${i}`,
+        position: [
+            (Math.random() - 0.5) * 2,
+            (Math.random() - 0.5) * 3,
+            (Math.random() - 0.5) * 0.5
+        ]
+    }));
+};
+
 // Composant Cellule Végétale (Amélioré : Photosynthèse animée)
 function PlantCell() {
+    const chloroplasts = useMemo(() => generateChloroplastPositions(6), []);
     return (
         <group>
             <Text position={[0, 3.5, 0]} fontSize={0.5} color="#10B981">LA PHOTOSYNTHÈSE</Text>
@@ -493,19 +515,16 @@ function PlantCell() {
             </mesh>
 
             {/* Chloroplastes */}
-            {useMemo(() => Array.from({ length: 6 }).map((_, i) => (
+            {/* Chloroplastes */}
+            {chloroplasts.map((data) => (
                 <mesh
-                    key={`chloro-${i}`}
-                    position={[
-                        (Math.random() - 0.5) * 2,
-                        (Math.random() - 0.5) * 3,
-                        (Math.random() - 0.5) * 0.5
-                    ]}
+                    key={data.key}
+                    position={data.position}
                 >
                     <capsuleGeometry args={[0.2, 0.4, 4, 8]} />
                     <meshStandardMaterial color="#059669" />
                 </mesh>
-            )), [])}
+            ))}
             <Text position={[0, 0, 0.6]} fontSize={0.3} color="#059669">Chloroplastes</Text>
 
             {/* Soleil */}
@@ -530,8 +549,32 @@ function PlantCell() {
     );
 }
 
+const generateLiquidParticles = (count) => {
+    return Array.from({ length: count }).map((_, i) => ({
+        key: i,
+        position: [
+            (Math.random() - 0.5) * 1.5,
+            (Math.random() - 0.5) * 1 - 0.5,
+            (Math.random() - 0.5) * 1.5
+        ]
+    }));
+};
+
+const generateGasParticles = (count) => {
+    return Array.from({ length: count }).map((_, i) => ({
+        key: i,
+        position: [
+            (Math.random() - 0.5) * 1.8,
+            (Math.random() - 0.5) * 1.8,
+            (Math.random() - 0.5) * 1.8
+        ]
+    }));
+};
+
 // Composant États de la Matière (Amélioré : 3 états)
 function StatesOfMatter() {
+    const liquidParticles = useMemo(() => generateLiquidParticles(27), []);
+    const gasParticles = useMemo(() => generateGasParticles(15), []);
     return (
         <group>
             {/* SOLIDE */}
@@ -562,16 +605,12 @@ function StatesOfMatter() {
                     <meshStandardMaterial color="#9CA3AF" wireframe transparent opacity={0.1} />
                 </mesh>
                 {/* Particules en bas, désordonnées */}
-                {useMemo(() => Array.from({ length: 27 }).map((_, i) => (
-                    <mesh key={i} position={[
-                        (Math.random() - 0.5) * 1.5,
-                        (Math.random() - 0.5) * 1 - 0.5, // Plus vers le bas
-                        (Math.random() - 0.5) * 1.5
-                    ]}>
+                {liquidParticles.map((data) => (
+                    <mesh key={data.key} position={data.position}>
                         <sphereGeometry args={[0.2]} />
                         <meshStandardMaterial color="#3B82F6" />
                     </mesh>
-                )), [])}
+                ))}
             </group>
 
             {/* GAZ */}
@@ -582,16 +621,12 @@ function StatesOfMatter() {
                     <meshStandardMaterial color="#9CA3AF" wireframe transparent opacity={0.1} />
                 </mesh>
                 {/* Particules partout et espacées */}
-                {useMemo(() => Array.from({ length: 15 }).map((_, i) => (
-                    <mesh key={i} position={[
-                        (Math.random() - 0.5) * 1.8,
-                        (Math.random() - 0.5) * 1.8,
-                        (Math.random() - 0.5) * 1.8
-                    ]}>
+                {gasParticles.map((data) => (
+                    <mesh key={data.key} position={data.position}>
                         <sphereGeometry args={[0.2]} />
                         <meshStandardMaterial color="#60A5FA" transparent opacity={0.8} />
                     </mesh>
-                )), [])}
+                ))}
             </group>
         </group>
     );
@@ -645,8 +680,33 @@ function Neuron() {
     );
 }
 
+const generateRBC = (count) => {
+    return Array.from({ length: count }).map((_, i) => ({
+        key: `rbc-${i}`,
+        position: [
+            (Math.random() - 0.5) * 6,
+            (Math.random() - 0.5) * 2,
+            (Math.random() - 0.5) * 2
+        ],
+        rotation: [Math.random() * Math.PI, Math.random() * Math.PI, 0]
+    }));
+};
+
+const generateWBC = (count) => {
+    return Array.from({ length: count }).map((_, i) => ({
+        key: `wbc-${i}`,
+        position: [
+            (Math.random() - 0.5) * 6,
+            (Math.random() - 0.5) * 1.5,
+            (Math.random() - 0.5) * 1.5
+        ]
+    }));
+};
+
 // Composant Vaisseau Sanguin (Circulation)
 function BloodStream() {
+    const rbc = useMemo(() => generateRBC(15), []);
+    const wbc = useMemo(() => generateWBC(3), []);
     return (
         <group>
             {/* Vaisseau (Tube) */}
@@ -656,36 +716,28 @@ function BloodStream() {
             </mesh>
 
             {/* Globules Rouges */}
-            {useMemo(() => Array.from({ length: 15 }).map((_, i) => (
+            {rbc.map((data) => (
                 <mesh
-                    key={`rbc-${i}`}
-                    position={[
-                        (Math.random() - 0.5) * 6,
-                        (Math.random() - 0.5) * 2,
-                        (Math.random() - 0.5) * 2
-                    ]}
-                    rotation={[Math.random() * Math.PI, Math.random() * Math.PI, 0]}
+                    key={data.key}
+                    position={data.position}
+                    rotation={data.rotation}
                 >
                     <torusGeometry args={[0.3, 0.15, 16, 32]} />
                     <meshStandardMaterial color="#DC2626" />
                 </mesh>
-            )), [])}
+            ))}
             <Text position={[-3, 1.5, 0]} fontSize={0.3} color="#DC2626">Globules Rouges (O2)</Text>
 
             {/* Globules Blancs */}
-            {useMemo(() => Array.from({ length: 3 }).map((_, i) => (
+            {wbc.map((data) => (
                 <mesh
-                    key={`wbc-${i}`}
-                    position={[
-                        (Math.random() - 0.5) * 6,
-                        (Math.random() - 0.5) * 1.5,
-                        (Math.random() - 0.5) * 1.5
-                    ]}
+                    key={data.key}
+                    position={data.position}
                 >
                     <sphereGeometry args={[0.35, 32, 32]} />
                     <meshStandardMaterial color="#F3F4F6" roughness={0.8} />
                 </mesh>
-            )), [])}
+            ))}
             <Text position={[3, -1.5, 0]} fontSize={0.3} color="white">Globules Blancs (Défense)</Text>
         </group>
     );
@@ -761,7 +813,7 @@ function FoodChain() {
             {/* Flèches */}
             <Text position={[-1.5, 0, 0]} fontSize={0.5} color="white">→</Text>
             <Text position={[1.5, 0, 0]} fontSize={0.5} color="white">→</Text>
-            <Text position={[0, -3, 0]} fontSize={0.3} color="gray">"Est mangé par"</Text>
+            <Text position={[0, -3, 0]} fontSize={0.3} color="gray">&quot;Est mangé par&quot;</Text>
         </group>
     );
 }
@@ -867,7 +919,7 @@ function ImmuneSystem() {
 function EnergyConservation() {
     return (
         <group>
-            <Text position={[0, 3, 0]} fontSize={0.5} color="white">CONSERVATION DE L'ÉNERGIE</Text>
+            <Text position={[0, 3, 0]} fontSize={0.5} color="white">CONSERVATION DE L&apos;ÉNERGIE</Text>
 
             {/* Point d'attache */}
             <mesh position={[0, 2, 0]}>
@@ -917,7 +969,7 @@ function EnergyConservation() {
 function WaterCycle() {
     return (
         <group>
-            <Text position={[0, 3.5, 0]} fontSize={0.5} color="#3B82F6">CYCLE DE L'EAU</Text>
+            <Text position={[0, 3.5, 0]} fontSize={0.5} color="#3B82F6">CYCLE DE L&apos;EAU</Text>
 
             {/* Océan */}
             <mesh position={[0, -2, 0]} rotation={[-Math.PI / 2, 0, 0]}>
@@ -1236,6 +1288,8 @@ export default function Simulation3D({ type = 'atom', config = {} }) {
                 return <MagneticField />;
             case 'diffraction':
                 return <Diffraction />;
+            case 'titration':
+                return <Titration />;
             default:
                 return <Atom {...config} />;
         }

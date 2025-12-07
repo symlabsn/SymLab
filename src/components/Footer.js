@@ -16,10 +16,6 @@ export default function Footer() {
       { name: 'Code Editor', href: '/code' },
       { name: 'Examens', href: '/exams' },
     ],
-    company: [
-      { name: 'À propos', href: '/apropos' },
-      { name: 'Contact', href: '/apropos#contact' },
-    ],
   };
 
   return (

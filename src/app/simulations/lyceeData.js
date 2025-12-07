@@ -168,7 +168,7 @@ Attention : Dans l'électrolyse, l'Anode est POSITIVE (contraire de la pile) ! M
     'quality-control-titration': {
         title: 'Contrôle Qualité par Titrage',
         description: 'Vérification de la teneur d\'un produit',
-        type: 'chemical',
+        type: 'titration',
         config: {},
         analogy: {
             title: 'L\'Inspecteur des Étiquettes',
@@ -1360,7 +1360,7 @@ Applications
     'acid-base-titration': {
         title: 'Dosage Acide-Base',
         description: 'Réalisez un titrage virtuel avec indicateurs colorés',
-        type: 'chemical',
+        type: 'titration',
         config: {},
         analogy: {
             title: 'Le Dosage comme le Mélange Parfait du Jus de Bissap',
