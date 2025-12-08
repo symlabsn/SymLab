@@ -487,7 +487,7 @@ function CoursesContent() {
                                                         prose-img:rounded-xl prose-img:border prose-img:border-white/10 prose-img:mx-auto prose-img:block prose-img:shadow-lg">
                                                         <ReactMarkdown
                                                             remarkPlugins={[remarkMath]}
-                                                            rehypePlugins={[rehypeKatex, rehypeRaw]}
+                                                            rehypePlugins={[rehypeRaw, rehypeKatex]}
                                                         >
                                                             {stripIndentation(activeChapter?.content || '')}
                                                         </ReactMarkdown>
