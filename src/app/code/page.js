@@ -386,7 +386,7 @@ json.dumps({
                     // On ne fait rien ici, on le gèrera dans output.type = 'error'
                 } else {
                     // Warnings ou prints stderr
-                    outputData += (outputData ? '\\n' : '') + '⚠️ ' + response.stderr;
+                    outputData += (outputData ? '\n' : '') + '⚠️ ' + response.stderr;
                 }
             }
 
@@ -395,13 +395,13 @@ json.dumps({
             if (response.latex) {
                 latexOutput = response.latex;
             } else if (response.result && !response.image) {
-                outputData += (outputData ? '\\n' : '') + \`[Out]: \${response.result}\`;
+                outputData += (outputData ? '\n' : '') + `[Out]: ${response.result}`;
             }
 
             // Déterminer le type de sortie prioritaire
             let output = null;
             if (response.stderr && response.stderr.includes('Traceback')) {
-                 output = { type: 'error', data: response.stderr };
+                output = { type: 'error', data: response.stderr };
             } else if (response.image) {
                 output = { type: 'image', data: response.image };
             } else if (latexOutput) {
@@ -417,10 +417,10 @@ json.dumps({
                 output, // L'output peut être de type 'error'
                 executionCount: (cell.executionCount || 0) + 1
             });
-            
-             // Si output type est error, on met status error
+
+            // Si output type est error, on met status error
             if (output && output.type === 'error') {
-                 updateCell(id, { status: 'error', output });
+                updateCell(id, { status: 'error', output });
             }
 
         } catch (err) {
@@ -454,7 +454,7 @@ json.dumps({
 
                 <div className="flex items-center gap-4">
                     <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 border border-white/10">
-                        <div className={`w - 2 h - 2 rounded - full ${ kernelStatus === 'ready' ? 'bg-green-500' : kernelStatus === 'error' ? 'bg-red-500' : 'bg-yellow-500 animate-pulse' } `} />
+                        <div className={`w - 2 h - 2 rounded - full ${kernelStatus === 'ready' ? 'bg-green-500' : kernelStatus === 'error' ? 'bg-red-500' : 'bg-yellow-500 animate-pulse'} `} />
                         <span className="text-xs font-mono text-gray-300">
                             {kernelStatus === 'loading' ? 'Initialisation...' : kernelStatus === 'busy' ? 'Exécution...' : 'Kernel Prêt'}
                         </span>
