@@ -36,10 +36,16 @@ import 'katex/dist/katex.min.css';
 import renderMathInElement from 'katex/dist/contrib/auto-render';
 
 
-export default function CoursesPage() {
+import { useSearchParams } from 'next/navigation';
+import { Suspense } from 'react';
+
+function CoursesContent() {
     const [activeLevel, setActiveLevel] = useState('6ème');
     const [activeSubject, setActiveSubject] = useState('Tous');
     const [selectedCourse, setSelectedCourse] = useState(null);
+    const searchParams = useSearchParams();
+
+    // ... (rest of state)
 
     // Structured Course State
     const [activeChapter, setActiveChapter] = useState(null);
@@ -48,7 +54,7 @@ export default function CoursesPage() {
     const [quizResults, setQuizResults] = useState({});
 
     const levels = ['6ème', '5ème', '4ème', '3ème', 'Seconde', 'Première', 'Terminale', 'Supérieur'];
-    const subjects = ['Tous', 'Mathématiques', 'Physique-Chimie', 'SVT', 'Informatique'];
+    const subjects = ['Tous', 'Mathématiques', 'Physique-Chimie', 'SVT', 'Informatique', 'Data & IA'];
 
     // Map course IDs to their structured data if available
     const structuredCourses = {
@@ -116,6 +122,28 @@ export default function CoursesPage() {
             [`${chapterId}-${exerciseId}`]: isCorrect
         }));
     };
+
+    // Handle deep linking via search params
+    useEffect(() => {
+        const courseId = searchParams.get('course');
+        if (courseId) {
+            const course = courses.find(c => c.id === courseId);
+            if (course) {
+                // Determine layout based on course type
+                if (structuredCourses[course.id]) {
+                    setActiveChapter(structuredCourses[course.id].chapters[0]);
+                    setShowExercises(false);
+                    setQuizAnswers({});
+                    setQuizResults({});
+                } else {
+                    setActiveChapter(null);
+                }
+                setSelectedCourse(course);
+                setActiveLevel(course.level);
+                setActiveSubject(course.subject);
+            }
+        }
+    }, [searchParams]);
 
     // Render LaTeX formulas when chapter content changes
     useEffect(() => {
@@ -582,5 +610,13 @@ export default function CoursesPage() {
                 </div>
             </div>
         </main>
+    );
+}
+
+export default function CoursesPage() {
+    return (
+        <Suspense fallback={<div className="min-h-screen bg-black flex items-center justify-center text-[#00F5D4]">Chargement...</div>}>
+            <CoursesContent />
+        </Suspense>
     );
 }

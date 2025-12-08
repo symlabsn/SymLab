@@ -74,6 +74,48 @@ export default function Home() {
                 ))}
             </section>
 
+            {/* RESSOURCES RAPIDES */}
+            <section className="w-full max-w-4xl mt-20 relative z-10 fade-in-up" style={{ animationDelay: '600ms' }}>
+                <div className="text-center mb-8">
+                    <h2 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-400">
+                        Ressources Thématiques
+                    </h2>
+                    <p className="text-gray-400 text-sm mt-2">Accès direct aux modules spécialisés</p>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    {/* Machine Learning */}
+                    <Link href="/courses?course=ml-intro"
+                        className="group p-6 rounded-2xl bg-[#0F1115] border border-white/10 hover:border-[#7C3AED]/50 transition-all hover:-translate-y-1 hover:shadow-lg hover:shadow-[#7C3AED]/20">
+                        <div className="w-12 h-12 rounded-xl bg-indigo-500/20 flex items-center justify-center text-2xl mb-4 group-hover:scale-110 transition-transform">
+                            🤖
+                        </div>
+                        <h3 className="text-lg font-bold text-white mb-2 group-hover:text-indigo-400">Machine Learning</h3>
+                        <p className="text-sm text-gray-400">Introduction aux algorithmes et réseaux de neurones.</p>
+                    </Link>
+
+                    {/* Visualisations */}
+                    <Link href="/courses?course=vis-data"
+                        className="group p-6 rounded-2xl bg-[#0F1115] border border-white/10 hover:border-[#F472B6]/50 transition-all hover:-translate-y-1 hover:shadow-lg hover:shadow-[#F472B6]/20">
+                        <div className="w-12 h-12 rounded-xl bg-pink-500/20 flex items-center justify-center text-2xl mb-4 group-hover:scale-110 transition-transform">
+                            📊
+                        </div>
+                        <h3 className="text-lg font-bold text-white mb-2 group-hover:text-pink-400">Visualisations</h3>
+                        <p className="text-sm text-gray-400">Storytelling avec la Data et graphiques interactifs.</p>
+                    </Link>
+
+                    {/* Cours de Math */}
+                    <Link href="/courses?subject=Mathématiques"
+                        className="group p-6 rounded-2xl bg-[#0F1115] border border-white/10 hover:border-[#00F5D4]/50 transition-all hover:-translate-y-1 hover:shadow-lg hover:shadow-[#00F5D4]/20">
+                        <div className="w-12 h-12 rounded-xl bg-teal-500/20 flex items-center justify-center text-2xl mb-4 group-hover:scale-110 transition-transform">
+                            ♾️
+                        </div>
+                        <h3 className="text-lg font-bold text-white mb-2 group-hover:text-teal-400">Cours de Math</h3>
+                        <p className="text-sm text-gray-400">Programmes complets du Collège au Supérieur.</p>
+                    </Link>
+                </div>
+            </section>
+
         </main>
     );
 }

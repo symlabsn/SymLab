@@ -279,7 +279,7 @@ export const courses = [
     {
         id: 'ml-intro',
         level: 'Supérieur',
-        subject: 'Informatique',
+        subject: 'Data & IA',
         title: 'Introduction au Machine Learning',
         description: 'Découvrez les algorithmes qui changent le monde : Régression, Réseaux de Neurones, Deep Learning.',
         file: null,
@@ -289,7 +289,7 @@ export const courses = [
     {
         id: 'math-ml',
         level: 'Supérieur',
-        subject: 'Mathématiques',
+        subject: 'Data & IA',
         title: 'Mathématiques pour l\'IA',
         description: 'Les fondements mathématiques indispensables : Algèbre Linéaire, Gradients, Probabilités Bayesiennes.',
         file: null,
@@ -299,7 +299,7 @@ export const courses = [
     {
         id: 'vis-data',
         level: 'Supérieur',
-        subject: 'Informatique',
+        subject: 'Data & IA',
         title: 'Visualisation de Données & Projets',
         description: 'Maîtrisez l\'art du Storytelling avec la Data. Matplotlib, Seaborn et Showcase de projets SymLab.',
         file: null,
