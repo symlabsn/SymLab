@@ -414,15 +414,15 @@ function CoursesContent() {
                                                 <div className="max-w-4xl mx-auto">
                                                     {/* Header Image if available */}
                                                     {activeChapter?.image && (
-                                                        <div className="relative w-full mb-8 rounded-2xl overflow-hidden border border-white/10 shadow-2xl bg-black/40">
+                                                        <div className="relative w-full mb-8 rounded-xl overflow-hidden border border-white/10 shadow-lg bg-black/40">
                                                             <img
                                                                 src={activeChapter.image}
                                                                 alt={activeChapter.title}
-                                                                className="w-full h-64 sm:h-80 object-contain mx-auto"
+                                                                className="w-full h-48 object-cover"
                                                             />
                                                             <div className="absolute inset-0 bg-gradient-to-t from-[#0F1115] via-transparent to-transparent pointer-events-none"></div>
-                                                            <div className="absolute bottom-0 left-0 p-6 pointer-events-none">
-                                                                <span className="px-3 py-1 rounded-full bg-blue-500/20 text-blue-300 text-xs font-bold uppercase tracking-wider border border-blue-500/20 backdrop-blur-sm mb-3 inline-block">
+                                                            <div className="absolute bottom-0 left-0 p-4 pointer-events-none">
+                                                                <span className="px-3 py-1 rounded-full bg-blue-500/20 text-blue-300 text-xs font-bold uppercase tracking-wider border border-blue-500/20 backdrop-blur-sm inline-block">
                                                                     {activeChapter.part?.split(':')[0] || 'Chapitre'}
                                                                 </span>
                                                             </div>
