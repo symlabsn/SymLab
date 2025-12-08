@@ -54,11 +54,11 @@ Elle mesure la sensibilité d'une fonction. Si je bouge un tout petit peu x, de 
 - $f'(x) < 0$ : La fonction descend.
 - $f'(x) = 0$ : On est sur un plat (sommet ou creux). C'est ce qu'on cherche en ML (le **minimum** de l'erreur).
 
-### Le Gradient $\\nabla f$
+### Le Gradient $\nabla f$
 C'est la dérivée généralisée à plusieurs dimensions (pour une matrice de poids).
 Le vecteur Gradient pointe toujours vers la direction de la **plus forte montée**.
 Donc pour minimiser l'erreur, on va dans la direction **opposée** du gradient.
-$$ w_{new} = w - \alpha \nabla J(w) $$
+$$ w_{\text{new}} = w - \alpha \nabla J(w) $$
 
 ### Chain Rule (Théorème de dérivation des fonctions composées)
 C'est le moteur de la **Backpropagation**.
