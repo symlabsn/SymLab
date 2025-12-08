@@ -56,7 +56,7 @@ function CoursesContent() {
     const [quizResults, setQuizResults] = useState({});
 
     const levels = ['6ème', '5ème', '4ème', '3ème', 'Seconde', 'Première', 'Terminale', 'Supérieur'];
-    const subjects = ['Data & IA'];
+    const subjects = ['Tous', 'Math�matiques', 'Physique-Chimie', 'SVT', 'Informatique', 'Data & IA'];
 
     // Map course IDs to their structured data if available
     const structuredCourses = {
@@ -92,7 +92,7 @@ function CoursesContent() {
 
     const filteredCourses = courses.filter(course => {
         const matchLevel = course.level === activeLevel;
-        const matchSubject = course.subject === 'Data & IA';
+        const matchSubject = activeSubject === 'Tous' || course.subject === activeSubject;
         return matchLevel && matchSubject;
     });
 
@@ -613,5 +613,9 @@ export default function CoursesPage() {
         </Suspense>
     );
 }
+
+
+
+
 
 
