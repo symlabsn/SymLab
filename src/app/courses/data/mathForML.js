@@ -257,3 +257,4 @@ Après des millions d'itérations, les poids $W$ convergent vers des valeurs qui
         }
     ]
 };
+
