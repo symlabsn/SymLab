@@ -401,7 +401,7 @@ except Exception as e:
 
 # Capture Plot
 img_str = None
-if plt.get_fignums():
+if plt.get_fignums() and len(plt.gcf().axes) > 0:
     buf = io.BytesIO()
     plt.savefig(buf, format='png', bbox_inches='tight', transparent=True, dpi=120)
     buf.seek(0)
@@ -456,9 +456,12 @@ json.dumps({
             // 4. Image
             if (response.image) out.image = response.image;
 
+            // Si aucune sortie n'est détectée, on met null pour cacher la zone
+            const finalOutput = Object.keys(out).length > 0 ? out : null;
+
             updateCell(id, {
                 status: 'success',
-                output: out,
+                output: finalOutput,
                 executionCount: (cell.executionCount || 0) + 1
             });
 
