@@ -460,7 +460,7 @@ function CoursesContent() {
                                                         rehypePlugins={[rehypeKatex]}
                                                     >
                                                         {activeChapter?.content || ''}
-                                                    </ReactMarkdown>
+                                                    </ReactMarkdown></div>
 
                                                     {/* Key Points / Summary */}
                                                     {activeChapter?.summary && (
@@ -612,3 +612,5 @@ export default function CoursesPage() {
         </Suspense>
     );
 }
+
+
