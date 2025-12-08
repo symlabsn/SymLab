@@ -151,18 +151,24 @@ function CoursesContent() {
             // Wait a bit for DOM to update
             setTimeout(() => {
                 try {
-                    renderMathInElement(document.body, {
-                        delimiters: [
-                            { left: '$$', right: '$$', display: true },
-                            { left: '$', right: '$', display: false },
-                        ],
-                        throwOnError: false,
-                        trust: true
-                    });
+                    const contentElement = document.querySelector('.prose');
+                    if (contentElement) {
+                        renderMathInElement(contentElement, {
+                            delimiters: [
+                                { left: '$$', right: '$$', display: true },
+                                { left: '$', right: '$', display: false },
+                                { left: '\\(', right: '\\)', display: false },
+                                { left: '\\[', right: '\\]', display: true }
+                            ],
+                            throwOnError: false,
+                            trust: true,
+                            strict: false
+                        });
+                    }
                 } catch (error) {
                     console.error('KaTeX rendering error:', error);
                 }
-            }, 100);
+            }, 300);
         }
     }, [activeChapter, showExercises]);
 
