@@ -57,30 +57,155 @@ $$ \\text{Machine Learning} : \\text{Données} + \\text{Réponses} = \\text{Règ
             id: 'ml-02',
             part: 'Partie 1 : Fondamentaux',
             title: '2. Régression Linéaire',
-            image: "https://images.unsplash.com/photo-1543286386-713df548e9cc?q=80&w=2670&auto=format&fit=crop",
-            story: "Galton, un cousin de Darwin, voulait prédire la taille des enfants en fonction de celle de leurs parents. Il a tracé une ligne à travers son nuage de points : la première régression de l'histoire.",
+            image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2670&auto=format&fit=crop",
+            story: "En 1886, Francis Galton étudiait la taille des enfants par rapport à celle de leurs parents. Il a découvert un phénomène fascinant : les enfants de parents très grands tendent à être plus petits que leurs parents (régression vers la moyenne). Pour modéliser cela, il a inventé la régression linéaire, l'algorithme le plus fondamental du Machine Learning.",
             content: `
-### Intuition
-On cherche la **droite** qui passe le plus près possible de tous les points.
-Équation : $y = ax + b$ (ou $y = wx + b$ en ML).
-- $w$ (poids/pente) : L'importance de la variable.
-- $b$ (biais) : La valeur de base.
+### 🎯 L'Objectif : Trouver la Meilleure Droite
 
-### Comment l'ordinateur trouve la droite ?
-Il utilise une **Fonction de Coût (Loss Function)** : la MSE (Mean Squared Error).
-C'est la moyenne des carrés des distances entre les points et la droite.
-$$ MSE = \\frac{1}{n} \\sum (y_{vrai} - y_{poids})^2 $$
+Imaginez que vous avez des points sur un graphique (par exemple, surface d'une maison vs prix). Vous voulez tracer une droite qui passe **le plus près possible** de tous ces points.
 
-L'objectif est de **minimiser** cette erreur.
+**Équation mathématique** :
+$$ y = wx + b $$
 
-### Descente de Gradient
-Imaginez que vous êtes en haut d'une montagne dans le brouillard et que vous voulez descendre. Vous tâtez le sol et faites un pas dans la direction qui descend le plus fort.
-- **Learning Rate** : La taille de vos pas. Trop grands, vous ratez le creux. Trop petits, vous mettez 1000 ans.
+Où :
+- $x$ : La variable d'entrée (feature) - ex: surface en m²
+- $y$ : La variable à prédire (target) - ex: prix en €
+- $w$ : Le **poids** (weight) ou pente - mesure l'impact de x sur y
+- $b$ : Le **biais** (bias) ou ordonnée à l'origine - valeur de base
+
+**Exemple concret** : Si $w = 3000$ et $b = 50000$, alors une maison de 100m² coûterait :
+$$ y = 3000 \\times 100 + 50000 = 350\\,000€ $$
+
+### 📐 La Fonction de Coût (Loss Function)
+
+Comment savoir si notre droite est bonne ? On mesure l'**erreur** !
+
+**MSE (Mean Squared Error)** :
+$$ MSE = \\frac{1}{n} \\sum_{i=1}^{n} (y_i - \\hat{y}_i)^2 $$
+
+Où :
+- $y_i$ : La vraie valeur (prix réel de la maison i)
+- $\\hat{y}_i$ : La prédiction de notre modèle (prix prédit)
+- $n$ : Nombre d'exemples
+
+**Pourquoi élever au carré ?**
+1. Les erreurs négatives et positives ne s'annulent pas
+2. On pénalise plus fortement les grosses erreurs
+3. C'est mathématiquement dérivable (important pour l'optimisation)
+
+### ⛰️ Descente de Gradient : L'Algorithme Magique
+
+**Analogie** : Vous êtes en haut d'une montagne dans le brouillard. Vous voulez descendre au point le plus bas (le minimum de l'erreur). Comment faire ?
+
+1. **Tâter le sol** : Calculer la pente (le gradient) autour de vous
+2. **Faire un pas** : Avancer dans la direction qui descend le plus
+3. **Répéter** : Jusqu'à ce que vous ne puissiez plus descendre
+
+**Formule mathématique** :
+$$ w_{nouveau} = w_{ancien} - \\alpha \\frac{\\partial MSE}{\\partial w} $$
+$$ b_{nouveau} = b_{ancien} - \\alpha \\frac{\\partial MSE}{\\partial b} $$
+
+Où $\\alpha$ est le **learning rate** (taux d'apprentissage).
+
+### 🎛️ Le Learning Rate : Un Paramètre Critique
+
+- **Trop grand** ($\\alpha = 0.1$) : Vous sautez d'un côté à l'autre de la vallée, vous divergez
+- **Trop petit** ($\\alpha = 0.0001$) : Vous avancez à pas de fourmi, ça prend des heures
+- **Optimal** ($\\alpha = 0.01$) : Vous convergez rapidement vers le minimum
+
+### 💻 Implémentation en Python (from scratch)
+
+\`\`\`python
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Données d'exemple : Surface (m²) vs Prix (k€)
+X = np.array([50, 60, 70, 80, 90, 100, 110, 120])
+y = np.array([150, 180, 200, 220, 250, 270, 290, 320])
+
+# Initialisation aléatoire
+w = 0.0
+b = 0.0
+learning_rate = 0.01
+epochs = 1000
+
+# Descente de gradient
+for epoch in range(epochs):
+    # Prédictions
+    y_pred = w * X + b
+    
+    # Calcul de l'erreur (MSE)
+    mse = np.mean((y - y_pred) ** 2)
+    
+    # Calcul des gradients
+    dw = -2 * np.mean(X * (y - y_pred))
+    db = -2 * np.mean(y - y_pred)
+    
+    # Mise à jour des paramètres
+    w = w - learning_rate * dw
+    b = b - learning_rate * db
+    
+    if epoch % 100 == 0:
+        print(f"Epoch {epoch}: MSE = {mse:.2f}, w = {w:.2f}, b = {b:.2f}")
+
+print(f"\\nModèle final: y = {w:.2f}x + {b:.2f}")
+
+# Prédiction pour une nouvelle maison de 95m²
+nouvelle_surface = 95
+prix_predit = w * nouvelle_surface + b
+print(f"Prix prédit pour 95m²: {prix_predit:.2f}k€")
+\`\`\`
+
+### 📊 Avec Scikit-Learn (la vraie vie)
+
+\`\`\`python
+from sklearn.linear_model import LinearRegression
+import numpy as np
+
+# Données
+X = np.array([[50], [60], [70], [80], [90], [100], [110], [120]])
+y = np.array([150, 180, 200, 220, 250, 270, 290, 320])
+
+# Créer et entraîner le modèle
+model = LinearRegression()
+model.fit(X, y)
+
+# Afficher les paramètres
+print(f"Poids (w): {model.coef_[0]:.2f}")
+print(f"Biais (b): {model.intercept_:.2f}")
+
+# Prédire
+prix = model.predict([[95]])
+print(f"Prix prédit pour 95m²: {prix[0]:.2f}k€")
+
+# Score R² (coefficient de détermination)
+score = model.score(X, y)
+print(f"R² score: {score:.3f}")  # 1.0 = parfait, 0.0 = inutile
+\`\`\`
+
+### 🔍 Évaluation du Modèle
+
+**R² (Coefficient de Détermination)** :
+$$ R^2 = 1 - \\frac{\\sum (y_i - \\hat{y}_i)^2}{\\sum (y_i - \\bar{y})^2} $$
+
+- **R² = 1** : Le modèle explique 100% de la variance (parfait)
+- **R² = 0.8** : Le modèle explique 80% de la variance (très bon)
+- **R² = 0** : Le modèle n'est pas meilleur qu'une simple moyenne
+- **R² < 0** : Le modèle est pire qu'une moyenne (catastrophe)
+
+### ⚠️ Limites de la Régression Linéaire
+
+1. **Hypothèse de linéarité** : Si la relation n'est pas linéaire (ex: exponentielle), ça ne marchera pas
+2. **Sensible aux outliers** : Un seul point aberrant peut fausser toute la droite
+3. **Multicollinéarité** : Si deux variables sont très corrélées, le modèle devient instable
+4. **Extrapolation dangereuse** : Prédire en dehors de la plage des données d'entraînement est risqué
             `,
             summary: [
-                "La régression sert à prédire des valeurs continues (prix, température, taille).",
-                "Le modèle cherche à minimiser l'erreur entre sa prédiction et la réalité.",
-                "Attention aux 'Outliers' (valeurs extrêmes) qui peuvent fausser la droite."
+                "La régression linéaire cherche la droite qui minimise l'erreur quadratique moyenne (MSE).",
+                "La descente de gradient est l'algorithme d'optimisation : on suit la pente pour descendre vers le minimum.",
+                "Le learning rate est crucial : trop grand = divergence, trop petit = lenteur.",
+                "R² mesure la qualité du modèle : 1 = parfait, 0 = inutile.",
+                "Attention aux outliers et à l'extrapolation en dehors des données d'entraînement."
             ],
             exercises: [
                 {
@@ -88,7 +213,14 @@ Imaginez que vous êtes en haut d'une montagne dans le brouillard et que vous vo
                     question: "Si ma *Loss* (Erreur) est proche de 0, cela signifie que :",
                     options: ["Mon modèle est mauvais", "Mon modèle prédit presque parfaitement les données d'entraînement", "Il y a un bug"],
                     correctAnswer: 1,
-                    explanation: "Une erreur faible signifie que les prédictions sont très proches des valeurs réelles."
+                    explanation: "Une erreur faible signifie que les prédictions sont très proches des valeurs réelles. Attention cependant à l'overfitting !"
+                },
+                {
+                    id: 'quiz-ml-lr-grad',
+                    question: "Que se passe-t-il si le learning rate est trop élevé ?",
+                    options: ["L'entraînement est plus rapide", "Le modèle diverge et l'erreur explose", "Le modèle converge lentement"],
+                    correctAnswer: 1,
+                    explanation: "Un learning rate trop élevé fait 'sauter' les paramètres d'un côté à l'autre du minimum, empêchant la convergence."
                 }
             ]
         },
