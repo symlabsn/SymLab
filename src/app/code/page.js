@@ -74,7 +74,6 @@ const NotebookCell = ({
                                     <RichText>{cell.content || '<span class="text-gray-600 italic">Double-cliquez pour ajouter du texte...</span>'}</RichText>
                                 </div>
                             ) : (
-
                                 <textarea
                                     ref={textareaRef}
                                     value={cell.content}
@@ -135,28 +134,10 @@ const NotebookCell = ({
                                             return;
                                         }
 
-                                        // Skip closing char : si on tape ) et qu'on est devant ), on avance juste
-                                        const closeChars = [')', ']', '}', '"', "'"];
-                                        if (closeChars.includes(e.key)) {
-                                            const start = e.target.selectionStart;
-                                            const value = e.target.value;
-                                            if (value[start] === e.key) {
-                                                e.preventDefault();
-                                                setTimeout(() => {
-                                                    if (textareaRef.current) {
-                                                        textareaRef.current.selectionStart = start + 1;
-                                                        textareaRef.current.selectionEnd = start + 1;
-                                                    }
-                                                }, 0);
-                                                return;
-                                            }
-                                        }
-
-                                        // Backspace sur une paire vide : effacer les deux ()
+                                        // Backspace sur une paire vide
                                         if (e.key === 'Backspace') {
                                             const start = e.target.selectionStart;
                                             const value = e.target.value;
-                                            // Chercher paire ouvrante avant et fermante après
                                             const prevChar = value[start - 1];
                                             const nextChar = value[start];
                                             const pairMap = { '(': ')', '[': ']', '{': '}', '"': '"', "'": "'" };
@@ -180,7 +161,7 @@ const NotebookCell = ({
                         </div>
                     </div>
 
-                    {/* Barre d'actions flottante (visible si actif ou survol) */}
+                    {/* Barre d'actions flottante */}
                     <div className={`absolute top-1 right-1 flex gap-0.5 bg-[#1A1D24] rounded-md border border-white/10 shadow-xl transition-all duration-200 z-20 ${isActive ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-2 group-hover:opacity-100 group-hover:translate-y-0'
                         }`}>
                         <button onClick={() => runCell(cell.id)} className="p-1.5 hover:bg-white/10 text-[#00F5D4]" title="Exécuter (Shift+Enter)">▶</button>
@@ -192,31 +173,47 @@ const NotebookCell = ({
                     </div>
                 </div>
 
-                {/* Zone de Sortie (Output) */}
+                {/* Zone de Sortie (Output) Améliorée pour Multi-Types */}
                 {cell.output && (
-                    <div className="flex gap-2 animate-in fade-in slide-in-from-top-2 duration-300 mt-2 border-t border-white/5 pt-2">
-                        <div className="w-16 flex-shrink-0 text-right pr-3 font-mono text-xs text-red-400/50 select-none pt-1">
-                            {cell.output.type !== 'error' ? `[${cell.executionCount || '?'}]` : ''}
-                        </div>
-                        <div className={`flex-1 overflow-x-auto min-h-[1.5rem] ${cell.output.type === 'error' ? 'bg-red-500/10 border-l-2 border-red-500 p-3 rounded-r text-red-400' : 'text-gray-200'
-                            }`}>
-                            {cell.output.type === 'text' && (
-                                <pre className="font-mono text-sm whitespace-pre-wrap">{cell.output.data || <span className="text-gray-500 italic">No output</span>}</pre>
-                            )}
-                            {cell.output.type === 'latex' && (
-                                <div className="p-2 bg-white/5 rounded overflow-x-auto">
-                                    <RichText>{`$$${cell.output.data}$$`}</RichText>
-                                </div>
-                            )}
-                            {cell.output.type === 'error' && (
-                                <pre className="font-mono text-sm whitespace-pre-wrap">{cell.output.data}</pre>
-                            )}
-                            {cell.output.type === 'image' && (
-                                <div className="bg-white p-2 rounded inline-block">
-                                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                                    <img src={cell.output.data} alt="Output" className="max-w-full h-auto" />
-                                </div>
-                            )}
+                    <div className="flex flex-col gap-2 animate-in fade-in slide-in-from-top-2 duration-300 mt-2 border-t border-white/5 pt-2">
+                        <div className="flex gap-2">
+                            <div className="w-16 flex-shrink-0 text-right pr-3 font-mono text-xs text-red-400/50 select-none pt-1">
+                                {cell.output.error ? 'Error' : `[${cell.executionCount || '?'}]`}
+                            </div>
+                            <div className={`flex-1 overflow-x-auto min-h-[1.5rem] ${cell.output.error ? 'bg-red-500/10 border-l-2 border-red-500 p-3 rounded-r text-red-400' : 'text-gray-200'}`}>
+
+                                {/* Affichage des tous les contenus s'ils sont présents */}
+
+                                {/* 1. Erreur */}
+                                {cell.output.error && (
+                                    <pre className="font-mono text-sm whitespace-pre-wrap mb-2">{cell.output.error}</pre>
+                                )}
+
+                                {/* 2. Texte Standard (Stdout / Result) */}
+                                {cell.output.text && (
+                                    <pre className="font-mono text-sm whitespace-pre-wrap mb-2">{cell.output.text}</pre>
+                                )}
+
+                                {/* 3. LaTeX */}
+                                {cell.output.latex && (
+                                    <div className="p-2 bg-white/5 rounded overflow-x-auto mb-2">
+                                        <RichText>{`$$${cell.output.latex}$$`}</RichText>
+                                    </div>
+                                )}
+
+                                {/* 4. Image */}
+                                {cell.output.image && (
+                                    <div className="bg-white p-2 rounded inline-block">
+                                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                                        <img src={cell.output.image} alt="Output" className="max-w-full h-auto" />
+                                    </div>
+                                )}
+
+                                {/* Indicateur si vide */}
+                                {!cell.output.text && !cell.output.image && !cell.output.latex && !cell.output.error && (
+                                    <span className="text-gray-500 italic text-xs">✓ Exécuté (aucune sortie)</span>
+                                )}
+                            </div>
                         </div>
                     </div>
                 )}
@@ -230,7 +227,7 @@ export default function NotebookPage() {
         {
             id: '1',
             type: 'markdown',
-            content: '# Bienvenue dans SymLab Notebook 🐍\n\nEnvironnement **prêt à l\'emploi** avec :\n- NumPy (`np`)\n- Matplotlib (`plt`)\n- Pandas (`pd`)\n- SymPy (`sympy`)\n- SciPy (`scipy`)\n- Scikit-learn (`sklearn`)\n\nTous ces modules sont déjà importés. Vous pouvez commencer à coder directement !',
+            content: '# Bienvenue dans SymLab Notebook 🐍\n\nEnvironnement **prêt à l\'emploi** avec NumPy, Pandas, Matplotlib, SymPy.\n\n### Raccourcis :\n- **Shift + Enter** : Exécuter\n- **Tab** : Indenter\n- **Auto-close** : Parenthèses et guillemets',
             status: 'idle',
             output: null,
             isEditing: false
@@ -245,24 +242,22 @@ export default function NotebookPage() {
         }
     ]);
     const [activeCellId, setActiveCellId] = useState(null);
-    const [kernelStatus, setKernelStatus] = useState('loading'); // ready, busy, error, loading
+    const [kernelStatus, setKernelStatus] = useState('loading');
     const [pyodide, setPyodide] = useState(null);
 
-    // Initialisation de Pyodide
+    // Initialisation de Pyodide (SSR Protected)
     useEffect(() => {
+        if (typeof window === 'undefined') return;
+
         const loadPyodide = async () => {
             try {
-                // Vérifier si le script est déjà là
                 if (!window.loadPyodide) {
                     const script = document.createElement('script');
                     script.src = 'https://cdn.jsdelivr.net/pyodide/v0.25.0/full/pyodide.js';
                     script.async = true;
                     script.onload = async () => {
                         const py = await window.loadPyodide();
-                        // Charger les packages scientifiques complets incluant scikit-learn
                         await py.loadPackage(['micropip', 'numpy', 'matplotlib', 'pandas', 'scipy', 'sympy', 'scikit-learn']);
-
-                        // Pré-importation automatique pour un environnement "prêt à l'emploi"
                         const initCode = `
 import numpy as np
 import pandas as pd
@@ -273,21 +268,18 @@ from sympy import *
 import sklearn
 import sys
 import io
-
-print("Kernel Initialized with Scientific Stack")
+import json
+print("Kernel Initialized")
 `;
                         await py.runPythonAsync(initCode);
-
                         setPyodide(py);
                         setKernelStatus('ready');
                     };
                     document.body.appendChild(script);
                 } else if (!pyodide) {
-                    // Si le script est déjà chargé mais pas l'instance
                     setKernelStatus('loading');
                     const py = await window.loadPyodide();
                     await py.loadPackage(['micropip', 'numpy', 'matplotlib', 'pandas', 'scipy', 'sympy', 'scikit-learn']);
-
                     const initCode = `
 import numpy as np
 import pandas as pd
@@ -298,7 +290,6 @@ from sympy import *
 import sklearn
 `;
                     await py.runPythonAsync(initCode);
-
                     setPyodide(py);
                     setKernelStatus('ready');
                 }
@@ -308,16 +299,10 @@ import sklearn
             }
         };
         loadPyodide();
-
-        return () => {
-            setKernelStatus('loading');
-        }
+        return () => setKernelStatus('loading');
     }, []);
 
-    // Gestion des cellules
-    const updateCell = (id, updates) => {
-        setCells(cells.map(c => c.id === id ? { ...c, ...updates } : c));
-    };
+    const updateCell = (id, updates) => setCells(cells.map(c => c.id === id ? { ...c, ...updates } : c));
 
     const addCell = (index, type = 'code') => {
         const newCell = {
@@ -336,26 +321,23 @@ import sklearn
     };
 
     const deleteCell = (id) => {
-        if (cells.length > 1) {
-            setCells(cells.filter(c => c.id !== id));
-        }
+        if (cells.length > 1) setCells(cells.filter(c => c.id !== id));
     };
 
     const moveCell = (index, direction) => {
-        if (index + direction < 0 || index + direction >= cells.length) return;
-        const newCells = [...cells];
-        const temp = newCells[index];
-        newCells[index] = newCells[index + direction];
-        newCells[index + direction] = temp;
-        setCells(newCells);
+        if (index + direction >= 0 && index + direction < cells.length) {
+            const newCells = [...cells];
+            const temp = newCells[index];
+            newCells[index] = newCells[index + direction];
+            newCells[index + direction] = temp;
+            setCells(newCells);
+        }
     };
 
-    // Fonction de redémarrage du kernel
     const restartKernel = async () => {
         setKernelStatus('loading');
         if (pyodide) {
-            await pyodide.runPythonAsync(`
-globals().clear()
+            await pyodide.runPythonAsync(`globals().clear()
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -365,58 +347,48 @@ from sympy import *
 import sklearn
 import sys
 import io
-`);
+import json`);
             setCells(cells.map(c => ({ ...c, status: 'idle', output: null, executionCount: null })));
             setKernelStatus('ready');
         }
     };
 
-    // Exécution réelle avec Pyodide
     const runCell = async (id) => {
         const cell = cells.find(c => c.id === id);
-        if (!cell) return;
-
-        if (cell.type === 'markdown') {
-            updateCell(id, { isEditing: false });
+        if (!cell || cell.type === 'markdown') {
+            if (cell) updateCell(id, { isEditing: false });
             return;
         }
 
-        if (!pyodide) {
-            alert("L'environnement scientifique démarre, veuillez patienter quelques secondes...");
-            return;
-        }
+        if (!pyodide) return alert("Kernel en chargement...");
 
         updateCell(id, { status: 'running' });
         setKernelStatus('busy');
 
         try {
-            // Script wrapper robuste
             const pythonCode = `
 import sys
 import io
+import json
 import base64
 import matplotlib.pyplot as plt
 
-# Redirection stdout/stderr
 sys.stdout = io.StringIO()
 sys.stderr = io.StringIO()
 
-# Nettoyer les plots précédents
+# Cleanup plots
 plt.close('all')
 plt.clf()
 
-# Exécution du code utilisateur
 code = ${JSON.stringify(cell.content)}
 result = None
 
 try:
-    # On compile pour voir si c'est une expression ou des statements
     import ast
     tree = ast.parse(code)
     if not tree.body:
-        pass # Code vide
+        pass
     elif isinstance(tree.body[-1], ast.Expr):
-        # Si la dernière ligne est une expression, on la sépare
         last_expr = tree.body.pop()
         if tree.body:
             exec(compile(tree, filename="<cell>", mode="exec"), globals())
@@ -426,9 +398,8 @@ try:
 except Exception as e:
     import traceback
     traceback.print_exc()
-    # On ne lève pas l'exception ici pour permettre de capturer stderr
 
-# Capture des plots (Figure active)
+# Capture Plot
 img_str = None
 if plt.get_fignums():
     buf = io.BytesIO()
@@ -437,19 +408,17 @@ if plt.get_fignums():
     img_str = 'data:image/png;base64,' + base64.b64encode(buf.read()).decode('UTF-8')
     plt.close('all')
 
-# Capture LaTeX (SymPy)
+# Capture LaTeX
 latex_str = None
 if result is not None:
     if hasattr(result, '_repr_latex_'):
         latex_str = result._repr_latex_()
-    elif hasattr(result, 'latex'): 
+    elif hasattr(result, 'latex'):
         latex_str = result.latex()
 
-# Capture stdout/stderr
 stdout_val = sys.stdout.getvalue()
 stderr_val = sys.stderr.getvalue()
 
-import json
 json.dumps({
     "stdout": stdout_val,
     "stderr": stderr_val,
@@ -458,67 +427,46 @@ json.dumps({
     "latex": latex_str
 })
 `;
-            // Exécution
             const responseStr = await pyodide.runPythonAsync(pythonCode);
             const response = JSON.parse(responseStr);
 
-            // Construction de la sortie
-            let outputData = '';
-            if (response.stdout) outputData += response.stdout;
-            // On ajoute stderr en bas s'il y en a, mais on le traite selon la gravité
-            if (response.stderr) {
-                // Si c'est une erreur Python (Traceback), on le considère comme erreur
-                if (response.stderr.includes('Traceback')) {
-                    // On ne fait rien ici, on le gèrera dans output.type = 'error'
-                } else {
-                    // Warnings ou prints stderr
-                    outputData += (outputData ? '\n' : '') + '⚠️ ' + response.stderr;
-                }
-            }
+            // Structure de sortie multi-Champs
+            const out = {};
 
-            // LaTeX ou Résultat texte
-            let latexOutput = null;
-            if (response.latex) {
-                latexOutput = response.latex;
-            } else if (response.result && !response.image) {
-                outputData += (outputData ? '\n' : '') + `[Out]: ${response.result}`;
-            }
-
-            // Déterminer le type de sortie prioritaire
-            let output = null;
+            // 1. Erreur
             if (response.stderr && response.stderr.includes('Traceback')) {
-                output = { type: 'error', data: response.stderr };
-            } else if (response.image) {
-                output = { type: 'image', data: response.image };
-            } else if (latexOutput) {
-                output = { type: 'latex', data: latexOutput };
-            } else if (outputData) {
-                output = { type: 'text', data: outputData.trim() };
-            } else {
-                output = { type: 'text', data: '✓ Exécuté' };
+                out.error = response.stderr;
+            } else if (response.stderr) {
+                // Warnings
+                out.text = (response.stdout || '') + '\n⚠️ ' + response.stderr;
             }
+
+            // 2. Texte
+            let text = response.stdout || '';
+            if (response.result && response.result !== 'None' && !response.image && !response.latex) {
+                text += (text ? '\n' : '') + `[Out]: ${response.result}`;
+            }
+            if (!out.error && text.trim()) {
+                out.text = (out.text || '') + text;
+            }
+
+            // 3. LaTeX
+            if (response.latex) out.latex = response.latex;
+
+            // 4. Image
+            if (response.image) out.image = response.image;
 
             updateCell(id, {
-                status: 'success', // On marque success même si erreur Python pour ne pas bloquer l'UI
-                output, // L'output peut être de type 'error'
+                status: 'success',
+                output: out,
                 executionCount: (cell.executionCount || 0) + 1
             });
 
-            // Si output type est error, on met status error
-            if (output && output.type === 'error') {
-                updateCell(id, { status: 'error', output });
-            }
-
         } catch (err) {
-            let errorMsg = err.toString();
-            if (err.message && err.message.includes("PythonError")) {
-                errorMsg = err.message.split('Traceback (most recent call last):')[1] || err.message;
-                errorMsg = 'Traceback (most recent call last):' + errorMsg;
-            }
-
+            console.error("Exec Error:", err);
             updateCell(id, {
                 status: 'error',
-                output: { type: 'error', data: errorMsg }
+                output: { error: err.toString() }
             });
         } finally {
             setKernelStatus('ready');
@@ -527,45 +475,29 @@ json.dumps({
 
     return (
         <main className="min-h-screen bg-black text-white flex flex-col">
-            {/* Navbar Notebook */}
             <header className="h-16 border-b border-white/10 flex items-center justify-between px-4 bg-[#0F1115] fixed w-full z-50">
                 <div className="flex items-center gap-4">
-                    <Link href="/programming" className="text-gray-400 hover:text-white transition-colors">
-                        ← Retour
-                    </Link>
+                    <Link href="/programming" className="text-gray-400 hover:text-white transition-colors">← Retour</Link>
                     <div className="h-6 w-px bg-white/10" />
                     <h1 className="font-bold text-lg">SymLab Notebook</h1>
                     <span className="text-xs text-gray-500">Python 3.11 (Pyodide)</span>
                 </div>
-
                 <div className="flex items-center gap-4">
                     <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 border border-white/10">
-                        <div className={`w - 2 h - 2 rounded - full ${kernelStatus === 'ready' ? 'bg-green-500' : kernelStatus === 'error' ? 'bg-red-500' : 'bg-yellow-500 animate-pulse'} `} />
-                        <span className="text-xs font-mono text-gray-300">
-                            {kernelStatus === 'loading' ? 'Initialisation...' : kernelStatus === 'busy' ? 'Exécution...' : 'Kernel Prêt'}
-                        </span>
+                        <div className={`w-2 h-2 rounded-full ${kernelStatus === 'ready' ? 'bg-green-500' : kernelStatus === 'error' ? 'bg-red-500' : 'bg-yellow-500 animate-pulse'} `} />
+                        <span className="text-xs font-mono text-gray-300">{kernelStatus === 'loading' ? 'Init...' : kernelStatus === 'busy' ? 'Run...' : 'Prêt'}</span>
                     </div>
-                    <button className="bg-[#00F5D4] text-black px-4 py-1.5 rounded font-bold text-sm hover:bg-[#00F5D4]/90 transition-colors">
-                        Partager
-                    </button>
+                    <button className="bg-[#00F5D4] text-black px-4 py-1.5 rounded font-bold text-sm hover:bg-[#00F5D4]/90 transition-colors">Partager</button>
                 </div>
             </header>
 
-            {/* Toolbar */}
             <div className="mt-16 h-12 border-b border-white/10 flex items-center px-4 gap-2 bg-[#0F1115] sticky top-16 z-40">
-                <button onClick={() => addCell(cells.length - 1, 'code')} className="flex items-center gap-2 px-3 py-1.5 hover:bg-white/10 rounded text-gray-300 transition-colors" title="Ajouter Code">
-                    <span className="text-[#00F5D4] font-bold">+</span> Code
-                </button>
-                <button onClick={() => addCell(cells.length - 1, 'markdown')} className="flex items-center gap-2 px-3 py-1.5 hover:bg-white/10 rounded text-gray-300 transition-colors" title="Ajouter Texte">
-                    <span className="text-gray-400 font-bold">+</span> Texte
-                </button>
+                <button onClick={() => addCell(cells.length - 1, 'code')} className="flex items-center gap-2 px-3 py-1.5 hover:bg-white/10 rounded text-gray-300 transition-colors"><span className="text-[#00F5D4] font-bold">+</span> Code</button>
+                <button onClick={() => addCell(cells.length - 1, 'markdown')} className="flex items-center gap-2 px-3 py-1.5 hover:bg-white/10 rounded text-gray-300 transition-colors"><span className="text-gray-400 font-bold">+</span> Texte</button>
                 <div className="h-6 w-px bg-white/10 mx-2" />
-                <button onClick={() => restartKernel()} className="p-2 hover:bg-white/10 rounded text-gray-300 transition-colors" title="Redémarrer le noyau et nettoyer">
-                    ↻ Redémarrer Kernel
-                </button>
+                <button onClick={() => restartKernel()} className="p-2 hover:bg-white/10 rounded text-gray-300 transition-colors">↻ Restart</button>
             </div>
 
-            {/* Zone de contenu */}
             <div className="flex-1 overflow-y-auto p-4 md:p-8 max-w-5xl mx-auto w-full pb-32">
                 {cells.map((cell, index) => (
                     <div key={cell.id} className="group/add">
@@ -579,28 +511,16 @@ json.dumps({
                             isActive={activeCellId === cell.id}
                             setActive={setActiveCellId}
                         />
-                        {/* Bouton discret pour ajouter entre les cellules */}
                         <div className="h-4 -mt-4 mb-2 flex items-center justify-center opacity-0 group-hover/add:opacity-100 transition-opacity z-10 relative pointer-events-none group-hover/add:pointer-events-auto">
                             <div className="absolute inset-x-0 h-px bg-[#00F5D4]/20" />
                             <div className="flex gap-2 bg-black px-2 relative z-20">
-                                <button onClick={() => addCell(index, 'code')} className="text-[10px] bg-[#00F5D4]/10 text-[#00F5D4] px-2 py-0.5 rounded border border-[#00F5D4]/20 hover:bg-[#00F5D4]/20 transition-colors">
-                                    + Code
-                                </button>
-                                <button onClick={() => addCell(index, 'markdown')} className="text-[10px] bg-white/10 text-gray-300 px-2 py-0.5 rounded border border-white/10 hover:bg-white/20 transition-colors">
-                                    + Texte
-                                </button>
+                                <button onClick={() => addCell(index, 'code')} className="text-[10px] bg-[#00F5D4]/10 text-[#00F5D4] px-2 py-0.5 rounded border border-[#00F5D4]/20 hover:bg-[#00F5D4]/20">+ Code</button>
+                                <button onClick={() => addCell(index, 'markdown')} className="text-[10px] bg-white/10 text-gray-300 px-2 py-0.5 rounded border border-white/10 hover:bg-white/20">+ Texte</button>
                             </div>
                         </div>
                     </div>
                 ))}
-
-                {/* Zone vide en bas pour cliquer et ajouter */}
-                <div
-                    className="h-32 border-2 border-dashed border-white/5 rounded-xl flex items-center justify-center text-gray-600 hover:border-[#00F5D4]/30 hover:text-[#00F5D4]/50 transition-all cursor-pointer"
-                    onClick={() => addCell(cells.length - 1, 'code')}
-                >
-                    Cliquez pour ajouter une cellule
-                </div>
+                <div className="h-32 border-2 border-dashed border-white/5 rounded-xl flex items-center justify-center text-gray-600 hover:border-[#00F5D4]/30 hover:text-[#00F5D4]/50 transition-all cursor-pointer" onClick={() => addCell(cells.length - 1, 'code')}>Cliquez pour ajouter</div>
             </div>
         </main>
     );
