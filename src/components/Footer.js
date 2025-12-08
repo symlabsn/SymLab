@@ -11,10 +11,12 @@ export default function Footer() {
       { name: 'Projets', href: '/programming?chapter=projects' },
     ],
     resources: [
-      { name: 'Cours', href: '/courses' },
-      { name: 'Ressources', href: '/ressources' },
-      { name: 'Code Editor', href: '/code' },
-      { name: 'Examens', href: '/exams' },
+      { name: 'Machine Learning', href: '/courses?course=ml-intro' },
+      { name: 'Mathématiques pour l\'IA', href: '/courses?course=math-ml' },
+      { name: 'Visualisation de Données', href: '/courses?course=vis-data' },
+      { name: 'Python Lab', href: '/code' },
+      { name: 'Projets Scientifiques', href: '/programming?chapter=projects' },
+      { name: 'Challenges SymPy', href: '/challenges' },
     ],
   };
 
