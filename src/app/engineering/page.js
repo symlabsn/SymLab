@@ -2,6 +2,9 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import ReactMarkdown from 'react-markdown';
+import remarkMath from 'remark-math';
+import rehypeKatex from 'rehype-katex';
 import { engineeringProjects } from './projectData';
 
 export default function EngineeringPage() {
@@ -247,7 +250,14 @@ export default function EngineeringPage() {
 
                                             <div className="mb-4">
                                                 <h4 className="text-xl font-bold text-white mb-2">{step.title}</h4>
-                                                <p className="text-gray-400 text-sm">{step.explanation}</p>
+                                                <div className="text-gray-400 text-sm prose prose-invert prose-sm max-w-none">
+                                                    <ReactMarkdown
+                                                        remarkPlugins={[remarkMath]}
+                                                        rehypePlugins={[rehypeKatex]}
+                                                    >
+                                                        {step.explanation}
+                                                    </ReactMarkdown>
+                                                </div>
                                             </div>
 
                                             <div className="bg-[#0a0a0a] rounded-xl border border-white/10 overflow-hidden group">
