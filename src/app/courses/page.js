@@ -33,7 +33,9 @@ import { mathForMLData } from './data/mathForML';
 import { visualizationData } from './data/visualization';
 import { BookOpen, Download, Eye, ChevronRight, GraduationCap, Atom, Calculator, Dna, CheckCircle, XCircle, Menu, ArrowLeft } from 'lucide-react';
 import 'katex/dist/katex.min.css';
-import renderMathInElement from 'katex/dist/contrib/auto-render';
+import ReactMarkdown from 'react-markdown';
+import remarkMath from 'remark-math';
+import rehypeKatex from 'rehype-katex';
 
 
 import { useSearchParams } from 'next/navigation';
@@ -145,32 +147,8 @@ function CoursesContent() {
         }
     }, [searchParams]);
 
-    // Render LaTeX formulas when chapter content changes
-    useEffect(() => {
-        if (activeChapter && typeof document !== 'undefined') {
-            // Wait a bit for DOM to update
-            setTimeout(() => {
-                try {
-                    const contentElement = document.querySelector('.prose');
-                    if (contentElement) {
-                        renderMathInElement(contentElement, {
-                            delimiters: [
-                                { left: '$$', right: '$$', display: true },
-                                { left: '$', right: '$', display: false },
-                                { left: '\\(', right: '\\)', display: false },
-                                { left: '\\[', right: '\\]', display: true }
-                            ],
-                            throwOnError: false,
-                            trust: true,
-                            strict: false
-                        });
-                    }
-                } catch (error) {
-                    console.error('KaTeX rendering error:', error);
-                }
-            }, 300);
-        }
-    }, [activeChapter, showExercises]);
+    // ReactMarkdown avec rehype-katex gère maintenant le rendu LaTeX automatiquement
+
 
     return (
         <main className="min-h-screen bg-black text-white font-sans selection:bg-[#00F5D4] selection:text-black flex flex-col">
@@ -469,15 +447,20 @@ function CoursesContent() {
                                                     )}
 
                                                     {/* Main Content */}
-                                                    <div
+                                                    <ReactMarkdown
                                                         className="prose prose-invert prose-lg max-w-none 
                                                         prose-headings:text-gray-100 prose-headings:font-bold prose-headings:tracking-tight
                                                         prose-p:text-gray-300 prose-p:leading-relaxed
                                                         prose-strong:text-white prose-strong:font-black
                                                         prose-ul:text-gray-300 prose-li:marker:text-blue-500
+                                                        prose-code:text-[#00F5D4] prose-code:bg-white/5 prose-code:px-1 prose-code:py-0.5 prose-code:rounded
+                                                        prose-pre:bg-black/50 prose-pre:border prose-pre:border-white/10
                                                         prose-img:rounded-xl prose-img:border prose-img:border-white/10 prose-img:mx-auto prose-img:block prose-img:shadow-lg"
-                                                        dangerouslySetInnerHTML={{ __html: activeChapter?.content }}
-                                                    />
+                                                        remarkPlugins={[remarkMath]}
+                                                        rehypePlugins={[rehypeKatex]}
+                                                    >
+                                                        {activeChapter?.content || ''}
+                                                    </ReactMarkdown>
 
                                                     {/* Key Points / Summary */}
                                                     {activeChapter?.summary && (
