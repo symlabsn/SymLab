@@ -1617,12 +1617,12 @@ print(f"Angle final : {theta[-1]:.2f} rad")`,
 
 **Physique** 📐
 Forces en jeu :
-1. **Poids** : $P = m \cdot g$ (vers le bas)
-2. **Frottement** : $F = -k \cdot v^2$ (opposé à la vitesse)
+1. **Poids** : $P = m \\cdot g$ (vers le bas)
+2. **Frottement** : $F = -k \\cdot v^2$ (opposé à la vitesse)
 
 **Équations** :
-$x'' = - (k/m) \cdot v \cdot x'$
-$y'' = -g - (k/m) \cdot v \cdot y'$`,
+$x'' = - (k/m) \\cdot v \\cdot x'$
+$y'' = -g - (k/m) \\cdot v \\cdot y'$`,
                 keyPoints: [
                     'Définir les conditions initiales (vitesse, angle)',
                     'Transformer les équations du second ordre en système du premier ordre',
@@ -1742,11 +1742,11 @@ La population est divisée en 3 compartiments :
 - **R**ecovered (Guéris/Immunisés)
 
 **Équations** :
-$dS/dt = - \beta \cdot S \cdot I / N$
-$dI/dt = \beta \cdot S \cdot I / N - \gamma \cdot I$
-$dR/dt = \gamma \cdot I$
+$dS/dt = - \\beta \\cdot S \\cdot I / N$
+$dI/dt = \\beta \\cdot S \\cdot I / N - \\gamma \\cdot I$
+$dR/dt = \\gamma \\cdot I$
 
-Où $\beta$ est le taux de transmission et $\gamma$ le taux de guérison.`,
+Où $\\beta$ est le taux de transmission et $\\gamma$ le taux de guérison.`,
                 keyPoints: [
                     'Le modèle SIR est la base de l\'épidémiologie',
                     'Le R0 (taux de reproduction) = beta / gamma',
