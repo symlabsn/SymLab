@@ -36,10 +36,75 @@ import 'katex/dist/katex.min.css';
 import ReactMarkdown from 'react-markdown';
 import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
+import rehypeRaw from 'rehype-raw';
 
 
 import { useSearchParams } from 'next/navigation';
 import { Suspense } from 'react';
+
+// Helper to strip indentation from template literals to avoid Markdown code block detection
+const stripIndentation = (str) => {
+    if (!str) return '';
+    // Remove the first line if it's empty (common in template literals)
+    const lines = str.split('\n');
+    if (lines.length > 0 && lines[0].trim() === '') {
+        lines.shift();
+    }
+
+    // Find minimum indentation of non-empty lines
+    let minIndent = Infinity;
+    lines.forEach(line => {
+        if (line.trim().length > 0) {
+            const indent = line.match(/^\s*/)[0].length;
+            if (indent < minIndent) minIndent = indent;
+        }
+    });
+
+    if (minIndent === Infinity) return str;
+
+    // Remove that indentation from all lines
+    return lines.map(line => {
+        if (line.length >= minIndent) {
+            return line.slice(minIndent);
+        }
+        return line;
+    }).join('\n');
+};
+
+const levels = ['6ème', '5ème', '4ème', '3ème', 'Seconde', 'Première', 'Terminale', 'Supérieur'];
+const subjects = ['Tous', 'Mathématiques', 'Physique-Chimie', 'SVT', 'Informatique', 'Data & IA'];
+
+// Map course IDs to their structured data if available
+const structuredCourses = {
+    'math-6e': math6eData,
+    'math-5e': math5eData,
+    'math-4e': math4eData,
+    'math-3e': math3eData,
+    'pc-4e': pc4eData,
+    'pc-3e': pc3eData,
+    'svt-6e': svt6eData,
+    'svt-5e': svt5eData,
+    'svt-4e': svt4eData,
+    'svt-3e': svt3eData,
+    'phys-2s': phys2sData,
+    'phys-1s': phys1sData,
+    'chimie-2s': chimie2sData,
+    'chimie-1s': chimie1sData,
+    'entrainement-2s': entrainement2sData,
+    'entrainement-1s': entrainement1sData,
+    'math-2s': math2sData,
+    'math-1s': math1sData,
+    'svt-2s': svt2sData,
+    'svt-1s': svt1sData,
+    'svt-1l': svt1lData,
+    'math-ts': mathTsData,
+    'svt-ts': svtTsData,
+    'phys-ts': physTsData,
+    'chimie-ts': chimieTsData,
+    'ml-intro': machineLearningData,
+    'math-ml': mathForMLData,
+    'vis-data': visualizationData
+};
 
 function CoursesContent() {
     const [activeLevel, setActiveLevel] = useState('6ème');
@@ -54,41 +119,6 @@ function CoursesContent() {
     const [showExercises, setShowExercises] = useState(false);
     const [quizAnswers, setQuizAnswers] = useState({});
     const [quizResults, setQuizResults] = useState({});
-
-    const levels = ['6ème', '5ème', '4ème', '3ème', 'Seconde', 'Première', 'Terminale', 'Supérieur'];
-    const subjects = ['Tous', 'Mathématiques', 'Physique-Chimie', 'SVT', 'Informatique', 'Data & IA'];
-
-    // Map course IDs to their structured data if available
-    const structuredCourses = {
-        'math-6e': math6eData,
-        'math-5e': math5eData,
-        'math-4e': math4eData,
-        'math-3e': math3eData,
-        'pc-4e': pc4eData,
-        'pc-3e': pc3eData,
-        'svt-6e': svt6eData,
-        'svt-5e': svt5eData,
-        'svt-4e': svt4eData,
-        'svt-3e': svt3eData,
-        'phys-2s': phys2sData,
-        'phys-1s': phys1sData,
-        'chimie-2s': chimie2sData,
-        'chimie-1s': chimie1sData,
-        'entrainement-2s': entrainement2sData,
-        'entrainement-1s': entrainement1sData,
-        'math-2s': math2sData,
-        'math-1s': math1sData,
-        'svt-2s': svt2sData,
-        'svt-1s': svt1sData,
-        'svt-1l': svt1lData,
-        'math-ts': mathTsData,
-        'svt-ts': svtTsData,
-        'phys-ts': physTsData,
-        'chimie-ts': chimieTsData,
-        'ml-intro': machineLearningData,
-        'math-ml': mathForMLData,
-        'vis-data': visualizationData
-    };
 
     const filteredCourses = courses.filter(course => {
         const matchLevel = course.level === activeLevel;
@@ -195,7 +225,7 @@ function CoursesContent() {
                 )}
 
                 {/* Main Content */}
-                <div className={`flex-1 ${!selectedCourse ? 'md:ml-64' : ''} p-6 md:p-12`}>
+                <div className={`flex-1 ${!selectedCourse ? 'md:ml-64' : ''} p-4 md:p-12`}>
 
                     {!selectedCourse ? (
                         // COURSE LIST VIEW
@@ -408,7 +438,7 @@ function CoursesContent() {
                                         </div>
 
                                         {/* Scrollable Content */}
-                                        <div className="flex-1 overflow-y-auto p-8 scrollbar-thin scrollbar-thumb-white/10 scrollbar-track-transparent">
+                                        <div className="flex-1 overflow-y-auto p-4 md:p-8 scrollbar-thin scrollbar-thumb-white/10 scrollbar-track-transparent">
                                             {!showExercises || selectedCourse.id.includes('entrainement') ? (
                                                 <div className="max-w-4xl mx-auto">
                                                     {/* Header Image if available */}
@@ -428,25 +458,25 @@ function CoursesContent() {
                                                         </div>
                                                     )}
 
-                                                    <h2 className="text-4xl font-black mb-8 text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-purple-400 to-white leading-tight">
+                                                    <h2 className="text-2xl md:text-4xl font-black mb-6 md:mb-8 text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-purple-400 to-white leading-tight">
                                                         {activeChapter?.title}
                                                     </h2>
 
                                                     {/* Story Section */}
                                                     {activeChapter?.story && (
-                                                        <div className="mb-10 p-6 rounded-2xl bg-gradient-to-br from-indigo-900/20 to-purple-900/20 border border-indigo-500/20 relative overflow-hidden group hover:border-indigo-500/40 transition-all">
+                                                        <div className="mb-8 md:mb-10 p-4 md:p-6 rounded-2xl bg-gradient-to-br from-indigo-900/20 to-purple-900/20 border border-indigo-500/20 relative overflow-hidden group hover:border-indigo-500/40 transition-all">
                                                             <div className="absolute top-0 right-0 p-6 text-8xl opacity-5 group-hover:opacity-10 transition-opacity select-none">📖</div>
                                                             <h3 className="text-lg font-bold text-indigo-300 mb-3 flex items-center gap-2">
                                                                 <span className="text-xl">✨</span> La Petite Histoire
                                                             </h3>
-                                                            <p className="text-gray-300 italic leading-relaxed text-lg font-serif">
-                                                                "{activeChapter.story}"
+                                                            <p className="text-gray-300 italic leading-relaxed text-base md:text-lg font-serif">
+                                                                &quot;{activeChapter.story}&quot;
                                                             </p>
                                                         </div>
                                                     )}
 
                                                     {/* Main Content */}
-                                                    <div className="prose prose-invert prose-lg max-w-none 
+                                                    <div className="prose prose-invert prose-sm md:prose-lg max-w-none  
                                                         prose-headings:text-gray-100 prose-headings:font-bold prose-headings:tracking-tight
                                                         prose-p:text-gray-300 prose-p:leading-relaxed
                                                         prose-strong:text-white prose-strong:font-black
@@ -456,9 +486,9 @@ function CoursesContent() {
                                                         prose-img:rounded-xl prose-img:border prose-img:border-white/10 prose-img:mx-auto prose-img:block prose-img:shadow-lg">
                                                         <ReactMarkdown
                                                             remarkPlugins={[remarkMath]}
-                                                            rehypePlugins={[rehypeKatex]}
+                                                            rehypePlugins={[rehypeKatex, rehypeRaw]}
                                                         >
-                                                            {activeChapter?.content || ''}
+                                                            {stripIndentation(activeChapter?.content || '')}
                                                         </ReactMarkdown>
                                                     </div>
 
@@ -466,7 +496,7 @@ function CoursesContent() {
                                                     {activeChapter?.summary && (
                                                         <div className="mt-12 p-6 rounded-2xl bg-emerald-900/10 border border-emerald-500/20">
                                                             <h3 className="text-lg font-bold text-emerald-400 mb-4 flex items-center gap-2">
-                                                                <span className="text-xl">💡</span> Ce qu'il faut retenir
+                                                                <span className="text-xl">💡</span> Ce qu&apos;il faut retenir
                                                             </h3>
                                                             <ul className="space-y-3">
                                                                 {activeChapter.summary.map((point, idx) => (
@@ -483,7 +513,7 @@ function CoursesContent() {
                                                         <div className="mt-16 pt-10 border-t border-white/10 space-y-8">
                                                             <h2 className="text-2xl font-bold mb-6">Questions</h2>
                                                             {activeChapter?.exercises.map((ex, idx) => (
-                                                                <div key={ex.id} className="bg-black/30 rounded-xl p-6 border border-white/10">
+                                                                <div key={ex.id} className="bg-black/30 rounded-xl p-4 md:p-6 border border-white/10">
                                                                     <div className="flex items-start gap-4 mb-4">
                                                                         <span className="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center font-bold text-sm shrink-0">
                                                                             {idx + 1}
@@ -491,7 +521,7 @@ function CoursesContent() {
                                                                         <h3 className="text-lg font-medium pt-1">{ex.question}</h3>
                                                                     </div>
 
-                                                                    <div className="space-y-3 pl-12">
+                                                                    <div className="space-y-3 pl-0 md:pl-12">
                                                                         {ex.options.map((option, optIdx) => {
                                                                             const isSelected = quizAnswers[`${activeChapter.id}-${ex.id}`] === optIdx;
                                                                             const isCorrect = quizResults[`${activeChapter.id}-${ex.id}`];
@@ -523,7 +553,7 @@ function CoursesContent() {
                                                                     </div>
 
                                                                     {quizAnswers[`${activeChapter.id}-${ex.id}`] !== undefined && (
-                                                                        <div className={`mt-4 ml-12 p-4 rounded-lg text-sm ${quizResults[`${activeChapter.id}-${ex.id}`] ? 'bg-green-900/20 text-green-300' : 'bg-red-900/20 text-red-300'}`}>
+                                                                        <div className={`mt-4 ml-0 md:ml-12 p-4 rounded-lg text-sm ${quizResults[`${activeChapter.id}-${ex.id}`] ? 'bg-green-900/20 text-green-300' : 'bg-red-900/20 text-red-300'}`}>
                                                                             <strong>Explication :</strong> {ex.explanation}
                                                                         </div>
                                                                     )}
@@ -534,9 +564,9 @@ function CoursesContent() {
                                                 </div>
                                             ) : (
                                                 <div className="max-w-3xl mx-auto space-y-8">
-                                                    <h2 className="text-2xl font-bold mb-6">Exercices d'application</h2>
+                                                    <h2 className="text-2xl font-bold mb-6">Exercices d&apos;application</h2>
                                                     {activeChapter?.exercises.map((ex, idx) => (
-                                                        <div key={ex.id} className="bg-black/30 rounded-xl p-6 border border-white/10">
+                                                        <div key={ex.id} className="bg-black/30 rounded-xl p-4 md:p-6 border border-white/10">
                                                             <div className="flex items-start gap-4 mb-4">
                                                                 <span className="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center font-bold text-sm shrink-0">
                                                                     {idx + 1}
@@ -544,7 +574,7 @@ function CoursesContent() {
                                                                 <h3 className="text-lg font-medium pt-1">{ex.question}</h3>
                                                             </div>
 
-                                                            <div className="space-y-3 pl-12">
+                                                            <div className="space-y-3 pl-0 md:pl-12">
                                                                 {ex.options.map((option, optIdx) => {
                                                                     const isSelected = quizAnswers[`${activeChapter.id}-${ex.id}`] === optIdx;
                                                                     const isCorrect = quizResults[`${activeChapter.id}-${ex.id}`];
@@ -576,7 +606,7 @@ function CoursesContent() {
                                                             </div>
 
                                                             {quizAnswers[`${activeChapter.id}-${ex.id}`] !== undefined && (
-                                                                <div className={`mt-4 ml-12 p-4 rounded-lg text-sm ${quizResults[`${activeChapter.id}-${ex.id}`] ? 'bg-green-900/20 text-green-300' : 'bg-red-900/20 text-red-300'}`}>
+                                                                <div className={`mt-4 ml-0 md:ml-12 p-4 rounded-lg text-sm ${quizResults[`${activeChapter.id}-${ex.id}`] ? 'bg-green-900/20 text-green-300' : 'bg-red-900/20 text-red-300'}`}>
                                                                     <strong>Explication :</strong> {ex.explanation}
                                                                 </div>
                                                             )}
