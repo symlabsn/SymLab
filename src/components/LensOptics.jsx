@@ -85,7 +85,7 @@ export function LensOptics() {
                     <sphereGeometry args={[0.15, 16, 16]} />
                     <meshStandardMaterial color="#7C3AED" transparent opacity={0.5} />
                 </mesh>
-                <Text position={[-1.2, -0.5, 0]} fontSize={0.3} color="#7C3AED">F'</Text>
+                <Text position={[-1.2, -0.5, 0]} fontSize={0.3} color="#7C3AED">F&apos;</Text>
             </group>
 
             {/* Légendes */}
