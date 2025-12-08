@@ -147,7 +147,7 @@ export default function AboutPage() {
                     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
                         <Link href="/" className="text-gray-400 hover:text-white transition-colors flex items-center gap-2">
                             <span className="text-2xl">←</span>
-                            <span>Retour à l'accueil</span>
+                            <span>Retour à l&apos;accueil</span>
                         </Link>
                         <div className="flex items-center gap-4">
                             <span className="text-[#00F5D4] font-bold">À Propos</span>
@@ -218,7 +218,7 @@ export default function AboutPage() {
                             <div className="p-6 rounded-2xl bg-gradient-to-br from-white/5 to-white/10 border border-white/20 backdrop-blur-xl">
                                 <h3 className="text-xl font-bold mb-3 text-[#00F5D4]">🎯 Mission</h3>
                                 <p className="text-gray-300 leading-relaxed">
-                                    Démocratiser l'accès aux sciences et à la technologie en Afrique à travers des outils pédagogiques innovants et interactifs.
+                                    Démocratiser l&apos;accès aux sciences et à la technologie en Afrique à travers des outils pédagogiques innovants et interactifs.
                                 </p>
                             </div>
                         </div>
@@ -250,7 +250,7 @@ export default function AboutPage() {
                         </div>
                         <h2 className="text-5xl md:text-7xl font-black mb-8 leading-tight">
                             <span className="bg-clip-text text-transparent bg-gradient-to-r from-white via-gray-200 to-gray-500">
-                                L'Éducation Scientifique
+                                L&apos;Éducation Scientifique
                             </span>
                             <br />
                             <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#00F5D4] via-purple-500 to-pink-500">
@@ -258,7 +258,7 @@ export default function AboutPage() {
                             </span>
                         </h2>
                         <p className="text-xl text-gray-400 max-w-2xl mx-auto leading-relaxed">
-                            Découvrez comment SymLab transforme les défis de l'Afrique en opportunités d'avenir.
+                            Découvrez comment SymLab transforme les défis de l&apos;Afrique en opportunités d&apos;avenir.
                         </p>
                     </div>
 
@@ -339,7 +339,7 @@ export default function AboutPage() {
                         <div className="text-center mb-20">
                             <span className="text-8xl font-black text-white/5 block mb-4">03</span>
                             <h3 className="text-4xl md:text-5xl font-black text-white mb-6">Vision 2030</h3>
-                            <p className="text-xl text-gray-400">L'impact que nous construisons ensemble</p>
+                            <p className="text-xl text-gray-400">L&apos;impact que nous construisons ensemble</p>
                         </div>
 
                         <div className="space-y-8">
@@ -450,16 +450,16 @@ export default function AboutPage() {
                                 <h2 className="text-3xl font-bold mb-6 text-[#00F5D4]">Parcours</h2>
                                 <div className="space-y-4 text-gray-300 leading-relaxed">
                                     <p>
-                                        Physicien de formation avec une passion pour la data science et l'intelligence artificielle,
-                                        je me consacre à l'innovation pédagogique dans le domaine des STEM (Science, Technology, Engineering, Mathematics).
+                                        Physicien de formation avec une passion pour la data science et l&apos;intelligence artificielle,
+                                        je me consacre à l&apos;innovation pédagogique dans le domaine des STEM (Science, Technology, Engineering, Mathematics).
                                     </p>
                                     <p>
-                                        Fort d'une expérience en recherche et en enseignement, j'ai créé <span className="text-[#00F5D4] font-bold">SymLab</span>,
-                                        une plateforme interactive qui révolutionne l'apprentissage des sciences au Sénégal et en Afrique.
+                                        Fort d&apos;une expérience en recherche et en enseignement, j&apos;ai créé <span className="text-[#00F5D4] font-bold">SymLab</span>,
+                                        une plateforme interactive qui révolutionne l&apos;apprentissage des sciences au Sénégal et en Afrique.
                                     </p>
                                     <p>
                                         Ma vision : rendre les sciences accessibles, engageantes et pertinentes pour la nouvelle génération
-                                        de scientifiques et d'ingénieurs africains.
+                                        de scientifiques et d&apos;ingénieurs africains.
                                     </p>
                                 </div>
                             </div>
