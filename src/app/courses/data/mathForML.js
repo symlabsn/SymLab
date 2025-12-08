@@ -63,7 +63,7 @@ $$ w_{\text{new}} = w - \alpha \nabla J(w) $$
 ### Chain Rule (Théorème de dérivation des fonctions composées)
 C'est le moteur de la **Backpropagation**.
 Si $y = f(g(x))$, alors la dérivée est le produit des dérivées :
-$$ \frac{dy}{dx} = \frac{dy}{dg} \cdot \frac{dg}{dx} $$
+$$ \\frac{dy}{dx} = \\frac{dy}{dg} \cdot \\frac{dg}{dx} $$
 Cela permet de calculer l'impact de la première couche sur l'erreur finale, à travers toutes les couches intermédiaires.
             `,
             summary: [
@@ -93,7 +93,7 @@ La probabilité que A arrive **sachant que** B est arrivé.
 Exemple : Quelle est la probabilité qu'il pleuve (A) sachant qu'il y a des nuages (B) ?
 
 ### Théorème de Bayes
-$$ P(A|B) = \frac{P(B|A) \cdot P(A)}{P(B)} $$
+$$ P(A|B) = \\frac{P(B|A) \cdot P(A)}{P(B)} $$
 C'est la formule magique pour **mettre à jour ses croyances** avec de nouvelles preuves.
 - On a une croyance a priori (Prior).
 - On observe des données (Likelihood).
@@ -124,7 +124,7 @@ C'est la base du filtrage anti-spam (Naive Bayes) et de l'IA générative modern
             story: "Descendre une montagne dans le brouillard, c'est bien. Mais si vous avez un GPS qui se souvient du chemin parcouru et ajuste votre vitesse, vous irez plus vite et plus sûrement. C'est l'idée des optimiseurs modernes.",
             content: `
 ### Gradient Descent Classique
-On a vu la formule : $w = w - \\alpha \\nabla J(w)$.
+On a vu la formule : $w = w - \alpha \nabla J(w)$.
 Problème : On calcule le gradient sur **toutes** les données à chaque étape. C'est lent si on a des millions d'exemples.
 
 ### Stochastic Gradient Descent (SGD)
@@ -133,9 +133,9 @@ Au lieu de calculer le gradient sur tout le dataset, on le calcule sur **un seul
 - **Inconvénient** : Le chemin est bruité (zigzag).
 
 ### Momentum
-On ajoute une "mémoire" : si on descend dans la même direction depuis plusieurs étapes, on accélère.
-$$ v_t = \\beta v_{t-1} + \\nabla J(w) $$
-$$ w = w - \\alpha v_t $$
+On ajoute une \"mémoire\" : si on descend dans la même direction depuis plusieurs étapes, on accélère.
+$$ v_t = \beta v_{t-1} + \nabla J(w) $$
+$$ w = w - \alpha v_t $$
 C'est comme une boule qui roule : elle prend de la vitesse dans les descentes.
 
 ### Adam (Adaptive Moment Estimation)
@@ -148,7 +148,7 @@ C'est l'optimiseur par défaut dans la plupart des frameworks (TensorFlow, PyTor
             summary: [
                 "SGD est rapide mais bruité. Momentum lisse la trajectoire.",
                 "Adam est le meilleur compromis pour la plupart des problèmes.",
-                "Le choix du learning rate $\\alpha$ reste critique : trop grand = divergence, trop petit = lenteur."
+                "Le choix du learning rate $\alpha$ reste critique : trop grand = divergence, trop petit = lenteur."
             ],
             exercises: [
                 {
@@ -170,9 +170,9 @@ C'est l'optimiseur par défaut dans la plupart des frameworks (TensorFlow, PyTor
 ### Distributions Importantes
 **Distribution Normale (Gaussienne)** :
 La plus célèbre. En forme de cloche.
-$$ f(x) = \\frac{1}{\\sigma\\sqrt{2\\pi}} e^{-\\frac{1}{2}(\\frac{x-\\mu}{\\sigma})^2} $$
-- $\\mu$ : Moyenne (centre de la cloche).
-- $\\sigma$ : Écart-type (largeur de la cloche).
+$$ f(x) = \\frac{1}{\sigma\sqrt{2\pi}} e^{-\\frac{1}{2}(\\frac{x-\mu}{\sigma})^2} $$
+- $\mu$ : Moyenne (centre de la cloche).
+- $\sigma$ : Écart-type (largeur de la cloche).
 
 **Pourquoi c'est important en ML ?**
 - Beaucoup de phénomènes naturels suivent une Normale (taille, poids, erreurs de mesure).
@@ -227,11 +227,11 @@ C'est la distance entre deux distributions de probabilités.
 
 ### Étape 3 : Backward Pass (Backpropagation)
 On calcule le gradient de la Loss par rapport à chaque poids.
-**Chain Rule** : $\\frac{\\partial L}{\\partial W_1} = \\frac{\\partial L}{\\partial Z_2} \\cdot \\frac{\\partial Z_2}{\\partial A_1} \\cdot \\frac{\\partial A_1}{\\partial Z_1} \\cdot \\frac{\\partial Z_1}{\\partial W_1}$.
+**Chain Rule** : $\\frac{\\partial L}{\\partial W_1} = \\frac{\\partial L}{\\partial Z_2} \cdot \\frac{\\partial Z_2}{\\partial A_1} \cdot \\frac{\\partial A_1}{\\partial Z_1} \cdot \\frac{\\partial Z_1}{\\partial W_1}$.
 
 ### Étape 4 : Mise à Jour (Optimizer)
 On ajuste les poids avec Adam :
-$$ W_1 = W_1 - \\alpha \\cdot \\text{Adam}(\\nabla_{W_1} L) $$
+$$ W_1 = W_1 - \alpha \cdot \\text{Adam}(\nabla_{W_1} L) $$
 
 ### Étape 5 : Répéter
 On recommence avec un nouveau batch de données, des milliers de fois (epochs).
@@ -257,4 +257,3 @@ Après des millions d'itérations, les poids $W$ convergent vers des valeurs qui
         }
     ]
 };
-

@@ -1873,7 +1873,11 @@ display(P)`
         steps: [
             {
                 title: "1. Équations SIR",
-                explanation: "Système différentiel couplé.",
+                explanation: `Système différentiel couplé :
+$$\\frac{dS}{dt} = -\\beta S I$$
+$$\\frac{dI}{dt} = \\beta S I - \\gamma I$$
+$$\\frac{dR}{dt} = \\gamma I$$
+où $\\beta$ est le taux de transmission et $\\gamma$ le taux de guérison.`,
                 code: `from sympy import symbols, Function
 t, beta, gamma = symbols('t beta gamma')
 S, I, R = Function('S')(t), Function('I')(t), Function('R')(t)
