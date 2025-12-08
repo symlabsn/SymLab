@@ -185,7 +185,9 @@ function ProgrammingContent() {
                                                                 {lesson.keyPoints.map((point, i) => (
                                                                     <li key={i} className="text-gray-300 flex items-start gap-3">
                                                                         <span className="text-[#00F5D4] mt-1 flex-shrink-0">✓</span>
-                                                                        <span>{point}</span>
+                                                                        <div className="flex-1">
+                                                                            <RichText className="text-gray-300">{point}</RichText>
+                                                                        </div>
                                                                     </li>
                                                                 ))}
                                                             </ul>
