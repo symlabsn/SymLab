@@ -1,8 +1,11 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import RichText from '@/components/RichText';
+import Editor from 'react-simple-code-editor';
+import Prism from 'prismjs';
+import 'prismjs/components/prism-python';
 
 // Composant pour une cellule individuelle
 const NotebookCell = ({
@@ -15,15 +18,7 @@ const NotebookCell = ({
     isActive,
     setActive
 }) => {
-    const textareaRef = useRef(null);
-
-    // Ajuster la hauteur du textarea automatiquement
-    useEffect(() => {
-        if (textareaRef.current) {
-            textareaRef.current.style.height = 'auto';
-            textareaRef.current.style.height = textareaRef.current.scrollHeight + 'px';
-        }
-    }, [cell.content]);
+    // Editor gère sa propre ref interne et hauteur
 
     return (
         <div
@@ -74,89 +69,134 @@ const NotebookCell = ({
                                     <RichText>{cell.content || '<span class="text-gray-600 italic">Double-cliquez pour ajouter du texte...</span>'}</RichText>
                                 </div>
                             ) : (
-                                <textarea
-                                    ref={textareaRef}
-                                    value={cell.content}
-                                    onChange={(e) => updateCell(cell.id, { content: e.target.value })}
-                                    className={`w-full bg-transparent focus:outline-none resize-none font-mono text-sm leading-relaxed ${cell.type === 'code' ? 'text-[#e0e0e0]' : 'text-gray-300 font-sans'
-                                        }`}
-                                    placeholder={cell.type === 'code' ? 'print("Hello World")' : '# Titre...'}
-                                    spellCheck="false"
-                                    autoFocus={cell.isEditing}
-                                    onBlur={() => cell.type === 'markdown' && updateCell(cell.id, { isEditing: false })}
-                                    onKeyDown={(e) => {
-                                        // Exécution : Shift + Enter
-                                        if (e.key === 'Enter' && e.shiftKey) {
-                                            e.preventDefault();
-                                            runCell(cell.id);
-                                            return;
+                                <div className="relative w-full font-mono text-sm leading-relaxed bg-[#0F1115] rounded overflow-hidden">
+                                    <style jsx global>{`
+                                        /* Prism SymLab Theme */
+                                        code[class*="language-"], pre[class*="language-"] {
+                                            color: #e0e0e0;
+                                            text-shadow: none;
+                                            font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+                                            line-height: 1.5;
+                                            direction: ltr;
+                                            text-align: left;
+                                            white-space: pre;
+                                            word-spacing: normal;
+                                            word-break: normal;
+                                            tab-size: 4;
+                                            hyphens: none;
                                         }
+                                        .token.comment, .token.prolog, .token.doctype, .token.cdata { color: #6272a4; font-style: italic; }
+                                        .token.punctuation { color: #f8f8f2; }
+                                        .token.namespace { opacity: .7; }
+                                        .token.property, .token.tag, .token.constant, .token.symbol, .token.deleted { color: #ff79c6; }
+                                        .token.boolean, .token.number { color: #bd93f9; }
+                                        .token.selector, .token.attr-name, .token.string, .token.char, .token.builtin, .token.inserted { color: #f1fa8c; }
+                                        .token.operator, .token.entity, .token.url, .token.variable { color: #ff79c6; }
+                                        .token.atrule, .token.attr-value, .token.function, .token.class-name { color: #00F5D4; font-weight: bold; }
+                                        .token.keyword { color: #ff79c6; font-weight: bold; }
+                                        .token.regex, .token.important { color: #f1fa8c; }
+                                        
+                                        /* Editor Overrides */
+                                        .editor-container textarea { outline: none !important; }
+                                    `}</style>
+                                    <Editor
+                                        value={cell.content || ''}
+                                        onValueChange={(code) => updateCell(cell.id, { content: code })}
+                                        highlight={code => {
+                                            if (Prism.languages.python) {
+                                                return Prism.highlight(code, Prism.languages.python, 'python');
+                                            }
+                                            return code;
+                                        }}
+                                        padding={10}
+                                        className="font-mono text-sm editor-container"
+                                        textareaClassName="focus:outline-none"
+                                        style={{
+                                            fontFamily: '"Fira code", "Fira Mono", monospace',
+                                            fontSize: 14,
+                                            backgroundColor: 'transparent',
+                                            minHeight: '80px',
+                                        }}
+                                        onKeyDown={(e) => {
+                                            const textarea = e.target;
 
-                                        // Indentation : Tab
-                                        if (e.key === 'Tab') {
-                                            e.preventDefault();
-                                            const start = e.target.selectionStart;
-                                            const end = e.target.selectionEnd;
-                                            const value = e.target.value;
-                                            const newValue = value.substring(0, start) + "    " + value.substring(end);
-
-                                            updateCell(cell.id, { content: newValue });
-
-                                            // Restaurer curseur
-                                            setTimeout(() => {
-                                                if (textareaRef.current) {
-                                                    textareaRef.current.selectionStart = start + 4;
-                                                    textareaRef.current.selectionEnd = start + 4;
-                                                }
-                                            }, 0);
-                                            return;
-                                        }
-
-                                        // Auto-close : (, [, {, ", '
-                                        const pairs = { '(': ')', '[': ']', '{': '}', '"': '"', "'": "'" };
-                                        if (pairs[e.key]) {
-                                            e.preventDefault();
-                                            const start = e.target.selectionStart;
-                                            const end = e.target.selectionEnd;
-                                            const value = e.target.value;
-                                            const char = e.key;
-                                            const closeChar = pairs[char];
-
-                                            const newValue = value.substring(0, start) + char + closeChar + value.substring(end);
-                                            updateCell(cell.id, { content: newValue });
-
-                                            setTimeout(() => {
-                                                if (textareaRef.current) {
-                                                    textareaRef.current.selectionStart = start + 1;
-                                                    textareaRef.current.selectionEnd = start + 1;
-                                                }
-                                            }, 0);
-                                            return;
-                                        }
-
-                                        // Backspace sur une paire vide
-                                        if (e.key === 'Backspace') {
-                                            const start = e.target.selectionStart;
-                                            const value = e.target.value;
-                                            const prevChar = value[start - 1];
-                                            const nextChar = value[start];
-                                            const pairMap = { '(': ')', '[': ']', '{': '}', '"': '"', "'": "'" };
-
-                                            if (prevChar && pairMap[prevChar] === nextChar) {
+                                            // Exécution : Shift + Enter
+                                            if (e.key === 'Enter' && e.shiftKey) {
                                                 e.preventDefault();
-                                                const newValue = value.substring(0, start - 1) + value.substring(start + 1);
+                                                runCell(cell.id);
+                                                return;
+                                            }
+
+                                            // Indentation : Tab
+                                            if (e.key === 'Tab') {
+                                                e.preventDefault();
+                                                const start = textarea.selectionStart;
+                                                const end = textarea.selectionEnd;
+                                                const value = textarea.value;
+                                                const newValue = value.substring(0, start) + "    " + value.substring(end);
                                                 updateCell(cell.id, { content: newValue });
                                                 setTimeout(() => {
-                                                    if (textareaRef.current) {
-                                                        textareaRef.current.selectionStart = start - 1;
-                                                        textareaRef.current.selectionEnd = start - 1;
-                                                    }
+                                                    textarea.selectionStart = start + 4;
+                                                    textarea.selectionEnd = start + 4;
                                                 }, 0);
                                                 return;
                                             }
-                                        }
-                                    }}
-                                />
+
+                                            // Auto-close : (, [, {, ", '
+                                            const pairs = { '(': ')', '[': ']', '{': '}', '"': '"', "'": "'" };
+                                            if (pairs[e.key]) {
+                                                e.preventDefault();
+                                                const start = textarea.selectionStart;
+                                                const end = textarea.selectionEnd;
+                                                const value = textarea.value;
+                                                const char = e.key;
+                                                const closeChar = pairs[char];
+                                                const newValue = value.substring(0, start) + char + closeChar + value.substring(end);
+                                                updateCell(cell.id, { content: newValue });
+                                                setTimeout(() => {
+                                                    textarea.selectionStart = start + 1;
+                                                    textarea.selectionEnd = start + 1;
+                                                }, 0);
+                                                return;
+                                            }
+
+                                            // Skip closing char
+                                            const closeChars = [')', ']', '}', '"', "'"];
+                                            if (closeChars.includes(e.key)) {
+                                                const start = textarea.selectionStart;
+                                                const value = textarea.value;
+                                                if (value[start] === e.key) {
+                                                    e.preventDefault();
+                                                    setTimeout(() => {
+                                                        textarea.selectionStart = start + 1;
+                                                        textarea.selectionEnd = start + 1;
+                                                    }, 0);
+                                                    return;
+                                                }
+                                            }
+
+                                            // Backspace sur une paire vide
+                                            if (e.key === 'Backspace') {
+                                                const start = textarea.selectionStart;
+                                                const value = textarea.value;
+                                                const prevChar = value[start - 1];
+                                                const nextChar = value[start];
+                                                const pairMap = { '(': ')', '[': ']', '{': '}', '"': '"', "'": "'" };
+
+                                                if (prevChar && pairMap[prevChar] === nextChar) {
+                                                    e.preventDefault();
+                                                    const newValue = value.substring(0, start - 1) + value.substring(start + 1);
+                                                    updateCell(cell.id, { content: newValue });
+                                                    setTimeout(() => {
+                                                        textarea.selectionStart = start - 1;
+                                                        textarea.selectionEnd = start - 1;
+                                                    }, 0);
+                                                    return;
+                                                }
+                                            }
+                                        }}
+                                    />
+                                </div>
                             )}
                         </div>
                     </div>
@@ -181,8 +221,6 @@ const NotebookCell = ({
                                 {cell.output.error ? 'Error' : `[${cell.executionCount || '?'}]`}
                             </div>
                             <div className={`flex-1 overflow-x-auto min-h-[1.5rem] ${cell.output.error ? 'bg-red-500/10 border-l-2 border-red-500 p-3 rounded-r text-red-400' : 'text-gray-200'}`}>
-
-                                {/* Affichage des tous les contenus s'ils sont présents */}
 
                                 {/* 1. Erreur */}
                                 {cell.output.error && (
@@ -209,8 +247,43 @@ const NotebookCell = ({
                                     </div>
                                 )}
 
+                                {/* 5. HTML (Pandas) */}
+                                {cell.output.html && (
+                                    <div className="overflow-x-auto pandas-output my-2">
+                                        <style jsx global>{`
+                                            .pandas-output table.dataframe {
+                                                color: #e0e0e0;
+                                                border-collapse: collapse;
+                                                border: none;
+                                                font-size: 0.85rem;
+                                                font-family: monospace;
+                                                margin-bottom: 0.5rem;
+                                            }
+                                            .pandas-output table.dataframe th {
+                                                font-weight: bold;
+                                                background: #1A1D24;
+                                                color: #00F5D4;
+                                                border-bottom: 1px solid rgba(0, 245, 212, 0.3);
+                                                padding: 0.5rem 1rem;
+                                                text-align: left;
+                                            }
+                                            .pandas-output table.dataframe td {
+                                                padding: 0.4rem 1rem;
+                                                border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+                                            }
+                                            .pandas-output table.dataframe tr:hover td {
+                                                background: rgba(255, 255, 255, 0.05);
+                                            }
+                                            .pandas-output table.dataframe tr:last-child td {
+                                                border-bottom: none;
+                                            }
+                                        `}</style>
+                                        <div dangerouslySetInnerHTML={{ __html: cell.output.html }} />
+                                    </div>
+                                )}
+
                                 {/* Indicateur si vide */}
-                                {!cell.output.text && !cell.output.image && !cell.output.latex && !cell.output.error && (
+                                {!cell.output.text && !cell.output.image && !cell.output.latex && !cell.output.html && !cell.output.error && (
                                     <span className="text-gray-500 italic text-xs">✓ Exécuté (aucune sortie)</span>
                                 )}
                             </div>
@@ -416,6 +489,12 @@ if result is not None:
     elif hasattr(result, 'latex'):
         latex_str = result.latex()
 
+# Capture HTML (Pandas)
+html_str = None
+if result is not None:
+    if hasattr(result, '_repr_html_'):
+        html_str = result._repr_html_()
+
 stdout_val = sys.stdout.getvalue()
 stderr_val = sys.stderr.getvalue()
 
@@ -424,7 +503,8 @@ json.dumps({
     "stderr": stderr_val,
     "result": str(result) if result is not None else None,
     "image": img_str,
-    "latex": latex_str
+    "latex": latex_str,
+    "html": html_str
 })
 `;
             const responseStr = await pyodide.runPythonAsync(pythonCode);
@@ -443,18 +523,17 @@ json.dumps({
 
             // 2. Texte
             let text = response.stdout || '';
-            if (response.result && response.result !== 'None' && !response.image && !response.latex) {
+            if (response.result && response.result !== 'None' && !response.image && !response.latex && !response.html) {
                 text += (text ? '\n' : '') + `[Out]: ${response.result}`;
             }
             if (!out.error && text.trim()) {
                 out.text = (out.text || '') + text;
             }
 
-            // 3. LaTeX
+            // 3. Rich Outputs
             if (response.latex) out.latex = response.latex;
-
-            // 4. Image
             if (response.image) out.image = response.image;
+            if (response.html) out.html = response.html;
 
             // Si aucune sortie n'est détectée, on met null pour cacher la zone
             const finalOutput = Object.keys(out).length > 0 ? out : null;
