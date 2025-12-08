@@ -160,9 +160,10 @@ function CoursesContent() {
         const courseId = searchParams.get('course');
         if (courseId) {
             const course = courses.find(c => c.id === courseId);
-            if (course) {
+            if (course && course.id !== selectedCourse?.id) {
                 // Determine layout based on course type
                 if (structuredCourses[course.id]) {
+                    // eslint-disable-next-line
                     setActiveChapter(structuredCourses[course.id].chapters[0]);
                     setShowExercises(false);
                     setQuizAnswers({});
@@ -175,7 +176,7 @@ function CoursesContent() {
                 setActiveSubject(course.subject);
             }
         }
-    }, [searchParams]);
+    }, [searchParams, selectedCourse]);
 
     // ReactMarkdown avec rehype-katex gère maintenant le rendu LaTeX automatiquement
 
