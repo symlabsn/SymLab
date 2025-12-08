@@ -74,6 +74,7 @@ const NotebookCell = ({
                                     <RichText>{cell.content || '<span class="text-gray-600 italic">Double-cliquez pour ajouter du texte...</span>'}</RichText>
                                 </div>
                             ) : (
+
                                 <textarea
                                     ref={textareaRef}
                                     value={cell.content}
@@ -85,9 +86,93 @@ const NotebookCell = ({
                                     autoFocus={cell.isEditing}
                                     onBlur={() => cell.type === 'markdown' && updateCell(cell.id, { isEditing: false })}
                                     onKeyDown={(e) => {
+                                        // Exécution : Shift + Enter
                                         if (e.key === 'Enter' && e.shiftKey) {
                                             e.preventDefault();
                                             runCell(cell.id);
+                                            return;
+                                        }
+
+                                        // Indentation : Tab
+                                        if (e.key === 'Tab') {
+                                            e.preventDefault();
+                                            const start = e.target.selectionStart;
+                                            const end = e.target.selectionEnd;
+                                            const value = e.target.value;
+                                            const newValue = value.substring(0, start) + "    " + value.substring(end);
+
+                                            updateCell(cell.id, { content: newValue });
+
+                                            // Restaurer curseur
+                                            setTimeout(() => {
+                                                if (textareaRef.current) {
+                                                    textareaRef.current.selectionStart = start + 4;
+                                                    textareaRef.current.selectionEnd = start + 4;
+                                                }
+                                            }, 0);
+                                            return;
+                                        }
+
+                                        // Auto-close : (, [, {, ", '
+                                        const pairs = { '(': ')', '[': ']', '{': '}', '"': '"', "'": "'" };
+                                        if (pairs[e.key]) {
+                                            e.preventDefault();
+                                            const start = e.target.selectionStart;
+                                            const end = e.target.selectionEnd;
+                                            const value = e.target.value;
+                                            const char = e.key;
+                                            const closeChar = pairs[char];
+
+                                            const newValue = value.substring(0, start) + char + closeChar + value.substring(end);
+                                            updateCell(cell.id, { content: newValue });
+
+                                            setTimeout(() => {
+                                                if (textareaRef.current) {
+                                                    textareaRef.current.selectionStart = start + 1;
+                                                    textareaRef.current.selectionEnd = start + 1;
+                                                }
+                                            }, 0);
+                                            return;
+                                        }
+
+                                        // Skip closing char : si on tape ) et qu'on est devant ), on avance juste
+                                        const closeChars = [')', ']', '}', '"', "'"];
+                                        if (closeChars.includes(e.key)) {
+                                            const start = e.target.selectionStart;
+                                            const value = e.target.value;
+                                            if (value[start] === e.key) {
+                                                e.preventDefault();
+                                                setTimeout(() => {
+                                                    if (textareaRef.current) {
+                                                        textareaRef.current.selectionStart = start + 1;
+                                                        textareaRef.current.selectionEnd = start + 1;
+                                                    }
+                                                }, 0);
+                                                return;
+                                            }
+                                        }
+
+                                        // Backspace sur une paire vide : effacer les deux ()
+                                        if (e.key === 'Backspace') {
+                                            const start = e.target.selectionStart;
+                                            const value = e.target.value;
+                                            // Chercher paire ouvrante avant et fermante après
+                                            const prevChar = value[start - 1];
+                                            const nextChar = value[start];
+                                            const pairMap = { '(': ')', '[': ']', '{': '}', '"': '"', "'": "'" };
+
+                                            if (prevChar && pairMap[prevChar] === nextChar) {
+                                                e.preventDefault();
+                                                const newValue = value.substring(0, start - 1) + value.substring(start + 1);
+                                                updateCell(cell.id, { content: newValue });
+                                                setTimeout(() => {
+                                                    if (textareaRef.current) {
+                                                        textareaRef.current.selectionStart = start - 1;
+                                                        textareaRef.current.selectionEnd = start - 1;
+                                                    }
+                                                }, 0);
+                                                return;
+                                            }
                                         }
                                     }}
                                 />
@@ -96,9 +181,9 @@ const NotebookCell = ({
                     </div>
 
                     {/* Barre d'actions flottante (visible si actif ou survol) */}
-                    <div className={`absolute top-1 right-1 flex gap-0.5 bg-[#1A1D24] rounded-md border border-white/10 shadow-xl transition-all duration-200 ${isActive ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-2 group-hover:opacity-100 group-hover:translate-y-0'
+                    <div className={`absolute top-1 right-1 flex gap-0.5 bg-[#1A1D24] rounded-md border border-white/10 shadow-xl transition-all duration-200 z-20 ${isActive ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-2 group-hover:opacity-100 group-hover:translate-y-0'
                         }`}>
-                        <button onClick={() => runCell(cell.id)} className="p-1.5 hover:bg-white/10 text-[#00F5D4]" title="Exécuter">▶</button>
+                        <button onClick={() => runCell(cell.id)} className="p-1.5 hover:bg-white/10 text-[#00F5D4]" title="Exécuter (Shift+Enter)">▶</button>
                         <div className="w-px bg-white/10 my-1" />
                         <button onClick={() => moveCell(index, -1)} className="p-1.5 hover:bg-white/10 text-gray-400 hover:text-white">↑</button>
                         <button onClick={() => moveCell(index, 1)} className="p-1.5 hover:bg-white/10 text-gray-400 hover:text-white">↓</button>
@@ -109,14 +194,14 @@ const NotebookCell = ({
 
                 {/* Zone de Sortie (Output) */}
                 {cell.output && (
-                    <div className="flex gap-2 animate-in fade-in slide-in-from-top-2 duration-300">
+                    <div className="flex gap-2 animate-in fade-in slide-in-from-top-2 duration-300 mt-2 border-t border-white/5 pt-2">
                         <div className="w-16 flex-shrink-0 text-right pr-3 font-mono text-xs text-red-400/50 select-none pt-1">
-                            {cell.output.type !== 'error' ? `[${cell.executionCount}]:` : ''}
+                            {cell.output.type !== 'error' ? `[${cell.executionCount || '?'}]` : ''}
                         </div>
-                        <div className={`flex-1 overflow-x-auto ${cell.output.type === 'error' ? 'bg-red-500/10 border-l-2 border-red-500 p-3 rounded-r' : ''
+                        <div className={`flex-1 overflow-x-auto min-h-[1.5rem] ${cell.output.type === 'error' ? 'bg-red-500/10 border-l-2 border-red-500 p-3 rounded-r text-red-400' : 'text-gray-200'
                             }`}>
                             {cell.output.type === 'text' && (
-                                <pre className="font-mono text-sm text-gray-300 whitespace-pre-wrap">{cell.output.data}</pre>
+                                <pre className="font-mono text-sm whitespace-pre-wrap">{cell.output.data || <span className="text-gray-500 italic">No output</span>}</pre>
                             )}
                             {cell.output.type === 'latex' && (
                                 <div className="p-2 bg-white/5 rounded overflow-x-auto">
@@ -124,10 +209,11 @@ const NotebookCell = ({
                                 </div>
                             )}
                             {cell.output.type === 'error' && (
-                                <pre className="font-mono text-sm text-red-400 whitespace-pre-wrap">{cell.output.data}</pre>
+                                <pre className="font-mono text-sm whitespace-pre-wrap">{cell.output.data}</pre>
                             )}
                             {cell.output.type === 'image' && (
                                 <div className="bg-white p-2 rounded inline-block">
+                                    {/* eslint-disable-next-line @next/next/no-img-element */}
                                     <img src={cell.output.data} alt="Output" className="max-w-full h-auto" />
                                 </div>
                             )}
