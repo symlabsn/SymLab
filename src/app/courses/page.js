@@ -447,20 +447,21 @@ function CoursesContent() {
                                                     )}
 
                                                     {/* Main Content */}
-                                                    <ReactMarkdown
-                                                        className="prose prose-invert prose-lg max-w-none 
+                                                    <div className="prose prose-invert prose-lg max-w-none 
                                                         prose-headings:text-gray-100 prose-headings:font-bold prose-headings:tracking-tight
                                                         prose-p:text-gray-300 prose-p:leading-relaxed
                                                         prose-strong:text-white prose-strong:font-black
                                                         prose-ul:text-gray-300 prose-li:marker:text-blue-500
                                                         prose-code:text-[#00F5D4] prose-code:bg-white/5 prose-code:px-1 prose-code:py-0.5 prose-code:rounded
                                                         prose-pre:bg-black/50 prose-pre:border prose-pre:border-white/10
-                                                        prose-img:rounded-xl prose-img:border prose-img:border-white/10 prose-img:mx-auto prose-img:block prose-img:shadow-lg"
-                                                        remarkPlugins={[remarkMath]}
-                                                        rehypePlugins={[rehypeKatex]}
-                                                    >
-                                                        {activeChapter?.content || ''}
-                                                    </ReactMarkdown></div>
+                                                        prose-img:rounded-xl prose-img:border prose-img:border-white/10 prose-img:mx-auto prose-img:block prose-img:shadow-lg">
+                                                        <ReactMarkdown
+                                                            remarkPlugins={[remarkMath]}
+                                                            rehypePlugins={[rehypeKatex]}
+                                                        >
+                                                            {activeChapter?.content || ''}
+                                                        </ReactMarkdown>
+                                                    </div>
 
                                                     {/* Key Points / Summary */}
                                                     {activeChapter?.summary && (
