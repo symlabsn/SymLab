@@ -11,23 +11,21 @@ export const math6eData = {
             title: '1. Nombres Décimaux Arithmétiques',
             story: "Il était une fois, un roi qui voulait compter les étoiles. Il commença par 1, 2, 3... mais certaines étoiles brillaient moins fort, comme des moitiés d'étoiles. Il demanda à son savant d'inventer des nombres plus précis. Le savant inventa la virgule, une petite barrière magique qui permet de compter les miettes de pain aussi précisément que les pains entiers.",
             content: `
-                <h3>1. Introduction : L'Univers des Nombres</h3>
-                <p>Les nombres entiers (1, 2, 3...) sont parfaits pour compter des objets entiers. Mais pour la précision, nous avons besoin des <strong>nombres décimaux</strong>.</p>
-                <div class="analogy">
-                    <strong>🌍 Analogie : Le Marché</strong><br>
-                    Les billets sont les nombres entiers (1000F, 2000F). Les pièces de monnaie sont les nombres décimaux (partie de l'unité).
-                </div>
+### 1. Introduction : L'Univers des Nombres
+Les nombres entiers (1, 2, 3...) sont parfaits pour compter des objets entiers. Mais pour la précision, nous avons besoin des **nombres décimaux**.
 
-                <h3>2. La Virgule et les Rangs</h3>
-                <p>Dans <strong>12,345</strong>, la virgule sépare deux mondes.</p>
-                <ul>
-                    <li>1 : Dizaines</li>
-                    <li>2 : Unités</li>
-                    <li><strong>,</strong> (Frontière)</li>
-                    <li>3 : Dixièmes (1/10)</li>
-                    <li>4 : Centièmes (1/100)</li>
-                    <li>5 : Millièmes (1/1000)</li>
-                </ul>
+> **🌍 Analogie : Le Marché**  
+> Les billets sont les nombres entiers (1000F, 2000F). Les pièces de monnaie sont les nombres décimaux (partie de l'unité).
+
+### 2. La Virgule et les Rangs
+Dans **12,345**, la virgule sépare deux mondes.
+
+- 1 : Dizaines
+- 2 : Unités
+- **,** (Frontière)
+- 3 : Dixièmes (1/10)
+- 4 : Centièmes (1/100)
+- 5 : Millièmes (1/1000)
             `,
             summary: [
                 "Un nombre décimal a une partie entière et une partie décimale.",
@@ -65,12 +63,11 @@ export const math6eData = {
             title: '2. Addition de Nombres Décimaux',
             story: "Imaginez des soldats de tailles différentes qui doivent défiler. Pour que le défilé soit beau, ils doivent s'aligner par les épaules. En mathématiques, l'épaule des nombres, c'est la virgule ! Si les virgules ne sont pas alignées, le calcul trébuche.",
             content: `
-                <h3>1. La Règle d'Or : L'Alignement</h3>
-                <p>Pour additionner, on superpose les virgules verticalement.</p>
-                <div class="analogy">
-                    <strong>🏗 Analogie : L'Immeuble</strong><br>
-                    Les unités habitent au rez-de-chaussée. Les dixièmes au 1er sous-sol. Les dizaines au 1er étage. On n'additionne pas un étage avec un sous-sol !
-                </div>
+### 1. La Règle d'Or : L'Alignement
+Pour additionner, on superpose les virgules verticalement.
+
+> **🏗 Analogie : L'Immeuble**  
+> Les unités habitent au rez-de-chaussée. Les dixièmes au 1er sous-sol. Les dizaines au 1er étage. On n'additionne pas un étage avec un sous-sol !
             `,
             summary: [
                 "Alignez toujours les virgules verticalement.",
@@ -108,12 +105,11 @@ export const math6eData = {
             title: '3. Soustraction de Nombres Décimaux',
             story: "Un jour, un marchand devait rendre la monnaie sur un billet de 1000 pour un achat de 350,5. Il réalisa qu'il ne pouvait pas enlever 5 centimes s'il n'avait rien dans sa caisse de centimes. Il dut 'casser' un billet (une unité) pour avoir des pièces. C'est le secret de la retenue !",
             content: `
-                <h3>1. Le Principe</h3>
-                <p>Comme l'addition, on aligne les virgules. Mais attention : l'ordre compte !</p>
-                <div class="analogy">
-                    <strong>🛒 Analogie : Rendre la Monnaie</strong><br>
-                    10 - 2,5 n'est pas 8,5. C'est 10,0 - 2,5. Pensez argent : 10€ moins 2,50€ fait 7,50€.
-                </div>
+### 1. Le Principe
+Comme l'addition, on aligne les virgules. Mais attention : l'ordre compte !
+
+> **🛒 Analogie : Rendre la Monnaie**  
+> 10 - 2,5 n'est pas 8,5. C'est 10,0 - 2,5. Pensez argent : 10€ moins 2,50€ fait 7,50€.
             `,
             summary: [
                 "Le grand nombre est toujours en haut.",
@@ -150,16 +146,13 @@ export const math6eData = {
             title: '4. Rangement des Décimaux',
             story: "Deux frères se disputaient pour savoir qui avait le plus gros morceau de gâteau. L'un avait 0,5 du gâteau, l'autre 0,45. Le deuxième disait '45 est plus grand que 5, donc j'ai gagné !'. Le sage leur expliqua que pour comparer, il faut regarder le poids réel : 0,50 est plus lourd que 0,45.",
             content: `
-                <h3>1. Comparaison</h3>
-                <ol>
-                    <li>D'abord la partie entière.</li>
-                    <li>Ensuite les dixièmes, puis les centièmes...</li>
-                </ol>
-                <div class="analogy">
-                    <strong>⚖️ Analogie : La Balance</strong><br>
-                    Attention au piège de la longueur ! 4,1234 est PLUS PETIT que 4,5.
-                    Car 1 dixième < 5 dixièmes.
-                </div>
+### 1. Comparaison
+1. D'abord la partie entière.
+2. Ensuite les dixièmes, puis les centièmes...
+
+> **⚖️ Analogie : La Balance**  
+> Attention au piège de la longueur ! 4,1234 est PLUS PETIT que 4,5.
+> Car 1 dixième < 5 dixièmes.
             `,
             summary: [
                 "Ne comparez pas le nombre de chiffres, mais la valeur des rangs.",
@@ -190,12 +183,11 @@ export const math6eData = {
             title: '5. Multiplication',
             story: "Multiplier, c'est comme utiliser une loupe. Parfois la loupe grossit (x2), parfois elle rétrécit (x0,5). La virgule se déplace comme si elle dansait, sautant autant de pas qu'il y a de chiffres derrière elle.",
             content: `
-                <h3>1. La Méthode</h3>
-                <p>On multiplie sans s'occuper des virgules. À la fin, on compte le total de chiffres après la virgule dans les facteurs et on le reporte au résultat.</p>
-                <div class="analogy">
-                    <strong>🔍 Analogie : Le Zoom</strong><br>
-                    2 chiffres après la virgule ici + 1 chiffre là = 3 chiffres après la virgule dans le résultat.
-                </div>
+### 1. La Méthode
+On multiplie sans s'occuper des virgules. À la fin, on compte le total de chiffres après la virgule dans les facteurs et on le reporte au résultat.
+
+> **🔍 Analogie : Le Zoom**  
+> 2 chiffres après la virgule ici + 1 chiffre là = 3 chiffres après la virgule dans le résultat.
             `,
             summary: [
                 "Ignorez les virgules pendant le calcul.",
@@ -226,12 +218,11 @@ export const math6eData = {
             title: '6. Division Décimale',
             story: "Partager un gâteau en 3, c'est facile. Mais partager 12,5 litres d'eau en 4 bouteilles ? Il faut être précis. La division décimale permet de ne rien gaspiller, même pas une goutte (le reste est nul ou très petit).",
             content: `
-                <h3>1. Division d'un décimal</h3>
-                <p>Quand on abaisse le premier chiffre après la virgule, on met une virgule au quotient.</p>
-                <div class="analogy">
-                    <strong>💧 Analogie : Le Partage Équitable</strong><br>
-                    Pour partager 10€ en 4, on donne 2€ chacun, il reste 2€. On change ces 2€ en 200 centimes, et on donne 50 centimes. Total 2,50€.
-                </div>
+### 1. Division d'un décimal
+Quand on abaisse le premier chiffre après la virgule, on met une virgule au quotient.
+
+> **💧 Analogie : Le Partage Équitable**  
+> Pour partager 10€ en 4, on donne 2€ chacun, il reste 2€. On change ces 2€ en 200 centimes, et on donne 50 centimes. Total 2,50€.
             `,
             summary: [
                 "Dès qu'on franchit la virgule au dividende, on la met au quotient.",
@@ -261,13 +252,12 @@ export const math6eData = {
             title: '7. Organisation des Calculs',
             story: "Dans la ville des Mathématiques, il y a un code de la route strict. Les Parenthèses sont des ambulances prioritaires. Les Multiplications sont des camions rapides. Les Additions sont des piétons prudents. Si on ne respecte pas les priorités, c'est l'accident !",
             content: `
-                <h3>1. PEMDAS</h3>
-                <p>Ordre de priorité : Parenthèses > Exposants > Multiplications/Divisions > Additions/Soustractions.</p>
-                <div class="analogy">
-                    <strong>🚦 Analogie : La Priorité à Droite</strong><br>
-                    2 + 3 x 4. Le camion (x) passe avant le piéton (+).
-                    Donc 2 + 12 = 14.
-                </div>
+### 1. PEMDAS
+Ordre de priorité : Parenthèses > Exposants > Multiplications/Divisions > Additions/Soustractions.
+
+> **🚦 Analogie : La Priorité à Droite**  
+> 2 + 3 x 4. Le camion (x) passe avant le piéton (+).
+> Donc 2 + 12 = 14.
             `,
             summary: [
                 "Parenthèses d'abord !",
@@ -298,12 +288,11 @@ export const math6eData = {
             title: '8. Proportionnalité',
             story: "Un architecte dessine une maison minuscule. Si la porte mesure 2cm sur le papier et 2m en réalité, alors la fenêtre de 1cm doit mesurer 1m. Tout grandit ou rétrécit de la même façon. C'est la magie de la proportionnalité.",
             content: `
-                <h3>1. Le Coefficient</h3>
-                <p>On passe d'une ligne à l'autre en multipliant par le même nombre.</p>
-                <div class="analogy">
-                    <strong>🗺 Analogie : L'Échelle</strong><br>
-                    Sur une carte, 1cm = 1km. Si je marche 5cm sur la carte, je marche 5km en vrai.
-                </div>
+### 1. Le Coefficient
+On passe d'une ligne à l'autre en multipliant par le même nombre.
+
+> **🗺 Analogie : L'Échelle**  
+> Sur une carte, 1cm = 1km. Si je marche 5cm sur la carte, je marche 5km en vrai.
             `,
             summary: [
                 "Tableau de proportionnalité = mêmes règles pour toutes les colonnes.",
@@ -326,12 +315,11 @@ export const math6eData = {
             title: '9. Nombres Décimaux Relatifs',
             story: "Il existe un monde miroir sous le sol. L'étage 0 sépare le ciel (positif) du sous-sol (négatif). Plus on descend, plus le chiffre grandit, mais plus on est 'bas' et 'froid'. -10 est beaucoup plus froid que -1 !",
             content: `
-                <h3>1. Positifs et Négatifs</h3>
-                <p>Le signe (-) indique qu'on est en dessous de zéro.</p>
-                <div class="analogy">
-                    <strong>🌡 Analogie : Le Thermomètre</strong><br>
-                    Il fait -5°. La température monte de 2°. Il fait -3°.
-                </div>
+### 1. Positifs et Négatifs
+Le signe (-) indique qu'on est en dessous de zéro.
+
+> **🌡 Analogie : Le Thermomètre**  
+> Il fait -5°. La température monte de 2°. Il fait -3°.
             `,
             summary: [
                 "0 est à la fois positif et négatif.",
@@ -361,13 +349,12 @@ export const math6eData = {
             title: '10. Repérage',
             story: "Pour trouver un trésor sur une carte, il ne suffit pas de dire 'il est là'. Il faut donner sa latitude et sa longitude. C'est l'adresse mathématique exacte du point.",
             content: `
-                <h3>1. Coordonnées (x ; y)</h3>
-                <p>Abscisse (horizontal) d'abord, Ordonnée (vertical) ensuite.</p>
-                <div class="analogy">
-                    <strong>🏢 Analogie : L'Ascenseur</strong><br>
-                    Pour aller chez quelqu'un : je marche dans le hall (Abscisse) PUIS je prends l'ascenseur (Ordonnée).
-                    (3 ; 2) : J'avance de 3, je monte de 2.
-                </div>
+### 1. Coordonnées (x ; y)
+Abscisse (horizontal) d'abord, Ordonnée (vertical) ensuite.
+
+> **🏢 Analogie : L'Ascenseur**  
+> Pour aller chez quelqu'un : je marche dans le hall (Abscisse) PUIS je prends l'ascenseur (Ordonnée).
+> (3 ; 2) : J'avance de 3, je monte de 2.
             `,
             summary: [
                 "Abscisse = Axe horizontal (x).",
@@ -396,17 +383,14 @@ export const math6eData = {
             image: '/courses/images/math6e/geo_basics.png',
             story: "Au commencement, il n'y avait rien. Puis apparut le Point, une poussière d'étoile. Deux points se donnèrent la main pour former un Segment. Puis ils s'élancèrent à l'infini pour devenir une Droite. La géométrie était née !",
             content: `
-                <h3>1. Les Fondations</h3>
-                <ul>
-                    <li><strong>Point (x)</strong> : Une position précise.</li>
-                    <li><strong>Droite (AB)</strong> : Infinie, passe par A et B.</li>
-                    <li><strong>Segment [AB]</strong> : Fini, commence à A et finit à B.</li>
-                    <li><strong>Demi-droite [Ax)</strong> : Commence à A, infinie vers x.</li>
-                </ul>
-                <div class="analogy">
-                    <strong>✨ Analogie : Le Laser</strong><br>
-                    Le stylo laser est l'origine. Le rayon qui part est une demi-droite. Le tableau où il s'arrête est un point.
-                </div>
+### 1. Les Fondations
+- **Point (x)** : Une position précise.
+- **Droite (AB)** : Infinie, passe par A et B.
+- **Segment [AB]** : Fini, commence à A et finit à B.
+- **Demi-droite [Ax)** : Commence à A, infinie vers x.
+
+> **✨ Analogie : Le Laser**  
+> Le stylo laser est l'origine. Le rayon qui part est une demi-droite. Le tableau où il s'arrête est un point.
             `,
             summary: [
                 "La notation est cruciale : [] = segment (fermé), () = droite (ouverte).",
@@ -437,13 +421,12 @@ export const math6eData = {
             image: '/courses/images/math6e/geo_circles.png',
             story: "Le Cercle est la forme la plus démocratique : tous ses points sont à la même distance du chef (le Centre). Personne n'est jaloux, tout le monde est à égalité !",
             content: `
-                <h3>1. Définitions</h3>
-                <p>Le compas est l'outil du cercle. L'écartement est le rayon.</p>
-                <ul>
-                    <li><strong>Rayon</strong> : Du centre au bord.</li>
-                    <li><strong>Diamètre</strong> : Traverse le centre (2 x Rayon).</li>
-                    <li><strong>Corde</strong> : Relie deux points sans passer forcément par le centre.</li>
-                </ul>
+### 1. Définitions
+Le compas est l'outil du cercle. L'écartement est le rayon.
+
+- **Rayon** : Du centre au bord.
+- **Diamètre** : Traverse le centre (2 x Rayon).
+- **Corde** : Relie deux points sans passer forcément par le centre.
             `,
             summary: [
                 "Tous les rayons d'un même cercle ont la même longueur.",
@@ -473,17 +456,14 @@ export const math6eData = {
             title: '13. Parallèles et Perpendiculaires',
             story: "Deux droites marchaient dans le désert. L'une dit 'Jamais nous ne nous rencontrerons', c'étaient des Parallèles. Plus loin, deux autres droites se heurtèrent violemment en formant une croix parfaite : c'étaient des Perpendiculaires.",
             content: `
-                <h3>1. Position Relative</h3>
-                <ul>
-                    <li><strong>Sécantes</strong> : Se croisent.</li>
-                    <li><strong>Perpendiculaires (⊥)</strong> : Se croisent à angle droit (90°).</li>
-                    <li><strong>Parallèles (//)</strong> : Ne se croisent jamais (écartement constant).</li>
-                </ul>
-                <div class="analogy">
-                    <strong>🛤 Analogie : Ville et Train</strong><br>
-                    Perpendiculaires = Carrefour de feux rouges (+).
-                    Parallèles = Rails de train (=).
-                </div>
+### 1. Position Relative
+- **Sécantes** : Se croisent.
+- **Perpendiculaires (⊥)** : Se croisent à angle droit (90°).
+- **Parallèles (//)** : Ne se croisent jamais (écartement constant).
+
+> **🛤 Analogie : Ville et Train**  
+> Perpendiculaires = Carrefour de feux rouges (+).
+> Parallèles = Rails de train (=).
             `,
             summary: [
                 "On utilise l'équerre pour les perpendiculaires.",
@@ -505,12 +485,11 @@ export const math6eData = {
             title: '14. Symétrie Axiale',
             story: "Narcisse se regarde dans l'étang. Il voit son reflet exact, mais inversé. Sa main droite est à gauche dans le reflet. La surface de l'eau est l'axe de symétrie.",
             content: `
-                <h3>1. L'Effet Miroir</h3>
-                <p>Deux figures sont symétriques par rapport à une droite si elles se superposent par pliage.</p>
-                <div class="analogy">
-                    <strong>🦋 Analogie : Le Papillon</strong><br>
-                    Le corps du papillon est l'axe. L'aile gauche est le symétrique de l'aile droite.
-                </div>
+### 1. L'Effet Miroir
+Deux figures sont symétriques par rapport à une droite si elles se superposent par pliage.
+
+> **🦋 Analogie : Le Papillon**  
+> Le corps du papillon est l'axe. L'aile gauche est le symétrique de l'aile droite.
             `,
             summary: [
                 "La symétrie conserve les longueurs, les angles et les aires.",
@@ -533,19 +512,16 @@ export const math6eData = {
             image: '/courses/images/math6e/geo_angles.png',
             story: "L'Angle est la mesure de l'ouverture d'une bouche. Une petite bouche pincée est un angle aigu. Une bouche grande ouverte pour crier est un angle obtus. Une bouche fermée est un angle nul.",
             content: `
-                <h3>1. Types d'Angles</h3>
-                <ul>
-                    <li>Aigu : < 90° (Pointu)</li>
-                    <li>Droit : = 90° (Coin carré)</li>
-                    <li>Obtus : > 90° (Large)</li>
-                    <li>Plat : = 180° (Ligne droite)</li>
-                </ul>
-                <div class="analogy">
-                    <strong>🕒 Analogie : L'Horloge</strong><br>
-                    3h00 : Angle droit.<br>
-                    6h00 : Angle plat.<br>
-                    1h00 : Angle aigu.
-                </div>
+### 1. Types d'Angles
+- Aigu : < 90° (Pointu)
+- Droit : = 90° (Coin carré)
+- Obtus : > 90° (Large)
+- Plat : = 180° (Ligne droite)
+
+> **🕒 Analogie : L'Horloge**  
+> 3h00 : Angle droit.  
+> 6h00 : Angle plat.  
+> 1h00 : Angle aigu.
             `,
             summary: [
                 "On mesure les angles avec un rapporteur.",
@@ -568,18 +544,15 @@ export const math6eData = {
             title: '16. Polygones',
             story: "La famille Polygone est nombreuse. M. Triangle a 3 côtés. Mme Quadrilatère en a 4. Leurs enfants s'appellent Rectangle, Losange et Carré. Carré est le chouchou, car il est parfait : tous ses côtés et angles sont égaux !",
             content: `
-                <h3>1. Triangles</h3>
-                <ul>
-                    <li>Isocèle : 2 côtés égaux.</li>
-                    <li>Équilatéral : 3 côtés égaux.</li>
-                    <li>Rectangle : 1 angle droit.</li>
-                </ul>
-                <h3>2. Quadrilatères</h3>
-                <ul>
-                    <li>Rectangle : 4 angles droits.</li>
-                    <li>Losange : 4 côtés égaux.</li>
-                    <li>Carré : Rectangle + Losange (Tout parfait).</li>
-                </ul>
+### 1. Triangles
+- Isocèle : 2 côtés égaux.
+- Équilatéral : 3 côtés égaux.
+- Rectangle : 1 angle droit.
+
+### 2. Quadrilatères
+- Rectangle : 4 angles droits.
+- Losange : 4 côtés égaux.
+- Carré : Rectangle + Losange (Tout parfait).
             `,
             summary: [
                 "Un polygone est une ligne brisée fermée.",
@@ -601,13 +574,11 @@ export const math6eData = {
             title: '17. Aires et Périmètres',
             story: "Le paysan veut clôturer son champ (Périmètre) et semer du gazon (Aire). Il ne faut pas confondre le grillage avec l'herbe ! Un champ long et fin peut avoir beaucoup de grillage mais peu d'herbe.",
             content: `
-                <h3>1. Formules</h3>
-                <ul>
-                    <li>Périmètre Rectangle = (L + l) x 2</li>
-                    <li>Aire Rectangle = L x l</li>
-                    <li>Aire Carré = c x c</li>
-                    <li>Aire Triangle Rectangle = (a x b) / 2</li>
-                </ul>
+### 1. Formules
+- Périmètre Rectangle = (L + l) x 2
+- Aire Rectangle = L x l
+- Aire Carré = c x c
+- Aire Triangle Rectangle = (a x b) / 2
             `,
             summary: [
                 "Périmètre = Contour (m).",
@@ -631,14 +602,13 @@ export const math6eData = {
             image: '/courses/images/math6e/geo_solids.png',
             story: "Nous vivons dans un monde en 3D. Le Cube est un dé à jouer géant. Le Pavé est une brique. Le Cylindre est une boîte de conserve. Ils ont du volume, on peut les remplir d'eau !",
             content: `
-                <h3>1. Les Solides</h3>
-                <ul>
-                    <li><strong>Cube</strong> : 6 faces carrées.</li>
-                    <li><strong>Pavé droit</strong> : 6 faces rectangulaires.</li>
-                    <li><strong>Cylindre</strong> : 2 disques et une face courbe.</li>
-                </ul>
-                <h3>2. Patron</h3>
-                <p>C'est le solide mis à plat, prêt à être découpé et plié.</p>
+### 1. Les Solides
+- **Cube** : 6 faces carrées.
+- **Pavé droit** : 6 faces rectangulaires.
+- **Cylindre** : 2 disques et une face courbe.
+
+### 2. Patron
+C'est le solide mis à plat, prêt à être découpé et plié.
             `,
             summary: [
                 "Un solide occupe un volume.",
@@ -661,12 +631,11 @@ export const math6eData = {
             title: '19. Sphère et Globe',
             story: "La Terre n'est pas plate ! C'est une boule (presque) parfaite. Pour voyager, les marins ont tracé des lignes imaginaires sur la mer : l'Équateur (la ceinture) et les Méridiens (les quartiers d'orange).",
             content: `
-                <h3>1. Se repérer</h3>
-                <p>Comme sur un plan, mais courbe.</p>
-                <ul>
-                    <li>Latitude (Nord/Sud) // Équateur</li>
-                    <li>Longitude (Est/Ouest) // Greenwich</li>
-                </ul>
+### 1. Se repérer
+Comme sur un plan, mais courbe.
+
+- Latitude (Nord/Sud) // Équateur
+- Longitude (Est/Ouest) // Greenwich
             `,
             summary: [
                 "La Terre est une sphère.",

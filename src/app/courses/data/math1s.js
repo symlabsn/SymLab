@@ -2,7 +2,7 @@ export const math1sData = {
     id: 'math-1s',
     title: 'Mathématiques 1ère S',
     author: 'SymLab Team (Conforme Programme Sénégal)',
-    description: 'Programme complet de Mathématiques 1ère S : Analyse, Algèbre et Géométrie.',
+    description: 'Programme complet de Mathématiques 1ère S : Analyse et Algèbre et Géométrie.',
     chapters: [
         // ==========================================
         // PARTIE 1 : ACTIVITÉS NUMÉRIQUES
@@ -13,19 +13,18 @@ export const math1sData = {
             title: '1. Équations, Inéquations, Systèmes',
             story: "Résoudre des problèmes complexes impose souvent de jongler avec plusieurs inconnues. C'est l'art de la mise en équation.",
             content: `
-                <h3>1. Polynômes du second degré</h3>
-                <p>Pour $ax^2 + bx + c = 0$, on calcule le discriminant $\\Delta = b^2 - 4ac$.</p>
-                <ul>
-                    <li>Si $\\Delta > 0$ : Deux racines distinctes $x_{1,2} = \\frac{-b \\pm \\sqrt{\\Delta}}{2a}$.</li>
-                    <li>Si $\\Delta = 0$ : Une racine double $x_0 = \\frac{-b}{2a}$.</li>
-                </ul>
+### 1. Polynômes du second degré
+Pour $ax^2 + bx + c = 0$, on calcule le discriminant $\\Delta = b^2 - 4ac$.
 
-                <h3>2. Équations bicarrées</h3>
-                <p>De la forme $ax^4 + bx^2 + c = 0$. On pose $X = x^2$ (avec $X \\ge 0$) pour se ramener au second degré.</p>
+- Si $\\Delta > 0$ : Deux racines distinctes $x_{1,2} = \\frac{-b \\pm \\sqrt{\\Delta}}{2a}$.
+- Si $\\Delta = 0$ : Une racine double $x_0 = \\frac{-b}{2a}$.
 
-                <h3>3. Systèmes linéaires (3 inconnues)</h3>
-                <p>Méthode du pivot de Gauss pour résoudre des systèmes $3 \\times 3$.</p>
-                <p>$$ \\begin{cases} x + y + z = 6 \\\\ 2x - y + z = 3 \\\\ x - y + 2z = 5 \\end{cases} $$</p>
+### 2. Équations bicarrées
+De la forme $ax^4 + bx^2 + c = 0$. On pose $X = x^2$ (avec $X \\ge 0$) pour se ramener au second degré.
+
+### 3. Systèmes linéaires (3 inconnues)
+Méthode du pivot de Gauss pour résoudre des systèmes $3 \\times 3$.
+$$ \\begin{cases} x + y + z = 6 \\\\ 2x - y + z = 3 \\\\ x - y + 2z = 5 \\end{cases} $$
             `,
             summary: [
                 "Signe du trinôme : Du signe de a à l'extérieur des racines.",
@@ -47,18 +46,16 @@ export const math1sData = {
             title: '2. Généralités sur les Applications',
             story: "Une fonction est une machine qui transforme des nombres. Mais comment qualifier cette transformation ?",
             content: `
-                <h3>1. Définitions</h3>
-                <p>Une application $f: E \\to F$ associe à tout élément de $E$ un unique élément de $F$.</p>
+### 1. Définitions
+Une application $f: E \\to F$ associe à tout élément de $E$ un unique élément de $F$.
 
-                <h3>2. Injection, Surjection, Bijection</h3>
-                <ul>
-                    <li><strong>Injection :</strong> Tout élément de $F$ a au plus un antécédent. ($f(x)=f(y) \\implies x=y$).</li>
-                    <li><strong>Surjection :</strong> Tout élément de $F$ a au moins un antécédent. ($f(E) = F$).</li>
-                    <li><strong>Bijection :</strong> Tout élément de $F$ a un unique antécédent. (A la fois injective et surjective).</li>
-                </ul>
+### 2. Injection, Surjection, Bijection
+- **Injection :** Tout élément de $F$ a au plus un antécédent. ($f(x)=f(y) \\implies x=y$).
+- **Surjection :** Tout élément de $F$ a au moins un antécédent. ($f(E) = F$).
+- **Bijection :** Tout élément de $F$ a un unique antécédent. (A la fois injective et surjective).
 
-                <h3>3. Composition</h3>
-                <p>$g \\circ f$ existe si l'ensemble d'arrivée de $f$ est inclus dans l'ensemble de départ de $g$.</p>
+### 3. Composition
+$g \\circ f$ existe si l'ensemble d'arrivée de $f$ est inclus dans l'ensemble de départ de $g$.
             `,
             summary: [
                 "Bijection $\\iff$ existence de la réciproque $f^{-1}$.",
@@ -80,17 +77,17 @@ export const math1sData = {
             title: '3. Dénombrement',
             story: "Combien de façons de choisir un capitaine et un suppléant ? Ou de former une équipe de foot ?",
             content: `
-                <h3>1. Principe multiplicatif</h3>
-                <p>Si une épreuve a $n$ issues et une autre $p$ issues, le couple a $n \\times p$ issues.</p>
+### 1. Principe multiplicatif
+Si une épreuve a $n$ issues et une autre $p$ issues, le couple a $n \\times p$ issues.
 
-                <h3>2. Arrangements et Permutations</h3>
-                <p>Arrangement $A_n^p$ : Choix ordonné de $p$ éléments parmi $n$.</p>
-                <p>$$ A_n^p = \\frac{n!}{(n-p)!} $$</p>
-                <p>Permutation $P_n = n!$ (Ordre de $n$ éléments).</p>
+### 2. Arrangements et Permutations
+Arrangement $A_n^p$ : Choix ordonné de $p$ éléments parmi $n$.
+$$ A_n^p = \\frac{n!}{(n-p)!} $$
+Permutation $P_n = n!$ (Ordre de $n$ éléments).
 
-                <h3>3. Combinaisons</h3>
-                <p>Choix non ordonné (simultané). Notation $C_n^p$.</p>
-                <p>$$ C_n^p = \\binom{n}{p} = \\frac{A_n^p}{p!} = \\frac{n!}{p!(n-p)!} $$</p>
+### 3. Combinaisons
+Choix non ordonné (simultané). Notation $C_n^p$.
+$$ C_n^p = \\binom{n}{p} = \\frac{A_n^p}{p!} = \\frac{n!}{p!(n-p)!} $$
             `,
             summary: [
                 "Ordre important $\\to$ Arrangement.",
@@ -112,20 +109,18 @@ export const math1sData = {
             title: '4. Limites et Continuité',
             story: "Que se passe-t-il quand x s'approche de l'infini ou d'une valeur interdite ? On frôle l'interdit.",
             content: `
-                <h3>1. Limites usuelles</h3>
-                <p>$\\lim_{x \\to +\\infty} x^2 = +\\infty$, $\\lim_{x \\to +\\infty} \\frac{1}{x} = 0$.</p>
-                <p>Formes indéterminées : $\\infty - \\infty$, $0 \\times \\infty$, $\\frac{\\infty}{\\infty}$, $\\frac{0}{0}$.</p>
+### 1. Limites usuelles
+$\\lim_{x \\to +\\infty} x^2 = +\\infty$, $\\lim_{x \\to +\\infty} \\frac{1}{x} = 0$.
+Formes indéterminées : $\\infty - \\infty$, $0 \\times \\infty$, $\\frac{\\infty}{\\infty}$, $\\frac{0}{0}$.
 
-                <h3>2. Technques de levée d'indétermination</h3>
-                <ul>
-                    <li>Factorisation par le terme de plus haut degré.</li>
-                    <li>Expression conjuguée (racines).</li>
-                    <li>Taux d'accroissement (sinus cardinal).</li>
-                </ul>
+### 2. Technques de levée d'indétermination
+- Factorisation par le terme de plus haut degré.
+- Expression conjuguée (racines).
+- Taux d'accroissement (sinus cardinal).
 
-                <h3>3. Continuité</h3>
-                <p>$f$ est continue en $a$ si $\\lim_{x \\to a} f(x) = f(a)$.</p>
-                <p>Théorème des Valeurs Intermédiaires (TVI).</p>
+### 3. Continuité
+$f$ est continue en $a$ si $\\lim_{x \\to a} f(x) = f(a)$.
+Théorème des Valeurs Intermédiaires (TVI).
             `,
             summary: [
                 "Polynôme en $\\infty$ : Limite de son terme de plus haut degré.",
@@ -147,21 +142,19 @@ export const math1sData = {
             title: '5. Dérivation',
             story: "La dérivée mesure la vitesse de variation instantanée. C'est l'outil roi pour étudier les fonctions.",
             content: `
-                <h3>1. Nombre dérivé</h3>
-                <p>$$ f'(a) = \\lim_{h \\to 0} \\frac{f(a+h) - f(a)}{h} $$</p>
-                <p>C'est la pente de la tangente en $a$.</p>
+### 1. Nombre dérivé
+$$ f'(a) = \\lim_{h \\to 0} \\frac{f(a+h) - f(a)}{h} $$
+C'est la pente de la tangente en $a$.
 
-                <h3>2. Formules usuelles</h3>
-                <ul>
-                    <li>$(x^n)' = n x^{n-1}$</li>
-                    <li>$(\\frac{1}{x})' = -\\frac{1}{x^2}$</li>
-                    <li>$(\\sqrt{x})' = \\frac{1}{2\\sqrt{x}}$</li>
-                </ul>
+### 2. Formules usuelles
+- $(x^n)' = n x^{n-1}$
+- $(\\frac{1}{x})' = -\\frac{1}{x^2}$
+- $(\\sqrt{x})' = \\frac{1}{2\\sqrt{x}}$
 
-                <h3>3. Opérations</h3>
-                <p>$(uv)' = u'v + uv'$</p>
-                <p>$(\\frac{u}{v})' = \\frac{u'v - uv'}{v^2}$</p>
-                <p>$(v \\circ u)' = u' \\times (v' \\circ u)$</p>
+### 3. Opérations
+$(uv)' = u'v + uv'$
+$(\\frac{u}{v})' = \\frac{u'v - uv'}{v^2}$
+$(v \\circ u)' = u' \\times (v' \\circ u)$
             `,
             summary: [
                 "Dérivée > 0 $\\implies$ Fonction croissante.",
@@ -183,18 +176,16 @@ export const math1sData = {
             title: '6. Étude de fonctions',
             story: "Mettre tout ensemble : domaine, limites, dérivée, tableau de variation, pour tracer la courbe parfaite.",
             content: `
-                <h3>1. Plan d'étude</h3>
-                <ol>
-                    <li>Domaine de définition $D_f$.</li>
-                    <li>Limites aux bornes et asymptotes (Horizontale, Verticale, Oblique).</li>
-                    <li>Calcul de la dérivée $f'(x)$ et étude de son signe.</li>
-                    <li>Tableau de variations.</li>
-                    <li>Points particuliers et tracé.</li>
-                </ol>
+### 1. Plan d'étude
+1. Domaine de définition $D_f$.
+2. Limites aux bornes et asymptotes (Horizontale, Verticale, Oblique).
+3. Calcul de la dérivée $f'(x)$ et étude de son signe.
+4. Tableau de variations.
+5. Points particuliers et tracé.
 
-                <h3>2. Centre et Axe de symétrie</h3>
-                <p>Axe $x=a$ : $f(2a-x) = f(x)$.</p>
-                <p>Centre $\\Omega(a,b)$ : $f(2a-x) + f(x) = 2b$.</p>
+### 2. Centre et Axe de symétrie
+Axe $x=a$ : $f(2a-x) = f(x)$.
+Centre $\\Omega(a,b)$ : $f(2a-x) + f(x) = 2b$.
             `,
             summary: [
                 "Asymptote oblique $y=ax+b$ si $\\lim (f(x) - (ax+b)) = 0$.",
@@ -216,17 +207,17 @@ export const math1sData = {
             title: '7. Suites Numériques',
             story: "Une suite est une liste infinie de nombres ordonnés. Progression arithmétique ou géométrique ?",
             content: `
-                <h3>1. Modes de génération</h3>
-                <p>Formule explicite : $U_n = f(n)$.</p>
-                <p>Récurrence : $U_{n+1} = f(U_n)$.</p>
+### 1. Modes de génération
+Formule explicite : $U_n = f(n)$.
+Récurrence : $U_{n+1} = f(U_n)$.
 
-                <h3>2. Suites Arithmétiques ($+r$)</h3>
-                <p>$U_{n+1} = U_n + r$. Terme général : $U_n = U_0 + nr$.</p>
-                <p>Somme : $S = \\frac{nombre\\ de\\ termes \\times (U_{premier} + U_{dernier})}{2}$.</p>
+### 2. Suites Arithmétiques ($+r$)
+$U_{n+1} = U_n + r$. Terme général : $U_n = U_0 + nr$.
+Somme : $S = \\frac{nombre\\ de\\ termes \\times (U_{premier} + U_{dernier})}{2}$.
 
-                <h3>3. Suites Géométriques ($\\times q$)</h3>
-                <p>$U_{n+1} = q U_n$. Terme général : $U_n = U_0 q^n$.</p>
-                <p>Somme : $S = U_{premier} \\times \\frac{1-q^N}{1-q}$.</p>
+### 3. Suites Géométriques ($\\times q$)
+$U_{n+1} = q U_n$. Terme général : $U_n = U_0 q^n$.
+Somme : $S = U_{premier} \\times \\frac{1-q^N}{1-q}$.
             `,
             summary: [
                 "Suite monotone : $U_{n+1} - U_n$ garde un signe constant.",
@@ -248,16 +239,14 @@ export const math1sData = {
             title: '8. Statistiques',
             story: "Analyser des données pour en tirer du sens. Moyenne, écart-type, médiane...",
             content: `
-                <h3>1. Paramètres de position</h3>
-                <ul>
-                    <li><strong>Moyenne $\\bar{x}$ :</strong> Centre de gravité de la série.</li>
-                    <li><strong>Médiane $Me$ :</strong> Valeur qui partage la série en deux effectifs égaux.</li>
-                    <li><strong>Mode :</strong> Valeur la plus fréquente.</li>
-                </ul>
+### 1. Paramètres de position
+- **Moyenne $\\bar{x}$ :** Centre de gravité de la série.
+- **Médiane $Me$ :** Valeur qui partage la série en deux effectifs égaux.
+- **Mode :** Valeur la plus fréquente.
 
-                <h3>2. Paramètres de dispersion</h3>
-                <p>Variance $V$ : Moyenne des carrés des écarts à la moyenne.</p>
-                <p>Écart-type $\\sigma = \\sqrt{V}$. Plus $\\sigma$ est grand, plus la série est dispersée.</p>
+### 2. Paramètres de dispersion
+Variance $V$ : Moyenne des carrés des écarts à la moyenne.
+Écart-type $\\sigma = \\sqrt{V}$. Plus $\\sigma$ est grand, plus la série est dispersée.
             `,
             summary: [
                 "Diagramme en boîte (Moustache) pour visualiser quartiles et médiane.",
@@ -283,14 +272,14 @@ export const math1sData = {
             title: '9. Barycentre',
             story: "Le point d'équilibre. Où placer le pivot pour que la balançoire tienne avec un adulte et un enfant ?",
             content: `
-                <h3>1. Barycentre de 2 points</h3>
-                <p>G est barycentre de $(A, \\alpha)$ et $(B, \\beta)$ si :</p>
-                <p>$$ \\alpha \\vec{GA} + \\beta \\vec{GB} = \\vec{0} $$</p>
-                <p>Existe si $\\alpha + \\beta \\neq 0$.</p>
-                <p>Relation vectorielle : $\\vec{AG} = \\frac{\\beta}{\\alpha + \\beta} \\vec{AB}$.</p>
+### 1. Barycentre de 2 points
+G est barycentre de $(A, \\alpha)$ et $(B, \\beta)$ si :
+$$ \\alpha \\vec{GA} + \\beta \\vec{GB} = \\vec{0} $$
+Existe si $\\alpha + \\beta \\neq 0$.
+Relation vectorielle : $\\vec{AG} = \\frac{\\beta}{\\alpha + \\beta} \\vec{AB}$.
 
-                <h3>2. Associativité</h3>
-                <p>On peut remplacer plusieurs points par leur barycentre partiel (affecté de la somme des poids).</p>
+### 2. Associativité
+On peut remplacer plusieurs points par leur barycentre partiel (affecté de la somme des poids).
             `,
             summary: [
                 "Isobaycentre : Poids égaux (Milieu pour 2 pts, Centre de gravité pour 3).",
@@ -312,15 +301,15 @@ export const math1sData = {
             title: '10. Angles orientés',
             story: "En géométrie aussi, le sens compte. Tourner à gauche ou à droite, ce n'est pas pareil.",
             content: `
-                <h3>1. Mesure principale</h3>
-                <p>L'angle orienté $(\\vec{u}, \\vec{v})$ est défini modulo $2\\pi$.</p>
-                <p>La mesure principale $\\alpha$ est unique dans $]-\\pi ; \\pi]$.</p>
+### 1. Mesure principale
+L'angle orienté $(\\vec{u}, \\vec{v})$ est défini modulo $2\\pi$.
+La mesure principale $\\alpha$ est unique dans $]-\\pi ; \\pi]$.
 
-                <h3>2. Relation de Chasles</h3>
-                <p>$$ (\\vec{u}, \\vec{w}) = (\\vec{u}, \\vec{v}) + (\\vec{v}, \\vec{w}) \\quad [2\\pi] $$</p>
+### 2. Relation de Chasles
+$$ (\\vec{u}, \\vec{w}) = (\\vec{u}, \\vec{v}) + (\\vec{v}, \\vec{w}) \\quad [2\\pi] $$
 
-                <h3>3. Trigonométrie</h3>
-                <p>Cercle trigonométrique. $\\cos^2 x + \\sin^2 x = 1$.</p>
+### 3. Trigonométrie
+Cercle trigonométrique. $\\cos^2 x + \\sin^2 x = 1$.
             `,
             summary: [
                 "Sens direct (trigo) : Inverse des aiguilles d'une montre (+).",
@@ -342,16 +331,16 @@ export const math1sData = {
             title: '11. Trigonométrie (Formules)',
             story: "L'art de transformer les angles. Formules d'addition et de duplication.",
             content: `
-                <h3>1. Formules d'addition</h3>
-                <p>$\\cos(a+b) = \\cos a \\cos b - \\sin a \\sin b$</p>
-                <p>$\\sin(a+b) = \\sin a \\cos b + \\cos a \\sin b$</p>
+### 1. Formules d'addition
+$\\cos(a+b) = \\cos a \\cos b - \\sin a \\sin b$
+$\\sin(a+b) = \\sin a \\cos b + \\cos a \\sin b$
 
-                <h3>2. Formules de duplication</h3>
-                <p>$\\cos(2a) = \\cos^2 a - \\sin^2 a = 2\\cos^2 a - 1$</p>
-                <p>$\\sin(2a) = 2 \\sin a \\cos a$</p>
+### 2. Formules de duplication
+$\\cos(2a) = \\cos^2 a - \\sin^2 a = 2\\cos^2 a - 1$
+$\\sin(2a) = 2 \\sin a \\cos a$
 
-                <h3>3. Équations trigo</h3>
-                <p>$\\cos x = \\cos a \\iff x = a + 2k\\pi$ ou $x = -a + 2k\\pi$.</p>
+### 3. Équations trigo
+$\\cos x = \\cos a \\iff x = a + 2k\\pi$ ou $x = -a + 2k\\pi$.
             `,
             summary: [
                 "Retenir 'Coco-Sisi' (Cos(a+b)) et 'Sicoco-Si' (Sin(a+b)).",
@@ -373,13 +362,13 @@ export const math1sData = {
             title: '12. Produit Scalaire',
             story: "Multiplier deux vecteurs pour obtenir un nombre. Un outil puissant pour l'orthogonalité.",
             content: `
-                <h3>1. Définitions</h3>
-                <p>$\\vec{u} \\cdot \\vec{v} = ||\\vec{u}|| \\times ||\\vec{v}|| \\times \\cos(\\vec{u}, \\vec{v})$.</p>
-                <p>Dans un repère orthonormé : $xx' + yy'$.</p>
+### 1. Définitions
+$\\vec{u} \\cdot \\vec{v} = ||\\vec{u}|| \\times ||\\vec{v}|| \\times \\cos(\\vec{u}, \\vec{v})$.
+Dans un repère orthonormé : $xx' + yy'$.
 
-                <h3>2. Propriétés</h3>
-                <p>Si $\\vec{u} \\cdot \\vec{v} = 0$, alors les vecteurs sont orthogonaux.</p>
-                <p>Théorème d'Al Kashi (Pythagore généralisé) : $a^2 = b^2 + c^2 - 2bc \\cos \\hat{A}$.</p>
+### 2. Propriétés
+Si $\\vec{u} \\cdot \\vec{v} = 0$, alors les vecteurs sont orthogonaux.
+Théorème d'Al Kashi (Pythagore généralisé) : $a^2 = b^2 + c^2 - 2bc \\cos \\hat{A}$.
             `,
             summary: [
                 "Permet de calculer des longueurs et des angles.",
@@ -401,12 +390,12 @@ export const math1sData = {
             title: '13. Transformations',
             story: "Déformer le plan tout en gardant une structure. Homothétie et Rotation.",
             content: `
-                <h3>1. Homothétie $h(\\Omega, k)$</h3>
-                <p>$M' = h(M) \\iff \\vec{\\Omega M'} = k \\vec{\\Omega M}$.</p>
-                <p>Conserve les angles, multiplie les distances par $|k|$ et les aires par $k^2$.</p>
+### 1. Homothétie $h(\\Omega, k)$
+$M' = h(M) \\iff \\vec{\\Omega M'} = k \\vec{\\Omega M}$.
+Conserve les angles, multiplie les distances par $|k|$ et les aires par $k^2$.
 
-                <h3>2. Rotation $r(\\Omega, \\theta)$</h3>
-                <p>Tourner autour d'un point. Conserve les distances (isométrie) et les angles orientés.</p>
+### 2. Rotation $r(\\Omega, \\theta)$
+Tourner autour d'un point. Conserve les distances (isométrie) et les angles orientés.
             `,
             summary: [
                 "Si $k=1$, identité. Si $k=-1$, symétrie centrale.",
@@ -428,15 +417,13 @@ export const math1sData = {
             title: '14. Espace (Droites et Plans)',
             story: "Sortons du plan. La géométrie en 3D demande de visualiser l'invisible.",
             content: `
-                <h3>1. Positions relatives</h3>
-                <ul>
-                    <li>Droites : Coplanaires (sécantes/parallèles) ou non coplanaires.</li>
-                    <li>Droite et Plan : Sécants ou parallèles.</li>
-                    <li>Plans : Sécants (selon une droite) ou parallèles.</li>
-                </ul>
+### 1. Positions relatives
+- Droites : Coplanaires (sécantes/parallèles) ou non coplanaires.
+- Droite et Plan : Sécants ou parallèles.
+- Plans : Sécants (selon une droite) ou parallèles.
 
-                <h3>2. Orthogonalité</h3>
-                <p>Une droite est orthogonale à un plan si elle est orthogonale à deux droites sécantes de ce plan.</p>
+### 2. Orthogonalité
+Une droite est orthogonale à un plan si elle est orthogonale à deux droites sécantes de ce plan.
             `,
             summary: [
                 "Théorème du toit : Intersection de deux plans passant par deux droites parallèles.",
@@ -457,13 +444,13 @@ export const math1sData = {
             title: '15. Vecteurs de l\'Espace',
             story: "L'outil vectoriel s'étend naturellement à la 3ème dimension.",
             content: `
-                <h3>1. Base et Repère</h3>
-                <p>Base $(\\vec{i}, \\vec{j}, \\vec{k})$. Repère $(O; \\vec{i}, \\vec{j}, \\vec{k})$.</p>
-                <p>Coordonnées $(x, y, z)$.</p>
+### 1. Base et Repère
+Base $(\\vec{i}, \\vec{j}, \\vec{k})$. Repère $(O; \\vec{i}, \\vec{j}, \\vec{k})$.
+Coordonnées $(x, y, z)$.
 
-                <h3>2. Coplanarité</h3>
-                <p>Trois vecteurs $\\vec{u}, \\vec{v}, \\vec{w}$ sont coplanaires si l'un est combinaison linéaire des deux autres.</p>
-                <p>$\\vec{w} = a\\vec{u} + b\\vec{v}$ (Déterminant nul).</p>
+### 2. Coplanarité
+Trois vecteurs $\\vec{u}, \\vec{v}, \\vec{w}$ sont coplanaires si l'un est combinaison linéaire des deux autres.
+$\\vec{w} = a\\vec{u} + b\\vec{v}$ (Déterminant nul).
             `,
             summary: [
                 "Produit scalaire dans l'espace : $xx' + yy' + zz'$.",

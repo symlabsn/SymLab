@@ -13,15 +13,16 @@ export const entrainement1sData = {
             title: 'Exo 1 : Théorème de l\'Énergie Cinétique',
             story: "Un skieur dévale une piste. Calculer sa vitesse sans frottements, puis avec frottements.",
             content: `
-                <h3>Énoncé</h3>
-                <p>Un skieur de masse $m = 80\\ kg$ part sans vitesse initiale du sommet A d'une piste inclinée d'un angle $\\alpha = 30^\\circ$ par rapport à l'horizontale. La longueur de la piste est $AB = 100\\ m$.</p>
-                <p>On donne $g = 10\\ N/kg$.</p>
+### Énoncé
+Un skieur de masse $m = 80\\ kg$ part sans vitesse initiale du sommet A d'une piste inclinée d'un angle $\\alpha = 30^\\circ$ par rapport à l'horizontale. La longueur de la piste est $AB = 100\\ m$.
 
-                <h4>Partie A : Sans frottements</h4>
-                <p>Calculer la vitesse $v_B$ au point B en utilisant le Théorème de l'Energie Cinétique (TEC).</p>
+On donne $g = 10\\ N/kg$.
 
-                <h4>Partie B : Avec frottements</h4>
-                <p>En réalité, le skieur arrive en B avec une vitesse $v'_B = 25\\ m/s$. Calculer l'intensité $f$ de la force de frottement supposée constante et opposée au mouvement.</p>
+#### Partie A : Sans frottements
+Calculer la vitesse $v_B$ au point B en utilisant le Théorème de l'Energie Cinétique (TEC).
+
+#### Partie B : Avec frottements
+En réalité, le skieur arrive en B avec une vitesse $v'_B = 25\\ m/s$. Calculer l'intensité $f$ de la force de frottement supposée constante et opposée au mouvement.
             `,
             summary: ["TEC : $\\Delta E_c = \\sum W(\\vec{F})$.", "Travail du poids : $W(\\vec{P}) = mgh$."],
             exercises: [
@@ -47,15 +48,14 @@ export const entrainement1sData = {
             title: 'Exo 2 : Particule dans un champ E',
             story: "L'accélérateur de particules linéaire. Contrôler la trajectoire des électrons.",
             content: `
-                <h3>Énoncé</h3>
-                <p>Un électron (masse $m$, charge $q = -e$) pénètre avec une vitesse négligeable par le trou d'une plaque A portée au potentiel $V_A$. Il est accéléré vers une plaque B portée au potentiel $V_B$.</p>
-                <p>Données : $V_A - V_B = -500\\ V$. Distance $d = 10\\ cm$.</p>
+### Énoncé
+Un électron (masse $m$, charge $q = -e$) pénètre avec une vitesse négligeable par le trou d'une plaque A portée au potentiel $V_A$. Il est accéléré vers une plaque B portée au potentiel $V_B$.
 
-                <h4>Questions</h4>
-                <ol>
-                    <li>Déterminer le sens et la norme du champ électrostatique $\\vec{E}$ supposé uniforme entre les plaques.</li>
-                    <li>Calculer l'énergie cinétique de l'électron en B (en eV et en Joules).</li>
-                </ol>
+Données : $V_A - V_B = -500\\ V$. Distance $d = 10\\ cm$.
+
+#### Questions
+1. Déterminer le sens et la norme du champ électrostatique $\\vec{E}$ supposé uniforme entre les plaques.
+2. Calculer l'énergie cinétique de l'électron en B (en eV et en Joules).
             `,
             summary: ["$E = \\frac{U_{AB}}{d}$. Champ dirigé vers les potentiels décroissants.", "$1 eV = 1.6 \\times 10^{-19} J$."],
             exercises: [
@@ -74,16 +74,15 @@ export const entrainement1sData = {
             title: 'Exo 3 : Lentille Convergente',
             story: "Former une image nette sur un écran. Le principe du vidéoprojecteur.",
             content: `
-                <h3>Énoncé</h3>
-                <p>On dispose d'une lentille convergente de vergence $C = 5\\ \\delta$ (dioptries).</p>
-                <p>On place un objet AB de 2 cm de hauteur à 30 cm devant la lentille ($\overline{OA} = -30\\ cm$).</p>
+### Énoncé
+On dispose d'une lentille convergente de vergence $C = 5\\ \\delta$ (dioptries).
 
-                <h4>Questions</h4>
-                <ol>
-                    <li>Calculer la distance focale $f'$.</li>
-                    <li>Déterminer par le calcul la position de l'image $\overline{OA'}$.</li>
-                    <li>Calculer le grandissement $\\gamma$ et la taille de l'image.</li>
-                </ol>
+On place un objet AB de 2 cm de hauteur à 30 cm devant la lentille ($\\overline{OA} = -30\\ cm$).
+
+#### Questions
+1. Calculer la distance focale $f'$.
+2. Déterminer par le calcul la position de l'image $\\overline{OA'}$.
+3. Calculer le grandissement $\\gamma$ et la taille de l'image.
             `,
             summary: ["Formule de conjugaison : $\\frac{1}{\\overline{OA'}} - \\frac{1}{\\overline{OA}} = C = \\frac{1}{f'}$."],
             exercises: [
@@ -106,16 +105,15 @@ export const entrainement1sData = {
             title: 'Exo 4 : Analyse d\'un Hydrocarbure',
             story: "Retrouver la formule brute à partir de la combustion.",
             content: `
-                <h3>Énoncé</h3>
-                <p>La combustion complète de $V = 10\\ mL$ d'un hydrocarbure gazeux $A$ nécessite $V_{O2} = 50\\ mL$ de dioxygène. On obtient $V_{CO2} = 30\\ mL$ de dioxyde de carbone.</p>
-                <p>Tous les volumes sont mesurés dans les mêmes conditions.</p>
+### Énoncé
+La combustion complète de $V = 10\\ mL$ d'un hydrocarbure gazeux $A$ nécessite $V_{O2} = 50\\ mL$ de dioxygène. On obtient $V_{CO2} = 30\\ mL$ de dioxyde de carbone.
 
-                <h4>Questions</h4>
-                <ol>
-                    <li>Écrire l'équation générale de combustion de $C_x H_y$.</li>
-                    <li>Déterminer $x$ et $y$ en utilisant la loi d'Avogadro-Ampère (les volumes sont proportionnels aux coefficients molaires).</li>
-                    <li>Donner le nom de A.</li>
-                </ol>
+Tous les volumes sont mesurés dans les mêmes conditions.
+
+#### Questions
+1. Écrire l'équation générale de combustion de $C_x H_y$.
+2. Déterminer $x$ et $y$ en utilisant la loi d'Avogadro-Ampère (les volumes sont proportionnels aux coefficients molaires).
+3. Donner le nom de A.
             `,
             summary: ["$C_x H_y + (x + y/4) O_2 \\to x CO_2 + y/2 H_2O$."],
             exercises: [
@@ -141,17 +139,17 @@ export const entrainement1sData = {
             title: 'Exo 5 : Manganimétrie',
             story: "Doser le fer dans une solution pour vérifier sa pureté.",
             content: `
-                <h3>Énoncé</h3>
-                <p>On dose $V_1 = 20\\ mL$ d'une solution de sulfate de fer(II) ($Fe^{2+}$) par une solution de permanganate de potassium ($K^+, MnO_4^-$) de concentration $C_2 = 0.02\\ mol/L$ en milieu acide.</p>
-                <p>L'équivalence est obtenue pour un volume versé $V_{2E} = 15\\ mL$.</p>
-                <p>Couples : $MnO_4^- / Mn^{2+}$ et $Fe^{3+} / Fe^{2+}$.</p>
+### Énoncé
+On dose $V_1 = 20\\ mL$ d'une solution de sulfate de fer(II) ($Fe^{2+}$) par une solution de permanganate de potassium ($K^+, MnO_4^-$) de concentration $C_2 = 0.02\\ mol/L$ en milieu acide.
 
-                <h4>Questions</h4>
-                <ol>
-                    <li>Écrire les demi-équations redox et l'équation bilan.</li>
-                    <li>Déterminer la relation à l'équivalence.</li>
-                    <li>Calculer la concentration $C_1$ des ions ferreux.</li>
-                </ol>
+L'équivalence est obtenue pour un volume versé $V_{2E} = 15\\ mL$.
+
+Couples : $MnO_4^- / Mn^{2+}$ et $Fe^{3+} / Fe^{2+}$.
+
+#### Questions
+1. Écrire les demi-équations redox et l'équation bilan.
+2. Déterminer la relation à l'équivalence.
+3. Calculer la concentration $C_1$ des ions ferreux.
             `,
             summary: ["$MnO_4^- + 5Fe^{2+} + 8H^+ \\to Mn^{2+} + 5Fe^{3+} + 4H_2O$."],
             exercises: [

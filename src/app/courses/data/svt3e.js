@@ -13,15 +13,15 @@ export const svt3eData = {
             title: '1. Le système nerveux',
             story: `Votre corps est une ville connectée. Le cerveau est la mairie, les nerfs sont les câbles téléphoniques, et les messages électriques circulent à 100 m/s ! C'est le système nerveux qui coordonne tout.`,
             content: `
-                <h3>1. Organisation</h3>
-                <ul>
-                    <li><strong>Système Nerveux Central (SNC)</strong> : Cerveau + Moelle épinière (le centre de commande).</li>
-                    <li><strong>Système Nerveux Périphérique</strong> : Les nerfs qui partent dans tout le corps.</li>
-                </ul>
-                <h3>2. Le Neurone</h3>
-                <p>Cellule nerveuse avec des prolongements (dendrites et axone). Le message nerveux est électrique.</p>
-                <h3>3. L'Arc Réflexe</h3>
-                <p>Réaction automatique et rapide (ex: retirer la main du feu). Récepteur → Nerf sensitif → Moelle → Nerf moteur → Muscle.</p>
+### 1. Organisation
+- **Système Nerveux Central (SNC)** : Cerveau + Moelle épinière (le centre de commande).
+- **Système Nerveux Périphérique** : Les nerfs qui partent dans tout le corps.
+
+### 2. Le Neurone
+Cellule nerveuse avec des prolongements (dendrites et axone). Le message nerveux est électrique.
+
+### 3. L'Arc Réflexe
+Réaction automatique et rapide (ex: retirer la main du feu). Récepteur → Nerf sensitif → Moelle → Nerf moteur → Muscle.
             `,
             summary: [
                 "Le cerveau analyse et décide.",
@@ -44,17 +44,17 @@ export const svt3eData = {
             title: '2. La Vision',
             story: `L'œil est un appareil photo biologique. La lumière entre, traverse la lentille (le cristallin), et se projette sur l'écran (la rétine). Le cerveau développe ensuite la photo !`,
             content: `
-                <h3>1. Anatomie de l'œil</h3>
-                <ul>
-                    <li><strong>Cornée</strong> : Vitre transparente à l'avant.</li>
-                    <li><strong>Cristallin</strong> : Lentille qui fait la mise au point.</li>
-                    <li><strong>Rétine</strong> : Écran sensible avec des photorécepteurs (cônes et bâtonnets).</li>
-                    <li><strong>Nerf optique</strong> : Câble vers le cerveau.</li>
-                </ul>
-                <h3>2. Accommodation</h3>
-                <p>Le cristallin change de forme pour voir net de près ou de loin.</p>
-                <h3>3. Défauts</h3>
-                <p>Myopie (voit flou de loin), Hypermétropie (voit flou de près).</p>
+### 1. Anatomie de l'œil
+- **Cornée** : Vitre transparente à l'avant.
+- **Cristallin** : Lentille qui fait la mise au point.
+- **Rétine** : Écran sensible avec des photorécepteurs (cônes et bâtonnets).
+- **Nerf optique** : Câble vers le cerveau.
+
+### 2. Accommodation
+Le cristallin change de forme pour voir net de près ou de loin.
+
+### 3. Défauts
+Myopie (voit flou de loin), Hypermétropie (voit flou de près).
             `,
             summary: [
                 "Image formée sur la rétine est inversée.",
@@ -77,16 +77,16 @@ export const svt3eData = {
             title: '3. La Respiration chez l\'Homme',
             story: `Inspirer, expirer... 20 000 fois par jour ! Vos poumons sont des éponges géantes qui capturent l'oxygène de l'air et rejettent le CO₂. C'est l'échange gazeux vital.`,
             content: `
-                <h3>1. Trajet de l'air</h3>
-                <p>Nez/Bouche → Trachée → Bronches → Bronchioles → Alvéoles pulmonaires.</p>
-                <h3>2. Les Alvéoles</h3>
-                <p>Petits sacs entourés de capillaires sanguins. C'est là que se fait l'échange :</p>
-                <ul>
-                    <li>O₂ passe de l'air vers le sang.</li>
-                    <li>CO₂ passe du sang vers l'air.</li>
-                </ul>
-                <h3>3. Mouvements respiratoires</h3>
-                <p>Inspiration (diaphragme descend, cage thoracique s'ouvre). Expiration (inverse).</p>
+### 1. Trajet de l'air
+Nez/Bouche → Trachée → Bronches → Bronchioles → Alvéoles pulmonaires.
+
+### 2. Les Alvéoles
+Petits sacs entourés de capillaires sanguins. C'est là que se fait l'échange :
+- O₂ passe de l'air vers le sang.
+- CO₂ passe du sang vers l'air.
+
+### 3. Mouvements respiratoires
+Inspiration (diaphragme descend, cage thoracique s'ouvre). Expiration (inverse).
             `,
             summary: [
                 "Surface d'échange énorme (100 m²).",
@@ -109,12 +109,14 @@ export const svt3eData = {
             title: '4. Phénomènes énergétiques (Respiration cellulaire)',
             story: `Vos cellules sont des mini-usines. Elles brûlent du glucose avec de l'oxygène pour fabriquer de l'énergie (ATP). C'est la respiration cellulaire, invisible mais essentielle.`,
             content: `
-                <h3>1. L'équation</h3>
-                <p>Glucose + O₂ → CO₂ + H₂O + <strong>Énergie (ATP)</strong></p>
-                <h3>2. Les Mitochondries</h3>
-                <p>Organites cellulaires où se déroule cette réaction. Ce sont les centrales énergétiques de la cellule.</p>
-                <h3>3. Lien avec la respiration</h3>
-                <p>Les poumons apportent l'O₂ et évacuent le CO₂ produit par les cellules.</p>
+### 1. L'équation
+Glucose + O₂ → CO₂ + H₂O + **Énergie (ATP)**
+
+### 2. Les Mitochondries
+Organites cellulaires où se déroule cette réaction. Ce sont les centrales énergétiques de la cellule.
+
+### 3. Lien avec la respiration
+Les poumons apportent l'O₂ et évacuent le CO₂ produit par les cellules.
             `,
             summary: [
                 "ATP = Monnaie énergétique de la cellule.",
@@ -137,15 +139,15 @@ export const svt3eData = {
             title: '5. La Fermentation',
             story: `Pas d'oxygène ? Pas de problème pour certaines cellules ! Elles utilisent la fermentation. C'est moins efficace, mais ça permet de survivre. Le yaourt et le pain sont faits grâce à la fermentation.`,
             content: `
-                <h3>1. Définition</h3>
-                <p>Dégradation du glucose <strong>sans oxygène</strong> pour produire de l'énergie.</p>
-                <h3>2. Types</h3>
-                <ul>
-                    <li><strong>Fermentation alcoolique</strong> : Glucose → Alcool + CO₂ (Levures, vin, bière).</li>
-                    <li><strong>Fermentation lactique</strong> : Glucose → Acide lactique (Yaourt, crampes musculaires).</li>
-                </ul>
-                <h3>3. Rendement</h3>
-                <p>Beaucoup moins d'énergie que la respiration (2 ATP au lieu de 38).</p>
+### 1. Définition
+Dégradation du glucose **sans oxygène** pour produire de l'énergie.
+
+### 2. Types
+- **Fermentation alcoolique** : Glucose → Alcool + CO₂ (Levures, vin, bière).
+- **Fermentation lactique** : Glucose → Acide lactique (Yaourt, crampes musculaires).
+
+### 3. Rendement
+Beaucoup moins d'énergie que la respiration (2 ATP au lieu de 38).
             `,
             summary: [
                 "Fermentation = Respiration anaérobie (sans O₂).",
@@ -168,16 +170,16 @@ export const svt3eData = {
             title: '6. Le Rein et l\'excrétion urinaire',
             story: `Vos reins sont des filtres ultra-performants. Ils nettoient le sang 50 fois par jour ! Ils éliminent les déchets (urée) et régulent l'eau et les sels. Sans eux, on s'empoisonne.`,
             content: `
-                <h3>1. Rôle du rein</h3>
-                <ul>
-                    <li>Filtrer le sang (éliminer l'urée, toxines).</li>
-                    <li>Réguler l'eau et les sels minéraux.</li>
-                    <li>Maintenir le pH sanguin.</li>
-                </ul>
-                <h3>2. Formation de l'urine</h3>
-                <p>Filtration → Réabsorption → Excrétion.</p>
-                <h3>3. Trajet</h3>
-                <p>Rein → Uretère → Vessie → Urètre.</p>
+### 1. Rôle du rein
+- Filtrer le sang (éliminer l'urée, toxines).
+- Réguler l'eau et les sels minéraux.
+- Maintenir le pH sanguin.
+
+### 2. Formation de l'urine
+Filtration → Réabsorption → Excrétion.
+
+### 3. Trajet
+Rein → Uretère → Vessie → Urètre.
             `,
             summary: [
                 "2 reins, chacun contient 1 million de néphrons (unités filtrantes).",
@@ -202,12 +204,14 @@ export const svt3eData = {
             title: '7. L\'Immunité et la réponse immunitaire',
             story: `Votre corps est une forteresse assiégée par des millions d'ennemis invisibles (microbes). Heureusement, vous avez une armée : le système immunitaire. Il reconnaît, attaque et se souvient des intrus.`,
             content: `
-                <h3>1. Les barrières naturelles</h3>
-                <p>Peau, mucus, larmes, salive (première ligne de défense).</p>
-                <h3>2. Réponse immunitaire non spécifique</h3>
-                <p>Phagocytose : Les globules blancs (phagocytes) mangent les microbes.</p>
-                <h3>3. Réponse immunitaire spécifique</h3>
-                <p>Lymphocytes produisent des anticorps spécifiques contre un antigène précis.</p>
+### 1. Les barrières naturelles
+Peau, mucus, larmes, salive (première ligne de défense).
+
+### 2. Réponse immunitaire non spécifique
+Phagocytose : Les globules blancs (phagocytes) mangent les microbes.
+
+### 3. Réponse immunitaire spécifique
+Lymphocytes produisent des anticorps spécifiques contre un antigène précis.
             `,
             summary: [
                 "Antigène = Substance étrangère.",
@@ -230,17 +234,14 @@ export const svt3eData = {
             title: '8. Le Système immunitaire',
             story: `Votre armée immunitaire a plusieurs corps d'élite : les phagocytes (soldats de première ligne), les lymphocytes B (fabricants d'armes), les lymphocytes T (commandos). Ensemble, ils sont imbattables.`,
             content: `
-                <h3>1. Organes lymphoïdes</h3>
-                <ul>
-                    <li><strong>Moelle osseuse</strong> : Fabrique les cellules immunitaires.</li>
-                    <li><strong>Thymus</strong> : Entraîne les lymphocytes T.</li>
-                    <li><strong>Rate et ganglions</strong> : Lieux de combat.</li>
-                </ul>
-                <h3>2. Types de lymphocytes</h3>
-                <ul>
-                    <li>Lymphocytes B : Produisent des anticorps.</li>
-                    <li>Lymphocytes T : Détruisent les cellules infectées.</li>
-                </ul>
+### 1. Organes lymphoïdes
+- **Moelle osseuse** : Fabrique les cellules immunitaires.
+- **Thymus** : Entraîne les lymphocytes T.
+- **Rate et ganglions** : Lieux de combat.
+
+### 2. Types de lymphocytes
+- Lymphocytes B : Produisent des anticorps.
+- Lymphocytes T : Détruisent les cellules infectées.
             `,
             summary: [
                 "Ganglions gonflés = Signe de combat immunitaire.",
@@ -263,15 +264,14 @@ export const svt3eData = {
             title: '9. Les Groupes sanguins',
             story: `Pourquoi ne peut-on pas transfuser n'importe quel sang à n'importe qui ? Parce que chaque groupe sanguin a des marqueurs différents (A, B, AB, O). Si on se trompe, c'est la catastrophe (agglutination) !`,
             content: `
-                <h3>1. Système ABO</h3>
-                <ul>
-                    <li>Groupe A : Antigène A, anticorps anti-B.</li>
-                    <li>Groupe B : Antigène B, anticorps anti-A.</li>
-                    <li>Groupe AB : Antigènes A et B, pas d'anticorps (Receveur universel).</li>
-                    <li>Groupe O : Pas d'antigène, anticorps anti-A et anti-B (Donneur universel).</li>
-                </ul>
-                <h3>2. Système Rhésus</h3>
-                <p>Rh+ (présence de l'antigène D) ou Rh- (absence).</p>
+### 1. Système ABO
+- Groupe A : Antigène A, anticorps anti-B.
+- Groupe B : Antigène B, anticorps anti-A.
+- Groupe AB : Antigènes A et B, pas d'anticorps (Receveur universel).
+- Groupe O : Pas d'antigène, anticorps anti-A et anti-B (Donneur universel).
+
+### 2. Système Rhésus
+Rh+ (présence de l'antigène D) ou Rh- (absence).
             `,
             summary: [
                 "Compatibilité essentielle pour les transfusions.",
@@ -294,12 +294,14 @@ export const svt3eData = {
             title: '10. Aide à l\'immunité (Vaccination)',
             story: `Le vaccin, c'est un entraînement pour votre armée. On lui montre une version affaiblie de l'ennemi. Elle apprend à le reconnaître. Le jour où le vrai ennemi arrive, elle est prête !`,
             content: `
-                <h3>1. Principe du vaccin</h3>
-                <p>Injection d'un antigène affaibli ou tué. Le corps fabrique des anticorps et garde la mémoire.</p>
-                <h3>2. Immunité active</h3>
-                <p>Le corps fabrique lui-même ses anticorps (durable).</p>
-                <h3>3. Sérothérapie</h3>
-                <p>Injection directe d'anticorps (immunité passive, temporaire). Utilisée en urgence (morsure de serpent).</p>
+### 1. Principe du vaccin
+Injection d'un antigène affaibli ou tué. Le corps fabrique des anticorps et garde la mémoire.
+
+### 2. Immunité active
+Le corps fabrique lui-même ses anticorps (durable).
+
+### 3. Sérothérapie
+Injection directe d'anticorps (immunité passive, temporaire). Utilisée en urgence (morsure de serpent).
             `,
             summary: [
                 "Vaccin = Prévention.",
@@ -322,18 +324,19 @@ export const svt3eData = {
             title: '11. Le VIH/SIDA',
             story: `Le SIDA est une maladie qui détruit l'armée immunitaire elle-même. Le virus VIH attaque les lymphocytes T, les commandants de la défense. Sans eux, le corps ne peut plus se défendre.`,
             content: `
-                <h3>1. Le VIH (Virus de l'Immunodéficience Humaine)</h3>
-                <p>Virus qui infecte et détruit les lymphocytes T CD4.</p>
-                <h3>2. Transmission</h3>
-                <ul>
-                    <li>Rapports sexuels non protégés.</li>
-                    <li>Sang contaminé (seringues, transfusion).</li>
-                    <li>Mère → Enfant (grossesse, allaitement).</li>
-                </ul>
-                <h3>3. Évolution</h3>
-                <p>VIH (infection) → SIDA (maladie déclarée quand le système immunitaire est effondré).</p>
-                <h3>4. Prévention</h3>
-                <p>Préservatif, dépistage, traitement antirétroviral (ARV).</p>
+### 1. Le VIH (Virus de l'Immunodéficience Humaine)
+Virus qui infecte et détruit les lymphocytes T CD4.
+
+### 2. Transmission
+- Rapports sexuels non protégés.
+- Sang contaminé (seringues, transfusion).
+- Mère → Enfant (grossesse, allaitement).
+
+### 3. Évolution
+VIH (infection) → SIDA (maladie déclarée quand le système immunitaire est effondré).
+
+### 4. Prévention
+Préservatif, dépistage, traitement antirétroviral (ARV).
             `,
             summary: [
                 "Pas de vaccin pour le moment.",
@@ -362,16 +365,16 @@ export const svt3eData = {
             title: '12. La Tectonique des plaques',
             story: `La Terre n'est pas un bloc solide. Sa surface est un puzzle géant de plaques qui bougent lentement (quelques cm par an). Quand elles se rencontrent, ça fait des tremblements de terre et des volcans !`,
             content: `
-                <h3>1. Structure de la Terre (Rappel)</h3>
-                <p>Croûte (fine) → Manteau (épais, chaud) → Noyau (fer liquide et solide).</p>
-                <h3>2. Les Plaques tectoniques</h3>
-                <p>La croûte est découpée en une douzaine de plaques rigides qui flottent sur le manteau.</p>
-                <h3>3. Mouvements</h3>
-                <ul>
-                    <li><strong>Divergence</strong> : Les plaques s'écartent (dorsales océaniques, création de croûte).</li>
-                    <li><strong>Convergence</strong> : Les plaques se rapprochent (subduction, montagnes).</li>
-                    <li><strong>Coulissage</strong> : Les plaques glissent l'une contre l'autre (failles).</li>
-                </ul>
+### 1. Structure de la Terre (Rappel)
+Croûte (fine) → Manteau (épais, chaud) → Noyau (fer liquide et solide).
+
+### 2. Les Plaques tectoniques
+La croûte est découpée en une douzaine de plaques rigides qui flottent sur le manteau.
+
+### 3. Mouvements
+- **Divergence** : Les plaques s'écartent (dorsales océaniques, création de croûte).
+- **Convergence** : Les plaques se rapprochent (subduction, montagnes).
+- **Coulissage** : Les plaques glissent l'une contre l'autre (failles).
             `,
             summary: [
                 "Moteur : Convection du manteau (chaleur interne).",
@@ -394,16 +397,16 @@ export const svt3eData = {
             title: '13. Formation des roches métamorphiques',
             story: `Imaginez une roche sédimentaire qui descend profondément dans la Terre. Sous l'effet de la pression et de la chaleur extrêmes, elle se transforme sans fondre. C'est le métamorphisme.`,
             content: `
-                <h3>1. Définition</h3>
-                <p>Transformation d'une roche à l'état solide sous l'effet de la température et/ou de la pression.</p>
-                <h3>2. Exemples</h3>
-                <ul>
-                    <li>Calcaire → Marbre</li>
-                    <li>Argile → Schiste → Gneiss</li>
-                    <li>Grès → Quartzite</li>
-                </ul>
-                <h3>3. Conditions</h3>
-                <p>Profondeur (pression), proximité d'un magma (chaleur), zones de subduction.</p>
+### 1. Définition
+Transformation d'une roche à l'état solide sous l'effet de la température et/ou de la pression.
+
+### 2. Exemples
+- Calcaire → Marbre
+- Argile → Schiste → Gneiss
+- Grès → Quartzite
+
+### 3. Conditions
+Profondeur (pression), proximité d'un magma (chaleur), zones de subduction.
             `,
             summary: [
                 "Métamorphisme = Transformation sans fusion.",
@@ -428,14 +431,13 @@ export const svt3eData = {
             title: '14. Le Cycle des roches',
             story: `Les roches ne sont pas éternelles. Elles naissent, se transforment et meurent dans un cycle sans fin. Une roche sédimentaire peut devenir magmatique, puis métamorphique, puis à nouveau sédimentaire.`,
             content: `
-                <h3>1. Les 3 types de roches</h3>
-                <ul>
-                    <li><strong>Magmatiques</strong> : Refroidissement du magma (Granite, Basalte).</li>
-                    <li><strong>Sédimentaires</strong> : Accumulation de sédiments (Calcaire, Grès).</li>
-                    <li><strong>Métamorphiques</strong> : Transformation (Marbre, Schiste).</li>
-                </ul>
-                <h3>2. Le Cycle</h3>
-                <p>Érosion → Sédimentation → Enfouissement → Métamorphisme → Fusion → Magma → Refroidissement → Érosion...</p>
+### 1. Les 3 types de roches
+- **Magmatiques** : Refroidissement du magma (Granite, Basalte).
+- **Sédimentaires** : Accumulation de sédiments (Calcaire, Grès).
+- **Métamorphiques** : Transformation (Marbre, Schiste).
+
+### 2. Le Cycle
+Érosion → Sédimentation → Enfouissement → Métamorphisme → Fusion → Magma → Refroidissement → Érosion...
             `,
             summary: [
                 "Cycle très lent (millions d'années).",
@@ -460,13 +462,16 @@ export const svt3eData = {
             title: '15. La Chronologie en géologie',
             story: `Comment savoir qu'une couche de roche a 100 millions d'années ? Les géologues sont des détectives du temps. Ils utilisent les fossiles et la radioactivité pour dater les roches.`,
             content: `
-                <h3>1. Chronologie Relative</h3>
-                <p>Principe de superposition : La couche du dessous est plus vieille que celle du dessus.</p>
-                <p>Principe de continuité : Une même couche a le même âge partout.</p>
-                <h3>2. Chronologie Absolue</h3>
-                <p>Datation radioactive (Carbone 14, Uranium-Plomb). Mesure la désintégration d'éléments radioactifs.</p>
-                <h3>3. Les Fossiles stratigraphiques</h3>
-                <p>Fossiles caractéristiques d'une époque précise. Permettent de dater les couches.</p>
+### 1. Chronologie Relative
+Principe de superposition : La couche du dessous est plus vieille que celle du dessus.
+
+Principe de continuité : Une même couche a le même âge partout.
+
+### 2. Chronologie Absolue
+Datation radioactive (Carbone 14, Uranium-Plomb). Mesure la désintégration d'éléments radioactifs.
+
+### 3. Les Fossiles stratigraphiques
+Fossiles caractéristiques d'une époque précise. Permettent de dater les couches.
             `,
             summary: [
                 "Relative = Ordre (avant/après).",

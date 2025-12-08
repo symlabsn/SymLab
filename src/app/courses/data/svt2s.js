@@ -13,13 +13,15 @@ export const svt2sData = {
             title: '1. Espace rural',
             story: "L'espace rural est le cœur nourricier de notre pays. Comprendre son organisation, c'est comprendre nos racines agricoles.",
             content: `
-                <h3>1. Définition et Caractéristiques</h3>
-                <p>L'espace rural se définit par une faible densité de population et une prédominance des activités agricoles (agriculture, élevage, sylviculture).</p>
-                <p>Il s'oppose à l'espace urbain mais entretient des liens étroits avec lui (flux de produits, d'hommes).</p>
+### 1. Définition et Caractéristiques
+L'espace rural se définit par une faible densité de population et une prédominance des activités agricoles (agriculture, élevage, sylviculture).
 
-                <h3>2. Les Écosystèmes Ruraux</h3>
-                <p>On y trouve l'agrosystème : un écosystème modifié par l'homme pour la production de biomasse (champs, vergers).</p>
-                <p><strong>Problèmes actuels :</strong> Désertification, déboisement, et exode rural.</p>
+Il s'oppose à l'espace urbain mais entretient des liens étroits avec lui (flux de produits, d'hommes).
+
+### 2. Les Écosystèmes Ruraux
+On y trouve l'agrosystème : un écosystème modifié par l'homme pour la production de biomasse (champs, vergers).
+
+**Problèmes actuels :** Désertification, déboisement, et exode rural.
             `,
             summary: [
                 "L'espace rural est dominé par l'activité agricole.",
@@ -42,12 +44,13 @@ export const svt2sData = {
             title: "2. L'énergie",
             story: "L'énergie est le moteur de la vie. Du soleil à la plante, puis à l'animal, c'est un flux continu qui traverse la biosphère.",
             content: `
-                <h3>1. Flux d'énergie</h3>
-                <p>Le Soleil est la source d'énergie primaire. Les végétaux chlorophyliens (producteurs primaires) convertissent l'énergie lumineuse en énergie chimique (photosynthèse).</p>
-                
-                <h3>2. Transfert et Pertes</h3>
-                <p>L'énergie circule d'un niveau trophique à l'autre. À chaque étape, il y a des pertes importantes (respiration, chaleur, déchets).</p>
-                <p><strong>Rendement :</strong> Le rendement énergétique d'un écosystème est souvent faible (loi des 10%).</p>
+### 1. Flux d'énergie
+Le Soleil est la source d'énergie primaire. Les végétaux chlorophyliens (producteurs primaires) convertissent l'énergie lumineuse en énergie chimique (photosynthèse).
+
+### 2. Transfert et Pertes
+L'énergie circule d'un niveau trophique à l'autre. À chaque étape, il y a des pertes importantes (respiration, chaleur, déchets).
+
+**Rendement :** Le rendement énergétique d'un écosystème est souvent faible (loi des 10%).
             `,
             summary: [
                 "Source primaire : Le Soleil.",
@@ -70,15 +73,13 @@ export const svt2sData = {
             title: '3. Espace urbain',
             story: "La ville est un écosystème vorace. Elle consomme énormément de ressources et rejette beaucoup de déchets.",
             content: `
-                <h3>1. Caractéristiques</h3>
-                <p>L'espace urbain se caractérise par une forte densité de population, une artificialisation des sols (béton, bitume) et une dépendance aux importations de ressources.</p>
+### 1. Caractéristiques
+L'espace urbain se caractérise par une forte densité de population, une artificialisation des sols (béton, bitume) et une dépendance aux importations de ressources.
 
-                <h3>2. Problématiques Environnementales</h3>
-                <ul>
-                    <li><strong>Pollution :</strong> Air, eau, sol, sonore, lumineuse.</li>
-                    <li><strong>Gestion des déchets :</strong> Nécessité de tri et recyclage.</li>
-                    <li><strong>Ilots de chaleur :</strong> Températures plus élevées qu'en zone rurale.</li>
-                </ul>
+### 2. Problématiques Environnementales
+- **Pollution :** Air, eau, sol, sonore, lumineuse.
+- **Gestion des déchets :** Nécessité de tri et recyclage.
+- **Ilots de chaleur :** Températures plus élevées qu'en zone rurale.
             `,
             summary: [
                 "Écosystème hétérotrophe (dépend de l'extérieur).",
@@ -101,16 +102,14 @@ export const svt2sData = {
             title: "4. Évolution d'un écosystème",
             story: "Rien n'est figé. Un terrain nu devient pelouse, puis brousse, puis forêt. C'est la succession écologique.",
             content: `
-                <h3>1. Succession Écologique</h3>
-                <p>C'est le processus naturel d'évolution d'un écosystème.</p>
-                <ul>
-                    <li><strong>Stade pionnier :</strong> Installation des premières espèces (lichens, mousses).</li>
-                    <li><strong>Stades intermédiaires :</strong> Herbacées, arbustes.</li>
-                    <li><strong>Climax :</strong> Stade final d'équilibre stable (souvent la forêt).</li>
-                </ul>
+### 1. Succession Écologique
+C'est le processus naturel d'évolution d'un écosystème.
+- **Stade pionnier :** Installation des premières espèces (lichens, mousses).
+- **Stades intermédiaires :** Herbacées, arbustes.
+- **Climax :** Stade final d'équilibre stable (souvent la forêt).
 
-                <h3>2. Perturbations</h3>
-                <p>Les incendies, inondations ou actions humaines peuvent faire régresser l'écosystème à un stade antérieur.</p>
+### 2. Perturbations
+Les incendies, inondations ou actions humaines peuvent faire régresser l'écosystème à un stade antérieur.
             `,
             summary: [
                 "Le Climax est l'état d'équilibre optimal.",
@@ -133,14 +132,12 @@ export const svt2sData = {
             title: '5. Les facteurs écologiques',
             story: "Pour survivre, une espèce doit composer avec son environnement. Ces contraintes sont appelées facteurs écologiques.",
             content: `
-                <h3>1. Définition</h3>
-                <p>Un facteur écologique est tout élément du milieu susceptible d'agir directement sur les êtres vivants (cycle de développement, comportement, répartition).</p>
+### 1. Définition
+Un facteur écologique est tout élément du milieu susceptible d'agir directement sur les êtres vivants (cycle de développement, comportement, répartition).
 
-                <h3>2. Classification</h3>
-                <ul>
-                    <li><strong>Facteurs Abiotiques :</strong> Physico-chimiques (Climat, Sol, Eau, Lumière).</li>
-                    <li><strong>Facteurs Biotiques :</strong> Liés aux interactions entre êtres vivants (Prédation, Compétition, Parasitisme).</li>
-                </ul>
+### 2. Classification
+- **Facteurs Abiotiques :** Physico-chimiques (Climat, Sol, Eau, Lumière).
+- **Facteurs Biotiques :** Liés aux interactions entre êtres vivants (Prédation, Compétition, Parasitisme).
             `,
             summary: [
                 "Abiotique = Non-vivant (Temperature, Eau).",
@@ -166,16 +163,15 @@ export const svt2sData = {
             title: '6. Influence des facteurs climatiques',
             story: "Pourquoi n'a-t-on pas d'ours polaires au Sénégal ? Le climat dicte la répartition des espèces.",
             content: `
-                <h3>1. La Température</h3>
-                <p>Elle influence le métabolisme. On distingue :</p>
-                <ul>
-                    <li>Poïkilothermes (à sang froid) : Dépendent de la température externe.</li>
-                    <li>Homéothermes (à sang chaud) : Maintiennent leur température constante.</li>
-                </ul>
-                <p>Certains animaux hibernent ou migrent pour résister au froid ou à la chaleur.</p>
+### 1. La Température
+Elle influence le métabolisme. On distingue :
+- Poïkilothermes (à sang froid) : Dépendent de la température externe.
+- Homéothermes (à sang chaud) : Maintiennent leur température constante.
 
-                <h3>2. L'Eau et l'Humidité</h3>
-                <p>L'eau est vitale. Adaptations des plantes (Xérophytes) : épines, racines profondes, cuticules épaisses pour limiter la transpiration (ex: Cactus, Baobab).</p>
+Certains animaux hibernent ou migrent pour résister au froid ou à la chaleur.
+
+### 2. L'Eau et l'Humidité
+L'eau est vitale. Adaptations des plantes (Xérophytes) : épines, racines profondes, cuticules épaisses pour limiter la transpiration (ex: Cactus, Baobab).
             `,
             summary: [
                 "Le climat (T°, Pluie, Lumière) est le principal déterminant de la répartition.",
@@ -197,14 +193,14 @@ export const svt2sData = {
             title: '11. Facteurs édaphiques (Le Sol)',
             story: "Le sol n'est pas qu'un support, c'est un laboratoire chimique vivant. La nature du sol détermine quelles plantes peuvent pousser.",
             content: `
-                <h3>1. Texture et Structure</h3>
-                <p>Le sol est un mélange de particules minérales (sable, limon, argile) et organiques (humus). Sa capacité à retenir l'eau dépend de sa texture.</p>
+### 1. Texture et Structure
+Le sol est un mélange de particules minérales (sable, limon, argile) et organiques (humus). Sa capacité à retenir l'eau dépend de sa texture.
 
-                <h3>2. Le pH du sol</h3>
-                <p>Certaines plantes préfèrent les sols acides (calcifuges), d'autres les sols basiques (calcicoles).</p>
+### 2. Le pH du sol
+Certaines plantes préfèrent les sols acides (calcifuges), d'autres les sols basiques (calcicoles).
 
-                <h3>3. La Faune du sol</h3>
-                <p>Les vers de terre et micro-organismes aèrent le sol et décomposent la matière organique.</p>
+### 3. La Faune du sol
+Les vers de terre et micro-organismes aèrent le sol et décomposent la matière organique.
             `,
             summary: [
                 "Édaphique = Relatif au sol.",
@@ -230,17 +226,15 @@ export const svt2sData = {
             title: '7. Les facteurs biotiques',
             story: "Aucune espèce ne vit seule. Manger ou être mangé, coopérer ou parasiter...",
             content: `
-                <h3>1. Relations Homospécifiques</h3>
-                <p>Entre individus de la même espèce.</p>
-                <ul>
-                    <li><strong>Coopération :</strong> Vie en société (abeilles, fourmis), chasse en meute.</li>
-                    <li><strong>Compétition :</strong> Pour la nourriture, le territoire, la reproduction.</li>
-                    <li><strong>Effet de groupe :</strong> Avantage à vivre ensemble (protection).</li>
-                    <li><strong>Effet de masse :</strong> Inconvénient du surpeuplement (stress, maladies).</li>
-                </ul>
+### 1. Relations Homospécifiques
+Entre individus de la même espèce.
+- **Coopération :** Vie en société (abeilles, fourmis), chasse en meute.
+- **Compétition :** Pour la nourriture, le territoire, la reproduction.
+- **Effet de groupe :** Avantage à vivre ensemble (protection).
+- **Effet de masse :** Inconvénient du surpeuplement (stress, maladies).
 
-                <h3>2. Relations Hétérospécifiques</h3>
-                <p>Entre espèces différentes (voir chapitre suivant influence).</p>
+### 2. Relations Hétérospécifiques
+Entre espèces différentes (voir chapitre suivant influence).
             `,
             summary: [
                 "Homospécifique = Même espèce.",
@@ -262,17 +256,17 @@ export const svt2sData = {
             title: '10. Influence des facteurs biotiques',
             story: "Comment les interactions entre espèces régulent les populations. L'équilibre naturel est dynamique.",
             content: `
-                <h3>1. La Prédation</h3>
-                <p>Relation +/-. Le prédateur tue sa proie. Régule les populations de proies.</p>
+### 1. La Prédation
+Relation +/-. Le prédateur tue sa proie. Régule les populations de proies.
 
-                <h3>2. Le Parasitisme</h3>
-                <p>Relation +/-. Le parasite vit aux dépens de l'hôte sans nécessairement le tuer (ex: Tique, ténia).</p>
+### 2. Le Parasitisme
+Relation +/-. Le parasite vit aux dépens de l'hôte sans nécessairement le tuer (ex: Tique, ténia).
 
-                <h3>3. Le Mutualisme et la Symbiose</h3>
-                <p>Relation +/+. Bénéfice réciproque. La symbiose est obligatoire (ex: Lichen = Algue + Champignon, ou nodosités des légumineuses).</p>
+### 3. Le Mutualisme et la Symbiose
+Relation +/+. Bénéfice réciproque. La symbiose est obligatoire (ex: Lichen = Algue + Champignon, ou nodosités des légumineuses).
 
-                <h3>4. La Compétition</h3>
-                <p>Relation -/-. Lutte pour une ressource limitée.</p>
+### 4. La Compétition
+Relation -/-. Lutte pour une ressource limitée.
             `,
             summary: [
                 "La prédation régule les équilibres.",
@@ -294,17 +288,16 @@ export const svt2sData = {
             title: '9. Pyramides et réseaux trophiques',
             story: "La chaîne alimentaire est le squelette de l'écosystème. Qui mange qui ?",
             content: `
-                <h3>1. Chaines et Réseaux</h3>
-                <p>Une <strong>chaîne trophique</strong> est une suite d'êtres vivants où chacun mange celui qui le précède.</p>
-                <p>Un <strong>réseau trophique</strong> est l'ensemble des chaînes interconnectées.</p>
+### 1. Chaines et Réseaux
+Une **chaîne trophique** est une suite d'êtres vivants où chacun mange celui qui le précède.
 
-                <h3>2. Les Pyramides Écologiques</h3>
-                <p>Représentation graphique quantitative.</p>
-                <ul>
-                    <li><strong>Pyramide des nombres :</strong> Nombre d'individus à chaque niveau (Base large, sommet étroit).</li>
-                    <li><strong>Pyramide des biomasses :</strong> Masse totale de matière vivante.</li>
-                    <li><strong>Pyramide des énergies :</strong> Quantité d'énergie (toujours droite, car pertes d'énergie).</li>
-                </ul>
+Un **réseau trophique** est l'ensemble des chaînes interconnectées.
+
+### 2. Les Pyramides Écologiques
+Représentation graphique quantitative.
+- **Pyramide des nombres :** Nombre d'individus à chaque niveau (Base large, sommet étroit).
+- **Pyramide des biomasses :** Masse totale de matière vivante.
+- **Pyramide des énergies :** Quantité d'énergie (toujours droite, car pertes d'énergie).
             `,
             summary: [
                 "Producteurs Primaires $\\rightarrow$ Consommateurs I $\\rightarrow$ Consommateurs II.",
@@ -326,16 +319,16 @@ export const svt2sData = {
             title: '12. Biomasse et Productivité',
             story: "Mesurer la performance d'un écosystème. Combien de matière vivante produit-il par an ?",
             content: `
-                <h3>1. La Biomasse</h3>
-                <p>Masse totale de matière organique vivante par unité de surface à un instant t.</p>
+### 1. La Biomasse
+Masse totale de matière organique vivante par unité de surface à un instant t.
 
-                <h3>2. La Productivité Primaire</h3>
-                <ul>
-                    <li><strong>Productivité Primaire Brut (PPB) :</strong> Tout ce qui est produit par photosynthèse.</li>
-                    <li><strong>Productivité Primaire Nette (PPN) :</strong> PPB moins ce que la plante consomme pour respirer ($R$).</li>
-                </ul>
-                <p>$$ PPN = PPB - R $$</p>
-                <p>C'est la PPN qui est disponible pour les herbivores.</p>
+### 2. La Productivité Primaire
+- **Productivité Primaire Brut (PPB) :** Tout ce qui est produit par photosynthèse.
+- **Productivité Primaire Nette (PPN) :** PPB moins ce que la plante consomme pour respirer ($R$).
+
+$$ PPN = PPB - R $$
+
+C'est la PPN qui est disponible pour les herbivores.
             `,
             summary: [
                 "Productivité = Vitesse de production de biomasse ($g/m^2/an$).",
@@ -360,15 +353,13 @@ export const svt2sData = {
             title: '8. Espèce et variation',
             story: "Qu'est-ce qui fait qu'un chat est un chat ? La notion d'espèce est le pilier de la biologie.",
             content: `
-                <h3>1. Notion d'Espèce</h3>
-                <p>Critères principaux :</p>
-                <ul>
-                    <li><strong>Ressemblance :</strong> Critère morphologique (ils se ressemblent).</li>
-                    <li><strong>Interfécondité :</strong> Ils peuvent se reproduire entre eux et avoir une descendance fertile (Critère fondamental).</li>
-                </ul>
+### 1. Notion d'Espèce
+Critères principaux :
+- **Ressemblance :** Critère morphologique (ils se ressemblent).
+- **Interfécondité :** Ils peuvent se reproduire entre eux et avoir une descendance fertile (Critère fondamental).
 
-                <h3>2. La Variation</h3>
-                <p>Au sein d'une espèce, les individus ne sont pas identiques (polymorphisme). Ces variations peuvent être génétiques ou environnementales.</p>
+### 2. La Variation
+Au sein d'une espèce, les individus ne sont pas identiques (polymorphisme). Ces variations peuvent être génétiques ou environnementales.
             `,
             summary: [
                 "Espèce = Ressemblance + Interfécondité.",
@@ -390,14 +381,12 @@ export const svt2sData = {
             title: "14. L'évolution des êtres vivants",
             story: "De l'ancêtre commun à la biodiversité actuelle. Darwin nous a appris que le vivant change au cours du temps.",
             content: `
-                <h3>1. Théories de l'Évolution</h3>
-                <ul>
-                    <li>Lamarckism (Transformisme) : L'usage crée l'organe.</li>
-                    <li><strong>Darwinisme (Sélection Naturelle) :</strong> Les individus les mieux adaptés à leur milieu survivent et se reproduisent plus.</li>
-                </ul>
+### 1. Théories de l'Évolution
+- Lamarckism (Transformisme) : L'usage crée l'organe.
+- **Darwinisme (Sélection Naturelle) :** Les individus les mieux adaptés à leur milieu survivent et se reproduisent plus.
 
-                <h3>2. Arguments de l'Évolution</h3>
-                <p>Paléontologie (fossiles), Anatomie comparée (plans d'organisation communs), Biologie moléculaire (ADN).</p>
+### 2. Arguments de l'Évolution
+Paléontologie (fossiles), Anatomie comparée (plans d'organisation communs), Biologie moléculaire (ADN).
             `,
             summary: [
                 "L'évolution est un fait scientifique.",
@@ -423,13 +412,15 @@ export const svt2sData = {
             title: '13. La géologie du Sénégal',
             story: "Notre sous-sol raconte une histoire de millions d'années. C'est aussi la source de nos richesses (phosphates, or, pétrole).",
             content: `
-                <h3>1. Le Bassin Sédimentaire</h3>
-                <p>Il couvre la majeure partie du territoire (Ouest et Centre). Formé de dépôts sédimentaires (sables, calcaires, argiles) depuis le Secondaire.</p>
-                <p>Richesses : Phosphates (Thiès, Taïba), Eau (Nappes aquifères), Pétrole/Gaz (Offshore).</p>
+### 1. Le Bassin Sédimentaire
+Il couvre la majeure partie du territoire (Ouest et Centre). Formé de dépôts sédimentaires (sables, calcaires, argiles) depuis le Secondaire.
 
-                <h3>2. Le Socle Précambrien</h3>
-                <p>Au Sud-Est (Kédougou, Bakel). Roches magmatiques et métamorphiques très anciennes.</p>
-                <p>Richesses : Or, Fer, Marbre.</p>
+Richesses : Phosphates (Thiès, Taïba), Eau (Nappes aquifères), Pétrole/Gaz (Offshore).
+
+### 2. Le Socle Précambrien
+Au Sud-Est (Kédougou, Bakel). Roches magmatiques et métamorphiques très anciennes.
+
+Richesses : Or, Fer, Marbre.
             `,
             summary: [
                 "Bassin Sédimentaire (Ouest) vs Socle Ancien (Est).",
@@ -451,17 +442,15 @@ export const svt2sData = {
             title: '15. Compte rendu de sortie écologique',
             story: "Le terrain est la vraie salle de classe du biologiste. Apprenons à observer, mesurer et rapporter.",
             content: `
-                <h3>1. Objectifs de la Sortie</h3>
-                <p>Identifier les êtres vivants (flore/faune), mesurer les facteurs abiotiques (T°, pH, humidité) et comprendre les relations.</p>
+### 1. Objectifs de la Sortie
+Identifier les êtres vivants (flore/faune), mesurer les facteurs abiotiques (T°, pH, humidité) et comprendre les relations.
 
-                <h3>2. Structure du Compte Rendu</h3>
-                <ul>
-                    <li><strong>Introduction :</strong> Lieu, date, but, matériel.</li>
-                    <li><strong>Méthodologie :</strong> Techniques utilisées (transect, quadrats, relevés).</li>
-                    <li><strong>Résultats :</strong> Tableaux, schémas, inventaires, profil topographique.</li>
-                    <li><strong>Interprétation :</strong> Expliquer la répartition des êtres vivants par les facteurs mesurés.</li>
-                    <li><strong>Conclusion.</strong></li>
-                </ul>
+### 2. Structure du Compte Rendu
+- **Introduction :** Lieu, date, but, matériel.
+- **Méthodologie :** Techniques utilisées (transect, quadrats, relevés).
+- **Résultats :** Tableaux, schémas, inventaires, profil topographique.
+- **Interprétation :** Expliquer la répartition des êtres vivants par les facteurs mesurés.
+- **Conclusion.**
             `,
             summary: [
                 "Un bon compte rendu relie les observations (Quoi ?) aux explications (Pourquoi ?).",

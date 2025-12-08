@@ -13,19 +13,19 @@ export const phys1sData = {
             title: 'P1. Travail et puissance',
             story: "Pour déplacer un objet, il faut de l'énergie. Mais l'efficacité dépend de la vitesse : c'est la puissance.",
             content: `
-                <h3>1. Travail d'une force constante</h3>
-                <p>Le travail $W$ d'une force $\\vec{F}$ constante sur un déplacement rectiligne $\\vec{AB}$ est le produit scalaire :</p>
-                <p>$$ W_{AB}(\\vec{F}) = \\vec{F} \\cdot \\vec{AB} = F \\times AB \\times \\cos(\\alpha) $$</p>
-                <ul>
-                    <li>Si $0 \\le \\alpha < 90^\\circ$ : Travail moteur ($W > 0$).</li>
-                    <li>Si $\\alpha = 90^\\circ$ : Travail nul ($W = 0$).</li>
-                    <li>Si $90^\\circ < \\alpha \\le 180^\\circ$ : Travail résistant ($W < 0$).</li>
-                </ul>
+### 1. Travail d'une force constante
+Le travail $W$ d'une force $\\vec{F}$ constante sur un déplacement rectiligne $\\vec{AB}$ est le produit scalaire :
+$$ W_{AB}(\\vec{F}) = \\vec{F} \\cdot \\vec{AB} = F \\times AB \\times \\cos(\\alpha) $$
 
-                <h3>2. Puissance</h3>
-                <p>La puissance moyenne est le travail fourni par unité de temps :</p>
-                <p>$$ P_m = \\frac{W}{\\Delta t} $$</p>
-                <p>Puissance instantanée : $P(t) = \\vec{F} \\cdot \\vec{v}$.</p>
+- Si $0 \\le \\alpha < 90^\\circ$ : Travail moteur ($W > 0$).
+- Si $\\alpha = 90^\\circ$ : Travail nul ($W = 0$).
+- Si $90^\\circ < \\alpha \\le 180^\\circ$ : Travail résistant ($W < 0$).
+
+### 2. Puissance
+La puissance moyenne est le travail fourni par unité de temps :
+$$ P_m = \\frac{W}{\\Delta t} $$
+
+Puissance instantanée : $P(t) = \\vec{F} \\cdot \\vec{v}$.
             `,
             summary: [
                 "Unité du travail : Joule (J).",
@@ -48,15 +48,16 @@ export const phys1sData = {
             title: 'P2. Énergie cinétique',
             story: "Un objet en mouvement possède une énergie liée à sa vitesse. C'est l'énergie du mouvement.",
             content: `
-                <h3>1. Définition</h3>
-                <p>Pour un solide de masse $m$ en translation à la vitesse $v$ :</p>
-                <p>$$ E_c = \\frac{1}{2} m v^2 $$</p>
-                <p>Pour un solide en rotation autour d'un axe fixe ($\ moment\ d'inertie\ J_{\\Delta}$, vitesse angulaire $\\omega$) :</p>
-                <p>$$ E_c = \\frac{1}{2} J_{\\Delta} \\omega^2 $$</p>
+### 1. Définition
+Pour un solide de masse $m$ en translation à la vitesse $v$ :
+$$ E_c = \\frac{1}{2} m v^2 $$
 
-                <h3>2. Théorème de l'Énergie Cinétique (TEC)</h3>
-                <p>Dans un référentiel galiléen, la variation de l'énergie cinétique entre deux instants est égale à la somme des travaux des forces extérieures :</p>
-                <p>$$ \\Delta E_c = E_{cB} - E_{cA} = \\sum W_{AB}(\\vec{F}_{ext}) $$</p>
+Pour un solide en rotation autour d'un axe fixe ($\ moment\ d'inertie\ J_{\\Delta}$, vitesse angulaire $\\omega$) :
+$$ E_c = \\frac{1}{2} J_{\\Delta} \\omega^2 $$
+
+### 2. Théorème de l'Énergie Cinétique (TEC)
+Dans un référentiel galiléen, la variation de l'énergie cinétique entre deux instants est égale à la somme des travaux des forces extérieures :
+$$ \\Delta E_c = E_{cB} - E_{cA} = \\sum W_{AB}(\\vec{F}_{ext}) $$
             `,
             summary: [
                 "Si la vitesse double, l'énergie cinétique est multipliée par 4.",
@@ -78,17 +79,18 @@ export const phys1sData = {
             title: 'P3. Énergie potentielle. Énergie mécanique',
             story: "L'énergie peut être stockée (potentielle) et transformée en mouvement. La conservation de l'énergie est un principe clé.",
             content: `
-                <h3>1. Énergie Potentielle de Pesanteur ($E_{pp}$)</h3>
-                <p>$$ E_{pp} = m g z $$</p>
-                <p>Avec $z$ l'altitude par rapport à un niveau de référence ($E_{pp}=0$).</p>
+### 1. Énergie Potentielle de Pesanteur ($E_{pp}$)
+$$ E_{pp} = m g z $$
 
-                <h3>2. Énergie Mécanique ($E_m$)</h3>
-                <p>C'est la somme de l'énergie cinétique et de l'énergie potentielle :</p>
-                <p>$$ E_m = E_c + E_p $$</p>
-                
-                <h3>3. Conservation</h3>
-                <p>Si le solide n'est soumis qu'à des forces conservatives (comme le poids) ou sans travail (réaction normale), alors $E_m$ se conserve.</p>
-                <p>$$ \\Delta E_m = 0 \\iff E_{mA} = E_{mB} $$</p>
+Avec $z$ l'altitude par rapport à un niveau de référence ($E_{pp}=0$).
+
+### 2. Énergie Mécanique ($E_m$)
+C'est la somme de l'énergie cinétique et de l'énergie potentielle :
+$$ E_m = E_c + E_p $$
+
+### 3. Conservation
+Si le solide n'est soumis qu'à des forces conservatives (comme le poids) ou sans travail (réaction normale), alors $E_m$ se conserve.
+$$ \\Delta E_m = 0 \\iff E_{mA} = E_{mB} $$
             `,
             summary: [
                 "Chute libre : $E_p$ se transforme en $E_c$.",
@@ -110,18 +112,18 @@ export const phys1sData = {
             title: 'P4. Calorimétrie',
             story: "La chaleur est une forme d'énergie dégradée. Comment mesurer les échanges thermiques ?",
             content: `
-                <h3>1. Quantité de Chaleur ($Q$)</h3>
-                <p>Pour faire varier la température d'un corps de masse $m$ de $\\Delta T$ :</p>
-                <p>$$ Q = m c \\Delta T $$</p>
-                <ul>
-                    <li>$c$ : Capacité thermique massique (J/kg/°C).</li>
-                    <li>$Q > 0$ si le corps reçoit de la chaleur.</li>
-                </ul>
+### 1. Quantité de Chaleur ($Q$)
+Pour faire varier la température d'un corps de masse $m$ de $\\Delta T$ :
+$$ Q = m c \\Delta T $$
 
-                <h3>2. Changement d'état</h3>
-                <p>Pour changer l'état (fusion, vaporisation) d'une masse $m$ à température constante :</p>
-                <p>$$ Q = m L $$</p>
-                <p>$L$ : Chaleur latente de changement d'état.</p>
+- $c$ : Capacité thermique massique (J/kg/°C).
+- $Q > 0$ si le corps reçoit de la chaleur.
+
+### 2. Changement d'état
+Pour changer l'état (fusion, vaporisation) d'une masse $m$ à température constante :
+$$ Q = m L $$
+
+$L$ : Chaleur latente de changement d'état.
             `,
             summary: [
                 "Principe des mélanges : $\\sum Q_{echangés} = 0$ (dans une enceinte adiabatique).",
@@ -143,15 +145,17 @@ export const phys1sData = {
             title: 'P5. Force et champ électrostatiques',
             story: "L'électricité statique n'est pas de la magie. C'est l'action à distance entre charges électriques.",
             content: `
-                <h3>1. Loi de Coulomb</h3>
-                <p>La force d'interaction entre deux charges ponctuelles $q_A$ et $q_B$ séparées de $d$ :</p>
-                <p>$$ F = k \\frac{|q_A q_B|}{d^2} $$</p>
-                <p>Avec $k = 9 \\times 10^9$ SI.</p>
+### 1. Loi de Coulomb
+La force d'interaction entre deux charges ponctuelles $q_A$ et $q_B$ séparées de $d$ :
+$$ F = k \\frac{|q_A q_B|}{d^2} $$
 
-                <h3>2. Champ Électrostatique $\\vec{E}$</h3>
-                <p>Une charge $Q$ crée autour d'elle un champ $\\vec{E}$. Une charge test $q$ placée dans ce champ subit une force :</p>
-                <p>$$ \\vec{F} = q \\vec{E} $$</p>
-                <p>Le vecteur $\\vec{E}$ s'éloigne des charges positives et converge vers les charges négatives.</p>
+Avec $k = 9 \\times 10^9$ SI.
+
+### 2. Champ Électrostatique $\\vec{E}$
+Une charge $Q$ crée autour d'elle un champ $\\vec{E}$. Une charge test $q$ placée dans ce champ subit une force :
+$$ \\vec{F} = q \\vec{E} $$
+
+Le vecteur $\\vec{E}$ s'éloigne des charges positives et converge vers les charges négatives.
             `,
             summary: [
                 "Charges de même signe se repoussent, signes opposés s'attirent.",
@@ -173,13 +177,14 @@ export const phys1sData = {
             title: 'P6. Travail et énergie électrostatique',
             story: "Le mouvement des charges dans un champ électrique est à la base des accélérateurs de particules.",
             content: `
-                <h3>1. Travail de la force électrique</h3>
-                <p>Dans un champ uniforme $\\vec{E}$, le travail pour aller de A à B ne dépend que de la différence de potentiel $U_{AB}$ :</p>
-                <p>$$ W_{AB}(\\vec{F}) = q \\vec{E} \\cdot \\vec{AB} = q (V_A - V_B) = q U_{AB} $$</p>
+### 1. Travail de la force électrique
+Dans un champ uniforme $\\vec{E}$, le travail pour aller de A à B ne dépend que de la différence de potentiel $U_{AB}$ :
+$$ W_{AB}(\\vec{F}) = q \\vec{E} \\cdot \\vec{AB} = q (V_A - V_B) = q U_{AB} $$
 
-                <h3>2. Énergie Potentielle Électrostatique</h3>
-                <p>$$ E_{pe} = q V $$</p>
-                <p>L'énergie mécanique d'une particule chargée se conserve dans un champ électrostatique (force conservative).</p>
+### 2. Énergie Potentielle Électrostatique
+$$ E_{pe} = q V $$
+
+L'énergie mécanique d'une particule chargée se conserve dans un champ électrostatique (force conservative).
             `,
             summary: [
                 "$U_{AB} = V_A - V_B$ (Tension électrique).",
@@ -201,15 +206,13 @@ export const phys1sData = {
             title: 'P7. Énergie dans un circuit électrique',
             story: "Générateurs et récepteurs échangent de l'énergie. Bilan de puissance.",
             content: `
-                <h3>1. Effet Joule</h3>
-                <p>Dissipation d'énergie thermique dans un résistor :</p>
-                <p>$$ W_J = R I^2 \\Delta t $$</p>
+### 1. Effet Joule
+Dissipation d'énergie thermique dans un résistor :
+$$ W_J = R I^2 \\Delta t $$
 
-                <h3>2. Générateur et Récepteur</h3>
-                <ul>
-                    <li><strong>Générateur :</strong> Fournit $W_T = U I \\Delta t$. Il a une f.é.m $E$ et résistance interne $r$. $U_{PN} = E - rI$.</li>
-                    <li><strong>Récepteur (Moteur/Électrolyseur) :</strong> Reçoit $W_R$. Il a une f.c.é.m $E'$ et résistance $r'$. $U_{AB} = E' + r'I$.</li>
-                </ul>
+### 2. Générateur et Récepteur
+- **Générateur :** Fournit $W_T = U I \\Delta t$. Il a une f.é.m $E$ et résistance interne $r$. $U_{PN} = E - rI$.
+- **Récepteur (Moteur/Électrolyseur) :** Reçoit $W_R$. Il a une f.c.é.m $E'$ et résistance $r'$. $U_{AB} = E' + r'I$.
             `,
             summary: [
                 "Bilan de puissance : $P_{fournie} = P_{utile} + P_{joule}$.",
@@ -231,14 +234,15 @@ export const phys1sData = {
             title: 'P8. Condensateurs',
             story: "Stocker des charges pour les libérer brutalement : c'est le rôle du condensateur (flash d'appareil photo).",
             content: `
-                <h3>1. Capacité</h3>
-                <p>Un condensateur armatures A et B porte les charges $+q$ et $-q$.</p>
-                <p>$$ q = C \\times U_{AB} $$</p>
-                <p>$C$ est la capacité en Farad (F).</p>
+### 1. Capacité
+Un condensateur armatures A et B porte les charges $+q$ et $-q$.
+$$ q = C \\times U_{AB} $$
 
-                <h3>2. Énergie Emmagasinée</h3>
-                <p>L'énergie stockée dans le champ électrique entre les armatures est :</p>
-                <p>$$ E = \\frac{1}{2} C U^2 = \\frac{1}{2} \\frac{q^2}{C} $$</p>
+$C$ est la capacité en Farad (F).
+
+### 2. Énergie Emmagasinée
+L'énergie stockée dans le champ électrique entre les armatures est :
+$$ E = \\frac{1}{2} C U^2 = \\frac{1}{2} \\frac{q^2}{C} $$
             `,
             summary: [
                 "Association parallèle : $C_{eq} = C_1 + C_2$ (s'ajoute).",
@@ -264,17 +268,15 @@ export const phys1sData = {
             title: 'P9. Amplificateur Opérationnel',
             story: "L'A.O. est le couteau suisse de l'électronique analogique. Il peut additionner, intégrer ou dériver des signaux.",
             content: `
-                <h3>1. L'A.O. Idéal (Régime Linéaire)</h3>
-                <p>En régime linéaire (rétroaction négative), la tension d'entrée différentielle est nulle : $\\epsilon = V_+ - V_- = 0$.</p>
-                <p>Courants d'entrée nuls : $i_+ = i_- = 0$.</p>
+### 1. L'A.O. Idéal (Régime Linéaire)
+En régime linéaire (rétroaction négative), la tension d'entrée différentielle est nulle : $\\epsilon = V_+ - V_- = 0$.
+Courants d'entrée nuls : $i_+ = i_- = 0$.
 
-                <h3>2. Montages de base</h3>
-                <ul>
-                    <li><strong>Inverseur :</strong> $U_s = - \\frac{R_2}{R_1} U_e$.</li>
-                    <li><strong>Suiveur :</strong> $U_s = U_e$ (Adaptateur d'impédance).</li>
-                    <li><strong>Dérivateur :</strong> Sortie proportionnelle à la dérivée de l'entrée.</li>
-                    <li><strong>Intégrateur :</strong> Sortie proportionnelle à l'intégrale de l'entrée.</li>
-                </ul>
+### 2. Montages de base
+- **Inverseur :** $U_s = - \\frac{R_2}{R_1} U_e$.
+- **Suiveur :** $U_s = U_e$ (Adaptateur d'impédance).
+- **Dérivateur :** Sortie proportionnelle à la dérivée de l'entrée.
+- **Intégrateur :** Sortie proportionnelle à l'intégrale de l'entrée.
             `,
             summary: [
                 "Dérivateur transforme un triangle en carré.",
@@ -300,16 +302,16 @@ export const phys1sData = {
             title: 'P10. Propagation et Ondes',
             story: "Le son, la lumière, les vagues, les séismes... Tout est onde.",
             content: `
-                <h3>1. Onde Progressive</h3>
-                <p>Propagation d'une perturbation sans transport de matière, mais avec transport d'énergie.</p>
-                <p><strong>Célérité :</strong> Vitesse de propagation $v = d / \\Delta t$.</p>
-                
-                <h3>2. Ondes Périodiques</h3>
-                <p>Périodicité temporelle $T$ et spatiale $\\lambda$ (longueur d'onde).</p>
-                <p>$$ \\lambda = v T = \\frac{v}{N} $$</p>
+### 1. Onde Progressive
+Propagation d'une perturbation sans transport de matière, mais avec transport d'énergie.
+**Célérité :** Vitesse de propagation $v = d / \\Delta t$.
 
-                <h3>3. Interférences Mécaniques</h3>
-                <p>Superposition de deux ondes synchrones. Création de franges d'amplitude maximale (constructives) et nulle (destructives).</p>
+### 2. Ondes Périodiques
+Périodicité temporelle $T$ et spatiale $\\lambda$ (longueur d'onde).
+$$ \\lambda = v T = \\frac{v}{N} $$
+
+### 3. Interférences Mécaniques
+Superposition de deux ondes synchrones. Création de franges d'amplitude maximale (constructives) et nulle (destructives).
             `,
             summary: [
                 "Relation fondamentale : $\\lambda = v/N$.",
@@ -335,23 +337,20 @@ export const phys1sData = {
             title: 'P11. Lentilles minces',
             story: "Les lunettes, les microscopes, les télescopes reposent tous sur les lentilles.",
             content: `
-                <h3>1. Types de Lentilles</h3>
-                <ul>
-                    <li><strong>Convergentes :</strong> Bords minces. Foyer image réel.</li>
-                    <li><strong>Divergentes :</strong> Bords épais. Foyer image virtuel.</li>
-                </ul>
+### 1. Types de Lentilles
+- **Convergentes :** Bords minces. Foyer image réel.
+- **Divergentes :** Bords épais. Foyer image virtuel.
 
-                <h3>2. Formule de Conjugaison (Descartes)</h3>
-                <p>Pour un objet A sur l'axe optique et son image A' :</p>
-                <p>$$ \\frac{1}{\\overline{OA'}} - \\frac{1}{\\overline{OA}} = \\frac{1}{\\overline{OF'}} = C $$</p>
-                <ul>
-                    <li>$\\overline{OA}$ : Position objet (souvent négatif).</li>
-                    <li>$\\overline{OA'}$ : Position image.</li>
-                    <li>$C$ : Vergence en dioptries ($\\delta$).</li>
-                </ul>
+### 2. Formule de Conjugaison (Descartes)
+Pour un objet A sur l'axe optique et son image A' :
+$$ \\frac{1}{\\overline{OA'}} - \\frac{1}{\\overline{OA}} = \\frac{1}{\\overline{OF'}} = C $$
 
-                <h3>3. Grandissement $\\gamma$</h3>
-                <p>$$ \\gamma = \\frac{\\overline{A'B'}}{\\overline{AB}} = \\frac{\\overline{OA'}}{\\overline{OA}} $$</p>
+- $\\overline{OA}$ : Position objet (souvent négatif).
+- $\\overline{OA'}$ : Position image.
+- $C$ : Vergence en dioptries ($\\delta$).
+
+### 3. Grandissement $\\gamma$
+$$ \\gamma = \\frac{\\overline{A'B'}}{\\overline{AB}} = \\frac{\\overline{OA'}}{\\overline{OA}} $$
             `,
             summary: [
                 "Image réelle : inversée, peut être projettée sur un écran.",

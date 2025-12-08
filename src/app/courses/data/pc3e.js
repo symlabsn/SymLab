@@ -11,16 +11,16 @@ export const pc3eData = {
             title: '1. Lentilles minces',
             story: `Vos lunettes, l'appareil photo, le microscope... tous utilisent des lentilles. Ce sont des morceaux de verre courbés qui dévient la lumière pour agrandir, réduire ou corriger la vision.`,
             content: `
-                <h3>1. Types de lentilles</h3>
-                <ul>
-                    <li><strong>Convergente</strong> : Plus épaisse au centre. Concentre les rayons (loupe).</li>
-                    <li><strong>Divergente</strong> : Plus fine au centre. Écarte les rayons.</li>
-                </ul>
-                <h3>2. Foyer et Distance focale</h3>
-                <p>Le foyer F est le point où convergent les rayons parallèles. La distance focale f = OF.</p>
-                <h3>3. Construction d'images</h3>
-                <p>Rayon passant par le centre O : non dévié.<br>
-                Rayon parallèle à l'axe : passe par F'.</p>
+### 1. Types de lentilles
+- **Convergente** : Plus épaisse au centre. Concentre les rayons (loupe).
+- **Divergente** : Plus fine au centre. Écarte les rayons.
+
+### 2. Foyer et Distance focale
+Le foyer F est le point où convergent les rayons parallèles. La distance focale f = OF.
+
+### 3. Construction d'images
+Rayon passant par le centre O : non dévié.
+Rayon parallèle à l'axe : passe par F'.
             `,
             summary: [
                 "Lentille convergente = Image réelle (projetable).",
@@ -43,12 +43,14 @@ export const pc3eData = {
             title: '2. Dispersion de la lumière',
             story: `Pourquoi voit-on un arc-en-ciel après la pluie ? Parce que les gouttes d'eau décomposent la lumière blanche en toutes ses couleurs. C'est la dispersion !`,
             content: `
-                <h3>1. Lumière blanche</h3>
-                <p>La lumière du Soleil est un mélange de toutes les couleurs (spectre visible).</p>
-                <h3>2. Le Prisme</h3>
-                <p>Un prisme de verre sépare les couleurs car chaque couleur est déviée différemment (réfraction).</p>
-                <h3>3. Les 7 couleurs</h3>
-                <p>Rouge, Orange, Jaune, Vert, Bleu, Indigo, Violet (ROYGBIV).</p>
+### 1. Lumière blanche
+La lumière du Soleil est un mélange de toutes les couleurs (spectre visible).
+
+### 2. Le Prisme
+Un prisme de verre sépare les couleurs car chaque couleur est déviée différemment (réfraction).
+
+### 3. Les 7 couleurs
+Rouge, Orange, Jaune, Vert, Bleu, Indigo, Violet (ROYGBIV).
             `,
             summary: [
                 "Lumière blanche = Polychromatique.",
@@ -71,18 +73,19 @@ export const pc3eData = {
             title: '3. Forces',
             story: `Une force, c'est une poussée ou une traction. Quand vous tirez une porte, vous exercez une force. La Terre aussi exerce une force sur vous : le poids. Les forces sont partout !`,
             content: `
-                <h3>1. Définition</h3>
-                <p>Une force est caractérisée par :</p>
-                <ul>
-                    <li>Point d'application</li>
-                    <li>Direction</li>
-                    <li>Sens</li>
-                    <li>Intensité (en Newton N)</li>
-                </ul>
-                <h3>2. Représentation</h3>
-                <p>On la représente par une flèche (vecteur).</p>
-                <h3>3. Exemples</h3>
-                <p>Poids, Tension d'un fil, Force de frottement, Force magnétique.</p>
+### 1. Définition
+Une force est caractérisée par :
+
+- Point d'application
+- Direction
+- Sens
+- Intensité (en Newton N)
+
+### 2. Représentation
+On la représente par une flèche (vecteur).
+
+### 3. Exemples
+Poids, Tension d'un fil, Force de frottement, Force magnétique.
             `,
             summary: [
                 "Unité : le Newton (N).",
@@ -105,12 +108,13 @@ export const pc3eData = {
             title: '4. Travail et Puissance',
             story: `Soulever un sac à dos, c'est fournir un travail. Plus le sac est lourd et plus vous montez haut, plus le travail est grand. La puissance, c'est la vitesse à laquelle vous fournissez ce travail.`,
             content: `
-                <h3>1. Travail d'une force</h3>
-                <p>$W = F \\times d \\times \\cos(\\alpha)$</p>
-                <p>Si la force est dans le sens du déplacement : $W = F \\times d$ (en Joules J).</p>
-                <h3>2. Puissance</h3>
-                <p>$P = \\frac{W}{t}$ (en Watts W)</p>
-                <p>C'est le travail fourni par unité de temps.</p>
+### 1. Travail d'une force
+$W = F \\times d \\times \\cos(\\alpha)$
+Si la force est dans le sens du déplacement : $W = F \\times d$ (en Joules J).
+
+### 2. Puissance
+$P = \\frac{W}{t}$ (en Watts W)
+C'est le travail fourni par unité de temps.
             `,
             summary: [
                 "Travail en Joules (J).",
@@ -133,15 +137,15 @@ export const pc3eData = {
             title: '5. Électrisation par frottement',
             story: `Frottez un ballon sur vos cheveux et collez-le au mur : il tient ! C'est l'électricité statique. Les objets se chargent électriquement par frottement.`,
             content: `
-                <h3>1. Les charges électriques</h3>
-                <p>Il existe deux types de charges : <strong>positive (+)</strong> et <strong>négative (-)</strong>.</p>
-                <h3>2. Loi de l'électrisation</h3>
-                <ul>
-                    <li>Charges de même signe : se repoussent.</li>
-                    <li>Charges de signes contraires : s'attirent.</li>
-                </ul>
-                <h3>3. Courant électrique</h3>
-                <p>C'est un déplacement de charges électriques (électrons).</p>
+### 1. Les charges électriques
+Il existe deux types de charges : **positive (+)** et **négative (-)**.
+
+### 2. Loi de l'électrisation
+- Charges de même signe : se repoussent.
+- Charges de signes contraires : s'attirent.
+
+### 3. Courant électrique
+C'est un déplacement de charges électriques (électrons).
             `,
             summary: [
                 "Électron = Charge négative.",
@@ -164,18 +168,19 @@ export const pc3eData = {
             title: '6. Résistance électrique',
             story: `Un fil électrique, c'est comme un tuyau d'eau. Plus le tuyau est fin, plus l'eau a du mal à passer. La résistance, c'est la finesse du fil électrique qui freine le courant.`,
             content: `
-                <h3>1. Définition</h3>
-                <p>La résistance s'oppose au passage du courant. Unité : l'Ohm ($\\Omega$).</p>
-                <h3>2. Loi d'Ohm</h3>
-                <p>$U = R \\times I$</p>
-                <ul>
-                    <li>U : Tension (Volt V)</li>
-                    <li>R : Résistance (Ohm $\\Omega$)</li>
-                    <li>I : Intensité (Ampère A)</li>
-                </ul>
-                <h3>3. Résistances en série et parallèle</h3>
-                <p>Série : $R_{total} = R_1 + R_2$<br>
-                Parallèle : $\\frac{1}{R_{total}} = \\frac{1}{R_1} + \\frac{1}{R_2}$</p>
+### 1. Définition
+La résistance s'oppose au passage du courant. Unité : l'Ohm ($\\Omega$).
+
+### 2. Loi d'Ohm
+$U = R \\times I$
+
+- U : Tension (Volt V)
+- R : Résistance (Ohm $\\Omega$)
+- I : Intensité (Ampère A)
+
+### 3. Résistances en série et parallèle
+Série : $R_{total} = R_1 + R_2$
+Parallèle : $\\frac{1}{R_{total}} = \\frac{1}{R_1} + \\frac{1}{R_2}$
             `,
             summary: [
                 "Plus R est grand, plus le courant est faible.",
@@ -198,19 +203,19 @@ export const pc3eData = {
             title: '7. Transformation d\'énergies',
             story: `L'énergie ne se crée pas, ne se détruit pas, elle se transforme. Une pile transforme l'énergie chimique en énergie électrique. Une lampe transforme l'énergie électrique en lumière et chaleur.`,
             content: `
-                <h3>1. Formes d'énergie</h3>
-                <ul>
-                    <li>Mécanique (mouvement)</li>
-                    <li>Électrique</li>
-                    <li>Thermique (chaleur)</li>
-                    <li>Lumineuse</li>
-                    <li>Chimique</li>
-                    <li>Nucléaire</li>
-                </ul>
-                <h3>2. Conservation de l'énergie</h3>
-                <p>L'énergie totale reste constante, mais change de forme.</p>
-                <h3>3. Rendement</h3>
-                <p>$\\eta = \\frac{\\text{Énergie utile}}{\\text{Énergie totale}}$</p>
+### 1. Formes d'énergie
+- Mécanique (mouvement)
+- Électrique
+- Thermique (chaleur)
+- Lumineuse
+- Chimique
+- Nucléaire
+
+### 2. Conservation de l'énergie
+L'énergie totale reste constante, mais change de forme.
+
+### 3. Rendement
+$\\eta = \\frac{\\text{Énergie utile}}{\\text{Énergie totale}}$
             `,
             summary: [
                 "Unité d'énergie : le Joule (J).",
@@ -238,16 +243,16 @@ export const pc3eData = {
             title: '8. Solutions aqueuses',
             story: `Une solution, c'est un mélange homogène. Le sel dans l'eau, le sucre dans le café... L'eau est le solvant universel. Elle dissout presque tout !`,
             content: `
-                <h3>1. Vocabulaire</h3>
-                <ul>
-                    <li><strong>Solvant</strong> : Liquide qui dissout (souvent l'eau).</li>
-                    <li><strong>Soluté</strong> : Substance dissoute (sel, sucre...).</li>
-                    <li><strong>Solution</strong> : Mélange homogène des deux.</li>
-                </ul>
-                <h3>2. Concentration</h3>
-                <p>$C = \\frac{m}{V}$ (en g/L)</p>
-                <h3>3. Saturation</h3>
-                <p>Quand on ne peut plus dissoudre de soluté, la solution est saturée.</p>
+### 1. Vocabulaire
+- **Solvant** : Liquide qui dissout (souvent l'eau).
+- **Soluté** : Substance dissoute (sel, sucre...).
+- **Solution** : Mélange homogène des deux.
+
+### 2. Concentration
+$C = \\frac{m}{V}$ (en g/L)
+
+### 3. Saturation
+Quand on ne peut plus dissoudre de soluté, la solution est saturée.
             `,
             summary: [
                 "Solution aqueuse = Eau comme solvant.",
@@ -270,16 +275,16 @@ export const pc3eData = {
             title: '9. Acides et Bases',
             story: `Le citron est acide, le savon est basique. Comment les reconnaître ? Avec le pH ! C'est une échelle de 0 à 14 qui mesure l'acidité.`,
             content: `
-                <h3>1. Le pH</h3>
-                <ul>
-                    <li>pH < 7 : Acide (citron, vinaigre)</li>
-                    <li>pH = 7 : Neutre (eau pure)</li>
-                    <li>pH > 7 : Basique (savon, javel)</li>
-                </ul>
-                <h3>2. Indicateurs colorés</h3>
-                <p>Le papier pH change de couleur selon l'acidité.</p>
-                <h3>3. Réaction Acide-Base</h3>
-                <p>Acide + Base → Sel + Eau (Neutralisation)</p>
+### 1. Le pH
+- pH < 7 : Acide (citron, vinaigre)
+- pH = 7 : Neutre (eau pure)
+- pH > 7 : Basique (savon, javel)
+
+### 2. Indicateurs colorés
+Le papier pH change de couleur selon l'acidité.
+
+### 3. Réaction Acide-Base
+Acide + Base → Sel + Eau (Neutralisation)
             `,
             summary: [
                 "pH-mètre ou papier pH pour mesurer.",
@@ -302,14 +307,17 @@ export const pc3eData = {
             title: '10. Propriétés chimiques des métaux',
             story: `Le fer rouille, l'aluminium résiste, l'or brille éternellement. Chaque métal a sa personnalité chimique. Certains réagissent violemment avec l'eau ou l'air, d'autres sont inertes.`,
             content: `
-                <h3>1. Réaction avec l'oxygène</h3>
-                <p>Métal + Oxygène → Oxyde (ex: Fer → Rouille)</p>
-                <h3>2. Réaction avec l'eau</h3>
-                <p>Certains métaux (Sodium, Potassium) réagissent violemment avec l'eau.</p>
-                <h3>3. Réaction avec les acides</h3>
-                <p>Métal + Acide → Sel + Dihydrogène (H₂)</p>
-                <h3>4. Métaux précieux</h3>
-                <p>Or, Argent, Platine : très peu réactifs (d'où leur valeur).</p>
+### 1. Réaction avec l'oxygène
+Métal + Oxygène → Oxyde (ex: Fer → Rouille)
+
+### 2. Réaction avec l'eau
+Certains métaux (Sodium, Potassium) réagissent violemment avec l'eau.
+
+### 3. Réaction avec les acides
+Métal + Acide → Sel + Dihydrogène (H₂)
+
+### 4. Métaux précieux
+Or, Argent, Platine : très peu réactifs (d'où leur valeur).
             `,
             summary: [
                 "Oxydation = Réaction avec l'oxygène.",
@@ -332,17 +340,18 @@ export const pc3eData = {
             title: '11. Hydrocarbures',
             story: `Le pétrole, l'essence, le gaz naturel... ce sont tous des hydrocarbures. Des molécules faites uniquement de Carbone (C) et d'Hydrogène (H). Ils brûlent très bien et fournissent beaucoup d'énergie.`,
             content: `
-                <h3>1. Définition</h3>
-                <p>Molécules composées uniquement de C et H.</p>
-                <h3>2. Familles</h3>
-                <ul>
-                    <li><strong>Alcanes</strong> : Liaisons simples (Méthane CH₄, Éthane C₂H₆)</li>
-                    <li><strong>Alcènes</strong> : Au moins une liaison double</li>
-                </ul>
-                <h3>3. Combustion</h3>
-                <p>Hydrocarbure + Oxygène → CO₂ + H₂O + Énergie</p>
-                <h3>4. Danger</h3>
-                <p>Combustion incomplète → CO (monoxyde de carbone, mortel)</p>
+### 1. Définition
+Molécules composées uniquement de C et H.
+
+### 2. Familles
+- **Alcanes** : Liaisons simples (Méthane CH₄, Éthane C₂H₆)
+- **Alcènes** : Au moins une liaison double
+
+### 3. Combustion
+Hydrocarbure + Oxygène → CO₂ + H₂O + Énergie
+
+### 4. Danger
+Combustion incomplète → CO (monoxyde de carbone, mortel)
             `,
             summary: [
                 "Pétrole = Mélange d'hydrocarbures.",

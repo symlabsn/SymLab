@@ -14,17 +14,15 @@ export const svt6eData = {
             image: '/courses/images/svt6e/svt_environment.png',
             story: "Imaginez que vous êtes un explorateur qui débarque sur une planète inconnue. Vous observez tout ce qui vous entoure. Il y a des choses qui bougent et respirent (les vivants) et des choses immobiles comme les rochers ou l'eau (les non-vivants). C'est cela, un environnement : un grand puzzle où tout cohabite.",
             content: `
-                <h3>1. Qu'est-ce que l'environnement ?</h3>
-                <p>C'est tout ce qui nous entoure. On peut diviser l'environnement en deux grandes familles :</p>
-                <ul>
-                    <li><strong>Le Vivant (Biocénose)</strong> : Les animaux, les plantes, les champignons, les bactéries... Ils naissent, grandissent, se reproduisent et meurent.</li>
-                    <li><strong>Le Non-Vivant (Minéral)</strong> : Les roches, l'eau, l'air, la température, la lumière... Ils ne sont pas nés et ne meurent pas.</li>
-                    <li><strong>Les aménagements humains</strong> : Ce que l'homme a construit (maisons, routes, ponts).</li>
-                </ul>
-                <div class="analogy">
-                    <strong>🏠 Analogie : La Maison</strong><br>
-                    Dans votre maison, il y a votre famille (le vivant) et les murs, les meubles, l'air (le non-vivant). Les deux sont nécessaires pour que la maison ou l'environnement "fonctionne".
-                </div>
+### 1. Qu'est-ce que l'environnement ?
+C'est tout ce qui nous entoure. On peut diviser l'environnement en deux grandes familles :
+- **Le Vivant (Biocénose)** : Les animaux, les plantes, les champignons, les bactéries... Ils naissent, grandissent, se reproduisent et meurent.
+- **Le Non-Vivant (Minéral)** : Les roches, l'eau, l'air, la température, la lumière... Ils ne sont pas nés et ne meurent pas.
+- **Les aménagements humains** : Ce que l'homme a construit (maisons, routes, ponts).
+
+> **🏠 Analogie : La Maison**
+>
+> Dans votre maison, il y a votre famille (le vivant) et les murs, les meubles, l'air (le non-vivant). Les deux sont nécessaires pour que la maison ou l'environnement "fonctionne".
             `,
             summary: [
                 "L'environnement est composé d'éléments vivants et non-vivants.",
@@ -54,18 +52,17 @@ export const svt6eData = {
             title: '2. Classification et répartition des êtres vivants',
             story: "Dans une immense bibliothèque, les livres sont rangés par genre : Romans, BD, Dictionnaires. Les scientifiques font la même chose avec les êtres vivants. Ils regardent leurs points communs pour les ranger dans des 'boîtes' imaginaires qu'on appelle la classification.",
             content: `
-                <h3>1. Pourquoi classer ?</h3>
-                <p>Il existe des millions d'espèces. Pour s'y retrouver, on les regroupe selon ce qu'ils ont en commun (leurs attributs).</p>
-                <h3>2. Les grands groupes</h3>
-                <ul>
-                    <li><strong>Vertébrés</strong> : Ils ont un squelette intérieur et une colonne vertébrale (ex: Mammifères, Oiseaux, Reptiles, Amphibiens, Poissons).</li>
-                    <li><strong>Invertébrés</strong> : Ils n'ont pas de colonne vertébrale (ex: Insectes, Mollusques, Crustacés).</li>
-                    <li><strong>Végétaux</strong> : Plantes à fleurs, fougères, mousses...</li>
-                </ul>
-                <div class="analogy">
-                    <strong>🗄 Analogie : Le Rangement</strong><br>
-                    Classer les animaux, c'est comme ranger sa chambre. On met les chaussettes avec les chaussettes (Mammifères), les t-shirts avec les t-shirts (Oiseaux). On ne range pas un oiseau avec un poisson, ce n'est pas le même tiroir !
-                </div>
+### 1. Pourquoi classer ?
+Il existe des millions d'espèces. Pour s'y retrouver, on les regroupe selon ce qu'ils ont en commun (leurs attributs).
+
+### 2. Les grands groupes
+- **Vertébrés** : Ils ont un squelette intérieur et une colonne vertébrale (ex: Mammifères, Oiseaux, Reptiles, Amphibiens, Poissons).
+- **Invertébrés** : Ils n'ont pas de colonne vertébrale (ex: Insectes, Mollusques, Crustacés).
+- **Végétaux** : Plantes à fleurs, fougères, mousses...
+
+> **🗄 Analogie : Le Rangement**
+>
+> Classer les animaux, c'est comme ranger sa chambre. On met les chaussettes avec les chaussettes (Mammifères), les t-shirts avec les t-shirts (Oiseaux). On ne range pas un oiseau avec un poisson, ce n'est pas le même tiroir !
             `,
             summary: [
                 "Classer, c'est regrouper selon les ressemblances (attributs).",
@@ -88,18 +85,16 @@ export const svt6eData = {
             title: '3. Les relations dans l’environnement',
             story: "Dans la nature, personne ne vit tout seul. C'est comme un grand réseau social ! Certains sont amis et s'entraident, d'autres sont rivaux. Le plus souvent, c'est une histoire de 'manger ou être mangé'.",
             content: `
-                <h3>1. La Chaîne Alimentaire</h3>
-                <p>C'est une suite d'êtres vivants où chacun mange celui qui le précède.</p>
-                <ul>
-                    <li><strong>Producteurs</strong> : Les plantes (produisent leur propre nourriture grâce au soleil).</li>
-                    <li><strong>Consommateurs primaires</strong> : Les végétariens (mangent les plantes).</li>
-                    <li><strong>Consommateurs secondaires</strong> : Les carnivores (mangent les végétariens).</li>
-                    <li><strong>Décomposeurs</strong> : Vers, bactéries (recyclent la matière morte en terreau).</li>
-                </ul>
-                <div class="analogy">
-                    <strong>🍽 Analogie : Le Restaurant</strong><br>
-                    Le serveur (Plante) apporte le plat. Le client (Herbivore) mange le plat. Le patron (Carnivore) surveille le client. À la fin, l'équipe de nettoyage (Décomposeurs) débarrasse tout.
-                </div>
+### 1. La Chaîne Alimentaire
+C'est une suite d'êtres vivants où chacun mange celui qui le précède.
+- **Producteurs** : Les plantes (produisent leur propre nourriture grâce au soleil).
+- **Consommateurs primaires** : Les végétariens (mangent les plantes).
+- **Consommateurs secondaires** : Les carnivores (mangent les végétariens).
+- **Décomposeurs** : Vers, bactéries (recyclent la matière morte en terreau).
+
+> **🍽 Analogie : Le Restaurant**
+>
+> Le serveur (Plante) apporte le plat. Le client (Herbivore) mange le plat. Le patron (Carnivore) surveille le client. À la fin, l'équipe de nettoyage (Décomposeurs) débarrasse tout.
             `,
             summary: [
                 "Une chaîne alimentaire commence toujours par un végétal.",
@@ -125,19 +120,19 @@ export const svt6eData = {
             image: '/courses/images/svt6e/svt_photosynthesis.png',
             story: "Les plantes sont les seules cuisinières magiques de la Terre. Elles n'ont pas besoin de faire les courses. Il leur suffit d'un peu Soleil, d'air et d'eau pour préparer leur repas (le sucre) et fabriquer leur propre corps (feuilles, bois, fruits).",
             content: `
-                <h3>1. La Photosynthèse</h3>
-                <p>Les plantes vertes sont des <strong>producteurs primaires</strong>. Elles fabriquent leur matière organique grâce à la chlorophylle (le pigment vert).</p>
-                <p>La recette magique :</p>
-                <ul>
-                    <li><strong>Eau + Sels minéraux</strong> (puisés par les racines).</li>
-                    <li><strong>Dioxyde de carbone (CO2)</strong> (capté par les feuilles dans l'air).</li>
-                    <li><strong>Lumière du Soleil</strong> (l'énergie qui fait cuire le tout).</li>
-                </ul>
-                <p>Le résultat : La plante grandit et rejette de l'Oxygène (O2) que nous respirons !</p>
-                <div class="analogy">
-                    <strong>☀️ Analogie : Le Panneau Solaire</strong><br>
-                    Une feuille est comme un panneau solaire sophistiqué. Elle capte l'énergie du soleil pour faire fonctionner l'usine de la plante. Sans soleil, l'usine s'arrête.
-                </div>
+### 1. La Photosynthèse
+Les plantes vertes sont des **producteurs primaires**. Elles fabriquent leur matière organique grâce à la chlorophylle (le pigment vert).
+
+La recette magique :
+- **Eau + Sels minéraux** (puisés par les racines).
+- **Dioxyde de carbone (CO2)** (capté par les feuilles dans l'air).
+- **Lumière du Soleil** (l'énergie qui fait cuire le tout).
+
+Le résultat : La plante grandit et rejette de l'Oxygène (O2) que nous respirons !
+
+> **☀️ Analogie : Le Panneau Solaire**
+>
+> Une feuille est comme un panneau solaire sophistiqué. Elle capte l'énergie du soleil pour faire fonctionner l'usine de la plante. Sans soleil, l'usine s'arrête.
             `,
             summary: [
                 "Les plantes vertes ont besoin de Lumière, Eau, Sels minéraux et CO2.",
@@ -160,18 +155,15 @@ export const svt6eData = {
             title: '5. Amélioration de la production d’aliments',
             story: "L'agriculture, c'est l'art d'aider la nature à faire mieux. Comme un coach sportif aide un athlète à courir plus vite, l'agriculteur aide la plante ou l'animal à grandir plus gros et en meilleure santé.",
             content: `
-                <h3>1. Pour les Végétaux</h3>
-                <ul>
-                    <li><strong>Engrais</strong> : C'est comme des vitamines pour la terre (naturel ou chimique).</li>
-                    <li><strong>Irrigation</strong> : Apporter de l'eau quand il ne pleut pas.</li>
-                    <li><strong>Sélection</strong> : Choisir les meilleures graines (les plus grosses tomates).</li>
-                </ul>
-                <h3>2. Pour les Animaux (Élevage)</h3>
-                <ul>
-                    <li><strong>Alimentation riche</strong> : Donner de la bonne nourriture équilibrée.</li>
-                    <li><strong>Hygiène</strong> : Vacciner, nettoyer les abris pour éviter les maladies.</li>
-                    <li><strong>Croisement</strong> : Marier un taureau fort avec une vache qui donne beaucoup de lait.</li>
-                </ul>
+### 1. Pour les Végétaux
+- **Engrais** : C'est comme des vitamines pour la terre (naturel ou chimique).
+- **Irrigation** : Apporter de l'eau quand il ne pleut pas.
+- **Sélection** : Choisir les meilleures graines (les plus grosses tomates).
+
+### 2. Pour les Animaux (Élevage)
+- **Alimentation riche** : Donner de la bonne nourriture équilibrée.
+- **Hygiène** : Vacciner, nettoyer les abris pour éviter les maladies.
+- **Croisement** : Marier un taureau fort avec une vache qui donne beaucoup de lait.
             `,
             summary: [
                 "L'homme intervient pour augmenter la quantité et la qualité des aliments.",
@@ -196,26 +188,23 @@ export const svt6eData = {
             title: '6. Déplacement chez les animaux',
             story: "Imaginez porter une combinaison de plongée pour aller courir un marathon, ou des skis pour nager ! Impossible, n'est-ce pas ? Chaque animal possède le 'véhicule' adapté à son terrain : des pattes pour la terre, des ailes pour l'air, des nageoires pour l'eau.",
             content: `
-                <h3>1. En Milieu Terrestre (La Terre)</h3>
-                <ul>
-                    <li><strong>La Marche (Plantigrade)</strong> : Ours, Homme (pose tout le pied).</li>
-                    <li><strong>La Course (Digitigrade/Onguligrade)</strong> : Chien, Cheval (court sur les doigts ou les sabots pour aller vite).</li>
-                    <li><strong>Le Saut</strong> : Lapin, Kangourou (pattes arrières puissantes en "Z").</li>
-                    <li><strong>La Reptation</strong> : Serpent (ondule son corps).</li>
-                </ul>
-                
-                <h3>2. En Milieu Aérien (L'Air)</h3>
-                <p>L'adaptation reine est l'<strong>aile</strong>. Elle est légère, large et imperméable à l'air. Les os des oiseaux sont creux pour être légers.</p>
+### 1. En Milieu Terrestre (La Terre)
+- **La Marche (Plantigrade)** : Ours, Homme (pose tout le pied).
+- **La Course (Digitigrade/Onguligrade)** : Chien, Cheval (court sur les doigts ou les sabots pour aller vite).
+- **Le Saut** : Lapin, Kangourou (pattes arrières puissantes en "Z").
+- **La Reptation** : Serpent (ondule son corps).
 
-                <h3>3. En Milieu Aquatique (L'Eau)</h3>
-                <p>L'adaptation reine est la forme <strong>hydrodynamique</strong> (en forme de fusée ou de torpille) et les <strong>nageoires</strong> pour propulser et diriger.</p>
+### 2. En Milieu Aérien (L'Air)
+L'adaptation reine est l'**aile**. Elle est légère, large et imperméable à l'air. Les os des oiseaux sont creux pour être légers.
 
-                <div class="analogy">
-                    <strong>🚗 Analogie : Les Véhicules</strong><br>
-                    • Terre = 4x4 (Pattes solides).
-                    <br>• Air = Avion (Ailes portantes, carlingue légère).
-                    <br>• Eau = Sous-marin (Forme lisse, hélice/queue).
-                </div>
+### 3. En Milieu Aquatique (L'Eau)
+L'adaptation reine est la forme **hydrodynamique** (en forme de fusée ou de torpille) et les **nageoires** pour propulser et diriger.
+
+> **🚗 Analogie : Les Véhicules**
+>
+> • Terre = 4x4 (Pattes solides).
+> <br>• Air = Avion (Ailes portantes, carlingue légère).
+> <br>• Eau = Sous-marin (Forme lisse, hélice/queue).
             `,
             summary: [
                 "Chaque milieu impose des contraintes physiques.",
@@ -247,20 +236,18 @@ export const svt6eData = {
             title: '7. La cellule et la division cellulaire',
             story: "Une maison est faite de briques. Un être vivant, c'est pareil, mais les briques sont vivantes ! On les appelle des cellules. Une cellule, c'est comme une mini-usine autonome avec un chef (le noyau), une muraille (la membrane) et de la gelée magique (le cytoplasme).",
             content: `
-                <h3>1. La Cellule : Unité de Vie</h3>
-                <p>Tous les êtres vivants sont faits de cellules. Microscopiques, elles sont les briques de la vie.</p>
-                <ul>
-                    <li><strong>Membrane</strong> : La peau qui protège.</li>
-                    <li><strong>Cytoplasme</strong> : L'intérieur liquide.</li>
-                    <li><strong>Noyau</strong> : Le cerveau qui contient les plans de construction.</li>
-                </ul>
+### 1. La Cellule : Unité de Vie
+Tous les êtres vivants sont faits de cellules. Microscopiques, elles sont les briques de la vie.
+- **Membrane** : La peau qui protège.
+- **Cytoplasme** : L'intérieur liquide.
+- **Noyau** : Le cerveau qui contient les plans de construction.
 
-                <h3>2. La Division Cellulaire (Mitose)</h3>
-                <p>Pour grandir, on ne gonfle pas comme un ballon. On multiplie nos briques ! Une cellule mère se coupe en deux pour donner deux cellules filles identiques. 1 devient 2, 2 deviennent 4, 4 deviennent 8...</p>
-                <div class="analogy">
-                    <strong>📑 Analogie : La Photocopieuse</strong><br>
-                    La division cellulaire, c'est comme photocopier une page importante. On fait une copie exacte pour que chaque nouveau bureau (nouvelle cellule) ait son propre document de travail.
-                </div>
+### 2. La Division Cellulaire (Mitose)
+Pour grandir, on ne gonfle pas comme un ballon. On multiplie nos briques ! Une cellule mère se coupe en deux pour donner deux cellules filles identiques. 1 devient 2, 2 deviennent 4, 4 deviennent 8...
+
+> **📑 Analogie : La Photocopieuse**
+>
+> La division cellulaire, c'est comme photocopier une page importante. On fait une copie exacte pour que chaque nouveau bureau (nouvelle cellule) ait son propre document de travail.
             `,
             summary: [
                 "La cellule est l'élément de base de tout être vivant.",
@@ -283,20 +270,18 @@ export const svt6eData = {
             title: '8. Comment obtenir une nouvelle plante ?',
             story: "Pour faire une nouvelle plante, la nature a deux méthodes. Soit la méthode 'Amour' (les fleurs, le pollen, les graines), soit la méthode 'Clonage' (une bouture, un morceau de tige qui repousse).",
             content: `
-                <h3>1. La Reproduction Sexuée (La Graine)</h3>
-                <p>Elle demande deux parents (fleur mâle et fleur femelle). Le pollen rencontre l'ovule, cela donne une graine. La graine germe et donne une nouvelle plante.</p>
-                
-                <h3>2. La Multiplication Végétative (Sans graine)</h3>
-                <p>On prend un morceau de la plante mère, on le met en terre, et hop ! Ça repousse.</p>
-                <ul>
-                    <li><strong>Bouturage</strong> : Planter une tige coupée (manioc, géranium).</li>
-                    <li><strong>Marcottage</strong> : Enterrer une branche sans la couper jusqu'à ce qu'elle fasse des racines.</li>
-                    <li><strong>Greffage</strong> : Souder une branche sur une autre plante.</li>
-                </ul>
-                <div class="analogy">
-                    <strong>✂️ Analogie : Le Copier-Coller</strong><br>
-                    La graine, c'est comme écrire un nouveau livre (mélange des idées de papa et maman). Le bouturage, c'est faire une photocopie (exactement pareil que l'original).
-                </div>
+### 1. La Reproduction Sexuée (La Graine)
+Elle demande deux parents (fleur mâle et fleur femelle). Le pollen rencontre l'ovule, cela donne une graine. La graine germe et donne une nouvelle plante.
+
+### 2. La Multiplication Végétative (Sans graine)
+On prend un morceau de la plante mère, on le met en terre, et hop ! Ça repousse.
+- **Bouturage** : Planter une tige coupée (manioc, géranium).
+- **Marcottage** : Enterrer une branche sans la couper jusqu'à ce qu'elle fasse des racines.
+- **Greffage** : Souder une branche sur une autre plante.
+
+> **✂️ Analogie : Le Copier-Coller**
+>
+> La graine, c'est comme écrire un nouveau livre (mélange des idées de papa et maman). Le bouturage, c'est faire une photocopie (exactement pareil que l'original).
             `,
             summary: [
                 "La graine vient de la reproduction sexuée (fleurs).",
@@ -321,19 +306,19 @@ export const svt6eData = {
             title: '9. Le Paludisme',
             story: "C'est l'histoire d'un petit vampire très dangereux : le moustique Anophèle femelle. Elle transporte un passager clandestin microscopique (le parasite Plasmodium) et l'injecte dans notre sang quand elle nous pique.",
             content: `
-                <h3>1. La Maladie</h3>
-                <p>Le paludisme (ou malaria) est causé par un parasite du sang transmis par la piqûre de l'anophèle femelle.</p>
-                <h3>2. Les Signes</h3>
-                <p>Fièvre forte, frissons, maux de tête, vomissements, fatigue extrême.</p>
-                <h3>3. La Lutte</h3>
-                <ul>
-                    <li><strong>Prévention</strong> : Dormir sous moustiquaire imprégnée, détruire les gîtes larvaires (eaux stagnantes).</li>
-                    <li><strong>Traitement</strong> : Aller vite au dispensaire pour prendre des médicaments (ACT).</li>
-                </ul>
-                <div class="analogy">
-                    <strong>🛡 Analogie : La Forteresse</strong><br>
-                    La moustiquaire est comme le rempart d'un château fort. Elle empêche l'ennemi volant d'entrer pendant que vous dormez.
-                </div>
+### 1. La Maladie
+Le paludisme (ou malaria) est causé par un parasite du sang transmis par la piqûre de l'anophèle femelle.
+
+### 2. Les Signes
+Fièvre forte, frissons, maux de tête, vomissements, fatigue extrême.
+
+### 3. La Lutte
+- **Prévention** : Dormir sous moustiquaire imprégnée, détruire les gîtes larvaires (eaux stagnantes).
+- **Traitement** : Aller vite au dispensaire pour prendre des médicaments (ACT).
+
+> **🛡 Analogie : La Forteresse**
+>
+> La moustiquaire est comme le rempart d'un château fort. Elle empêche l'ennemi volant d'entrer pendant que vous dormez.
             `,
             summary: [
                 "Le vecteur est le moustique Anophèle femelle.",
@@ -356,15 +341,17 @@ export const svt6eData = {
             title: '10. L’Ascaridiase',
             story: "L'Ascaris est un ver qui se croit dans un parc d'attraction à l'intérieur de notre ventre. Il entre quand on mange des mains ou des fruits sales, il voyage dans le corps et s'installe dans l'intestin pour voler notre nourriture.",
             content: `
-                <h3>1. La Contamination</h3>
-                <p>C'est une maladie du "péril fécal". Les œufs du ver sortent dans les selles. Si on ne se lave pas les mains ou si on mange des légumes mal lavés (contaminés par la terre/selles), on avale les œufs.</p>
-                <h3>2. Les Signes</h3>
-                <p>Mal au ventre, toux, fatigue, vers dans les selles.</p>
-                <h3>3. La Prévention</h3>
-                <div class="analogy">
-                    <strong>soap Analogie : Le Bouclier Savon</strong><br>
-                    Se laver les mains avant de manger et après les toilettes, c'est fermer la porte à clé pour que les voleurs (les vers) n'entrent pas.
-                </div>
+### 1. La Contamination
+C'est une maladie du "péril fécal". Les œufs du ver sortent dans les selles. Si on ne se lave pas les mains ou si on mange des légumes mal lavés (contaminés par la terre/selles), on avale les œufs.
+
+### 2. Les Signes
+Mal au ventre, toux, fatigue, vers dans les selles.
+
+### 3. La Prévention
+
+> **🧼 Analogie : Le Bouclier Savon**
+>
+> Se laver les mains avant de manger et après les toilettes, c'est fermer la porte à clé pour que les voleurs (les vers) n'entrent pas.
             `,
             summary: [
                 "L'ascaris est un ver parasite intestinal.",
@@ -387,16 +374,16 @@ export const svt6eData = {
             title: '11. Le Choléra',
             story: "Le choléra est une maladie 'éclair'. Elle arrive vite et frappe fort. C'est une bactérie (Vibrion) qui vit dans l'eau sale et qui vide le corps de toute son eau par des diarrhées terribles.",
             content: `
-                <h3>1. La transmission</h3>
-                <p>Boire de l'eau souillée ou manger des aliments contaminés par des matières fécales.</p>
-                <h3>2. Les Signes</h3>
-                <p>Diarrhées très liquides (eau de riz), vomissements, déshydratation rapide. C'est une urgence vitale !</p>
-                <h3>3. La Prévention</h3>
-                <ul>
-                    <li>Boire de l'eau potable (javellisée ou bouillie).</li>
-                    <li>Se laver les mains au savon.</li>
-                    <li>Protéger les aliments des mouches.</li>
-                </ul>
+### 1. La transmission
+Boire de l'eau souillée ou manger des aliments contaminés par des matières fécales.
+
+### 2. Les Signes
+Diarrhées très liquides (eau de riz), vomissements, déshydratation rapide. C'est une urgence vitale !
+
+### 3. La Prévention
+- Boire de l'eau potable (javellisée ou bouillie).
+- Se laver les mains au savon.
+- Protéger les aliments des mouches.
             `,
             summary: [
                 "Maladie très contagieuse et mortelle sans traitement rapide.",
@@ -423,19 +410,17 @@ export const svt6eData = {
             title: '12. Les Paysages',
             story: "Regardez par la fenêtre. Ce que vous voyez, c'est un paysage. C'est le visage de la Terre. Il a été sculpté par le vent, l'eau, le soleil, mais aussi maquillé et coiffé par les hommes qui y ont construit des villes et des champs.",
             content: `
-                <h3>1. Les éléments du paysage</h3>
-                <p>Un paysage est composé de plusieurs couches :</p>
-                <ul>
-                    <li><strong>Le relief</strong> : Montagnes, vallées, plaines (la forme du sol).</li>
-                    <li><strong>La végétation</strong> : Forêts, savanes, prairies (les cheveux de la terre).</li>
-                    <li><strong>L'eau (Hydrographie)</strong> : Rivières, lacs, mer.</li>
-                    <li><strong>Les traces de l'homme</strong> : Routes, villages, champs.</li>
-                    <li><strong>Le sous-sol</strong> : Les roches cachées dessous (affleurements).</li>
-                </ul>
-                <div class="analogy">
-                    <strong>🖼 Analogie : Le Tableau</strong><br>
-                    Un paysage est comme une peinture. La toile c'est le relief (roches). La peinture verte c'est la végétation. La peinture bleue c'est l'eau. Et les petits détails ajoutés au pinceau fin, ce sont les maisons des hommes.
-                </div>
+### 1. Les éléments du paysage
+Un paysage est composé de plusieurs couches :
+- **Le relief** : Montagnes, vallées, plaines (la forme du sol).
+- **La végétation** : Forêts, savanes, prairies (les cheveux de la terre).
+- **L'eau (Hydrographie)** : Rivières, lacs, mer.
+- **Les traces de l'homme** : Routes, villages, champs.
+- **Le sous-sol** : Les roches cachées dessous (affleurements).
+
+> **🖼 Analogie : Le Tableau**
+>
+> Un paysage est comme une peinture. La toile c'est le relief (roches). La peinture verte c'est la végétation. La peinture bleue c'est l'eau. Et les petits détails ajoutés au pinceau fin, ce sont les maisons des hommes.
             `,
             summary: [
                 "Un paysage évolue constamment (érosion, action de l'homme).",

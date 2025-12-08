@@ -13,28 +13,26 @@ export const math2sData = {
             title: 'Calcul dans IR',
             story: "Les nombres réels sont le terrain de jeu de l'analyse. Maîtriser leurs propriétés, c'est comme connaître les règles des échecs avant de jouer.",
             content: `
-                <h3>1. Les Ensembles de Nombres</h3>
-                <p>On rappelle les inclusions successives : $\\mathbb{N} \\subset \\mathbb{Z} \\subset \\mathbb{D} \\subset \\mathbb{Q} \\subset \\mathbb{R}$.</p>
-                <ul>
-                    <li>$\\mathbb{N}$ : Entiers naturels ($0, 1, 2...$).</li>
-                    <li>$\\mathbb{Z}$ : Entiers relatifs ($-2, -1, 0, 1...$).</li>
-                    <li>$\\mathbb{D}$ : Décimaux ($a/10^n$).</li>
-                    <li>$\\mathbb{Q}$ : Rationnels ($p/q$).</li>
-                    <li>$\\mathbb{R}$ : Réels (tous les nombres sur la droite graduée).</li>
-                </ul>
+### 1. Les Ensembles de Nombres
+On rappelle les inclusions successives : $\\mathbb{N} \\subset \\mathbb{Z} \\subset \\mathbb{D} \\subset \\mathbb{Q} \\subset \\mathbb{R}$.
 
-                <h3>2. Valeur Absolue</h3>
-                <p>La valeur absolue d'un réel $x$, notée $|x|$, est la distance de $x$ à 0.</p>
-                <ul>
-                    <li>Si $x \\ge 0$, $|x| = x$.</li>
-                    <li>Si $x < 0$, $|x| = -x$.</li>
-                    <li>Propriétés : $|xy| = |x||y|$ et $|x+y| \\le |x| + |y|$ (Inégalité triangulaire).</li>
-                </ul>
+- $\\mathbb{N}$ : Entiers naturels ($0, 1, 2...$).
+- $\\mathbb{Z}$ : Entiers relatifs ($-2, -1, 0, 1...$).
+- $\\mathbb{D}$ : Décimaux ($a/10^n$).
+- $\\mathbb{Q}$ : Rationnels ($p/q$).
+- $\\mathbb{R}$ : Réels (tous les nombres sur la droite graduée).
 
-                <h3>3. Puissances et Racines</h3>
-                <p>Soit $a \\ge 0$. La racine carrée de $a$, notée $\\sqrt{a}$, est l'unique nombre réel positif dont le carré est $a$.</p>
-                <p>$$ \\sqrt{a^2} = |a| $$</p>
-                <p>Pour tout $n \\in \\mathbb{N}^*$, $a^n \\times a^p = a^{n+p}$.</p>
+### 2. Valeur Absolue
+La valeur absolue d'un réel $x$, notée $|x|$, est la distance de $x$ à 0.
+
+- Si $x \\ge 0$, $|x| = x$.
+- Si $x < 0$, $|x| = -x$.
+- Propriétés : $|xy| = |x||y|$ et $|x+y| \\le |x| + |y|$ (Inégalité triangulaire).
+
+### 3. Puissances et Racines
+Soit $a \\ge 0$. La racine carrée de $a$, notée $\\sqrt{a}$, est l'unique nombre réel positif dont le carré est $a$.
+$$ \\sqrt{a^2} = |a| $$
+Pour tout $n \\in \\mathbb{N}^*$, $a^n \\times a^p = a^{n+p}$.
             `,
             summary: [
                 "$\\mathbb{R}$ contient tous les nombres rationnels et irrationnels.",
@@ -57,18 +55,18 @@ export const math2sData = {
             title: 'Intervalle et calcul approché',
             story: "En physique comme en ingénierie, la précision absolue est rare. On travaille souvent avec des encadrements et des approximations.",
             content: `
-                <h3>1. Les Intervalles de $\\mathbb{R}$</h3>
-                <p>Un intervalle est un sous-ensemble de $\\mathbb{R}$ défini par des inégalités.</p>
-                <ul>
-                    <li>Intervalle fermé borné $[a, b] = \\{x \\in \\mathbb{R} \\mid a \\le x \\le b\\}$.</li>
-                    <li>Intervalle ouvert $]a, b[ = \\{x \\in \\mathbb{R} \\mid a < x < b\\}$.</li>
-                    <li>Intervalle semi-ouvert $[a, +\\infty[ = \\{x \\in \\mathbb{R} \\mid x \\ge a\\}$.</li>
-                </ul>
-                <p>Le centre de $[a, b]$ est $c = \\frac{a+b}{2}$ et son rayon est $r = \\frac{b-a}{2}$.</p>
+### 1. Les Intervalles de $\\mathbb{R}$
+Un intervalle est un sous-ensemble de $\\mathbb{R}$ défini par des inégalités.
 
-                <h3>2. Encadrement et Valeur Approchée</h3>
-                <p>Soit $x$ un réel. $a$ est une valeur approchée de $x$ à $\\epsilon$ près si $|x - a| \\le \\epsilon$.</p>
-                <p>Cela équivaut à : $a - \\epsilon \\le x \\le a + \\epsilon$.</p>
+- Intervalle fermé borné $[a, b] = \\{x \\in \\mathbb{R} \\mid a \\le x \\le b\\}$.
+- Intervalle ouvert $]a, b[ = \\{x \\in \\mathbb{R} \\mid a < x < b\\}$.
+- Intervalle semi-ouvert $[a, +\\infty[ = \\{x \\in \\mathbb{R} \\mid x \\ge a\\}$.
+
+Le centre de $[a, b]$ est $c = \\frac{a+b}{2}$ et son rayon est $r = \\frac{b-a}{2}$.
+
+### 2. Encadrement et Valeur Approchée
+Soit $x$ un réel. $a$ est une valeur approchée de $x$ à $\\epsilon$ près si $|x - a| \\le \\epsilon$.
+Cela équivaut à : $a - \\epsilon \\le x \\le a + \\epsilon$.
             `,
             summary: [
                 "L'intersection $I \\cap J$ contient les éléments communs.",
@@ -91,18 +89,17 @@ export const math2sData = {
             title: "Systèmes d'équations et d'inéquations",
             story: "Résoudre un système, c'est trouver un consensus qui satisfait plusieurs contraintes simultanément.",
             content: `
-                <h3>1. Systèmes Linéaires du 1er degré</h3>
-                <p>Un système de deux équations à deux inconnues ($x, y$) s'écrit :</p>
-                <p>$$ \\begin{cases} ax + by = c \\\\ a'x + b'y = c' \\end{cases} $$</p>
-                <p><strong>Méthodes de résolution :</strong></p>
-                <ul>
-                    <li>Substitution : On exprime $y$ en fonction de $x$ dans (1) et on remplace dans (2).</li>
-                    <li>Combinaison linéaire : On multiplie les équations pour éliminer une inconnue par addition.</li>
-                    <li>Déterminant (Cramer) : Si $D = ab' - a'b \\neq 0$, le système a une solution unique.</li>
-                </ul>
+### 1. Systèmes Linéaires du 1er degré
+Un système de deux équations à deux inconnues ($x, y$) s'écrit :
+$$ \\begin{cases} ax + by = c \\\\ a'x + b'y = c' \\end{cases} $$
+**Méthodes de résolution :**
 
-                <h3>2. Systèmes d'Inéquations</h3>
-                <p>On résout souvent graphiquement en coloriant les demi-plans solutions. L'intersection des zones coloriées est la solution du système.</p>
+- Substitution : On exprime $y$ en fonction de $x$ dans (1) et on remplace dans (2).
+- Combinaison linéaire : On multiplie les équations pour éliminer une inconnue par addition.
+- Déterminant (Cramer) : Si $D = ab' - a'b \\neq 0$, le système a une solution unique.
+
+### 2. Systèmes d'Inéquations
+On résout souvent graphiquement en coloriant les demi-plans solutions. L'intersection des zones coloriées est la solution du système.
             `,
             summary: [
                 "Si $D = 0$, le système n'a pas de solution unique (soit aucune, soit une infinité).",
@@ -124,18 +121,17 @@ export const math2sData = {
             title: 'Second degré',
             story: "Les paraboles sont partout : trajectoire d'un ballon, antennes satellites. Le second degré est la clé de ces courbes.",
             content: `
-                <h3>1. Forme Canonique</h3>
-                <p>Toute expression $P(x) = ax^2 + bx + c$ ($a \\neq 0$) peut s'écrire :</p>
-                <p>$$ P(x) = a(x - \\alpha)^2 + \\beta $$</p>
-                <p>Avec $\\alpha = -\\frac{b}{2a}$.</p>
+### 1. Forme Canonique
+Toute expression $P(x) = ax^2 + bx + c$ ($a \\neq 0$) peut s'écrire :
+$$ P(x) = a(x - \\alpha)^2 + \\beta $$
+Avec $\\alpha = -\\frac{b}{2a}$.
 
-                <h3>2. Résolution de $ax^2 + bx + c = 0$</h3>
-                <p>On calcule le discriminant $\\Delta = b^2 - 4ac$.</p>
-                <ul>
-                    <li>Si $\\Delta < 0$ : Pas de solution réelle. $S = \\emptyset$.</li>
-                    <li>Si $\\Delta = 0$ : Une solution double $x_0 = -\\frac{b}{2a}$.</li>
-                    <li>Si $\\Delta > 0$ : Deux solutions distinctes $x_1 = \\frac{-b - \\sqrt{\\Delta}}{2a}$ et $x_2 = \\frac{-b + \\sqrt{\\Delta}}{2a}$.</li>
-                </ul>
+### 2. Résolution de $ax^2 + bx + c = 0$
+On calcule le discriminant $\\Delta = b^2 - 4ac$.
+
+- Si $\\Delta < 0$ : Pas de solution réelle. $S = \\emptyset$.
+- Si $\\Delta = 0$ : Une solution double $x_0 = -\\frac{b}{2a}$.
+- Si $\\Delta > 0$ : Deux solutions distinctes $x_1 = \\frac{-b - \\sqrt{\\Delta}}{2a}$ et $x_2 = \\frac{-b + \\sqrt{\\Delta}}{2a}$.
             `,
             summary: [
                 "Le signe de $a$ donne l'orientation de la parabole (vers le haut si $a>0$).",
@@ -157,15 +153,15 @@ export const math2sData = {
             title: 'Polynômes et fractions rationnelles',
             story: "Les polynômes sont les briques élémentaires des fonctions complexes. Savoir les factoriser est essentiel.",
             content: `
-                <h3>1. Polynômes</h3>
-                <p>Un polynôme $P(x)$ est une somme de termes en $a_k x^k$. Le degré est la plus grande puissance de $x$.</p>
-                <p><strong>Racine :</strong> $\\alpha$ est racine de $P$ si $P(\\alpha) = 0$.</p>
-                <p><strong>Théorème :</strong> Si $\\alpha$ est racine, alors $P(x)$ est factorisable par $(x - \\alpha)$.</p>
+### 1. Polynômes
+Un polynôme $P(x)$ est une somme de termes en $a_k x^k$. Le degré est la plus grande puissance de $x$.
+**Racine :** $\\alpha$ est racine de $P$ si $P(\\alpha) = 0$.
+**Théorème :** Si $\\alpha$ est racine, alors $P(x)$ est factorisable par $(x - \\alpha)$.
 
-                <h3>2. Fractions Rationnelles</h3>
-                <p>Une fraction rationnelle est le quotient de deux polynômes : $F(x) = \\frac{P(x)}{Q(x)}$.</p>
-                <p><strong>Domaine de définition :</strong> Il faut exclure les valeurs qui annulent le dénominateur ($Q(x) = 0$).</p>
-                <p>Pour étudier le signe, on fait un tableau de signes avec chaque facteur.</p>
+### 2. Fractions Rationnelles
+Une fraction rationnelle est le quotient de deux polynômes : $F(x) = \\frac{P(x)}{Q(x)}$.
+**Domaine de définition :** Il faut exclure les valeurs qui annulent le dénominateur ($Q(x) = 0$).
+Pour étudier le signe, on fait un tableau de signes avec chaque facteur.
             `,
             summary: [
                 "L'identification des coefficients permet de trouver des polynômes inconnus.",
@@ -187,22 +183,19 @@ export const math2sData = {
             title: 'Fonctions',
             story: "Une fonction est une machine qui transforme un nombre en un autre. C'est le concept central de l'analyse.",
             content: `
-                <h3>1. Généralités</h3>
-                <p>Une fonction $f$ associe à tout réel $x$ de son domaine $D_f$ une unique image $f(x)$.</p>
-                <ul>
-                    <li>Image de $x$ : $y = f(x)$.</li>
-                    <li>Antécédent(s) de $y$ : Les $x$ tels que $f(x) = y$.</li>
-                </ul>
+### 1. Généralités
+Une fonction $f$ associe à tout réel $x$ de son domaine $D_f$ une unique image $f(x)$.
 
-                <h3>2. Variations</h3>
-                <p>$f$ est croissante sur $I$ si pour tout $a < b$, $f(a) \\le f(b)$ (l'ordre est conservé).</p>
-                <p>$f$ est décroissante sur $I$ si pour tout $a < b$, $f(a) \\ge f(b)$ (l'ordre est inversé).</p>
+- Image de $x$ : $y = f(x)$.
+- Antécédent(s) de $y$ : Les $x$ tels que $f(x) = y$.
 
-                <h3>3. Parité</h3>
-                <ul>
-                    <li>Paire : $f(-x) = f(x)$ (Symétrie axe des ordonnées).</li>
-                    <li>Impaire : $f(-x) = -f(x)$ (Symétrie centrale origine O).</li>
-                </ul>
+### 2. Variations
+$f$ est croissante sur $I$ si pour tout $a < b$, $f(a) \\le f(b)$ (l'ordre est conservé).
+$f$ est décroissante sur $I$ si pour tout $a < b$, $f(a) \\ge f(b)$ (l'ordre est inversé).
+
+### 3. Parité
+- Paire : $f(-x) = f(x)$ (Symétrie axe des ordonnées).
+- Impaire : $f(-x) = -f(x)$ (Symétrie centrale origine O).
             `,
             summary: [
                 "Variations : Croissante = 'Monte', Décroissante = 'Descend'.",
@@ -228,17 +221,17 @@ export const math2sData = {
             title: 'Calcul vectoriel',
             story: "Les vecteurs permettent de déplacer la géométrie vers le calcul. Ils modélisent forces, vitesses et translations.",
             content: `
-                <h3>1. Définition et Somme</h3>
-                <p>Un vecteur $\\vec{AB}$ est défini par une direction, un sens et une norme (longueur).</p>
-                <p><strong>Relation de Chasles :</strong> $\\vec{AB} + \\vec{BC} = \\vec{AC}$.</p>
-                
-                <h3>2. Colinéarité</h3>
-                <p>Deux vecteurs $\\vec{u}$ et $\\vec{v}$ sont colinéaires s'il existe un réel $k$ tel que $\\vec{u} = k \\vec{v}$.</p>
-                <p>Cela traduit le parallélisme des droites supports.</p>
+### 1. Définition et Somme
+Un vecteur $\\vec{AB}$ est défini par une direction, un sens et une norme (longueur).
+**Relation de Chasles :** $\\vec{AB} + \\vec{BC} = \\vec{AC}$.
 
-                <h3>3. Base et Coordonnées</h3>
-                <p>Dans une base $(\\vec{i}, \\vec{j})$, si $\\vec{u} = x\\vec{i} + y\\vec{j}$, alors le vecteur a pour coordonnées $(x, y)$.</p>
-                <p>Condition de colinéarité : $xy' - x'y = 0$ (Déterminant nul).</p>
+### 2. Colinéarité
+Deux vecteurs $\\vec{u}$ et $\\vec{v}$ sont colinéaires s'il existe un réel $k$ tel que $\\vec{u} = k \\vec{v}$.
+Cela traduit le parallélisme des droites supports.
+
+### 3. Base et Coordonnées
+Dans une base $(\\vec{i}, \\vec{j})$, si $\\vec{u} = x\\vec{i} + y\\vec{j}$, alors le vecteur a pour coordonnées $(x, y)$.
+Condition de colinéarité : $xy' - x'y = 0$ (Déterminant nul).
             `,
             summary: [
                 "$\\vec{AB}$ a pour coordonnées $(x_B - x_A ; y_B - y_A)$.",
@@ -260,15 +253,15 @@ export const math2sData = {
             title: 'Barycentre',
             story: "Le barycentre est le point d'équilibre d'un système pondéré. Utile en mécanique pour trouver le centre de gravité.",
             content: `
-                <h3>1. Barycentre de deux points</h3>
-                <p>Soit $(A, \\alpha)$ et $(B, \\beta)$ deux points pondérés avec $\\alpha + \\beta \\neq 0$.</p>
-                <p>Le barycentre $G$ est l'unique point tel que :</p>
-                <p>$$ \\alpha \\vec{GA} + \\beta \\vec{GB} = \\vec{0} $$</p>
-                <p>Ou encore : $\\vec{AG} = \\frac{\\beta}{\\alpha + \\beta} \\vec{AB}$.</p>
+### 1. Barycentre de deux points
+Soit $(A, \\alpha)$ et $(B, \\beta)$ deux points pondérés avec $\\alpha + \\beta \\neq 0$.
+Le barycentre $G$ est l'unique point tel que :
+$$ \\alpha \\vec{GA} + \\beta \\vec{GB} = \\vec{0} $$
+Ou encore : $\\vec{AG} = \\frac{\\beta}{\\alpha + \\beta} \\vec{AB}$.
 
-                <h3>2. Propriétés</h3>
-                <p><strong>Alignement :</strong> $G$, $A$ et $B$ sont toujours alignés.</p>
-                <p><strong>Homogénéité :</strong> On ne change pas le barycentre si on multiplie tous les poids par le même nombre $k \\neq 0$.</p>
+### 2. Propriétés
+**Alignement :** $G$, $A$ et $B$ sont toujours alignés.
+**Homogénéité :** On ne change pas le barycentre si on multiplie tous les poids par le même nombre $k \\neq 0$.
             `,
             summary: [
                 "Le barycentre se situe toujours sur la droite $(AB)$.",
@@ -290,16 +283,15 @@ export const math2sData = {
             title: 'Repérage',
             story: "Cartésius a eu l'idée géniale de quadriller le plan. Repérer un point, c'est lui donner une adresse unique.",
             content: `
-                <h3>1. Repères du Plan</h3>
-                <p>$(O, \\vec{i}, \\vec{j})$ est un repère.</p>
-                <ul>
-                    <li>Orthogonal : $\\vec{i} \\perp \\vec{j}$.</li>
-                    <li>Orthonormé : $\\vec{i} \\perp \\vec{j}$ et $||\\vec{i}|| = ||\\vec{j}|| = 1$.</li>
-                </ul>
+### 1. Repères du Plan
+$(O, \\vec{i}, \\vec{j})$ est un repère.
 
-                <h3>2. Distance et Milieu</h3>
-                <p>Dans un repère orthonormé :</p>
-                <p>$$ AB = \\sqrt{(x_B - x_A)^2 + (y_B - y_A)^2} $$</p>
+- Orthogonal : $\\vec{i} \\perp \\vec{j}$.
+- Orthonormé : $\\vec{i} \\perp \\vec{j}$ et $||\\vec{i}|| = ||\\vec{j}|| = 1$.
+
+### 2. Distance et Milieu
+Dans un repère orthonormé :
+$$ AB = \\sqrt{(x_B - x_A)^2 + (y_B - y_A)^2} $$
             `,
             summary: [
                 "Toujours vérifier si le repère est orthonormé avant de calculer une distance."
@@ -320,17 +312,17 @@ export const math2sData = {
             title: 'Angles et trigonométrie',
             story: "Mesurer la terre (géo-métrie) nécessite de maîtriser les angles. Le cercle trigonométrique est l'horloge des mathématiciens.",
             content: `
-                <h3>1. Le Cercle Trigonométrique</h3>
-                <p>Cercle de rayon 1 orienté dans le sens direct (anti-horaire).</p>
-                <p>L'unité de mesure est le <strong>Radian</strong>. $180^\\circ = \\pi \\text{ rds}$.</p>
+### 1. Le Cercle Trigonométrique
+Cercle de rayon 1 orienté dans le sens direct (anti-horaire).
+L'unité de mesure est le **Radian**. $180^\\circ = \\pi \\text{ rds}$.
 
-                <h3>2. Cosinus et Sinus</h3>
-                <p>Pour un point $M$ du cercle associé à l'angle $x$ :</p>
-                <ul>
-                    <li>$\\cos(x)$ est l'abscisse de $M$.</li>
-                    <li>$\\sin(x)$ est l'ordonnée de $M$.</li>
-                </ul>
-                <p><strong>Relation fondamentale :</strong> $\\cos^2(x) + \\sin^2(x) = 1$.</p>
+### 2. Cosinus et Sinus
+Pour un point $M$ du cercle associé à l'angle $x$ :
+
+- $\\cos(x)$ est l'abscisse de $M$.
+- $\\sin(x)$ est l'ordonnée de $M$.
+
+**Relation fondamentale :** $\\cos^2(x) + \\sin^2(x) = 1$.
             `,
             summary: [
                 "$\\cos(\\pi/3) = 1/2$, $\\sin(\\pi/3) = \\sqrt{3}/2$.",
@@ -352,15 +344,15 @@ export const math2sData = {
             title: 'Produit scalaire',
             story: "Comment multiplier deux vecteurs pour obtenir un nombre ? Le produit scalaire est l'outil pour tester l'orthogonalité.",
             content: `
-                <h3>1. Définition Géométrique</h3>
-                <p>$\\vec{u} \\cdot \\vec{v} = ||\\vec{u}|| \\times ||\\vec{v}|| \\times \\cos(\\vec{u}, \\vec{v})$.</p>
-                
-                <h3>2. Expression Analytique</h3>
-                <p>Dans un R.O.N, si $\\vec{u}(x, y)$ et $\\vec{v}(x', y')$ :</p>
-                <p>$$ \\vec{u} \\cdot \\vec{v} = xx' + yy' $$</p>
+### 1. Définition Géométrique
+$\\vec{u} \\cdot \\vec{v} = ||\\vec{u}|| \\times ||\\vec{v}|| \\times \\cos(\\vec{u}, \\vec{v})$.
 
-                <h3>3. Orthogonalité</h3>
-                <p>$\\vec{u} \\perp \\vec{v} \\iff \\vec{u} \\cdot \\vec{v} = 0$.</p>
+### 2. Expression Analytique
+Dans un R.O.N, si $\\vec{u}(x, y)$ et $\\vec{v}(x', y')$ :
+$$ \\vec{u} \\cdot \\vec{v} = xx' + yy' $$
+
+### 3. Orthogonalité
+$\\vec{u} \\perp \\vec{v} \\iff \\vec{u} \\cdot \\vec{v} = 0$.
             `,
             summary: [
                 "Le produit scalaire permet de calculer des angles et des longueurs (Théorème d'Al-Kashi).",
@@ -382,16 +374,15 @@ export const math2sData = {
             title: 'Transformations',
             story: "Bouger les figures sans les déformer (isométries) ou en les agrandissant (homothéties).",
             content: `
-                <h3>1. Homothétie</h3>
-                <p>Une homothétie $h$ de centre $\\Omega$ et de rapport $k$ transforme $M$ en $M'$ tel que :</p>
-                <p>$$ \\vec{\\Omega M'} = k \\vec{\\Omega M} $$</p>
-                <ul>
-                    <li>Si $|k| > 1$ : Agrandissement.</li>
-                    <li>Si $|k| < 1$ : Réduction.</li>
-                </ul>
+### 1. Homothétie
+Une homothétie $h$ de centre $\\Omega$ et de rapport $k$ transforme $M$ en $M'$ tel que :
+$$ \\vec{\\Omega M'} = k \\vec{\\Omega M} $$
 
-                <h3>2. Isométries</h3>
-                <p>Les translations, rotations et symétries conservent les distances.</p>
+- Si $|k| > 1$ : Agrandissement.
+- Si $|k| < 1$ : Réduction.
+
+### 2. Isométries
+Les translations, rotations et symétries conservent les distances.
             `,
             summary: [
                 "L'image d'une droite par homothétie est une droite parallèle.",
@@ -413,15 +404,13 @@ export const math2sData = {
             title: 'Espace',
             story: "Sortons du plan pour explorer la 3D. Droites, plans et solides.",
             content: `
-                <h3>1. Positions relatives</h3>
-                <ul>
-                    <li>Deux droites dans l'espace peuvent être sécantes, parallèles ou <strong>non coplanaires</strong> (ni l'un ni l'autre).</li>
-                    <li>Une droite est orthogonale à un plan si elle est orthogonale à deux droites sécantes de ce plan.</li>
-                </ul>
+### 1. Positions relatives
+- Deux droites dans l'espace peuvent être sécantes, parallèles ou **non coplanaires** (ni l'un ni l'autre).
+- Une droite est orthogonale à un plan si elle est orthogonale à deux droites sécantes de ce plan.
 
-                <h3>2. Solides Usuels</h3>
-                <p>Cube, Tétraèdre, Pyramide, Prisme.</p>
-                <p>Volume Pyramide = $\\frac{1}{3} \\times \\text{Aire Base} \\times \\text{Hauteur}$.</p>
+### 2. Solides Usuels
+Cube, Tétraèdre, Pyramide, Prisme.
+Volume Pyramide = $\\frac{1}{3} \\times \\text{Aire Base} \\times \\text{Hauteur}$.
             `,
             summary: [
                 "Pour prouver l'orthogonalité droite/plan, cherchez deux droites sécantes."

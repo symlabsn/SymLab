@@ -13,17 +13,16 @@ export const svt5eData = {
             title: '1. Le cadre de vie',
             story: "Imaginez votre quartier comme un immense aquarium. Il y a les habitants (les poissons), les maisons (les châteaux), l'air (l'eau). Tout ce petit monde interagit. Si l'eau devient sale, les poissons tombent malades. Votre cadre de vie fonctionne exactement pareil.",
             content: `
-                <h3>1. Qu'est-ce que le cadre de vie ?</h3>
-                <p>C'est l'ensemble des éléments qui nous entourent au quotidien : notre maison, notre quartier, notre école, mais aussi l'air que l'on respire et les espaces verts.</p>
-                <h3>2. Les composantes</h3>
-                <ul>
-                    <li><strong>L'environnement physique</strong> : Les constructions (bâtiments, routes), l'eau, l'air.</li>
-                    <li><strong>L'environnement social</strong> : Les relations entre les voisins, la sécurité, la propreté.</li>
-                </ul>
-                <div class="analogy">
-                    <strong>🏠 Analogie : La Chambre</strong><br>
-                    Votre chambre est votre cadre de vie personnel. Si elle est rangée et aérée, vous dormez bien. Si elle est en désordre et poussiéreuse, vous vous sentez moins bien. C'est pareil pour une ville.
-                </div>
+### 1. Qu'est-ce que le cadre de vie ?
+C'est l'ensemble des éléments qui nous entourent au quotidien : notre maison, notre quartier, notre école, mais aussi l'air que l'on respire et les espaces verts.
+
+### 2. Les composantes
+- **L'environnement physique** : Les constructions (bâtiments, routes), l'eau, l'air.
+- **L'environnement social** : Les relations entre les voisins, la sécurité, la propreté.
+
+> **🏠 Analogie : La Chambre**
+>
+> Votre chambre est votre cadre de vie personnel. Si elle est rangée et aérée, vous dormez bien. Si elle est en désordre et poussiéreuse, vous vous sentez moins bien. C'est pareil pour une ville.
             `,
             summary: [
                 "Le cadre de vie influence notre santé et notre bien-être.",
@@ -46,14 +45,13 @@ export const svt5eData = {
             title: '2. Les pollutions et leurs conséquences',
             story: "C'est l'histoire d'une planète qui tousse. Imaginez que chaque papier jeté par terre est comme un petit virus pour la Terre. Au début, ce n'est rien. Mais quand des milliards de personnes le font, la Terre attrape une fièvre (réchauffement climatique).",
             content: `
-                <h3>1. Les types de pollution</h3>
-                <ul>
-                    <li><strong>Pollution de l'air</strong> : Fumées des voitures, usines, poussière.</li>
-                    <li><strong>Pollution de l'eau</strong> : Déchets plastiques, eaux usées non traitées, pétrole.</li>
-                    <li><strong>Pollution du sol</strong> : Engrais chimiques, pesticides, décharges sauvages.</li>
-                </ul>
-                <h3>2. Les conséquences</h3>
-                <p>Maladies respiratoires (asthme), disparition des animaux, réchauffement de la planète, inondations.</p>
+### 1. Les types de pollution
+- **Pollution de l'air** : Fumées des voitures, usines, poussière.
+- **Pollution de l'eau** : Déchets plastiques, eaux usées non traitées, pétrole.
+- **Pollution du sol** : Engrais chimiques, pesticides, décharges sauvages.
+
+### 2. Les conséquences
+Maladies respiratoires (asthme), disparition des animaux, réchauffement de la planète, inondations.
             `,
             summary: [
                 "La pollution dégrade notre santé et la nature.",
@@ -78,22 +76,19 @@ export const svt5eData = {
             title: '3. Alimentation : Adaptation aux régimes',
             story: "Pourquoi le lion a-t-il de grandes dents pointues et la vache des dents plates ? C'est comme comparer un couteau à steak et une meule à grains. L'outil (la dent) est adapté au travail (la nourriture).",
             content: `
-                <h3>1. Les différents régimes</h3>
-                <ul>
-                    <li><strong>Zoophage (Carnivore)</strong> : Mange de la viande (ex: Lion, Chat).</li>
-                    <li><strong>Phytophage (Herbivore)</strong> : Mange des végétaux (ex: Vache, Mouton).</li>
-                    <li><strong>Omnivore</strong> : Mange de tout (ex: Homme, Porc).</li>
-                </ul>
-                <h3>2. L'adaptation de la dentition</h3>
-                <ul>
-                    <li>Les carnivores ont des <strong>crocs</strong> pour tuer et déchirer.</li>
-                    <li>Les herbivores ont des <strong>molaires</strong> larges pour broyer l'herbe.</li>
-                    <li>Les omnivores ont un peu des deux.</li>
-                </ul>
-                <div class="analogy">
-                    <strong>🔧 Analogie : La Boîte à Outils</strong><br>
-                    Si vous voulez couper du bois, vous prenez une scie (dents de carnivore). Si vous voulez écraser de l'ail, vous prenez un pilon (dents d'herbivore). La nature donne les bons outils aux animaux.
-                </div>
+### 1. Les différents régimes
+- **Zoophage (Carnivore)** : Mange de la viande (ex: Lion, Chat).
+- **Phytophage (Herbivore)** : Mange des végétaux (ex: Vache, Mouton).
+- **Omnivore** : Mange de tout (ex: Homme, Porc).
+
+### 2. L'adaptation de la dentition
+- Les carnivores ont des **crocs** pour tuer et déchirer.
+- Les herbivores ont des **molaires** larges pour broyer l'herbe.
+- Les omnivores ont un peu des deux.
+
+> **🔧 Analogie : La Boîte à Outils**
+>
+> Si vous voulez couper du bois, vous prenez une scie (dents de carnivore). Si vous voulez écraser de l'ail, vous prenez un pilon (dents d'herbivore). La nature donne les bons outils aux animaux.
             `,
             summary: [
                 "Le régime alimentaire détermine la forme des dents et du tube digestif.",
@@ -116,17 +111,14 @@ export const svt5eData = {
             title: '4. Besoins de l’organisme humain',
             story: "Votre corps est comme une voiture de course. Elle a besoin de carburant (glucides), de pièces de rechange (protéines) et d'huiles pour le moteur (vitamines). Si vous mettez du soda à la place de l'essence, elle va tomber en panne !",
             content: `
-                <h3>1. Les groupes d'aliments</h3>
-                <ul>
-                    <li><strong>Bâtisseurs (Protéines)</strong> : Pour construire les muscles et os (Viande, poisson, lait).</li>
-                    <li><strong>Énergétiques (Glucides/Lipides)</strong> : Pour donner de la force (Riz, pain, huile).</li>
-                    <li><strong>Protecteurs (Vitamines)</strong> : Pour éviter les maladies (Fruits, légumes).</li>
-                </ul>
-                <h3>2. Conséquences d'une mauvaise alimentation</h3>
-                <ul>
-                    <li><strong>Carences</strong> : Le Kwashiorkor (manque de protéines), le Scorbut (manque de vit. C).</li>
-                    <li><strong>Excès</strong> : L'obésité, le diabète (trop de sucre et de gras).</li>
-                </ul>
+### 1. Les groupes d'aliments
+- **Bâtisseurs (Protéines)** : Pour construire les muscles et os (Viande, poisson, lait).
+- **Énergétiques (Glucides/Lipides)** : Pour donner de la force (Riz, pain, huile).
+- **Protecteurs (Vitamines)** : Pour éviter les maladies (Fruits, légumes).
+
+### 2. Conséquences d'une mauvaise alimentation
+- **Carences** : Le Kwashiorkor (manque de protéines), le Scorbut (manque de vit. C).
+- **Excès** : L'obésité, le diabète (trop de sucre et de gras).
             `,
             summary: [
                 "Manger équilibré, c'est manger un peu de tout.",
@@ -149,19 +141,16 @@ export const svt5eData = {
             title: '5. La respiration chez les animaux',
             story: "Comment respirer sous l'eau ? Impossible pour nous ! Mais le poisson, lui, a des 'filtres' magiques appelés branchies. Chaque animal a inventé sa technique pour attraper l'oxygène, que ce soit dans l'air ou dans l'eau.",
             content: `
-                <h3>1. Respiration Aérienne</h3>
-                <ul>
-                    <li><strong>Poumons</strong> : Homme, mammifères, oiseaux. L'air entre dans des sacs.</li>
-                    <li><strong>Trachées</strong> : Insectes (criquet). Des petits tuyaux amènent l'air directement aux organes.</li>
-                </ul>
-                <h3>2. Respiration Aquatique</h3>
-                <ul>
-                    <li><strong>Branchies</strong> : Poissons. L'eau riche en oxygène passe à travers les branchies (les 'lamelles rouges') qui capturent l'O2.</li>
-                </ul>
-                <div class="analogy">
-                    <strong>🤿 Analogie : Le Tuba vs La Bouteille</strong><br>
-                    Les poumons sont comme une bouteille de plongée qu'on remplit. Les branchies sont comme un filtre qui tamise l'eau pour en garder l'oxygène.
-                </div>
+### 1. Respiration Aérienne
+- **Poumons** : Homme, mammifères, oiseaux. L'air entre dans des sacs.
+- **Trachées** : Insectes (criquet). Des petits tuyaux amènent l'air directement aux organes.
+
+### 2. Respiration Aquatique
+- **Branchies** : Poissons. L'eau riche en oxygène passe à travers les branchies (les 'lamelles rouges') qui capturent l'O2.
+
+> **🤿 Analogie : Le Tuba vs La Bouteille**
+>
+> Les poumons sont comme une bouteille de plongée qu'on remplit. Les branchies sont comme un filtre qui tamise l'eau pour en garder l'oxygène.
             `,
             summary: [
                 "Tous les animaux respirent (prennent de l'O2, rejettent du CO2).",
@@ -186,13 +175,12 @@ export const svt5eData = {
             title: '6. Reproduction animale',
             story: "L'éternelle question : qui de la poule ou de l'œuf ? La reproduction, c'est la mission secrète de chaque animal pour ne pas disparaître. Certains pondent des œufs (comme des capsules spatiales), d'autres gardent les bébés au chaud dans le ventre.",
             content: `
-                <h3>1. Ovipares vs Vivipares</h3>
-                <ul>
-                    <li><strong>Ovipares</strong> : Pondent des œufs (Oiseaux, reptiles, insectes). Le bébé grandit hors du corps de la mère.</li>
-                    <li><strong>Vivipares</strong> : Le bébé grandit dans le ventre de la mère (Mammifères : vache, homme).</li>
-                </ul>
-                <h3>2. La Fécondation</h3>
-                <p>C'est la rencontre entre un spermatozoïde (mâle) et un ovule (femelle) pour faire un œuf.</p>
+### 1. Ovipares vs Vivipares
+- **Ovipares** : Pondent des œufs (Oiseaux, reptiles, insectes). Le bébé grandit hors du corps de la mère.
+- **Vivipares** : Le bébé grandit dans le ventre de la mère (Mammifères : vache, homme).
+
+### 2. La Fécondation
+C'est la rencontre entre un spermatozoïde (mâle) et un ovule (femelle) pour faire un œuf.
             `,
             summary: [
                 "Ovipare = Œuf.",
@@ -215,17 +203,16 @@ export const svt5eData = {
             title: '7. Reproduction plantes à fleurs',
             story: "Les fleurs ne sont pas juste jolies pour faire plaisir. Ce sont des panneaux publicitaires pour attirer les abeilles ! Les abeilles sont les 'facteurs' qui transportent le pollen (le message d'amour) d'une fleur à l'autre.",
             content: `
-                <h3>1. Les organes de la fleur</h3>
-                <ul>
-                    <li><strong>Étamine (Mâle)</strong> : Produit le pollen (poudre jaune).</li>
-                    <li><strong>Pistil (Femelle)</strong> : Contient les ovules.</li>
-                </ul>
-                <h3>2. De la Fleur au Fruit</h3>
-                <p>Une fois que le pollen arrive sur le pistil (pollinisation), la fleur fane, les pétales tombent, et le pistil gonfle pour devenir le <strong>fruit</strong>. Les ovules deviennent les <strong>graines</strong>.</p>
-                <div class="analogy">
-                    <strong>📦 Analogie : Le Colis</strong><br>
-                    Le fruit est un colis postal. L'emballage (la chair du fruit) protège le trésor à l'intérieur : les graines, qui serviront à faire pousser de nouvelles plantes.
-                </div>
+### 1. Les organes de la fleur
+- **Étamine (Mâle)** : Produit le pollen (poudre jaune).
+- **Pistil (Femelle)** : Contient les ovules.
+
+### 2. De la Fleur au Fruit
+Une fois que le pollen arrive sur le pistil (pollinisation), la fleur fane, les pétales tombent, et le pistil gonfle pour devenir le **fruit**. Les ovules deviennent les **graines**.
+
+> **📦 Analogie : Le Colis**
+>
+> Le fruit est un colis postal. L'emballage (la chair du fruit) protège le trésor à l'intérieur : les graines, qui serviront à faire pousser de nouvelles plantes.
             `,
             summary: [
                 "Pollen = cellule reproductrice mâle.",
@@ -248,10 +235,11 @@ export const svt5eData = {
             title: '8. Reproduction plantes sans fleurs',
             story: "Comment font les fougères ou les mousses ? Elles n'ont pas de fleurs ! Elles utilisent une technique de ninja : les spores. Ce sont des poussières invisibles qui s'envolent au vent pour coloniser de nouveaux territoires.",
             content: `
-                <h3>1. Les Spores</h3>
-                <p>Regardez sous une feuille de fougère : il y a des petits tas jaunes/marrons appelés <strong>sporanges</strong>. Ils contiennent des milliers de spores.</p>
-                <h3>2. Le Cycle</h3>
-                <p>La spore tombe au sol humide $ \\rightarrow $ elle germe et donne une petite plante (le prothalle) $ \\rightarrow $ fécondation (grâce à l'eau) $ \\rightarrow $ nouvelle fougère.</p>
+### 1. Les Spores
+Regardez sous une feuille de fougère : il y a des petits tas jaunes/marrons appelés **sporanges**. Ils contiennent des milliers de spores.
+
+### 2. Le Cycle
+La spore tombe au sol humide $ \\rightarrow $ elle germe et donne une petite plante (le prothalle) $ \\rightarrow $ fécondation (grâce à l'eau) $ \\rightarrow $ nouvelle fougère.
             `,
             summary: [
                 "Plantes sans fleurs = Fougères, mousses, algues.",
@@ -280,14 +268,13 @@ export const svt5eData = {
             title: '9. Les sols : diversité et importance',
             story: "Le sol n'est pas juste de la 'terre sale'. C'est la peau vivante de la Terre. Dans une poignée de terre, il y a plus d'êtres vivants que d'humains sur la planète ! C'est ce qui nous permet de manger.",
             content: `
-                <h3>1. Composition du sol</h3>
-                <ul>
-                    <li><strong>Matière minérale</strong> : Sable, argile, cailloux (vient de la roche).</li>
-                    <li><strong>Matière organique</strong> : Feuilles mortes, racines, humus (vient du vivant).</li>
-                    <li><strong>Êtres vivants</strong> : Vers de terre, bactéries, champignons.</li>
-                </ul>
-                <h3>2. Les types de sols</h3>
-                <p>Sols sableux (légers mais gardent mal l'eau), sols argileux (lourds), sols humifères (riches pour l'agriculture).</p>
+### 1. Composition du sol
+- **Matière minérale** : Sable, argile, cailloux (vient de la roche).
+- **Matière organique** : Feuilles mortes, racines, humus (vient du vivant).
+- **Êtres vivants** : Vers de terre, bactéries, champignons.
+
+### 2. Les types de sols
+Sols sableux (légers mais gardent mal l'eau), sols argileux (lourds), sols humifères (riches pour l'agriculture).
             `,
             summary: [
                 "Le sol est un mélange de minéral et d'organique.",
@@ -310,18 +297,17 @@ export const svt5eData = {
             title: '10. Genèse et évolution des sols',
             story: "Fabriquer 1 cm de sol prend des siècles ! C'est une lente collaboration entre la pluie qui casse la roche et les plantes qui meurent pour faire du terreau. Le sol est une ressource très lente à renouveler.",
             content: `
-                <h3>1. Les étapes de formation</h3>
-                <ol>
-                    <li><strong>Altération de la roche mère</strong> : La pluie, le vent et le gel fissurent la roche dure du sous-sol.</li>
-                    <li><strong>Installation de la vie</strong> : Des mousses et lichens s'installent et meurent, créant un peu d'humus.</li>
-                    <li><strong>Mélange</strong> : Les vers de terre mélangent la roche en poudre et l'humus. Le sol s'épaissit.</li>
-                </ol>
-                <h3>2. L'érosion (Le danger)</h3>
-                <p>Si on coupe les arbres (déforestation), la pluie emporte le sol. C'est l'érosion. Le sol disparaît et le désert avance.</p>
-                <div class="analogy">
-                    <strong>🍰 Analogie : Le Gâteau</strong><br>
-                    Le sol est un gâteau à étages. La roche mère est le plat dur en bas. Les débris de roche sont la pâte. L'humus est le glaçage au chocolat sur le dessus.
-                </div>
+### 1. Les étapes de formation
+1. **Altération de la roche mère** : La pluie, le vent et le gel fissurent la roche dure du sous-sol.
+2. **Installation de la vie** : Des mousses et lichens s'installent et meurent, créant un peu d'humus.
+3. **Mélange** : Les vers de terre mélangent la roche en poudre et l'humus. Le sol s'épaissit.
+
+### 2. L'érosion (Le danger)
+Si on coupe les arbres (déforestation), la pluie emporte le sol. C'est l'érosion. Le sol disparaît et le désert avance.
+
+> **🍰 Analogie : Le Gâteau**
+>
+> Le sol est un gâteau à étages. La roche mère est le plat dur en bas. Les débris de roche sont la pâte. L'humus est le glaçage au chocolat sur le dessus.
             `,
             summary: [
                 "Le sol se forme à partir de la roche mère.",
@@ -346,10 +332,11 @@ export const svt5eData = {
             title: '11. Origine des roches sédimentaires',
             story: "Avez-vous déjà vu des couches de terre de différentes couleurs sur le bord d'une route ? Ce sont les pages du livre d'histoire de la Terre. Chaque couche (sédiment) s'est déposée il y a des millions d'années, souvent au fond de l'eau.",
             content: `
-                <h3>1. La Sédimentation</h3>
-                <p>Les rivières transportent du sable, de la boue et des cailloux. Quand le courant ralentit (dans un lac ou la mer), tout se dépose au fond : ce sont les <strong>sédiments</strong>.</p>
-                <h3>2. La Diagenèse (Durcissement)</h3>
-                <p>Avec le temps et le poids des couches au-dessus, le sable mou se transforme en pierre dure (Grès), la boue devient de l'Argile, les coquillages deviennent du Calcaire.</p>
+### 1. La Sédimentation
+Les rivières transportent du sable, de la boue et des cailloux. Quand le courant ralentit (dans un lac ou la mer), tout se dépose au fond : ce sont les **sédiments**.
+
+### 2. La Diagenèse (Durcissement)
+Avec le temps et le poids des couches au-dessus, le sable mou se transforme en pierre dure (Grès), la boue devient de l'Argile, les coquillages deviennent du Calcaire.
             `,
             summary: [
                 "Roches sédimentaires = roches formées par l'accumulation de dépôts.",
@@ -372,18 +359,17 @@ export const svt5eData = {
             title: '12. Gestion des roches sédimentaires',
             story: "Regardez autour de vous. Les murs de l'école (ciment), les vitres (sable), le plâtre (gypse)... Notre monde moderne est construit avec des roches sédimentaires. Ce sont des trésors géologiques.",
             content: `
-                <h3>1. Utilité</h3>
-                <ul>
-                    <li><strong>Construction</strong> : Calcaire (ciment), Sable (béton, verre), Argile (briques, poteries).</li>
-                    <li><strong>Énergie</strong> : Pétrole, Charbon (ce sont aussi des roches sédimentaires !).</li>
-                    <li><strong>Phosphates</strong> : Pour faire des engrais (très important au Sénégal).</li>
-                </ul>
-                <h3>2. Gestion durable</h3>
-                <p>Ce sont des ressources non renouvelables (elles mettent trop de temps à se former). Il faut éviter le gaspillage et penser au recyclage (ex: recycler le verre).</p>
-                <div class="analogy">
-                    <strong>🧱 Analogie : Les Lego</strong><br>
-                    Les roches sont les briques Lego de notre civilisation. Si on utilise toutes les briques pour faire des murs, on n'en aura plus pour faire des fenêtres. Il faut gérer le stock.
-                </div>
+### 1. Utilité
+- **Construction** : Calcaire (ciment), Sable (béton, verre), Argile (briques, poteries).
+- **Énergie** : Pétrole, Charbon (ce sont aussi des roches sédimentaires !).
+- **Phosphates** : Pour faire des engrais (très important au Sénégal).
+
+### 2. Gestion durable
+Ce sont des ressources non renouvelables (elles mettent trop de temps à se former). Il faut éviter le gaspillage et penser au recyclage (ex: recycler le verre).
+
+> **🧱 Analogie : Les Lego**
+>
+> Les roches sont les briques Lego de notre civilisation. Si on utilise toutes les briques pour faire des murs, on n'en aura plus pour faire des fenêtres. Il faut gérer le stock.
             `,
             summary: [
                 "Le Sénégal est riche en ressources sédimentaires (Phosphates, Calcaire).",

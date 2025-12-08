@@ -12,21 +12,20 @@ export const math3eData = {
             title: '1. Racine Carrée',
             story: `Imaginez un carré de 25 m². Quelle est la longueur de son côté ? C'est 5m, car 5×5=25. La racine carrée, c'est l'opération inverse du carré. C'est comme défaire une multiplication par elle-même.`,
             content: `
-                <h3>1. Définition</h3>
-                <p>La racine carrée d'un nombre positif $a$ est le nombre positif dont le carré vaut $a$.</p>
-                <p>On note : $\\sqrt{a}$. Exemple : $\\sqrt{25} = 5$ car $5^2 = 25$.</p>
-                <h3>2. Propriétés</h3>
-                <ul>
-                    <li>$\\sqrt{a \\times b} = \\sqrt{a} \\times \\sqrt{b}$</li>
-                    <li>$\\sqrt{\\frac{a}{b}} = \\frac{\\sqrt{a}}{\\sqrt{b}}$</li>
-                    <li>$(\\sqrt{a})^2 = a$</li>
-                </ul>
-                <h3>3. Simplification</h3>
-                <p>$\\sqrt{50} = \\sqrt{25 \\times 2} = \\sqrt{25} \\times \\sqrt{2} = 5\\sqrt{2}$</p>
-                <div class="analogy">
-                    <strong>📦 Analogie : Le Carton</strong><br>
-                    Si un carton carré a une surface de 36 m², chaque côté mesure $\\sqrt{36} = 6$ m. C'est le côté du carré parfait.
-                </div>
+### 1. Définition
+La racine carrée d'un nombre positif $a$ est le nombre positif dont le carré vaut $a$.
+On note : $\\sqrt{a}$. Exemple : $\\sqrt{25} = 5$ car $5^2 = 25$.
+
+### 2. Propriétés
+- $\\sqrt{a \\times b} = \\sqrt{a} \\times \\sqrt{b}$
+- $\\sqrt{\\frac{a}{b}} = \\frac{\\sqrt{a}}{\\sqrt{b}}$
+- $(\\sqrt{a})^2 = a$
+
+### 3. Simplification
+$\\sqrt{50} = \\sqrt{25 \\times 2} = \\sqrt{25} \\times \\sqrt{2} = 5\\sqrt{2}$
+
+> **📦 Analogie : Le Carton**  
+> Si un carton carré a une surface de 36 m², chaque côté mesure $\\sqrt{36} = 6$ m. C'est le côté du carré parfait.
             `,
             summary: [
                 "$\\sqrt{a^2} = a$ (si a positif).",
@@ -49,12 +48,14 @@ export const math3eData = {
             title: '2. Équations et Inéquations à une inconnue',
             story: `Vous êtes maintenant des experts de la balance ! Cette année, on ajoute les équations avec des racines carrées et des fractions plus complexes. Le principe reste le même : isoler x.`,
             content: `
-                <h3>1. Équations du type $ax + b = cx + d$</h3>
-                <p>On regroupe les termes en x d'un côté et les constantes de l'autre.</p>
-                <h3>2. Équations avec fractions</h3>
-                <p>Multiplier par le dénominateur commun pour éliminer les fractions.</p>
-                <h3>3. Inéquations</h3>
-                <p>Attention au changement de sens si on multiplie/divise par un négatif !</p>
+### 1. Équations du type $ax + b = cx + d$
+On regroupe les termes en x d'un côté et les constantes de l'autre.
+
+### 2. Équations avec fractions
+Multiplier par le dénominateur commun pour éliminer les fractions.
+
+### 3. Inéquations
+Attention au changement de sens si on multiplie/divise par un négatif !
             `,
             summary: [
                 "Toujours vérifier la solution en la remplaçant dans l'équation.",
@@ -77,12 +78,14 @@ export const math3eData = {
             title: '3. Systèmes d\'équations à deux inconnues',
             story: `Deux inconnues (x et y), deux équations. C'est comme deux indices dans une enquête. Ensemble, ils permettent de trouver les deux coupables !`,
             content: `
-                <h3>1. Méthode par Substitution</h3>
-                <p>On exprime une variable en fonction de l'autre dans une équation, puis on remplace.</p>
-                <h3>2. Méthode par Combinaison</h3>
-                <p>On additionne ou soustrait les équations pour éliminer une variable.</p>
-                <h3>3. Interprétation Graphique</h3>
-                <p>Chaque équation est une droite. La solution est le point d'intersection.</p>
+### 1. Méthode par Substitution
+On exprime une variable en fonction de l'autre dans une équation, puis on remplace.
+
+### 2. Méthode par Combinaison
+On additionne ou soustrait les équations pour éliminer une variable.
+
+### 3. Interprétation Graphique
+Chaque équation est une droite. La solution est le point d'intersection.
             `,
             summary: [
                 "Un système a une solution unique si les droites se coupent.",
@@ -105,10 +108,11 @@ export const math3eData = {
             title: '4. Systèmes d\'inéquations',
             story: `Maintenant, au lieu de chercher un point précis, on cherche une zone entière. C'est comme dire tous les points qui sont à la fois au-dessus de cette ligne ET en dessous de celle-là.`,
             content: `
-                <h3>1. Principe</h3>
-                <p>Résoudre chaque inéquation séparément, puis trouver l'intersection des solutions.</p>
-                <h3>2. Représentation</h3>
-                <p>Sur un graphique, on colorie les zones et on garde la partie commune.</p>
+### 1. Principe
+Résoudre chaque inéquation séparément, puis trouver l'intersection des solutions.
+
+### 2. Représentation
+Sur un graphique, on colorie les zones et on garde la partie commune.
             `,
             summary: [
                 "La solution est l'intersection des deux zones.",
@@ -131,14 +135,17 @@ export const math3eData = {
             title: '5. Statistique',
             story: `Les statistiques, c'est l'art de résumer des milliers de données en quelques chiffres clés : moyenne, médiane, étendue. C'est indispensable pour comprendre les sondages et les études.`,
             content: `
-                <h3>1. Moyenne</h3>
-                <p>Somme des valeurs / Nombre de valeurs.</p>
-                <h3>2. Médiane</h3>
-                <p>La valeur du milieu quand on range les données dans l'ordre.</p>
-                <h3>3. Étendue</h3>
-                <p>Max - Min. Mesure la dispersion.</p>
-                <h3>4. Quartiles</h3>
-                <p>Q1 (25%), Q2 (médiane, 50%), Q3 (75%).</p>
+### 1. Moyenne
+Somme des valeurs / Nombre de valeurs.
+
+### 2. Médiane
+La valeur du milieu quand on range les données dans l'ordre.
+
+### 3. Étendue
+Max - Min. Mesure la dispersion.
+
+### 4. Quartiles
+Q1 (25%), Q2 (médiane, 50%), Q3 (75%).
             `,
             summary: [
                 "Moyenne sensible aux valeurs extrêmes.",
@@ -161,19 +168,18 @@ export const math3eData = {
             title: '6. Applications Affines',
             story: `Une fonction affine, c'est une machine qui transforme x en ax+b. C'est la généralisation de la fonction linéaire. Son graphique est toujours une droite, mais qui ne passe pas forcément par l'origine.`,
             content: `
-                <h3>1. Définition</h3>
-                <p>$f(x) = ax + b$</p>
-                <ul>
-                    <li>$a$ : coefficient directeur (pente).</li>
-                    <li>$b$ : ordonnée à l'origine (où la droite coupe l'axe des y).</li>
-                </ul>
-                <h3>2. Représentation</h3>
-                <p>Droite qui passe par le point (0, b).</p>
-                <h3>3. Cas particuliers</h3>
-                <ul>
-                    <li>Si $b = 0$ : fonction linéaire.</li>
-                    <li>Si $a = 0$ : fonction constante (droite horizontale).</li>
-                </ul>
+### 1. Définition
+$f(x) = ax + b$
+
+- $a$ : coefficient directeur (pente).
+- $b$ : ordonnée à l'origine (où la droite coupe l'axe des y).
+
+### 2. Représentation
+Droite qui passe par le point (0, b).
+
+### 3. Cas particuliers
+- Si $b = 0$ : fonction linéaire.
+- Si $a = 0$ : fonction constante (droite horizontale).
             `,
             summary: [
                 "$a > 0$ : fonction croissante.",
@@ -201,16 +207,17 @@ export const math3eData = {
             title: '7. Théorème de Thalès',
             story: `Thalès, c'est le roi de la proportionnalité en géométrie. Imaginez deux échelles parallèles appuyées contre un mur. Si vous montez deux fois plus haut sur l'une, vous montez deux fois plus haut sur l'autre. C'est Thalès !`,
             content: `
-                <h3>1. Configuration</h3>
-                <p>Deux droites parallèles coupées par deux sécantes.</p>
-                <h3>2. Théorème Direct</h3>
-                <p>Si (BC) // (DE), alors : $\\frac{AB}{AD} = \\frac{AC}{AE} = \\frac{BC}{DE}$</p>
-                <h3>3. Réciproque</h3>
-                <p>Si les rapports sont égaux, alors les droites sont parallèles.</p>
-                <div class="analogy">
-                    <strong>📏 Analogie : La Photocopieuse</strong><br>
-                    Thalès, c'est comme un zoom. Si vous agrandissez une photo de 50%, toutes les longueurs sont multipliées par 1.5.
-                </div>
+### 1. Configuration
+Deux droites parallèles coupées par deux sécantes.
+
+### 2. Théorème Direct
+Si (BC) // (DE), alors : $\\frac{AB}{AD} = \\frac{AC}{AE} = \\frac{BC}{DE}$
+
+### 3. Réciproque
+Si les rapports sont égaux, alors les droites sont parallèles.
+
+> **📏 Analogie : La Photocopieuse**  
+> Thalès, c'est comme un zoom. Si vous agrandissez une photo de 50%, toutes les longueurs sont multipliées par 1.5.
             `,
             summary: [
                 "Milieu + Milieu → Parallèle.",
@@ -233,12 +240,14 @@ export const math3eData = {
             title: '8. Angles Inscrits',
             story: `Un angle inscrit dans un cercle a un super-pouvoir : il vaut toujours la moitié de l'angle au centre qui intercepte le même arc. C'est magique et ça marche à tous les coups !`,
             content: `
-                <h3>1. Définition</h3>
-                <p>Un angle inscrit a son sommet sur le cercle et ses côtés passent par deux autres points du cercle.</p>
-                <h3>2. Théorème</h3>
-                <p>L'angle inscrit vaut la moitié de l'angle au centre qui intercepte le même arc.</p>
-                <h3>3. Conséquence</h3>
-                <p>Tous les angles inscrits qui interceptent le même arc sont égaux.</p>
+### 1. Définition
+Un angle inscrit a son sommet sur le cercle et ses côtés passent par deux autres points du cercle.
+
+### 2. Théorème
+L'angle inscrit vaut la moitié de l'angle au centre qui intercepte le même arc.
+
+### 3. Conséquence
+Tous les angles inscrits qui interceptent le même arc sont égaux.
             `,
             summary: [
                 "Angle inscrit = Angle au centre / 2.",
@@ -261,14 +270,13 @@ export const math3eData = {
             title: '9. Trigonométrie dans le triangle rectangle',
             story: `SOH-CAH-TOA ! C'est le code secret pour retenir sinus, cosinus et tangente. Avec ces trois outils, vous pouvez calculer n'importe quelle longueur ou angle dans un triangle rectangle.`,
             content: `
-                <h3>1. Les 3 Rapports</h3>
-                <ul>
-                    <li>$\\sin(\\alpha) = \\frac{\\text{Opposé}}{\\text{Hypoténuse}}$ (SOH)</li>
-                    <li>$\\cos(\\alpha) = \\frac{\\text{Adjacent}}{\\text{Hypoténuse}}$ (CAH)</li>
-                    <li>$\\tan(\\alpha) = \\frac{\\text{Opposé}}{\\text{Adjacent}}$ (TOA)</li>
-                </ul>
-                <h3>2. Formule Fondamentale</h3>
-                <p>$\\sin^2(\\alpha) + \\cos^2(\\alpha) = 1$</p>
+### 1. Les 3 Rapports
+- $\\sin(\\alpha) = \\frac{\\text{Opposé}}{\\text{Hypoténuse}}$ (SOH)
+- $\\cos(\\alpha) = \\frac{\\text{Adjacent}}{\\text{Hypoténuse}}$ (CAH)
+- $\\tan(\\alpha) = \\frac{\\text{Opposé}}{\\text{Adjacent}}$ (TOA)
+
+### 2. Formule Fondamentale
+$\\sin^2(\\alpha) + \\cos^2(\\alpha) = 1$
             `,
             summary: [
                 "Toujours identifier l'hypoténuse (côté le plus long).",
@@ -291,20 +299,16 @@ export const math3eData = {
             title: '10. Géométrie dans l\'espace',
             story: `Retour à la 3D ! Cette fois, on étudie la sphère (la boule parfaite) et le cylindre (la canette de soda). Volumes et aires, c'est parti !`,
             content: `
-                <h3>1. La Sphère</h3>
-                <ul>
-                    <li>Volume : $V = \\frac{4}{3}\\pi R^3$</li>
-                    <li>Aire : $A = 4\\pi R^2$</li>
-                </ul>
-                <h3>2. Le Cylindre</h3>
-                <ul>
-                    <li>Volume : $V = \\pi R^2 \\times h$</li>
-                    <li>Aire latérale : $A = 2\\pi R \\times h$</li>
-                </ul>
-                <div class="analogy">
-                    <strong>⚽ Analogie : Le Ballon</strong><br>
-                    Un ballon de foot est une sphère. Pour calculer combien d'air il contient, on utilise la formule du volume.
-                </div>
+### 1. La Sphère
+- Volume : $V = \\frac{4}{3}\\pi R^3$
+- Aire : $A = 4\\pi R^2$
+
+### 2. Le Cylindre
+- Volume : $V = \\pi R^2 \\times h$
+- Aire latérale : $A = 2\\pi R \\times h$
+
+> **⚽ Analogie : Le Ballon**  
+> Un ballon de foot est une sphère. Pour calculer combien d'air il contient, on utilise la formule du volume.
             `,
             summary: [
                 "Rayon au cube pour la sphère.",
@@ -327,12 +331,14 @@ export const math3eData = {
             title: '11. Vecteurs',
             story: `Les vecteurs, c'est la suite de la 4ème. On approfondit avec les coordonnées et les opérations. Un vecteur, c'est toujours une flèche avec direction, sens et longueur.`,
             content: `
-                <h3>1. Coordonnées</h3>
-                <p>$\\vec{AB} \\begin{pmatrix} x_B - x_A \\\\ y_B - y_A \\end{pmatrix}$</p>
-                <h3>2. Addition</h3>
-                <p>$\\vec{u} + \\vec{v} = \\begin{pmatrix} x_u + x_v \\\\ y_u + y_v \\end{pmatrix}$</p>
-                <h3>3. Multiplication par un scalaire</h3>
-                <p>$k\\vec{u} = \\begin{pmatrix} kx_u \\\\ ky_u \\end{pmatrix}$</p>
+### 1. Coordonnées
+$\\vec{AB} \\begin{pmatrix} x_B - x_A \\\\ y_B - y_A \\end{pmatrix}$
+
+### 2. Addition
+$\\vec{u} + \\vec{v} = \\begin{pmatrix} x_u + x_v \\\\ y_u + y_v \\end{pmatrix}$
+
+### 3. Multiplication par un scalaire
+$k\\vec{u} = \\begin{pmatrix} kx_u \\\\ ky_u \\end{pmatrix}$
             `,
             summary: [
                 "Vecteur nul : $\\vec{0} = \\begin{pmatrix} 0 \\\\ 0 \\end{pmatrix}$.",
@@ -355,12 +361,14 @@ export const math3eData = {
             title: '12. Repérage dans le plan',
             story: `Le repère, c'est le GPS des mathématiques. Chaque point a une adresse unique (x, y). Avec ça, on peut tout localiser et calculer des distances.`,
             content: `
-                <h3>1. Coordonnées d'un point</h3>
-                <p>M(x, y) où x est l'abscisse et y l'ordonnée.</p>
-                <h3>2. Distance entre deux points</h3>
-                <p>$AB = \\sqrt{(x_B - x_A)^2 + (y_B - y_A)^2}$ (Pythagore !)</p>
-                <h3>3. Milieu d'un segment</h3>
-                <p>$I\\left(\\frac{x_A + x_B}{2}, \\frac{y_A + y_B}{2}\\right)$</p>
+### 1. Coordonnées d'un point
+M(x, y) où x est l'abscisse et y l'ordonnée.
+
+### 2. Distance entre deux points
+$AB = \\sqrt{(x_B - x_A)^2 + (y_B - y_A)^2}$ (Pythagore !)
+
+### 3. Milieu d'un segment
+$I\\left(\\frac{x_A + x_B}{2}, \\frac{y_A + y_B}{2}\\right)$
             `,
             summary: [
                 "Origine O(0, 0).",
@@ -383,14 +391,17 @@ export const math3eData = {
             title: '13. Transformations du plan',
             story: `Les transformations, ce sont les mouvements géométriques : translation (glisser), rotation (tourner), symétrie (miroir), homothétie (zoom). Chacune a ses propriétés magiques.`,
             content: `
-                <h3>1. Translation</h3>
-                <p>Glissement selon un vecteur $\\vec{u}$.</p>
-                <h3>2. Rotation</h3>
-                <p>Tourner autour d'un centre O d'un angle $\\alpha$.</p>
-                <h3>3. Symétrie</h3>
-                <p>Centrale (par rapport à un point) ou Axiale (par rapport à une droite).</p>
-                <h3>4. Homothétie</h3>
-                <p>Agrandissement ou réduction de rapport k.</p>
+### 1. Translation
+Glissement selon un vecteur $\\vec{u}$.
+
+### 2. Rotation
+Tourner autour d'un centre O d'un angle $\\alpha$.
+
+### 3. Symétrie
+Centrale (par rapport à un point) ou Axiale (par rapport à une droite).
+
+### 4. Homothétie
+Agrandissement ou réduction de rapport k.
             `,
             summary: [
                 "Translation et Rotation conservent les longueurs et les angles.",

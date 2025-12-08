@@ -11,14 +11,14 @@ export const pc4eData = {
             title: '1. Introduction aux Sciences Physiques',
             story: "Imaginez que vous êtes un détective. Votre mission : comprendre comment fonctionne l'univers. Pourquoi le ciel est bleu ? Pourquoi le feu brûle ? La Physique étudie la matière et l'énergie, tandis que la Chimie étudie les transformations de la matière.",
             content: `
-                <h3>1. Qu'est-ce que la Physique-Chimie ?</h3>
-                <p>C'est la science qui explique les phénomènes naturels.</p>
-                <ul>
-                    <li><strong>Physique</strong> : Étudie les mouvements, les forces, l'énergie, la lumière...</li>
-                    <li><strong>Chimie</strong> : Étudie la composition de la matière et ses réactions (mélanges, explosions...).</li>
-                </ul>
-                <h3>2. La Démarche Scientifique</h3>
-                <p>Observation $\\rightarrow$ Hypothèse $\\rightarrow$ Expérience $\\rightarrow$ Conclusion.</p>
+### 1. Qu'est-ce que la Physique-Chimie ?
+C'est la science qui explique les phénomènes naturels.
+
+- **Physique** : Étudie les mouvements, les forces, l'énergie, la lumière...
+- **Chimie** : Étudie la composition de la matière et ses réactions (mélanges, explosions...).
+
+### 2. La Démarche Scientifique
+Observation $\\rightarrow$ Hypothèse $\\rightarrow$ Expérience $\\rightarrow$ Conclusion.
             `,
             summary: [
                 "Physique = Étude des lois de la nature.",
@@ -41,19 +41,18 @@ export const pc4eData = {
             title: '2. Grandeurs Physiques et Mesures',
             story: "Si je vous dis 'C'est grand !', ça ne veut rien dire. Grand comme une maison ou comme une fourmi ? Pour être précis, les scientifiques ont inventé des unités de mesure. C'est le langage universel de la science.",
             content: `
-                <h3>1. Les Unités Internationales (SI)</h3>
-                <ul>
-                    <li><strong>Longueur</strong> : Le mètre (m). Instrument : Règle, Mètre ruban.</li>
-                    <li><strong>Masse</strong> : Le kilogramme (kg). Instrument : Balance.</li>
-                    <li><strong>Temps</strong> : La seconde (s). Instrument : Chronomètre.</li>
-                    <li><strong>Volume</strong> : Le mètre cube ($m^3$) ou le Litre (L). Instrument : Éprouvette graduée.</li>
-                </ul>
-                <h3>2. Les Conversions</h3>
-                <p>Savoir passer des km aux m, ou des h aux min est essentiel. Tableau de conversion !</p>
-                <div class="analogy">
-                    <strong>📏 Analogie : La Cuisine</strong><br>
-                    Une recette demande '200g de farine', pas 'un peu de farine'. La précision est la clé de la réussite, en cuisine comme en science.
-                </div>
+### 1. Les Unités Internationales (SI)
+- **Longueur** : Le mètre (m). Instrument : Règle, Mètre ruban.
+- **Masse** : Le kilogramme (kg). Instrument : Balance.
+- **Temps** : La seconde (s). Instrument : Chronomètre.
+- **Volume** : Le mètre cube ($m^3$) ou le Litre (L). Instrument : Éprouvette graduée.
+
+### 2. Les Conversions
+Savoir passer des km aux m, ou des h aux min est essentiel. Tableau de conversion !
+
+> **📏 Analogie : La Cuisine**
+>
+> Une recette demande '200g de farine', pas 'un peu de farine'. La précision est la clé de la réussite, en cuisine comme en science.
             `,
             summary: [
                 "Toujours Indiquer l'unité après un nombre !",
@@ -76,16 +75,17 @@ export const pc4eData = {
             title: '3. Masse, Masse Volumique et Densité',
             story: "Qu'est-ce qui est plus lourd : 1kg de plomb ou 1kg de plumes ? Ils ont la même masse (1kg) ! Mais le plomb prend beaucoup moins de place. C'est parce qu'il est plus 'dense'. Sa matière est plus tassée.",
             content: `
-                <h3>1. La Masse (m)</h3>
-                <p>Quantité de matière dans un objet. Se mesure en kg avec une balance. Elle ne change pas, même sur la Lune.</p>
-                <h3>2. La Masse Volumique ($\\rho$)</h3>
-                <p>C'est la masse par unité de volume. Formule : $\\rho = \\frac{m}{V}$.</p>
-                <ul>
-                    <li>Eau : $1 kg/L$ ou $1 g/cm^3$.</li>
-                    <li>Huile : plus légère (elle flotte).</li>
-                </ul>
-                <h3>3. La Densité (d)</h3>
-                <p>Comparaison par rapport à l'eau. $d = \\frac{\\rho}{\\rho_{eau}}$. Si $d < 1$, ça flotte. Si $d > 1$, ça coule.</p>
+### 1. La Masse (m)
+Quantité de matière dans un objet. Se mesure en kg avec une balance. Elle ne change pas, même sur la Lune.
+
+### 2. La Masse Volumique ($\\rho$)
+C'est la masse par unité de volume. Formule : $\\rho = \\frac{m}{V}$.
+
+- Eau : $1 kg/L$ ou $1 g/cm^3$.
+- Huile : plus légère (elle flotte).
+
+### 3. La Densité (d)
+Comparaison par rapport à l'eau. $d = \\frac{\\rho}{\\rho_{eau}}$. Si $d < 1$, ça flotte. Si $d > 1$, ça coule.
             `,
             summary: [
                 "Masse : quantitée de matière (kg).",
@@ -108,17 +108,15 @@ export const pc4eData = {
             title: '4. Poids et relation Poids-Masse',
             story: "Pourquoi retombez-vous quand vous sautez ? La Terre vous attire comme un aimant géant. Cette force s'appelle le Poids. Attention, ne confondez pas Poids et Masse !",
             content: `
-                <h3>1. Différence Poids / Masse</h3>
-                <ul>
-                    <li><strong>Masse (m)</strong> : Quantité de matière (en kg). Invariable.</li>
-                    <li><strong>Poids (P)</strong> : Force d'attraction de la Terre (en Newton N). Mesuré avec un Dynamomètre.</li>
-                </ul>
-                <h3>2. La Relation</h3>
-                <p>$P = m \\times g$</p>
-                <ul>
-                    <li>g est l'intensité de la pesanteur (environ 10 N/kg sur Terre).</li>
-                    <li>Sur la Lune, g est plus faible, donc on est plus léger (Poids diminue), mais on n'a pas maigri (Masse identique) !</li>
-                </ul>
+### 1. Différence Poids / Masse
+- **Masse (m)** : Quantité de matière (en kg). Invariable.
+- **Poids (P)** : Force d'attraction de la Terre (en Newton N). Mesuré avec un Dynamomètre.
+
+### 2. La Relation
+$P = m \\times g$
+
+- g est l'intensité de la pesanteur (environ 10 N/kg sur Terre).
+- Sur la Lune, g est plus faible, donc on est plus léger (Poids diminue), mais on n'a pas maigri (Masse identique) !
             `,
             summary: [
                 "P = Poids (Newton).",
@@ -142,19 +140,18 @@ export const pc4eData = {
             title: '5. Introduction à l’Électricité',
             story: "L'électricité est comme de l'eau qui coule dans des tuyaux. La pile est la pompe, les fils sont les tuyaux, et l'ampoule est le moulin qui tourne grâce au courant. Sans circuit fermé (boucle), rien ne marche !",
             content: `
-                <h3>1. Le Circuit Électrique</h3>
-                <p>Il faut au moins : un <strong>Générateur</strong> (pile), un <strong>Récepteur</strong> (lampe) et des <strong>Fils</strong>.</p>
-                <ul>
-                    <li>Circuit Ouvert : Le courant ne passe pas (interrupteur ouvert).</li>
-                    <li>Circuit Fermé : Le courant circule.</li>
-                </ul>
-                <h3>2. Sens du courant</h3>
-                <p>Par convention, le courant sort de la borne <strong>(+)</strong> et rentre par la borne <strong>(-)</strong>.</p>
-                <h3>3. Conducteurs et Isolants</h3>
-                <ul>
-                    <li>Conducteur : Laisse passer le courant (Métaux, eau salée).</li>
-                    <li>Isolant : Bloque le courant (Plastique, bois, verre).</li>
-                </ul>
+### 1. Le Circuit Électrique
+Il faut au moins : un **Générateur** (pile), un **Récepteur** (lampe) et des **Fils**.
+
+- Circuit Ouvert : Le courant ne passe pas (interrupteur ouvert).
+- Circuit Fermé : Le courant circule.
+
+### 2. Sens du courant
+Par convention, le courant sort de la borne **(+)** et rentre par la borne **(-)**.
+
+### 3. Conducteurs et Isolants
+- Conducteur : Laisse passer le courant (Métaux, eau salée).
+- Isolant : Bloque le courant (Plastique, bois, verre).
             `,
             summary: [
                 "Le courant va du + vers le -.",
@@ -177,16 +174,18 @@ export const pc4eData = {
             title: '6. Sources et Récepteurs de lumière',
             story: "Dans le noir total, on ne voit rien. Pour voir, il faut de la lumière. Mais d'où vient-elle ? Soit l'objet la fabrique (Soleil, Lampe), soit il la renvoie (Lune, Miroir).",
             content: `
-                <h3>1. Sources Primaires</h3>
-                <p>Elles produisent leur propre lumière. (Soleil, étoile, feu, lampe allumée, luciole).</p>
-                <h3>2. Sources Secondaires (Objets diffusants)</h3>
-                <p>Elles ne produisent pas de lumière mais renvoient celle qu'elles reçoivent. (Lune, miroir, table blanche, planète).</p>
-                <h3>3. Récepteurs</h3>
-                <p>Sensibles à la lumière (L'œil, une caméra, un panneau solaire, la peau qui bronze).</p>
-                <div class="analogy">
-                    <strong>🌕 Analogie : La Lune</strong><br>
-                    La Lune n'est pas une ampoule. C'est un miroir (un peu sale) qui réfléchit la lumière du Soleil. Sans Soleil, la Lune est invisible.
-                </div>
+### 1. Sources Primaires
+Elles produisent leur propre lumière. (Soleil, étoile, feu, lampe allumée, luciole).
+
+### 2. Sources Secondaires (Objets diffusants)
+Elles ne produisent pas de lumière mais renvoient celle qu'elles reçoivent. (Lune, miroir, table blanche, planète).
+
+### 3. Récepteurs
+Sensibles à la lumière (L'œil, une caméra, un panneau solaire, la peau qui bronze).
+
+> **🌕 Analogie : La Lune**
+>
+> La Lune n'est pas une ampoule. C'est un miroir (un peu sale) qui réfléchit la lumière du Soleil. Sans Soleil, la Lune est invisible.
             `,
             summary: [
                 "Primaire = Fabrique la lumière.",
@@ -209,12 +208,14 @@ export const pc4eData = {
             title: '7. Propagation rectiligne de la lumière',
             story: "Pourquoi ne peut-on pas voir derrière un mur ? Parce que la lumière est une voyageuse pressée qui ne sait aller que tout droit. Elle ne sait pas tourner !",
             content: `
-                <h3>1. Le Principe</h3>
-                <p>Dans un milieu transparent et homogène (air, eau, vide), la lumière se propage en <strong>ligne droite</strong>.</p>
-                <h3>2. Le Rayon Lumineux</h3>
-                <p>On le représente par une droite avec une flèche indiquant le sens de propagation.</p>
-                <h3>3. Les Ombres</h3>
-                <p>Conséquence de la propagation rectiligne. Puisque la lumière ne contourne pas les obstacles opaques, elle crée une zone d'ombre derrière eux.</p>
+### 1. Le Principe
+Dans un milieu transparent et homogène (air, eau, vide), la lumière se propage en **ligne droite**.
+
+### 2. Le Rayon Lumineux
+On le représente par une droite avec une flèche indiquant le sens de propagation.
+
+### 3. Les Ombres
+Conséquence de la propagation rectiligne. Puisque la lumière ne contourne pas les obstacles opaques, elle crée une zone d'ombre derrière eux.
             `,
             summary: [
                 "La lumière voyage en ligne droite.",
@@ -237,14 +238,15 @@ export const pc4eData = {
             title: '8. Réflexion et Réfraction de la lumière',
             story: "Regardez une paille dans un verre d'eau : elle semble cassée ! C'est une illusion d'optique due à la Réfraction. La lumière change de direction quand elle change de milieu (Air -> Eau).",
             content: `
-                <h3>1. La Réflexion</h3>
-                <p>La lumière rebondit sur une surface lisse (miroir). Angle d'incidence = Angle de réflexion.</p>
-                <h3>2. La Réfraction</h3>
-                <p>La lumière est déviée quand elle traverse la surface de séparation entre deux milieux transparents différents (ex: air et eau).</p>
-                <div class="analogy">
-                    <strong>🏎 Analogie : La Voiture</strong><br>
-                    Imaginez une voiture qui roule sur la route (l'air) et qui arrive dans le sable (l'eau). Une roue freine en premier, ce qui fait tourner la voiture. La lumière fait pareil.
-                </div>
+### 1. La Réflexion
+La lumière rebondit sur une surface lisse (miroir). Angle d'incidence = Angle de réflexion.
+
+### 2. La Réfraction
+La lumière est déviée quand elle traverse la surface de séparation entre deux milieux transparents différents (ex: air et eau).
+
+> **🏎 Analogie : La Voiture**
+>
+> Imaginez une voiture qui roule sur la route (l'air) et qui arrive dans le sable (l'eau). Une roue freine en premier, ce qui fait tourner la voiture. La lumière fait pareil.
             `,
             summary: [
                 "Réflexion = Rebond (Miroir).",
@@ -272,15 +274,15 @@ export const pc4eData = {
             title: '9. Mélanges et Corps purs',
             story: "L'eau du robinet est-elle pure ? Non ! C'est un mélange (eau + sels minéraux + chlore). Un corps pur, c'est comme une équipe composée uniquement de clones, tous identiques.",
             content: `
-                <h3>1. Mélanges</h3>
-                <ul>
-                    <li><strong>Homogène</strong> : On ne distingue pas les constituants à l'œil nu (ex: eau salée, sirop).</li>
-                    <li><strong>Hétérogène</strong> : On voit les différents constituants (ex: eau + huile, eau + sable).</li>
-                </ul>
-                <h3>2. Corps Purs</h3>
-                <p>Constitué d'une seule espèce chimique. (ex: Eau distillée, Fer pur, Diamant).</p>
-                <h3>3. Séparation</h3>
-                <p>Décantation (laisser reposer), Filtration (filtre à café), Distillation (faire bouillir).</p>
+### 1. Mélanges
+- **Homogène** : On ne distingue pas les constituants à l'œil nu (ex: eau salée, sirop).
+- **Hétérogène** : On voit les différents constituants (ex: eau + huile, eau + sable).
+
+### 2. Corps Purs
+Constitué d'une seule espèce chimique. (ex: Eau distillée, Fer pur, Diamant).
+
+### 3. Séparation
+Décantation (laisser reposer), Filtration (filtre à café), Distillation (faire bouillir).
             `,
             summary: [
                 "Mélange homogène = 1 seule phase visible.",
@@ -303,22 +305,20 @@ export const pc4eData = {
             title: '10. Structure de la matière (Atomes)',
             story: "Si on coupe un morceau de fer en deux, puis encore, et encore... à la fin, il reste une minuscule brique indivisible : l'Atome. Tout l'univers est un jeu de Lego géant fait d'atomes.",
             content: `
-                <h3>1. L'Atome</h3>
-                <p>Constituant élémentaire de la matière. Sphérique et minuscule (0.1 nanomètre).</p>
-                <ul>
-                    <li>Symbole : Une majuscule (ex: C pour Carbone, H pour Hydrogène, O pour Oxygène).</li>
-                </ul>
-                <h3>2. La Molécule</h3>
-                <p>Un assemblage d'atomes liés entre eux.</p>
-                <ul>
-                    <li>Eau ($H_2O$) : 2 atomes H + 1 atome O.</li>
-                    <li>Dioxygène ($O_2$) : 2 atomes O.</li>
-                </ul>
-                <div class="analogy">
-                    <strong>🧱 Analogie : Les Lego</strong><br>
-                    Atome = Brique simple (Rouge, Bleue...).<br>
-                    Molécule = Construction (Maison, Voiture...).
-                </div>
+### 1. L'Atome
+Constituant élémentaire de la matière. Sphérique et minuscule (0.1 nanomètre).
+- Symbole : Une majuscule (ex: C pour Carbone, H pour Hydrogène, O pour Oxygène).
+
+### 2. La Molécule
+Un assemblage d'atomes liés entre eux.
+
+- Eau ($H_2O$) : 2 atomes H + 1 atome O.
+- Dioxygène ($O_2$) : 2 atomes O.
+
+> **🧱 Analogie : Les Lego**
+>
+> Atome = Brique simple (Rouge, Bleue...).
+> Molécule = Construction (Maison, Voiture...).
             `,
             summary: [
                 "Atome = Brique de base.",
@@ -341,17 +341,18 @@ export const pc4eData = {
             title: '11. Moles et Grandeurs Molaires',
             story: "Les atomes sont si petits qu'il est impossible de les compter un par un. Les chimistes les comptent donc par 'paquets' géants. Ce paquet s'appelle une Mole. C'est comme une 'douzaine' d'œufs, mais version XXL.",
             content: `
-                <h3>1. La Mole (mol)</h3>
-                <p>Unité de quantité de matière. Une mole contient $6,02 \\times 10^{23}$ atomes (Nombre d'Avogadro). C'est énorme !</p>
-                <h3>2. Masse Molaire (M)</h3>
-                <p>C'est la masse d'une mole d'atomes (en g/mol). On la trouve dans le tableau périodique.</p>
-                <ul>
-                    <li>M(C) = 12 g/mol.</li>
-                    <li>M(O) = 16 g/mol.</li>
-                </ul>
-                <h3>3. Formule</h3>
-                <p>$n = \\frac{m}{M}$</p>
-                <p>(Nombre de moles = masse / Masse Molaire)</p>
+### 1. La Mole (mol)
+Unité de quantité de matière. Une mole contient $6,02 \\times 10^{23}$ atomes (Nombre d'Avogadro). C'est énorme !
+
+### 2. Masse Molaire (M)
+C'est la masse d'une mole d'atomes (en g/mol). On la trouve dans le tableau périodique.
+
+- M(C) = 12 g/mol.
+- M(O) = 16 g/mol.
+
+### 3. Formule
+$n = \\frac{m}{M}$
+(Nombre de moles = masse / Masse Molaire)
             `,
             summary: [
                 "Mole = Paquet d'atomes.",
@@ -374,14 +375,16 @@ export const pc4eData = {
             title: '12. Réaction Chimique',
             story: "La Chimie, c'est de la magie expliquée. Quand on mélange des ingrédients et qu'ils se transforment en quelque chose de nouveau, c'est une réaction chimique. Rien ne se perd, rien ne se crée, tout se transforme !",
             content: `
-                <h3>1. Principe (Lavoisier)</h3>
-                <p>Au cours d'une réaction chimique, les atomes des <strong>Réactifs</strong> (ingrédients) se réarrangent pour former les <strong>Produits</strong> (résultat). Les atomes sont conservés.</p>
-                <h3>2. Équation Bilan</h3>
-                <p>On l'écrit comme une addition :</p>
-                <p>Carbone + Dioxygène $\\rightarrow$ Dioxyde de Carbone</p>
-                <p>$C + O_2 \\rightarrow CO_2$</p>
-                <h3>3. Combustion</h3>
-                <p>Brûler quelque chose (combustible) nécessite de l'oxygène (comburant) et dégage de la chaleur.</p>
+### 1. Principe (Lavoisier)
+Au cours d'une réaction chimique, les atomes des **Réactifs** (ingrédients) se réarrangent pour former les **Produits** (résultat). Les atomes sont conservés.
+
+### 2. Équation Bilan
+On l'écrit comme une addition :
+Carbone + Dioxygène $\\rightarrow$ Dioxyde de Carbone
+$C + O_2 \\rightarrow CO_2$
+
+### 3. Combustion
+Brûler quelque chose (combustible) nécessite de l'oxygène (comburant) et dégage de la chaleur.
             `,
             summary: [
                 "Réactifs $\\rightarrow$ Produits.",

@@ -13,16 +13,16 @@ export const chimie1sData = {
             title: 'C1. Généralités sur la chimie organique',
             story: "La chimie du carbone est celle de la vie. Du plastique à l'ADN, le carbone est l'architecte des molécules complexes.",
             content: `
-                <h3>1. L'élément Carbone</h3>
-                <p>Le carbone ($Z=6$) est tétravalent : il forme toujours 4 liaisons covalentes. Il peut former des chaînes linéaires, ramifiées ou cycliques.</p>
+### 1. L'élément Carbone
+Le carbone ($Z=6$) est tétravalent : il forme toujours 4 liaisons covalentes. Il peut former des chaînes linéaires, ramifiées ou cycliques.
 
-                <h3>2. Analyse Élémentaire</h3>
-                <p>Elle permet de déterminer la formule brute $C_x H_y O_z$ d'un composé.</p>
-                <p>On brûle un échantillon et on dose le $CO_2$ et l'$H_2O$ produits.</p>
-                <p>$$ \\%C = \\frac{12x}{M} \\times 100 $$</p>
+### 2. Analyse Élémentaire
+Elle permet de déterminer la formule brute $C_x H_y O_z$ d'un composé.
+On brûle un échantillon et on dose le $CO_2$ et l'$H_2O$ produits.
+$$ \\%C = \\frac{12x}{M} \\times 100 $$
 
-                <h3>3. Isomérie</h3>
-                <p>Des isomères ont la même formule brute mais des formules développées différentes (donc des propriétés différentes).</p>
+### 3. Isomérie
+Des isomères ont la même formule brute mais des formules développées différentes (donc des propriétés différentes).
             `,
             summary: [
                 "Compose organique = Contient du Carbone (sauf CO, CO2, carbonates).",
@@ -45,20 +45,18 @@ export const chimie1sData = {
             title: 'C2. Les Alcanes',
             story: "Les hydrocarbures les plus simples. Le gaz naturel et l'essence en sont constitués.",
             content: `
-                <h3>1. Formule Générale</h3>
-                <p>Les alcanes sont des hydrocarbures saturés (liaisons simples uniquement) de formule :</p>
-                <p>$$ C_n H_{2n+2} $$</p>
+### 1. Formule Générale
+Les alcanes sont des hydrocarbures saturés (liaisons simples uniquement) de formule :
+$$ C_n H_{2n+2} $$
 
-                <h3>2. Nomenclature (IUPAC)</h3>
-                <ul>
-                    <li>Chaîne principale la plus longue contenant les substituants.</li>
-                    <li>Numérotation pour avoir les indices les plus petits.</li>
-                    <li>Suffixe : <strong>-ane</strong>.</li>
-                </ul>
+### 2. Nomenclature (IUPAC)
+- Chaîne principale la plus longue contenant les substituants.
+- Numérotation pour avoir les indices les plus petits.
+- Suffixe : **-ane**.
 
-                <h3>3. Propriétés Chimiques</h3>
-                <p><strong>Combustion :</strong> $C_n H_{2n+2} + \\frac{3n+1}{2} O_2 \\rightarrow n CO_2 + (n+1) H_2O$.</p>
-                <p><strong>Halogénation (Substitution) :</strong> Réaction avec $Cl_2$ ou $Br_2$ à la lumière (photochimique).</p>
+### 3. Propriétés Chimiques
+**Combustion :** $C_n H_{2n+2} + \\frac{3n+1}{2} O_2 \\rightarrow n CO_2 + (n+1) H_2O$.
+**Halogénation (Substitution) :** Réaction avec $Cl_2$ ou $Br_2$ à la lumière (photochimique).
             `,
             summary: [
                 "Méthane ($CH_4$), Éthane ($C_2H_6$), Propane ($C_3H_8$).",
@@ -80,14 +78,14 @@ export const chimie1sData = {
             title: 'C3. Alcènes et Alcynes',
             story: "L'insaturation change tout. La double ou triple liaison est un site de réactivité intense.",
             content: `
-                <h3>1. Les Alcènes ($C=C$)</h3>
-                <p>Hydrocarbures insaturés avec une double liaison. Formule : $C_n H_{2n}$.</p>
-                <p><strong>Réactions d'addition :</strong> La double liaison s'ouvre pour fixer des atomes ($H_2$, $Cl_2$, $H_2O$ (hydratation)).</p>
-                <p><strong>Polymérisation :</strong> Formation de plastiques (Polyéthylène, PVC) par addition successive.</p>
+### 1. Les Alcènes ($C=C$)
+Hydrocarbures insaturés avec une double liaison. Formule : $C_n H_{2n}$.
+**Réactions d'addition :** La double liaison s'ouvre pour fixer des atomes ($H_2$, $Cl_2$, $H_2O$ (hydratation)).
+**Polymérisation :** Formation de plastiques (Polyéthylène, PVC) par addition successive.
 
-                <h3>2. Les Alcynes ($C \\equiv C$)</h3>
-                <p>Hydrocarbures avec une triple liaison. Formule : $C_n H_{2n-2}$.</p>
-                <p>L'acétylène ($C_2H_2$) est utilisé pour la soudure (flamme très chaude).</p>
+### 2. Les Alcynes ($C \\equiv C$)
+Hydrocarbures avec une triple liaison. Formule : $C_n H_{2n-2}$.
+L'acétylène ($C_2H_2$) est utilisé pour la soudure (flamme très chaude).
             `,
             summary: [
                 "Test de reconnaissance des insaturés : Décolorent l'eau de brome (orange -> incolore).",
@@ -109,16 +107,14 @@ export const chimie1sData = {
             title: 'C4. Le Benzène',
             story: "Un cycle parfait, une stabilité exceptionnelle. Le benzène inaugure la famille des aromatiques.",
             content: `
-                <h3>1. Structure du Benzène ($C_6H_6$)</h3>
-                <p>Cycle hexagonal plan avec liaisons délocalisées (cercle au centre du cycle). Très stable grâce à la mésomérie.</p>
+### 1. Structure du Benzène ($C_6H_6$)
+Cycle hexagonal plan avec liaisons délocalisées (cercle au centre du cycle). Très stable grâce à la mésomérie.
 
-                <h3>2. Réactivité</h3>
-                <p>Contrairement aux alcènes, le benzène préfère la <strong>substitution</strong> à l'addition.</p>
-                <ul>
-                    <li>Halogénation (avec catalyseur $FeBr_3$).</li>
-                    <li>Nitration (avec acide nitrique et sulfurique).</li>
-                    <li>Sulfonation.</li>
-                </ul>
+### 2. Réactivité
+Contrairement aux alcènes, le benzène préfère la **substitution** à l'addition.
+- Halogénation (avec catalyseur $FeBr_3$).
+- Nitration (avec acide nitrique et sulfurique).
+- Sulfonation.
             `,
             summary: [
                 "Benzène = Composé Aromatique.",
@@ -141,18 +137,16 @@ export const chimie1sData = {
             title: 'C5. Les composés oxygénés',
             story: "Ajoutons un atome d'oxygène. L'alcool, le parfum des fruits, l'odeur du formol... tout change.",
             content: `
-                <h3>1. Les Alcools ($R-OH$)</h3>
-                <p>Groupe hydroxyle. Classe : Primaire, Secondaire, Tertiaire selon le carbone porteur.</p>
-                <p>Oxydation ménagée :</p>
-                <ul>
-                    <li>Alcool I $\\rightarrow$ Aldéhyde $\\rightarrow$ Acide Carboxylique.</li>
-                    <li>Alcool II $\\rightarrow$ Cétone.</li>
-                    <li>Alcool III $\\rightarrow$ Pas d'oxydation ménagée.</li>
-                </ul>
+### 1. Les Alcools ($R-OH$)
+Groupe hydroxyle. Classe : Primaire, Secondaire, Tertiaire selon le carbone porteur.
+Oxydation ménagée :
+- Alcool I $\\rightarrow$ Aldéhyde $\\rightarrow$ Acide Carboxylique.
+- Alcool II $\\rightarrow$ Cétone.
+- Alcool III $\\rightarrow$ Pas d'oxydation ménagée.
 
-                <h3>2. Composés Carbonylés</h3>
-                <p>Aldéhydes ($R-CHO$) et Cétones ($R-CO-R'$).</p>
-                <p>Tests : DNPH (précipité jaune pour les deux), Liqueur de Fehling (rouge brique pour Aldéhydes seulement).</p>
+### 2. Composés Carbonylés
+Aldéhydes ($R-CHO$) et Cétones ($R-CO-R'$).
+Tests : DNPH (précipité jaune pour les deux), Liqueur de Fehling (rouge brique pour Aldéhydes seulement).
             `,
             summary: [
                 "Aldéhyde : Groupe carbonyle en bout de chaîne.",
@@ -179,21 +173,19 @@ export const chimie1sData = {
             title: 'C6. Notion de couple Oxydant-Réducteur',
             story: "L'oxydoréduction est un échange d'électrons, comme l'acide-base est un échange de protons.",
             content: `
-                <h3>1. Définitions</h3>
-                <ul>
-                    <li><strong>Oxydant (Ox) :</strong> Capteur d'électrons.</li>
-                    <li><strong>Réducteur (Red) :</strong> Donneur d'électrons.</li>
-                    <li>Demi-équation : $Ox + ne^- \\rightleftharpoons Red$.</li>
-                </ul>
+### 1. Définitions
+- **Oxydant (Ox) :** Capteur d'électrons.
+- **Réducteur (Red) :** Donneur d'électrons.
+- Demi-équation : $Ox + ne^- \\rightleftharpoons Red$.
 
-                <h3>2. Réaction d'Oxydoréduction</h3>
-                <p>Transfert d'électrons entre l'oxydant d'un couple 1 et le réducteur d'un couple 2.</p>
-                <p>$$ Ox_1 + Red_2 \\rightarrow Red_1 + Ox_2 $$</p>
+### 2. Réaction d'Oxydoréduction
+Transfert d'électrons entre l'oxydant d'un couple 1 et le réducteur d'un couple 2.
+$$ Ox_1 + Red_2 \\rightarrow Red_1 + Ox_2 $$
             `,
             summary: [
                 "Oxydation = Perte d'électrons.",
                 "Réduction = Gain d'électrons.",
-                "Moyen mnémotechnique : 'Oxydan<strong>ant</strong> prend <strong>tant</strong>'."
+                "Moyen mnémotechnique : 'Oxydan**ant** prend **tant**'."
             ],
             exercises: [
                 {
@@ -211,12 +203,12 @@ export const chimie1sData = {
             title: 'C7-C8. Classification des couples Ion/Métal',
             story: "Qui est le plus fort ? Le fer rouille, l'or résiste. Il existe une hiérarchie dans la force des oxydants.",
             content: `
-                <h3>1. Classification Qualitative</h3>
-                <p>Règle du gamma ($\\\gamma$) : L'oxydant le plus fort réagit avec le réducteur le plus fort.</p>
-                <p>Si $E^0(Ox_1/Red_1) > E^0(Ox_2/Red_2)$, alors réaction spontanée : $Ox_1 + Red_2$.</p>
+### 1. Classification Qualitative
+Règle du gamma ($\\\gamma$) : L'oxydant le plus fort réagit avec le réducteur le plus fort.
+Si $E^0(Ox_1/Red_1) > E^0(Ox_2/Red_2)$, alors réaction spontanée : $Ox_1 + Red_2$.
 
-                <h3>2. Classification Quantitative</h3>
-                <p>On définit le Potentiel Standard d'oxydoréduction $E^0$ par rapport à l'électrode standard à hydrogène ($E^0(H^+/H_2) = 0.00 V$).</p>
+### 2. Classification Quantitative
+On définit le Potentiel Standard d'oxydoréduction $E^0$ par rapport à l'électrode standard à hydrogène ($E^0(H^+/H_2) = 0.00 V$).
             `,
             summary: [
                 "L'échelle des potentiels standard ($E^0$) classe les couples.",
@@ -239,14 +231,14 @@ export const chimie1sData = {
             title: "C9. Généralisation en solution aqueuse",
             story: "Cela ne concerne pas que les métaux. Les ions permanganate, dichromate, ferreux... tout le monde joue.",
             content: `
-                <h3>1. Couples complexes</h3>
-                <p>Équilibrer des demi-équations en milieu acide ou basique.</p>
-                <p>Exemple : $MnO_4^- / Mn^{2+}$ en milieu acide.</p>
-                <p>$$ MnO_4^- + 8H^+ + 5e^- \\rightleftharpoons Mn^{2+} + 4H_2O $$</p>
+### 1. Couples complexes
+Équilibrer des demi-équations en milieu acide ou basique.
+Exemple : $MnO_4^- / Mn^{2+}$ en milieu acide.
+$$ MnO_4^- + 8H^+ + 5e^- \\rightleftharpoons Mn^{2+} + 4H_2O $$
 
-                <h3>2. Dosages d'oxydoréduction</h3>
-                <p>Utiliser une réaction d'oxydoréduction rapide et totale pour titrer une espèce (ex: Manganimétrie, Iodométrie).</p>
-                <p>À l'équivalence : $\\frac{n(Ox_1)}{a} = \\frac{n(Red_2)}{b}$.</p>
+### 2. Dosages d'oxydoréduction
+Utiliser une réaction d'oxydoréduction rapide et totale pour titrer une espèce (ex: Manganimétrie, Iodométrie).
+À l'équivalence : $\\frac{n(Ox_1)}{a} = \\frac{n(Red_2)}{b}$.
             `,
             summary: [
                 "Toujours équilibrer les atomes (H avec H+, O avec H2O) puis les charges (e-)."
@@ -267,16 +259,14 @@ export const chimie1sData = {
             title: 'C10. Électrolyse',
             story: "Forcer la nature. Avec de l'énergie électrique, on peut inverser le sens spontané des réactions chimiques.",
             content: `
-                <h3>1. Principe</h3>
-                <p>L'électrolyse est une transformation forcée par un générateur.</p>
-                <ul>
-                    <li>Anode (+) : Oxydation (A.O. - Anode Oxydation).</li>
-                    <li>Cathode (-) : Réduction (C.R. - Cathode Réduction).</li>
-                </ul>
+### 1. Principe
+L'électrolyse est une transformation forcée par un générateur.
+- Anode (+) : Oxydation (A.O. - Anode Oxydation).
+- Cathode (-) : Réduction (C.R. - Cathode Réduction).
 
-                <h3>2. Bilan Quantitatif (Loi de Faraday)</h3>
-                <p>Quantité d'électricité $Q = I \\times t$.</p>
-                <p>Nombre de moles d'électrons : $n(e^-) = \\frac{Q}{F}$ avec $F \\approx 96500 C/mol$.</p>
+### 2. Bilan Quantitatif (Loi de Faraday)
+Quantité d'électricité $Q = I \\times t$.
+Nombre de moles d'électrons : $n(e^-) = \\frac{Q}{F}$ avec $F \\approx 96500 C/mol$.
             `,
             summary: [
                 "Dans une pile : Anode (-) et Cathode (+).",
@@ -298,13 +288,13 @@ export const chimie1sData = {
             title: 'C11. Oxydoréduction par voie sèche',
             story: "La métallurgie. Extraire le fer de son minerai dans un haut fourneau, c'est de la chimie sèche (sans eau).",
             content: `
-                <h3>1. Réduction des oxydes métalliques</h3>
-                <p>On utilise des réducteurs puissants à haute température (Carbone CO, Aluminium Al, Hydrogène H2).</p>
-                <p>Exemple : Aluminothermie.</p>
-                <p>$$ Fe_2O_3 + 2Al \\rightarrow 2Fe + Al_2O_3 $$</p>
+### 1. Réduction des oxydes métalliques
+On utilise des réducteurs puissants à haute température (Carbone CO, Aluminium Al, Hydrogène H2).
+Exemple : Aluminothermie.
+$$ Fe_2O_3 + 2Al \\rightarrow 2Fe + Al_2O_3 $$
 
-                <h3>2. Combustion</h3>
-                <p>C'est une oxydation brutale par le dioxygène de l'air.</p>
+### 2. Combustion
+C'est une oxydation brutale par le dioxygène de l'air.
             `,
             summary: [
                 "Voie sèche = Pas de solvant eau.",
@@ -326,11 +316,11 @@ export const chimie1sData = {
             title: 'C12. Thèmes et Exposés',
             story: "La chimie au quotidien et dans l'industrie sénégalaise.",
             content: `
-                <h3>1. Les Phosphates et Engrais</h3>
-                <p>Ressource clé du Sénégal (Taïba). Transformation du phosphate tricalcique en acide phosphorique puis en engrais (DAP, NPK) pour l'agriculture.</p>
+### 1. Les Phosphates et Engrais
+Ressource clé du Sénégal (Taïba). Transformation du phosphate tricalcique en acide phosphorique puis en engrais (DAP, NPK) pour l'agriculture.
 
-                <h3>2. Les Matières Plastiques</h3>
-                <p>Synthèse, usage et impact environnemental (pollution, recyclage). Distinction Thermoplastiques / Thermodurcissables.</p>
+### 2. Les Matières Plastiques
+Synthèse, usage et impact environnemental (pollution, recyclage). Distinction Thermoplastiques / Thermodurcissables.
             `,
             summary: [
                 "L'industrie chimique valorise les ressources naturellles.",
