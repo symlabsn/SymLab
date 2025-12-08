@@ -144,7 +144,7 @@ export default function NotebookPage() {
         {
             id: '1',
             type: 'markdown',
-            content: '# Bienvenue dans SymLab Notebook 🐍\n\nCeci est un environnement interactif **Python** complet. Vous pouvez écrire du code, des équations et visualiser des données.\n\n### Calcul Symbolique (SymPy) :\nSymLab intègre **SymPy** pour résoudre des équations mathématiques complexes directement dans le navigateur !\n\n### Raccourcis :\n- **Shift + Enter** : Exécuter la cellule\n- **Double-clic** : Éditer une cellule Markdown',
+            content: '# Bienvenue dans SymLab Notebook 🐍\n\nEnvironnement **prêt à l\'emploi** avec :\n- NumPy (`np`)\n- Matplotlib (`plt`)\n- Pandas (`pd`)\n- SymPy (`sympy`)\n- SciPy (`scipy`)\n- Scikit-learn (`sklearn`)\n\nTous ces modules sont déjà importés. Vous pouvez commencer à coder directement !',
             status: 'idle',
             output: null,
             isEditing: false
@@ -152,7 +152,7 @@ export default function NotebookPage() {
         {
             id: '2',
             type: 'code',
-            content: 'from sympy import symbols, expand, factor, latex\n\n# Définition des variables symboliques\nx, y = symbols("x y")\n\n# Expression complexe\nexpr = (x + y)**5\n\n# Expansion de l\'expression\nexpanded = expand(expr)\nprint("Expression développée :")\ndisplay(expanded)',
+            content: '# Exemple: Matrice NumPy et Plot\nX = np.linspace(0, 10, 100)\nY = np.sin(X)\n\nplt.figure(figsize=(10, 4))\nplt.plot(X, Y, label="Sinus", color="#00F5D4")\nplt.title("Test Graphique")\nplt.legend()\nplt.show()',
             status: 'idle',
             output: null,
             executionCount: null
@@ -173,15 +173,46 @@ export default function NotebookPage() {
                     script.async = true;
                     script.onload = async () => {
                         const py = await window.loadPyodide();
-                        // Charger les packages scientifiques complets
-                        await py.loadPackage(['numpy', 'matplotlib', 'pandas', 'scipy', 'sympy']);
+                        // Charger les packages scientifiques complets incluant scikit-learn
+                        await py.loadPackage(['micropip', 'numpy', 'matplotlib', 'pandas', 'scipy', 'sympy', 'scikit-learn']);
+
+                        // Pré-importation automatique pour un environnement "prêt à l'emploi"
+                        const initCode = `
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import scipy
+import sympy
+from sympy import *
+import sklearn
+import sys
+import io
+
+print("Kernel Initialized with Scientific Stack")
+`;
+                        await py.runPythonAsync(initCode);
+
                         setPyodide(py);
                         setKernelStatus('ready');
                     };
                     document.body.appendChild(script);
-                } else {
+                } else if (!pyodide) {
+                    // Si le script est déjà chargé mais pas l'instance
+                    setKernelStatus('loading');
                     const py = await window.loadPyodide();
-                    await py.loadPackage(['numpy', 'matplotlib', 'pandas', 'scipy', 'sympy']);
+                    await py.loadPackage(['micropip', 'numpy', 'matplotlib', 'pandas', 'scipy', 'sympy', 'scikit-learn']);
+
+                    const initCode = `
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import scipy
+import sympy
+from sympy import *
+import sklearn
+`;
+                    await py.runPythonAsync(initCode);
+
                     setPyodide(py);
                     setKernelStatus('ready');
                 }
@@ -191,6 +222,10 @@ export default function NotebookPage() {
             }
         };
         loadPyodide();
+
+        return () => {
+            setKernelStatus('loading');
+        }
     }, []);
 
     // Gestion des cellules
@@ -229,6 +264,27 @@ export default function NotebookPage() {
         setCells(newCells);
     };
 
+    // Fonction de redémarrage du kernel
+    const restartKernel = async () => {
+        setKernelStatus('loading');
+        if (pyodide) {
+            await pyodide.runPythonAsync(`
+globals().clear()
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import scipy
+import sympy
+from sympy import *
+import sklearn
+import sys
+import io
+`);
+            setCells(cells.map(c => ({ ...c, status: 'idle', output: null, executionCount: null })));
+            setKernelStatus('ready');
+        }
+    };
+
     // Exécution réelle avec Pyodide
     const runCell = async (id) => {
         const cell = cells.find(c => c.id === id);
@@ -240,7 +296,7 @@ export default function NotebookPage() {
         }
 
         if (!pyodide) {
-            alert("Python est en cours de chargement, veuillez patienter...");
+            alert("L'environnement scientifique démarre, veuillez patienter quelques secondes...");
             return;
         }
 
@@ -248,7 +304,7 @@ export default function NotebookPage() {
         setKernelStatus('busy');
 
         try {
-            // Script wrapper pour capturer stdout, stderr, plots et LaTeX
+            // Script wrapper robuste
             const pythonCode = `
 import sys
 import io
@@ -260,32 +316,37 @@ sys.stdout = io.StringIO()
 sys.stderr = io.StringIO()
 
 # Nettoyer les plots précédents
+plt.close('all')
 plt.clf()
 
 # Exécution du code utilisateur
 code = ${JSON.stringify(cell.content)}
 result = None
+
 try:
     # On compile pour voir si c'est une expression ou des statements
     import ast
     tree = ast.parse(code)
-    if tree.body and isinstance(tree.body[-1], ast.Expr):
+    if not tree.body:
+        pass # Code vide
+    elif isinstance(tree.body[-1], ast.Expr):
         # Si la dernière ligne est une expression, on la sépare
         last_expr = tree.body.pop()
-        # On exécute tout sauf la dernière ligne
-        exec(compile(tree, filename="<cell>", mode="exec"), globals())
-        # On évalue la dernière ligne
+        if tree.body:
+            exec(compile(tree, filename="<cell>", mode="exec"), globals())
         result = eval(compile(ast.Expression(last_expr.value), filename="<cell>", mode="eval"), globals())
     else:
         exec(code, globals())
 except Exception as e:
-    raise e
+    import traceback
+    traceback.print_exc()
+    # On ne lève pas l'exception ici pour permettre de capturer stderr
 
-# Capture des plots
+# Capture des plots (Figure active)
 img_str = None
 if plt.get_fignums():
     buf = io.BytesIO()
-    plt.savefig(buf, format='png', bbox_inches='tight', transparent=True)
+    plt.savefig(buf, format='png', bbox_inches='tight', transparent=True, dpi=120)
     buf.seek(0)
     img_str = 'data:image/png;base64,' + base64.b64encode(buf.read()).decode('UTF-8')
     plt.close('all')
@@ -295,14 +356,13 @@ latex_str = None
 if result is not None:
     if hasattr(result, '_repr_latex_'):
         latex_str = result._repr_latex_()
-    elif hasattr(result, 'latex'): # Fallback simple
+    elif hasattr(result, 'latex'): 
         latex_str = result.latex()
 
 # Capture stdout/stderr
 stdout_val = sys.stdout.getvalue()
 stderr_val = sys.stderr.getvalue()
 
-# Retourner un objet JSON
 import json
 json.dumps({
     "stdout": stdout_val,
@@ -319,20 +379,30 @@ json.dumps({
             // Construction de la sortie
             let outputData = '';
             if (response.stdout) outputData += response.stdout;
-            if (response.stderr) outputData += `\n⚠️ ${response.stderr}`;
-
-            // Si on a du LaTeX, on l'affiche en priorité pour le résultat
-            let latexOutput = null;
-            if (response.latex) {
-                // On nettoie le LaTeX (parfois entouré de $)
-                latexOutput = response.latex;
-            } else if (response.result) {
-                outputData += `\n[Out]: ${response.result}`;
+            // On ajoute stderr en bas s'il y en a, mais on le traite selon la gravité
+            if (response.stderr) {
+                // Si c'est une erreur Python (Traceback), on le considère comme erreur
+                if (response.stderr.includes('Traceback')) {
+                    // On ne fait rien ici, on le gèrera dans output.type = 'error'
+                } else {
+                    // Warnings ou prints stderr
+                    outputData += (outputData ? '\\n' : '') + '⚠️ ' + response.stderr;
+                }
             }
 
-            // Déterminer le type de sortie
+            // LaTeX ou Résultat texte
+            let latexOutput = null;
+            if (response.latex) {
+                latexOutput = response.latex;
+            } else if (response.result && !response.image) {
+                outputData += (outputData ? '\\n' : '') + \`[Out]: \${response.result}\`;
+            }
+
+            // Déterminer le type de sortie prioritaire
             let output = null;
-            if (response.image) {
+            if (response.stderr && response.stderr.includes('Traceback')) {
+                 output = { type: 'error', data: response.stderr };
+            } else if (response.image) {
                 output = { type: 'image', data: response.image };
             } else if (latexOutput) {
                 output = { type: 'latex', data: latexOutput };
@@ -343,17 +413,21 @@ json.dumps({
             }
 
             updateCell(id, {
-                status: 'success',
-                output,
+                status: 'success', // On marque success même si erreur Python pour ne pas bloquer l'UI
+                output, // L'output peut être de type 'error'
                 executionCount: (cell.executionCount || 0) + 1
             });
+            
+             // Si output type est error, on met status error
+            if (output && output.type === 'error') {
+                 updateCell(id, { status: 'error', output });
+            }
 
         } catch (err) {
-            // Gestion d'erreur améliorée
             let errorMsg = err.toString();
-            // Essayer d'extraire le traceback Python si possible
             if (err.message && err.message.includes("PythonError")) {
-                errorMsg = err.message;
+                errorMsg = err.message.split('Traceback (most recent call last):')[1] || err.message;
+                errorMsg = 'Traceback (most recent call last):' + errorMsg;
             }
 
             updateCell(id, {
@@ -375,13 +449,15 @@ json.dumps({
                     </Link>
                     <div className="h-6 w-px bg-white/10" />
                     <h1 className="font-bold text-lg">SymLab Notebook</h1>
-                    <span className="text-xs text-gray-500">Python 3.11</span>
+                    <span className="text-xs text-gray-500">Python 3.11 (Pyodide)</span>
                 </div>
 
                 <div className="flex items-center gap-4">
                     <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 border border-white/10">
-                        <div className={`w - 2 h - 2 rounded - full ${kernelStatus === 'ready' ? 'bg-green-500' : 'bg-yellow-500 animate-pulse'} `} />
-                        <span className="text-xs font-mono text-gray-300">Kernel: {kernelStatus}</span>
+                        <div className={`w - 2 h - 2 rounded - full ${ kernelStatus === 'ready' ? 'bg-green-500' : kernelStatus === 'error' ? 'bg-red-500' : 'bg-yellow-500 animate-pulse' } `} />
+                        <span className="text-xs font-mono text-gray-300">
+                            {kernelStatus === 'loading' ? 'Initialisation...' : kernelStatus === 'busy' ? 'Exécution...' : 'Kernel Prêt'}
+                        </span>
                     </div>
                     <button className="bg-[#00F5D4] text-black px-4 py-1.5 rounded font-bold text-sm hover:bg-[#00F5D4]/90 transition-colors">
                         Partager
@@ -398,11 +474,8 @@ json.dumps({
                     <span className="text-gray-400 font-bold">+</span> Texte
                 </button>
                 <div className="h-6 w-px bg-white/10 mx-2" />
-                <button className="p-2 hover:bg-white/10 rounded text-gray-300 transition-colors" title="Exécuter tout">
-                    ▶ Tout exécuter
-                </button>
-                <button className="p-2 hover:bg-white/10 rounded text-gray-300 transition-colors" title="Redémarrer le noyau">
-                    ↻ Redémarrer
+                <button onClick={() => restartKernel()} className="p-2 hover:bg-white/10 rounded text-gray-300 transition-colors" title="Redémarrer le noyau et nettoyer">
+                    ↻ Redémarrer Kernel
                 </button>
             </div>
 
@@ -421,7 +494,7 @@ json.dumps({
                             setActive={setActiveCellId}
                         />
                         {/* Bouton discret pour ajouter entre les cellules */}
-                        <div className="h-4 -mt-4 mb-2 flex items-center justify-center opacity-0 group-hover/add:opacity-100 transition-opacity z-10 relative">
+                        <div className="h-4 -mt-4 mb-2 flex items-center justify-center opacity-0 group-hover/add:opacity-100 transition-opacity z-10 relative pointer-events-none group-hover/add:pointer-events-auto">
                             <div className="absolute inset-x-0 h-px bg-[#00F5D4]/20" />
                             <div className="flex gap-2 bg-black px-2 relative z-20">
                                 <button onClick={() => addCell(index, 'code')} className="text-[10px] bg-[#00F5D4]/10 text-[#00F5D4] px-2 py-0.5 rounded border border-[#00F5D4]/20 hover:bg-[#00F5D4]/20 transition-colors">
