@@ -42,7 +42,7 @@ import { useSearchParams } from 'next/navigation';
 import { Suspense } from 'react';
 
 function CoursesContent() {
-    const [activeLevel, setActiveLevel] = useState('Supérieur');
+    const [activeLevel, setActiveLevel] = useState('6ème');
     const [activeSubject, setActiveSubject] = useState('Tous');
     const [selectedCourse, setSelectedCourse] = useState(null);
     const searchParams = useSearchParams();
@@ -56,7 +56,7 @@ function CoursesContent() {
     const [quizResults, setQuizResults] = useState({});
 
     const levels = ['6ème', '5ème', '4ème', '3ème', 'Seconde', 'Première', 'Terminale', 'Supérieur'];
-    const subjects = ['Tous', 'Math�matiques', 'Physique-Chimie', 'SVT', 'Informatique', 'Data & IA'];
+    const subjects = ['Tous', 'Mathématiques', 'Physique-Chimie', 'SVT', 'Informatique', 'Data & IA'];
 
     // Map course IDs to their structured data if available
     const structuredCourses = {
@@ -237,8 +237,7 @@ function CoursesContent() {
                                 </p>
                             </div>
 
-                            {/* Filtres par matière cachés car on affiche uniquement Data & IA */}
-                            {/* 
+
                             <div className="flex gap-2 mb-8 overflow-x-auto pb-2">
                                 {subjects.map(subject => (
                                     <button
@@ -253,7 +252,7 @@ function CoursesContent() {
                                     </button>
                                 ))}
                             </div>
-                            */}
+
 
                             {filteredCourses.length > 0 ? (
                                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
@@ -613,9 +612,5 @@ export default function CoursesPage() {
         </Suspense>
     );
 }
-
-
-
-
 
 
