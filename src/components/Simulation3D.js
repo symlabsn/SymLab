@@ -2718,16 +2718,16 @@ function ThalesTheorem() {
             </mesh>
 
             {/* Ligne MN (Milieu - Petite base) */}
-            <mesh position={[0, 0.5, 0]}>
-                <cylinderGeometry args={[0.03, 0.03, 1.6, 8]} rotation={[0, 0, Math.PI / 2]} />
+            <mesh position={[0, 0.5, 0]} rotation={[0, 0, Math.PI / 2]}>
+                <cylinderGeometry args={[0.03, 0.03, 1.6, 8]} />
                 <meshStandardMaterial color="#F59E0B" />
             </mesh>
             <Text position={[-0.9, 0.5, 0]} fontSize={0.3} color="white">M</Text>
             <Text position={[0.9, 0.5, 0]} fontSize={0.3} color="white">N</Text>
 
             {/* Ligne BC (Base) */}
-            <mesh position={[0, -1, 0]}>
-                <cylinderGeometry args={[0.03, 0.03, 3.2, 8]} rotation={[0, 0, Math.PI / 2]} />
+            <mesh position={[0, -1, 0]} rotation={[0, 0, Math.PI / 2]}>
+                <cylinderGeometry args={[0.03, 0.03, 3.2, 8]} />
                 <meshStandardMaterial color="#10B981" />
             </mesh>
             <Text position={[-1.7, -1, 0]} fontSize={0.3} color="white">B</Text>
@@ -2948,7 +2948,7 @@ export default function Simulation3D({ type = 'atom', config = {} }) {
                 return <DNAHelix />;
             case 'circuit':
                 return <ElectricCircuit />;
-            case 'water-cycle':
+            case 'water-cycle-old':
                 return <WaterCycle />;
             case 'digestive':
                 return <DigestiveSystem />;
