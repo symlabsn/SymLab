@@ -1,0 +1,31 @@
+﻿   Ôû▓ Next.js 15.0.5
+
+   Creating an optimized production build ...
+node.exe : Failed to 
+compile.
+Au caractère Ligne:1 : 1
++ & "C:\Program 
+Files\nodejs/node.exe" 
+"C:\Program 
+Files\nodejs/node_mo ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~
+    + CategoryInfo          
+    : NotSpecified: (Faile  
+  d to compile.:String) [   
+ ], RemoteException
+    + FullyQualifiedErrorId 
+    : NativeCommandError
+ 
+
+./src/app/courses/page.js
+Module not found: Can't 
+resolve 'rehype-raw'
+
+https://nextjs.org/docs/mess
+ages/module-not-found
+
+
+> Build failed because of 
+webpack errors
