@@ -1,5 +1,5 @@
 'use client';
-import { useRef, useMemo, useState } from 'react';
+import { useRef, useMemo, useState, useEffect } from 'react';
 
 import { Canvas, useFrame } from '@react-three/fiber';
 import { OrbitControls, PerspectiveCamera, Environment, Stars, Text, Line } from '@react-three/drei';
@@ -429,7 +429,11 @@ const generateRibosomePositions = (count) => {
 
 // Composant Cellule (Amélioré avec étiquettes)
 function Cell() {
-    const ribosomes = useMemo(() => generateRibosomePositions(20), []);
+    const [ribosomes, setRibosomes] = useState([]);
+
+    useEffect(() => {
+        setRibosomes(generateRibosomePositions(20));
+    }, []);
     return (
         <group>
             {/* Membrane cellulaire */}
@@ -499,7 +503,11 @@ const generateChloroplastPositions = (count) => {
 
 // Composant Cellule Végétale (Amélioré : Photosynthèse animée)
 function PlantCell() {
-    const chloroplasts = useMemo(() => generateChloroplastPositions(6), []);
+    const [chloroplasts, setChloroplasts] = useState([]);
+
+    useEffect(() => {
+        setChloroplasts(generateChloroplastPositions(6));
+    }, []);
     return (
         <group>
             <Text position={[0, 3.5, 0]} fontSize={0.5} color="#10B981">LA PHOTOSYNTHÈSE</Text>
@@ -573,8 +581,13 @@ const generateGasParticles = (count) => {
 
 // Composant États de la Matière (Amélioré : 3 états)
 function StatesOfMatter() {
-    const liquidParticles = useMemo(() => generateLiquidParticles(27), []);
-    const gasParticles = useMemo(() => generateGasParticles(15), []);
+    const [liquidParticles, setLiquidParticles] = useState([]);
+    const [gasParticles, setGasParticles] = useState([]);
+
+    useEffect(() => {
+        setLiquidParticles(generateLiquidParticles(27));
+        setGasParticles(generateGasParticles(15));
+    }, []);
     return (
         <group>
             {/* SOLIDE */}
@@ -705,8 +718,13 @@ const generateWBC = (count) => {
 
 // Composant Vaisseau Sanguin (Circulation)
 function BloodStream() {
-    const rbc = useMemo(() => generateRBC(15), []);
-    const wbc = useMemo(() => generateWBC(3), []);
+    const [rbc, setRbc] = useState([]);
+    const [wbc, setWbc] = useState([]);
+
+    useEffect(() => {
+        setRbc(generateRBC(15));
+        setWbc(generateWBC(3));
+    }, []);
     return (
         <group>
             {/* Vaisseau (Tube) */}

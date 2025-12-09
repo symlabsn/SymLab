@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, use } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import dynamic from 'next/dynamic';
 import { collegeSimulationsData } from '../collegeData';
@@ -61,11 +61,24 @@ const defaultSimulation = {
 };
 
 export default function SimulationDetailPage({ params }) {
-    const resolvedParams = use(params);
+    const [resolvedParams, setResolvedParams] = useState(null);
+
+    useEffect(() => {
+        Promise.resolve(params).then(setResolvedParams);
+    }, [params]);
+
     const [activeTab, setActiveTab] = useState('simulation');
     const [currentExercise, setCurrentExercise] = useState(0);
     const [selectedAnswer, setSelectedAnswer] = useState(null);
     const [showExplanation, setShowExplanation] = useState(false);
+
+    if (!resolvedParams) {
+        return (
+            <div className="min-h-screen bg-black text-white flex items-center justify-center">
+                <div className="animate-spin text-4xl">⚛️</div>
+            </div>
+        );
+    }
 
     const simulation = allSimulationsData[resolvedParams.id] || defaultSimulation;
     const simulationLevel = getSimulationLevel(resolvedParams.id);
