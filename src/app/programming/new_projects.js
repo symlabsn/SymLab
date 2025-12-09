@@ -375,20 +375,20 @@ plt.show()`,
         tip: '💡 Astuce : Si votre simulation "explose" avec des valeurs infinies, réduisez le pas de temps `dt`. C\'est un problème de stabilité numérique.'
     },
     {
-        title: 'Projet 13 : L\\'Ensemble de Mandelbrot(Fractales)',
-    duration: '2h',
-        analogy: '🌸 L\\'infini mathématique dans une image',
-    content: `**Objectif** : Générer et visualiser la plus célèbre des fractales.
+        title: 'Projet 13 : L\'Ensemble de Mandelbrot(Fractales)',
+        duration: '2h',
+        analogy: '🌸 L\'infini mathématique dans une image',
+        content: `**Objectif** : Générer et visualiser la plus célèbre des fractales.
 
 Pour chaque point $c$ du plan complexe, on itère $z_{n+1} = z_n^2 + c$ (avec $z_0=0$).
 Si la suite reste bornée, le point est dans l'ensemble.`,
-    keyPoints: [
-        'Nombres complexes',
-        'Suites divergentes',
-        'Calcul vectoriel (Broadcasting) avec NumPy',
-        'Affichage d\\'image haute résolution'
-    ],
-    code: `import numpy as np
+        keyPoints: [
+            'Nombres complexes',
+            'Suites divergentes',
+            'Calcul vectoriel (Broadcasting) avec NumPy',
+            'Affichage d\'image haute résolution'
+        ],
+        code: `import numpy as np
 import matplotlib.pyplot as plt
 
 def mandelbrot(h, w, max_iter=20):
@@ -410,23 +410,23 @@ plt.figure(figsize=(10,10))
 plt.imshow(mandelbrot(500, 500), cmap='magma')
 plt.axis('off')
 plt.show()`,
-    tip: '💡 Astuce : NumPy est des centaines de fois plus rapide qu\'une boucle for pixel par pixel pour ce genre de calcul!'
-},
-{
-    title: 'Projet 14 : Effet Magnus (La Physique du Ballon Brossé)',
+        tip: '💡 Astuce : NumPy est des centaines de fois plus rapide qu\'une boucle for pixel par pixel pour ce genre de calcul!'
+    },
+    {
+        title: 'Projet 14 : Effet Magnus (La Physique du Ballon Brossé)',
         duration: '2h30',
-            analogy: '🍌 Le "Banana Shot" de Roberto Carlos',
-                content: `**Objectif** : Simuler la trajectoire d'un ballon en rotation (spin).
+        analogy: '🍌 Le "Banana Shot" de Roberto Carlos',
+        content: `**Objectif** : Simuler la trajectoire d'un ballon en rotation (spin).
 
 La force de Magnus dévie le ballon perpendiculairement à sa vitesse et son axe de rotation.
 $F_M = S (\\omega \\times v)$`,
-                    keyPoints: [
-                        'Produit vectoriel en 3D',
-                        'Forces aérodynamiques avancées',
-                        'Simulation 3D',
-                        'Impact du spin sur la trajectoire'
-                    ],
-                        code: `import numpy as np
+        keyPoints: [
+            'Produit vectoriel en 3D',
+            'Forces aérodynamiques avancées',
+            'Simulation 3D',
+            'Impact du spin sur la trajectoire'
+        ],
+        code: `import numpy as np
 import matplotlib.pyplot as plt
 from scipy.integrate import odeint
 
@@ -466,22 +466,22 @@ plt.xlabel("Distance (X)")
 plt.ylabel("Déviation (Z)")
 plt.grid()
 plt.show()`,
-                            tip: '💡 Astuce : C\'est cet effet qui fait "tourner" les balles de tennis(lift) ou les ballons de foot(coups francs brossés).'
-},
-{
-    title: 'Projet 15 : Classification des Iris (Intro Machine Learning)',
+        tip: '💡 Astuce : C\'est cet effet qui fait "tourner" les balles de tennis(lift) ou les ballons de foot(coups francs brossés).'
+    },
+    {
+        title: 'Projet 15 : Classification des Iris (Intro Machine Learning)',
         duration: '2h',
-            analogy: '🌸 Apprendre à l\'ordinateur à reconnaître des fleurs',
-                content: `**Objectif** : Créer un modèle simple capable de reconnaître l'espèce d'une fleur Iris à partir de la taille de ses pétales.
+        analogy: '🌸 Apprendre à l\'ordinateur à reconnaître des fleurs',
+        content: `**Objectif** : Créer un modèle simple capable de reconnaître l'espèce d'une fleur Iris à partir de la taille de ses pétales.
 
 Nous utiliserons l'algorithme **K-Nearest Neighbors (KNN)**, intuitif et puissant.`,
-                    keyPoints: [
-                        'Dataset célèbre "Iris"',
-                        'Visualisation des données (Scatter plot)',
-                        'Algorithme KNN (Voisins les plus proches)',
-                        'Matrice de confusion'
-                    ],
-                        code: `import matplotlib.pyplot as plt
+        keyPoints: [
+            'Dataset célèbre "Iris"',
+            'Visualisation des données (Scatter plot)',
+            'Algorithme KNN (Voisins les plus proches)',
+            'Matrice de confusion'
+        ],
+        code: `import matplotlib.pyplot as plt
 from sklearn import datasets
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.model_selection import train_test_split
@@ -510,6 +510,6 @@ plt.ylabel('Largeur Sépale')
 plt.legend()
 plt.title("Classification des Iris")
 plt.show()`,
-                            tip: '💡 Astuce : Scikit-Learn (sklearn) est la bibliothèque standard pour le Machine Learning classique en Python.'
-}
+        tip: '💡 Astuce : Scikit-Learn (sklearn) est la bibliothèque standard pour le Machine Learning classique en Python.'
+    }
 ];
