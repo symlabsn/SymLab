@@ -123,12 +123,32 @@ function ThalesTheorem() {
 
 // Composant Cercle Trigonométrique
 function TrigUnitCircle() {
-    // Animation simple de l'angle
-    const [angle, setAngle] = useState(0);
+    const movingPointRef = useRef();
+    const sinLineRef = useRef();
+    const cosLineRef = useRef();
+    const sinTextRef = useRef();
+    const cosTextRef = useRef();
+
     useFrame((state) => {
-        setAngle((state.clock.elapsedTime * 0.5) % (Math.PI * 2));
+        const time = state.clock.elapsedTime * 0.5;
+        const angle = time % (Math.PI * 2);
+
+        if (movingPointRef.current) {
+            movingPointRef.current.position.set(2 * Math.cos(angle), 2 * Math.sin(angle), 0);
+        }
+
+        // Update lines and text positions/scales
+        if (sinLineRef.current) {
+            const h = 2 * Math.sin(angle);
+            sinLineRef.current.position.set(2 * Math.cos(angle), h / 2, 0);
+            sinLineRef.current.scale.set(1, Math.abs(h), 1); // Scale cylinder height
+        }
+        if (cosLineRef.current) {
+            const w = 2 * Math.cos(angle);
+            cosLineRef.current.position.set(w / 2, 0, 0);
+            cosLineRef.current.scale.set(1, Math.abs(w), 1);
+        }
     });
-    // const angle = Date.now() * 0.001 % (Math.PI * 2);
 
     return (
         <group>
@@ -150,22 +170,22 @@ function TrigUnitCircle() {
 
             {/* Point mobile */}
             <group rotation={[0, 0, 0]}>
-                <mesh position={[2 * Math.cos(angle), 2 * Math.sin(angle), 0]}>
+                <mesh ref={movingPointRef} position={[2, 0, 0]}>
                     <sphereGeometry args={[0.15]} />
                     <meshStandardMaterial color="#FCD34D" />
                 </mesh>
 
-                {/* Lignes de projection */}
+                {/* Lignes de projection - Initial rendering */}
                 {/* Sinus (Verticale) */}
-                <mesh position={[2 * Math.cos(angle), Math.sin(angle), 0]}>
-                    <cylinderGeometry args={[0.02, 0.02, 2 * Math.sin(angle), 8]} />
+                <mesh ref={sinLineRef} position={[2, 0, 0]}>
+                    <cylinderGeometry args={[0.02, 0.02, 1, 8]} />
                     <meshStandardMaterial color="#EF4444" />
                 </mesh>
                 <Text position={[2.2, 1, 0]} fontSize={0.3} color="#EF4444">Sin</Text>
 
                 {/* Cosinus (Horizontale) */}
-                <mesh position={[Math.cos(angle), 0, 0]} rotation={[0, 0, Math.PI / 2]}>
-                    <cylinderGeometry args={[0.02, 0.02, 2 * Math.cos(angle), 8]} />
+                <mesh ref={cosLineRef} position={[1, 0, 0]} rotation={[0, 0, Math.PI / 2]}>
+                    <cylinderGeometry args={[0.02, 0.02, 1, 8]} />
                     <meshStandardMaterial color="#3B82F6" />
                 </mesh>
                 <Text position={[1, -0.3, 0]} fontSize={0.3} color="#3B82F6">Cos</Text>
@@ -241,10 +261,26 @@ function Atom({ protons = 6, neutrons = 6, electrons = 6 }) {
     );
 }
 
-function ElectronOrbitals({ electrons }) {
-    const [time, setTime] = useState(0);
-    useFrame((state) => setTime(state.clock.elapsedTime));
 
+function SingleElectron({ speed, offset, orbitRadius }) {
+    const meshRef = useRef();
+    useFrame((state) => {
+        const time = state.clock.elapsedTime;
+        if (meshRef.current) {
+            meshRef.current.position.x = Math.cos(time * speed + offset) * orbitRadius;
+            meshRef.current.position.z = Math.sin(time * speed + offset) * orbitRadius;
+        }
+    });
+
+    return (
+        <mesh ref={meshRef}>
+            <sphereGeometry args={[0.1, 32, 32]} />
+            <meshStandardMaterial color="#00F5D4" emissive="#00F5D4" emissiveIntensity={1} />
+        </mesh>
+    );
+}
+
+function ElectronOrbitals({ electrons }) {
     return (
         <group>
             {Array.from({ length: electrons }).map((_, i) => {
@@ -260,17 +296,8 @@ function ElectronOrbitals({ electrons }) {
                             <meshBasicMaterial color="#00F5D4" opacity={0.3} transparent />
                         </mesh>
 
-                        {/* Électron */}
-                        <mesh
-                            position={[
-                                Math.cos(time * speed + offset) * orbitRadius,
-                                0,
-                                Math.sin(time * speed + offset) * orbitRadius
-                            ]}
-                        >
-                            <sphereGeometry args={[0.1, 32, 32]} />
-                            <meshStandardMaterial color="#00F5D4" emissive="#00F5D4" emissiveIntensity={1} />
-                        </mesh>
+                        {/* Électron via Composant Dédié (Ref) */}
+                        <SingleElectron speed={speed} offset={offset} orbitRadius={orbitRadius} />
                     </group>
                 );
             })}
