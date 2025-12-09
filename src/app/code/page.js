@@ -316,6 +316,7 @@ export default function NotebookPage() {
     ]);
     const [activeCellId, setActiveCellId] = useState(null);
     const [kernelStatus, setKernelStatus] = useState('loading');
+    const [loadingProgress, setLoadingProgress] = useState('Initialisation...');
     const [pyodide, setPyodide] = useState(null);
 
     // Initialisation de Pyodide (SSR Protected)
@@ -329,7 +330,9 @@ export default function NotebookPage() {
                     script.src = 'https://cdn.jsdelivr.net/pyodide/v0.25.0/full/pyodide.js';
                     script.async = true;
                     script.onload = async () => {
+                        setLoadingProgress('Chargement de Python...');
                         const py = await window.loadPyodide();
+                        setLoadingProgress('Installation des packages scientifiques...');
                         await py.loadPackage(['micropip', 'numpy', 'matplotlib', 'pandas', 'scipy', 'sympy', 'scikit-learn']);
                         const initCode = `
 import numpy as np
@@ -627,7 +630,7 @@ json.dumps({
                 <div className="flex items-center gap-4">
                     <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 border border-white/10">
                         <div className={`w-2 h-2 rounded-full ${kernelStatus === 'ready' ? 'bg-green-500' : kernelStatus === 'error' ? 'bg-red-500' : 'bg-yellow-500 animate-pulse'} `} />
-                        <span className="text-xs font-mono text-gray-300">{kernelStatus === 'loading' ? 'Init...' : kernelStatus === 'busy' ? 'Run...' : 'Prêt'}</span>
+                        <span className="text-xs font-mono text-gray-300">{kernelStatus === 'loading' ? loadingProgress : kernelStatus === 'busy' ? 'Run...' : 'Prêt'}</span>
                     </div>
                     <button className="bg-[#00F5D4] text-black px-4 py-1.5 rounded font-bold text-sm hover:bg-[#00F5D4]/90 transition-colors">Partager</button>
                 </div>
