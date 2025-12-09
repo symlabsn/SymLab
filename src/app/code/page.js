@@ -547,10 +547,27 @@ if plt.get_fignums() and len(plt.gcf().axes) > 0:
 # Capture LaTeX
 latex_str = None
 if result is not None:
-    if hasattr(result, '_repr_latex_'):
-        latex_str = result._repr_latex_()
-    elif hasattr(result, 'latex'):
-        latex_str = result.latex()
+    try:
+        # Check if it's a SymPy object
+        if hasattr(result, '_repr_latex_'):
+            latex_str = result._repr_latex_()
+            # Remove $$ delimiters if present
+            if latex_str and latex_str.startswith('$$'):
+                latex_str = latex_str[2:-2]
+        elif 'sympy' in str(type(result).__module__):
+            # It's a SymPy object, use sympy.latex()
+            from sympy import latex as sympy_latex
+            latex_str = sympy_latex(result)
+        # Check for lists/tuples of SymPy objects
+        elif isinstance(result, (list, tuple)):
+            try:
+                from sympy import latex as sympy_latex
+                # Try to convert the whole structure
+                latex_str = sympy_latex(result)
+            except:
+                pass
+    except:
+        pass
 
 # Capture HTML (Pandas)
 html_str = None
