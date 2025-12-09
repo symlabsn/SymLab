@@ -1,22 +1,23 @@
 
-{
-    title: 'Projet 4 : Simulation du Système Solaire',
+export const newProjects = [
+    {
+        title: 'Projet 4 : Simulation du Système Solaire',
         duration: '2h30',
-            analogy: '🪐 La danse des planètes autour du Soleil',
-                content: `**Objectif** : Simuler les orbites des planètes en utilisant les lois de Kepler et Newton.
+        analogy: '🪐 La danse des planètes autour du Soleil',
+        content: `**Objectif** : Simuler les orbites des planètes en utilisant les lois de Kepler et Newton.
 
 **Physique** 🌌
 La force gravitationnelle entre deux corps est :
 $F = G \\frac{m_1 m_2}{r^2}$
 
 Nous utiliserons l'intégration numérique pour prédire la position des planètes à chaque instant.`,
-                    keyPoints: [
-                        'Utilisation de la loi de la gravitation universelle',
-                        'Intégration numérique avec la méthode de Verlet (plus stable que Euler)',
-                        'Visualisation 2D ou 3D des orbites',
-                        'Vérification de la 3ème loi de Kepler ($T^2 \\propto a^3$)'
-                    ],
-                        code: `import numpy as np
+        keyPoints: [
+            'Utilisation de la loi de la gravitation universelle',
+            'Intégration numérique avec la méthode de Verlet (plus stable que Euler)',
+            'Visualisation 2D ou 3D des orbites',
+            'Vérification de la 3ème loi de Kepler ($T^2 \\propto a^3$)'
+        ],
+        code: `import numpy as np
 import matplotlib.pyplot as plt
 
 # Constantes (unités astronomiques simplifiées)
@@ -49,25 +50,25 @@ plt.plot(0, 0, 'yo', markersize=10, label='Soleil') # Soleil au centre
 plt.axis('equal')
 plt.title("Orbite Terrestre")
 plt.show()`,
-                            tip: '💡 Astuce : La méthode d\\'Euler simple perd de l\\'énergie à long terme. Pour les orbites, la méthode "Velocity Verlet" est bien meilleure !'
-},
-{
-    title: 'Projet 5 : Circuit RLC et Résonance',
+        tip: '💡 Astuce : La méthode d\'Euler simple perd de l\'énergie à long terme. Pour les orbites, la méthode "Velocity Verlet" est bien meilleure !'
+    },
+    {
+        title: 'Projet 5 : Circuit RLC et Résonance',
         duration: '2h',
-            analogy: '⚡ Le balancier électrique',
-                content: `**Objectif** : Analyser la réponse d'un circuit RLC série et visualiser le phénomène de résonance.
+        analogy: '⚡ Le balancier électrique',
+        content: `**Objectif** : Analyser la réponse d'un circuit RLC série et visualiser le phénomène de résonance.
 
 L'équation différentielle du circuit :
 $L \\frac{d^2q}{dt^2} + R \\frac{dq}{dt} + \\frac{1}{C}q = E(t)$
 
 C'est l'équivalent électrique d'un système masse-ressort amorti !`,
-                    keyPoints: [
-                        'Résolution d\'équation différentielle du 2nd ordre',
-                        'Étude des régimes : pseudo-périodique, critique, apériodique',
-                        'Calcul de la fréquence de résonance $f_0 = \\frac{1}{2\\pi\\sqrt{LC}}$',
-                        'Tracé de la bande passante'
-                    ],
-                        code: `import numpy as np
+        keyPoints: [
+            'Résolution d\'équation différentielle du 2nd ordre',
+            'Étude des régimes : pseudo-périodique, critique, apériodique',
+            'Calcul de la fréquence de résonance $f_0 = \\frac{1}{2\\pi\\sqrt{LC}}$',
+            'Tracé de la bande passante'
+        ],
+        code: `import numpy as np
 import matplotlib.pyplot as plt
 from scipy.integrate import odeint
 
@@ -96,22 +97,22 @@ plt.xlabel("Temps (s)")
 plt.ylabel("Intensité (A)")
 plt.grid()
 plt.show()`,
-                            tip: '💡 Astuce : Changez la valeur de R pour voir comment l\\'amortissement affecte les oscillations!'
-},
-{
-    title: 'Projet 6 : Optimisation de Portefeuille (Finance)',
+        tip: '💡 Astuce : Changez la valeur de R pour voir comment l\'amortissement affecte les oscillations!'
+    },
+    {
+        title: 'Projet 6 : Optimisation de Portefeuille (Finance)',
         duration: '3h',
-            analogy: '💰 Ne pas mettre tous ses œufs dans le même panier',
-                content: `**Objectif** : Trouver la meilleure répartition d'investissement entre plusieurs actions pour maximiser le rendement et minimiser le risque.
+        analogy: '💰 Ne pas mettre tous ses œufs dans le même panier',
+        content: `**Objectif** : Trouver la meilleure répartition d'investissement entre plusieurs actions pour maximiser le rendement et minimiser le risque.
 
 Nous utiliserons la **Frontière Efficiente de Markowitz**.`,
-                    keyPoints: [
-                        'Récupération de données financières réelles (Yahoo Finance)',
-                        'Calcul de la matrice de covariance (Risque)',
-                        'Simulation Monte Carlo pour tester des milliers de portefeuilles',
-                        'Ratio de Sharpe pour évaluer la performance'
-                    ],
-                        code: `import numpy as np
+        keyPoints: [
+            'Récupération de données financières réelles (Yahoo Finance)',
+            'Calcul de la matrice de covariance (Risque)',
+            'Simulation Monte Carlo pour tester des milliers de portefeuilles',
+            'Ratio de Sharpe pour évaluer la performance'
+        ],
+        code: `import numpy as np
 import matplotlib.pyplot as plt
 
 # Rendements simulés de 3 actifs (A, B, C)
@@ -138,22 +139,22 @@ plt.xlabel('Volatilité (Risque)')
 plt.ylabel('Rendement Espéré')
 plt.title('Frontière Efficiente')
 plt.show()`,
-                            tip: '💡 Astuce : Le portefeuille avec le meilleur Ratio de Sharpe est souvent considéré comme le meilleur compromis risque/rendement.'
-},
-{
-    title: 'Projet 7 : Détection de Contours (Traitement d\\'Image) ',
-    duration: '2h',
+        tip: '💡 Astuce : Le portefeuille avec le meilleur Ratio de Sharpe est souvent considéré comme le meilleur compromis risque/rendement.'
+    },
+    {
+        title: 'Projet 7 : Détection de Contours (Traitement d\'Image) ',
+        duration: '2h',
         analogy: '👁️ Comment un robot "voit" les formes',
-            content: `**Objectif** : Coder un filtre de détection de contours (comme Sobel) à partir de zéro avec NumPy, sans utiliser OpenCV directement pour l'algo.
+        content: `**Objectif** : Coder un filtre de détection de contours (comme Sobel) à partir de zéro avec NumPy, sans utiliser OpenCV directement pour l'algo.
 
 Une image est juste une matrice de nombres (pixels). Les variations brutales de nombres indiquent un bord.`,
-                keyPoints: [
-                    'Image = Matrice NumPy',
-                    'Convolution 2D',
-                    'Filtres de Sobel (Gradient X et Y)',
-                    'Calcul de la magnitude du gradient'
-                ],
-                    code: `import numpy as np
+        keyPoints: [
+            'Image = Matrice NumPy',
+            'Convolution 2D',
+            'Filtres de Sobel (Gradient X et Y)',
+            'Calcul de la magnitude du gradient'
+        ],
+        code: `import numpy as np
 import matplotlib.pyplot as plt
 from scipy.signal import convolve2d
 
@@ -175,24 +176,24 @@ contours = np.sqrt(contour_x**2 + contour_y**2)
 plt.imshow(contours, cmap='gray')
 plt.title("Détection de contours")
 plt.show()`,
-                        tip: '💡 Astuce : La convolution est l\\'opération de base des réseaux de neurones convolutionnels(CNN) utilisés en IA pour la vision.'
-},
-{
-    title: 'Projet 8 : Calcul de Pi par Monte Carlo',
+        tip: '💡 Astuce : La convolution est l\'opération de base des réseaux de neurones convolutionnels(CNN) utilisés en IA pour la vision.'
+    },
+    {
+        title: 'Projet 8 : Calcul de Pi par Monte Carlo',
         duration: '1h30',
-            analogy: '🎯 Lancer des fléchettes pour faire des maths',
-                content: `**Objectif** : Estimer la valeur de $\\pi$ en utilisant le hasard.
+        analogy: '🎯 Lancer des fléchettes pour faire des maths',
+        content: `**Objectif** : Estimer la valeur de $\\pi$ en utilisant le hasard.
 
 Imaginez un carré de côté 2 (Aire = 4). Dedans, un cercle de rayon 1 (Aire = $\\pi$).
 Si on lance des points au hasard :
 $\\frac{\\text{Points dans le cercle}}{\\text{Points total}} \\approx \\frac{\\text{Aire Cercle}}{\\text{Aire Carré}} = \\frac{\\pi}{4}$`,
-                    keyPoints: [
-                        'Génération de nombres aléatoires uniformes',
-                        'Géométrie simple (distance à l\'origine)',
-                        'Loi des grands nombres (la précision augmente avec n)',
-                        'Visualisation des impacts'
-                    ],
-                        code: `import numpy as np
+        keyPoints: [
+            'Génération de nombres aléatoires uniformes',
+            'Géométrie simple (distance à l\'origine)',
+            'Loi des grands nombres (la précision augmente avec n)',
+            'Visualisation des impacts'
+        ],
+        code: `import numpy as np
 import matplotlib.pyplot as plt
 
 n = 10000
@@ -212,13 +213,13 @@ plt.figure(figsize=(6,6))
 plt.scatter(x[dans_cercle][:1000], y[dans_cercle][:1000], c='blue', s=1)
 plt.scatter(x[~dans_cercle][:1000], y[~dans_cercle][:1000], c='red', s=1)
 plt.show()`,
-                            tip: '💡 Astuce : C\\'est une méthode lente pour calculer Pi, mais la méthode Monte Carlo est géniale pour calculer des intégrales complexes en physique!'
-},
-{
-    title: 'Projet 9 : Modèle Proie-Prédateur (Lotka-Volterra)',
+        tip: '💡 Astuce : C\'est une méthode lente pour calculer Pi, mais la méthode Monte Carlo est géniale pour calculer des intégrales complexes en physique!'
+    },
+    {
+        title: 'Projet 9 : Modèle Proie-Prédateur (Lotka-Volterra)',
         duration: '2h',
-            analogy: '🐇🦊 Lapins vs Renards : l\\'équilibre de la nature',
-    content: `**Objectif** : Simuler l'évolution des populations de proies et de prédateurs.
+        analogy: '🐇🦊 Lapins vs Renards : l\'équilibre de la nature',
+        content: `**Objectif** : Simuler l'évolution des populations de proies et de prédateurs.
 
 **Équations** :
 $dx/dt = \\alpha x - \\beta xy$ (Proies : naissent, mangées)
@@ -229,7 +230,7 @@ $dy/dt = \\delta xy - \\gamma y$ (Prédateurs : mangent, meurent)`,
             'Points d\'équilibre',
             'Portrait de phase'
         ],
-            code: `import numpy as np
+        code: `import numpy as np
 from scipy.integrate import odeint
 import matplotlib.pyplot as plt
 
@@ -250,22 +251,22 @@ plt.plot(t, res[:,1], label='Prédateurs 🦊')
 plt.legend()
 plt.title("Dynamique des populations")
 plt.show()`,
-                tip: '💡 Astuce : Tracez Prédateurs en fonction de Proies (plt.plot(res[:,0], res[:,1])) pour voir les cycles limites elliptiques !'
-},
-{
-    title: 'Projet 10 : Chiffrement RSA (Cryptographie)',
+        tip: '💡 Astuce : Tracez Prédateurs en fonction de Proies (plt.plot(res[:,0], res[:,1])) pour voir les cycles limites elliptiques !'
+    },
+    {
+        title: 'Projet 10 : Chiffrement RSA (Cryptographie)',
         duration: '2h30',
-            analogy: '🔐 La clé publique et la clé privée',
-                content: `**Objectif** : Implémenter une version simplifiée de l'algorithme RSA qui sécurise Internet.
+        analogy: '🔐 La clé publique et la clé privée',
+        content: `**Objectif** : Implémenter une version simplifiée de l'algorithme RSA qui sécurise Internet.
 
 Repose sur l'arithmétique modulaire et la difficulté de factoriser de grands nombres premiers.`,
-                    keyPoints: [
-                        'Nombres premiers',
-                        'PGCD et Algorithme d\'Euclide étendu',
-                        'Exponentiation modulaire $c = m^e \\pmod n$',
-                        'Théorème d\'Euler'
-                    ],
-                        code: `def pgcd(a, b):
+        keyPoints: [
+            'Nombres premiers',
+            'PGCD et Algorithme d\'Euclide étendu',
+            'Exponentiation modulaire $c = m^e \\pmod n$',
+            'Théorème d\'Euler'
+        ],
+        code: `def pgcd(a, b):
     while b:
         a, b = b, a % b
     return a
@@ -291,22 +292,22 @@ print(f"Message chiffré : {chiffre}")
 # 3. Déchiffrement
 dechiffre = pow(chiffre, d, n)
 print(f"Message déchiffré : {dechiffre}")`,
-                            tip: '💡 Astuce : La sécurité de RSA repose sur le fait qu\\'il est très facile de multiplier PxQ, mais très difficile de retrouver P et Q à partir de N si N est géant.'
-},
-{
-    title: 'Projet 11 : Séries de Fourier (Traitement du Signal)',
+        tip: '💡 Astuce : La sécurité de RSA repose sur le fait qu\'il est très facile de multiplier PxQ, mais très difficile de retrouver P et Q à partir de N si N est géant.'
+    },
+    {
+        title: 'Projet 11 : Séries de Fourier (Traitement du Signal)',
         duration: '2h',
-            analogy: '🎶 Décomposer un accord en notes individuelles',
-                content: `**Objectif** : Reconstruire n'importe quel signal périodique (comme un signal carré) en additionnant des sinusoïdes.
+        analogy: '🎶 Décomposer un accord en notes individuelles',
+        content: `**Objectif** : Reconstruire n'importe quel signal périodique (comme un signal carré) en additionnant des sinusoïdes.
 
 Tout signal périodique est une somme de sinus et cosinus !`,
-                    keyPoints: [
-                        'Décomposition harmonique',
-                        'Calcul des coefficients de Fourier',
-                        'Phénomène de Gibbs',
-                        'Synthèse de signal'
-                    ],
-                        code: `import numpy as np
+        keyPoints: [
+            'Décomposition harmonique',
+            'Calcul des coefficients de Fourier',
+            'Phénomène de Gibbs',
+            'Synthèse de signal'
+        ],
+        code: `import numpy as np
 import matplotlib.pyplot as plt
 
 # Fonction carrée (période 2*pi)
@@ -326,22 +327,22 @@ plt.plot(t, reconstruction, 'r', label=f'Fourier (k={k_max})')
 plt.title("Synthèse de Fourier")
 plt.legend()
 plt.show()`,
-                            tip: '💡 Astuce : Plus vous ajoutez d\\'harmoniques, plus le signal ressemble au carré parfait.Observez les petites oscillations aux coins(Phénomène de Gibbs).'
-},
-{
-    title: 'Projet 12 : Équation de la Chaleur 1D',
+        tip: '💡 Astuce : Plus vous ajoutez d\'harmoniques, plus le signal ressemble au carré parfait.Observez les petites oscillations aux coins(Phénomène de Gibbs).'
+    },
+    {
+        title: 'Projet 12 : Équation de la Chaleur 1D',
         duration: '3h',
-            analogy: '🔥 Comment la chaleur se propage dans une barre de fer',
-                content: `**Objectif** : Résoudre l'équation aux dérivées partielles (EDP) de la chaleur par la méthode des différences finies.
+        analogy: '🔥 Comment la chaleur se propage dans une barre de fer',
+        content: `**Objectif** : Résoudre l'équation aux dérivées partielles (EDP) de la chaleur par la méthode des différences finies.
 
 $\\frac{\\partial u}{\\partial t} = \\alpha \\frac{\\partial^2 u}{\\partial x^2}$`,
-                    keyPoints: [
-                        'Discrétisation spatiale et temporelle',
-                        'Schéma explicite (Attention à la stabilité !)',
-                        'Conditions aux limites',
-                        'Visualisation dynamique (Heatmap)'
-                    ],
-                        code: `import numpy as np
+        keyPoints: [
+            'Discrétisation spatiale et temporelle',
+            'Schéma explicite (Attention à la stabilité !)',
+            'Conditions aux limites',
+            'Visualisation dynamique (Heatmap)'
+        ],
+        code: `import numpy as np
 import matplotlib.pyplot as plt
 
 # Paramètres
@@ -371,23 +372,23 @@ plt.title(f"Température après {Nt} itérations")
 plt.xlabel("Position")
 plt.ylabel("Température")
 plt.show()`,
-                            tip: '💡 Astuce : Si votre simulation "explose" avec des valeurs infinies, réduisez le pas de temps `dt`. C\\'est un problème de stabilité numérique.'
-},
-{
-    title: 'Projet 13 : L\\'Ensemble de Mandelbrot(Fractales)',
+        tip: '💡 Astuce : Si votre simulation "explose" avec des valeurs infinies, réduisez le pas de temps `dt`. C\'est un problème de stabilité numérique.'
+    },
+    {
+        title: 'Projet 13 : L\\'Ensemble de Mandelbrot(Fractales)',
     duration: '2h',
         analogy: '🌸 L\\'infini mathématique dans une image',
     content: `**Objectif** : Générer et visualiser la plus célèbre des fractales.
 
 Pour chaque point $c$ du plan complexe, on itère $z_{n+1} = z_n^2 + c$ (avec $z_0=0$).
 Si la suite reste bornée, le point est dans l'ensemble.`,
-        keyPoints: [
-            'Nombres complexes',
-            'Suites divergentes',
-            'Calcul vectoriel (Broadcasting) avec NumPy',
-            'Affichage d\\'image haute résolution'
-        ],
-            code: `import numpy as np
+    keyPoints: [
+        'Nombres complexes',
+        'Suites divergentes',
+        'Calcul vectoriel (Broadcasting) avec NumPy',
+        'Affichage d\\'image haute résolution'
+    ],
+    code: `import numpy as np
 import matplotlib.pyplot as plt
 
 def mandelbrot(h, w, max_iter=20):
@@ -409,7 +410,7 @@ plt.figure(figsize=(10,10))
 plt.imshow(mandelbrot(500, 500), cmap='magma')
 plt.axis('off')
 plt.show()`,
-                tip: '💡 Astuce : NumPy est des centaines de fois plus rapide qu\\'une boucle for pixel par pixel pour ce genre de calcul!'
+    tip: '💡 Astuce : NumPy est des centaines de fois plus rapide qu\'une boucle for pixel par pixel pour ce genre de calcul!'
 },
 {
     title: 'Projet 14 : Effet Magnus (La Physique du Ballon Brossé)',
@@ -465,22 +466,22 @@ plt.xlabel("Distance (X)")
 plt.ylabel("Déviation (Z)")
 plt.grid()
 plt.show()`,
-                            tip: '💡 Astuce : C\\'est cet effet qui fait "tourner" les balles de tennis(lift) ou les ballons de foot(coups francs brossés).'
+                            tip: '💡 Astuce : C\'est cet effet qui fait "tourner" les balles de tennis(lift) ou les ballons de foot(coups francs brossés).'
 },
 {
     title: 'Projet 15 : Classification des Iris (Intro Machine Learning)',
         duration: '2h',
-            analogy: '🌸 Apprendre à l\\'ordinateur à reconnaître des fleurs',
-    content: `**Objectif** : Créer un modèle simple capable de reconnaître l'espèce d'une fleur Iris à partir de la taille de ses pétales.
+            analogy: '🌸 Apprendre à l\'ordinateur à reconnaître des fleurs',
+                content: `**Objectif** : Créer un modèle simple capable de reconnaître l'espèce d'une fleur Iris à partir de la taille de ses pétales.
 
 Nous utiliserons l'algorithme **K-Nearest Neighbors (KNN)**, intuitif et puissant.`,
-        keyPoints: [
-            'Dataset célèbre "Iris"',
-            'Visualisation des données (Scatter plot)',
-            'Algorithme KNN (Voisins les plus proches)',
-            'Matrice de confusion'
-        ],
-            code: `import matplotlib.pyplot as plt
+                    keyPoints: [
+                        'Dataset célèbre "Iris"',
+                        'Visualisation des données (Scatter plot)',
+                        'Algorithme KNN (Voisins les plus proches)',
+                        'Matrice de confusion'
+                    ],
+                        code: `import matplotlib.pyplot as plt
 from sklearn import datasets
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.model_selection import train_test_split
@@ -509,5 +510,6 @@ plt.ylabel('Largeur Sépale')
 plt.legend()
 plt.title("Classification des Iris")
 plt.show()`,
-                tip: '💡 Astuce : Scikit-Learn (sklearn) est la bibliothèque standard pour le Machine Learning classique en Python.'
+                            tip: '💡 Astuce : Scikit-Learn (sklearn) est la bibliothèque standard pour le Machine Learning classique en Python.'
 }
+];
