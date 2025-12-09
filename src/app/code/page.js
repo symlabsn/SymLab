@@ -338,11 +338,27 @@ import matplotlib.pyplot as plt
 import scipy
 import sympy
 from sympy import *
+from sympy.interactive import init_session
 import sklearn
 import sys
 import io
 import json
-print("Kernel Initialized")
+
+# Support for input() function
+_input_queue = []
+_input_results = []
+
+def input(prompt=""):
+    import js
+    if prompt:
+        print(prompt, end="")
+    result = js.prompt(prompt if prompt else "Enter input:")
+    if result is None:
+        raise KeyboardInterrupt("Input cancelled")
+    print(result)
+    return result
+
+print("Kernel Initialized - input() and init_session() available")
 `;
                         await py.runPythonAsync(initCode);
                         setPyodide(py);
@@ -360,7 +376,19 @@ import matplotlib.pyplot as plt
 import scipy
 import sympy
 from sympy import *
+from sympy.interactive import init_session
 import sklearn
+
+# Support for input() function
+def input(prompt=""):
+    import js
+    if prompt:
+        print(prompt, end="")
+    result = js.prompt(prompt if prompt else "Enter input:")
+    if result is None:
+        raise KeyboardInterrupt("Input cancelled")
+    print(result)
+    return result
 `;
                     await py.runPythonAsync(initCode);
                     setPyodide(py);
@@ -417,10 +445,23 @@ import matplotlib.pyplot as plt
 import scipy
 import sympy
 from sympy import *
+from sympy.interactive import init_session
 import sklearn
 import sys
 import io
-import json`);
+import json
+
+# Support for input() function
+def input(prompt=""):
+    import js
+    if prompt:
+        print(prompt, end="")
+    result = js.prompt(prompt if prompt else "Enter input:")
+    if result is None:
+        raise KeyboardInterrupt("Input cancelled")
+    print(result)
+    return result
+`);
             setCells(cells.map(c => ({ ...c, status: 'idle', output: null, executionCount: null })));
             setKernelStatus('ready');
         }
