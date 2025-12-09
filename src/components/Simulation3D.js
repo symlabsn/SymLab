@@ -1273,6 +1273,420 @@ function TectonicPlates() {
 
 
 
+
+// Composant Séparation des Mélanges (Décantation et Filtration)
+function MixtureSeparation() {
+    return (
+        <group>
+            <Text position={[0, 3.5, 0]} fontSize={0.5} color="white">SÉPARATION DES MÉLANGES</Text>
+
+            {/* Décantation */}
+            <group position={[-3, 0, 0]}>
+                <Text position={[0, 2, 0]} fontSize={0.3} color="#3B82F6">1. Décantation</Text>
+                {/* Becher */}
+                <mesh position={[0, 0, 0]}>
+                    <cylinderGeometry args={[0.8, 0.8, 2, 32]} />
+                    <meshStandardMaterial color="white" transparent opacity={0.3} side={2} />
+                </mesh>
+                {/* Eau */}
+                <mesh position={[0, 0.2, 0]}>
+                    <cylinderGeometry args={[0.75, 0.75, 1, 32]} />
+                    <meshStandardMaterial color="#60A5FA" transparent opacity={0.6} />
+                </mesh>
+                {/* Boue/Sable au fond */}
+                <mesh position={[0, -0.8, 0]}>
+                    <cylinderGeometry args={[0.75, 0.75, 0.4, 32]} />
+                    <meshStandardMaterial color="#8B4513" />
+                </mesh>
+                <Text position={[0, -1.5, 0]} fontSize={0.25} color="gray">Sable (Lourd)</Text>
+            </group>
+
+            {/* Filtration */}
+            <group position={[3, 0, 0]}>
+                <Text position={[0, 2, 0]} fontSize={0.3} color="#10B981">2. Filtration</Text>
+
+                {/* Entonnoir */}
+                <mesh position={[0, 1, 0]}>
+                    <coneGeometry args={[0.8, 1, 32, 1, true]} />
+                    <meshStandardMaterial color="#9CA3AF" transparent opacity={0.5} side={2} />
+                </mesh>
+                <mesh position={[0, 0.2, 0]}>
+                    <cylinderGeometry args={[0.1, 0.1, 1, 16]} />
+                    <meshStandardMaterial color="#9CA3AF" transparent opacity={0.5} />
+                </mesh>
+
+                {/* Filtre Papier */}
+                <mesh position={[0, 1, 0]}>
+                    <coneGeometry args={[0.7, 0.8, 32, 1, true]} />
+                    <meshStandardMaterial color="white" side={2} />
+                </mesh>
+
+                {/* Becher de récupération */}
+                <mesh position={[0, -1, 0]}>
+                    <cylinderGeometry args={[0.6, 0.6, 1.5, 32]} />
+                    <meshStandardMaterial color="white" transparent opacity={0.3} />
+                </mesh>
+
+                {/* Eau filtrée */}
+                <mesh position={[0, -1.5, 0]}>
+                    <cylinderGeometry args={[0.55, 0.55, 0.5, 32]} />
+                    <meshStandardMaterial color="#60A5FA" transparent opacity={0.8} />
+                </mesh>
+
+                {/* Gouttes */}
+                <mesh position={[0, -0.4, 0]}>
+                    <sphereGeometry args={[0.08]} />
+                    <meshStandardMaterial color="#60A5FA" />
+                </mesh>
+
+                <Text position={[0, -2, 0]} fontSize={0.25} color="#3B82F6">Eau Limpide</Text>
+            </group>
+        </group>
+    );
+}
+
+// Composant Masse et Volume
+function MassVolume() {
+    return (
+        <group>
+            <Text position={[0, 3.5, 0]} fontSize={0.5} color="white">MASSE vs VOLUME</Text>
+
+            {/* Balance à fléau */}
+            <group position={[0, -1, 0]}>
+                {/* Socle */}
+                <mesh position={[0, -1, 0]}>
+                    <cylinderGeometry args={[0.2, 0.5, 2, 16]} />
+                    <meshStandardMaterial color="#4B5563" />
+                </mesh>
+                {/* Fléau */}
+                <mesh position={[0, 0, 0]} rotation={[0, 0, -0.1]}>
+                    <boxGeometry args={[6, 0.2, 0.2]} />
+                    <meshStandardMaterial color="#9CA3AF" />
+                </mesh>
+
+                {/* Plateau Gauche (Lourd, Petit) */}
+                <group position={[-2.8, 0.3, 0]} rotation={[0, 0, -0.1]}>
+                    <mesh position={[0, -0.5, 0]}>
+                        <cylinderGeometry args={[1, 1, 0.1, 32]} />
+                        <meshStandardMaterial color="#E5E7EB" />
+                    </mesh>
+                    {/* Objet Lourd (Cube Fer) */}
+                    <mesh position={[0, 0.3, 0]}>
+                        <boxGeometry args={[0.8, 0.8, 0.8]} />
+                        <meshStandardMaterial color="#374151" metalness={0.8} roughness={0.2} />
+                    </mesh>
+                    <Text position={[0, 1, 0]} fontSize={0.3} color="white">Plomb (1kg)</Text>
+                    <Text position={[0, 1.3, 0]} fontSize={0.25} color="gray">Petit Volume</Text>
+                </group>
+
+                {/* Plateau Droit (Léger, Gros) */}
+                <group position={[2.8, -0.3, 0]} rotation={[0, 0, -0.1]}>
+                    <mesh position={[0, -0.5, 0]}>
+                        <cylinderGeometry args={[1, 1, 0.1, 32]} />
+                        <meshStandardMaterial color="#E5E7EB" />
+                    </mesh>
+                    {/* Objet Léger (Ballon) */}
+                    <mesh position={[0, 0.8, 0]}>
+                        <sphereGeometry args={[1.2, 32, 32]} />
+                        <meshStandardMaterial color="#FCD34D" />
+                    </mesh>
+                    <Text position={[0, 2.3, 0]} fontSize={0.3} color="white">Plumes (0.1kg)</Text>
+                    <Text position={[0, 2.6, 0]} fontSize={0.25} color="gray">Grand Volume</Text>
+                </group>
+            </group>
+
+            <Text position={[0, -3, 0]} fontSize={0.3} color="#F59E0B">La balance penche vers la Masse la plus grande !</Text>
+        </group>
+    );
+}
+
+// Composant Purification Eau
+function WaterPurification() {
+    return (
+        <group>
+            <Text position={[0, 3.5, 0]} fontSize={0.5} color="#60A5FA">PURIFICATION DE L&apos;EAU</Text>
+
+            {/* Colonne de filtration */}
+            <group position={[0, 0, 0]}>
+                <mesh position={[0, 0, 0]}>
+                    <cylinderGeometry args={[1, 1, 5, 32]} />
+                    <meshStandardMaterial color="white" transparent opacity={0.2} side={2} />
+                </mesh>
+
+                {/* Couche Charbon (Noir) */}
+                <mesh position={[0, -1.5, 0]}>
+                    <cylinderGeometry args={[0.95, 0.95, 1, 32]} />
+                    <meshStandardMaterial color="#1F2937" />
+                </mesh>
+                <Text position={[1.5, -1.5, 0]} fontSize={0.3} color="white">Charbon Actif</Text>
+
+                {/* Couche Sable Fin (Jaune pale) */}
+                <mesh position={[0, -0.5, 0]}>
+                    <cylinderGeometry args={[0.95, 0.95, 1, 32]} />
+                    <meshStandardMaterial color="#FDE047" />
+                </mesh>
+                <Text position={[1.5, -0.5, 0]} fontSize={0.3} color="white">Sable Fin</Text>
+
+                {/* Couche Gravier (Gris) */}
+                <mesh position={[0, 0.5, 0]}>
+                    <cylinderGeometry args={[0.95, 0.95, 1, 32]} />
+                    <meshStandardMaterial color="#9CA3AF" />
+                </mesh>
+                <Text position={[1.5, 0.5, 0]} fontSize={0.3} color="white">Gravier</Text>
+
+                {/* Eau Sale en haut */}
+                <mesh position={[0, 1.8, 0]}>
+                    <cylinderGeometry args={[0.95, 0.95, 1, 32]} />
+                    <meshStandardMaterial color="#78350F" transparent opacity={0.8} />
+                </mesh>
+                <Text position={[0, 2.5, 0]} fontSize={0.3} color="#78350F">Eau Boueuse</Text>
+
+                {/* Goutte Eau Propre en bas */}
+                <mesh position={[0, -3, 0]}>
+                    <sphereGeometry args={[0.3]} />
+                    <meshStandardMaterial color="#60A5FA" />
+                </mesh>
+                <Text position={[0, -3.5, 0]} fontSize={0.3} color="#60A5FA">Eau Propre</Text>
+            </group>
+        </group>
+    );
+}
+
+// Composant Formes Géométriques
+function GeometricShapes() {
+    const groupRef = useRef();
+    useFrame((state) => {
+        if (groupRef.current) {
+            groupRef.current.rotation.y += 0.005;
+        }
+    });
+
+    return (
+        <group ref={groupRef}>
+            <Text position={[0, 3.5, 0]} fontSize={0.5} color="white">SOLIDES GÉOMÉTRIQUES</Text>
+
+            {/* Cube */}
+            <group position={[-3, 0, 0]}>
+                <mesh>
+                    <boxGeometry args={[1.5, 1.5, 1.5]} />
+                    <meshStandardMaterial color="#EF4444" wireframe={true} />
+                </mesh>
+                <mesh>
+                    <boxGeometry args={[1.4, 1.4, 1.4]} />
+                    <meshStandardMaterial color="#EF4444" transparent opacity={0.3} />
+                </mesh>
+                <Text position={[0, -1.5, 0]} fontSize={0.3} color="white">Cube</Text>
+            </group>
+
+            {/* Sphère */}
+            <group position={[-1, 0, 0]}>
+                <mesh>
+                    <sphereGeometry args={[0.9, 32, 32]} />
+                    <meshStandardMaterial color="#3B82F6" wireframe={true} />
+                </mesh>
+                <mesh>
+                    <sphereGeometry args={[0.85, 32, 32]} />
+                    <meshStandardMaterial color="#3B82F6" transparent opacity={0.3} />
+                </mesh>
+                <Text position={[0, -1.5, 0]} fontSize={0.3} color="white">Sphère</Text>
+            </group>
+
+            {/* Cylindre */}
+            <group position={[1, 0, 0]}>
+                <mesh>
+                    <cylinderGeometry args={[0.7, 0.7, 1.5, 32]} />
+                    <meshStandardMaterial color="#10B981" wireframe={true} />
+                </mesh>
+                <mesh>
+                    <cylinderGeometry args={[0.65, 0.65, 1.5, 32]} />
+                    <meshStandardMaterial color="#10B981" transparent opacity={0.3} />
+                </mesh>
+                <Text position={[0, -1.5, 0]} fontSize={0.3} color="white">Cylindre</Text>
+            </group>
+
+            {/* Cône */}
+            <group position={[3, 0, 0]}>
+                <mesh>
+                    <coneGeometry args={[0.8, 1.5, 32]} />
+                    <meshStandardMaterial color="#F59E0B" wireframe={true} />
+                </mesh>
+                <mesh>
+                    <coneGeometry args={[0.75, 1.4, 32]} />
+                    <meshStandardMaterial color="#F59E0B" transparent opacity={0.3} />
+                </mesh>
+                <Text position={[0, -1.5, 0]} fontSize={0.3} color="white">Cône</Text>
+            </group>
+        </group>
+    );
+}
+
+// Composant Mesure Angles
+function AngleMeasurement() {
+    return (
+        <group>
+            <Text position={[0, 3.5, 0]} fontSize={0.5} color="white">TYPES D&apos;ANGLES</Text>
+
+            {/* Angle Aigu */}
+            <group position={[-3, 0, 0]}>
+                <mesh position={[0, 0, 0]} rotation={[0, 0, 0.5]}>
+                    <cylinderGeometry args={[0.02, 0.02, 2, 8]} position={[0, 1, 0]} />
+                    <meshStandardMaterial color="#FCD34D" />
+                </mesh>
+                <mesh position={[0, 0, 0]} rotation={[0, 0, -0.5]}>
+                    <cylinderGeometry args={[0.02, 0.02, 2, 8]} position={[0, 1, 0]} />
+                    <meshStandardMaterial color="#FCD34D" />
+                </mesh>
+                {/* Arc */}
+                <mesh position={[0, 0.5, 0]}>
+                    <torusGeometry args={[0.5, 0.02, 16, 32, 1]} rotation={[0, 0, -0.5]} />
+                    <meshStandardMaterial color="white" />
+                </mesh>
+                <Text position={[0, -1.5, 0]} fontSize={0.3} color="white">Aigu (&lt;90°)</Text>
+            </group>
+
+            {/* Angle Droit */}
+            <group position={[0, 0, 0]}>
+                <mesh position={[0, 1, 0]}>
+                    <cylinderGeometry args={[0.02, 0.02, 2, 8]} />
+                    <meshStandardMaterial color="#EF4444" />
+                </mesh>
+                <mesh position={[1, 0, 0]} rotation={[0, 0, Math.PI / 2]}>
+                    <cylinderGeometry args={[0.02, 0.02, 2, 8]} />
+                    <meshStandardMaterial color="#EF4444" />
+                </mesh>
+                {/* Carré angle droit */}
+                <mesh position={[0.3, 0.3, 0]}>
+                    <boxGeometry args={[0.5, 0.02, 0.02]} position={[0, 0.25, 0]} />
+                    <meshStandardMaterial color="white" />
+                </mesh>
+                <mesh position={[0.5, 0.25, 0]}>
+                    <boxGeometry args={[0.02, 0.5, 0.02]} />
+                    <meshStandardMaterial color="white" />
+                </mesh>
+                <Text position={[0, -1.5, 0]} fontSize={0.3} color="white">Droit (90°)</Text>
+            </group>
+
+            {/* Angle Obtus */}
+            <group position={[3, 0, 0]}>
+                <mesh position={[0, 0, 0]} rotation={[0, 0, 1]}>
+                    <cylinderGeometry args={[0.02, 0.02, 2, 8]} position={[0, 1, 0]} />
+                    <meshStandardMaterial color="#3B82F6" />
+                </mesh>
+                <mesh position={[2, 0, 0]} rotation={[0, 0, -Math.PI / 2]}>
+                    <cylinderGeometry args={[0.02, 0.02, 2, 8]} />
+                    <meshStandardMaterial color="#3B82F6" />
+                </mesh>
+                <Text position={[0, -1.5, 0]} fontSize={0.3} color="white">Obtus (&gt;90°)</Text>
+            </group>
+        </group>
+    );
+}
+
+// Composant Respiration Humaine
+function HumanRespiration() {
+    const lungsRef = useRef();
+    useFrame((state) => {
+        if (lungsRef.current) {
+            // Animation respiration (scale up/down)
+            const s = 1 + Math.sin(state.clock.elapsedTime * 2) * 0.1;
+            lungsRef.current.scale.set(s, s, s);
+        }
+    });
+
+    return (
+        <group>
+            <Text position={[0, 3.5, 0]} fontSize={0.5} color="#FCA5A5">RESPIRATION</Text>
+
+            {/* Trachée */}
+            <mesh position={[0, 2, 0]}>
+                <cylinderGeometry args={[0.2, 0.2, 1.5, 16]} />
+                <meshStandardMaterial color="#FCA5A5" />
+            </mesh>
+
+            <group ref={lungsRef} position={[0, 0.5, 0]}>
+                {/* Poumon Gauche */}
+                <mesh position={[-0.8, 0, 0]}>
+                    <sphereGeometry args={[0.8, 32, 32]} scale={[1, 1.5, 1]} />
+                    <meshStandardMaterial color="#FECACA" />
+                </mesh>
+                {/* Poumon Droit */}
+                <mesh position={[0.8, 0, 0]}>
+                    <sphereGeometry args={[0.8, 32, 32]} scale={[1, 1.5, 1]} />
+                    <meshStandardMaterial color="#FECACA" />
+                </mesh>
+            </group>
+
+            {/* Diaphragme */}
+            <mesh position={[0, -1.2, 0]} scale={[2, 0.5, 1]}>
+                <sphereGeometry args={[1, 32, 32, 0, Math.PI]} rotation={[-Math.PI, 0, 0]} />
+                <meshStandardMaterial color="#BE123C" side={2} />
+            </mesh>
+
+            <Text position={[0, -2.5, 0]} fontSize={0.3} color="white">Diaphragme (Muscle)</Text>
+            <Text position={[-2, 0, 0]} fontSize={0.2} color="#FCA5A5">Inspiration : Volume Augmente</Text>
+            <Text position={[2, 0, 0]} fontSize={0.2} color="#FCA5A5">Expiration : Volume Diminue</Text>
+        </group>
+    );
+}
+
+// Composant Mouvements Terre
+function EarthMovement() {
+    const earthRef = useRef();
+    const groupRef = useRef();
+
+    useFrame((state) => {
+        if (earthRef.current) {
+            // Rotation sur elle-même
+            earthRef.current.rotation.y += 0.02;
+        }
+        if (groupRef.current) {
+            // Révolution autour du soleil
+            groupRef.current.rotation.y += 0.005;
+        }
+    });
+
+    return (
+        <group>
+            <Text position={[0, 3.5, 0]} fontSize={0.5} color="white">ROTATION ET RÉVOLUTION</Text>
+
+            {/* Soleil */}
+            <mesh position={[0, 0, 0]}>
+                <sphereGeometry args={[1.5, 32, 32]} />
+                <meshStandardMaterial color="#F59E0B" emissive="#F59E0B" emissiveIntensity={2} />
+            </mesh>
+            <Text position={[0, 1.8, 0]} fontSize={0.3} color="#F59E0B">Soleil</Text>
+
+            {/* axe de révolution */}
+            <group ref={groupRef}>
+                {/* Terre */}
+                <group position={[4, 0, 0]}>
+                    <mesh ref={earthRef} rotation={[0, 0, 23.5 * Math.PI / 180]}> {/* Axe incliné */}
+                        <sphereGeometry args={[0.5, 32, 32]} />
+                        <meshStandardMaterial color="#3B82F6" roughness={0.5} />
+                        {/* Patch vert pour continent */}
+                        <mesh position={[0.4, 0, 0]}>
+                            <sphereGeometry args={[0.1]} />
+                            <meshStandardMaterial color="#10B981" />
+                        </mesh>
+                    </mesh>
+                    {/* Axe de rotation visuel */}
+                    <mesh rotation={[0, 0, 23.5 * Math.PI / 180]}>
+                        <cylinderGeometry args={[0.02, 0.02, 1.5, 8]} />
+                        <meshStandardMaterial color="white" />
+                    </mesh>
+                    <Text position={[0, 0.8, 0]} fontSize={0.2} color="white">Terre</Text>
+                </group>
+            </group>
+
+            {/* Orbite */}
+            <mesh rotation={[Math.PI / 2, 0, 0]}>
+                <torusGeometry args={[4, 0.02, 16, 100]} />
+                <meshBasicMaterial color="#3B82F6" opacity={0.2} transparent />
+            </mesh>
+        </group>
+    );
+}
+
 // Composant principal de simulation 3D
 export default function Simulation3D({ type = 'atom', config = {} }) {
     const renderSimulation = () => {
@@ -1325,6 +1739,20 @@ export default function Simulation3D({ type = 'atom', config = {} }) {
                 return <FoodChain />;
             case 'vertebrate-classification':
                 return <VertebrateClassification />;
+            case 'mixture-separation':
+                return <MixtureSeparation />;
+            case 'volume-mass':
+                return <MassVolume />;
+            case 'water-purification':
+                return <WaterPurification />;
+            case 'geometric-shapes':
+                return <GeometricShapes />;
+            case 'angles-measurement':
+                return <AngleMeasurement />;
+            case 'respiration-human':
+                return <HumanRespiration />;
+            case 'earth-movement':
+                return <EarthMovement />;
             case 'lens-optics':
                 return <LensOptics />;
             case 'electrochemical':

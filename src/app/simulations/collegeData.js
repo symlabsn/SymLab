@@ -1511,7 +1511,7 @@ Les Maillons de la Chaîne :
     'mixture-separation': {
         title: 'Séparation des Mélanges',
         description: 'Expérimentez la filtration, décantation et évaporation',
-        type: 'lab',
+        type: 'mixture-separation',
         config: {},
         analogy: {
             title: 'Séparer les Mélanges comme Trier le Riz',
@@ -1568,7 +1568,7 @@ Pour séparer les constituants d'un mélange, on utilise différentes techniques
     'volume-mass': {
         title: 'Masse et Volume',
         description: 'Apprenez à mesurer et différencier masse et volume',
-        type: 'lab',
+        type: 'volume-mass',
         config: {},
         analogy: {
             title: 'Masse et Volume : Le Sac de Riz et le Ballon',
@@ -1621,7 +1621,7 @@ Relation Masse/Volume :
     'water-purification': {
         title: 'Purification de l\'Eau',
         description: 'Les étapes pour rendre l\'eau potable',
-        type: 'lab',
+        type: 'water-purification',
         config: {},
         analogy: {
             title: 'Purifier l\'Eau comme Filtrer le Jus de Bissap',
@@ -1669,7 +1669,7 @@ L'eau est maintenant potable (honnête) !`,
     'geometric-shapes': {
         title: 'Formes Géométriques',
         description: 'Explorez les propriétés des figures planes et solides',
-        type: 'geometry',
+        type: 'geometric-shapes',
         config: {},
         analogy: {
             title: 'Les Formes autour de Nous',
@@ -1722,7 +1722,7 @@ Propriétés importantes :
     'angles-measurement': {
         title: 'Mesure des Angles',
         description: 'Utilisez un rapporteur virtuel pour mesurer des angles',
-        type: 'geometry',
+        type: 'angles-measurement',
         config: {},
         analogy: {
             title: 'Les Angles comme les Aiguilles d\'une Montre',
@@ -1837,7 +1837,7 @@ Les vertébrés sont des animaux qui possèdent une colonne vertébrale (squelet
     'respiration-human': {
         title: 'Respiration Humaine',
         description: 'Mécanismes des poumons et échanges gazeux',
-        type: 'human-body',
+        type: 'respiration-human',
         config: {},
         analogy: {
             title: 'La Respiration comme un Soufflet de Forgeron',
@@ -1948,7 +1948,7 @@ Le magma dégazé en surface s'appelle la lave.`,
     'earth-movement': {
         title: 'Mouvements de la Terre',
         description: 'Rotation, révolution et saisons',
-        type: 'astronomy',
+        type: 'earth-movement',
         config: {},
         analogy: {
             title: 'La Terre comme une Toupie qui Tourne autour d\'un Feu',
