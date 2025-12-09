@@ -2,7 +2,7 @@
 import { useRef, useMemo, useState, useEffect } from 'react';
 
 import { Canvas, useFrame } from '@react-three/fiber';
-import { OrbitControls, PerspectiveCamera, Environment, Stars, Text, Line } from '@react-three/drei';
+import { OrbitControls, PerspectiveCamera, Environment, Stars, Text, Line, Html } from '@react-three/drei';
 import { DNAHelix } from './DNAHelix';
 import { LensOptics } from './LensOptics';
 import { ElectrochemicalCell } from './ElectrochemicalCell';
@@ -14,27 +14,58 @@ import { Titration } from './Titration';
 
 // Composant Poids vs Masse (Terre vs Lune)
 function WeightMass() {
+    const [mass, setMass] = useState(10);
+
     return (
         <group>
+            {/* Controls */}
+            <Html position={[0, 4, 0]} center>
+                <div className="bg-black/90 p-4 rounded-xl text-white border border-white/20 min-w-[200px] backdrop-blur-md select-none">
+                    <label className="block text-sm font-bold mb-2 text-[#00F5D4]">Masse : {mass} kg</label>
+                    <input
+                        type="range"
+                        min="1"
+                        max="50"
+                        value={mass}
+                        onChange={(e) => setMass(parseInt(e.target.value))}
+                        className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-[#00F5D4]"
+                    />
+                    <div className="flex justify-between text-xs text-gray-400 mt-1">
+                        <span>1kg</span>
+                        <span>50kg</span>
+                    </div>
+                </div>
+            </Html>
+
             {/* Terre */}
             <group position={[-3, 0, 0]}>
                 <mesh position={[0, -2.5, 0]}>
                     <sphereGeometry args={[2, 32, 32]} />
                     <meshStandardMaterial color="#3B82F6" emissive="#1D4ED8" emissiveIntensity={0.2} />
                 </mesh>
-                <Text position={[0, -4, 0]} fontSize={0.5} color="white">Terre (g = 9.8)</Text>
+                <Text position={[0, -4.8, 0]} fontSize={0.4} color="white">Terre (g = 9.8)</Text>
 
                 {/* Objet sur Terre */}
-                <mesh position={[0, 0, 0]}>
-                    <boxGeometry args={[1, 1, 1]} />
+                <mesh position={[0, 0, 0]} scale={[1 + mass / 100, 1 + mass / 100, 1 + mass / 100]}>
+                    <boxGeometry args={[0.8, 0.8, 0.8]} />
                     <meshStandardMaterial color="#FCD34D" />
                 </mesh>
-                {/* Vecteur Poids (Gros) */}
-                <mesh position={[0, -1.2, 0]} rotation={[Math.PI, 0, 0]}>
-                    <coneGeometry args={[0.2, 1.5, 16]} />
-                    <meshStandardMaterial color="#EF4444" />
-                </mesh>
-                <Text position={[1.2, 0, 0]} fontSize={0.4} color="#EF4444">P = 98 N</Text>
+
+                {/* Vecteur Poids */}
+                <arrowHelper
+                    args={[
+                        new THREE.Vector3(0, -1, 0), // Dir
+                        new THREE.Vector3(0, -0.5, 0), // Origin
+                        1 + (mass * 9.8) / 100, // Length (scaled)
+                        0xEF4444, // Color
+                        0.3, // Head Length
+                        0.2 // Head Width
+                    ]}
+                />
+
+                <Text position={[1.5, 0, 0]} fontSize={0.4} color="#EF4444">
+                    P = {(mass * 9.8).toFixed(1)} N
+                </Text>
             </group>
 
             {/* Lune */}
@@ -43,22 +74,34 @@ function WeightMass() {
                     <sphereGeometry args={[1.2, 32, 32]} />
                     <meshStandardMaterial color="#9CA3AF" emissive="#4B5563" emissiveIntensity={0.2} />
                 </mesh>
-                <Text position={[0, -4, 0]} fontSize={0.5} color="white">Lune (g = 1.6)</Text>
+                <Text position={[0, -4.8, 0]} fontSize={0.4} color="white">Lune (g = 1.6)</Text>
 
-                {/* Objet sur Lune (Même taille ! Masse identique) */}
-                <mesh position={[0, 0, 0]}>
-                    <boxGeometry args={[1, 1, 1]} />
+                {/* Objet sur Lune */}
+                <mesh position={[0, 0, 0]} scale={[1 + mass / 100, 1 + mass / 100, 1 + mass / 100]}>
+                    <boxGeometry args={[0.8, 0.8, 0.8]} />
                     <meshStandardMaterial color="#FCD34D" />
                 </mesh>
-                {/* Vecteur Poids (Petit) */}
-                <mesh position={[0, -0.8, 0]} rotation={[Math.PI, 0, 0]}>
-                    <coneGeometry args={[0.2, 0.5, 16]} />
-                    <meshStandardMaterial color="#EF4444" />
-                </mesh>
-                <Text position={[1.2, 0, 0]} fontSize={0.4} color="#EF4444">P = 16 N</Text>
+
+                {/* Vecteur Poids */}
+                <arrowHelper
+                    args={[
+                        new THREE.Vector3(0, -1, 0),
+                        new THREE.Vector3(0, -0.5, 0),
+                        1 + (mass * 1.6) / 100,
+                        0xEF4444,
+                        0.3,
+                        0.2
+                    ]}
+                />
+
+                <Text position={[1.5, 0, 0]} fontSize={0.4} color="#EF4444">
+                    P = {(mass * 1.6).toFixed(1)} N
+                </Text>
             </group>
 
-            <Text position={[0, 3, 0]} fontSize={0.6} color="white">Masse = 10 kg (Constante)</Text>
+            <Text position={[0, 2.5, 0]} fontSize={0.5} color="#00F5D4" anchorX="center" anchorY="middle">
+                Masse constante, Poids variable
+            </Text>
         </group>
     );
 }
@@ -123,75 +166,125 @@ function ThalesTheorem() {
 
 // Composant Cercle Trigonométrique
 function TrigUnitCircle() {
+    const [angle, setAngle] = useState(0);
+    const [autoPlay, setAutoPlay] = useState(true);
     const movingPointRef = useRef();
     const sinLineRef = useRef();
     const cosLineRef = useRef();
-    const sinTextRef = useRef();
-    const cosTextRef = useRef();
 
     useFrame((state) => {
-        const time = state.clock.elapsedTime * 0.5;
-        const angle = time % (Math.PI * 2);
-
-        if (movingPointRef.current) {
-            movingPointRef.current.position.set(2 * Math.cos(angle), 2 * Math.sin(angle), 0);
-        }
-
-        // Update lines and text positions/scales
-        if (sinLineRef.current) {
-            const h = 2 * Math.sin(angle);
-            sinLineRef.current.position.set(2 * Math.cos(angle), h / 2, 0);
-            sinLineRef.current.scale.set(1, Math.abs(h), 1); // Scale cylinder height
-        }
-        if (cosLineRef.current) {
-            const w = 2 * Math.cos(angle);
-            cosLineRef.current.position.set(w / 2, 0, 0);
-            cosLineRef.current.scale.set(1, Math.abs(w), 1);
+        if (autoPlay) {
+            const time = state.clock.elapsedTime * 0.5;
+            setAngle(time % (Math.PI * 2));
         }
     });
 
+    const currentAngle = angle;
+    const cosVal = Math.cos(currentAngle);
+    const sinVal = Math.sin(currentAngle);
+
+    // Update refs directly for smooth animation if needed, but react state is fine for this complexity
+    // Actually, to keep it smooth, useFrame updates the refs based on state or time.
+    // If autoPlay is off, we use the state `angle`. 
+
+    // Derived positions
+    const planetPos = [2 * cosVal, 2 * sinVal, 0];
+
     return (
         <group>
+            {/* Controls */}
+            <Html position={[-3.5, 2, 0]} center>
+                <div className="bg-black/90 p-4 rounded-xl text-white border border-white/20 min-w-[220px] backdrop-blur-md">
+                    <div className="flex items-center justify-between mb-4">
+                        <span className="font-bold text-[#00F5D4]">Contrôles</span>
+                        <button
+                            onClick={() => setAutoPlay(!autoPlay)}
+                            className={`px-3 py-1 rounded-lg text-xs font-bold ${autoPlay ? 'bg-red-500/20 text-red-400' : 'bg-green-500/20 text-green-400'}`}
+                        >
+                            {autoPlay ? 'Pause ⏸' : 'Play ▶'}
+                        </button>
+                    </div>
+
+                    {!autoPlay && (
+                        <div className="mb-4">
+                            <label className="block text-xs mb-1 text-gray-400">Angle (rad)</label>
+                            <input
+                                type="range"
+                                min="0"
+                                max={Math.PI * 2}
+                                step="0.01"
+                                value={angle}
+                                onChange={(e) => setAngle(parseFloat(e.target.value))}
+                                className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-[#00F5D4]"
+                            />
+                        </div>
+                    )}
+
+                    <div className="space-y-2 text-xs font-mono">
+                        <div className="flex justify-between">
+                            <span className="text-blue-400">Cos (x) :</span>
+                            <span>{cosVal.toFixed(2)}</span>
+                        </div>
+                        <div className="flex justify-between">
+                            <span className="text-red-400">Sin (y) :</span>
+                            <span>{sinVal.toFixed(2)}</span>
+                        </div>
+                        <div className="flex justify-between border-t border-white/10 pt-2">
+                            <span className="text-gray-400">Angle :</span>
+                            <span>{((currentAngle * 180) / Math.PI).toFixed(0)}°</span>
+                        </div>
+                    </div>
+                </div>
+            </Html>
+
             {/* Cercle Unité */}
             <mesh rotation={[Math.PI / 2, 0, 0]}>
-                <torusGeometry args={[2, 0.05, 16, 100]} />
-                <meshStandardMaterial color="white" />
+                <torusGeometry args={[2, 0.05, 64, 100]} />
+                <meshStandardMaterial color="white" opacity={0.5} transparent />
             </mesh>
 
             {/* Axes */}
-            <mesh rotation={[0, 0, Math.PI / 2]}> {/* Axe Y */}
-                <cylinderGeometry args={[0.03, 0.03, 5, 8]} />
-                <meshStandardMaterial color="gray" />
-            </mesh>
-            <mesh rotation={[0, 0, 0]}> {/* Axe X */}
-                <cylinderGeometry args={[0.03, 0.03, 5, 8]} rotation={[0, 0, Math.PI / 2]} />
-                <meshStandardMaterial color="gray" />
-            </mesh>
+            <group>
+                <mesh rotation={[0, 0, Math.PI / 2]}> {/* Axe Y */}
+                    <cylinderGeometry args={[0.02, 0.02, 5, 8]} />
+                    <meshStandardMaterial color="gray" />
+                </mesh>
+                <mesh rotation={[0, 0, 0]}> {/* Axe X */}
+                    <cylinderGeometry args={[0.02, 0.02, 5, 8]} rotation={[0, 0, Math.PI / 2]} />
+                    <meshStandardMaterial color="gray" />
+                </mesh>
+            </group>
 
             {/* Point mobile */}
-            <group rotation={[0, 0, 0]}>
-                <mesh ref={movingPointRef} position={[2, 0, 0]}>
+            <group>
+                <mesh position={planetPos}>
                     <sphereGeometry args={[0.15]} />
-                    <meshStandardMaterial color="#FCD34D" />
+                    <meshStandardMaterial color="#FCD34D" emissive="#FCD34D" emissiveIntensity={0.5} />
                 </mesh>
 
-                {/* Lignes de projection - Initial rendering */}
+                {/* Lignes de projection */}
                 {/* Sinus (Verticale) */}
-                <mesh ref={sinLineRef} position={[2, 0, 0]}>
+                <mesh position={[2 * cosVal, sinVal, 0]} scale={[1, Math.abs(2 * sinVal), 1]}>
                     <cylinderGeometry args={[0.02, 0.02, 1, 8]} />
                     <meshStandardMaterial color="#EF4444" />
                 </mesh>
                 <Text position={[2.2, 1, 0]} fontSize={0.3} color="#EF4444">Sin</Text>
 
                 {/* Cosinus (Horizontale) */}
-                <mesh ref={cosLineRef} position={[1, 0, 0]} rotation={[0, 0, Math.PI / 2]}>
+                <mesh position={[cosVal, 0, 0]} rotation={[0, 0, Math.PI / 2]} scale={[1, Math.abs(2 * cosVal), 1]}>
                     <cylinderGeometry args={[0.02, 0.02, 1, 8]} />
                     <meshStandardMaterial color="#3B82F6" />
                 </mesh>
                 <Text position={[1, -0.3, 0]} fontSize={0.3} color="#3B82F6">Cos</Text>
-            </group>
 
-            <Text position={[0, 3, 0]} fontSize={0.5} color="white">Cercle de Rayon 1</Text>
+                {/* Rayon */}
+                <Line
+                    points={[[0, 0, 0], planetPos]}
+                    color="white"
+                    lineWidth={1}
+                    dashed
+                />
+            </group>
         </group>
     );
 }
@@ -606,69 +699,108 @@ const generateGasParticles = (count) => {
     }));
 };
 
-// Composant États de la Matière (Amélioré : 3 états)
+// Composant États de la Matière (Amélioré : 3 états + Température)
 function StatesOfMatter() {
-    const [liquidParticles, setLiquidParticles] = useState([]);
-    const [gasParticles, setGasParticles] = useState([]);
+    const [temperature, setTemperature] = useState(0); // 0 (Solide) -> 1 (Liquide) -> 2 (Gaz)
 
-    useEffect(() => {
-        setLiquidParticles(generateLiquidParticles(27));
-        setGasParticles(generateGasParticles(15));
-    }, []);
+    // Config particles based on temperature
+    // Low temp: Vibrating grid
+    // Med temp: Flowing bottom
+    // High temp: Flying everywhere
+
+    const particleCount = 27;
+
     return (
         <group>
-            {/* SOLIDE */}
-            <group position={[-3, 0, 0]}>
-                <Text position={[0, 2, 0]} fontSize={0.4} color="white">SOLIDE (Glace)</Text>
-                <mesh>
-                    <boxGeometry args={[2, 2, 2]} />
-                    <meshStandardMaterial color="#9CA3AF" wireframe transparent opacity={0.1} />
-                </mesh>
-                {/* Particules serrées et vibrantes */}
-                {useMemo(() => Array.from({ length: 27 }).map((_, i) => (
-                    <mesh key={i} position={[
-                        (i % 3) * 0.5 - 0.5,
-                        Math.floor((i / 3) % 3) * 0.5 - 0.5,
-                        Math.floor(i / 9) * 0.5 - 0.5
-                    ]}>
-                        <sphereGeometry args={[0.2]} />
-                        <meshStandardMaterial color="#3B82F6" />
-                    </mesh>
-                )), [])}
-            </group>
+            {/* Controls */}
+            <Html position={[0, 3.5, 0]} center>
+                <div className="bg-black/90 p-4 rounded-xl text-white border border-white/20 min-w-[250px] backdrop-blur-md">
+                    <label className="block text-sm font-bold mb-2 text-[#00F5D4]">
+                        Température : {temperature < 33 ? 'Froid (Solide)' : temperature < 66 ? 'Tiède (Liquide)' : 'Chaud (Gaz)'}
+                    </label>
+                    <input
+                        type="range"
+                        min="0"
+                        max="100"
+                        value={temperature}
+                        onChange={(e) => setTemperature(parseInt(e.target.value))}
+                        className="w-full h-2 bg-gradient-to-r from-blue-500 via-yellow-500 to-red-500 rounded-lg appearance-none cursor-pointer"
+                    />
+                    <div className="flex justify-between text-xs text-gray-400 mt-1">
+                        <span>-20°C</span>
+                        <span>100°C</span>
+                    </div>
+                </div>
+            </Html>
 
-            {/* LIQUIDE */}
-            <group position={[0, 0, 0]}>
-                <Text position={[0, 2, 0]} fontSize={0.4} color="white">LIQUIDE (Eau)</Text>
-                <mesh>
-                    <boxGeometry args={[2, 2, 2]} />
-                    <meshStandardMaterial color="#9CA3AF" wireframe transparent opacity={0.1} />
+            <group position={[0, -1, 0]}>
+                <mesh position={[0, 1, 0]}>
+                    <boxGeometry args={[4, 4, 4]} />
+                    <meshStandardMaterial color="#9CA3AF" wireframe transparent opacity={0.2} />
                 </mesh>
-                {/* Particules en bas, désordonnées */}
-                {liquidParticles.map((data) => (
-                    <mesh key={data.key} position={data.position}>
-                        <sphereGeometry args={[0.2]} />
-                        <meshStandardMaterial color="#3B82F6" />
-                    </mesh>
-                ))}
-            </group>
 
-            {/* GAZ */}
-            <group position={[3, 0, 0]}>
-                <Text position={[0, 2, 0]} fontSize={0.4} color="white">GAZ (Vapeur)</Text>
-                <mesh>
-                    <boxGeometry args={[2, 2, 2]} />
-                    <meshStandardMaterial color="#9CA3AF" wireframe transparent opacity={0.1} />
-                </mesh>
-                {/* Particules partout et espacées */}
-                {gasParticles.map((data) => (
-                    <mesh key={data.key} position={data.position}>
-                        <sphereGeometry args={[0.2]} />
-                        <meshStandardMaterial color="#60A5FA" transparent opacity={0.8} />
-                    </mesh>
+                {Array.from({ length: particleCount }).map((_, i) => (
+                    <Particle
+                        key={i}
+                        index={i}
+                        temperature={temperature}
+                    />
                 ))}
             </group>
         </group>
+    );
+}
+
+function Particle({ index, temperature }) {
+    const ref = useRef();
+    const initialPos = useMemo(() => {
+        const x = (index % 3) * 0.8 - 0.8;
+        const y = Math.floor((index / 3) % 3) * 0.8 - 0.8;
+        const z = Math.floor(index / 9) * 0.8 - 0.8;
+        return new THREE.Vector3(x, y, z);
+    }, [index]);
+
+    useFrame((state) => {
+        const time = state.clock.elapsedTime;
+        const t = temperature / 100; // 0 to 1
+
+        if (ref.current) {
+            if (t < 0.33) {
+                // Solid: Vibrate around initial pos
+                const vibration = 0.02 * (1 + t * 5);
+                ref.current.position.set(
+                    initialPos.x + Math.sin(time * 10 + index) * vibration,
+                    initialPos.y + Math.cos(time * 11 + index) * vibration,
+                    initialPos.z + Math.sin(time * 9 + index) * vibration
+                );
+            } else if (t < 0.66) {
+                // Liquid: Flow at bottom, strictly bounded
+                const speed = 0.5;
+                // Complex movement but kept "down"
+                // Simplified for visual:
+                ref.current.position.y = Math.max(-1.5, Math.min(0, ref.current.position.y + Math.sin(time + index) * 0.01));
+                // Add brownian motionish
+                ref.current.position.x = initialPos.x + Math.sin(time * speed + index) * 0.5;
+                ref.current.position.z = initialPos.z + Math.cos(time * speed + index) * 0.5;
+                ref.current.position.y = -1 + Math.sin(time + index) * 0.5; // Stay low
+            } else {
+                // Gas: Fly everywhere
+                const speed = 1 + (t - 0.66) * 2;
+                ref.current.position.x = Math.sin(time * speed + index) * 1.8;
+                ref.current.position.y = Math.cos(time * speed * 0.8 + index) * 1.8;
+                ref.current.position.z = Math.sin(time * speed * 0.5 + index * 2) * 1.8;
+            }
+        }
+    });
+
+    // Color interpolation
+    const color = temperature < 33 ? "#3B82F6" : temperature < 66 ? "#FCD34D" : "#EF4444";
+
+    return (
+        <mesh ref={ref} position={initialPos}>
+            <sphereGeometry args={[0.2]} />
+            <meshStandardMaterial color={color} />
+        </mesh>
     );
 }
 
