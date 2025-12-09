@@ -2515,6 +2515,52 @@ Mélange : Plein de constructions différentes en vrac.`
         relatedSimulations: ['chemical-reactions', 'states-of-matter']
     },
 
+    'atomic-structure': {
+        title: 'Structure de l\'Atome',
+        description: 'Noyau, protons, neutrons et électrons',
+        type: 'atomic-structure',
+        config: {},
+        analogy: {
+            title: 'L\'Atome comme le Stade Léopold Sédar Senghor',
+            content: `Imagine un atome comme un stade de foot géant ! 🏟️
+            
+Si le NOYAU était un ballon de foot posé au centre du terrain...
+Les ÉLECTRONS seraient des petites mouches qui tournent tout en haut des gradins !
+
+Et entre le ballon et les gradins ? IL N'Y A RIEN. Du vide !
+La matière est faite presque entièrement de vide.`
+        },
+        theory: `Structure de l'Atome (Modèle de Bohr)
+
+1. Le Noyau (Au centre)
+- Chargé Positivement (+)
+- Contient des Protons (+) et des Neutrons (Neutres)
+- Concentre toute la masse de l'atome.
+
+2. Les Électrons (Autour)
+- Chargés Négativement (-)
+- Tournent autour du noyau sur des orbites (nuage électronique)
+- Masse négligeable.
+
+3. Neutralité
+Un atome a autant de Protons (+) que d'Électrons (-). Il est électriquement neutre.`,
+        exercises: [
+            {
+                question: 'De quoi est composé le noyau de l\'atome ?',
+                options: ['Électrons uniquement', 'Protons et Neutrons', 'Vide', 'Molécules'],
+                correct: 1,
+                explanation: 'Le noyau contient les nucléons : Protons (+) et Neutrons (0).'
+            },
+            {
+                question: 'Quelle est la charge électrique d\'un atome entier ?',
+                options: ['Positive', 'Négative', 'Neutre', 'Variable'],
+                correct: 2,
+                explanation: 'L\'atome est neutre car les charges + du noyau annulent les charges - des électrons.'
+            }
+        ],
+        relatedSimulations: ['ions-formation', 'atom-molecule-intro']
+    },
+
     'pythagoras-theorem': {
         title: 'Théorème de Pythagore',
         description: 'Visualisation géométrique du théorème',
@@ -2621,7 +2667,7 @@ x = 4`,
     'microbes-bacteria': {
         title: 'Microbes et Bactéries',
         description: 'Diversité du monde microbien',
-        type: 'biology',
+        type: 'microbes-bacteria',
         config: {},
         analogy: {
             title: 'Les Microbes : Les Bons, les Brutes et les Truands',
@@ -2667,7 +2713,7 @@ Antisepsie : Tuer les microbes sur une plaie.`,
     'chromosomes-division': {
         title: 'Chromosomes',
         description: 'Caryotypes et division cellulaire',
-        type: 'genetics',
+        type: 'chromosomes-division',
         config: {},
         analogy: {
             title: 'Les Chromosomes : Les Livres de Cuisine de la Vie',
@@ -2717,7 +2763,7 @@ Pour fabriquer spermatozoïdes et ovules, on divise par deux. Ils n'ont que 23 c
     'ions-formation': {
         title: 'Formation des Ions',
         description: 'Cations, anions et solutions ioniques',
-        type: 'chemistry',
+        type: 'ions-formation',
         config: {},
         analogy: {
             title: 'Les Ions : Des Atomes Électriques',
@@ -3090,7 +3136,7 @@ Types d'éruptions :
     'sound-propagation': {
         title: 'Propagation du Son',
         description: 'Comment le son voyage-t-il ?',
-        type: 'wave',
+        type: 'sound-propagation',
         config: {},
         analogy: {
             title: 'Le Tam-Tam Invisible',

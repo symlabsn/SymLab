@@ -2342,6 +2342,306 @@ function SolutionsSolubility() {
     );
 }
 
+
+// Composant Microbes et Bactéries
+function MicrobesBacteria() {
+    return (
+        <group>
+            <Text position={[0, 3.5, 0]} fontSize={0.5} color="#10B981">MONDE MICROBIEN</Text>
+
+            {/* Bactérie (Bacille) */}
+            <group position={[-2.5, 0, 0]}>
+                <mesh>
+                    <capsuleGeometry args={[0.5, 1.5, 4, 16]} />
+                    <meshStandardMaterial color="#10B981" roughness={0.4} />
+                </mesh>
+                {/* Cils/Flagelles (Lignes) */}
+                <group>
+                    <mesh position={[0, -1, 0]} rotation={[0, 0, 0.2]}>
+                        <cylinderGeometry args={[0.02, 0.02, 0.5]} />
+                        <meshStandardMaterial color="#065F46" />
+                    </mesh>
+                    <mesh position={[0, 1, 0]} rotation={[0, 0, -0.2]}>
+                        <cylinderGeometry args={[0.02, 0.02, 0.5]} />
+                        <meshStandardMaterial color="#065F46" />
+                    </mesh>
+                </group>
+                <Text position={[0, -1.8, 0]} fontSize={0.3} color="white">Bactérie (Bacille)</Text>
+                <Text position={[0, -2.2, 0]} fontSize={0.2} color="gray">Vivant (1 Cellule)</Text>
+            </group>
+
+            {/* Virus */}
+            <group position={[0, 0, 0]}>
+                <mesh>
+                    <icosahedronGeometry args={[0.7, 0]} />
+                    <meshStandardMaterial color="#EF4444" flatShading={true} />
+                </mesh>
+                {/* Picots */}
+                {[...Array(8)].map((_, i) => (
+                    <mesh key={i} rotation={[Math.random() * Math.PI, Math.random() * Math.PI, 0]} position={[0, 0, 0]}>
+                        <cylinderGeometry args={[0.05, 0.05, 1.8]} />
+                        <meshStandardMaterial color="#7F1D1D" />
+                    </mesh>
+                ))}
+                <Text position={[0, -1.8, 0]} fontSize={0.3} color="white">Virus</Text>
+                <Text position={[0, -2.2, 0]} fontSize={0.2} color="gray">Parasite (Non vivant)</Text>
+            </group>
+
+            {/* Champignon (Levure) */}
+            <group position={[2.5, 0, 0]}>
+                <mesh position={[0, -0.2, 0]}>
+                    <sphereGeometry args={[0.6]} />
+                    <meshStandardMaterial color="#FCD34D" />
+                </mesh>
+                <mesh position={[0.4, 0.3, 0]}>
+                    <sphereGeometry args={[0.4]} />
+                    <meshStandardMaterial color="#FCD34D" />
+                </mesh>
+                <Text position={[0, -1.8, 0]} fontSize={0.3} color="white">Levure</Text>
+                <Text position={[0, -2.2, 0]} fontSize={0.2} color="gray">Champignon</Text>
+            </group>
+        </group>
+    );
+}
+
+// Composant Chromosomes
+function ChromosomesDivision() {
+    return (
+        <group>
+            <Text position={[0, 3.5, 0]} fontSize={0.5} color="#F472B6">CHROMOSOMES ET ADN</Text>
+
+            {/* Chromosome X */}
+            <group position={[-2, 0, 0]} rotation={[0, 0, 0.2]}>
+                {/* Bras 1 */}
+                <mesh position={[0, 0.5, 0]}>
+                    <capsuleGeometry args={[0.3, 2, 4, 16]} />
+                    <meshStandardMaterial color="#EC4899" />
+                </mesh>
+                {/* Bras 2 */}
+                <mesh position={[0, -0.5, 0]}>
+                    <capsuleGeometry args={[0.3, 2, 4, 16]} />
+                    <meshStandardMaterial color="#EC4899" />
+                </mesh>
+                {/* Centromère */}
+                <mesh position={[0, 0, 0]}>
+                    <sphereGeometry args={[0.4]} />
+                    <meshStandardMaterial color="#DB2777" />
+                </mesh>
+                <Text position={[0, -2, 0]} fontSize={0.3} color="white">Chromosome Simple</Text>
+            </group>
+
+            {/* Chromosome Dupliqué (X shape) */}
+            <group position={[2, 0, 0]}>
+                <group rotation={[0, 0, 0.3]}>
+                    <mesh position={[0, 1, 0]}>
+                        <capsuleGeometry args={[0.3, 2]} />
+                        <meshStandardMaterial color="#3B82F6" />
+                    </mesh>
+                    <mesh position={[0, -1, 0]}>
+                        <capsuleGeometry args={[0.3, 2]} />
+                        <meshStandardMaterial color="#3B82F6" />
+                    </mesh>
+                </group>
+                <group rotation={[0, 0, -0.3]}>
+                    <mesh position={[0, 1, 0]}>
+                        <capsuleGeometry args={[0.3, 2]} />
+                        <meshStandardMaterial color="#3B82F6" />
+                    </mesh>
+                    <mesh position={[0, -1, 0]}>
+                        <capsuleGeometry args={[0.3, 2]} />
+                        <meshStandardMaterial color="#3B82F6" />
+                    </mesh>
+                </group>
+                <mesh position={[0, 0, 0]}>
+                    <sphereGeometry args={[0.4]} />
+                    <meshStandardMaterial color="#2563EB" />
+                </mesh>
+                <Text position={[0, -2, 0]} fontSize={0.3} color="white">Chromosome Dupliqué</Text>
+            </group>
+
+            <Text position={[0, 2.5, 0]} fontSize={0.3} color="#F472B6">Contient l&apos;Information Génétique (ADN)</Text>
+        </group>
+    );
+}
+
+// Composant Structure Atome (Bohr)
+function AtomicStructure() {
+    const electronRef = useRef();
+    useFrame(({ clock }) => {
+        if (electronRef.current) {
+            electronRef.current.rotation.y = clock.getElapsedTime() * 2;
+            electronRef.current.rotation.z = clock.getElapsedTime() * 0.5;
+        }
+    });
+
+    return (
+        <group>
+            <Text position={[0, 3.5, 0]} fontSize={0.5} color="#60A5FA">STRUCTURE DE L&apos;ATOME</Text>
+
+            {/* Noyau */}
+            <group position={[0, 0, 0]}>
+                {/* Protons (Rouge) */}
+                <mesh position={[0.2, 0.2, 0]}>
+                    <sphereGeometry args={[0.3]} />
+                    <meshStandardMaterial color="#EF4444" />
+                </mesh>
+                <mesh position={[-0.2, -0.1, 0.1]}>
+                    <sphereGeometry args={[0.3]} />
+                    <meshStandardMaterial color="#EF4444" />
+                </mesh>
+
+                {/* Neutrons (Gris/Blanc) */}
+                <mesh position={[-0.1, 0.2, -0.1]}>
+                    <sphereGeometry args={[0.3]} />
+                    <meshStandardMaterial color="#9CA3AF" />
+                </mesh>
+                <mesh position={[0.1, -0.2, 0]}>
+                    <sphereGeometry args={[0.3]} />
+                    <meshStandardMaterial color="#9CA3AF" />
+                </mesh>
+                <Text position={[0, -0.8, 0]} fontSize={0.25} color="white">Noyau (Protons + Neutrons)</Text>
+            </group>
+
+            {/* Électrons (Orbites) */}
+            <group ref={electronRef}>
+                {/* Orbite 1 */}
+                <group rotation={[Math.PI / 3, 0, 0]}>
+                    <mesh>
+                        <torusGeometry args={[2, 0.02, 16, 100]} />
+                        <meshBasicMaterial color="#60A5FA" opacity={0.3} transparent />
+                    </mesh>
+                    <mesh position={[2, 0, 0]}>
+                        <sphereGeometry args={[0.15]} />
+                        <meshStandardMaterial color="#3B82F6" emissive="#3B82F6" />
+                    </mesh>
+                </group>
+
+                {/* Orbite 2 */}
+                <group rotation={[-Math.PI / 3, 0, 0]}>
+                    <mesh>
+                        <torusGeometry args={[2, 0.02, 16, 100]} />
+                        <meshBasicMaterial color="#60A5FA" opacity={0.3} transparent />
+                    </mesh>
+                    <mesh position={[-2, 0, 0]}>
+                        <sphereGeometry args={[0.15]} />
+                        <meshStandardMaterial color="#3B82F6" emissive="#3B82F6" />
+                    </mesh>
+                </group>
+            </group>
+            <Text position={[0, 2.5, 0]} fontSize={0.25} color="#3B82F6">Électrons (-)</Text>
+            <Text position={[0, -2.5, 0]} fontSize={0.3} color="white">La majorité de l&apos;atome est du VIDE !</Text>
+        </group>
+    );
+}
+
+// Composant Formation Ions
+function IonsFormation() {
+    return (
+        <group>
+            <Text position={[0, 3.5, 0]} fontSize={0.5} color="#F59E0B">FORMATION DES IONS (Na + Cl)</Text>
+
+            {/* Atome Sodium Na */}
+            <group position={[-2, 0, 0]}>
+                <Text position={[0, 1.5, 0]} fontSize={0.4} color="#9CA3AF">Sodium (Na)</Text>
+                <mesh>
+                    <sphereGeometry args={[0.8]} />
+                    <meshStandardMaterial color="#9CA3AF" />
+                </mesh>
+                {/* Électron périphérique */}
+                <mesh position={[1, 0.5, 0]}>
+                    <sphereGeometry args={[0.15]} />
+                    <meshStandardMaterial color="#3B82F6" />
+                </mesh>
+                <Text position={[0, -1.5, 0]} fontSize={0.25} color="gray">Perd 1 électron</Text>
+            </group>
+
+            {/* Flèche transfert */}
+            <group position={[0, 0.5, 0]}>
+                <mesh rotation={[0, 0, -Math.PI / 2]}>
+                    <coneGeometry args={[0.2, 1, 32]} />
+                    <meshStandardMaterial color="white" />
+                </mesh>
+            </group>
+
+            {/* Atome Chlore Cl */}
+            <group position={[2, 0, 0]}>
+                <Text position={[0, 1.5, 0]} fontSize={0.4} color="#10B981">Chlore (Cl)</Text>
+                <mesh>
+                    <sphereGeometry args={[0.9]} />
+                    <meshStandardMaterial color="#10B981" />
+                </mesh>
+                {/* Électron gagné */}
+                <mesh position={[-1, 0.5, 0]} visible={true}> {/* Simulé comme arrivant */}
+                    <sphereGeometry args={[0.15]} />
+                    <meshStandardMaterial color="#3B82F6" />
+                </mesh>
+                <Text position={[0, -1.5, 0]} fontSize={0.25} color="gray">Gagne 1 électron</Text>
+            </group>
+
+            {/* Résultat Ions */}
+            <group position={[0, -3, 0]}>
+                <Text position={[-2, 0, 0]} fontSize={0.4} color="#F59E0B">Na⁺ (Cation)</Text>
+                <Text position={[2, 0, 0]} fontSize={0.4} color="#059669">Cl⁻ (Anion)</Text>
+                <Text position={[0, -0.6, 0]} fontSize={0.3} color="white">Ils s&apos;attirent = Sel (NaCl)</Text>
+            </group>
+        </group>
+    );
+}
+
+// Composant Propagation Son
+function SoundPropagation() {
+    return (
+        <group>
+            <Text position={[0, 3.5, 0]} fontSize={0.5} color="#818CF8">PROPAGATION DU SON</Text>
+
+            {/* Haut Parleur */}
+            <group position={[-3, 0, 0]} rotation={[0, 0, -Math.PI / 2]}>
+                <mesh>
+                    <coneGeometry args={[0.8, 1, 32, 1, true]} />
+                    <meshStandardMaterial color="#1F2937" side={2} />
+                </mesh>
+                <mesh position={[0, -0.5, 0]}>
+                    <boxGeometry args={[1, 0.5, 1]} />
+                    <meshStandardMaterial color="#111827" />
+                </mesh>
+            </group>
+            <Text position={[-3, -1.5, 0]} fontSize={0.3} color="white">Source</Text>
+
+            {/* Particules d'air compression/dilatation */}
+            <group position={[0, 0, 0]}>
+                {[...Array(5)].map((_, i) => (
+                    <group key={i} position={[(i - 2) * 1.2, 0, 0]}>
+                        {/* Zone Compression */}
+                        <mesh position={[-0.2, 0, 0]}>
+                            <sphereGeometry args={[0.08]} />
+                            <meshStandardMaterial color="#818CF8" />
+                        </mesh>
+                        <mesh position={[0, 0.2, 0]}>
+                            <sphereGeometry args={[0.08]} />
+                            <meshStandardMaterial color="#818CF8" />
+                        </mesh>
+                        <mesh position={[0, -0.2, 0]}>
+                            <sphereGeometry args={[0.08]} />
+                            <meshStandardMaterial color="#818CF8" />
+                        </mesh>
+
+                        {/* Zone Dilatation (Vide relatif) */}
+                    </group>
+                ))}
+            </group>
+
+            <mesh position={[-1.5, 0, 0]} rotation={[0, 0, -Math.PI / 2]}>
+                <cylinderGeometry args={[0.02, 0.02, 4]} />
+                <meshStandardMaterial color="white" transparent opacity={0.2} />
+            </mesh>
+
+            <Text position={[3, 0, 0]} fontSize={0.3} color="white">Oreille</Text>
+            <Text position={[0, -2.5, 0]} fontSize={0.3} color="#818CF8">Vibration des Molécules (Onde Mécanique)</Text>
+            <Text position={[0, -3, 0]} fontSize={0.2} color="gray">Pas de son dans le vide !</Text>
+        </group>
+    );
+}
+
 // Composant principal de simulation 3D
 export default function Simulation3D({ type = 'atom', config = {} }) {
     const renderSimulation = () => {
@@ -2434,6 +2734,16 @@ export default function Simulation3D({ type = 'atom', config = {} }) {
                 return <SolutionsSolubility />;
             case 'lens-optics':
                 return <LensOptics />;
+            case 'microbes-bacteria':
+                return <MicrobesBacteria />;
+            case 'chromosomes-division':
+                return <ChromosomesDivision />;
+            case 'atomic-structure':
+                return <AtomicStructure />;
+            case 'ions-formation':
+                return <IonsFormation />;
+            case 'sound-propagation':
+                return <SoundPropagation />;
             case 'electrochemical':
                 return <ElectrochemicalCell />;
             case 'magnetic-field':
