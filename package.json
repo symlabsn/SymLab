@@ -23,7 +23,8 @@
     "react-simple-code-editor": "^0.14.1",
     "rehype-katex": "^7.0.1",
     "remark-math": "^6.0.0",
-    "three": "^0.181.2"
+    "three": "^0.181.2",
+    "three-mesh-bvh": "^0.8.0"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
