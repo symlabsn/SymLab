@@ -338,27 +338,31 @@ import matplotlib.pyplot as plt
 import scipy
 import sympy
 from sympy import *
-from sympy.interactive import init_session
 import sklearn
 import sys
 import io
 import json
+import builtins
 
-# Support for input() function
-_input_queue = []
-_input_results = []
-
-def input(prompt=""):
+# Override input() to work in browser
+def _browser_input(prompt=""):
     import js
     if prompt:
-        print(prompt, end="")
-    result = js.prompt(prompt if prompt else "Enter input:")
+        sys.stdout.write(str(prompt))
+        sys.stdout.flush()
+    result = js.prompt(str(prompt) if prompt else "Enter input:")
     if result is None:
-        raise KeyboardInterrupt("Input cancelled")
-    print(result)
-    return result
+        result = ""
+    return str(result)
 
-print("Kernel Initialized - input() and init_session() available")
+builtins.input = _browser_input
+
+# Initialize SymPy pretty printing
+init_printing(use_latex='mathjax')
+
+print("✓ Kernel ready - NumPy, Pandas, Matplotlib, SymPy, Scikit-learn")
+print("✓ input() function available")
+print("✓ SymPy pretty printing enabled")
 `;
                         await py.runPythonAsync(initCode);
                         setPyodide(py);
@@ -376,19 +380,24 @@ import matplotlib.pyplot as plt
 import scipy
 import sympy
 from sympy import *
-from sympy.interactive import init_session
 import sklearn
+import builtins
 
-# Support for input() function
-def input(prompt=""):
+# Override input() to work in browser
+def _browser_input(prompt=""):
     import js
     if prompt:
-        print(prompt, end="")
-    result = js.prompt(prompt if prompt else "Enter input:")
+        sys.stdout.write(str(prompt))
+        sys.stdout.flush()
+    result = js.prompt(str(prompt) if prompt else "Enter input:")
     if result is None:
-        raise KeyboardInterrupt("Input cancelled")
-    print(result)
-    return result
+        result = ""
+    return str(result)
+
+builtins.input = _browser_input
+
+# Initialize SymPy pretty printing
+init_printing(use_latex='mathjax')
 `;
                     await py.runPythonAsync(initCode);
                     setPyodide(py);
@@ -438,29 +447,39 @@ def input(prompt=""):
     const restartKernel = async () => {
         setKernelStatus('loading');
         if (pyodide) {
-            await pyodide.runPythonAsync(`globals().clear()
+            await pyodide.runPythonAsync(`
+import builtins
+import sys
+
+# Clear globals but preserve our custom input
+globals().clear()
+
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import scipy
 import sympy
 from sympy import *
-from sympy.interactive import init_session
 import sklearn
 import sys
 import io
 import json
 
-# Support for input() function
-def input(prompt=""):
+# Override input() to work in browser
+def _browser_input(prompt=""):
     import js
     if prompt:
-        print(prompt, end="")
-    result = js.prompt(prompt if prompt else "Enter input:")
+        sys.stdout.write(str(prompt))
+        sys.stdout.flush()
+    result = js.prompt(str(prompt) if prompt else "Enter input:")
     if result is None:
-        raise KeyboardInterrupt("Input cancelled")
-    print(result)
-    return result
+        result = ""
+    return str(result)
+
+builtins.input = _browser_input
+
+# Initialize SymPy pretty printing
+init_printing(use_latex='mathjax')
 `);
             setCells(cells.map(c => ({ ...c, status: 'idle', output: null, executionCount: null })));
             setKernelStatus('ready');
