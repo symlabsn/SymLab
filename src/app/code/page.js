@@ -412,7 +412,19 @@ init_printing(use_latex='mathjax')
             }
         };
         loadPyodide();
-        return () => setKernelStatus('loading');
+        return () => {
+            if (pyodide) {
+                try {
+                    pyodide.runPythonAsync(`
+import matplotlib.pyplot as plt
+plt.close('all')
+`).catch(err => console.log('Cleanup error:', err));
+                } catch (err) {
+                    console.log('Cleanup error:', err);
+                }
+            }
+            setKernelStatus('loading');
+        };
     }, []);
 
     const updateCell = (id, updates) => setCells(cells.map(c => c.id === id ? { ...c, ...updates } : c));
