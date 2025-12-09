@@ -2827,100 +2827,9 @@ function CombustionReaction() {
     );
 }
 
-// Composant Theoreme de Thales
-function ThalesTheorem() {
-    return (
-        <group>
-            <Text position={[0, 3.5, 0]} fontSize={0.5} color="white">THÉORÈME DE THALÈS</Text>
 
-            {/* Sommet A */}
-            <group position={[0, 2, 0]}>
-                <Text position={[0, 0.2, 0]} fontSize={0.3} color="white">A</Text>
-            </group>
 
-            {/* Triangle */}
-            {/* Lignes AB et AC */}
-            <mesh position={[-1, 0.5, 0]} rotation={[0, 0, -0.5]}>
-                <cylinderGeometry args={[0.03, 0.03, 3.5]} />
-                <meshStandardMaterial color="white" />
-            </mesh>
-            <mesh position={[1, 0.5, 0]} rotation={[0, 0, 0.5]}>
-                <cylinderGeometry args={[0.03, 0.03, 3.5]} />
-                <meshStandardMaterial color="white" />
-            </mesh>
 
-            {/* Ligne MN (Milieu - Petite base) */}
-            <mesh position={[0, 0.5, 0]} rotation={[0, 0, Math.PI / 2]}>
-                <cylinderGeometry args={[0.03, 0.03, 1.6, 8]} />
-                <meshStandardMaterial color="#F59E0B" />
-            </mesh>
-            <Text position={[-0.9, 0.5, 0]} fontSize={0.3} color="white">M</Text>
-            <Text position={[0.9, 0.5, 0]} fontSize={0.3} color="white">N</Text>
-
-            {/* Ligne BC (Base) */}
-            <mesh position={[0, -1, 0]} rotation={[0, 0, Math.PI / 2]}>
-                <cylinderGeometry args={[0.03, 0.03, 3.2, 8]} />
-                <meshStandardMaterial color="#10B981" />
-            </mesh>
-            <Text position={[-1.7, -1, 0]} fontSize={0.3} color="white">B</Text>
-            <Text position={[1.7, -1, 0]} fontSize={0.3} color="white">C</Text>
-
-            <Text position={[0, -2.5, 0]} fontSize={0.3} color="#3B82F6">AM/AB = AN/AC = MN/BC</Text>
-            <Text position={[0, -3, 0]} fontSize={0.25} color="gray">(MN) // (BC)</Text>
-        </group>
-    );
-}
-
-// Composant Cercle Trigo
-function TrigCircle() {
-    return (
-        <group>
-            <Text position={[0, 3.5, 0]} fontSize={0.5} color="white">CERCLE TRIGONOMÉTRIQUE</Text>
-
-            {/* Cercle */}
-            <mesh rotation={[0, 0, 0]}>
-                <torusGeometry args={[2, 0.05, 16, 100]} />
-                <meshStandardMaterial color="white" />
-            </mesh>
-
-            {/* Axes */}
-            <mesh>
-                <cylinderGeometry args={[0.02, 0.02, 5]} />
-                <meshStandardMaterial color="gray" />
-            </mesh>
-            <mesh rotation={[0, 0, Math.PI / 2]}>
-                <cylinderGeometry args={[0.02, 0.02, 5]} />
-                <meshStandardMaterial color="gray" />
-            </mesh>
-
-            {/* Rayon et Angle (45°) */}
-            <mesh rotation={[0, 0, Math.PI / 4]} position={[0.7, 0.7, 0]}>
-                <cylinderGeometry args={[0.04, 0.04, 2]} />
-                <meshStandardMaterial color="#F59E0B" />
-            </mesh>
-            <mesh position={[1.414, 1.414, 0]}>
-                <sphereGeometry args={[0.1]} />
-                <meshStandardMaterial color="#F59E0B" />
-            </mesh>
-
-            {/* Projections */}
-            {/* Cosinus (Horizontal - Rouge) */}
-            <mesh position={[0.707, 0, 0]} rotation={[0, 0, Math.PI / 2]}>
-                <cylinderGeometry args={[0.06, 0.06, 1.414]} />
-                <meshStandardMaterial color="#EF4444" />
-            </mesh>
-            <Text position={[0.7, -0.3, 0]} fontSize={0.25} color="#EF4444">Cos</Text>
-
-            {/* Sinus (Vertical - Vert) */}
-            <mesh position={[1.414, 0.707, 0]}>
-                <cylinderGeometry args={[0.06, 0.06, 1.414]} />
-                <meshStandardMaterial color="#10B981" />
-            </mesh>
-            <Text position={[1.6, 0.7, 0]} fontSize={0.25} color="#10B981">Sin</Text>
-
-        </group>
-    );
-}
 
 // Composant Cycle de l'Eau
 function WaterCycleSim() {
@@ -3160,10 +3069,7 @@ export default function Simulation3D({ type = 'atom', config = {} }) {
                 return <LensOptics />;
             case 'combustion':
                 return <CombustionReaction />;
-            case 'thales':
-                return <ThalesTheorem />;
-            case 'trigonometry':
-                return <TrigCircle />;
+
             case 'water-cycle':
                 return <WaterCycleSim />;
             case 'lever':
