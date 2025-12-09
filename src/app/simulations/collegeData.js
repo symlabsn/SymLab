@@ -529,7 +529,7 @@ Importance
     'light-reflection': {
         title: 'Réflexion de la Lumière',
         description: 'Expérimentez avec miroirs et rayons lumineux',
-        type: 'wave',
+        type: 'light-reflection',
         config: {},
         analogy: {
             title: 'La Réflexion de la Lumière comme le Jeu de Miroirs au Marché',
@@ -2005,7 +2005,7 @@ Solstices et Équinoxes :
     'density-buoyancy': {
         title: 'Densité et Flottabilité',
         description: 'Pourquoi certains objets flottent et d\'autres coulent',
-        type: 'physics',
+        type: 'density-buoyancy',
         config: {},
         analogy: {
             title: 'Flotter ou Couler : Le Bois et le Caillou',
@@ -2109,7 +2109,7 @@ Applications : Fer à repasser, radiateur, fusible, lampe à incandescence.`,
     'solutions-solubility': {
         title: 'Solutions et Solubilité',
         description: 'Dissolution, saturation et concentration',
-        type: 'lab',
+        type: 'solutions-solubility',
         config: {},
         analogy: {
             title: 'Les Solutions comme le Café Touba Sucré',
@@ -2160,7 +2160,7 @@ Limite de solubilité. Au-delà, le soluté ne se dissout plus et forme un dép�
     'triangles-properties': {
         title: 'Propriétés des Triangles',
         description: 'Explorez les hauteurs, médianes et médiatrices',
-        type: 'geometry',
+        type: 'triangles-properties',
         config: {},
         analogy: {
             title: 'Les Triangles et leurs Lignes Spéciales',
@@ -2214,7 +2214,7 @@ Dans tout triangle, Angle A + Angle B + Angle C = 180°.`,
     'fraction-visualizer': {
         title: 'Visualiseur de Fractions',
         description: 'Comprendre les fractions graphiquement',
-        type: 'fraction',
+        type: 'fraction-visualizer',
         config: {},
         analogy: {
             title: 'Les Fractions comme le Partage du Gâteau',
@@ -2265,7 +2265,7 @@ On ne peut pas additionner des choux et des carottes !`,
     'blood-groups': {
         title: 'Groupes Sanguins',
         description: 'Comprendre les groupes A, B, AB, O et le rhésus',
-        type: 'blood',
+        type: 'blood-groups',
         config: {},
         analogy: {
             title: 'Les Groupes Sanguins comme des Maillots de Foot',
@@ -2320,7 +2320,7 @@ Les globules rouges portent des marqueurs (antigènes) à leur surface.
     'human-reproduction': {
         title: 'Reproduction Humaine',
         description: 'De la fécondation au développement',
-        type: 'biology',
+        type: 'human-reproduction',
         config: {},
         analogy: {
             title: 'La Reproduction : La Rencontre d\'une Graine et d\'une Terre',
@@ -2371,7 +2371,7 @@ Ensuite, le bébé grandit protégé dans le ventre, nourri par le cordon ombili
     'light-propagation': {
         title: 'Propagation de la Lumière',
         description: 'Ombres, pénombre et éclipses',
-        type: 'optic',
+        type: 'light-propagation',
         config: {},
         analogy: {
             title: 'L\'Ombre et la Lumière : Le Parasol',
@@ -2469,7 +2469,7 @@ C + O2 -> CO2 (Dioxyde de carbone)
     'atom-molecule-intro': {
         title: 'Atomes et Molécules',
         description: 'Introduction à la structure de la matière',
-        type: 'atom',
+        type: 'atom-molecule-intro',
         config: {},
         analogy: {
             title: 'Atomes et Molécules : Les Briques Lego',
@@ -2518,7 +2518,7 @@ Mélange : Plein de constructions différentes en vrac.`
     'pythagoras-theorem': {
         title: 'Théorème de Pythagore',
         description: 'Visualisation géométrique du théorème',
-        type: 'geometry',
+        type: 'pythagoras-theorem',
         config: {},
         analogy: {
             title: 'Pythagore et le Raccourci',
@@ -2569,7 +2569,7 @@ Si dans un triangle, le carré du plus grand côté est égal à la somme des ca
     'linear-equations': {
         title: 'Équations Linéaires',
         description: 'Résolution graphique d\'équations',
-        type: 'graph',
+        type: 'linear-equations',
         config: {},
         analogy: {
             title: 'L\'Équation comme une Balance du Marché',
@@ -2769,7 +2769,7 @@ Le courant électrique circule dans l'eau salée grâce au déplacement des ions
     'ph-scale': {
         title: 'Échelle de pH',
         description: 'Acides, bases et indicateurs colorés',
-        type: 'lab',
+        type: 'ph-scale',
         config: {},
         analogy: {
             title: 'Le pH : Acide ou Basique ?',

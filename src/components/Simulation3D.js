@@ -1687,6 +1687,661 @@ function EarthMovement() {
     );
 }
 
+
+// Composant Densité et Flottabilité
+function DensityBuoyancy() {
+    return (
+        <group>
+            <Text position={[0, 3.5, 0]} fontSize={0.5} color="white">DENSITÉ ET FLOTTABILITÉ</Text>
+
+            {/* Bassin d'eau */}
+            <mesh position={[0, -1, 0]}>
+                <boxGeometry args={[6, 2, 4]} />
+                <meshStandardMaterial color="#3B82F6" transparent opacity={0.5} />
+            </mesh>
+            <Text position={[0, -2.2, 0]} fontSize={0.3} color="#3B82F6">Eau (Densité = 1)</Text>
+
+            {/* Objet qui coule (Pierre) */}
+            <group position={[-1.5, -1.8, 0]}>
+                <mesh>
+                    <dodecahedronGeometry args={[0.5]} />
+                    <meshStandardMaterial color="#4B5563" />
+                </mesh>
+                <Text position={[0, 0.8, 0]} fontSize={0.25} color="white">Pierre (d &gt; 1)</Text>
+                <Text position={[0, 1.1, 0]} fontSize={0.25} color="#EF4444">Coule</Text>
+            </group>
+
+            {/* Objet qui flotte (Bois) */}
+            <group position={[1.5, -0.2, 0]}>
+                <mesh>
+                    <boxGeometry args={[0.8, 0.8, 0.8]} />
+                    <meshStandardMaterial color="#D97706" />
+                </mesh>
+                <Text position={[0, 0.8, 0]} fontSize={0.25} color="white">Bois (d &lt; 1)</Text>
+                <Text position={[0, 1.1, 0]} fontSize={0.25} color="#10B981">Flotte</Text>
+            </group>
+
+            {/* Flèches Poussée Archimède */}
+            <mesh position={[1.5, -0.8, 0]} rotation={[0, 0, 0]}>
+                <cylinderGeometry args={[0.05, 0.05, 0.5, 8]} />
+                <meshStandardMaterial color="#10B981" />
+            </mesh>
+            <mesh position={[1.5, -0.6, 0]} rotation={[0, 0, 0]}>
+                <coneGeometry args={[0.1, 0.2, 8]} />
+                <meshStandardMaterial color="#10B981" />
+            </mesh>
+            <Text position={[2.5, -0.8, 0]} fontSize={0.2} color="#10B981">Poussée d&apos;Archimède</Text>
+
+        </group>
+    );
+}
+
+// Composant Réflexion Lumière
+function LightReflection() {
+    return (
+        <group>
+            <Text position={[0, 3.5, 0]} fontSize={0.5} color="white">RÉFLEXION DE LA LUMIÈRE</Text>
+
+            {/* Miroir */}
+            <mesh position={[0, -1, 0]} rotation={[-Math.PI / 2, 0, 0]}>
+                <planeGeometry args={[6, 2]} />
+                <meshStandardMaterial color="#94A3B8" metalness={0.9} roughness={0.1} />
+            </mesh>
+            <Text position={[0, -1.2, 2]} fontSize={0.3} color="gray">Miroir Plan</Text>
+
+            {/* Rayon Incident */}
+            <mesh position={[-2, 1, 0]} rotation={[0, 0, -Math.PI / 4]}>
+                <cylinderGeometry args={[0.05, 0.05, 4, 8]} />
+                <meshStandardMaterial color="#FFFF00" emissive="#FFFF00" />
+            </mesh>
+            <Text position={[-2.5, 2, 0]} fontSize={0.25} color="#FFFF00">Rayon Incident</Text>
+
+            {/* Rayon Réfléchi */}
+            <mesh position={[2, 1, 0]} rotation={[0, 0, Math.PI / 4]}>
+                <cylinderGeometry args={[0.05, 0.05, 4, 8]} />
+                <meshStandardMaterial color="#FFFF00" emissive="#FFFF00" />
+            </mesh>
+            <Text position={[2.5, 2, 0]} fontSize={0.25} color="#FFFF00">Rayon Réfléchi</Text>
+
+            {/* Normale */}
+            <mesh position={[0, 1, 0]}>
+                <cylinderGeometry args={[0.02, 0.02, 4, 8]} />
+                <meshStandardMaterial color="white" transparent opacity={0.5} />
+            </mesh>
+            <Text position={[0.2, 1, 0]} fontSize={0.2} color="white">Normale</Text>
+
+            {/* Angles */}
+            <Text position={[-0.5, -0.5, 0]} fontSize={0.2} color="white">i = 45°</Text>
+            <Text position={[0.5, -0.5, 0]} fontSize={0.2} color="white">r = 45°</Text>
+        </group>
+    );
+}
+
+// Composant Groupes Sanguins
+function BloodGroups() {
+    return (
+        <group>
+            <Text position={[0, 3.5, 0]} fontSize={0.5} color="#EF4444">GROUPES SANGUINS (ABO)</Text>
+
+            {/* Groupe A */}
+            <group position={[-3, 1, 0]}>
+                <mesh>
+                    <sphereGeometry args={[0.6, 32, 32]} />
+                    <meshStandardMaterial color="#EF4444" />
+                </mesh>
+                {/* Antigène A (Triangles) */}
+                <mesh position={[0.5, 0.3, 0]}>
+                    <boxGeometry args={[0.2, 0.2, 0.2]} />
+                    <meshStandardMaterial color="#60A5FA" />
+                </mesh>
+                <mesh position={[-0.5, -0.3, 0]}>
+                    <boxGeometry args={[0.2, 0.2, 0.2]} />
+                    <meshStandardMaterial color="#60A5FA" />
+                </mesh>
+                <Text position={[0, -1, 0]} fontSize={0.3} color="white">Groupe A</Text>
+            </group>
+
+            {/* Groupe B */}
+            <group position={[-1, 1, 0]}>
+                <mesh>
+                    <sphereGeometry args={[0.6, 32, 32]} />
+                    <meshStandardMaterial color="#EF4444" />
+                </mesh>
+                {/* Antigène B (Sphères) */}
+                <mesh position={[0.5, 0.3, 0]}>
+                    <sphereGeometry args={[0.15]} />
+                    <meshStandardMaterial color="#FCD34D" />
+                </mesh>
+                <mesh position={[-0.5, -0.3, 0]}>
+                    <sphereGeometry args={[0.15]} />
+                    <meshStandardMaterial color="#FCD34D" />
+                </mesh>
+                <Text position={[0, -1, 0]} fontSize={0.3} color="white">Groupe B</Text>
+            </group>
+
+            {/* Groupe AB */}
+            <group position={[1, 1, 0]}>
+                <mesh>
+                    <sphereGeometry args={[0.6, 32, 32]} />
+                    <meshStandardMaterial color="#EF4444" />
+                </mesh>
+                {/* Antigène A et B */}
+                <mesh position={[0.5, 0.3, 0]}>
+                    <boxGeometry args={[0.2, 0.2, 0.2]} />
+                    <meshStandardMaterial color="#60A5FA" />
+                </mesh>
+                <mesh position={[-0.5, -0.3, 0]}>
+                    <sphereGeometry args={[0.15]} />
+                    <meshStandardMaterial color="#FCD34D" />
+                </mesh>
+                <Text position={[0, -1, 0]} fontSize={0.3} color="white">Groupe AB</Text>
+            </group>
+
+            {/* Groupe O */}
+            <group position={[3, 1, 0]}>
+                <mesh>
+                    <sphereGeometry args={[0.6, 32, 32]} />
+                    <meshStandardMaterial color="#EF4444" />
+                </mesh>
+                {/* Pas d'antigène */}
+                <Text position={[0, -1, 0]} fontSize={0.3} color="white">Groupe O</Text>
+            </group>
+
+            <Text position={[0, -2.5, 0]} fontSize={0.25} color="white">Donneur Universel : O | Receveur Universel : AB</Text>
+        </group>
+    );
+}
+
+// Composant Reproduction Humaine
+function HumanReproduction() {
+    return (
+        <group>
+            <Text position={[0, 3.5, 0]} fontSize={0.5} color="#F472B6">FÉCONDATION</Text>
+
+            {/* Ovule */}
+            <group position={[0, 0, 0]}>
+                <mesh>
+                    <sphereGeometry args={[1.5, 32, 32]} />
+                    <meshStandardMaterial color="#FBCFE8" transparent opacity={0.8} />
+                </mesh>
+                <mesh position={[0, 0, 0]}>
+                    <sphereGeometry args={[0.5, 32, 32]} />
+                    <meshStandardMaterial color="#BE185D" />
+                </mesh>
+                <Text position={[0, 1.8, 0]} fontSize={0.3} color="#F472B6">Ovule (Maman)</Text>
+            </group>
+
+            {/* Spermatozoïdes */}
+            <group position={[-2.5, 0.5, 0]} rotation={[0, 0, -0.5]}>
+                <mesh>
+                    <sphereGeometry args={[0.15]} />
+                    <meshStandardMaterial color="white" />
+                </mesh>
+                <mesh position={[-0.5, 0, 0]} rotation={[0, 0, Math.PI / 2]}>
+                    <cylinderGeometry args={[0.02, 0.05, 1]} />
+                    <meshStandardMaterial color="white" />
+                </mesh>
+            </group>
+            <group position={[-2.8, -0.5, 0]} rotation={[0, 0, 0.2]}>
+                <mesh>
+                    <sphereGeometry args={[0.15]} />
+                    <meshStandardMaterial color="white" />
+                </mesh>
+                <mesh position={[-0.5, 0, 0]} rotation={[0, 0, Math.PI / 2]}>
+                    <cylinderGeometry args={[0.02, 0.05, 1]} />
+                    <meshStandardMaterial color="white" />
+                </mesh>
+            </group>
+            <Text position={[-3.5, 0, 0]} fontSize={0.3} color="white">Spermatozoïdes (Papa)</Text>
+
+            <mesh position={[-1.7, 0.2, 0]} rotation={[0, 0, -0.5]}>
+                <cylinderGeometry args={[0.05, 0.05, 1]} />
+                <meshStandardMaterial color="#F472B6" />
+            </mesh>
+            <Text position={[0, -2, 0]} fontSize={0.3} color="#F472B6">Rencontre = Zygote (Bébé)</Text>
+        </group>
+    );
+}
+
+// Composant Propagation Lumière
+function LightPropagation() {
+    return (
+        <group>
+            <Text position={[0, 3.5, 0]} fontSize={0.5} color="#FFFF00">PROPAGATION RECTILIGNE</Text>
+
+            {/* Source Lumineuse (Ampoule) */}
+            <group position={[-3, 0, 0]}>
+                <mesh>
+                    <sphereGeometry args={[0.3]} />
+                    <meshStandardMaterial color="#FFFF00" emissive="#FFFF00" />
+                </mesh>
+                <pointLight intensity={1} distance={5} />
+            </group>
+
+            {/* Obstacle (Balle) */}
+            <mesh position={[0, 0, 0]}>
+                <sphereGeometry args={[0.8]} />
+                <meshStandardMaterial color="#1F2937" />
+            </mesh>
+
+            {/* Écran */}
+            <mesh position={[3, 0, 0]} rotation={[0, -Math.PI / 2, 0]}>
+                <planeGeometry args={[4, 4]} />
+                <meshStandardMaterial color="white" side={2} />
+            </mesh>
+
+            {/* Ombre sur l'écran (Disque noir) */}
+            <mesh position={[2.95, 0, 0]} rotation={[0, -Math.PI / 2, 0]}>
+                <circleGeometry args={[1.2, 32]} />
+                <meshBasicMaterial color="black" opacity={0.8} transparent />
+            </mesh>
+
+            {/* Cône d'ombre */}
+            <mesh position={[1.5, 0, 0]} rotation={[0, 0, -Math.PI / 2]}>
+                <coneGeometry args={[0.8, 3, 32, 1, true]} />
+                <meshBasicMaterial color="black" transparent opacity={0.1} />
+            </mesh>
+
+            <Text position={[3, -2.5, 0]} fontSize={0.3} color="white">Zone d&apos;Ombre</Text>
+            <Text position={[-1, -2.5, 0]} fontSize={0.25} color="#FFFF00">La lumière ne contourne pas l&apos;obstacle !</Text>
+        </group>
+    );
+}
+
+// Composant Atome vs Molécule
+function AtomMoleculeIntro() {
+    return (
+        <group>
+            <Text position={[0, 3.5, 0]} fontSize={0.5} color="white">ATOMES vs MOLÉCULES</Text>
+
+            {/* Atomes isolés */}
+            <group position={[-2.5, 0, 0]}>
+                <Text position={[0, 2, 0]} fontSize={0.3} color="#FCA5A5">Atomes (Briques)</Text>
+                {/* Oxygène */}
+                <mesh position={[-0.8, 0, 0]}>
+                    <sphereGeometry args={[0.5]} />
+                    <meshStandardMaterial color="#EF4444" />
+                </mesh>
+                <Text position={[-0.8, -0.8, 0]} fontSize={0.3} color="white">O</Text>
+
+                {/* Hydrogène */}
+                <mesh position={[0.8, 0.5, 0]}>
+                    <sphereGeometry args={[0.3]} />
+                    <meshStandardMaterial color="white" />
+                </mesh>
+                <Text position={[0.8, -0.2, 0]} fontSize={0.3} color="white">H</Text>
+
+                {/* Carbone */}
+                <mesh position={[0.8, -0.8, 0]}>
+                    <sphereGeometry args={[0.5]} />
+                    <meshStandardMaterial color="#1F2937" />
+                </mesh>
+                <Text position={[0.8, -1.6, 0]} fontSize={0.3} color="white">C</Text>
+            </group>
+
+            {/* Molécule (Construction) */}
+            <group position={[2.5, 0, 0]}>
+                <Text position={[0, 2, 0]} fontSize={0.3} color="#60A5FA">Molécule (Maison)</Text>
+                {/* H2O */}
+                <group>
+                    <mesh>
+                        <sphereGeometry args={[0.5]} />
+                        <meshStandardMaterial color="#EF4444" />
+                    </mesh>
+                    <mesh position={[-0.5, 0.5, 0]}>
+                        <sphereGeometry args={[0.3]} />
+                        <meshStandardMaterial color="white" />
+                    </mesh>
+                    <mesh position={[0.5, 0.5, 0]}>
+                        <sphereGeometry args={[0.3]} />
+                        <meshStandardMaterial color="white" />
+                    </mesh>
+                    <Text position={[0, -1, 0]} fontSize={0.3} color="#60A5FA">H₂O (Eau)</Text>
+                </group>
+            </group>
+
+            <mesh position={[0, 0, 0]}>
+                <boxGeometry args={[0.1, 4, 0.1]} />
+                <meshStandardMaterial color="white" opacity={0.5} transparent />
+            </mesh>
+        </group>
+    );
+}
+
+// Composant Visualiseur Fractions
+function FractionVisualizer() {
+    return (
+        <group>
+            <Text position={[0, 3.5, 0]} fontSize={0.5} color="white">FRACTIONS</Text>
+
+            {/* 1/2 */}
+            <group position={[-2.5, 0, 0]}>
+                <Text position={[0, 1.5, 0]} fontSize={0.4} color="white">1/2</Text>
+                {/* Camembert complet */}
+                <mesh>
+                    <cylinderGeometry args={[1, 1, 0.2, 32]} />
+                    <meshStandardMaterial color="#4B5563" />
+                </mesh>
+                {/* Demi Camembert */}
+                <mesh position={[0, 0.1, 0]}>
+                    <cylinderGeometry args={[1, 1, 0.1, 32, 1, false, 0, Math.PI]} />
+                    <meshStandardMaterial color="#F59E0B" />
+                </mesh>
+                <Text position={[0, -1.5, 0]} fontSize={0.2} color="gray">La moitié</Text>
+            </group>
+
+            {/* 1/4 */}
+            <group position={[0, 0, 0]}>
+                <Text position={[0, 1.5, 0]} fontSize={0.4} color="white">1/4</Text>
+                {/* Camembert complet */}
+                <mesh>
+                    <cylinderGeometry args={[1, 1, 0.2, 32]} />
+                    <meshStandardMaterial color="#4B5563" />
+                </mesh>
+                {/* Quart Camembert */}
+                <mesh position={[0, 0.1, 0]}>
+                    <cylinderGeometry args={[1, 1, 0.1, 32, 1, false, 0, Math.PI / 2]} />
+                    <meshStandardMaterial color="#3B82F6" />
+                </mesh>
+                <Text position={[0, -1.5, 0]} fontSize={0.2} color="gray">Le quart</Text>
+            </group>
+
+            {/* 3/4 */}
+            <group position={[2.5, 0, 0]}>
+                <Text position={[0, 1.5, 0]} fontSize={0.4} color="white">3/4</Text>
+                {/* Camembert complet */}
+                <mesh>
+                    <cylinderGeometry args={[1, 1, 0.2, 32]} />
+                    <meshStandardMaterial color="#4B5563" />
+                </mesh>
+                {/* 3 Quarts Camembert */}
+                <mesh position={[0, 0.1, 0]}>
+                    <cylinderGeometry args={[1, 1, 0.1, 32, 1, false, 0, 3 * Math.PI / 2]} />
+                    <meshStandardMaterial color="#10B981" />
+                </mesh>
+                <Text position={[0, -1.5, 0]} fontSize={0.2} color="gray">Trois quarts</Text>
+            </group>
+        </group>
+    );
+}
+
+// Composant Théorème Pythagore
+function PythagorasTheorem() {
+    return (
+        <group>
+            <Text position={[0, 3.5, 0]} fontSize={0.5} color="white">THÉORÈME DE PYTHAGORE</Text>
+            <Text position={[0, 2.8, 0]} fontSize={0.3} color="#FCD34D">a² + b² = c²</Text>
+
+            {/* Triangle Rectangle */}
+            <group position={[0, -0.5, 0]}>
+
+                {/* Coté a (3) */}
+                <mesh position={[0, 1.5, 0]}>
+                    <boxGeometry args={[0.1, 3, 0.1]} />
+                    <meshStandardMaterial color="#EF4444" />
+                </mesh>
+                <Text position={[-0.5, 1.5, 0]} fontSize={0.3} color="#EF4444">a (3)</Text>
+
+                {/* Coté b (4) */}
+                <mesh position={[2, 0, 0]}>
+                    <boxGeometry args={[4, 0.1, 0.1]} />
+                    <meshStandardMaterial color="#3B82F6" />
+                </mesh>
+                <Text position={[2, -0.5, 0]} fontSize={0.3} color="#3B82F6">b (4)</Text>
+
+                {/* Hypoténuse c (5) */}
+                <mesh position={[2, 1.5, 0]} rotation={[0, 0, -0.6435]}> {/* atan(3/4) */}
+                    <boxGeometry args={[0.1, 5, 0.1]} />
+                    <meshStandardMaterial color="#10B981" />
+                </mesh>
+                <Text position={[2.5, 2.5, 0]} fontSize={0.3} color="#10B981">c (5)</Text>
+
+                {/* Carrés Visuels */}
+                <mesh position={[-1.5, 1.5, 0]}>
+                    <boxGeometry args={[3, 3, 0.05]} />
+                    <meshStandardMaterial color="#EF4444" transparent opacity={0.2} />
+                </mesh>
+                <Text position={[-1.5, 1.5, 0.1]} fontSize={0.3} color="white">9</Text>
+
+                <mesh position={[2, -2, 0]}>
+                    <boxGeometry args={[4, 4, 0.05]} />
+                    <meshStandardMaterial color="#3B82F6" transparent opacity={0.2} />
+                </mesh>
+                <Text position={[2, -2, 0.1]} fontSize={0.3} color="white">16</Text>
+
+                <mesh position={[3.5, 3.5, 0]} rotation={[0, 0, -0.6435]}>
+                    <boxGeometry args={[5, 0.05, 5]} />
+                    <meshStandardMaterial color="#10B981" transparent opacity={0.2} />
+                </mesh>
+                <Text position={[3.5, 3.5, 0.5]} fontSize={0.3} color="white">25</Text>
+            </group>
+
+            <Text position={[0, -4, 0]} fontSize={0.3} color="white">9 + 16 = 25 !</Text>
+        </group>
+    );
+}
+
+// Composant Échelle pH
+function PHScale() {
+    return (
+        <group>
+            <Text position={[0, 3.5, 0]} fontSize={0.5} color="white">ÉCHELLE DE pH</Text>
+
+            {/* Barre de dégradé */}
+            <mesh position={[0, 0, 0]}>
+                <boxGeometry args={[10, 1, 0.1]} />
+                <meshStandardMaterial vertexColors={true} /> {/* Simplification : Material couleur unique pour l'instant si vertexColors complexe */}
+                <meshStandardMaterial color="white" />
+            </mesh>
+
+            {/* Segments colorés manuels car vertexColors complexe en JSX pur */}
+            <mesh position={[-4.5, 0, 0]}>
+                <boxGeometry args={[1, 1.2, 0.1]} />
+                <meshStandardMaterial color="#EF4444" /> {/* Rouge Acide */}
+            </mesh>
+            <Text position={[-4.5, 1, 0]} fontSize={0.3} color="#EF4444">0</Text>
+
+            <mesh position={[0, 0, 0]}>
+                <boxGeometry args={[1, 1.2, 0.1]} />
+                <meshStandardMaterial color="#10B981" /> {/* Vert Neutre */}
+            </mesh>
+            <Text position={[0, 1, 0]} fontSize={0.3} color="#10B981">7</Text>
+
+            <mesh position={[4.5, 0, 0]}>
+                <boxGeometry args={[1, 1.2, 0.1]} />
+                <meshStandardMaterial color="#3B82F6" /> {/* Bleu Basique */}
+            </mesh>
+            <Text position={[4.5, 1, 0]} fontSize={0.3} color="#3B82F6">14</Text>
+
+            {/* Flèche curseur */}
+            <mesh position={[-2, -1, 0]}>
+                <coneGeometry args={[0.2, 0.5, 4]} />
+                <meshStandardMaterial color="white" />
+            </mesh>
+            <Text position={[-2, -1.8, 0]} fontSize={0.3} color="#F59E0B">Citron (pH 2)</Text>
+
+            <mesh position={[0, -1, 0]}>
+                <coneGeometry args={[0.2, 0.5, 4]} />
+                <meshStandardMaterial color="white" />
+            </mesh>
+            <Text position={[0, -1.8, 0]} fontSize={0.3} color="#10B981">Eau (pH 7)</Text>
+
+            <mesh position={[3, -1, 0]}>
+                <coneGeometry args={[0.2, 0.5, 4]} />
+                <meshStandardMaterial color="white" />
+            </mesh>
+            <Text position={[3, -1.8, 0]} fontSize={0.3} color="#3B82F6">Savon (pH 10)</Text>
+
+            <Text position={[-3, 2, 0]} fontSize={0.4} color="#EF4444">ACIDE</Text>
+            <Text position={[3, 2, 0]} fontSize={0.4} color="#3B82F6">BASIQUE</Text>
+        </group>
+    );
+}
+
+// Composant Propriétés Triangles
+function TrianglesProperties() {
+    return (
+        <group>
+            <Text position={[0, 3.5, 0]} fontSize={0.5} color="white">DROITES DU TRIANGLE</Text>
+
+            {/* Triangle */}
+            <line>
+                <bufferGeometry />
+                {/* Sommets : A(0, 2), B(-2, -1), C(2, -1) */}
+                {/* Rendu simplifié par des tubes */}
+            </line>
+
+            <group position={[0, 0, 0]}>
+                {/* Côtés */}
+                <mesh position={[-1, 0.5, 0]} rotation={[0, 0, 0.98]}>
+                    <cylinderGeometry args={[0.05, 0.05, 3.6, 8]} />
+                    <meshStandardMaterial color="white" />
+                </mesh>
+                <mesh position={[1, 0.5, 0]} rotation={[0, 0, -0.98]}>
+                    <cylinderGeometry args={[0.05, 0.05, 3.6, 8]} />
+                    <meshStandardMaterial color="white" />
+                </mesh>
+                <mesh position={[0, -1, 0]} rotation={[0, 0, Math.PI / 2]}>
+                    <cylinderGeometry args={[0.05, 0.05, 4, 8]} />
+                    <meshStandardMaterial color="white" />
+                </mesh>
+
+                {/* Hauteur (Rouge) */}
+                <mesh position={[0, 0.5, 0]}>
+                    <cylinderGeometry args={[0.03, 0.03, 3, 8]} />
+                    <meshStandardMaterial color="#EF4444" />
+                </mesh>
+                <Text position={[0.2, 0.5, 0]} fontSize={0.2} color="#EF4444">Hauteur</Text>
+
+                {/* Médiane (Vert) */}
+                <mesh position={[1, 0.5, 0]} rotation={[0, 0, -0.5]}>
+                    <cylinderGeometry args={[0.03, 0.03, 3.5, 8]} />
+                    <meshStandardMaterial color="#10B981" />
+                </mesh>
+                <Text position={[1.2, 0.8, 0]} fontSize={0.2} color="#10B981">Médiane</Text>
+
+                <Text position={[0, -2, 0]} fontSize={0.25} color="gray">Somme des Angles = 180°</Text>
+            </group>
+        </group>
+    );
+}
+
+// Composant Équations Linéaires
+function LinearEquations() {
+    return (
+        <group>
+            <Text position={[0, 3.5, 0]} fontSize={0.5} color="white">ÉQUATION = BALANCE</Text>
+            <Text position={[0, 2.5, 0]} fontSize={0.4} color="#FCD34D">2x + 1 = 5</Text>
+
+            {/* Balance */}
+            <mesh position={[0, -1, 0]}>
+                <cylinderGeometry args={[0.2, 0.5, 2, 16]} />
+                <meshStandardMaterial color="#4B5563" />
+            </mesh>
+            <mesh position={[0, 0, 0]}>
+                <boxGeometry args={[6, 0.2, 0.5]} />
+                <meshStandardMaterial color="#9CA3AF" />
+            </mesh>
+
+            {/* Plateau Gauche : 2x + 1 */}
+            <group position={[-2.5, 0.5, 0]}>
+                {/* 2 Sacs X */}
+                <mesh position={[-0.5, 0, 0]}>
+                    <boxGeometry args={[0.8, 1, 0.8]} />
+                    <meshStandardMaterial color="#3B82F6" />
+                </mesh>
+                <Text position={[-0.5, 0, 0.5]} fontSize={0.5} color="white">x</Text>
+
+                <mesh position={[0.5, 0, 0]}>
+                    <boxGeometry args={[0.8, 1, 0.8]} />
+                    <meshStandardMaterial color="#3B82F6" />
+                </mesh>
+                <Text position={[0.5, 0, 0.5]} fontSize={0.5} color="white">x</Text>
+
+                {/* 1 Poids */}
+                <mesh position={[0, 1, 0]}>
+                    <sphereGeometry args={[0.3]} />
+                    <meshStandardMaterial color="#F59E0B" />
+                </mesh>
+                <Text position={[0, 1.5, 0]} fontSize={0.3} color="white">1</Text>
+            </group>
+
+            {/* Plateau Droit : 5 */}
+            <group position={[2.5, 0.5, 0]}>
+                {/* 5 Poids */}
+                <mesh position={[-0.6, 0, 0]}>
+                    <sphereGeometry args={[0.3]} />
+                    <meshStandardMaterial color="#F59E0B" />
+                </mesh>
+                <mesh position={[0, 0, 0]}>
+                    <sphereGeometry args={[0.3]} />
+                    <meshStandardMaterial color="#F59E0B" />
+                </mesh>
+                <mesh position={[0.6, 0, 0]}>
+                    <sphereGeometry args={[0.3]} />
+                    <meshStandardMaterial color="#F59E0B" />
+                </mesh>
+                <mesh position={[-0.3, 0.6, 0]}>
+                    <sphereGeometry args={[0.3]} />
+                    <meshStandardMaterial color="#F59E0B" />
+                </mesh>
+                <mesh position={[0.3, 0.6, 0]}>
+                    <sphereGeometry args={[0.3]} />
+                    <meshStandardMaterial color="#F59E0B" />
+                </mesh>
+                <Text position={[0, 1.5, 0]} fontSize={0.3} color="white">5</Text>
+            </group>
+
+            <Text position={[0, -2.5, 0]} fontSize={0.3} color="#10B981">Si on enlève 1 de chaque côté...</Text>
+            <Text position={[0, -3, 0]} fontSize={0.3} color="#10B981">2x = 4 donc x = 2 !</Text>
+        </group>
+    );
+}
+
+// Composant Solutions et Solubilité
+function SolutionsSolubility() {
+    return (
+        <group>
+            <Text position={[0, 3.5, 0]} fontSize={0.5} color="white">DISSOLUTION</Text>
+
+            {/* Becher */}
+            <mesh position={[0, 0, 0]}>
+                <cylinderGeometry args={[1.5, 1.5, 3, 32]} />
+                <meshStandardMaterial color="white" transparent opacity={0.2} side={2} />
+            </mesh>
+
+            {/* Solvant (Eau) */}
+            <mesh position={[0, -0.2, 0]}>
+                <cylinderGeometry args={[1.4, 1.4, 2.5, 32]} />
+                <meshStandardMaterial color="#93C5FD" transparent opacity={0.6} />
+            </mesh>
+            <Text position={[2, 0, 0]} fontSize={0.3} color="#93C5FD">Solvant (Eau)</Text>
+
+            {/* Soluté (Sucre - Particules dispersées) */}
+            <group>
+                {[...Array(20)].map((_, i) => (
+                    <mesh key={i} position={[(Math.random() - 0.5) * 2, (Math.random() - 0.5) * 2, (Math.random() - 0.5) * 2]}>
+                        <boxGeometry args={[0.1, 0.1, 0.1]} />
+                        <meshStandardMaterial color="white" />
+                    </mesh>
+                ))}
+            </group>
+            <Text position={[-2, 1, 0]} fontSize={0.3} color="white">Soluté (Sucre)</Text>
+
+            {/* Dépôt saturé au fond */}
+            <group position={[0, -1.4, 0]}>
+                {[...Array(10)].map((_, i) => (
+                    <mesh key={i} position={[(Math.random() - 0.5), 0, (Math.random() - 0.5)]}>
+                        <boxGeometry args={[0.1, 0.1, 0.1]} />
+                        <meshStandardMaterial color="white" />
+                    </mesh>
+                ))}
+            </group>
+            <Text position={[0, -2, 0]} fontSize={0.25} color="white">Saturation (Dépôt)</Text>
+        </group>
+    );
+}
+
 // Composant principal de simulation 3D
 export default function Simulation3D({ type = 'atom', config = {} }) {
     const renderSimulation = () => {
@@ -1753,6 +2408,30 @@ export default function Simulation3D({ type = 'atom', config = {} }) {
                 return <HumanRespiration />;
             case 'earth-movement':
                 return <EarthMovement />;
+            case 'density-buoyancy':
+                return <DensityBuoyancy />;
+            case 'light-reflection':
+                return <LightReflection />;
+            case 'blood-groups':
+                return <BloodGroups />;
+            case 'human-reproduction':
+                return <HumanReproduction />;
+            case 'light-propagation':
+                return <LightPropagation />;
+            case 'atom-molecule-intro':
+                return <AtomMoleculeIntro />;
+            case 'fraction-visualizer':
+                return <FractionVisualizer />;
+            case 'pythagoras-theorem':
+                return <PythagorasTheorem />;
+            case 'ph-scale':
+                return <PHScale />;
+            case 'triangles-properties':
+                return <TrianglesProperties />;
+            case 'linear-equations':
+                return <LinearEquations />;
+            case 'solutions-solubility':
+                return <SolutionsSolubility />;
             case 'lens-optics':
                 return <LensOptics />;
             case 'electrochemical':
