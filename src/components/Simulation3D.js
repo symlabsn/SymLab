@@ -2695,7 +2695,7 @@ function CombustionReaction() {
     );
 }
 
-// Composant Théorème de Thalès
+// Composant Theoreme de Thales
 function ThalesTheorem() {
     return (
         <group>
