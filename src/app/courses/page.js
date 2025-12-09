@@ -503,7 +503,14 @@ function CoursesContent() {
                                                                 {activeChapter.summary.map((point, idx) => (
                                                                     <li key={idx} className="flex items-start gap-3 text-gray-300 text-base">
                                                                         <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 mt-2.5 shrink-0"></div>
-                                                                        <span>{point}</span>
+                                                                        <div className="flex-1">
+                                                                            <ReactMarkdown
+                                                                                remarkPlugins={[remarkMath]}
+                                                                                rehypePlugins={[rehypeRaw, rehypeKatex]}
+                                                                            >
+                                                                                {point}
+                                                                            </ReactMarkdown>
+                                                                        </div>
                                                                     </li>
                                                                 ))}
                                                             </ul>
