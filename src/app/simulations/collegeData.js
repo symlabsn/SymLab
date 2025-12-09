@@ -2416,7 +2416,7 @@ Dans un milieu transparent et homogène (air, vide), la lumière se propage en l
     'combustion-reaction': {
         title: 'Les Combustions',
         description: 'Le tétraèdre du feu et réactions',
-        type: 'chemistry',
+        type: 'combustion',
         config: {},
         analogy: {
             title: 'Le Feu a besoin de 3 Amis (Triangle du Feu)',
@@ -3068,7 +3068,7 @@ Et ça recommence ! C'est un cycle éternel.`
     'simple-machines': {
         title: 'Machines Simples : Levier',
         description: 'Comment soulever lourd avec moins d\'effort',
-        type: 'force',
+        type: 'lever',
         config: {},
         analogy: {
             title: 'La Balançoire Magique',
@@ -3099,7 +3099,7 @@ Pour soulever une charge lourde (F2) avec une petite force (F1), il faut que la 
     'volcano-eruption': {
         title: 'Éruption Volcanique',
         description: 'Structure de la Terre et Volcans',
-        type: 'tectonics',
+        type: 'volcano',
         config: {},
         analogy: {
             title: 'La Marmite de Bouillie',

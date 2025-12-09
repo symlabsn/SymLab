@@ -2642,6 +2642,298 @@ function SoundPropagation() {
     );
 }
 
+
+// Composant Les Combustions
+function CombustionReaction() {
+    return (
+        <group>
+            <Text position={[0, 3.5, 0]} fontSize={0.5} color="#EF4444">TRIANGLE DU FEU</Text>
+
+            {/* Foyer Central */}
+            <group position={[0, -1, 0]}>
+                {/* Bois (Combustible) */}
+                <mesh position={[0, 0, 0]} rotation={[0.2, 0.5, 0]}>
+                    <cylinderGeometry args={[0.1, 0.1, 1.5]} />
+                    <meshStandardMaterial color="#78350F" />
+                </mesh>
+                <mesh position={[0.2, 0, 0]} rotation={[-0.2, -0.5, 0]}>
+                    <cylinderGeometry args={[0.1, 0.1, 1.5]} />
+                    <meshStandardMaterial color="#78350F" />
+                </mesh>
+                <Text position={[0, -1, 0]} fontSize={0.3} color="#78350F">1. Combustible (Bois)</Text>
+
+                {/* Flamme */}
+                <mesh position={[0, 0.8, 0]}>
+                    <coneGeometry args={[0.4, 1.2, 8]} />
+                    <meshStandardMaterial color="#F59E0B" emissive="#F59E0B" transparent opacity={0.8} />
+                </mesh>
+                <pointLight position={[0, 1, 0]} intensity={2} color="#F59E0B" distance={5} />
+                <Text position={[0, 2, 0]} fontSize={0.3} color="#F59E0B">3. Chaleur</Text>
+            </group>
+
+            {/* Air (Comburant) */}
+            <group position={[0, 0, 0]}>
+                <mesh position={[-2, 1, 0]}>
+                    <sphereGeometry args={[0.2]} />
+                    <meshStandardMaterial color="#3B82F6" transparent opacity={0.3} />
+                </mesh>
+                <mesh position={[2, 1, 0]}>
+                    <sphereGeometry args={[0.2]} />
+                    <meshStandardMaterial color="#3B82F6" transparent opacity={0.3} />
+                </mesh>
+                {[...Array(5)].map((_, i) => (
+                    <mesh key={i} position={[(Math.random() - 0.5) * 3, (Math.random()) * 2, (Math.random() - 0.5) * 3]}>
+                        <sphereGeometry args={[0.05]} />
+                        <meshStandardMaterial color="#3B82F6" />
+                    </mesh>
+                ))}
+                <Text position={[2, 2, 0]} fontSize={0.3} color="#3B82F6">2. Comburant (O₂)</Text>
+            </group>
+
+            <Text position={[0, -3, 0]} fontSize={0.25} color="white">Si on enlève un élément, le feu s&apos;éteint !</Text>
+        </group>
+    );
+}
+
+// Composant Théorème de Thalès
+function ThalesTheorem() {
+    return (
+        <group>
+            <Text position={[0, 3.5, 0]} fontSize={0.5} color="white">THÉORÈME DE THALÈS</Text>
+
+            {/* Sommet A */}
+            <group position={[0, 2, 0]}>
+                <Text position={[0, 0.2, 0]} fontSize={0.3} color="white">A</Text>
+            </group>
+
+            {/* Triangle */}
+            {/* Lignes AB et AC */}
+            <mesh position={[-1, 0.5, 0]} rotation={[0, 0, -0.5]}>
+                <cylinderGeometry args={[0.03, 0.03, 3.5]} />
+                <meshStandardMaterial color="white" />
+            </mesh>
+            <mesh position={[1, 0.5, 0]} rotation={[0, 0, 0.5]}>
+                <cylinderGeometry args={[0.03, 0.03, 3.5]} />
+                <meshStandardMaterial color="white" />
+            </mesh>
+
+            {/* Ligne MN (Milieu - Petite base) */}
+            <mesh position={[0, 0.5, 0]}>
+                <cylinderGeometry args={[0.03, 0.03, 1.6, 8]} rotation={[0, 0, Math.PI / 2]} />
+                <meshStandardMaterial color="#F59E0B" />
+            </mesh>
+            <Text position={[-0.9, 0.5, 0]} fontSize={0.3} color="white">M</Text>
+            <Text position={[0.9, 0.5, 0]} fontSize={0.3} color="white">N</Text>
+
+            {/* Ligne BC (Base) */}
+            <mesh position={[0, -1, 0]}>
+                <cylinderGeometry args={[0.03, 0.03, 3.2, 8]} rotation={[0, 0, Math.PI / 2]} />
+                <meshStandardMaterial color="#10B981" />
+            </mesh>
+            <Text position={[-1.7, -1, 0]} fontSize={0.3} color="white">B</Text>
+            <Text position={[1.7, -1, 0]} fontSize={0.3} color="white">C</Text>
+
+            <Text position={[0, -2.5, 0]} fontSize={0.3} color="#3B82F6">AM/AB = AN/AC = MN/BC</Text>
+            <Text position={[0, -3, 0]} fontSize={0.25} color="gray">(MN) // (BC)</Text>
+        </group>
+    );
+}
+
+// Composant Cercle Trigo
+function TrigCircle() {
+    return (
+        <group>
+            <Text position={[0, 3.5, 0]} fontSize={0.5} color="white">CERCLE TRIGONOMÉTRIQUE</Text>
+
+            {/* Cercle */}
+            <mesh rotation={[0, 0, 0]}>
+                <torusGeometry args={[2, 0.05, 16, 100]} />
+                <meshStandardMaterial color="white" />
+            </mesh>
+
+            {/* Axes */}
+            <mesh>
+                <cylinderGeometry args={[0.02, 0.02, 5]} />
+                <meshStandardMaterial color="gray" />
+            </mesh>
+            <mesh rotation={[0, 0, Math.PI / 2]}>
+                <cylinderGeometry args={[0.02, 0.02, 5]} />
+                <meshStandardMaterial color="gray" />
+            </mesh>
+
+            {/* Rayon et Angle (45°) */}
+            <mesh rotation={[0, 0, Math.PI / 4]} position={[0.7, 0.7, 0]}>
+                <cylinderGeometry args={[0.04, 0.04, 2]} />
+                <meshStandardMaterial color="#F59E0B" />
+            </mesh>
+            <mesh position={[1.414, 1.414, 0]}>
+                <sphereGeometry args={[0.1]} />
+                <meshStandardMaterial color="#F59E0B" />
+            </mesh>
+
+            {/* Projections */}
+            {/* Cosinus (Horizontal - Rouge) */}
+            <mesh position={[0.707, 0, 0]} rotation={[0, 0, Math.PI / 2]}>
+                <cylinderGeometry args={[0.06, 0.06, 1.414]} />
+                <meshStandardMaterial color="#EF4444" />
+            </mesh>
+            <Text position={[0.7, -0.3, 0]} fontSize={0.25} color="#EF4444">Cos</Text>
+
+            {/* Sinus (Vertical - Vert) */}
+            <mesh position={[1.414, 0.707, 0]}>
+                <cylinderGeometry args={[0.06, 0.06, 1.414]} />
+                <meshStandardMaterial color="#10B981" />
+            </mesh>
+            <Text position={[1.6, 0.7, 0]} fontSize={0.25} color="#10B981">Sin</Text>
+
+        </group>
+    );
+}
+
+// Composant Cycle de l'Eau
+function WaterCycleSim() {
+    return (
+        <group>
+            <Text position={[0, 3.5, 0]} fontSize={0.5} color="#3B82F6">CYCLE DE L&apos;EAU</Text>
+
+            {/* Mer */}
+            <mesh position={[2, -1.5, 0]}>
+                <boxGeometry args={[3, 1, 3]} />
+                <meshStandardMaterial color="#2563EB" transparent opacity={0.8} />
+            </mesh>
+            <Text position={[2, -2.2, 1.6]} fontSize={0.3} color="white">Océan</Text>
+
+            {/* Terre/Montagne */}
+            <mesh position={[-2, -1, 0]}>
+                <coneGeometry args={[2, 2, 4]} />
+                <meshStandardMaterial color="#059669" />
+            </mesh>
+            {/* Neige */}
+            <mesh position={[-2, -0.2, 0]}>
+                <coneGeometry args={[0.8, 0.6, 4]} />
+                <meshStandardMaterial color="white" />
+            </mesh>
+
+            {/* Soleil */}
+            <mesh position={[3, 2, 0]}>
+                <sphereGeometry args={[0.5]} />
+                <meshStandardMaterial color="#FBBF24" emissive="#FBBF24" />
+            </mesh>
+
+            {/* Nuages */}
+            <group position={[-1, 2, 0]}>
+                <mesh>
+                    <sphereGeometry args={[0.5]} />
+                    <meshStandardMaterial color="white" />
+                </mesh>
+                <mesh position={[0.5, 0.2, 0]}>
+                    <sphereGeometry args={[0.4]} />
+                    <meshStandardMaterial color="white" />
+                </mesh>
+                <mesh position={[-0.4, 0.1, 0]}>
+                    <sphereGeometry args={[0.4]} />
+                    <meshStandardMaterial color="white" />
+                </mesh>
+            </group>
+
+            {/* Flèches (Simplifiées par texte pour l'instant) */}
+            <Text position={[3, 0.5, 0]} fontSize={0.25} color="#FBBF24">Évaporation ⬆</Text>
+            <Text position={[-1, 1, 0]} fontSize={0.25} color="#3B82F6">Pluie ⬇</Text>
+            <Text position={[-0.5, -1.5, 0]} fontSize={0.25} color="#60A5FA">Ruissellement ➡</Text>
+        </group>
+    );
+}
+
+// Composant Levier (Machines Simples)
+function SimpleMachinesLever() {
+    return (
+        <group>
+            <Text position={[0, 3.5, 0]} fontSize={0.5} color="white">LE LEVIER</Text>
+
+            {/* Pivot (Fulcrum) */}
+            <mesh position={[0, -1, 0]} rotation={[0, 0, 0]}>
+                <coneGeometry args={[0.5, 1, 3]} />
+                <meshStandardMaterial color="#EF4444" />
+            </mesh>
+
+            {/* Barre (Planche) */}
+            <mesh position={[0, -0.5, 0]} rotation={[0, 0, -0.2]}>
+                <boxGeometry args={[6, 0.2, 0.5]} />
+                <meshStandardMaterial color="#D97706" />
+            </mesh>
+
+            {/* Charge Lourde (A gauche, près du pivot) */}
+            <group position={[-1.5, -0.2, 0]} rotation={[0, 0, -0.2]}>
+                <mesh position={[0, 0.5, 0]}>
+                    <boxGeometry args={[1, 1, 1]} />
+                    <meshStandardMaterial color="#1F2937" />
+                </mesh>
+                <Text position={[0, 1.2, 0]} fontSize={0.3} color="white">50 kg</Text>
+            </group>
+
+            {/* Force Légère (A droite, loin du pivot) */}
+            <group position={[2.5, -1, 0]} rotation={[0, 0, -0.2]}>
+                <mesh position={[0, 0.4, 0]}>
+                    <boxGeometry args={[0.5, 0.5, 0.5]} />
+                    <meshStandardMaterial color="#3B82F6" />
+                </mesh>
+                <Text position={[0, 0.8, 0]} fontSize={0.3} color="white">10 kg</Text>
+            </group>
+
+            <Text position={[0, -2.5, 0]} fontSize={0.3} color="white">Plus le bras est long, plus c&apos;est facile !</Text>
+        </group>
+    );
+}
+
+// Composant Volcan
+function VolcanoEruption() {
+    const particleRef = useRef();
+    useFrame(({ clock }) => {
+        if (particleRef.current) {
+            particleRef.current.position.y = -0.5 + (Math.sin(clock.getElapsedTime() * 2) + 1) * 1.5;
+            particleRef.current.material.opacity = 1 - (particleRef.current.position.y / 3);
+        }
+    });
+
+    return (
+        <group>
+            <Text position={[0, 3.5, 0]} fontSize={0.5} color="#EF4444">ÉRUPTION VOLCANIQUE</Text>
+
+            {/* Montagne Volcan */}
+            <mesh position={[0, -1.5, 0]}>
+                <coneGeometry args={[3, 3, 32, 1, true]} />
+                <meshStandardMaterial color="#4B5563" />
+            </mesh>
+
+            {/* Chambre Magmatique */}
+            <mesh position={[0, -3, 0]}>
+                <sphereGeometry args={[1]} />
+                <meshStandardMaterial color="#EF4444" emissive="#EF4444" />
+            </mesh>
+
+            {/* Cheminée */}
+            <mesh position={[0, -1, 0]}>
+                <cylinderGeometry args={[0.2, 0.5, 3]} />
+                <meshStandardMaterial color="#EF4444" emissive="#EF4444" />
+            </mesh>
+
+            {/* Projection (Lave/Cendres) - Animation simple */}
+            <mesh position={[0, 0, 0]} ref={particleRef}>
+                <sphereGeometry args={[0.3]} />
+                <meshStandardMaterial color="#EF4444" transparent />
+            </mesh>
+            <group position={[0, 1, 0]}>
+                {[...Array(10)].map((_, i) => (
+                    <mesh key={i} position={[(Math.random() - 0.5), Math.random(), (Math.random() - 0.5)]}>
+                        <sphereGeometry args={[0.1]} />
+                        <meshStandardMaterial color="gray" />
+                    </mesh>
+                ))}
+            </group>
+        </group>
+    );
+}
+
 // Composant principal de simulation 3D
 export default function Simulation3D({ type = 'atom', config = {} }) {
     const renderSimulation = () => {
@@ -2734,6 +3026,18 @@ export default function Simulation3D({ type = 'atom', config = {} }) {
                 return <SolutionsSolubility />;
             case 'lens-optics':
                 return <LensOptics />;
+            case 'combustion':
+                return <CombustionReaction />;
+            case 'thales':
+                return <ThalesTheorem />;
+            case 'trigonometry':
+                return <TrigCircle />;
+            case 'water-cycle':
+                return <WaterCycleSim />;
+            case 'lever':
+                return <SimpleMachinesLever />;
+            case 'volcano':
+                return <VolcanoEruption />;
             case 'microbes-bacteria':
                 return <MicrobesBacteria />;
             case 'chromosomes-division':
