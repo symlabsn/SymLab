@@ -271,7 +271,7 @@ Intervient après l'immunité innée si l'infection persiste.
     'geothermics': {
         title: 'Géothermie',
         description: 'L\'énergie de la Terre',
-        type: 'tectonics',
+        type: 'energy',
         config: {},
         analogy: {
             title: 'La Bouilloire Souterraine',
@@ -2867,6 +2867,245 @@ Stéréoisomères qui ne sont PAS images miroir (≥ 2 carbones asymétriques).`
             { question: 'Un carbone asymétrique est lié à...', options: ['4 H', '4 substituants identiques', '4 substituants différents', '2 atomes'], correct: 2, explanation: 'C\'est ce qui crée l\'asymétrie et la chiralité.' }
         ],
         relatedSimulations: ['organic-chemistry', 'molecular-geometry']
+    },
+    'muscle-contraction': {
+        title: 'Contraction Musculaire',
+        description: 'Du signal nerveux au mouvement',
+        type: 'neuron',
+        config: {},
+        analogy: {
+            title: 'Les Rameurs du Muscle',
+            content: `Tes muscles sont comme une équipe de rameurs ! 🚣‍♂️💪
+
+Les filaments d'Actine sont les rames.
+Les têtes de Myosine sont les mains des rameurs.
+
+Quand le cerveau dit "GO !" (Signal nerveux) :
+1. Du Calcium est libéré (C'est le coup de sifflet).
+2. Les mains (Myosine) attrapent les rames (Actine).
+3. Elles tirent ! Les rames glissent, le muscle raccourcit.
+4. Elles lâchent, rattrapent plus loin, et retirent.
+
+Ça consomme beaucoup d'ATP (l'énergie).
+C'est pour ça que tu es fatigué après le sport !`
+        },
+        theory: `Contraction Musculaire
+
+Unité : Sarcomère (entre 2 stries Z).
+
+Filaments :
+- Fins (Actine) : Ancrés aux stries Z.
+- Épais (Myosine) : Au centre, avec des têtes.
+
+Cycle de Contraction :
+1. Potentiel d'action → Libération de Ca²⁺ du réticulum sarcoplasmique.
+2. Ca²⁺ se fixe sur Troponine → Expose les sites de fixation sur Actine.
+3. Tête de Myosine se fixe à l'Actine (Pont d'union).
+4. Coup de rame (Pivotement) → Glissement des filaments.
+5. ATP se fixe → Détachement de la Myosine.
+6. Hydrolyse ATP → Ré-armement de la tête.
+
+Énergie : ATP fourni par la respiration cellulaire.`,
+        exercises: [
+            { question: 'Quel ion déclenche la contraction ?', options: ['Na⁺', 'K⁺', 'Ca²⁺', 'Cl⁻'], correct: 2, explanation: 'Le Calcium libéré du réticulum sarcoplasmique déclenche le cycle.' },
+            { question: 'L\'ATP sert à...', options: ['Déclencher la contraction', 'Détacher la Myosine', 'Produire du Calcium', 'Créer les filaments'], correct: 1, explanation: 'L\'ATP permet de casser le pont Actine-Myosine et réarmer la tête.' }
+        ],
+        relatedSimulations: ['nerve-muscle-reflex', 'cell-metabolism']
+    },
+    'hiv-immune-system': {
+        title: 'Le VIH et le Système Immunitaire',
+        description: 'Comment le SIDA affaiblit les défenses',
+        type: 'immune',
+        config: {},
+        analogy: {
+            title: 'Le VIH : L\'Espion qui Détruit l\'Armée',
+            content: `Le VIH est un virus très malin. C'est un espion qui cible les généraux de ton armée ! 🦠🎖️
+
+Les Lymphocytes T CD4 (ou T4) sont les chefs de l'armée immunitaire.
+Ils donnent les ordres aux soldats (LT8, LB).
+
+Le VIH s'infiltre dans les T4, se multiplie en secret, puis les détruit.
+
+Sans généraux, l'armée est désorganisée.
+Des infections normalement bénignes deviennent mortelles (Infections Opportunistes).
+
+C'est le SIDA : Le système de défense est à plat.
+
+⚠️ Le VIH se transmet par le sang, le sexe non protégé, ou de mère à enfant.
+Prévention : Capote, dépistage, traitements antirétroviraux.`
+        },
+        theory: `VIH et SIDA
+
+VIH = Virus de l'Immunodéficience Humaine.
+SIDA = Syndrome d'ImmunoDéficience Acquise (stade final).
+
+Cible : Lymphocytes T CD4 (Auxiliaires).
+
+Cycle du VIH :
+1. Fixation sur le récepteur CD4 + corécepteur (CCR5 ou CXCR4).
+2. Fusion et entrée.
+3. Transcription inverse : ARN viral → ADN (via Transcriptase Inverse).
+4. Intégration dans le génome de la cellule hôte (via Intégrase).
+5. Expression et multiplication.
+6. Bourgeonnement : Nouveaux virus sortent et détruisent la cellule.
+
+Évolution :
+- Primo-infection : Symptômes grippaux.
+- Phase asymptomatique : Des années.
+- SIDA : Chute des T4 < 200/mm³, infections opportunistes.
+
+Traitements : Trithérapie (antirétroviraux) bloque le cycle.`,
+        exercises: [
+            { question: 'Quelle cellule le VIH cible-t-il ?', options: ['Les globules rouges', 'Les LT CD8', 'Les LT CD4', 'Les plaquettes'], correct: 2, explanation: 'Les Lymphocytes T4 (CD4) sont les cibles principales.' },
+            { question: 'Que signifie la transcription inverse ?', options: ['ADN → ARN', 'ARN → ADN', 'Protéine → ADN', 'Rien'], correct: 1, explanation: 'Le VIH transforme son ARN en ADN pour s\'intégrer au génome.' }
+        ],
+        relatedSimulations: ['adaptive-immunity', 'immune-system']
+    },
+    'infection-defense': {
+        title: 'Infection et Défense',
+        description: 'Réponse immunitaire aux pathogènes',
+        type: 'immune',
+        config: {},
+        analogy: {
+            title: 'La Bataille contre les Envahisseurs',
+            content: `Ton corps est une forteresse assiégée par des méchants (bactéries, virus) ! 🏰⚔️
+
+PHASE 1 - Les Murailles (Barrières) :
+La peau et les muqueuses bloquent l'entrée.
+Le mucus piège les ennemis. Les larmes et la salive les brûlent (lysozyme).
+
+PHASE 2 - La Garde Rapide (Immunité Innée) :
+Si un ennemi passe, la garde (Macrophages, Neutrophiles) arrive en courant.
+Ils mangent tout ce qui est étranger (Phagocytose). Pas de questions !
+Inflammation : Rougeur, chaleur, gonflement = Les renforts arrivent.
+
+PHASE 3 - L'Armée Spécialisée (Immunité Adaptative) :
+Si l'ennemi résiste, on appelle les forces spéciales (Lymphocytes).
+Ils sont lents mais précis : ils fabriquent des armes sur mesure (Anticorps).
+Et ils gardent le souvenir de l'ennemi pour la prochaine fois (Mémoire).`
+        },
+        theory: `Réponse Immunitaire
+
+1. Barrières Naturelles :
+- Peau (épithélium)
+- Muqueuses (mucus)
+- Sécrétions (larmes, salive, sueur)
+- pH acide (estomac)
+
+2. Immunité Innée (Non spécifique) :
+- Réponse rapide (minutes/heures)
+- Cellules : Macrophages, Neutrophiles, Cellules NK
+- Mécanismes : Phagocytose, Inflammation, Fièvre
+- Reconnaissance par motifs généraux (PAMP)
+
+3. Immunité Adaptative (Spécifique) :
+- Réponse lente (jours) mais ciblée
+- Lymphocytes B : Anticorps (Immunité humorale)
+- Lymphocytes T CD4 : Coordination
+- Lymphocytes T CD8 : Destruction cellules infectées (Immunité cellulaire)
+- Mémoire immunitaire (Vaccination)`,
+        exercises: [
+            { question: 'La phagocytose fait partie de...', options: ['L\'immunité adaptative', 'L\'immunité innée', 'La barrière cutanée', 'La mémoire immunitaire'], correct: 1, explanation: 'C\'est une réponse rapide et non spécifique.' },
+            { question: 'Pourquoi a-t-on de la fièvre quand on est malade ?', options: ['Le corps abandonne', 'C\'est une défense pour ralentir les microbes', 'C\'est un hasard', 'On a trop chaud'], correct: 1, explanation: 'La fièvre rend l\'environnement hostile aux pathogènes et stimule les défenses.' }
+        ],
+        relatedSimulations: ['adaptive-immunity', 'immune-system']
+    },
+    'climate-feedback': {
+        title: 'Rétroactions Climatiques',
+        description: 'Amplification et régulation du climat',
+        type: 'energy',
+        config: {},
+        analogy: {
+            title: 'L\'Effet Boule de Neige du Climat',
+            content: `Le climat a des "boucles" qui amplifient ou freinent les changements. ❄️🔥
+
+RÉTROACTION POSITIVE (Boule de neige) :
+1. Il fait plus chaud → La glace fond.
+2. Moins de glace blanche → Moins de réflexion (Albédo baisse).
+3. Plus d'absorption de chaleur → Il fait encore plus chaud !
+C'est un cercle vicieux qui s'emballe.
+
+RÉTROACTION NÉGATIVE (Frein) :
+1. Il fait plus chaud → Plus d'évaporation → Plus de nuages.
+2. Les nuages réfléchissent le soleil → Moins de chaleur.
+C'est un mécanisme de régulation.
+
+Malheureusement, les rétroactions positives dominent dans le réchauffement actuel 😓`
+        },
+        theory: `Rétroactions Climatiques
+
+RÉTROACTIONS POSITIVES (Amplification) :
+1. Albédo Glace :
+   Réchauffement → Fonte → Moins réflexion → Plus réchauffement.
+
+2. Vapeur d'eau :
+   Réchauffement → Plus évaporation → Plus effet de serre → Plus réchauffement.
+
+3. Permafrost :
+   Réchauffement → Dégel → Libération CH₄ (méthane) → Plus effet de serre.
+
+RÉTROACTIONS NÉGATIVES (Régulation) :
+1. Nuages :
+   Réchauffement → Plus évaporation → Plus nuages → Réflexion → Moins réchauffement.
+
+2. Végétation :
+   Plus CO₂ → Plus photosynthèse → Moins CO₂ (pompe biologique).
+
+Le bilan actuel est dominé par les rétroactions positives, d'où l'accélération.`,
+        exercises: [
+            { question: 'La fonte des glaces est une rétroaction...', options: ['Positive', 'Négative', 'Neutre', 'Inverse'], correct: 0, explanation: 'Elle amplifie le réchauffement (moins de réflexion).' },
+            { question: 'Le méthane du permafrost vient de...', options: ['L\'industrie', 'La décomposition de matière organique gelée', 'Les vaches', 'L\'océan'], correct: 1, explanation: 'Le permafrost contient de la matière organique gelée depuis des millénaires.' }
+        ],
+        relatedSimulations: ['solar-energy-flux', 'water-cycle']
+    },
+    'enzymatic-kinetics': {
+        title: 'Cinétique Enzymatique',
+        description: 'Vitesse des réactions catalysées',
+        type: 'chemical',
+        config: {},
+        analogy: {
+            title: 'L\'Enzyme : L\'Ouvrier Ultra-Rapide',
+            content: `Une enzyme est un ouvrier spécialisé dans une tâche précise. 🔧⏱️
+
+Imagine une usine de découpe de gâteaux.
+Le gâteau (Substrat) arrive sur le tapis roulant.
+L'ouvrier (Enzyme) le coupe avec son couteau spécial (Site Actif).
+
+La Vitesse dépend de :
+1. Nombre d'ouvriers : Plus d'enzymes = Plus de produits.
+2. Nombre de gâteaux : Plus de substrat = Plus vite (jusqu'à saturation).
+3. Fatigue/Conditions : Température et pH affectent l'efficacité.
+
+À la Saturation (Vmax) : Tous les ouvriers sont occupés en permanence.
+Même si tu ajoutes plus de gâteaux, ils ne peuvent pas aller plus vite !`
+        },
+        theory: `Cinétique Enzymatique (Michaelis-Menten)
+
+Vitesse de réaction :
+V = (Vmax · [S]) / (Km + [S])
+
+- V : Vitesse initiale
+- Vmax : Vitesse maximale (saturation)
+- [S] : Concentration en substrat
+- Km : Constante de Michaelis (affinité)
+
+Interprétation de Km :
+Km = [S] quand V = Vmax/2.
+Km faible → Forte affinité enzyme-substrat.
+
+Facteurs :
+- Température : Optimum (37°C chez l'homme), dénaturation si trop chaud.
+- pH : Optimum variable (pepsine pH 2, trypsine pH 8).
+- Inhibiteurs : Compétitifs (se fixent au site actif), Non compétitifs (ailleurs).
+
+Représentation :
+- Courbe hyperbolique (Michaelis-Menten)
+- Double inverse de Lineweaver-Burk (droite)`,
+        exercises: [
+            { question: 'Que représente Vmax ?', options: ['La vitesse minimale', 'La vitesse quand l\'enzyme est saturée', 'La concentration de substrat', 'L\'affinité'], correct: 1, explanation: 'C\'est la vitesse maximale quand tous les sites actifs sont occupés.' },
+            { question: 'Si Km est très petit, l\'enzyme a...', options: ['Une faible affinité', 'Une forte affinité', 'Pas d\'affinité', 'Une Vmax nulle'], correct: 1, explanation: 'Petit Km signifie que l\'enzyme atteint Vmax/2 avec peu de substrat (forte affinité).' }
+        ],
+        relatedSimulations: ['enzymes-properties', 'chemical-equilibrium']
     },
 
 };
