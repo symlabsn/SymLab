@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { simulationsCurriculum, simulationMetadata } from './curriculum';
 
@@ -9,6 +9,34 @@ export default function SimulationsPage() {
     const [searchQuery, setSearchQuery] = useState('');
     const [selectedDifficulty, setSelectedDifficulty] = useState(null);
     const [selectedSubject, setSelectedSubject] = useState(null);
+
+    // Lire le niveau depuis l'URL et scroll vers la simulation ciblée
+    useEffect(() => {
+        // Lire le paramètre level de l'URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const levelParam = urlParams.get('level');
+        if (levelParam && (levelParam === 'college' || levelParam === 'lycee')) {
+            setSelectedLevel(levelParam);
+        }
+
+        // Scroll vers la simulation ciblée (hash dans l'URL)
+        const hash = window.location.hash;
+        if (hash) {
+            const id = hash.replace('#', '');
+            // Petit délai pour laisser le DOM se charger
+            setTimeout(() => {
+                const element = document.getElementById(id);
+                if (element) {
+                    element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    // Effet visuel pour indiquer la simulation
+                    element.classList.add('ring-2', 'ring-[#00F5D4]', 'ring-offset-2', 'ring-offset-black');
+                    setTimeout(() => {
+                        element.classList.remove('ring-2', 'ring-[#00F5D4]', 'ring-offset-2', 'ring-offset-black');
+                    }, 2000);
+                }
+            }, 300);
+        }
+    }, []);
 
     const currentCurriculum = simulationsCurriculum[selectedLevel];
 
@@ -173,6 +201,7 @@ export default function SimulationsPage() {
 
                         return (
                             <Link
+                                id={sim.id}
                                 key={`${sim.id}-${index}`}
                                 href={`/simulations/${sim.id}`}
                                 className="group relative p-6 rounded-2xl bg-gradient-to-br from-white/10 to-white/5 border border-white/20 backdrop-blur-xl hover:scale-105 hover:border-[#00F5D4]/50 transition-all duration-300 cursor-pointer block"

@@ -1,56 +1,70 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { useFrame } from '@react-three/fiber';
-import { Text } from '@react-three/drei';
+import { Text, Html } from '@react-three/drei';
 import * as THREE from 'three';
 
 export function MagneticField() {
-    // Groupe pour la rotation de la Terre
+    const [rotationSpeed, setRotationSpeed] = useState(1);
+    const [showFieldLines, setShowFieldLines] = useState(true);
+    const [fieldIntensity, setFieldIntensity] = useState(1);
+    const [showCompass, setShowCompass] = useState(true);
+
     const earthRef = useRef();
+    const compassRef = useRef();
 
     // Animation de rotation
-    useFrame(() => {
+    useFrame((state) => {
         if (earthRef.current) {
-            earthRef.current.rotation.y += 0.002;
+            earthRef.current.rotation.y += 0.002 * rotationSpeed;
+        }
+        if (compassRef.current) {
+            // L'aiguille de la boussole oscille légèrement
+            compassRef.current.rotation.z = Math.sin(state.clock.elapsedTime * 2) * 0.1;
         }
     });
 
-    // Lignes de champ magnétique (Courbes de Bézier 3D)
+    // Lignes de champ magnétique
     const renderFieldLines = () => {
+        if (!showFieldLines) return null;
+
         const lines = [];
         const numLines = 12;
-        const radius = 2.5;
+        const intensity = 2 + fieldIntensity * 2;
 
         for (let i = 0; i < numLines; i++) {
             const angle = (i / numLines) * Math.PI * 2;
 
-            // Points de contrôle pour la courbe (Sort du Nord, rentre au Sud)
-            // Attention: Magnétiquement, le Nord géo est un Sud magnétique !
-            // Les lignes sortent du Pôle Nord magnétique (Sud géo) et rentrent au Pôle Sud magnétique (Nord géo).
-            // Mais pour simplifier la visualisation "scolaire" : Sort du Nord, rentre au Sud.
-
-            // On fait des courbes qui partent du haut (0, 2, 0) vers le bas (0, -2, 0) en s'écartant
             const curve = new THREE.CubicBezierCurve3(
-                new THREE.Vector3(0, 1.8, 0),                 // Pôle Nord (Départ)
-                new THREE.Vector3(Math.cos(angle) * 4, 1, Math.sin(angle) * 4),   // Contrôle 1 (Large)
-                new THREE.Vector3(Math.cos(angle) * 4, -1, Math.sin(angle) * 4),  // Contrôle 2 (Large)
-                new THREE.Vector3(0, -1.8, 0)                 // Pôle Sud (Arrivée)
+                new THREE.Vector3(0, 1.8, 0),
+                new THREE.Vector3(Math.cos(angle) * intensity, 1, Math.sin(angle) * intensity),
+                new THREE.Vector3(Math.cos(angle) * intensity, -1, Math.sin(angle) * intensity),
+                new THREE.Vector3(0, -1.8, 0)
             );
 
-            const points = curve.getPoints(50);
-
-            // Convertir Vector3 en tableau [x, y, z] pour <line> (mais ici on utilise des petits segments ou tube)
-            // Pour simplifier avec react-three-fiber, on peut juste dessiner des tubes fins ou faire une Line
-
             lines.push(
-                <mesh key={`line-${i}`} rotation={[0, 0, 0]}>
-                    <tubeGeometry args={[curve, 64, 0.02, 8, false]} />
-                    <meshStandardMaterial color="#00F5D4" transparent opacity={0.4} emissive="#00F5D4" emissiveIntensity={0.2} />
+                <mesh key={`line-${i}`}>
+                    <tubeGeometry args={[curve, 64, 0.025, 8, false]} />
+                    <meshStandardMaterial
+                        color="#00F5D4"
+                        transparent
+                        opacity={0.3 + fieldIntensity * 0.2}
+                        emissive="#00F5D4"
+                        emissiveIntensity={0.2 * fieldIntensity}
+                    />
                 </mesh>
             );
 
-            // Flèches de direction sur les lignes
+            // Flèches de direction
             lines.push(
-                <mesh key={`arrow-${i}`} position={[Math.cos(angle) * 2.8, 0, Math.sin(angle) * 2.8]} rotation={[0, -angle, Math.PI / 2]}>
+                <mesh
+                    key={`arrow-${i}`}
+                    position={[
+                        Math.cos(angle) * (intensity * 0.7),
+                        0,
+                        Math.sin(angle) * (intensity * 0.7)
+                    ]}
+                    rotation={[0, -angle, Math.PI / 2]}
+                >
                     <coneGeometry args={[0.08, 0.3, 8]} />
                     <meshStandardMaterial color="#00F5D4" />
                 </mesh>
@@ -61,6 +75,74 @@ export function MagneticField() {
 
     return (
         <group>
+            {/* Panneau de Contrôle */}
+            <Html position={[-4, 1, 0]} center>
+                <div className="bg-black/90 p-4 rounded-xl text-white border border-white/20 min-w-[250px] backdrop-blur-md select-none">
+                    <h3 className="text-[#00F5D4] font-bold mb-3 text-center">🧲 Champ Magnétique</h3>
+
+                    <div className="space-y-3">
+                        <div>
+                            <label className="block text-xs mb-1">Rotation Terre : {rotationSpeed.toFixed(1)}x</label>
+                            <input
+                                type="range"
+                                min="0"
+                                max="3"
+                                step="0.5"
+                                value={rotationSpeed}
+                                onChange={(e) => setRotationSpeed(parseFloat(e.target.value))}
+                                className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-[#3B82F6]"
+                            />
+                        </div>
+
+                        <div>
+                            <label className="block text-xs mb-1">Intensité Champ : {fieldIntensity.toFixed(1)}</label>
+                            <input
+                                type="range"
+                                min="0.5"
+                                max="2"
+                                step="0.1"
+                                value={fieldIntensity}
+                                onChange={(e) => setFieldIntensity(parseFloat(e.target.value))}
+                                className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-[#00F5D4]"
+                            />
+                        </div>
+
+                        <div className="grid grid-cols-2 gap-2">
+                            <button
+                                onClick={() => setShowFieldLines(!showFieldLines)}
+                                className={`py-2 px-2 rounded-lg text-xs font-bold transition-colors ${showFieldLines ? 'bg-cyan-600' : 'bg-gray-700'
+                                    }`}
+                            >
+                                {showFieldLines ? '🔵 Lignes ON' : '⚪ Lignes OFF'}
+                            </button>
+                            <button
+                                onClick={() => setShowCompass(!showCompass)}
+                                className={`py-2 px-2 rounded-lg text-xs font-bold transition-colors ${showCompass ? 'bg-red-600' : 'bg-gray-700'
+                                    }`}
+                            >
+                                {showCompass ? '🧭 Boussole ON' : '⚪ Boussole OFF'}
+                            </button>
+                        </div>
+
+                        {/* Info */}
+                        <div className="p-2 bg-white/10 rounded-lg text-xs">
+                            <div className="flex items-center gap-2 mb-1">
+                                <span className="w-3 h-3 rounded-full bg-red-500"></span>
+                                <span>Pôle Nord Magnétique</span>
+                            </div>
+                            <div className="flex items-center gap-2">
+                                <span className="w-3 h-3 rounded-full bg-blue-500"></span>
+                                <span>Pôle Sud Magnétique</span>
+                            </div>
+                        </div>
+
+                        <div className="text-xs text-center text-gray-400">
+                            Les lignes sortent du N et rentrent au S
+                        </div>
+                    </div>
+                </div>
+            </Html>
+
             <Text position={[0, 3.5, 0]} fontSize={0.5} color="white">CHAMP MAGNÉTIQUE TERRESTRE</Text>
 
             <group ref={earthRef}>
@@ -70,7 +152,7 @@ export function MagneticField() {
                     <meshStandardMaterial color="#2563EB" metalness={0.1} roughness={0.8} />
                 </mesh>
 
-                {/* Continents (Simplifiés - quelques sphères vertes aplaties) */}
+                {/* Continents simplifiés */}
                 <mesh position={[1.5, 0.5, 0.8]}>
                     <sphereGeometry args={[0.8, 16, 16]} />
                     <meshStandardMaterial color="#10B981" />
@@ -91,46 +173,50 @@ export function MagneticField() {
                 </mesh>
             </group>
 
-            {/* Pôles Magnétiques (Barre aimantée virtuelle au centre) */}
+            {/* Pôles Magnétiques */}
             <group>
                 <mesh position={[0, 1, 0]}>
                     <cylinderGeometry args={[0.3, 0.3, 2, 8]} />
-                    <meshStandardMaterial color="#EF4444" transparent opacity={0.5} /> {/* Rouge (Nord) */}
+                    <meshStandardMaterial color="#EF4444" transparent opacity={0.5} />
                 </mesh>
-                <Text position={[0.5, 1.5, 0]} fontSize={0.4} color="#EF4444">N</Text>
+                <Text position={[0.5, 1.8, 0]} fontSize={0.4} color="#EF4444">N</Text>
 
                 <mesh position={[0, -1, 0]}>
                     <cylinderGeometry args={[0.3, 0.3, 2, 8]} />
-                    <meshStandardMaterial color="#3B82F6" transparent opacity={0.5} /> {/* Bleu (Sud) */}
+                    <meshStandardMaterial color="#3B82F6" transparent opacity={0.5} />
                 </mesh>
-                <Text position={[0.5, -1.5, 0]} fontSize={0.4} color="#3B82F6">S</Text>
+                <Text position={[0.5, -1.8, 0]} fontSize={0.4} color="#3B82F6">S</Text>
             </group>
 
             {/* Lignes de champ */}
             {renderFieldLines()}
 
-            {/* Boussole (Satellite) */}
-            <group position={[3, 2, 0]} rotation={[0, 0, Math.PI / 6]}>
-                <mesh>
-                    <cylinderGeometry args={[0.4, 0.4, 0.1, 32]} />
-                    <meshStandardMaterial color="#4B5563" />
-                </mesh>
-                {/* Aiguille */}
-                <group rotation={[0, 0, Math.PI / 2]}>
-                    <mesh position={[0, 0.3, 0.06]}>
-                        <boxGeometry args={[0.1, 0.6, 0.05]} />
-                        <meshStandardMaterial color="#EF4444" /> {/* Nord Rouge */}
+            {/* Boussole */}
+            {showCompass && (
+                <group position={[3.5, 2, 0]}>
+                    <mesh>
+                        <cylinderGeometry args={[0.5, 0.5, 0.15, 32]} />
+                        <meshStandardMaterial color="#4B5563" />
                     </mesh>
-                    <mesh position={[0, -0.3, 0.06]}>
-                        <boxGeometry args={[0.1, 0.6, 0.05]} />
-                        <meshStandardMaterial color="white" /> {/* Sud Blanc */}
-                    </mesh>
+                    {/* Aiguille */}
+                    <group ref={compassRef}>
+                        <mesh position={[0.25, 0, 0.1]}>
+                            <boxGeometry args={[0.5, 0.12, 0.06]} />
+                            <meshStandardMaterial color="#EF4444" />
+                        </mesh>
+                        <mesh position={[-0.25, 0, 0.1]}>
+                            <boxGeometry args={[0.5, 0.12, 0.06]} />
+                            <meshStandardMaterial color="white" />
+                        </mesh>
+                    </group>
+                    <Text position={[0, 0.8, 0]} fontSize={0.2} color="white">Boussole</Text>
+                    <Text position={[0.4, 0, 0.2]} fontSize={0.15} color="#EF4444">N</Text>
+                    <Text position={[-0.4, 0, 0.2]} fontSize={0.15} color="white">S</Text>
                 </group>
-                <Text position={[0, 0.6, 0]} fontSize={0.2} color="white">Boussole</Text>
-            </group>
+            )}
 
-            <Text position={[0, -3, 0]} fontSize={0.3} color="gray">
-                Le Pôle Nord de la boussole est attiré par le Sud Magnétique (proche du Nord Géo)
+            <Text position={[0, -3, 0]} fontSize={0.25} color="gray">
+                Le Pôle Nord de la boussole pointe vers le Pôle Sud Magnétique (≈ Nord Géographique)
             </Text>
         </group>
     );
