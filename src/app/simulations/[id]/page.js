@@ -979,19 +979,27 @@ export default function SimulationDetailPage({ params }) {
                                             { id: 'cell-structure', title: 'Cellule', icon: '🔬' },
                                             { id: 'blood-circulation', title: 'Cœur', icon: '❤️' },
                                             { id: 'volcano-eruption', title: 'Volcan', icon: '🌋' },
-                                            { id: 'water-cycle', title: 'Eau', icon: '💧' },
+                                            { id: 'water-cycle', title: 'Cycle Eau', icon: '💧' },
                                             { id: 'nervous-system', title: 'Neurone', icon: '🧠' },
                                             { id: 'atomic-structure', title: 'Atome', icon: '⚛️' },
                                             { id: 'photosynthesis', title: 'Photosynthèse', icon: '🌱' },
-                                            { id: 'dna-structure', title: 'ADN', icon: '🧬' },
-                                        ].filter(s => s.id !== resolvedParams.id).map((sim, i) => (
+                                            { id: 'genetics-dna', title: 'ADN', icon: '🧬' },
+                                            { id: 'digestive-system', title: 'Digestion', icon: '🍽️' },
+                                            { id: 'respiration-human', title: 'Respiration', icon: '🫁' },
+                                            { id: 'states-of-matter', title: 'États Matière', icon: '🧊' },
+                                            { id: 'simple-circuits', title: 'Circuits', icon: '💡' },
+                                            { id: 'food-chain', title: 'Chaîne Alim.', icon: '🦁' },
+                                            { id: 'chemical-reactions', title: 'Réactions', icon: '⚗️' },
+                                            { id: 'plate-tectonics', title: 'Tectonique', icon: '🌍' },
+                                            { id: 'plant-growth', title: 'Plante', icon: '🌿' },
+                                        ].filter(s => s.id !== resolvedParams.id).slice(0, 8).map((sim, i) => (
                                             <a
                                                 key={i}
                                                 href={`/simulations/${sim.id}`}
                                                 className="p-4 rounded-xl bg-white/5 border border-white/10 hover:border-cyan-500/50 hover:bg-white/10 transition-all text-center group"
                                             >
                                                 <span className="text-3xl block mb-2 group-hover:scale-110 transition-transform">{sim.icon}</span>
-                                                <span className="text-sm text-white font-medium">{sim.title}</span>
+                                                <span className="text-xs text-white font-medium">{sim.title}</span>
                                             </a>
                                         ))}
                                     </div>
