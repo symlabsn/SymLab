@@ -38,6 +38,9 @@ import { PhotoelectricEffect } from './PhotoelectricEffect';
 import { MuscleContraction } from './MuscleContraction';
 import { ClimateFeedback } from './ClimateFeedback';
 import { RLCCircuit } from './RLCCircuit';
+import { Chirality } from './Chirality';
+import { ChemicalReaction } from './ChemicalReaction';
+import { ImmuneSystem } from './ImmuneSystem';
 import { ThermalTransfer } from './ThermalTransfer';
 import { SoundPropagation } from './SoundPropagation';
 
@@ -1600,204 +1603,6 @@ function VertebrateClassification() {
 
 
 
-// Composant Système Immunitaire - INTERACTIF
-function ImmuneSystem() {
-    const [isInfected, setIsInfected] = useState(false);
-    const [virusCount, setVirusCount] = useState(5);
-    const [defeatedVirus, setDefeatedVirus] = useState(0);
-    const [defenseStrength, setDefenseStrength] = useState(50);
-    const virusRefs = useRef([]);
-    const wbcRefs = useRef([]);
-
-    // Animation du combat
-    useFrame((state, delta) => {
-        if (!isInfected) return;
-
-        // Les globules blancs se dirigent vers les virus
-        wbcRefs.current.forEach((wbc, i) => {
-            if (wbc && virusRefs.current[i % virusCount]) {
-                const virus = virusRefs.current[i % virusCount];
-                if (virus) {
-                    // Mouvement vers le virus
-                    wbc.position.x += (virus.position.x - wbc.position.x) * delta * (defenseStrength / 30);
-                    wbc.position.y += (virus.position.y - wbc.position.y) * delta * (defenseStrength / 30);
-
-                    // Vérifier collision
-                    const dist = wbc.position.distanceTo(virus.position);
-                    if (dist < 0.5) {
-                        // Virus détruit - repositionner
-                        virus.position.set(
-                            (Math.random() - 0.5) * 4,
-                            (Math.random() - 0.5) * 4,
-                            0
-                        );
-                        setDefeatedVirus(prev => prev + 1);
-                    }
-                }
-            }
-        });
-
-        // Les virus bougent lentement
-        virusRefs.current.forEach((virus) => {
-            if (virus) {
-                virus.position.x += Math.sin(state.clock.elapsedTime + virus.position.y) * delta * 0.5;
-                virus.position.y += Math.cos(state.clock.elapsedTime + virus.position.x) * delta * 0.5;
-            }
-        });
-    });
-
-    const startInfection = () => {
-        setIsInfected(true);
-        setDefeatedVirus(0);
-    };
-
-    const reset = () => {
-        setIsInfected(false);
-        setDefeatedVirus(0);
-    };
-
-    return (
-        <group>
-            {/* Panneau de Contrôle */}
-            <Html position={[0, 4, 0]} center>
-                <div className="bg-black/90 p-4 rounded-xl text-white border border-white/20 min-w-[280px] backdrop-blur-md select-none">
-                    <h3 className="text-[#10B981] font-bold mb-3 text-center">🛡️ Système Immunitaire</h3>
-
-                    <div className="space-y-3">
-                        <div>
-                            <label className="block text-xs mb-1">Nombre de Virus : {virusCount}</label>
-                            <input
-                                type="range"
-                                min="1"
-                                max="10"
-                                value={virusCount}
-                                onChange={(e) => setVirusCount(parseInt(e.target.value))}
-                                className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-[#EF4444]"
-                            />
-                        </div>
-
-                        <div>
-                            <label className="block text-xs mb-1">Force Défense : {defenseStrength}%</label>
-                            <input
-                                type="range"
-                                min="10"
-                                max="100"
-                                value={defenseStrength}
-                                onChange={(e) => setDefenseStrength(parseInt(e.target.value))}
-                                className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-[#10B981]"
-                            />
-                        </div>
-
-                        <div className="flex gap-2">
-                            <button
-                                onClick={startInfection}
-                                disabled={isInfected}
-                                className={`flex-1 py-2 rounded-lg font-bold text-sm transition-colors ${isInfected
-                                    ? 'bg-gray-600 cursor-not-allowed'
-                                    : 'bg-red-600 hover:bg-red-500'
-                                    }`}
-                            >
-                                {isInfected ? '🦠 Infection...' : '🦠 Déclencher'}
-                            </button>
-                            <button
-                                onClick={reset}
-                                className="px-3 py-2 rounded-lg bg-gray-700 hover:bg-gray-600 transition-colors"
-                            >
-                                🔄
-                            </button>
-                        </div>
-
-                        {/* Score */}
-                        <div className="p-2 bg-white/10 rounded-lg text-center">
-                            <div className="text-2xl font-bold text-[#10B981]">{defeatedVirus}</div>
-                            <div className="text-xs text-gray-400">Virus Éliminés</div>
-                        </div>
-
-                        <div className="text-xs text-center text-gray-400">
-                            {defenseStrength >= 70 ? '💪 Défense Forte' :
-                                defenseStrength >= 40 ? '⚠️ Défense Moyenne' :
-                                    '❌ Défense Faible'}
-                        </div>
-                    </div>
-                </div>
-            </Html>
-
-            <Text position={[0, 3, 0]} fontSize={0.5} color="white">DÉFENSE IMMUNITAIRE</Text>
-
-            {/* Virus (ennemis) */}
-            {Array.from({ length: virusCount }).map((_, i) => (
-                <group
-                    key={`virus-${i}`}
-                    ref={el => virusRefs.current[i] = el}
-                    position={[
-                        (Math.random() - 0.5) * 4,
-                        (Math.random() - 0.5) * 4,
-                        0
-                    ]}
-                >
-                    <mesh>
-                        <icosahedronGeometry args={[0.35, 0]} />
-                        <meshStandardMaterial
-                            color="#DC2626"
-                            emissive={isInfected ? "#DC2626" : "#000"}
-                            emissiveIntensity={isInfected ? 0.5 : 0.2}
-                        />
-                    </mesh>
-                    {/* Spikes du virus */}
-                    {Array.from({ length: 6 }).map((_, j) => {
-                        const angle = (j / 6) * Math.PI * 2;
-                        return (
-                            <mesh
-                                key={j}
-                                position={[Math.cos(angle) * 0.35, Math.sin(angle) * 0.35, 0]}
-                                rotation={[0, 0, angle]}
-                            >
-                                <coneGeometry args={[0.05, 0.2, 6]} />
-                                <meshStandardMaterial color="#991B1B" />
-                            </mesh>
-                        );
-                    })}
-                </group>
-            ))}
-
-            {/* Globules blancs (défenseurs) */}
-            {Array.from({ length: 5 }).map((_, i) => (
-                <mesh
-                    key={`wbc-${i}`}
-                    ref={el => wbcRefs.current[i] = el}
-                    position={[
-                        Math.cos((i / 5) * Math.PI * 2) * 3,
-                        Math.sin((i / 5) * Math.PI * 2) * 3,
-                        0
-                    ]}
-                >
-                    <sphereGeometry args={[0.3, 32, 32]} />
-                    <meshStandardMaterial
-                        color="#F3F4F6"
-                        emissive={isInfected ? "#10B981" : "#000"}
-                        emissiveIntensity={isInfected ? 0.5 : 0}
-                    />
-                </mesh>
-            ))}
-
-            {/* Légende */}
-            <group position={[-3.5, -2.5, 0]}>
-                <mesh position={[0, 0.3, 0]}>
-                    <sphereGeometry args={[0.15]} />
-                    <meshStandardMaterial color="#F3F4F6" />
-                </mesh>
-                <Text position={[0.5, 0.3, 0]} fontSize={0.2} color="white" anchorX="left">Globule Blanc</Text>
-
-                <mesh position={[0, -0.2, 0]}>
-                    <icosahedronGeometry args={[0.15, 0]} />
-                    <meshStandardMaterial color="#DC2626" />
-                </mesh>
-                <Text position={[0.5, -0.2, 0]} fontSize={0.2} color="#DC2626" anchorX="left">Virus</Text>
-            </group>
-        </group>
-    );
-}
-
 // Composant Conservation de l'Énergie - INTERACTIF (Pendule)
 function EnergyConservation() {
     const [initialAngle, setInitialAngle] = useState(60); // Angle initial en degrés
@@ -2241,183 +2046,7 @@ function DigestiveSystem() {
     );
 }
 
-// Composant Réaction Chimique - INTERACTIF
-function ChemicalReaction() {
-    const [reacting, setReacting] = useState(false);
-    const [reactionProgress, setReactionProgress] = useState(0);
-    const [reactionType, setReactionType] = useState('synthesis');
-    const reactantRef = useRef();
-    const productRef = useRef();
 
-    // Types de réactions
-    const reactionTypes = {
-        synthesis: { name: 'Synthèse', formula: 'A + B → AB', color: '#10B981' },
-        decomposition: { name: 'Décomposition', formula: 'AB → A + B', color: '#EF4444' },
-        combustion: { name: 'Combustion', formula: 'C + O₂ → CO₂', color: '#F59E0B' }
-    };
-
-    const currentReaction = reactionTypes[reactionType];
-
-    // Animation
-    useFrame((state, delta) => {
-        if (reacting && reactionProgress < 100) {
-            setReactionProgress(prev => Math.min(100, prev + delta * 30));
-        }
-
-        if (reactantRef.current) {
-            const scale = 1 - (reactionProgress / 200); // Disparaît progressivement
-            reactantRef.current.scale.setScalar(Math.max(0.1, scale));
-        }
-
-        if (productRef.current) {
-            const scale = reactionProgress / 100; // Apparaît progressivement
-            productRef.current.scale.setScalar(Math.max(0.1, scale));
-        }
-    });
-
-    const startReaction = () => {
-        setReacting(true);
-        setReactionProgress(0);
-    };
-
-    const resetReaction = () => {
-        setReacting(false);
-        setReactionProgress(0);
-    };
-
-    return (
-        <group>
-            {/* Panneau de Contrôle */}
-            <Html position={[0, 3.5, 0]} center>
-                <div className="bg-black/90 p-4 rounded-xl text-white border border-white/20 min-w-[280px] backdrop-blur-md select-none">
-                    <h3 className="font-bold mb-3 text-center" style={{ color: currentReaction.color }}>
-                        ⚗️ Réaction Chimique
-                    </h3>
-
-                    <div className="space-y-3">
-                        <div>
-                            <label className="block text-xs mb-1">Type de Réaction</label>
-                            <select
-                                value={reactionType}
-                                onChange={(e) => { setReactionType(e.target.value); resetReaction(); }}
-                                className="w-full bg-gray-800 border border-white/20 rounded-lg p-2 text-sm"
-                            >
-                                <option value="synthesis">Synthèse (A + B → AB)</option>
-                                <option value="decomposition">Décomposition (AB → A + B)</option>
-                                <option value="combustion">Combustion (C + O₂ → CO₂)</option>
-                            </select>
-                        </div>
-
-                        <div className="flex gap-2">
-                            <button
-                                onClick={startReaction}
-                                disabled={reacting}
-                                className={`flex-1 py-2 rounded-lg font-bold transition-colors ${reacting
-                                    ? 'bg-gray-600 cursor-not-allowed'
-                                    : 'bg-green-600 hover:bg-green-500'
-                                    }`}
-                            >
-                                {reacting ? '⏳ En cours...' : '🔥 Réagir !'}
-                            </button>
-                            <button
-                                onClick={resetReaction}
-                                className="px-4 py-2 rounded-lg bg-gray-700 hover:bg-gray-600 transition-colors"
-                            >
-                                🔄
-                            </button>
-                        </div>
-
-                        <div>
-                            <div className="flex justify-between text-xs text-gray-400 mb-1">
-                                <span>Progression</span>
-                                <span>{Math.round(reactionProgress)}%</span>
-                            </div>
-                            <div className="w-full bg-gray-700 rounded-full h-2">
-                                <div
-                                    className="h-2 rounded-full transition-all duration-200"
-                                    style={{
-                                        width: `${reactionProgress}%`,
-                                        backgroundColor: currentReaction.color
-                                    }}
-                                />
-                            </div>
-                        </div>
-
-                        <div className="text-center text-lg font-mono" style={{ color: currentReaction.color }}>
-                            {currentReaction.formula}
-                        </div>
-                    </div>
-                </div>
-            </Html>
-
-            <Text position={[0, 2.5, 0]} fontSize={0.5} color={currentReaction.color}>
-                {currentReaction.name.toUpperCase()}
-            </Text>
-
-            {/* Réactifs (gauche) */}
-            <group ref={reactantRef} position={[-2, 0, 0]}>
-                <mesh position={[0, 0, 0]}>
-                    <sphereGeometry args={[0.4, 32, 32]} />
-                    <meshStandardMaterial
-                        color="#3B82F6"
-                        emissive={reacting ? "#3B82F6" : "#000"}
-                        emissiveIntensity={reacting ? 0.5 : 0}
-                    />
-                </mesh>
-                <mesh position={[0.8, 0, 0]}>
-                    <sphereGeometry args={[0.35, 32, 32]} />
-                    <meshStandardMaterial
-                        color="#EF4444"
-                        emissive={reacting ? "#EF4444" : "#000"}
-                        emissiveIntensity={reacting ? 0.5 : 0}
-                    />
-                </mesh>
-            </group>
-            <Text position={[-2, -1, 0]} fontSize={0.25} color="white">Réactifs</Text>
-
-            {/* Zone de réaction (centre) avec effet */}
-            {reacting && (
-                <group position={[0, 0, 0]}>
-                    <pointLight color={currentReaction.color} intensity={reactionProgress / 20} distance={5} />
-                    <mesh>
-                        <sphereGeometry args={[0.5 + reactionProgress / 100]} />
-                        <meshStandardMaterial
-                            color={currentReaction.color}
-                            transparent
-                            opacity={0.3}
-                            emissive={currentReaction.color}
-                            emissiveIntensity={0.5}
-                        />
-                    </mesh>
-                </group>
-            )}
-
-            {/* Flèche de réaction */}
-            <Text position={[0, 0.5, 0]} fontSize={0.6} color="#FCD34D">→</Text>
-
-            {/* Produits (droite) */}
-            <group ref={productRef} position={[2, 0, 0]}>
-                <mesh position={[0, 0, 0]}>
-                    <sphereGeometry args={[0.3, 32, 32]} />
-                    <meshStandardMaterial color="#10B981" />
-                </mesh>
-                <mesh position={[0.4, 0.3, 0]}>
-                    <sphereGeometry args={[0.25, 32, 32]} />
-                    <meshStandardMaterial color="#8B5CF6" />
-                </mesh>
-                <mesh position={[0.3, -0.3, 0]}>
-                    <sphereGeometry args={[0.2, 32, 32]} />
-                    <meshStandardMaterial color="#EC4899" />
-                </mesh>
-            </group>
-            <Text position={[2, -1, 0]} fontSize={0.25} color="white">Produits</Text>
-
-            <Text position={[0, -2, 0]} fontSize={0.25} color="gray">
-                Loi de Lavoisier : Rien ne se perd, rien ne se crée
-            </Text>
-        </group>
-    );
-}
 
 // Composant Forces et Mouvement - INTERACTIF
 function ForcePhysics() {
@@ -4731,6 +4360,17 @@ export default function Simulation3D({ type = 'atom', config = {} }) {
                 return <ClimateFeedback />;
             case 'rlc-circuit':
                 return <RLCCircuit />;
+            case 'chirality-stereochemistry':
+                return <Chirality />;
+            case 'esterification-reaction':
+                return <ChemicalReaction type="esterification" />;
+            case 'saponification-soap':
+                return <ChemicalReaction type="saponification" />;
+            case 'hiv-immune-system':
+                return <ImmuneSystem type="hiv" />;
+            case 'infection-defense':
+            case 'immune': // Fallback generique
+                return <ImmuneSystem type="infection" />;
             default:
                 return <Atom {...config} />;
         }

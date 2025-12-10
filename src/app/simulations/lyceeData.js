@@ -2825,7 +2825,7 @@ Masse de KOH nécessaire pour saponifier 1g de corps gras.`,
     'chirality-stereochemistry': {
         title: 'Chiralité',
         description: 'Molécules miroirs et stéréoisomérie',
-        type: 'organic-chemistry',
+        type: 'chirality-stereochemistry',
         config: {},
         analogy: {
             title: 'La Chiralité : Tes Mains Chimiques',
@@ -2920,7 +2920,7 @@ Cycle de Contraction :
     'hiv-immune-system': {
         title: 'Le VIH et le Système Immunitaire',
         description: 'Comment le SIDA affaiblit les défenses',
-        type: 'immune',
+        type: 'hiv-immune-system',
         config: {},
         analogy: {
             title: 'Le VIH : L\'Espion qui Détruit l\'Armée',
