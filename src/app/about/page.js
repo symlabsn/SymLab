@@ -122,7 +122,7 @@ export default function AboutPage() {
         if (isAutoPlay) {
             const interval = setInterval(() => {
                 setActiveSlide(prev => (prev + 1) % pitchSlides.length);
-            }, 60000);
+            }, 35000);
             return () => clearInterval(interval);
         }
     }, [isAutoPlay, pitchSlides.length]);
