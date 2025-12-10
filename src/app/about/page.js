@@ -279,27 +279,27 @@ export default function AboutPage() {
                 <div ref={slideRef} className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-20 min-h-[calc(100vh-64px)] flex flex-col justify-center">
                     {/* Header du slide */}
                     <div className="text-center mb-12 animate-in fade-in slide-in-from-bottom-4 duration-700">
-                        <div className="flex items-center justify-center gap-3 mb-6">
-                            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10">
-                                <span className="text-2xl">{currentSlide.icon}</span>
-                                <span className="text-sm font-bold text-gray-400 uppercase tracking-wider">
-                                    {activeSlide + 1} / {pitchSlides.length}
-                                </span>
-                            </div>
-                            <button
-                                onClick={() => setIsAutoPlay(!isAutoPlay)}
-                                className={`px-4 py-2 rounded-full text-sm font-bold transition-all ${isAutoPlay
-                                        ? 'bg-gradient-to-r from-[#00F5D4] to-purple-500 text-black'
-                                        : 'bg-white/5 border border-white/10 text-gray-400 hover:bg-white/10'
-                                    }`}
-                            >
-                                {isAutoPlay ? '⏸ Auto' : '▶ Auto'}
-                            </button>
+                        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 mb-6">
+                            <span className="text-2xl">{currentSlide.icon}</span>
+                            <span className="text-sm font-bold text-gray-400 uppercase tracking-wider">
+                                {activeSlide + 1} / {pitchSlides.length}
+                            </span>
                         </div>
 
-                        <h2 className={`text-5xl md:text-7xl font-black mb-4 bg-gradient-to-r ${currentSlide.gradient} bg-clip-text text-transparent`}>
-                            {currentSlide.title}
-                        </h2>
+                        <div className="flex items-center justify-center gap-4 mb-4">
+                            <h2 className={`text-5xl md:text-7xl font-black bg-gradient-to-r ${currentSlide.gradient} bg-clip-text text-transparent`}>
+                                {currentSlide.title}
+                            </h2>
+                            <button
+                                onClick={() => setIsAutoPlay(!isAutoPlay)}
+                                className={`px-3 py-2 rounded-full text-sm font-bold transition-all ${isAutoPlay
+                                    ? 'bg-gradient-to-r from-[#00F5D4] to-purple-500 text-black animate-pulse'
+                                    : 'bg-white/5 border border-white/10 text-gray-400 hover:bg-white/10'
+                                    }`}
+                            >
+                                {isAutoPlay ? '⏸' : '▶'}
+                            </button>
+                        </div>
                         <p className="text-xl md:text-2xl text-gray-400">
                             {currentSlide.subtitle}
                         </p>
