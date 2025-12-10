@@ -282,4 +282,275 @@ export const simulationHotspots = {
         { x: 75, y: 50, label: 'Intensité I', info: 'Débit d\'électrons (Ampères)', color: '#3B82F6' },
         { x: 50, y: 75, label: 'U = R × I', info: 'Loi d\'Ohm', color: '#22C55E' },
     ],
+
+    // ========================================
+    // ===== LYCÉE - SECONDE =====
+    // ========================================
+
+    'meiosis-diversity': [
+        { x: 30, y: 30, label: 'Méiose I', info: 'Réduction du nombre de chromosomes', color: '#8B5CF6' },
+        { x: 70, y: 30, label: 'Méiose II', info: 'Division équationnelle', color: '#22C55E' },
+        { x: 50, y: 50, label: 'Crossing-over', info: 'Échange de gènes', color: '#EF4444' },
+        { x: 50, y: 75, label: 'Gamètes', info: 'Cellules haploïdes (n)', color: '#F59E0B' },
+    ],
+
+    'cell-division': [
+        { x: 50, y: 20, label: 'Prophase', info: 'Condensation des chromosomes', color: '#8B5CF6' },
+        { x: 25, y: 45, label: 'Métaphase', info: 'Alignement au centre', color: '#22C55E' },
+        { x: 75, y: 45, label: 'Anaphase', info: 'Séparation des chromatides', color: '#EF4444' },
+        { x: 50, y: 75, label: 'Télophase', info: 'Formation de 2 noyaux', color: '#F59E0B' },
+    ],
+
+    'rectilinear-motion': [
+        { x: 20, y: 50, label: 'Position x₀', info: 'Position initiale', color: '#3B82F6' },
+        { x: 50, y: 40, label: 'Vitesse v', info: 'dx/dt = constante', color: '#22C55E' },
+        { x: 80, y: 50, label: 'Position x', info: 'x = x₀ + v×t', color: '#EF4444' },
+        { x: 50, y: 70, label: 'Graphique', info: 'Droite x(t)', color: '#F59E0B' },
+    ],
+
+    'refraction-light': [
+        { x: 25, y: 30, label: 'Rayon incident', info: 'Lumière arrivant', color: '#FBBF24' },
+        { x: 50, y: 50, label: 'Interface', info: 'Changement de milieu', color: '#6B7280' },
+        { x: 75, y: 70, label: 'Rayon réfracté', info: 'Lumière déviée', color: '#00F5D4' },
+        { x: 50, y: 25, label: 'n₁ sin i₁ = n₂ sin i₂', info: 'Loi de Snell-Descartes', color: '#8B5CF6' },
+    ],
+
+    'periodic-table': [
+        { x: 20, y: 30, label: 'Métaux alcalins', info: 'Colonne 1, très réactifs', color: '#EF4444' },
+        { x: 50, y: 30, label: 'Métaux transition', info: 'Bloc d, nombreuses propriétés', color: '#F59E0B' },
+        { x: 80, y: 30, label: 'Halogènes', info: 'Colonne 17, très électronégatifs', color: '#22C55E' },
+        { x: 50, y: 70, label: 'Gaz nobles', info: 'Colonne 18, stables', color: '#3B82F6' },
+    ],
+
+    'mole-concept': [
+        { x: 50, y: 25, label: 'N = 6.022×10²³', info: 'Nombre d\'Avogadro', color: '#8B5CF6' },
+        { x: 30, y: 50, label: 'n = m/M', info: 'Quantité de matière', color: '#22C55E' },
+        { x: 70, y: 50, label: 'Masse molaire M', info: 'g/mol', color: '#EF4444' },
+        { x: 50, y: 75, label: '1 mole', info: 'Contient N entités', color: '#F59E0B' },
+    ],
+
+    // ========================================
+    // ===== LYCÉE - PREMIÈRE =====
+    // ========================================
+
+    'gravitation-universal': [
+        { x: 30, y: 50, label: 'Masse m₁', info: 'Premier corps', color: '#EF4444' },
+        { x: 70, y: 50, label: 'Masse m₂', info: 'Deuxième corps', color: '#3B82F6' },
+        { x: 50, y: 35, label: 'F = G×m₁×m₂/r²', info: 'Loi de Newton', color: '#22C55E' },
+        { x: 50, y: 70, label: 'G', info: 'Constante gravitationnelle', color: '#F59E0B' },
+    ],
+
+    'kinetic-potential-energy': [
+        { x: 30, y: 40, label: 'Ec = ½mv²', info: 'Énergie cinétique', color: '#EF4444' },
+        { x: 70, y: 40, label: 'Ep = mgh', info: 'Énergie potentielle', color: '#3B82F6' },
+        { x: 50, y: 65, label: 'Em = Ec + Ep', info: 'Énergie mécanique', color: '#22C55E' },
+        { x: 50, y: 25, label: 'Conservation', info: 'Em = constante', color: '#8B5CF6' },
+    ],
+
+    'thermal-transfer': [
+        { x: 20, y: 50, label: 'Conduction', info: 'Transfert dans les solides', color: '#EF4444' },
+        { x: 50, y: 50, label: 'Convection', info: 'Transfert dans les fluides', color: '#F59E0B' },
+        { x: 80, y: 50, label: 'Rayonnement', info: 'Transfert par ondes', color: '#FBBF24' },
+        { x: 50, y: 75, label: 'Q = m×c×ΔT', info: 'Chaleur échangée', color: '#22C55E' },
+    ],
+
+    'redox-reactions': [
+        { x: 25, y: 45, label: 'Oxydant', info: 'Gagne des électrons', color: '#EF4444' },
+        { x: 75, y: 45, label: 'Réducteur', info: 'Perd des électrons', color: '#3B82F6' },
+        { x: 50, y: 30, label: 'Transfert e⁻', info: 'Réaction redox', color: '#F59E0B' },
+        { x: 50, y: 70, label: 'Couples ox/red', info: 'Mn+/M et M/Mn-', color: '#22C55E' },
+    ],
+
+    'dna-replication': [
+        { x: 50, y: 20, label: 'ADN parent', info: 'Double brin original', color: '#8B5CF6' },
+        { x: 30, y: 45, label: 'Hélicase', info: 'Ouvre la double hélice', color: '#EF4444' },
+        { x: 70, y: 45, label: 'ADN polymérase', info: 'Synthétise le nouveau brin', color: '#22C55E' },
+        { x: 50, y: 75, label: '2 ADN filles', info: 'Réplication semi-conservative', color: '#00F5D4' },
+    ],
+
+    'enzymes-properties': [
+        { x: 30, y: 40, label: 'Substrat', info: 'Molécule transformée', color: '#3B82F6' },
+        { x: 50, y: 40, label: 'Site actif', info: 'Zone de liaison', color: '#EF4444' },
+        { x: 70, y: 40, label: 'Produit', info: 'Résultat de la réaction', color: '#22C55E' },
+        { x: 50, y: 70, label: 'Spécificité', info: 'Clé-serrure', color: '#F59E0B' },
+    ],
+
+    // ========================================
+    // ===== LYCÉE - TERMINALE =====
+    // ========================================
+
+    'wave-interference': [
+        { x: 25, y: 50, label: 'Source 1', info: 'Onde cohérente', color: '#3B82F6' },
+        { x: 75, y: 50, label: 'Source 2', info: 'Onde cohérente', color: '#EF4444' },
+        { x: 50, y: 30, label: 'Constructive', info: 'Amplitudes s\'ajoutent', color: '#22C55E' },
+        { x: 50, y: 70, label: 'Destructive', info: 'Amplitudes s\'annulent', color: '#F59E0B' },
+    ],
+
+    'electromagnetic-induction': [
+        { x: 30, y: 40, label: 'Champ B', info: 'Champ magnétique variable', color: '#3B82F6' },
+        { x: 70, y: 40, label: 'Bobine', info: 'Conducteur en boucle', color: '#F59E0B' },
+        { x: 50, y: 65, label: 'f.e.m induite', info: 'e = -dΦ/dt', color: '#22C55E' },
+        { x: 50, y: 25, label: 'Loi de Faraday', info: 'Lenz s\'oppose', color: '#8B5CF6' },
+    ],
+
+    'quantum-mechanics': [
+        { x: 30, y: 40, label: 'E = hν', info: 'Énergie du photon', color: '#FBBF24' },
+        { x: 70, y: 40, label: 'λ = h/p', info: 'Dualité onde-corpuscule', color: '#8B5CF6' },
+        { x: 50, y: 65, label: 'Quantification', info: 'Niveaux discrets', color: '#00F5D4' },
+        { x: 50, y: 25, label: 'h', info: 'Constante de Planck', color: '#22C55E' },
+    ],
+
+    'radioactivity': [
+        { x: 25, y: 40, label: 'Alpha α', info: 'Émission He²⁺', color: '#EF4444' },
+        { x: 50, y: 40, label: 'Bêta β', info: 'Émission e⁻ ou e⁺', color: '#3B82F6' },
+        { x: 75, y: 40, label: 'Gamma γ', info: 'Rayonnement électromagnétique', color: '#22C55E' },
+        { x: 50, y: 70, label: 'T½', info: 'Demi-vie radioactive', color: '#F59E0B' },
+    ],
+
+    'protein-synthesis': [
+        { x: 30, y: 30, label: 'Transcription', info: 'ADN → ARNm', color: '#8B5CF6' },
+        { x: 70, y: 30, label: 'Traduction', info: 'ARNm → Protéine', color: '#22C55E' },
+        { x: 30, y: 65, label: 'ARNm', info: 'Copie du gène', color: '#3B82F6' },
+        { x: 70, y: 65, label: 'Ribosome', info: 'Usine à protéines', color: '#EF4444' },
+    ],
+
+    'acid-base-titration': [
+        { x: 25, y: 45, label: 'Acide', info: 'Donneur de H⁺', color: '#EF4444' },
+        { x: 75, y: 45, label: 'Base', info: 'Accepteur de H⁺', color: '#3B82F6' },
+        { x: 50, y: 30, label: 'Équivalence', info: 'nₐ = n_b', color: '#22C55E' },
+        { x: 50, y: 70, label: 'pH', info: 'Mesure de l\'acidité', color: '#F59E0B' },
+    ],
+
+    'rlc-circuit': [
+        { x: 20, y: 50, label: 'R (Résistance)', info: 'Dissipe l\'énergie', color: '#EF4444' },
+        { x: 50, y: 50, label: 'L (Bobine)', info: 'Stocke énergie magnétique', color: '#3B82F6' },
+        { x: 80, y: 50, label: 'C (Condensateur)', info: 'Stocke énergie électrique', color: '#22C55E' },
+        { x: 50, y: 75, label: 'Résonance', info: 'f₀ = 1/(2π√LC)', color: '#F59E0B' },
+    ],
+
+    'photoelectric-effect': [
+        { x: 30, y: 40, label: 'Photon hν', info: 'Lumière incidente', color: '#FBBF24' },
+        { x: 50, y: 50, label: 'Métal', info: 'Surface émettrice', color: '#6B7280' },
+        { x: 70, y: 40, label: 'Électron e⁻', info: 'Photoélectron éjecté', color: '#3B82F6' },
+        { x: 50, y: 75, label: 'Ec = hν - W', info: 'Énergie cinétique max', color: '#22C55E' },
+    ],
+
+    'nuclear-fusion-fission': [
+        { x: 25, y: 45, label: 'Fission', info: 'Gros noyau → petits noyaux', color: '#EF4444' },
+        { x: 75, y: 45, label: 'Fusion', info: 'Petits noyaux → gros noyau', color: '#F59E0B' },
+        { x: 50, y: 30, label: 'E = Δm×c²', info: 'Énergie libérée', color: '#22C55E' },
+        { x: 50, y: 70, label: 'Défaut masse', info: 'Δm = Σm_i - m_f', color: '#8B5CF6' },
+    ],
+
+    'organic-chemistry': [
+        { x: 25, y: 40, label: 'Alcane', info: 'Liaison simple C-C', color: '#6B7280' },
+        { x: 50, y: 40, label: 'Alcène', info: 'Double liaison C=C', color: '#22C55E' },
+        { x: 75, y: 40, label: 'Alcyne', info: 'Triple liaison C≡C', color: '#EF4444' },
+        { x: 50, y: 70, label: 'Groupes fonctionnels', info: '-OH, -COOH, -NH₂...', color: '#F59E0B' },
+    ],
+
+    'molecular-geometry': [
+        { x: 50, y: 25, label: 'VSEPR', info: 'Répulsion des paires e⁻', color: '#8B5CF6' },
+        { x: 25, y: 55, label: 'Tétraédrique', info: '4 liaisons, 109.5°', color: '#22C55E' },
+        { x: 75, y: 55, label: 'Plan trigonal', info: '3 liaisons, 120°', color: '#EF4444' },
+        { x: 50, y: 80, label: 'Linéaire', info: '2 liaisons, 180°', color: '#3B82F6' },
+    ],
+
+    'pendulum-oscillations': [
+        { x: 30, y: 30, label: 'Position initiale', info: 'Amplitude maximale', color: '#EF4444' },
+        { x: 70, y: 30, label: 'Position équilibre', info: 'Vitesse maximale', color: '#22C55E' },
+        { x: 50, y: 55, label: 'T = 2π√(L/g)', info: 'Période d\'oscillation', color: '#3B82F6' },
+        { x: 50, y: 80, label: 'Mouvement harmonique', info: 'θ(t) = θ₀cos(ωt)', color: '#F59E0B' },
+    ],
+
+    'enzyme-kinetics': [
+        { x: 25, y: 40, label: 'Vmax', info: 'Vitesse maximale', color: '#EF4444' },
+        { x: 75, y: 40, label: 'Km', info: 'Constante de Michaelis', color: '#3B82F6' },
+        { x: 50, y: 65, label: 'v = Vmax[S]/(Km+[S])', info: 'Équation de Michaelis-Menten', color: '#22C55E' },
+        { x: 50, y: 25, label: 'Saturation', info: 'Tous sites occupés', color: '#F59E0B' },
+    ],
+
+    'synaptic-transmission': [
+        { x: 20, y: 50, label: 'Neurone pré', info: 'Libère neurotransmetteurs', color: '#8B5CF6' },
+        { x: 50, y: 40, label: 'Fente synaptique', info: 'Espace entre neurones', color: '#6B7280' },
+        { x: 80, y: 50, label: 'Neurone post', info: 'Reçoit le signal', color: '#22C55E' },
+        { x: 50, y: 70, label: 'Récepteurs', info: 'Protéines membranaires', color: '#F59E0B' },
+    ],
+
+    'muscle-contraction': [
+        { x: 25, y: 40, label: 'Actine', info: 'Filament fin', color: '#EF4444' },
+        { x: 75, y: 40, label: 'Myosine', info: 'Filament épais', color: '#3B82F6' },
+        { x: 50, y: 60, label: 'Sarcomère', info: 'Unité contractile', color: '#22C55E' },
+        { x: 50, y: 25, label: 'ATP + Ca²⁺', info: 'Énergie et signal', color: '#F59E0B' },
+    ],
+
+    'kepler-laws': [
+        { x: 50, y: 30, label: 'Ellipse', info: '1ère loi: orbite elliptique', color: '#8B5CF6' },
+        { x: 30, y: 55, label: 'Aires égales', info: '2ème loi: vitesse variable', color: '#22C55E' },
+        { x: 70, y: 55, label: 'T²/a³ = k', info: '3ème loi: période orbitale', color: '#EF4444' },
+        { x: 50, y: 80, label: 'Soleil au foyer', info: 'Centre d\'attraction', color: '#FBBF24' },
+    ],
+
+    'doppler-effect': [
+        { x: 20, y: 50, label: 'Source mobile', info: 'Émetteur en mouvement', color: '#EF4444' },
+        { x: 50, y: 35, label: 'Compression', info: 'Fréquence augmentée', color: '#3B82F6' },
+        { x: 50, y: 65, label: 'Dilatation', info: 'Fréquence diminuée', color: '#22C55E' },
+        { x: 80, y: 50, label: 'Observateur', info: 'Détecte le changement', color: '#F59E0B' },
+    ],
 };
+
+// Ajout des images pour le lycée
+Object.assign(simulationImages, {
+    // Seconde
+    'meiosis-diversity': '/images/dna_helix_realistic_1765402108086.png',
+    'cell-division': '/images/cell_biology_visual_1765400155186.png',
+    'rectilinear-motion': '/images/physics_atoms_visual_1765400173472.png',
+    'refraction-light': '/images/physics_atoms_visual_1765400173472.png',
+    'periodic-table': '/images/physics_atoms_visual_1765400173472.png',
+    'mole-concept': '/images/chemistry_reactions_visual_1765400190665.png',
+    'molar-concentration': '/images/chemistry_reactions_visual_1765400190665.png',
+
+    // Première
+    'gravitation-universal': '/images/solar_system_realistic_1765402725659.png',
+    'kinetic-potential-energy': '/images/physics_atoms_visual_1765400173472.png',
+    'thermal-transfer': '/images/physics_atoms_visual_1765400173472.png',
+    'redox-reactions': '/images/chemistry_reactions_visual_1765400190665.png',
+    'dna-replication': '/images/dna_helix_realistic_1765402108086.png',
+    'enzymes-properties': '/images/cell_biology_visual_1765400155186.png',
+    'cell-respiration': '/images/respiratory_system_3d_1765405364413.png',
+    'advanced-photosynthesis': '/images/photosynthesis_process_1765402743855.png',
+
+    // Terminale
+    'wave-interference': '/images/physics_atoms_visual_1765400173472.png',
+    'electromagnetic-induction': '/images/electric_circuit_3d_1765405396519.png',
+    'quantum-mechanics': '/images/physics_atoms_visual_1765400173472.png',
+    'radioactivity': '/images/physics_atoms_visual_1765400173472.png',
+    'protein-synthesis': '/images/dna_helix_realistic_1765402108086.png',
+    'acid-base-titration': '/images/chemistry_reactions_visual_1765400190665.png',
+    'rlc-circuit': '/images/electric_circuit_3d_1765405396519.png',
+    'photoelectric-effect': '/images/physics_atoms_visual_1765400173472.png',
+    'nuclear-fusion-fission': '/images/physics_atoms_visual_1765400173472.png',
+    'organic-chemistry': '/images/chemistry_reactions_visual_1765400190665.png',
+    'molecular-geometry': '/images/chemistry_reactions_visual_1765400190665.png',
+    'pendulum-oscillations': '/images/physics_atoms_visual_1765400173472.png',
+    'enzyme-kinetics': '/images/cell_biology_visual_1765400155186.png',
+    'synaptic-transmission': '/images/neuron_synapse_3d_1765402707517.png',
+    'muscle-contraction': '/images/cell_biology_visual_1765400155186.png',
+    'kepler-laws': '/images/solar_system_realistic_1765402725659.png',
+    'doppler-effect': '/images/physics_atoms_visual_1765400173472.png',
+
+    // Autres lycée
+    'diffraction-light': '/images/physics_atoms_visual_1765400173472.png',
+    'electrolysis': '/images/chemistry_reactions_visual_1765400190665.png',
+    'adaptive-immunity': '/images/cell_biology_visual_1765400155186.png',
+    'satellite-motion': '/images/solar_system_realistic_1765402725659.png',
+    'rc-circuit': '/images/electric_circuit_3d_1765405396519.png',
+    'chemical-equilibrium': '/images/chemistry_reactions_visual_1765400190665.png',
+    'evolution-selection': '/images/ecosystem_food_chain_1765405441391.png',
+    'esterification-reaction': '/images/chemistry_reactions_visual_1765400190665.png',
+    'saponification-soap': '/images/chemistry_reactions_visual_1765400190665.png',
+    'chirality-stereochemistry': '/images/chemistry_reactions_visual_1765400190665.png',
+    'hiv-immune-system': '/images/cell_biology_visual_1765400155186.png',
+    'climate-feedback': '/images/water_cycle_visual_1765402157306.png',
+    'enzymatic-kinetics': '/images/cell_biology_visual_1765400155186.png',
+});
