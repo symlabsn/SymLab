@@ -338,7 +338,7 @@ La distance, c'est comme le nombre de bornes kilométriques qu'il a passées.`
     'refraction-light': {
         title: 'Réfraction de la Lumière',
         description: 'Loi de Snell-Descartes et déviation',
-        type: 'wave',
+        type: 'lens-optics',
         config: {},
         analogy: {
             title: 'Le Bâton Cassé dans l\'Eau',
@@ -368,7 +368,7 @@ Plus le milieu est "dense" optiquement (n grand), plus la lumière est freinée 
     'light-spectrum': {
         title: 'Spectres Lumineux',
         description: 'Dispersion par un prisme et arc-en-ciel',
-        type: 'wave',
+        type: 'diffraction',
         config: {},
         analogy: {
             title: 'L\'Arc-en-Ciel du Prisme',
@@ -456,7 +456,7 @@ Colonne 18 (Gaz Nobles) : Ce sont les riches satisfaits, ils ne réagissent avec
     'mole-concept': {
         title: 'La Mole',
         description: 'Quantité de matière et nombre d\'Avogadro',
-        type: 'atom',
+        type: 'chemical',
         config: {},
         analogy: {
             title: 'La Mole, c\'est comme la "Douzaine" des chimistes',
@@ -550,7 +550,7 @@ Ensemble des réactions chimiques produisant de l'énergie.
     'solar-energy-flux': {
         title: 'Flux d\'Énergie Solaire',
         description: 'Albédo et Effet de serre',
-        type: 'water-cycle',
+        type: 'energy',
         config: {},
         analogy: {
             title: 'La Terre sous une Couverture',
@@ -801,7 +801,7 @@ Enzymes clés :
     'enzymes-properties': {
         title: 'Propriétés des Enzymes',
         description: 'Catalyse biologique et site actif',
-        type: 'biologie',
+        type: 'chemical',
         config: {},
         analogy: {
             title: 'L\'Enzyme : Clé et Serrure',
@@ -1299,7 +1299,7 @@ Les populations fluctuent autour d'un point d'équilibre. Les perturbations peuv
     'electromagnetic-induction': {
         title: 'Induction Électromagnétique',
         description: 'Expérimentez avec les champs magnétiques et le courant',
-        type: 'circuit',
+        type: 'magnetic-field',
         config: {},
         analogy: {
             title: 'L\'Induction comme la Dynamo du Vélo',
@@ -1425,7 +1425,7 @@ On choisit un indicateur dont la zone de virage contient le pH à l'équivalence
     'quantum-mechanics': {
         title: 'Mécanique Quantique',
         description: 'Visualisez les orbitales atomiques et la dualité onde-corpuscule',
-        type: 'atom', // À adapter
+        type: 'atom',
         config: {},
         analogy: {
             title: 'La Quantique comme les Cauris du Devin',
@@ -1483,7 +1483,7 @@ Nombres quantiques (n, l, m, s) définissent l'état de l'électron.`,
     'radioactivity': {
         title: 'Radioactivité et Décroissance',
         description: 'Simulez la désintégration radioactive',
-        type: 'atom', // À adapter
+        type: 'atom',
         config: {},
         analogy: {
             title: 'La Radioactivité comme la Fonte d\'un Bloc de Glace',
@@ -1557,7 +1557,7 @@ Unité : Becquerel (Bq)`,
     'special-relativity': {
         title: 'Relativité Restreinte',
         description: 'Explorez la dilatation du temps et la contraction des longueurs',
-        type: 'atom', // À adapter
+        type: 'force',
         config: {},
         analogy: {
             title: 'La Relativité comme le Temps des Vacances',
