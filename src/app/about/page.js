@@ -149,9 +149,101 @@ export default function AboutPage() {
             </nav>
 
             {/* ============================================ */}
+            {/* HERO SECTION - PROFIL */}
+            {/* ============================================ */}
+            <section className="relative pt-24 pb-16 overflow-hidden">
+                {/* Fond animé */}
+                <div className="absolute inset-0 opacity-20">
+                    <div className="absolute top-0 left-1/4 w-96 h-96 bg-purple-500 rounded-full mix-blend-multiply filter blur-3xl animate-pulse"></div>
+                    <div className="absolute top-0 right-1/4 w-96 h-96 bg-cyan-500 rounded-full mix-blend-multiply filter blur-3xl animate-pulse delay-700"></div>
+                    <div className="absolute bottom-0 left-1/2 w-96 h-96 bg-pink-500 rounded-full mix-blend-multiply filter blur-3xl animate-pulse delay-1000"></div>
+                </div>
+
+                <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div className="grid md:grid-cols-2 gap-12 items-center">
+                        {/* Photo de profil */}
+                        <div className="flex justify-center md:justify-end order-1 md:order-none">
+                            <div className="relative group">
+                                <div className="absolute -inset-1 bg-gradient-to-r from-[#00F5D4] via-purple-500 to-pink-500 rounded-full blur-lg opacity-75 group-hover:opacity-100 transition duration-1000 group-hover:duration-200 animate-pulse"></div>
+                                <div className="relative">
+                                    <div className="w-72 h-72 md:w-80 md:h-80 rounded-full overflow-hidden border-4 border-white/20 backdrop-blur-xl bg-white/10 shadow-2xl">
+                                        <Image
+                                            src="/profile.jpg"
+                                            alt="El Hadji Momar FAYE"
+                                            width={320}
+                                            height={320}
+                                            className="w-full h-full object-cover"
+                                            priority
+                                        />
+                                    </div>
+                                    {/* Badge flottant */}
+                                    <div className="absolute -bottom-4 -right-4 bg-gradient-to-r from-[#00F5D4] to-purple-500 rounded-full p-4 shadow-2xl animate-bounce">
+                                        <span className="text-4xl">⚛️</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Informations */}
+                        <div className="space-y-6 text-center md:text-left">
+                            <div>
+                                <h1 className="text-4xl md:text-6xl font-black mb-4 bg-clip-text text-transparent bg-gradient-to-r from-white via-[#00F5D4] to-purple-500">
+                                    El Hadji Momar FAYE
+                                </h1>
+                                <p className="text-xl md:text-2xl text-gray-300 mb-2">Physicien & Data Scientist</p>
+                                <p className="text-lg text-gray-400 italic">Créateur de SymLab</p>
+                            </div>
+
+                            {/* Cartes de contact */}
+                            <div className="space-y-3">
+                                <a href="mailto:fayemomar33@gmail.com" className="group flex items-center gap-4 p-4 rounded-xl bg-white/5 border border-white/10 hover:border-[#00F5D4]/50 hover:bg-white/10 transition-all duration-300">
+                                    <div className="w-12 h-12 rounded-full bg-gradient-to-r from-[#00F5D4] to-cyan-500 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">
+                                        📧
+                                    </div>
+                                    <div className="text-left">
+                                        <p className="text-sm text-gray-400">Email</p>
+                                        <p className="text-white font-semibold">fayemomar33@gmail.com</p>
+                                    </div>
+                                </a>
+
+                                <a href="tel:+221707434349" className="group flex items-center gap-4 p-4 rounded-xl bg-white/5 border border-white/10 hover:border-purple-500/50 hover:bg-white/10 transition-all duration-300">
+                                    <div className="w-12 h-12 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">
+                                        📱
+                                    </div>
+                                    <div className="text-left">
+                                        <p className="text-sm text-gray-400">Téléphone</p>
+                                        <p className="text-white font-semibold">+221 70 743 43 49</p>
+                                    </div>
+                                </a>
+                            </div>
+
+                            {/* Mission */}
+                            <div className="p-6 rounded-2xl bg-gradient-to-br from-white/5 to-white/10 border border-white/20 backdrop-blur-xl">
+                                <h3 className="text-xl font-bold mb-3 text-[#00F5D4]">🎯 Mission</h3>
+                                <p className="text-gray-300 leading-relaxed">
+                                    Démocratiser l&apos;accès aux sciences et à la technologie en Afrique à travers des outils pédagogiques innovants et interactifs.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Scroll vers le pitch */}
+                    <div className="text-center mt-16">
+                        <p className="text-gray-500 mb-4">Découvrez notre vision</p>
+                        <button
+                            onClick={() => document.getElementById('pitch-deck')?.scrollIntoView({ behavior: 'smooth' })}
+                            className="animate-bounce p-3 rounded-full bg-white/5 border border-white/10 hover:bg-white/10 transition-all"
+                        >
+                            <span className="text-2xl">↓</span>
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            {/* ============================================ */}
             {/* PITCH DECK - EXPÉRIENCE IMMERSIVE */}
             {/* ============================================ */}
-            <section className="relative min-h-screen pt-16">
+            <section id="pitch-deck" className="relative min-h-screen">
                 {/* Background dynamique */}
                 <div className={`absolute inset-0 bg-gradient-to-br ${currentSlide.gradient} opacity-10 transition-all duration-1000`} />
                 <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_transparent_0%,_black_70%)]" />
@@ -321,8 +413,8 @@ export default function AboutPage() {
                                     key={i}
                                     onClick={() => setActiveSlide(i)}
                                     className={`h-2 rounded-full transition-all duration-300 ${i === activeSlide
-                                            ? 'w-12 bg-gradient-to-r from-[#00F5D4] to-purple-500'
-                                            : 'w-2 bg-white/20 hover:bg-white/40'
+                                        ? 'w-12 bg-gradient-to-r from-[#00F5D4] to-purple-500'
+                                        : 'w-2 bg-white/20 hover:bg-white/40'
                                         }`}
                                 />
                             ))}
@@ -340,8 +432,8 @@ export default function AboutPage() {
                             <button
                                 onClick={() => setIsAutoPlay(!isAutoPlay)}
                                 className={`px-6 py-3 rounded-full font-bold transition-all ${isAutoPlay
-                                        ? 'bg-gradient-to-r from-[#00F5D4] to-purple-500 text-black'
-                                        : 'bg-white/5 border border-white/10 text-white hover:bg-white/10'
+                                    ? 'bg-gradient-to-r from-[#00F5D4] to-purple-500 text-black'
+                                    : 'bg-white/5 border border-white/10 text-white hover:bg-white/10'
                                     }`}
                             >
                                 {isAutoPlay ? '⏸ Pause' : '▶ Auto-play'}
@@ -362,8 +454,8 @@ export default function AboutPage() {
                                     key={i}
                                     onClick={() => setActiveSlide(i)}
                                     className={`flex-shrink-0 p-3 rounded-xl transition-all ${i === activeSlide
-                                            ? 'bg-white/10 border-2 border-[#00F5D4] scale-110'
-                                            : 'bg-white/5 border border-white/10 hover:bg-white/10 opacity-60 hover:opacity-100'
+                                        ? 'bg-white/10 border-2 border-[#00F5D4] scale-110'
+                                        : 'bg-white/5 border border-white/10 hover:bg-white/10 opacity-60 hover:opacity-100'
                                         }`}
                                 >
                                     <span className="text-2xl">{slide.icon}</span>
