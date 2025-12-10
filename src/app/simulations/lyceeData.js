@@ -2528,7 +2528,7 @@ Propriétés : Monochromatique, Cohérent, Directif, Puissant.`,
     'rlc-circuit': {
         title: 'Circuit RLC',
         description: 'Oscillations électriques et résonance',
-        type: 'circuit',
+        type: 'rlc-circuit',
         config: {},
         analogy: {
             title: 'Le Circuit RLC : Une Balançoire Électrique',
@@ -2571,7 +2571,7 @@ Applications : Radio, filtres, oscillateurs.`,
     'photoelectric-effect': {
         title: 'Effet Photoélectrique',
         description: 'Émission d\'électrons par la lumière',
-        type: 'atom',
+        type: 'photoelectric-effect',
         config: {},
         analogy: {
             title: 'L\'Effet Photoélectrique : Le Lanceur de Boules',
@@ -2620,7 +2620,7 @@ Preuve de la nature quantique de la lumière !`,
     'pendulum-oscillations': {
         title: 'Oscillations : Le Pendule',
         description: 'Mouvement périodique et énergie',
-        type: 'energy',
+        type: 'pendulum-oscillations',
         config: {},
         analogy: {
             title: 'Le Pendule : La Balançoire Cosmique',
@@ -2699,7 +2699,7 @@ Contrôle : Barres de contrôle absorbent les neutrons.
 
 FUSION :
 Assemblage de noyaux légers en noyau plus lourd.
-²H + ³H → ⁴He + n + Énergie (17.6 MeV)
+²H + ³H → ¹He + n + Énergie (17.6 MeV)
 
 Conditions : T > 100 millions °C, confinement (gravitationnel/magnétique).
 

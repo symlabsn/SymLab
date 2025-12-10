@@ -32,6 +32,12 @@ import { EnzymeKinetics } from './EnzymeKinetics';
 import { ProteinSynthesis } from './ProteinSynthesis';
 import { KeplerLaws } from './KeplerLaws';
 import { RCCircuit } from './RCCircuit';
+import { PendulumOscillations } from './PendulumOscillations';
+import { NuclearInteraction } from './NuclearInteraction';
+import { PhotoelectricEffect } from './PhotoelectricEffect';
+import { MuscleContraction } from './MuscleContraction';
+import { ClimateFeedback } from './ClimateFeedback';
+import { RLCCircuit } from './RLCCircuit';
 import { ThermalTransfer } from './ThermalTransfer';
 import { SoundPropagation } from './SoundPropagation';
 
@@ -4713,6 +4719,18 @@ export default function Simulation3D({ type = 'atom', config = {} }) {
                 return <KeplerLaws />;
             case 'rc-circuit':
                 return <RCCircuit />;
+            case 'pendulum-oscillations':
+                return <PendulumOscillations />;
+            case 'nuclear-fusion-fission':
+                return <NuclearInteraction />;
+            case 'photoelectric-effect':
+                return <PhotoelectricEffect />;
+            case 'muscle-contraction':
+                return <MuscleContraction />;
+            case 'climate-feedback':
+                return <ClimateFeedback />;
+            case 'rlc-circuit':
+                return <RLCCircuit />;
             default:
                 return <Atom {...config} />;
         }
