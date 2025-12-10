@@ -109,58 +109,72 @@ function WeightMass() {
 
 // Composant Théorème de Thalès
 function ThalesTheorem() {
+    const [ratio, setRatio] = useState(0.5); // k = AM/AB
+
+    // Coordonnées
+    const A = new THREE.Vector3(0, 4, 0);
+    const B = new THREE.Vector3(-1.5, 0, 0);
+    const C = new THREE.Vector3(1.5, 0, 0);
+
+    // Calcul de M et N en fonction du ratio
+    const M = new THREE.Vector3().lerpVectors(A, B, ratio);
+    const N = new THREE.Vector3().lerpVectors(A, C, ratio);
+
     return (
         <group>
+            {/* Controls */}
+            <Html position={[-3, 4, 0]} center>
+                <div className="bg-black/90 p-4 rounded-xl text-white border border-white/20 min-w-[220px] backdrop-blur-md select-none">
+                    <h3 className="text-[#00F5D4] font-bold mb-2">Contrôles Thalès</h3>
+                    <label className="block text-sm mb-1">Position MN (Ratio : {ratio.toFixed(2)})</label>
+                    <input
+                        type="range"
+                        min="0.1"
+                        max="0.9"
+                        step="0.05"
+                        value={ratio}
+                        onChange={(e) => setRatio(parseFloat(e.target.value))}
+                        className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-[#EF4444]"
+                    />
+                    <div className="mt-3 text-xs space-y-1 font-mono text-gray-300">
+                        <div className="flex justify-between"><span>AM/AB =</span> <span className="text-[#EF4444]">{ratio.toFixed(2)}</span></div>
+                        <div className="flex justify-between"><span>AN/AC =</span> <span className="text-[#EF4444]">{ratio.toFixed(2)}</span></div>
+                        <div className="flex justify-between"><span>MN/BC =</span> <span className="text-[#EF4444]">{ratio.toFixed(2)}</span></div>
+                    </div>
+                </div>
+            </Html>
+
             {/* Sommet A */}
-            <mesh position={[0, 4, 0]}>
-                <sphereGeometry args={[0.2]} />
+            <mesh position={A}>
+                <sphereGeometry args={[0.15]} />
                 <meshStandardMaterial color="white" />
             </mesh>
-            <Text position={[0, 4.3, 0]} fontSize={0.4} color="white">A</Text>
+            <Text position={[A.x, A.y + 0.3, A.z]} fontSize={0.4} color="white">A</Text>
 
-            {/* Triangle ABC (Grand) */}
-            <group>
-                {/* Côté AB */}
-                <mesh position={[-1.5, 2, 0]} rotation={[0, 0, 0.58]}>
-                    <cylinderGeometry args={[0.05, 0.05, 5, 8]} />
-                    <meshStandardMaterial color="#3B82F6" />
-                </mesh>
-                {/* Côté AC */}
-                <mesh position={[1.5, 2, 0]} rotation={[0, 0, -0.58]}>
-                    <cylinderGeometry args={[0.05, 0.05, 5, 8]} />
-                    <meshStandardMaterial color="#3B82F6" />
-                </mesh>
-                {/* Base BC */}
-                <mesh position={[0, 0, 0]} rotation={[0, 0, Math.PI / 2]}>
-                    <cylinderGeometry args={[0.05, 0.05, 4.6, 8]} />
-                    <meshStandardMaterial color="#3B82F6" />
-                </mesh>
-                <Text position={[0, -0.4, 0]} fontSize={0.4} color="#3B82F6">BC</Text>
-            </group>
+            {/* Triangle ABC (Lignes) */}
+            <Line points={[A, B]} color="#3B82F6" lineWidth={3} />
+            <Line points={[A, C]} color="#3B82F6" lineWidth={3} />
+            <Line points={[B, C]} color="#3B82F6" lineWidth={3} />
+
+            <Text position={[B.x - 0.3, B.y, B.z]} fontSize={0.4} color="white">B</Text>
+            <Text position={[C.x + 0.3, C.y, C.z]} fontSize={0.4} color="white">C</Text>
 
             {/* Ligne Parallèle MN (Thalès) */}
-            <group position={[0, 2, 0]}>
-                <mesh rotation={[0, 0, Math.PI / 2]}>
-                    <cylinderGeometry args={[0.05, 0.05, 2.3, 8]} />
-                    <meshStandardMaterial color="#EF4444" />
-                </mesh>
-                <Text position={[0, 0.3, 0]} fontSize={0.4} color="#EF4444">MN</Text>
-            </group>
+            <Line points={[M, N]} color="#EF4444" lineWidth={4} />
 
-            {/* Points */}
-            <mesh position={[-2.3, 0, 0]}><sphereGeometry args={[0.15]} /><meshStandardMaterial color="#3B82F6" /></mesh>
-            <Text position={[-2.6, 0, 0]} fontSize={0.4} color="white">B</Text>
+            <mesh position={M}>
+                <sphereGeometry args={[0.15]} />
+                <meshStandardMaterial color="#EF4444" />
+            </mesh>
+            <Text position={[M.x - 0.4, M.y, M.z]} fontSize={0.4} color="white">M</Text>
 
-            <mesh position={[2.3, 0, 0]}><sphereGeometry args={[0.15]} /><meshStandardMaterial color="#3B82F6" /></mesh>
-            <Text position={[2.6, 0, 0]} fontSize={0.4} color="white">C</Text>
+            <mesh position={N}>
+                <sphereGeometry args={[0.15]} />
+                <meshStandardMaterial color="#EF4444" />
+            </mesh>
+            <Text position={[N.x + 0.4, N.y, N.z]} fontSize={0.4} color="white">N</Text>
 
-            <mesh position={[-1.15, 2, 0]}><sphereGeometry args={[0.15]} /><meshStandardMaterial color="#EF4444" /></mesh>
-            <Text position={[-1.5, 2, 0]} fontSize={0.4} color="white">M</Text>
-
-            <mesh position={[1.15, 2, 0]}><sphereGeometry args={[0.15]} /><meshStandardMaterial color="#EF4444" /></mesh>
-            <Text position={[1.5, 2, 0]} fontSize={0.4} color="white">N</Text>
-
-            <Text position={[0, -2, 0]} fontSize={0.5} color="white">AM/AB = AN/AC = MN/BC</Text>
+            <Text position={[0, -2, 0]} fontSize={0.5} color="white">Les rapports restent égaux !</Text>
         </group>
     );
 }
@@ -2888,57 +2902,168 @@ function WaterCycleSim() {
 
 // Composant Levier (Machines Simples)
 function SimpleMachinesLever() {
+    // État
+    const [forceDist, setForceDist] = useState(2); // Distance de la force (bras de levier)
+    const loadMass = 20; // Charge fixe (kg)
+    const loadDist = 1.5; // Distance charge fixe (m)
+    const forceMass = 10; // Passe fixe (kg)
+
+    // Calculs Physiques
+    const momentLoad = loadMass * loadDist; // Couple résistant
+    const momentForce = forceMass * forceDist; // Couple moteur
+    const netMoment = momentForce - momentLoad;
+
+    // Angle de rotation (simulé)
+    // Si Couple Moteur > Couple Résistant => Rotation vers le bas (dans le sens horaire ici, ou lève la charge)
+    // Convention : Positif lève la charge (rotation négative en Z)
+    const targetRotation = netMoment > 0 ? -0.3 : (netMoment < -5 ? 0.3 : 0);
+
+    // Animation douce de la rotation
+    const groupRef = useRef();
+    useFrame(() => {
+        if (groupRef.current) {
+            groupRef.current.rotation.z = THREE.MathUtils.lerp(groupRef.current.rotation.z, targetRotation, 0.1);
+        }
+    });
+
     return (
         <group>
-            <Text position={[0, 3.5, 0]} fontSize={0.5} color="white">LE LEVIER</Text>
+            {/* Controls */}
+            <Html position={[0, 4, 0]} center>
+                <div className="bg-black/90 p-4 rounded-xl text-white border border-white/20 min-w-[250px] backdrop-blur-md select-none">
+                    <h3 className="text-[#F59E0B] font-bold mb-2">Le Levier</h3>
+                    <label className="block text-sm mb-1">Longueur du Bras de Force : {forceDist} m</label>
+                    <input
+                        type="range"
+                        min="1"
+                        max="4"
+                        step="0.1"
+                        value={forceDist}
+                        onChange={(e) => setForceDist(parseFloat(e.target.value))}
+                        className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-[#3B82F6]"
+                    />
+                    <div className="mt-3 text-xs space-y-1 font-mono text-gray-300">
+                        <div className="flex justify-between">
+                            <span>Couple Charge (Rouge):</span>
+                            <span>{momentLoad.toFixed(0)} N.m</span>
+                        </div>
+                        <div className="flex justify-between">
+                            <span>Couple Force (Bleu):</span>
+                            <span className={netMoment > 0 ? "text-green-400" : "text-red-400"}>{momentForce.toFixed(0)} N.m</span>
+                        </div>
+                        <div className="text-center mt-2 font-bold text-[#F59E0B]">
+                            {netMoment > 0 ? "ÇA SOULÈVE ! 🚀" : "TROP LOURD... 😫"}
+                        </div>
+                    </div>
+                </div>
+            </Html>
 
-            {/* Pivot (Fulcrum) */}
-            <mesh position={[0, -1, 0]} rotation={[0, 0, 0]}>
-                <coneGeometry args={[0.5, 1, 3]} />
-                <meshStandardMaterial color="#EF4444" />
-            </mesh>
-
-            {/* Barre (Planche) */}
-            <mesh position={[0, -0.5, 0]} rotation={[0, 0, -0.2]}>
-                <boxGeometry args={[6, 0.2, 0.5]} />
-                <meshStandardMaterial color="#D97706" />
-            </mesh>
-
-            {/* Charge Lourde (A gauche, près du pivot) */}
-            <group position={[-1.5, -0.2, 0]} rotation={[0, 0, -0.2]}>
-                <mesh position={[0, 0.5, 0]}>
-                    <boxGeometry args={[1, 1, 1]} />
-                    <meshStandardMaterial color="#1F2937" />
+            <group position={[0, -1, 0]}>
+                {/* Pivot (Fulcrum) */}
+                <mesh position={[0, 0, 0]}>
+                    <coneGeometry args={[0.5, 1, 3]} />
+                    <meshStandardMaterial color="#EF4444" />
                 </mesh>
-                <Text position={[0, 1.2, 0]} fontSize={0.3} color="white">50 kg</Text>
-            </group>
 
-            {/* Force Légère (A droite, loin du pivot) */}
-            <group position={[2.5, -1, 0]} rotation={[0, 0, -0.2]}>
-                <mesh position={[0, 0.4, 0]}>
-                    <boxGeometry args={[0.5, 0.5, 0.5]} />
-                    <meshStandardMaterial color="#3B82F6" />
-                </mesh>
-                <Text position={[0, 0.8, 0]} fontSize={0.3} color="white">10 kg</Text>
-            </group>
+                {/* Barre Pivotante */}
+                <group ref={groupRef} position={[0, 0.5, 0]}>
+                    <mesh rotation={[0, 0, Math.PI / 2]}>
+                        <cylinderGeometry args={[0.1, 0.1, 8, 8]} />
+                        <meshStandardMaterial color="#D97706" />
+                    </mesh>
 
-            <Text position={[0, -2.5, 0]} fontSize={0.3} color="white">Plus le bras est long, plus c&apos;est facile !</Text>
+                    {/* Charge (Gauche) */}
+                    <group position={[-loadDist, 0.6, 0]}>
+                        <mesh>
+                            <boxGeometry args={[1, 1, 1]} />
+                            <meshStandardMaterial color="#1F2937" />
+                        </mesh>
+                        <Text position={[0, 1, 0]} fontSize={0.4} color="white">{loadMass} kg</Text>
+                        <arrowHelper args={[new THREE.Vector3(0, -1, 0), new THREE.Vector3(0, -0.5, 0), 1.5, 0xEF4444, 0.3, 0.2]} />
+                    </group>
+
+                    {/* Force (Droite - Mobile) */}
+                    <group position={[forceDist, 0.4, 0]}>
+                        <mesh>
+                            <boxGeometry args={[0.6, 0.6, 0.6]} />
+                            <meshStandardMaterial color="#3B82F6" />
+                        </mesh>
+                        <Text position={[0, 0.8, 0]} fontSize={0.4} color="#3B82F6">{forceMass} kg</Text>
+                        <arrowHelper args={[new THREE.Vector3(0, -1, 0), new THREE.Vector3(0, -0.3, 0), 1, 0x3B82F6, 0.3, 0.2]} />
+                    </group>
+                </group>
+            </group>
         </group>
     );
 }
 
 // Composant Volcan
 function VolcanoEruption() {
-    const particleRef = useRef();
-    useFrame(({ clock }) => {
-        if (particleRef.current) {
-            particleRef.current.position.y = -0.5 + (Math.sin(clock.getElapsedTime() * 2) + 1) * 1.5;
-            particleRef.current.material.opacity = 1 - (particleRef.current.position.y / 3);
+    const [erupting, setErupting] = useState(false);
+    const [pressure, setPressure] = useState(5);
+    const particles = useMemo(() => new Array(50).fill(0).map(() => ({
+        pos: new THREE.Vector3((Math.random() - 0.5) * 0.5, 0, (Math.random() - 0.5) * 0.5),
+        vel: new THREE.Vector3((Math.random() - 0.5) * 2, Math.random() * 5 + 5, (Math.random() - 0.5) * 2),
+        scale: Math.random() * 0.3 + 0.1
+    })), []);
+
+    const particlesRef = useRef([]);
+
+    useFrame((state, delta) => {
+        if (erupting) {
+            particlesRef.current.forEach((mesh, i) => {
+                const data = particles[i];
+                if (mesh) {
+                    // Reset if below ground
+                    if (mesh.position.y < -1) {
+                        mesh.position.copy(data.pos);
+                        mesh.position.y = -1; // Vent height
+                    }
+
+                    // Physics
+                    mesh.position.x += data.vel.x * delta * (pressure / 5);
+                    mesh.position.y += data.vel.y * delta * (pressure / 5);
+                    mesh.position.z += data.vel.z * delta * (pressure / 5);
+
+                    // Gravity
+                    data.vel.y -= 9.8 * delta;
+
+                    // Reset randomly to create continuous flow
+                    if (mesh.position.y < -3 || mesh.position.y > 10) {
+                        mesh.position.set(0, -1, 0);
+                        data.vel.set((Math.random() - 0.5), Math.random() * pressure, (Math.random() - 0.5));
+                    }
+                }
+            });
         }
     });
 
     return (
         <group>
+            {/* Controls */}
+            <Html position={[3, 3, 0]} center>
+                <div className="bg-black/90 p-4 rounded-xl text-white border border-white/20 min-w-[200px] backdrop-blur-md select-none">
+                    <h3 className="text-[#EF4444] font-bold mb-2">Contrôle Volcan</h3>
+
+                    <button
+                        onClick={() => setErupting(!erupting)}
+                        className={`w-full py-2 rounded-lg font-bold mb-3 transition-colors ${erupting ? 'bg-red-600 animate-pulse' : 'bg-green-600 hover:bg-green-500'}`}
+                    >
+                        {erupting ? "ARRÊTER !" : "DÉCLENCHER"}
+                    </button>
+
+                    <label className="block text-sm mb-1">Pression Magmatique</label>
+                    <input
+                        type="range"
+                        min="1"
+                        max="10"
+                        value={pressure}
+                        onChange={(e) => setPressure(parseInt(e.target.value))}
+                        className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-[#EF4444]"
+                    />
+                </div>
+            </Html>
+
             <Text position={[0, 3.5, 0]} fontSize={0.5} color="#EF4444">ÉRUPTION VOLCANIQUE</Text>
 
             {/* Montagne Volcan */}
@@ -2950,28 +3075,22 @@ function VolcanoEruption() {
             {/* Chambre Magmatique */}
             <mesh position={[0, -3, 0]}>
                 <sphereGeometry args={[1]} />
-                <meshStandardMaterial color="#EF4444" emissive="#EF4444" />
+                <meshStandardMaterial color="#EF4444" emissive="#EF4444" emissiveIntensity={erupting ? 2 : 0.5} />
             </mesh>
 
             {/* Cheminée */}
             <mesh position={[0, -1, 0]}>
                 <cylinderGeometry args={[0.2, 0.5, 3]} />
-                <meshStandardMaterial color="#EF4444" emissive="#EF4444" />
+                <meshStandardMaterial color="#EF4444" emissive="#EF4444" emissiveIntensity={erupting ? 1 : 0.2} />
             </mesh>
 
-            {/* Projection (Lave/Cendres) - Animation simple */}
-            <mesh position={[0, 0, 0]} ref={particleRef}>
-                <sphereGeometry args={[0.3]} />
-                <meshStandardMaterial color="#EF4444" transparent />
-            </mesh>
-            <group position={[0, 1, 0]}>
-                {[...Array(10)].map((_, i) => (
-                    <mesh key={i} position={[(Math.random() - 0.5), Math.random(), (Math.random() - 0.5)]}>
-                        <sphereGeometry args={[0.1]} />
-                        <meshStandardMaterial color="gray" />
-                    </mesh>
-                ))}
-            </group>
+            {/* Particules */}
+            {particles.map((data, i) => (
+                <mesh key={i} ref={el => particlesRef.current[i] = el} position={[0, -100, 0]}>
+                    <sphereGeometry args={[data.scale]} />
+                    <meshStandardMaterial color={i % 2 === 0 ? "#EF4444" : "#F59E0B"} emissive="#F59E0B" transparent opacity={0.8} />
+                </mesh>
+            ))}
         </group>
     );
 }
