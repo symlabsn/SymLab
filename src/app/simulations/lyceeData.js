@@ -266,7 +266,7 @@ Intervient après l'immunité innée si l'infection persiste.
             { question: 'Qui produit les anticorps ?', options: ['Les Lymphocytes T', 'Les Lymphocytes B (Plasmocytes)', 'Les Macrophages', 'Les globules rouges'], correct: 1, explanation: 'Les LB se transforment en usines à anticorps.' },
             { question: 'Quel est le rôle des LT CD8 ?', options: ['Manger les bactéries', 'Produire des anticorps', 'Tuer les cellules infectées', 'Transporter l\'oxygène'], correct: 2, explanation: 'Ce sont des tueurs (cytotoxiques) qui détruisent les cellules corrompues.' }
         ],
-        relatedSimulations: ['immune-system', 'cell-metabolism']
+        relatedSimulations: ['immune-system', 'cell-respiration']
     },
     'geothermics': {
         title: 'Géothermie',
@@ -456,7 +456,7 @@ Colonne 18 (Gaz Nobles) : Ce sont les riches satisfaits, ils ne réagissent avec
     'mole-concept': {
         title: 'La Mole',
         description: 'Quantité de matière et nombre d\'Avogadro',
-        type: 'chemical',
+        type: 'mole-concept',
         config: {},
         analogy: {
             title: 'La Mole, c\'est comme la "Douzaine" des chimistes',
@@ -514,10 +514,10 @@ Ci · Vi = Cf · Vf
         ],
         relatedSimulations: ['solutions-solubility', 'acid-base-titration']
     },
-    'cell-metabolism': {
-        title: 'Métabolisme Cellulaire',
-        description: 'Respiration et Fermentation',
-        type: 'cell',
+    'cell-respiration': {
+        title: 'Respiration Cellulaire',
+        description: 'La mitochondrie et la production d\'ATP',
+        type: 'cell-respiration',
         config: {},
         analogy: {
             title: 'Le Moteur Hybride de la Cellule',
@@ -2910,7 +2910,7 @@ Cycle de Contraction :
             { question: 'Quel ion déclenche la contraction ?', options: ['Na⁺', 'K⁺', 'Ca²⁺', 'Cl⁻'], correct: 2, explanation: 'Le Calcium libéré du réticulum sarcoplasmique déclenche le cycle.' },
             { question: 'L\'ATP sert à...', options: ['Déclencher la contraction', 'Détacher la Myosine', 'Produire du Calcium', 'Créer les filaments'], correct: 1, explanation: 'L\'ATP permet de casser le pont Actine-Myosine et réarmer la tête.' }
         ],
-        relatedSimulations: ['nerve-muscle-reflex', 'cell-metabolism']
+        relatedSimulations: ['nerve-muscle-reflex', 'cell-respiration']
     },
     'hiv-immune-system': {
         title: 'Le VIH et le Système Immunitaire',

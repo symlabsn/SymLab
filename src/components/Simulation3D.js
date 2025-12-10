@@ -11,6 +11,12 @@ import { MagneticField } from './MagneticField';
 import { Diffraction } from './Diffraction';
 import { Titration } from './Titration';
 import { PeriodicTable } from './PeriodicTable';
+import { RectilinearMotion } from './RectilinearMotion';
+import { RefractionLight } from './RefractionLight';
+import { LightSpectrum } from './LightSpectrum';
+import { UniversalGravitation } from './UniversalGravitation';
+import { MoleConcept } from './MoleConcept';
+import { CellRespiration } from './CellRespiration';
 
 // ... (existing helper components)
 
@@ -4695,6 +4701,18 @@ export default function Simulation3D({ type = 'atom', config = {} }) {
                 return <Titration />;
             case 'periodic-table':
                 return <PeriodicTable />;
+            case 'rectilinear-motion':
+                return <RectilinearMotion />;
+            case 'refraction-light':
+                return <RefractionLight />;
+            case 'light-spectrum':
+                return <LightSpectrum />;
+            case 'universal-gravitation':
+                return <UniversalGravitation />;
+            case 'mole-concept':
+                return <MoleConcept />;
+            case 'cell-respiration':
+                return <CellRespiration />;
             default:
                 return <Atom {...config} />;
         }
