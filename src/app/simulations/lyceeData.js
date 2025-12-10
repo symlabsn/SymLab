@@ -2519,6 +2519,305 @@ Propriétés : Monochromatique, Cohérent, Directif, Puissant.`,
         relatedSimulations: ['light-spectrum', 'quantum-mechanics']
     },
 
+    // ========== NOUVELLES SIMULATIONS ==========
+    'rlc-circuit': {
+        title: 'Circuit RLC',
+        description: 'Oscillations électriques et résonance',
+        type: 'circuit',
+        config: {},
+        analogy: {
+            title: 'Le Circuit RLC : Une Balançoire Électrique',
+            content: `Un circuit RLC, c'est comme une balançoire ! 🎢⚡
+
+Le Condensateur (C) : C'est le gamin sur la balançoire. Quand il est en haut, il a de l'énergie (tendu, prêt à descendre).
+La Bobine (L) : C'est le mouvement de la balançoire. Plus elle va vite, plus elle a d'élan.
+La Résistance (R) : C'est le frottement de l'air qui ralentit petit à petit.
+
+Quand tu lâches le condensateur chargé, l'énergie passe du condensateur à la bobine et vice-versa.
+C'est une oscillation électrique !
+
+À la fréquence de résonance, l'amplitude est maximale. C'est comme pousser la balançoire au bon rythme !`
+        },
+        theory: `Circuit RLC Série
+
+Composants :
+- R : Résistance (Ohms)
+- L : Inductance (Henry)  
+- C : Capacité (Farad)
+
+Équation différentielle :
+L·(d²q/dt²) + R·(dq/dt) + q/C = u(t)
+
+Régime libre :
+- Pseudo-période : T = 2π√(LC)
+- Amortissement : dépend de R
+
+Régime forcé sinusoïdal :
+- Impédance : Z = √(R² + (Lω - 1/Cω)²)
+- Résonance quand Lω = 1/Cω → ω₀ = 1/√(LC)
+
+Applications : Radio, filtres, oscillateurs.`,
+        exercises: [
+            { question: 'Quelle est la condition de résonance ?', options: ['R = 0', 'Lω = 1/Cω', 'C = L', 'L = R'], correct: 1, explanation: 'À la résonance, les réactances de L et C se compensent.' },
+            { question: 'Que se passe-t-il à la résonance ?', options: ['Le courant est nul', 'Le courant est maximal', 'La tension est nulle', 'Le circuit explose'], correct: 1, explanation: 'L\'impédance est minimale (= R), donc le courant est maximal.' }
+        ],
+        relatedSimulations: ['rc-circuit', 'electromagnetic-induction']
+    },
+    'photoelectric-effect': {
+        title: 'Effet Photoélectrique',
+        description: 'Émission d\'électrons par la lumière',
+        type: 'atom',
+        config: {},
+        analogy: {
+            title: 'L\'Effet Photoélectrique : Le Lanceur de Boules',
+            content: `L'effet photoélectrique, c'est comme un jeu de foire où tu lances des balles pour faire tomber des boîtes ! 🎯
+
+Les photons (grains de lumière) sont les balles.
+Les électrons dans le métal sont les boîtes sur l'étagère.
+
+Règle 1 : Si la balle est trop molle (lumière rouge), même si tu en lances 1000, aucune boîte ne tombe !
+Règle 2 : Si la balle est assez dure (lumière bleue/UV), UNE SEULE balle peut faire tomber une boîte.
+
+C'est la couleur (fréquence) qui compte, pas le nombre de balles !
+
+Einstein a expliqué ça : la lumière est faite de paquets d'énergie (photons).
+E = h·f (plus la fréquence est haute, plus le photon transporte d'énergie).`
+        },
+        theory: `Effet Photoélectrique (Einstein, 1905)
+
+L'éjection d'électrons d'un métal par absorption de lumière.
+
+Équation d'Einstein :
+E_photon = W + Ec
+h·f = W + ½·m·v²
+
+- h : Constante de Planck (6.63 × 10⁻³⁴ J·s)
+- f : Fréquence de la lumière
+- W : Travail d'extraction (seuil)
+- Ec : Énergie cinétique de l'électron éjecté
+
+Seuil photoélectrique :
+f₀ = W / h (Fréquence minimale)
+λ₀ = c / f₀ (Longueur d'onde seuil)
+
+Propriétés :
+- Effet instantané
+- Pas d'effet si f < f₀ (même avec lumière intense)
+- Ec augmente avec f (pas avec l'intensité)
+
+Preuve de la nature quantique de la lumière !`,
+        exercises: [
+            { question: 'Pourquoi la lumière rouge ne produit pas d\'effet photo sur le zinc ?', options: ['Elle est trop faible', 'Sa fréquence est trop basse', 'Elle est trop chaude', 'Le zinc est réfléchissant'], correct: 1, explanation: 'L\'énergie du photon rouge (h·f) est inférieure au travail d\'extraction W.' },
+            { question: 'Qu\'a prouvé l\'effet photoélectrique ?', options: ['La lumière est une onde', 'La lumière est faite de photons', 'Les électrons sont lourds', 'Le métal conduit'], correct: 1, explanation: 'C\'est LA preuve de la nature corpusculaire (quantique) de la lumière.' }
+        ],
+        relatedSimulations: ['quantum-mechanics', 'radioactivity']
+    },
+    'pendulum-oscillations': {
+        title: 'Oscillations : Le Pendule',
+        description: 'Mouvement périodique et énergie',
+        type: 'energy',
+        config: {},
+        analogy: {
+            title: 'Le Pendule : La Balançoire Cosmique',
+            content: `Un pendule, c'est la physique la plus pure ! Comme la balançoire de ton enfance. 🎢
+
+Quand tu es en haut (écarté), tu as plein d'Énergie Potentielle (stockée).
+Quand tu passes en bas, toute cette énergie s'est transformée en Vitesse (Énergie Cinétique).
+Tu remontes de l'autre côté... et ça recommence !
+
+🔥 Le truc magique : La période (temps d'un aller-retour) ne dépend PAS de l'amplitude !
+Que tu fasses de petits ou grands mouvements, le temps est le même (si l'angle reste petit).
+C'est l'isochronisme du pendule, découvert par Galilée !
+
+T = 2π√(L/g) → Seule la longueur L et la gravité g comptent.`
+        },
+        theory: `Oscillations du Pendule Simple
+
+Équation du mouvement :
+θ'' + (g/L)·sin(θ) = 0
+
+Approximation petits angles (sin θ ≈ θ) :
+θ'' + ω₀²·θ = 0
+
+Solution : θ(t) = θ_max · cos(ω₀t + φ)
+
+Période :
+T = 2π√(L/g)
+- L : Longueur du fil
+- g : Accélération de la gravité
+
+Énergie mécanique :
+Em = Ec + Ep = constante (sans frottement)
+- Ec = ½·m·v²
+- Ep = m·g·h
+
+Facteur de qualité Q :
+Mesure l'amortissement. Plus Q est grand, plus le pendule oscille longtemps.`,
+        exercises: [
+            { question: 'Pour doubler la période d\'un pendule, il faut...', options: ['Doubler la masse', 'Quadrupler la longueur', 'Doubler la longueur', 'Réduire g'], correct: 1, explanation: 'T = 2π√(L/g). Pour T×2, il faut L×4 (car racine carrée).' },
+            { question: 'La période du pendule dépend-elle de la masse ?', options: ['Oui', 'Non', 'Seulement pour les grands angles', 'Seulement sur la Lune'], correct: 1, explanation: 'Non ! T = 2π√(L/g), la masse n\'apparaît pas.' }
+        ],
+        relatedSimulations: ['energy-conservation', 'rlc-circuit']
+    },
+    'nuclear-fusion-fission': {
+        title: 'Fusion et Fission Nucléaires',
+        description: 'Énergie du noyau atomique',
+        type: 'atom',
+        config: {},
+        analogy: {
+            title: 'Fission et Fusion : Casser ou Coller les LEGO',
+            content: `L'énergie nucléaire, c'est comme jouer aux LEGO atomiques ! 🧱💥
+
+FISSION (Casser) :
+Tu prends un gros LEGO (Uranium-235).
+Tu le casses en deux morceaux moyens.
+BOUM ! De l'énergie est libérée !
+C'est ce qu'on fait dans les centrales nucléaires.
+
+FUSION (Coller) :
+Tu prends deux tout petits LEGO (Hydrogène).
+Tu les colles très fort pour faire un LEGO moyen (Hélium).
+BOOM ! Encore PLUS d'énergie libérée !
+C'est ce que fait le Soleil depuis 5 milliards d'années ! ☀️
+
+Pourquoi ça libère de l'énergie ?
+Parce que les noyaux moyens sont les plus stables. Quand on y arrive (depuis gros ou petits), on libère du "trop-plein".`
+        },
+        theory: `Réactions Nucléaires
+
+FISSION :
+Cassure d'un noyau lourd en noyaux plus légers.
+²³⁵U + n → ¹⁴¹Ba + ⁹²Kr + 3n + Énergie (200 MeV)
+
+Réaction en chaîne : Les neutrons produits cassent d'autres noyaux.
+Contrôle : Barres de contrôle absorbent les neutrons.
+
+FUSION :
+Assemblage de noyaux légers en noyau plus lourd.
+²H + ³H → ⁴He + n + Énergie (17.6 MeV)
+
+Conditions : T > 100 millions °C, confinement (gravitationnel/magnétique).
+
+Défaut de masse (Δm) :
+E = Δm · c²
+La masse des produits est inférieure à celle des réactifs.
+Cette masse "perdue" est convertie en énergie colossale !
+
+Énergie de liaison par nucléon :
+Maximum pour le Fer-56 → Noyau le plus stable.`,
+        exercises: [
+            { question: 'Quelle réaction alimente le Soleil ?', options: ['Fission de l\'Uranium', 'Fusion de l\'Hydrogène', 'Combustion', 'Désintégration'], correct: 1, explanation: 'Le Soleil fusionne l\'hydrogène en hélium depuis des milliards d\'années.' },
+            { question: 'Pourquoi la fusion libère-t-elle de l\'énergie ?', options: ['Parce que c\'est chaud', 'À cause du défaut de masse', 'Parce que ça explose', 'Par magie'], correct: 1, explanation: 'La masse des produits est inférieure, la différence devient énergie (E = Δm·c²).' }
+        ],
+        relatedSimulations: ['radioactivity', 'atomic-structure']
+    },
+    'esterification-reaction': {
+        title: 'Estérification',
+        description: 'Synthèse d\'esters et équilibre',
+        type: 'chemical',
+        config: {},
+        analogy: {
+            title: 'L\'Estérification : Le Mariage Chimique',
+            content: `L'estérification, c'est le mariage entre un Acide et un Alcool ! 💒
+
+L'Acide Carboxylique (COOH) est le marié.
+L'Alcool (OH) est la mariée.
+Ensemble, ils forment un ESTER (le bébé) et de l'Eau (le cadeau aux invités).
+
+Acide + Alcool ⇌ Ester + Eau
+
+Pourquoi les parfums sentent bon ? Ce sont des esters !
+- Acétate d'éthyle → Odeur de poire 🍐
+- Butanoate d'éthyle → Odeur d'ananas 🍍
+
+⚠️ C'est un mariage réversible ! L'ester peut "divorcer" et redonner l'acide et l'alcool (Hydrolyse).
+C'est un équilibre chimique.`
+        },
+        theory: `Estérification et Hydrolyse
+
+Réaction d'estérification :
+Acide Carboxylique + Alcool ⇌ Ester + Eau
+R-COOH + R'-OH ⇌ R-COO-R' + H₂O
+
+Caractéristiques :
+- Lente (catalyse acide : H⁺)
+- Athermique (faible effet de T)
+- Réversible (équilibre)
+- Limité (rendement < 100%)
+
+Rendement à l'équilibre :
+Dépend des proportions initiales et du type d'alcool.
+- Alcool primaire : ~67%
+- Alcool secondaire : ~60%
+- Alcool tertiaire : ~5%
+
+Pour déplacer l'équilibre :
+- Excès d'un réactif
+- Éliminer l'eau (Dean-Stark)
+- Utiliser un catalyseur (H₂SO₄)
+
+Nomenclature :
+Acide butanoïque + Éthanol → Butanoate d'éthyle`,
+        exercises: [
+            { question: 'Quel produit caractéristique de l\'estérification ?', options: ['CO₂', 'H₂O', 'H₂', 'O₂'], correct: 1, explanation: 'L\'estérification produit de l\'eau (condensation).' },
+            { question: 'L\'estérification est-elle totale ?', options: ['Oui', 'Non, elle est limitée', 'Seulement si on chauffe', 'Seulement sans catalyseur'], correct: 1, explanation: 'C\'est une réaction équilibrée, limitée par l\'hydrolyse inverse.' }
+        ],
+        relatedSimulations: ['chemical-equilibrium', 'organic-chemistry']
+    },
+    'saponification-soap': {
+        title: 'Saponification',
+        description: 'Fabrication du savon',
+        type: 'chemical',
+        config: {},
+        analogy: {
+            title: 'La Saponification : Fabriquer du Savon',
+            content: `La saponification, c'est la cuisine du savon ! 🧼
+
+Ingrédients :
+- Corps gras (Huile d'olive, beurre de karité, huile de palme...)
+- Base forte (Soude NaOH ou Potasse KOH)
+
+Recette :
+On chauffe l'huile + la soude ensemble. La magie opère !
+Le gras est "cassé" en deux parties :
+1. Le Savon (qui nettoie)
+2. La Glycérine (qui adoucit la peau)
+
+Au Sénégal, le savon noir traditionnel utilise de la cendre (contient de la potasse) !
+
+⚠️ Contrairement à l'estérification, la saponification est TOTALE et IRRÉVERSIBLE.
+Une fois que c'est fait, c'est fait !`
+        },
+        theory: `Saponification
+
+Réaction :
+Ester (Triglycéride) + Base → Savon + Glycérol
+(RCOO)₃-C₃H₅ + 3 NaOH → 3 RCOO⁻Na⁺ + C₃H₅(OH)₃
+
+Caractéristiques :
+- Totale (irréversible)
+- Exothermique
+- Lente (catalysée par T)
+
+Savon = Carboxylate de sodium (ou potassium)
+- Partie hydrophile : COO⁻ (aime l'eau)
+- Partie hydrophobe : R (chaîne carbonée, aime le gras)
+
+Action nettoyante :
+1. La queue hydrophobe s'accroche à la saleté grasse.
+2. La tête hydrophile reste dans l'eau.
+3. Le savon forme des micelles qui emprisonnent le gras.
+4. L'eau emporte les micelles !
+
+Indice de saponification :
+Masse de KOH nécessaire pour saponifier 1g de corps gras.`,
+        exercises: [
+            { question: 'La saponification est-elle réversible ?', options: ['Oui', 'Non, elle est totale', 'Seulement à haute température', 'Seulement avec un catalyseur'], correct: 1, explanation: 'C\'est une réaction totale et irréversible.' },
+            { question: 'Quel produit accompagne le savon ?', options: ['Eau', 'Glycérine (Glycérol)', 'CO₂', 'Éthanol'], correct: 1, explanation: 'La saponification produit du savon ET du glycérol.' }
+        ],
+        relatedSimulations: ['esterification-reaction', 'organic-chemistry']
+    },
+
 };
 
 export default lyceeSimulationsData;
