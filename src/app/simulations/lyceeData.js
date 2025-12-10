@@ -2491,7 +2491,7 @@ Pour les roches plus anciennes, on utilise Uranium-Plomb ou Potassium-Argon.`,
     'laser-principle': {
         title: 'Le Laser',
         description: 'Émission stimulée de lumière',
-        type: 'wave',
+        type: 'diffraction',
         config: {},
         analogy: {
             title: 'L\'Armée de Clones',
@@ -2816,6 +2816,57 @@ Masse de KOH nécessaire pour saponifier 1g de corps gras.`,
             { question: 'Quel produit accompagne le savon ?', options: ['Eau', 'Glycérine (Glycérol)', 'CO₂', 'Éthanol'], correct: 1, explanation: 'La saponification produit du savon ET du glycérol.' }
         ],
         relatedSimulations: ['esterification-reaction', 'organic-chemistry']
+    },
+    'chirality-stereochemistry': {
+        title: 'Chiralité',
+        description: 'Molécules miroirs et stéréoisomérie',
+        type: 'chemical',
+        config: {},
+        analogy: {
+            title: 'La Chiralité : Tes Mains Chimiques',
+            content: `Regarde tes deux mains. 🤚🖐️
+
+Elles sont identiques (mêmes doigts, même taille), MAIS tu ne peux pas superposer ta main gauche sur ta droite !
+C'est le même problème pour certaines molécules.
+
+Une molécule chirale est comme une main : elle a une image miroir qui n'est pas superposable.
+- Ta main droite = Énantiomère R (ou D)
+- Ta main gauche = Énantiomère S (ou L)
+
+Ça a l'air anodin, mais en médecine c'est VITAL !
+- Un énantiomère peut guérir.
+- L'autre peut être un poison !
+
+C'est pour ça que la Thalidomide (médicament) a causé des malformations dans les années 60. On donnait le mauvais "main" !`
+        },
+        theory: `Chiralité et Stéréoisomérie
+
+Carbone Asymétrique :
+Un atome de carbone lié à 4 substituants DIFFÉRENTS.
+C'est le centre de chiralité (*C).
+
+Énantiomères :
+Deux molécules images l'une de l'autre dans un miroir, non superposables.
+Même formule, mêmes propriétés physiques, MAIS :
+- Activité optique opposée (dévient la lumière polarisée)
+- Activité biologique différente
+
+Configuration R/S (Règle CIP) :
+1. Classer les 4 groupes par priorité (Z le plus lourd).
+2. Placer le groupe le moins prioritaire à l'arrière.
+3. Si on tourne dans le sens horaire : R (Rectus).
+4. Sens antihoraire : S (Sinister).
+
+Mélange Racémique :
+50% R + 50% S → Pas d'activité optique (les rotations s'annulent).
+
+Diastéréoisomères :
+Stéréoisomères qui ne sont PAS images miroir (≥ 2 carbones asymétriques).`,
+        exercises: [
+            { question: 'Deux énantiomères ont...', options: ['Des formules différentes', 'La même activité biologique', 'Des propriétés physiques différentes', 'Une activité optique opposée'], correct: 3, explanation: 'Ils dévient la lumière polarisée dans des sens opposés.' },
+            { question: 'Un carbone asymétrique est lié à...', options: ['4 H', '4 substituants identiques', '4 substituants différents', '2 atomes'], correct: 2, explanation: 'C\'est ce qui crée l\'asymétrie et la chiralité.' }
+        ],
+        relatedSimulations: ['organic-chemistry', 'molecular-geometry']
     },
 
 };
