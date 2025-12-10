@@ -2,13 +2,19 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { simulationsCurriculum, simulationMetadata } from './curriculum';
+import { useGamification, LevelBar, QuickStats } from '@/components/Gamification';
 
 export default function SimulationsPage() {
     const [selectedLevel, setSelectedLevel] = useState('college');
     const [searchQuery, setSearchQuery] = useState('');
     const [selectedDifficulty, setSelectedDifficulty] = useState(null);
     const [selectedSubject, setSelectedSubject] = useState(null);
+
+    // Système de gamification
+    const { userData, getCurrentLevel } = useGamification();
+    const currentLevel = getCurrentLevel();
 
     // Lire le niveau depuis l'URL et scroll vers la simulation ciblée
     useEffect(() => {
@@ -80,14 +86,23 @@ export default function SimulationsPage() {
                     <div className="absolute bottom-0 left-1/2 w-96 h-96 bg-pink-500 rounded-full mix-blend-multiply filter blur-3xl animate-pulse delay-1000"></div>
                 </div>
 
-                {/* Navbar */}
+                {/* Navbar avec Gamification */}
                 <nav className="relative z-10 border-b border-white/10 backdrop-blur-xl bg-black/50">
                     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-                        <Link href="/" className="text-gray-400 hover:text-white transition-colors flex items-center gap-2">
-                            <span className="text-2xl">←</span>
+                        <Link href="/" className="text-gray-400 hover:text-white transition-colors flex items-center gap-2 group">
+                            <span className="text-2xl group-hover:-translate-x-1 transition-transform">←</span>
                             <span>Accueil</span>
                         </Link>
                         <div className="flex items-center gap-4">
+                            {/* Niveau et XP */}
+                            <div className="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/10 border border-white/20">
+                                <span className="text-lg">⭐</span>
+                                <span className="font-bold text-sm" style={{ color: currentLevel?.color }}>
+                                    Niv. {currentLevel?.level || 1}
+                                </span>
+                                <span className="text-xs text-gray-400">|</span>
+                                <span className="text-xs text-yellow-400">{userData?.xp || 0} XP</span>
+                            </div>
                             <span className="text-[#00F5D4] font-bold">Simulations 3D</span>
                         </div>
                     </div>
