@@ -562,7 +562,6 @@ export const simulationsCurriculum = {
                     physique: {
                         title: "Physique-Chimie",
                         simulations: [
-                            { id: "energy-conservation-skater", title: "Conservation de l'Énergie", description: "Cinétique et Potentielle", difficulty: "moyen", duration: "30 min", icon: "skateboard", tags: ["énergie", "mécanique"] },
                             { id: "electromagnetic-induction", title: "Induction Électromagnétique", description: "Champs et courants", difficulty: "difficile", duration: "40 min", icon: "🧲", tags: ["aimant", "bobine"] },
                             { id: "molar-concentration", title: "Concentration Molaire", description: "Solutions et dilutions", difficulty: "moyen", duration: "30 min", icon: "🧪", tags: ["chimie", "dosage"] },
                             { id: "quality-control-titration", title: "Contrôle Qualité", description: "Titrage colorimétrique", difficulty: "moyen", duration: "40 min", icon: "🌡️", tags: ["dosage", "chimie"] },

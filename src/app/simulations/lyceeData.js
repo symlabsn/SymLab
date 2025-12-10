@@ -428,7 +428,7 @@ La force diminue très vite quand la distance augmente (loi en carré inverse).`
     'periodic-table': {
         title: 'Tableau Périodique',
         description: 'Classification des éléments chimiques',
-        type: 'atom',
+        type: 'periodic-table',
         config: {},
         analogy: {
             title: 'L\'Hôtel des Éléments',

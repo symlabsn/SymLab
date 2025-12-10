@@ -10,6 +10,7 @@ import { ElectrochemicalCell } from './ElectrochemicalCell';
 import { MagneticField } from './MagneticField';
 import { Diffraction } from './Diffraction';
 import { Titration } from './Titration';
+import { PeriodicTable } from './PeriodicTable';
 
 // ... (existing helper components)
 
@@ -2808,8 +2809,8 @@ function MixtureSeparation() {
                                 <button
                                     onClick={() => { setTechnique('decantation'); reset(); }}
                                     className={`py-2 px-3 rounded-lg text-xs font-bold transition-colors ${technique === 'decantation'
-                                            ? 'bg-blue-600'
-                                            : 'bg-gray-700 hover:bg-gray-600'
+                                        ? 'bg-blue-600'
+                                        : 'bg-gray-700 hover:bg-gray-600'
                                         }`}
                                 >
                                     🏺 Décantation
@@ -2817,8 +2818,8 @@ function MixtureSeparation() {
                                 <button
                                     onClick={() => { setTechnique('filtration'); reset(); }}
                                     className={`py-2 px-3 rounded-lg text-xs font-bold transition-colors ${technique === 'filtration'
-                                            ? 'bg-green-600'
-                                            : 'bg-gray-700 hover:bg-gray-600'
+                                        ? 'bg-green-600'
+                                        : 'bg-gray-700 hover:bg-gray-600'
                                         }`}
                                 >
                                     📄 Filtration
@@ -2843,8 +2844,8 @@ function MixtureSeparation() {
                             <div className="w-full bg-gray-700 rounded-full h-2">
                                 <div
                                     className={`h-2 rounded-full transition-all ${technique === 'decantation'
-                                            ? 'bg-gradient-to-r from-yellow-600 to-blue-400'
-                                            : 'bg-gradient-to-r from-gray-400 to-blue-400'
+                                        ? 'bg-gradient-to-r from-yellow-600 to-blue-400'
+                                        : 'bg-gradient-to-r from-gray-400 to-blue-400'
                                         }`}
                                     style={{ width: `${progress}%` }}
                                 />
@@ -4692,6 +4693,8 @@ export default function Simulation3D({ type = 'atom', config = {} }) {
                 return <Diffraction />;
             case 'titration':
                 return <Titration />;
+            case 'periodic-table':
+                return <PeriodicTable />;
             default:
                 return <Atom {...config} />;
         }
