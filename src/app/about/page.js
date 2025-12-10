@@ -24,7 +24,7 @@ export default function AboutPage() {
                 { value: '85%', label: 'Écoles sans laboratoire', color: '#F59E0B' },
                 { value: '16%', label: 'Élèves en séries scientifiques', color: '#F97316' },
             ],
-            description: 'Au Sénégal, des millions d\'élèves n\'ont jamais vu un atome, touché un microscope ou compris pourquoi les sciences sont fascinantes.',
+            description: 'Au Sénégal, des millions d\'élèves n\'ont jamais pratiqué les sciences, touché un microscope ou compris pourquoi les sciences mathématiques sont fascinantes.',
             quote: '"Comment peut-on aimer ce qu\'on ne peut pas voir ?"',
         },
         {
@@ -69,7 +69,7 @@ export default function AboutPage() {
                 { metric: '4', label: 'Niveaux (6e-Term)', icon: '🎓' },
                 { metric: '∞', label: 'Potentiel', icon: '✨' },
             ],
-            description: 'Une plateforme complète, de la 6ème à la Terminale.',
+            description: 'Une plateforme complète, de la 6ème à l\'université.',
         },
         {
             id: 'business',
@@ -95,8 +95,8 @@ export default function AboutPage() {
             bgImage: '🔮',
             goals: [
                 { target: '10M', label: 'Élèves formés', year: '2030' },
-                { target: '+45%', label: 'Réussite scientifique', year: 'Objectif' },
-                { target: '20+', label: 'Pays africains', year: 'Expansion' },
+                { target: '+70%', label: 'Réussite scientifique', year: 'Objectif' },
+                { target: '10+', label: 'Pays africains', year: 'Expansion' },
             ],
             description: 'Transformer l\'Afrique en hub scientifique mondial.',
         },
@@ -122,7 +122,7 @@ export default function AboutPage() {
         if (isAutoPlay) {
             const interval = setInterval(() => {
                 setActiveSlide(prev => (prev + 1) % pitchSlides.length);
-            }, 5000);
+            }, 60000);
             return () => clearInterval(interval);
         }
     }, [isAutoPlay, pitchSlides.length]);
