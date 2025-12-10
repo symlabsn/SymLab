@@ -23,6 +23,12 @@ import { BloodSugarRegulation } from './BloodSugarRegulation';
 import { ElectromagneticInduction } from './ElectromagneticInduction';
 import { MolarConcentration } from './MolarConcentration';
 import { MolecularGeometry } from './MolecularGeometry';
+import { EnergySkatePark } from './EnergySkatePark';
+import { DNAReplication } from './DNAReplication';
+import { NerveImpulse } from './NerveImpulse';
+import { RadioactiveDecay } from './RadioactiveDecay';
+import { ThermalTransfer } from './ThermalTransfer';
+import { SoundPropagation } from './SoundPropagation';
 
 // ... (existing helper components)
 
@@ -4227,58 +4233,7 @@ function IonsFormation() {
 }
 
 // Composant Propagation Son
-function SoundPropagation() {
-    return (
-        <group>
-            <Text position={[0, 3.5, 0]} fontSize={0.5} color="#818CF8">PROPAGATION DU SON</Text>
 
-            {/* Haut Parleur */}
-            <group position={[-3, 0, 0]} rotation={[0, 0, -Math.PI / 2]}>
-                <mesh>
-                    <coneGeometry args={[0.8, 1, 32, 1, true]} />
-                    <meshStandardMaterial color="#1F2937" side={2} />
-                </mesh>
-                <mesh position={[0, -0.5, 0]}>
-                    <boxGeometry args={[1, 0.5, 1]} />
-                    <meshStandardMaterial color="#111827" />
-                </mesh>
-            </group>
-            <Text position={[-3, -1.5, 0]} fontSize={0.3} color="white">Source</Text>
-
-            {/* Particules d'air compression/dilatation */}
-            <group position={[0, 0, 0]}>
-                {[...Array(5)].map((_, i) => (
-                    <group key={i} position={[(i - 2) * 1.2, 0, 0]}>
-                        {/* Zone Compression */}
-                        <mesh position={[-0.2, 0, 0]}>
-                            <sphereGeometry args={[0.08]} />
-                            <meshStandardMaterial color="#818CF8" />
-                        </mesh>
-                        <mesh position={[0, 0.2, 0]}>
-                            <sphereGeometry args={[0.08]} />
-                            <meshStandardMaterial color="#818CF8" />
-                        </mesh>
-                        <mesh position={[0, -0.2, 0]}>
-                            <sphereGeometry args={[0.08]} />
-                            <meshStandardMaterial color="#818CF8" />
-                        </mesh>
-
-                        {/* Zone Dilatation (Vide relatif) */}
-                    </group>
-                ))}
-            </group>
-
-            <mesh position={[-1.5, 0, 0]} rotation={[0, 0, -Math.PI / 2]}>
-                <cylinderGeometry args={[0.02, 0.02, 4]} />
-                <meshStandardMaterial color="white" transparent opacity={0.2} />
-            </mesh>
-
-            <Text position={[3, 0, 0]} fontSize={0.3} color="white">Oreille</Text>
-            <Text position={[0, -2.5, 0]} fontSize={0.3} color="#818CF8">Vibration des Molécules (Onde Mécanique)</Text>
-            <Text position={[0, -3, 0]} fontSize={0.2} color="gray">Pas de son dans le vide !</Text>
-        </group>
-    );
-}
 
 
 // Composant Les Combustions
@@ -4731,6 +4686,18 @@ export default function Simulation3D({ type = 'atom', config = {} }) {
                 return <MolarConcentration />;
             case 'molecular-geometry':
                 return <MolecularGeometry />;
+            case 'energy-skate-park':
+                return <EnergySkatePark />;
+            case 'dna-replication':
+                return <DNAReplication />;
+            case 'nerve-impulse':
+                return <NerveImpulse />;
+            case 'radioactive-decay':
+                return <RadioactiveDecay />;
+            case 'thermal-transfer':
+                return <ThermalTransfer />;
+            case 'sound-propagation':
+                return <SoundPropagation />;
             default:
                 return <Atom {...config} />;
         }

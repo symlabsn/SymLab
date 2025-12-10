@@ -619,7 +619,7 @@ Pour répondre au besoin accru en O₂ et nutriments des muscles :
     'kinetic-potential-energy': {
         title: 'Énergie Cinétique et Potentielle',
         description: 'Montagnes russes et conservation',
-        type: 'energy',
+        type: 'energy-skate-park',
         config: {},
         analogy: {
             title: 'Le Skater dans la Rampe',
@@ -652,7 +652,7 @@ Quand l'objet tombe, Epp diminue et Ec augmente.`,
     'thermal-transfer': {
         title: 'Transferts Thermiques',
         description: 'Conduction, Convection, Rayonnement',
-        type: 'energy',
+        type: 'thermal-transfer',
         config: {},
         analogy: {
             title: 'La Marmite de Soupe',
@@ -767,7 +767,7 @@ Chimie des composés du Carbone (C).
     'dna-replication': {
         title: 'Réplication de l\'ADN',
         description: 'Duplication semi-conservative',
-        type: 'dna',
+        type: 'dna-replication',
         config: {},
         analogy: {
             title: 'La Photocopieuse à Zipper',
@@ -971,7 +971,7 @@ Critère d'évolution :
     'nerve-muscle-reflex': {
         title: 'Réflexe Myotatique',
         description: 'Circuit neuronale et contraction',
-        type: 'neuron',
+        type: 'nerve-impulse',
         config: {},
         analogy: {
             title: 'Le Coup de Marteau sur le Genou',
@@ -2459,7 +2459,7 @@ A est proportionnel à C. La courbe d'étalonnage est une droite passant par l'o
     'radioactive-dating': {
         title: 'Datation Carbone 14',
         description: 'Comment savoir l\'âge d\'une momie ?',
-        type: 'atom',
+        type: 'radioactive-decay',
         config: {},
         analogy: {
             title: 'Le Sablier Géant',
