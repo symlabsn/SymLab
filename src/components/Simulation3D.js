@@ -27,6 +27,11 @@ import { EnergySkatePark } from './EnergySkatePark';
 import { DNAReplication } from './DNAReplication';
 import { NerveImpulse } from './NerveImpulse';
 import { RadioactiveDecay } from './RadioactiveDecay';
+import { OrganicChemistry } from './OrganicChemistry';
+import { EnzymeKinetics } from './EnzymeKinetics';
+import { ProteinSynthesis } from './ProteinSynthesis';
+import { KeplerLaws } from './KeplerLaws';
+import { RCCircuit } from './RCCircuit';
 import { ThermalTransfer } from './ThermalTransfer';
 import { SoundPropagation } from './SoundPropagation';
 
@@ -4698,6 +4703,16 @@ export default function Simulation3D({ type = 'atom', config = {} }) {
                 return <ThermalTransfer />;
             case 'sound-propagation':
                 return <SoundPropagation />;
+            case 'organic-chemistry':
+                return <OrganicChemistry />;
+            case 'enzyme-kinetics':
+                return <EnzymeKinetics />;
+            case 'protein-synthesis':
+                return <ProteinSynthesis />;
+            case 'kepler-laws':
+                return <KeplerLaws />;
+            case 'rc-circuit':
+                return <RCCircuit />;
             default:
                 return <Atom {...config} />;
         }

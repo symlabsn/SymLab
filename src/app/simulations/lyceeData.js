@@ -726,8 +726,8 @@ Ox1 + Red2 → Red1 + Ox2
     },
     'organic-chemistry': {
         title: 'Chimie Organique',
-        description: 'Alcanes, Alcools et nomenclature',
-        type: 'chemical',
+        description: 'Molécules 3D et isomérie',
+        type: 'organic-chemistry',
         config: {},
         analogy: {
             title: 'Le LEGO du Vivant',
@@ -897,8 +897,8 @@ Mouvement Circulaire Uniforme :
     },
     'rc-circuit': {
         title: 'Circuit RC',
-        description: 'Charge et décharge d\'un condensateur',
-        type: 'circuit',
+        description: 'Charge et décharge condensateur',
+        type: 'rc-circuit',
         config: {},
         analogy: {
             title: 'Le Condensateur est un Seau d\'Eau',
@@ -1358,8 +1358,8 @@ Applications
     },
 
     'acid-base-titration': {
-        title: 'Dosage Acide-Base',
-        description: 'Réalisez un titrage virtuel avec indicateurs colorés',
+        title: 'Dosage Acido-Basique',
+        description: 'Titrage pH-métrique, indicateurs colorés',
         type: 'titration',
         config: {},
         analogy: {
@@ -1623,8 +1623,8 @@ Une petite quantité de masse peut libérer une énergie colossale (nucléaire).
 
     'protein-synthesis': {
         title: 'Synthèse des Protéines',
-        description: 'Visualisez la transcription et la traduction de l\'ADN',
-        type: 'dna',
+        description: 'Transcription et Traduction',
+        type: 'protein-synthesis',
         config: {},
         analogy: {
             title: 'La Synthèse des Protéines comme une Chaîne de Production de Thiéboudienne',
@@ -2002,8 +2002,8 @@ Applications : Radars routiers, Échographie, Astrophysique (Expansion de l'univ
     },
     'kepler-laws': {
         title: 'Lois de Kepler',
-        description: 'Mouvements des planètes et satellites',
-        type: 'force',
+        description: 'Mouvement des planètes',
+        type: 'kepler-laws',
         config: {},
         analogy: {
             title: 'Le Lanceur de Pierre',
@@ -2390,19 +2390,24 @@ Phototropisme :
     },
     'enzyme-kinetics': {
         title: 'Cinétique Enzymatique',
-        description: 'Vitesse des réactions biologiques',
-        type: 'chemical',
+        description: 'Vitesse des réactions catalysées',
+        type: 'enzyme-kinetics',
         config: {},
         analogy: {
-            title: 'Les Ouvriers de l\'Usine',
-            content: `Les enzymes sont comme des ouvriers qui assemblent des pièces (substrats).
+            title: 'L\'Enzyme : L\'Ouvrier Ultra-Rapide',
+            content: `Une enzyme est un ouvrier spécialisé dans une tâche précise. 🔧⏱️
 
-Au début, si tu ajoutes des pièces, ça va plus vite.
-Mais si tu as 10 ouvriers et que tu amènes 1000 pièces d'un coup... ça n'ira pas plus vite !
-Tous les ouvriers sont occupés (Saturation).
-Vitesse Maximale (Vmax) atteinte.
+Imagine une usine de découpe de gâteaux.
+Le gâteau (Substrat) arrive sur le tapis roulant.
+L'ouvrier (Enzyme) le coupe avec son couteau spécial (Site Actif).
 
-Il faut embaucher plus d'ouvriers (plus d'enzymes) pour accélérer.`
+La Vitesse dépend de :
+1. Nombre d'ouvriers : Plus d'enzymes = Plus de produits.
+2. Nombre de gâteaux : Plus de substrat = Plus vite (jusqu'à saturation).
+3. Fatigue/Conditions : Température et pH affectent l'efficacité.
+
+À la Saturation (Vmax) : Tous les ouvriers sont occupés en permanence.
+Même si tu ajoutes plus de gâteaux, ils ne peuvent pas aller plus vite !`
         },
         theory: `Cinétique Enzymatique
 
@@ -2662,7 +2667,7 @@ Mesure l'amortissement. Plus Q est grand, plus le pendule oscille longtemps.`,
     'nuclear-fusion-fission': {
         title: 'Fusion et Fission Nucléaires',
         description: 'Énergie du noyau atomique',
-        type: 'atom',
+        type: 'nuclear-fusion-fission',
         config: {},
         analogy: {
             title: 'Fission et Fusion : Casser ou Coller les LEGO',
@@ -2714,7 +2719,7 @@ Maximum pour le Fer-56 → Noyau le plus stable.`,
     'esterification-reaction': {
         title: 'Estérification',
         description: 'Synthèse d\'esters et équilibre',
-        type: 'chemical',
+        type: 'esterification-reaction',
         config: {},
         analogy: {
             title: 'L\'Estérification : Le Mariage Chimique',
@@ -2767,7 +2772,7 @@ Acide butanoïque + Éthanol → Butanoate d'éthyle`,
     'saponification-soap': {
         title: 'Saponification',
         description: 'Fabrication du savon',
-        type: 'chemical',
+        type: 'saponification-soap',
         config: {},
         analogy: {
             title: 'La Saponification : Fabriquer du Savon',
@@ -2820,7 +2825,7 @@ Masse de KOH nécessaire pour saponifier 1g de corps gras.`,
     'chirality-stereochemistry': {
         title: 'Chiralité',
         description: 'Molécules miroirs et stéréoisomérie',
-        type: 'atom',
+        type: 'organic-chemistry',
         config: {},
         analogy: {
             title: 'La Chiralité : Tes Mains Chimiques',
@@ -2871,7 +2876,7 @@ Stéréoisomères qui ne sont PAS images miroir (≥ 2 carbones asymétriques).`
     'muscle-contraction': {
         title: 'Contraction Musculaire',
         description: 'Du signal nerveux au mouvement',
-        type: 'neuron',
+        type: 'muscle-contraction',
         config: {},
         analogy: {
             title: 'Les Rameurs du Muscle',
@@ -2964,7 +2969,7 @@ Traitements : Trithérapie (antirétroviraux) bloque le cycle.`,
     'infection-defense': {
         title: 'Infection et Défense',
         description: 'Réponse immunitaire aux pathogènes',
-        type: 'immune',
+        type: 'infection-defense',
         config: {},
         analogy: {
             title: 'La Bataille contre les Envahisseurs',
@@ -3013,7 +3018,7 @@ Et ils gardent le souvenir de l'ennemi pour la prochaine fois (Mémoire).`
     'climate-feedback': {
         title: 'Rétroactions Climatiques',
         description: 'Amplification et régulation du climat',
-        type: 'energy',
+        type: 'climate-feedback',
         config: {},
         analogy: {
             title: 'L\'Effet Boule de Neige du Climat',
@@ -3061,7 +3066,7 @@ Le bilan actuel est dominé par les rétroactions positives, d'où l'accélérat
     'enzymatic-kinetics': {
         title: 'Cinétique Enzymatique',
         description: 'Vitesse des réactions catalysées',
-        type: 'chemical',
+        type: 'enzyme-kinetics',
         config: {},
         analogy: {
             title: 'L\'Enzyme : L\'Ouvrier Ultra-Rapide',
