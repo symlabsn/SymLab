@@ -14,9 +14,15 @@ import { PeriodicTable } from './PeriodicTable';
 import { RectilinearMotion } from './RectilinearMotion';
 import { RefractionLight } from './RefractionLight';
 import { LightSpectrum } from './LightSpectrum';
+import { CellRespiration } from './CellRespiration';
 import { UniversalGravitation } from './UniversalGravitation';
 import { MoleConcept } from './MoleConcept';
-import { CellRespiration } from './CellRespiration';
+import { CellMitosis } from './CellMitosis';
+import { EcosystemDynamics } from './EcosystemDynamics';
+import { BloodSugarRegulation } from './BloodSugarRegulation';
+import { ElectromagneticInduction } from './ElectromagneticInduction';
+import { MolarConcentration } from './MolarConcentration';
+import { MolecularGeometry } from './MolecularGeometry';
 
 // ... (existing helper components)
 
@@ -4713,6 +4719,18 @@ export default function Simulation3D({ type = 'atom', config = {} }) {
                 return <MoleConcept />;
             case 'cell-respiration':
                 return <CellRespiration />;
+            case 'cell-mitosis':
+                return <CellMitosis />;
+            case 'ecosystem-dynamics':
+                return <EcosystemDynamics />;
+            case 'blood-sugar-regulation':
+                return <BloodSugarRegulation />;
+            case 'electromagnetic-induction':
+                return <ElectromagneticInduction />;
+            case 'molar-concentration':
+                return <MolarConcentration />;
+            case 'molecular-geometry':
+                return <MolecularGeometry />;
             default:
                 return <Atom {...config} />;
         }

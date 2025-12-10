@@ -37,8 +37,8 @@ Composantes du champ :
     },
     'homeostasis-regulation': {
         title: 'Régulation de la Glycémie',
-        description: 'Insuline et Glucagon',
-        type: 'human-body',
+        description: 'Insuline, Glucagon et Homéostasie',
+        type: 'blood-sugar-regulation',
         config: {},
         analogy: {
             title: 'Le Thermostat du Sucre',
@@ -488,7 +488,7 @@ Volume Molaire (Vm) : Pour les gaz.
     'molar-concentration': {
         title: 'Concentration Molaire',
         description: 'Solutions et dilution',
-        type: 'chemical',
+        type: 'molar-concentration',
         config: {},
         analogy: {
             title: 'Le Sirop de Menthe',
@@ -1080,8 +1080,8 @@ Applications
 
     'molecular-geometry': {
         title: 'Géométrie Moléculaire',
-        description: 'Construisez et visualisez des molécules en 3D',
-        type: 'water',
+        description: 'VSEPR et formes 3D',
+        type: 'molecular-geometry',
         config: {},
         analogy: {
             title: 'La Géométrie Moléculaire comme la Construction d\'une Case',
@@ -1156,9 +1156,9 @@ La géométrie détermine la polarité, la réactivité et l'état physique de l
     },
 
     'cell-division': {
-        title: 'Division Cellulaire (Mitose)',
-        description: 'Observez les étapes de la mitose en temps réel',
-        type: 'cell',
+        title: 'Division Cellulaire',
+        description: 'Mitose et cycle cellulaire',
+        type: 'cell-mitosis',
         config: {},
         analogy: {
             title: 'La Mitose comme la Construction d\'une Nouvelle Maison',
@@ -1227,7 +1227,7 @@ Importance
     'ecosystem-dynamics': {
         title: 'Dynamique des Écosystèmes',
         description: 'Simulez les interactions dans un écosystème',
-        type: 'water-cycle',
+        type: 'ecosystem-dynamics',
         config: {},
         analogy: {
             title: 'L\'Écosystème comme le Parc Niokolo-Koba',
@@ -1299,7 +1299,7 @@ Les populations fluctuent autour d'un point d'équilibre. Les perturbations peuv
     'electromagnetic-induction': {
         title: 'Induction Électromagnétique',
         description: 'Expérimentez avec les champs magnétiques et le courant',
-        type: 'magnetic-field',
+        type: 'electromagnetic-induction',
         config: {},
         analogy: {
             title: 'L\'Induction comme la Dynamo du Vélo',
