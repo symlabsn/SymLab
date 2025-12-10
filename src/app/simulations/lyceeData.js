@@ -202,7 +202,7 @@ On compare la masse trouvée à la valeur affichée (écart relatif).`,
     'meiosis-diversity': {
         title: 'Méiose et Diversité',
         description: 'Brassage génétique et formation des gamètes',
-        type: 'cell',
+        type: 'chromosomes-division',
         config: {},
         analogy: {
             title: 'Le Grand Mélange des Cartes',
@@ -307,7 +307,7 @@ Gradient géothermique moyen : +30°C par km de profondeur.`,
     'rectilinear-motion': {
         title: 'Mouvement Rectiligne',
         description: 'Vitesse, distance et temps',
-        type: 'force',
+        type: 'energy',
         config: {},
         analogy: {
             title: 'Le Taxi-Brousse sur l\'Autoroute',
@@ -338,7 +338,7 @@ La distance, c'est comme le nombre de bornes kilométriques qu'il a passées.`
     'refraction-light': {
         title: 'Réfraction de la Lumière',
         description: 'Loi de Snell-Descartes et déviation',
-        type: 'lens-optics',
+        type: 'wave',
         config: {},
         analogy: {
             title: 'Le Bâton Cassé dans l\'Eau',
@@ -368,7 +368,7 @@ Plus le milieu est "dense" optiquement (n grand), plus la lumière est freinée 
     'light-spectrum': {
         title: 'Spectres Lumineux',
         description: 'Dispersion par un prisme et arc-en-ciel',
-        type: 'diffraction',
+        type: 'light-propagation',
         config: {},
         analogy: {
             title: 'L\'Arc-en-Ciel du Prisme',
@@ -397,7 +397,7 @@ Spectre d'absorption : Lumière traversant un gaz froid (raies noires sur fond c
     'gravitation-universal': {
         title: 'Gravitation Universelle',
         description: 'Attraction entre les masses',
-        type: 'force',
+        type: 'earth-movement',
         config: {},
         analogy: {
             title: 'L\'Aimant Universel',
@@ -2820,7 +2820,7 @@ Masse de KOH nécessaire pour saponifier 1g de corps gras.`,
     'chirality-stereochemistry': {
         title: 'Chiralité',
         description: 'Molécules miroirs et stéréoisomérie',
-        type: 'chemical',
+        type: 'atom',
         config: {},
         analogy: {
             title: 'La Chiralité : Tes Mains Chimiques',
