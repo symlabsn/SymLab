@@ -72,6 +72,21 @@ export default function AboutPage() {
             description: 'Une plateforme complète, de la 6ème à la Terminale.',
         },
         {
+            id: 'business',
+            title: 'Business Model',
+            subtitle: 'Comment nous créons de la valeur',
+            icon: '💰',
+            gradient: 'from-green-500 via-emerald-400 to-teal-500',
+            bgImage: '📊',
+            revenue: [
+                { source: 'B2B Écoles', desc: 'Licences établissements', icon: '🏫', percent: '40%' },
+                { source: 'B2G Gouvernement', desc: 'Marchés publics', icon: '🏛️', percent: '30%' },
+                { source: 'ONGs & RSE', desc: 'Partenariats', icon: '🤝', percent: '20%' },
+                { source: 'Premium', desc: 'Fonctionnalités avancées', icon: '⭐', percent: '10%' },
+            ],
+            description: 'Un modèle durable qui allie impact social et viabilité économique.',
+        },
+        {
             id: 'vision',
             title: 'Vision 2030',
             subtitle: 'L\'impact que nous construisons',
@@ -355,7 +370,38 @@ export default function AboutPage() {
                             </div>
                         )}
 
-                        {/* SLIDE 5: Vision */}
+                        {/* SLIDE 5: Business Model */}
+                        {currentSlide.id === 'business' && (
+                            <div className="w-full space-y-8 animate-in fade-in slide-in-from-bottom-6 duration-700">
+                                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                                    {currentSlide.revenue.map((rev, i) => (
+                                        <div key={i} className="group p-6 rounded-2xl bg-gradient-to-br from-green-500/10 to-emerald-500/10 border border-white/10 hover:border-green-500/50 transition-all text-center hover:scale-105">
+                                            <div className="text-4xl mb-3 group-hover:scale-110 transition-transform">{rev.icon}</div>
+                                            <div className="text-2xl font-black text-emerald-400 mb-1">{rev.percent}</div>
+                                            <div className="font-bold text-white text-sm mb-1">{rev.source}</div>
+                                            <div className="text-xs text-gray-500">{rev.desc}</div>
+                                        </div>
+                                    ))}
+                                </div>
+                                <div className="max-w-xl mx-auto p-6 rounded-2xl bg-white/5 border border-white/10">
+                                    <div className="flex items-center justify-between text-sm text-gray-400 mb-2">
+                                        <span>Gratuit pour les élèves</span>
+                                        <span>Revenus B2B/B2G</span>
+                                    </div>
+                                    <div className="h-4 rounded-full overflow-hidden bg-gray-800">
+                                        <div className="h-full flex">
+                                            <div className="h-full bg-emerald-500" style={{ width: '40%' }}></div>
+                                            <div className="h-full bg-teal-500" style={{ width: '30%' }}></div>
+                                            <div className="h-full bg-green-400" style={{ width: '20%' }}></div>
+                                            <div className="h-full bg-lime-400" style={{ width: '10%' }}></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p className="text-xl text-center text-gray-300">{currentSlide.description}</p>
+                            </div>
+                        )}
+
+                        {/* SLIDE 6: Vision */}
                         {currentSlide.id === 'vision' && (
                             <div className="w-full space-y-8 animate-in fade-in slide-in-from-bottom-6 duration-700">
                                 <div className="grid md:grid-cols-3 gap-6">
@@ -371,7 +417,7 @@ export default function AboutPage() {
                             </div>
                         )}
 
-                        {/* SLIDE 6: Équipe */}
+                        {/* SLIDE 7: Équipe */}
                         {currentSlide.id === 'team' && (
                             <div className="w-full animate-in fade-in slide-in-from-bottom-6 duration-700">
                                 <div className="max-w-md mx-auto">
