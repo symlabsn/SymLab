@@ -349,6 +349,7 @@ function CoursesContent() {
                     ) : (
                         // STRUCTURED COURSE VIEW OR PDF VIEWER
                         <div className="h-[calc(100vh-8rem)] flex flex-col">
+                            {/* Header dynamique */}
                             <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4 mb-6">
                                 <button
                                     onClick={() => setSelectedCourse(null)}
@@ -356,7 +357,22 @@ function CoursesContent() {
                                 >
                                     <ArrowLeft size={20} />
                                 </button>
-                                <h2 className="text-xl sm:text-2xl font-bold">{selectedCourse.title}</h2>
+                                <div className="flex-1">
+                                    <h2 className="text-xl sm:text-2xl font-bold flex items-center gap-2">
+                                        {selectedCourse.icon && <span className="text-2xl">{selectedCourse.icon}</span>}
+                                        {selectedCourse.title}
+                                    </h2>
+                                    {selectedCourse.isProject && (
+                                        <div className="flex flex-wrap items-center gap-2 mt-2">
+                                            <span className="px-2 py-1 rounded-full bg-gradient-to-r from-cyan-500/20 to-blue-500/20 text-cyan-400 text-xs font-bold border border-cyan-500/30">
+                                                📊 Data Science Appliquée
+                                            </span>
+                                            <span className="px-2 py-1 rounded-full bg-white/5 text-gray-400 text-xs">
+                                                Projet #{selectedCourse.projectNumber}
+                                            </span>
+                                        </div>
+                                    )}
+                                </div>
                             </div>
 
                             {structuredCourses[selectedCourse.id] ? (
@@ -426,31 +442,33 @@ function CoursesContent() {
                                             </select>
                                         </div>
 
-                                        {/* Tabs */}
-                                        <div className="flex border-b border-white/10 bg-black/20">
-                                            {selectedCourse.id.includes('entrainement') ? (
-                                                <div className="flex-1 py-4 text-sm font-bold uppercase tracking-wider text-blue-400 border-t-2 border-blue-500 bg-[#0F1115] text-center">
-                                                    ✏️ Exercices
-                                                </div>
-                                            ) : (
-                                                <>
-                                                    <button
-                                                        onClick={() => setShowExercises(false)}
-                                                        className={`flex-1 py-4 text-sm font-bold uppercase tracking-wider transition-colors ${!showExercises ? 'bg-[#0F1115] text-blue-400 border-t-2 border-blue-500' : 'text-gray-500 hover:text-white bg-black/20'
-                                                            }`}
-                                                    >
-                                                        📖 Leçon
-                                                    </button>
-                                                    <button
-                                                        onClick={() => setShowExercises(true)}
-                                                        className={`flex-1 py-4 text-sm font-bold uppercase tracking-wider transition-colors ${showExercises ? 'bg-[#0F1115] text-blue-400 border-t-2 border-blue-500' : 'text-gray-500 hover:text-white bg-black/20'
-                                                            }`}
-                                                    >
+                                        {/* Tabs - Masqués pour Data Science Projects */}
+                                        {!selectedCourse.isProject && (
+                                            <div className="flex border-b border-white/10 bg-black/20">
+                                                {selectedCourse.id.includes('entrainement') ? (
+                                                    <div className="flex-1 py-4 text-sm font-bold uppercase tracking-wider text-blue-400 border-t-2 border-blue-500 bg-[#0F1115] text-center">
                                                         ✏️ Exercices
-                                                    </button>
-                                                </>
-                                            )}
-                                        </div>
+                                                    </div>
+                                                ) : (
+                                                    <>
+                                                        <button
+                                                            onClick={() => setShowExercises(false)}
+                                                            className={`flex-1 py-4 text-sm font-bold uppercase tracking-wider transition-colors ${!showExercises ? 'bg-[#0F1115] text-blue-400 border-t-2 border-blue-500' : 'text-gray-500 hover:text-white bg-black/20'
+                                                                }`}
+                                                        >
+                                                            📖 Leçon
+                                                        </button>
+                                                        <button
+                                                            onClick={() => setShowExercises(true)}
+                                                            className={`flex-1 py-4 text-sm font-bold uppercase tracking-wider transition-colors ${showExercises ? 'bg-[#0F1115] text-blue-400 border-t-2 border-blue-500' : 'text-gray-500 hover:text-white bg-black/20'
+                                                                }`}
+                                                        >
+                                                            ✏️ Exercices
+                                                        </button>
+                                                    </>
+                                                )}
+                                            </div>
+                                        )}
 
                                         {/* Scrollable Content */}
                                         <div className="flex-1 overflow-y-auto p-4 md:p-8 scrollbar-thin scrollbar-thumb-white/10 scrollbar-track-transparent">
@@ -496,12 +514,53 @@ function CoursesContent() {
                                                         prose-p:text-gray-300 prose-p:leading-relaxed
                                                         prose-strong:text-white prose-strong:font-black
                                                         prose-ul:text-gray-300 prose-li:marker:text-blue-500
-                                                        prose-code:text-[#00F5D4] prose-code:bg-white/5 prose-code:px-1 prose-code:py-0.5 prose-code:rounded
-                                                        prose-pre:bg-black/50 prose-pre:border prose-pre:border-white/10
-                                                        prose-img:rounded-xl prose-img:border prose-img:border-white/10 prose-img:mx-auto prose-img:block prose-img:shadow-lg">
+                                                        prose-code:text-[#00F5D4] prose-code:bg-white/10 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:font-mono prose-code:text-sm
+                                                        prose-pre:bg-gradient-to-br prose-pre:from-[#1a1f2e] prose-pre:to-[#0d1117] prose-pre:border prose-pre:border-cyan-500/20 prose-pre:rounded-xl prose-pre:shadow-lg prose-pre:shadow-cyan-500/5
+                                                        prose-img:rounded-xl prose-img:border prose-img:border-white/10 prose-img:mx-auto prose-img:block prose-img:shadow-lg
+                                                        prose-table:border-collapse prose-th:bg-white/5 prose-th:border prose-th:border-white/10 prose-th:px-4 prose-th:py-2
+                                                        prose-td:border prose-td:border-white/10 prose-td:px-4 prose-td:py-2">
+
+                                                        {/* Module Info Banner for Data Science Projects */}
+                                                        {selectedCourse.isProject && activeChapter?.part && (
+                                                            <div className="not-prose mb-8 p-4 rounded-xl bg-gradient-to-r from-cyan-500/10 via-blue-500/10 to-purple-500/10 border border-cyan-500/20">
+                                                                <div className="flex items-center gap-3">
+                                                                    <span className="text-3xl">📚</span>
+                                                                    <div>
+                                                                        <div className="text-cyan-400 font-bold text-sm uppercase tracking-wider">{activeChapter.part}</div>
+                                                                        <div className="text-gray-400 text-sm">Objectif : Maîtriser les concepts clés de ce module</div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        )}
+
                                                         <ReactMarkdown
                                                             remarkPlugins={[remarkMath]}
                                                             rehypePlugins={[rehypeRaw, rehypeKatex]}
+                                                            components={{
+                                                                pre: ({ children }) => (
+                                                                    <div className="not-prose my-6 rounded-xl overflow-hidden border border-cyan-500/30 shadow-lg shadow-cyan-500/10">
+                                                                        <div className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-cyan-500/20 to-blue-500/20 border-b border-cyan-500/20">
+                                                                            <div className="flex gap-1.5">
+                                                                                <div className="w-3 h-3 rounded-full bg-red-500/80"></div>
+                                                                                <div className="w-3 h-3 rounded-full bg-yellow-500/80"></div>
+                                                                                <div className="w-3 h-3 rounded-full bg-green-500/80"></div>
+                                                                            </div>
+                                                                            <span className="text-cyan-400 text-xs font-mono ml-2">Python</span>
+                                                                            <span className="ml-auto text-gray-500 text-xs">💡 Code exécutable</span>
+                                                                        </div>
+                                                                        <pre className="!bg-[#0d1117] !m-0 !rounded-none !border-0 p-4 overflow-x-auto text-sm">
+                                                                            {children}
+                                                                        </pre>
+                                                                    </div>
+                                                                ),
+                                                                code: ({ className, children, ...props }) => {
+                                                                    const isInline = !className;
+                                                                    if (isInline) {
+                                                                        return <code className="text-[#00F5D4] bg-white/10 px-1.5 py-0.5 rounded font-mono text-sm" {...props}>{children}</code>;
+                                                                    }
+                                                                    return <code className="font-mono text-sm text-gray-200" {...props}>{children}</code>;
+                                                                }
+                                                            }}
                                                         >
                                                             {stripIndentation(activeChapter?.content || '')}
                                                         </ReactMarkdown>
