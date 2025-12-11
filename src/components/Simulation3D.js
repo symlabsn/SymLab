@@ -43,7 +43,7 @@ import { ChemicalReaction } from './ChemicalReaction';
 import { ImmuneSystem } from './ImmuneSystem';
 import { ThermalTransfer } from './ThermalTransfer';
 import { SoundPropagation } from './SoundPropagation';
-import { DensityExplorer, RefractionSimulator, CircuitSeriesParallel, MassConservation, LightPropagationPC4 } from './PC4eSimulations';
+import { DensityExplorer, RefractionSimulator, CircuitSeriesParallel, MassConservation, LightPropagationPC4, ScientificMethod, MeasurementTools, LightSources } from './PC4eSimulations';
 
 // ... (existing helper components)
 
@@ -4384,6 +4384,12 @@ export default function Simulation3D({ type = 'atom', config = {} }) {
                 return <MassConservation />;
             case 'light-propagation-pc4':
                 return <LightPropagationPC4 />;
+            case 'scientific-method':
+                return <ScientificMethod />;
+            case 'measurement-tools':
+                return <MeasurementTools />;
+            case 'light-sources':
+                return <LightSources />;
 
             default:
                 return <Atom {...config} />;

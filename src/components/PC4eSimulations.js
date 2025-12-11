@@ -58,8 +58,8 @@ export function DensityExplorer() {
                                 key={key}
                                 onClick={() => setSelectedMaterial(key)}
                                 className={`p-1 rounded text-xs transition-all ${selectedMaterial === key
-                                        ? 'bg-cyan-600 ring-2 ring-cyan-400'
-                                        : 'bg-gray-700 hover:bg-gray-600'
+                                    ? 'bg-cyan-600 ring-2 ring-cyan-400'
+                                    : 'bg-gray-700 hover:bg-gray-600'
                                     }`}
                             >
                                 {m.emoji}
@@ -480,8 +480,8 @@ export function CircuitSeriesParallel() {
                         <button
                             onClick={() => setCircuitType('serie')}
                             className={`flex-1 py-2 rounded-lg font-bold transition-colors ${circuitType === 'serie'
-                                    ? 'bg-yellow-600 text-black'
-                                    : 'bg-gray-700 hover:bg-gray-600'
+                                ? 'bg-yellow-600 text-black'
+                                : 'bg-gray-700 hover:bg-gray-600'
                                 }`}
                         >
                             Série
@@ -489,8 +489,8 @@ export function CircuitSeriesParallel() {
                         <button
                             onClick={() => setCircuitType('parallele')}
                             className={`flex-1 py-2 rounded-lg font-bold transition-colors ${circuitType === 'parallele'
-                                    ? 'bg-green-600'
-                                    : 'bg-gray-700 hover:bg-gray-600'
+                                ? 'bg-green-600'
+                                : 'bg-gray-700 hover:bg-gray-600'
                                 }`}
                         >
                             Parallèle
@@ -771,8 +771,8 @@ export function MassConservation() {
                             onClick={() => setIsReacting(true)}
                             disabled={isReacting}
                             className={`flex-1 py-2 rounded-lg font-bold transition-colors ${isReacting
-                                    ? 'bg-gray-600 cursor-not-allowed'
-                                    : 'bg-orange-600 hover:bg-orange-500'
+                                ? 'bg-gray-600 cursor-not-allowed'
+                                : 'bg-orange-600 hover:bg-orange-500'
                                 }`}
                         >
                             🔥 Réagir !
@@ -1099,3 +1099,604 @@ export function LightPropagationPC4() {
         </group>
     );
 }
+
+// ============================================================
+// 6. DÉMARCHE SCIENTIFIQUE - Simulation Interactive
+// ============================================================
+export function ScientificMethod() {
+    const [step, setStep] = useState(0);
+    const [hypothesis, setHypothesis] = useState('');
+    const [experimentResult, setExperimentResult] = useState(null);
+
+    const steps = [
+        { name: 'Observation', icon: '👁️', color: '#3B82F6', description: 'Observer un phénomène naturel' },
+        { name: 'Hypothèse', icon: '💡', color: '#F59E0B', description: 'Proposer une explication' },
+        { name: 'Expérience', icon: '🔬', color: '#10B981', description: 'Tester l\'hypothèse' },
+        { name: 'Conclusion', icon: '✅', color: '#8B5CF6', description: 'Valider ou rejeter l\'hypothèse' }
+    ];
+
+    // Animation
+    const arrowRef = useRef();
+
+    useFrame(({ clock }) => {
+        if (arrowRef.current) {
+            arrowRef.current.position.y = Math.sin(clock.elapsedTime * 2) * 0.1;
+        }
+    });
+
+    const runExperiment = () => {
+        // Simulation d'une expérience
+        const success = Math.random() > 0.3;
+        setExperimentResult(success);
+        if (step === 2) setStep(3);
+    };
+
+    const resetExperiment = () => {
+        setStep(0);
+        setHypothesis('');
+        setExperimentResult(null);
+    };
+
+    return (
+        <group>
+            {/* Panneau de contrôle */}
+            <Html position={[4, 1, 0]} center>
+                <div className="bg-black/95 p-4 rounded-xl text-white border border-blue-500/30 min-w-[300px] backdrop-blur-md select-none shadow-xl">
+                    <h3 className="text-blue-400 font-bold mb-3 text-lg">🔬 Démarche Scientifique</h3>
+
+                    {/* Étapes */}
+                    <div className="flex gap-2 mb-4">
+                        {steps.map((s, i) => (
+                            <button
+                                key={s.name}
+                                onClick={() => setStep(i)}
+                                className={`flex-1 p-2 rounded-lg text-center transition-all ${step === i
+                                        ? `bg-opacity-30 border-2`
+                                        : 'bg-gray-800 opacity-50'
+                                    }`}
+                                style={{
+                                    backgroundColor: step === i ? s.color + '30' : undefined,
+                                    borderColor: step === i ? s.color : 'transparent'
+                                }}
+                            >
+                                <div className="text-2xl mb-1">{s.icon}</div>
+                                <div className="text-xs">{s.name}</div>
+                            </button>
+                        ))}
+                    </div>
+
+                    {/* Contenu selon l'étape */}
+                    <div className="bg-gray-900/80 p-4 rounded-lg">
+                        <h4 className="font-bold mb-2" style={{ color: steps[step].color }}>
+                            {steps[step].icon} {steps[step].name}
+                        </h4>
+                        <p className="text-sm text-gray-400 mb-3">{steps[step].description}</p>
+
+                        {step === 0 && (
+                            <div className="p-3 bg-blue-900/30 rounded-lg text-sm">
+                                🌊 Observation : "L'huile versée dans l'eau ne se mélange pas"
+                                <button
+                                    onClick={() => setStep(1)}
+                                    className="w-full mt-3 py-2 bg-blue-600 rounded-lg font-bold hover:bg-blue-500"
+                                >
+                                    Étape suivante →
+                                </button>
+                            </div>
+                        )}
+
+                        {step === 1 && (
+                            <div>
+                                <input
+                                    type="text"
+                                    value={hypothesis}
+                                    onChange={(e) => setHypothesis(e.target.value)}
+                                    placeholder="L'huile est moins dense que l'eau..."
+                                    className="w-full p-2 bg-gray-800 rounded border border-gray-700 text-sm mb-3"
+                                />
+                                <button
+                                    onClick={() => setStep(2)}
+                                    disabled={!hypothesis}
+                                    className="w-full py-2 bg-yellow-600 rounded-lg font-bold hover:bg-yellow-500 disabled:opacity-50"
+                                >
+                                    Tester l'hypothèse →
+                                </button>
+                            </div>
+                        )}
+
+                        {step === 2 && (
+                            <button
+                                onClick={runExperiment}
+                                className="w-full py-3 bg-green-600 rounded-lg font-bold hover:bg-green-500 text-lg"
+                            >
+                                🧪 Lancer l'expérience
+                            </button>
+                        )}
+
+                        {step === 3 && (
+                            <div className={`p-3 rounded-lg text-center ${experimentResult ? 'bg-green-900/30 text-green-400' : 'bg-red-900/30 text-red-400'}`}>
+                                {experimentResult ? (
+                                    <>
+                                        <div className="text-3xl mb-2">✅</div>
+                                        <div className="font-bold">Hypothèse VALIDÉE !</div>
+                                        <div className="text-sm opacity-80">L'huile flotte car sa densité est inférieure à celle de l'eau.</div>
+                                    </>
+                                ) : (
+                                    <>
+                                        <div className="text-3xl mb-2">❌</div>
+                                        <div className="font-bold">Hypothèse REJETÉE</div>
+                                        <div className="text-sm opacity-80">Proposez une nouvelle hypothèse !</div>
+                                    </>
+                                )}
+                                <button
+                                    onClick={resetExperiment}
+                                    className="mt-3 px-4 py-2 bg-gray-700 rounded-lg hover:bg-gray-600"
+                                >
+                                    🔄 Recommencer
+                                </button>
+                            </div>
+                        )}
+                    </div>
+                </div>
+            </Html>
+
+            <Text position={[0, 3.5, 0]} fontSize={0.5} color="#3B82F6">
+                LA DÉMARCHE SCIENTIFIQUE
+            </Text>
+
+            {/* Flèche cyclique des étapes */}
+            <group>
+                {steps.map((s, i) => {
+                    const angle = (i / steps.length) * Math.PI * 2 - Math.PI / 2;
+                    const x = Math.cos(angle) * 2;
+                    const y = Math.sin(angle) * 2;
+
+                    return (
+                        <group key={s.name} position={[x, y, 0]}>
+                            <mesh>
+                                <circleGeometry args={[0.5, 32]} />
+                                <meshStandardMaterial
+                                    color={s.color}
+                                    emissive={step === i ? s.color : '#000000'}
+                                    emissiveIntensity={step === i ? 0.5 : 0}
+                                />
+                            </mesh>
+                            <Text position={[0, 0, 0.1]} fontSize={0.3} color="#FFFFFF">
+                                {s.icon}
+                            </Text>
+                            <Text position={[0, -0.9, 0]} fontSize={0.15} color={s.color}>
+                                {s.name}
+                            </Text>
+                        </group>
+                    );
+                })}
+
+                {/* Flèches entre les étapes */}
+                <mesh ref={arrowRef} rotation={[0, 0, 0]}>
+                    <torusGeometry args={[2.3, 0.03, 8, 64]} />
+                    <meshStandardMaterial color="#4B5563" />
+                </mesh>
+            </group>
+
+            {/* Indicateur d'étape actuelle */}
+            <mesh position={[0, -2.5, 0]}>
+                <boxGeometry args={[4, 0.8, 0.1]} />
+                <meshStandardMaterial color={steps[step].color} transparent opacity={0.3} />
+            </mesh>
+            <Text position={[0, -2.5, 0.1]} fontSize={0.3} color="#FFFFFF">
+                Étape {step + 1}/4 : {steps[step].name}
+            </Text>
+        </group>
+    );
+}
+
+// ============================================================
+// 7. OUTILS DE MESURE - Simulation Interactive
+// ============================================================
+export function MeasurementTools() {
+    const [activeTool, setActiveTool] = useState('ruler');
+    const [measurement, setMeasurement] = useState(null);
+    const [unit, setUnit] = useState('cm');
+
+    const tools = {
+        ruler: { name: 'Règle', icon: '📏', measures: 'Longueur', unit: 'cm', color: '#F59E0B' },
+        balance: { name: 'Balance', icon: '⚖️', measures: 'Masse', unit: 'g', color: '#3B82F6' },
+        graduated: { name: 'Éprouvette', icon: '🧪', measures: 'Volume', unit: 'mL', color: '#10B981' },
+        chrono: { name: 'Chronomètre', icon: '⏱️', measures: 'Temps', unit: 's', color: '#8B5CF6' }
+    };
+
+    const tool = tools[activeTool];
+
+    // Animation
+    const objectRef = useRef();
+
+    useFrame(({ clock }) => {
+        if (objectRef.current) {
+            objectRef.current.rotation.y = Math.sin(clock.elapsedTime) * 0.1;
+        }
+    });
+
+    const measureObject = () => {
+        // Générer une mesure aléatoire selon l'outil
+        const measurements = {
+            ruler: (5 + Math.random() * 20).toFixed(1),
+            balance: (50 + Math.random() * 450).toFixed(0),
+            graduated: (10 + Math.random() * 90).toFixed(0),
+            chrono: (1 + Math.random() * 10).toFixed(2)
+        };
+        setMeasurement(measurements[activeTool]);
+    };
+
+    return (
+        <group>
+            {/* Panneau de contrôle */}
+            <Html position={[4, 1.5, 0]} center>
+                <div className="bg-black/95 p-4 rounded-xl text-white border border-cyan-500/30 min-w-[280px] backdrop-blur-md select-none shadow-xl">
+                    <h3 className="text-cyan-400 font-bold mb-3 text-lg">📏 Instruments de Mesure</h3>
+
+                    {/* Sélection de l'outil */}
+                    <div className="grid grid-cols-4 gap-2 mb-4">
+                        {Object.entries(tools).map(([key, t]) => (
+                            <button
+                                key={key}
+                                onClick={() => { setActiveTool(key); setMeasurement(null); }}
+                                className={`p-2 rounded-lg text-center transition-all ${activeTool === key
+                                        ? 'ring-2'
+                                        : 'bg-gray-800 hover:bg-gray-700'
+                                    }`}
+                                style={{
+                                    backgroundColor: activeTool === key ? t.color + '30' : undefined,
+                                    borderColor: activeTool === key ? t.color : undefined
+                                }}
+                            >
+                                <div className="text-2xl">{t.icon}</div>
+                            </button>
+                        ))}
+                    </div>
+
+                    {/* Info sur l'outil */}
+                    <div className="bg-gray-900/80 p-3 rounded-lg mb-4">
+                        <div className="flex items-center gap-3 mb-2">
+                            <span className="text-3xl">{tool.icon}</span>
+                            <div>
+                                <div className="font-bold" style={{ color: tool.color }}>{tool.name}</div>
+                                <div className="text-xs text-gray-400">Mesure : {tool.measures}</div>
+                            </div>
+                        </div>
+                        <div className="text-sm text-gray-300">
+                            Unité : <span className="font-mono font-bold">{tool.unit}</span>
+                        </div>
+                    </div>
+
+                    {/* Bouton de mesure */}
+                    <button
+                        onClick={measureObject}
+                        className="w-full py-3 rounded-lg font-bold text-black mb-3 hover:opacity-90 transition-opacity"
+                        style={{ backgroundColor: tool.color }}
+                    >
+                        📐 Mesurer l'objet
+                    </button>
+
+                    {/* Résultat */}
+                    {measurement !== null && (
+                        <div className="p-4 bg-white/10 rounded-lg text-center">
+                            <div className="text-xs text-gray-400 mb-1">Résultat de la mesure :</div>
+                            <div className="text-3xl font-bold font-mono" style={{ color: tool.color }}>
+                                {measurement} {tool.unit}
+                            </div>
+                        </div>
+                    )}
+                </div>
+            </Html>
+
+            <Text position={[0, 3.5, 0]} fontSize={0.5} color="#22D3EE">
+                INSTRUMENTS DE MESURE
+            </Text>
+
+            {/* Table de laboratoire */}
+            <mesh position={[0, -2, 0]}>
+                <boxGeometry args={[6, 0.2, 4]} />
+                <meshStandardMaterial color="#4A3728" />
+            </mesh>
+
+            {/* Objet à mesurer (cube mystère) */}
+            <group ref={objectRef} position={[0, -0.5, 0]}>
+                <mesh>
+                    <boxGeometry args={[1, 1, 1]} />
+                    <meshStandardMaterial color="#6366F1" metalness={0.3} roughness={0.4} />
+                </mesh>
+                <Text position={[0, 0.8, 0]} fontSize={0.2} color="#A5B4FC">
+                    Objet mystère
+                </Text>
+            </group>
+
+            {/* Représentation de l'outil actif */}
+            <group position={[-2, 0.5, 0]}>
+                {activeTool === 'ruler' && (
+                    <mesh rotation={[0, 0, Math.PI / 4]}>
+                        <boxGeometry args={[3, 0.1, 0.3]} />
+                        <meshStandardMaterial color="#F59E0B" />
+                    </mesh>
+                )}
+                {activeTool === 'balance' && (
+                    <group>
+                        <mesh position={[0, -0.5, 0]}>
+                            <cylinderGeometry args={[0.5, 0.6, 0.2]} />
+                            <meshStandardMaterial color="#3B82F6" />
+                        </mesh>
+                        <mesh position={[0, 0, 0]}>
+                            <cylinderGeometry args={[0.05, 0.05, 1]} />
+                            <meshStandardMaterial color="#6B7280" />
+                        </mesh>
+                        <mesh position={[-0.8, 0.5, 0]}>
+                            <cylinderGeometry args={[0.3, 0.3, 0.05]} />
+                            <meshStandardMaterial color="#9CA3AF" />
+                        </mesh>
+                        <mesh position={[0.8, 0.5, 0]}>
+                            <cylinderGeometry args={[0.3, 0.3, 0.05]} />
+                            <meshStandardMaterial color="#9CA3AF" />
+                        </mesh>
+                    </group>
+                )}
+                {activeTool === 'graduated' && (
+                    <group>
+                        <mesh>
+                            <cylinderGeometry args={[0.3, 0.25, 2, 32, 1, true]} />
+                            <meshStandardMaterial color="#10B981" transparent opacity={0.3} side={THREE.DoubleSide} />
+                        </mesh>
+                        <mesh position={[0, -0.5, 0]}>
+                            <cylinderGeometry args={[0.25, 0.25, 1]} />
+                            <meshStandardMaterial color="#3B82F6" transparent opacity={0.5} />
+                        </mesh>
+                    </group>
+                )}
+                {activeTool === 'chrono' && (
+                    <group>
+                        <mesh>
+                            <cylinderGeometry args={[0.6, 0.6, 0.15]} />
+                            <meshStandardMaterial color="#8B5CF6" />
+                        </mesh>
+                        <mesh position={[0, 0.5, 0]}>
+                            <sphereGeometry args={[0.15]} />
+                            <meshStandardMaterial color="#6B7280" />
+                        </mesh>
+                    </group>
+                )}
+            </group>
+
+            {/* Légende */}
+            <Text position={[0, -2.8, 0]} fontSize={0.2} color="#9CA3AF">
+                Choisis un instrument et mesure l'objet !
+            </Text>
+        </group>
+    );
+}
+
+// ============================================================
+// 8. SOURCES DE LUMIÈRE - Simulation Interactive
+// ============================================================
+export function LightSources() {
+    const [showPrimary, setShowPrimary] = useState(true);
+    const [showSecondary, setShowSecondary] = useState(true);
+    const [sunIntensity, setSunIntensity] = useState(1);
+
+    // Animation
+    const moonRef = useRef();
+    const bookRef = useRef();
+    const sunRaysRef = useRef();
+
+    useFrame(({ clock }) => {
+        if (moonRef.current) {
+            moonRef.current.rotation.y = clock.elapsedTime * 0.2;
+        }
+        if (sunRaysRef.current) {
+            sunRaysRef.current.rotation.z = clock.elapsedTime * 0.5;
+        }
+    });
+
+    return (
+        <group>
+            {/* Panneau de contrôle */}
+            <Html position={[4, 2, 0]} center>
+                <div className="bg-black/95 p-4 rounded-xl text-white border border-yellow-500/30 min-w-[280px] backdrop-blur-md select-none shadow-xl">
+                    <h3 className="text-yellow-400 font-bold mb-3 text-lg">💡 Sources de Lumière</h3>
+
+                    {/* Contrôles */}
+                    <div className="space-y-3 mb-4">
+                        <label className="flex items-center gap-3 cursor-pointer">
+                            <input
+                                type="checkbox"
+                                checked={showPrimary}
+                                onChange={(e) => setShowPrimary(e.target.checked)}
+                                className="w-5 h-5 accent-yellow-500"
+                            />
+                            <span className="text-2xl">☀️</span>
+                            <span>Sources Primaires</span>
+                        </label>
+                        <label className="flex items-center gap-3 cursor-pointer">
+                            <input
+                                type="checkbox"
+                                checked={showSecondary}
+                                onChange={(e) => setShowSecondary(e.target.checked)}
+                                className="w-5 h-5 accent-blue-500"
+                            />
+                            <span className="text-2xl">🌙</span>
+                            <span>Sources Secondaires</span>
+                        </label>
+                    </div>
+
+                    {/* Intensité du Soleil */}
+                    <label className="block text-sm mb-1">
+                        Intensité du Soleil : {Math.round(sunIntensity * 100)}%
+                    </label>
+                    <input
+                        type="range"
+                        min="0"
+                        max="1"
+                        step="0.1"
+                        value={sunIntensity}
+                        onChange={(e) => setSunIntensity(parseFloat(e.target.value))}
+                        className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-yellow-500 mb-4"
+                    />
+
+                    {/* Explications */}
+                    <div className="bg-gray-900/80 p-3 rounded-lg space-y-2 text-sm">
+                        <div className="flex items-start gap-2">
+                            <span className="text-yellow-400">☀️</span>
+                            <span><strong>Primaire :</strong> Produit sa propre lumière (Soleil, lampe)</span>
+                        </div>
+                        <div className="flex items-start gap-2">
+                            <span className="text-blue-400">🌙</span>
+                            <span><strong>Secondaire :</strong> Renvoie la lumière (Lune, livre)</span>
+                        </div>
+                    </div>
+
+                    <div className="mt-3 p-2 bg-yellow-900/20 rounded text-xs text-center text-yellow-300">
+                        {sunIntensity === 0
+                            ? "Sans Soleil, la Lune est invisible !"
+                            : "La Lune ne brille que grâce au Soleil"
+                        }
+                    </div>
+                </div>
+            </Html>
+
+            <Text position={[0, 3.5, 0]} fontSize={0.5} color="#FBBF24">
+                SOURCES DE LUMIÈRE
+            </Text>
+
+            {/* Fond étoilé */}
+            <mesh position={[0, 0, -5]}>
+                <planeGeometry args={[20, 12]} />
+                <meshBasicMaterial color="#0F172A" />
+            </mesh>
+
+            {/* SOURCE PRIMAIRE : Le Soleil */}
+            {showPrimary && (
+                <group position={[-3, 1.5, 0]}>
+                    <mesh>
+                        <sphereGeometry args={[0.8, 32, 32]} />
+                        <meshStandardMaterial
+                            color="#FBBF24"
+                            emissive="#FBBF24"
+                            emissiveIntensity={sunIntensity}
+                        />
+                    </mesh>
+                    <pointLight intensity={sunIntensity * 2} color="#FBBF24" distance={10} />
+
+                    {/* Rayons */}
+                    <group ref={sunRaysRef}>
+                        {[0, 45, 90, 135, 180, 225, 270, 315].map((angle, i) => (
+                            <mesh key={i} rotation={[0, 0, (angle * Math.PI) / 180]} position={[0, 0, -0.1]}>
+                                <boxGeometry args={[0.1, 1.5, 0.05]} />
+                                <meshStandardMaterial
+                                    color="#FBBF24"
+                                    transparent
+                                    opacity={0.5 * sunIntensity}
+                                />
+                            </mesh>
+                        ))}
+                    </group>
+
+                    <Text position={[0, -1.3, 0]} fontSize={0.2} color="#FBBF24">
+                        SOLEIL
+                    </Text>
+                    <Text position={[0, -1.6, 0]} fontSize={0.15} color="#FCD34D">
+                        Source PRIMAIRE
+                    </Text>
+                </group>
+            )}
+
+            {/* SOURCE PRIMAIRE : Lampe */}
+            {showPrimary && (
+                <group position={[-3, -1.5, 0]}>
+                    <mesh>
+                        <sphereGeometry args={[0.4, 32, 32]} />
+                        <meshStandardMaterial
+                            color="#FEF3C7"
+                            emissive="#FBBF24"
+                            emissiveIntensity={0.8}
+                            transparent
+                            opacity={0.9}
+                        />
+                    </mesh>
+                    <mesh position={[0, -0.5, 0]}>
+                        <cylinderGeometry args={[0.15, 0.25, 0.4]} />
+                        <meshStandardMaterial color="#374151" />
+                    </mesh>
+                    <pointLight intensity={1} color="#FBBF24" distance={3} />
+                    <Text position={[0, -1.1, 0]} fontSize={0.15} color="#FCD34D">
+                        LAMPE (Primaire)
+                    </Text>
+                </group>
+            )}
+
+            {/* SOURCE SECONDAIRE : La Lune */}
+            {showSecondary && (
+                <group position={[2.5, 1.5, 0]} ref={moonRef}>
+                    <mesh>
+                        <sphereGeometry args={[0.6, 32, 32]} />
+                        <meshStandardMaterial
+                            color="#E5E7EB"
+                            emissive={sunIntensity > 0 ? "#9CA3AF" : "#000000"}
+                            emissiveIntensity={sunIntensity * 0.3}
+                        />
+                    </mesh>
+                    {/* Cratères */}
+                    <mesh position={[0.2, 0.2, 0.5]}>
+                        <sphereGeometry args={[0.1]} />
+                        <meshStandardMaterial color="#9CA3AF" />
+                    </mesh>
+                    <mesh position={[-0.15, -0.1, 0.55]}>
+                        <sphereGeometry args={[0.08]} />
+                        <meshStandardMaterial color="#9CA3AF" />
+                    </mesh>
+
+                    <Text position={[0, -1, 0]} fontSize={0.2} color="#9CA3AF">
+                        LUNE
+                    </Text>
+                    <Text position={[0, -1.3, 0]} fontSize={0.15} color="#60A5FA">
+                        Source SECONDAIRE
+                    </Text>
+                </group>
+            )}
+
+            {/* SOURCE SECONDAIRE : Livre */}
+            {showSecondary && (
+                <group position={[2.5, -1.5, 0]} ref={bookRef}>
+                    <mesh>
+                        <boxGeometry args={[0.8, 0.1, 0.6]} />
+                        <meshStandardMaterial color="#DC2626" />
+                    </mesh>
+                    <mesh position={[0, 0.08, 0]}>
+                        <boxGeometry args={[0.7, 0.08, 0.55]} />
+                        <meshStandardMaterial
+                            color="#FEFCE8"
+                            emissive={sunIntensity > 0 ? "#FEFCE8" : "#000000"}
+                            emissiveIntensity={sunIntensity * 0.1}
+                        />
+                    </mesh>
+                    <Text position={[0, -0.5, 0]} fontSize={0.15} color="#60A5FA">
+                        LIVRE (Secondaire)
+                    </Text>
+                </group>
+            )}
+
+            {/* Rayons du Soleil vers la Lune */}
+            {showPrimary && showSecondary && sunIntensity > 0 && (
+                <mesh position={[-0.25, 1.5, 0]} rotation={[0, 0, 0]}>
+                    <cylinderGeometry args={[0.02, 0.02, 4.5]} />
+                    <meshStandardMaterial
+                        color="#FBBF24"
+                        transparent
+                        opacity={sunIntensity * 0.4}
+                    />
+                </mesh>
+            )}
+
+            {/* Légende */}
+            <Text position={[0, -3, 0]} fontSize={0.2} color="#9CA3AF">
+                Sans source primaire, les sources secondaires sont invisibles !
+            </Text>
+        </group>
+    );
+}
+
