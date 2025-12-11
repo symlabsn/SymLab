@@ -316,7 +316,7 @@ function CoursesContent() {
             '\\pi': ' pi ', '\\alpha': ' alpha ', '\\beta': ' bêta ', '\\theta': ' thêta ',
             '\\lambda': ' lambda ', '\\Delta': ' Delta ', '\\gamma': ' gamma ', '\\sigma': ' sigma ',
             '\\Omega': ' oméga ', '\\omega': ' oméga ', '\\phi': ' phi ', '\\psi': ' psi ',
-            '=': ' égale ', '+': ' plus ', '<': ' inférieur à ', '>': ' supérieur à '
+            '=': ' égale, ', '+': ' plus ', '<': ' inférieur à ', '>': ' supérieur à '
         };
         for (const [key, val] of Object.entries(replacements)) { t = t.split(key).join(val); }
 
@@ -328,7 +328,7 @@ function CoursesContent() {
             const original = t;
             t = t.replace(/\\frac\s*\{([^{}]+)\}\s*\{([^{}]+)\}/g, ' $1 sur $2 ');
             t = t.replace(/\\sqrt\s*\[([^{}]+)\]\s*\{([^{}]+)\}/g, ' racine $1-ième de $2 ');
-            t = t.replace(/\\sqrt\s*\{([^{}]+)\}/g, ' racine carrée de $1 ');
+            t = t.replace(/\\sqrt\s*\{([^{}]+)\}/g, ' racine de $1 ');
             t = t.replace(/\^\{([^{}]+)\}/g, ' puissance $1 ');
             t = t.replace(/_\{([^{}]+)\}/g, ' indice $1 ');
             t = t.replace(/\\vec\s*\{([^{}]+)\}/g, ' vecteur $1 ');
