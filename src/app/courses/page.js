@@ -952,7 +952,10 @@ function CoursesContent() {
                                                                 {activeChapter.analogy.title.replace(/^[^\s]+\s/, '')}
                                                             </h3>
                                                             <div className="prose prose-invert prose-sm max-w-none prose-strong:text-amber-200 prose-strong:font-bold prose-p:text-gray-300 prose-p:leading-relaxed">
-                                                                <ReactMarkdown>
+                                                                <ReactMarkdown
+                                                                    remarkPlugins={[remarkMath]}
+                                                                    rehypePlugins={[rehypeRaw, rehypeKatex]}
+                                                                >
                                                                     {activeChapter.analogy.content}
                                                                 </ReactMarkdown>
                                                             </div>
