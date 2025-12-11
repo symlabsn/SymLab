@@ -1151,8 +1151,8 @@ export function ScientificMethod() {
                                 key={s.name}
                                 onClick={() => setStep(i)}
                                 className={`flex-1 p-2 rounded-lg text-center transition-all ${step === i
-                                        ? `bg-opacity-30 border-2`
-                                        : 'bg-gray-800 opacity-50'
+                                    ? `bg-opacity-30 border-2`
+                                    : 'bg-gray-800 opacity-50'
                                     }`}
                                 style={{
                                     backgroundColor: step === i ? s.color + '30' : undefined,
@@ -1340,8 +1340,8 @@ export function MeasurementTools() {
                                 key={key}
                                 onClick={() => { setActiveTool(key); setMeasurement(null); }}
                                 className={`p-2 rounded-lg text-center transition-all ${activeTool === key
-                                        ? 'ring-2'
-                                        : 'bg-gray-800 hover:bg-gray-700'
+                                    ? 'ring-2'
+                                    : 'bg-gray-800 hover:bg-gray-700'
                                     }`}
                                 style={{
                                     backgroundColor: activeTool === key ? t.color + '30' : undefined,
@@ -1699,4 +1699,297 @@ export function LightSources() {
         </group>
     );
 }
+
+// ============================================================
+// 9. INTRODUCTION À L'ÉLECTRICITÉ - Simulation Immersive
+// ============================================================
+export function IntroElectricity() {
+    const [isClosed, setIsClosed] = useState(false);
+    const [selectedMaterial, setSelectedMaterial] = useState('cuivre');
+    const [voltage, setVoltage] = useState(9);
+    const [showCurrentDirection, setShowCurrentDirection] = useState(true);
+
+    const materials = {
+        cuivre: { name: 'Cuivre', conductor: true, color: '#B87333', emoji: '🔌' },
+        fer: { name: 'Fer', conductor: true, color: '#6B7280', emoji: '🔩' },
+        aluminium: { name: 'Aluminium', conductor: true, color: '#C0C0C0', emoji: '🥄' },
+        eau_salee: { name: 'Eau Salée', conductor: true, color: '#3B82F6', emoji: '🌊' },
+        plastique: { name: 'Plastique', conductor: false, color: '#F472B6', emoji: '🧴' },
+        bois: { name: 'Bois', conductor: false, color: '#92400E', emoji: '🪵' },
+        verre: { name: 'Verre', conductor: false, color: '#A5B4FC', emoji: '🥛' },
+        caoutchouc: { name: 'Caoutchouc', conductor: false, color: '#1F2937', emoji: '🖤' }
+    };
+
+    const mat = materials[selectedMaterial];
+    const circuitWorks = isClosed && mat.conductor;
+
+    // Animation des électrons
+    const electronsRef = useRef([]);
+
+    useFrame(({ clock }) => {
+        if (circuitWorks) {
+            electronsRef.current.forEach((mesh, i) => {
+                if (mesh) {
+                    const speed = voltage * 0.05;
+                    const t = ((clock.elapsedTime * speed + i * 0.3) % 4);
+                    // Mouvement en rectangle
+                    if (t < 1) {
+                        mesh.position.x = -2 + t * 4;
+                        mesh.position.y = 1.5;
+                    } else if (t < 2) {
+                        mesh.position.x = 2;
+                        mesh.position.y = 1.5 - (t - 1) * 3;
+                    } else if (t < 3) {
+                        mesh.position.x = 2 - (t - 2) * 4;
+                        mesh.position.y = -1.5;
+                    } else {
+                        mesh.position.x = -2;
+                        mesh.position.y = -1.5 + (t - 3) * 3;
+                    }
+                }
+            });
+        }
+    });
+
+    return (
+        <group>
+            {/* Panneau de contrôle */}
+            <Html position={[4.5, 1.5, 0]} center>
+                <div className="bg-black/95 p-4 rounded-xl text-white border border-yellow-500/30 min-w-[300px] backdrop-blur-md select-none shadow-xl">
+                    <h3 className="text-yellow-400 font-bold mb-3 text-lg">⚡ Introduction à l'Électricité</h3>
+
+                    {/* Interrupteur */}
+                    <div className="flex items-center gap-3 mb-4">
+                        <button
+                            onClick={() => setIsClosed(!isClosed)}
+                            className={`flex-1 py-3 rounded-lg font-bold transition-all ${isClosed
+                                    ? 'bg-green-600 shadow-[0_0_20px_rgba(34,197,94,0.5)]'
+                                    : 'bg-red-600'
+                                }`}
+                        >
+                            {isClosed ? '🔓 OUVRIR' : '🔒 FERMER'}
+                        </button>
+                    </div>
+
+                    {/* Tension */}
+                    <label className="block text-sm mb-1">
+                        Tension de la pile : {voltage}V
+                    </label>
+                    <input
+                        type="range"
+                        min="1.5"
+                        max="12"
+                        step="1.5"
+                        value={voltage}
+                        onChange={(e) => setVoltage(parseFloat(e.target.value))}
+                        className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-yellow-500 mb-4"
+                    />
+
+                    {/* Sélection du matériau */}
+                    <label className="block text-sm mb-2">Test un matériau :</label>
+                    <div className="grid grid-cols-4 gap-1 mb-4">
+                        {Object.entries(materials).map(([key, m]) => (
+                            <button
+                                key={key}
+                                onClick={() => setSelectedMaterial(key)}
+                                className={`p-2 rounded text-center transition-all ${selectedMaterial === key
+                                        ? 'ring-2 ring-yellow-400 bg-yellow-600/20'
+                                        : 'bg-gray-800 hover:bg-gray-700'
+                                    }`}
+                                title={m.name}
+                            >
+                                <div className="text-lg">{m.emoji}</div>
+                                <div className="text-[8px] truncate">{m.name}</div>
+                            </button>
+                        ))}
+                    </div>
+
+                    {/* Résultat */}
+                    <div className={`p-3 rounded-lg text-center ${mat.conductor
+                            ? 'bg-green-900/30 border border-green-500/30'
+                            : 'bg-red-900/30 border border-red-500/30'
+                        }`}>
+                        <div className="text-2xl mb-1">{mat.conductor ? '✅' : '❌'}</div>
+                        <div className="font-bold">
+                            {mat.name} = {mat.conductor ? 'CONDUCTEUR' : 'ISOLANT'}
+                        </div>
+                        <div className="text-xs opacity-80 mt-1">
+                            {mat.conductor
+                                ? 'Le courant peut passer !'
+                                : 'Le courant ne passe pas.'}
+                        </div>
+                    </div>
+
+                    {/* État du circuit */}
+                    <div className={`mt-3 p-2 rounded text-center text-sm ${circuitWorks
+                            ? 'bg-yellow-900/30 text-yellow-300'
+                            : 'bg-gray-800 text-gray-400'
+                        }`}>
+                        {circuitWorks
+                            ? '💡 La lampe brille !'
+                            : isClosed
+                                ? '🚫 Matériau isolant - pas de courant'
+                                : '⚠️ Circuit ouvert'}
+                    </div>
+
+                    {/* Direction du courant */}
+                    <label className="flex items-center gap-2 mt-3 cursor-pointer">
+                        <input
+                            type="checkbox"
+                            checked={showCurrentDirection}
+                            onChange={(e) => setShowCurrentDirection(e.target.checked)}
+                            className="w-4 h-4 accent-yellow-500"
+                        />
+                        <span className="text-sm">Afficher le sens du courant</span>
+                    </label>
+                </div>
+            </Html>
+
+            <Text position={[0, 3.5, 0]} fontSize={0.5} color="#FBBF24">
+                INTRODUCTION À L'ÉLECTRICITÉ
+            </Text>
+
+            {/* Circuit rectangulaire */}
+            <group>
+                {/* Pile/Générateur (à gauche) */}
+                <group position={[-2.5, 0, 0]}>
+                    <mesh>
+                        <boxGeometry args={[0.6, 2, 0.5]} />
+                        <meshStandardMaterial color="#374151" />
+                    </mesh>
+                    <mesh position={[0, 1.1, 0]}>
+                        <boxGeometry args={[0.3, 0.2, 0.3]} />
+                        <meshStandardMaterial color="#EF4444" />
+                    </mesh>
+                    <Text position={[0, 1.4, 0]} fontSize={0.25} color="#EF4444">+</Text>
+                    <Text position={[0, -1.2, 0]} fontSize={0.25} color="#3B82F6">-</Text>
+                    <Text position={[0, -1.7, 0]} fontSize={0.2} color="#F59E0B">{voltage}V</Text>
+                </group>
+
+                {/* Fils du circuit */}
+                {/* Haut */}
+                <mesh position={[0, 1.5, 0]} rotation={[0, 0, Math.PI / 2]}>
+                    <cylinderGeometry args={[0.04, 0.04, 4.5]} />
+                    <meshStandardMaterial
+                        color={circuitWorks ? "#FBBF24" : "#4B5563"}
+                        emissive={circuitWorks ? "#FBBF24" : "#000000"}
+                        emissiveIntensity={circuitWorks ? 0.3 : 0}
+                    />
+                </mesh>
+                {/* Bas */}
+                <mesh position={[0, -1.5, 0]} rotation={[0, 0, Math.PI / 2]}>
+                    <cylinderGeometry args={[0.04, 0.04, 4.5]} />
+                    <meshStandardMaterial
+                        color={circuitWorks ? "#FBBF24" : "#4B5563"}
+                        emissive={circuitWorks ? "#FBBF24" : "#000000"}
+                        emissiveIntensity={circuitWorks ? 0.3 : 0}
+                    />
+                </mesh>
+                {/* Gauche */}
+                <mesh position={[-2, 0, 0]}>
+                    <cylinderGeometry args={[0.04, 0.04, 3]} />
+                    <meshStandardMaterial
+                        color={circuitWorks ? "#FBBF24" : "#4B5563"}
+                    />
+                </mesh>
+                {/* Droite */}
+                <mesh position={[2, 0, 0]}>
+                    <cylinderGeometry args={[0.04, 0.04, 3]} />
+                    <meshStandardMaterial
+                        color={circuitWorks ? "#FBBF24" : "#4B5563"}
+                    />
+                </mesh>
+
+                {/* Interrupteur (en haut à gauche) */}
+                <group position={[-1, 1.5, 0]}>
+                    <mesh>
+                        <boxGeometry args={[0.3, 0.3, 0.2]} />
+                        <meshStandardMaterial color="#10B981" />
+                    </mesh>
+                    <mesh
+                        position={[isClosed ? 0.3 : 0.2, isClosed ? 0 : 0.25, 0]}
+                        rotation={[0, 0, isClosed ? 0 : -0.5]}
+                    >
+                        <boxGeometry args={[0.6, 0.08, 0.1]} />
+                        <meshStandardMaterial color="#6B7280" />
+                    </mesh>
+                    <Text position={[0, 0.6, 0]} fontSize={0.15} color="#10B981">
+                        Interrupteur
+                    </Text>
+                </group>
+
+                {/* Matériau testé (en haut au centre) */}
+                <group position={[0.5, 1.5, 0]}>
+                    <mesh>
+                        <boxGeometry args={[0.8, 0.4, 0.3]} />
+                        <meshStandardMaterial
+                            color={mat.color}
+                            metalness={mat.conductor ? 0.8 : 0.1}
+                            roughness={mat.conductor ? 0.2 : 0.8}
+                        />
+                    </mesh>
+                    <Text position={[0, 0.5, 0]} fontSize={0.12} color={mat.conductor ? "#10B981" : "#EF4444"}>
+                        {mat.name}
+                    </Text>
+                </group>
+
+                {/* Lampe (à droite) */}
+                <group position={[2, 0, 0]}>
+                    <mesh>
+                        <sphereGeometry args={[0.5, 32, 32]} />
+                        <meshStandardMaterial
+                            color={circuitWorks ? "#FCD34D" : "#4B5563"}
+                            emissive={circuitWorks ? "#FCD34D" : "#000000"}
+                            emissiveIntensity={circuitWorks ? 2 : 0}
+                            transparent
+                            opacity={0.9}
+                        />
+                    </mesh>
+                    {circuitWorks && <pointLight intensity={3} color="#FCD34D" distance={5} />}
+                    <mesh position={[0, -0.7, 0]}>
+                        <cylinderGeometry args={[0.15, 0.2, 0.3]} />
+                        <meshStandardMaterial color="#374151" />
+                    </mesh>
+                    <Text position={[0, -1.2, 0]} fontSize={0.2} color="#FCD34D">
+                        Lampe
+                    </Text>
+                </group>
+
+                {/* Électrons animés */}
+                {circuitWorks && Array.from({ length: 8 }).map((_, i) => (
+                    <mesh
+                        key={i}
+                        ref={el => electronsRef.current[i] = el}
+                        position={[-2, 1.5, 0.2]}
+                    >
+                        <sphereGeometry args={[0.08]} />
+                        <meshStandardMaterial
+                            color="#3B82F6"
+                            emissive="#3B82F6"
+                            emissiveIntensity={1}
+                        />
+                    </mesh>
+                ))}
+
+                {/* Flèches du sens du courant */}
+                {showCurrentDirection && circuitWorks && (
+                    <group>
+                        <Text position={[0, 2.2, 0]} fontSize={0.25} color="#EF4444">
+                            → Sens conventionnel du courant (+ vers -)
+                        </Text>
+                        <Text position={[0, -2.2, 0]} fontSize={0.2} color="#3B82F6">
+                            ← Sens réel des électrons (- vers +)
+                        </Text>
+                    </group>
+                )}
+            </group>
+
+            {/* Légende */}
+            <Text position={[0, -3.2, 0]} fontSize={0.18} color="#9CA3AF">
+                Circuit fermé + Conducteur = Courant électrique !
+            </Text>
+        </group>
+    );
+}
+
 

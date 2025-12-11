@@ -325,9 +325,9 @@ Si la route est coupée quelque part, plus personne ne circule !`
                 "Attention aux courts-circuits : Danger d'incendie !"
             ],
             simulation: {
-                id: 'circuit-builder-sim',
-                title: 'Constructeur de Circuits',
-                type: 'circuit'
+                id: 'intro-electricity-sim',
+                title: "Introduction à l'Électricité",
+                type: 'intro-electricity'
             },
             defis: [
                 {
