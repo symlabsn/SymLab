@@ -305,5 +305,106 @@ export const courses = [
         file: null,
         icon: '📊',
         color: 'pink'
+    },
+
+    // ==================================================================================
+    // 🌍 APPLIED DATA SCIENCE LAB - 8 PROJETS MONDIAUX
+    // ==================================================================================
+
+    {
+        id: 'housing-mexico',
+        level: 'Supérieur',
+        subject: 'Applied DS',
+        title: '🇲🇽 Housing in Mexico',
+        description: 'Analyse de 21,000 propriétés : corrélation, visualisation, import CSV.',
+        file: null,
+        icon: '🏠',
+        color: 'emerald',
+        isProject: true,
+        projectNumber: 1
+    },
+    {
+        id: 'apartments-buenos-aires',
+        level: 'Supérieur',
+        subject: 'Applied DS',
+        title: '🇦🇷 Apartments Buenos Aires',
+        description: 'Régression linéaire, pipelines scikit-learn, réduction overfitting.',
+        file: null,
+        icon: '🏢',
+        color: 'blue',
+        isProject: true,
+        projectNumber: 2
+    },
+    {
+        id: 'air-quality-nairobi',
+        level: 'Supérieur',
+        subject: 'Applied DS',
+        title: '🇰🇪 Air Quality Nairobi',
+        description: 'Modèle ARMA, MongoDB, séries temporelles, hyperparameter tuning.',
+        file: null,
+        icon: '🌍',
+        color: 'green',
+        isProject: true,
+        projectNumber: 3
+    },
+    {
+        id: 'earthquake-nepal',
+        level: 'Supérieur',
+        subject: 'Applied DS',
+        title: '🇳🇵 Earthquake in Nepal',
+        description: 'Régression logistique, Decision Trees, SQLite, éthique et biais.',
+        file: null,
+        icon: '🏚️',
+        color: 'orange',
+        isProject: true,
+        projectNumber: 4
+    },
+    {
+        id: 'bankruptcy-poland',
+        level: 'Supérieur',
+        subject: 'Applied DS',
+        title: '🇵🇱 Bankruptcy Poland',
+        description: 'Random Forest, Gradient Boosting, SMOTE, Linux CLI.',
+        file: null,
+        icon: '📉',
+        color: 'red',
+        isProject: true,
+        projectNumber: 5
+    },
+    {
+        id: 'customer-segmentation-us',
+        level: 'Supérieur',
+        subject: 'Applied DS',
+        title: '🇺🇸 Customer Segmentation US',
+        description: 'K-Means clustering, PCA, dashboard Plotly Dash interactif.',
+        file: null,
+        icon: '👥',
+        color: 'purple',
+        isProject: true,
+        projectNumber: 6
+    },
+    {
+        id: 'ab-testing-wqu',
+        level: 'Supérieur',
+        subject: 'Applied DS',
+        title: '🌐 A/B Testing WQU',
+        description: 'Test Chi-carré, classes Python ETL, architecture three-tiered.',
+        file: null,
+        icon: '📧',
+        color: 'indigo',
+        isProject: true,
+        projectNumber: 7
+    },
+    {
+        id: 'volatility-india',
+        level: 'Supérieur',
+        subject: 'Applied DS',
+        title: '🇮🇳 Volatility India',
+        description: 'Modèle GARCH, API finance, création d\'API REST FastAPI.',
+        file: null,
+        icon: '📈',
+        color: 'amber',
+        isProject: true,
+        projectNumber: 8
     }
 ];
