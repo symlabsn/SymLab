@@ -107,25 +107,14 @@ const structuredCourses = {
     'vis-data': visualizationData,
     // Data Science Projects - Map each project to its detailed data
     ...dataScienceProjects.reduce((acc, project) => {
-        // Create chapters from modules
         acc[project.id] = {
-            chapters: project.modules ? project.modules.map(mod => ({
+            chapters: project.modules.map(mod => ({
                 id: `mod-${mod.id}`,
                 title: mod.titre,
-                part: `Module ${mod.id}`,
-                content: mod.contenu ? mod.contenu.map(c => {
-                    if (c.type === 'theorie') return `## ${c.titre}\n\n${c.texte}`;
-                    if (c.type === 'code') return `## ${c.titre}\n\n\`\`\`${c.langage}\n${c.code}\n\`\`\``;
-                    if (c.type === 'exercice') return `## 📝 ${c.titre}\n\n**Énoncé:** ${c.enonce}\n\n*Indice: ${c.indice || 'Aucun'}*`;
-                    return '';
-                }).join('\n\n') : `**Objectif:** ${mod.objectif}\n\n*Durée estimée: ${mod.duree}*`,
-                exercises: []
-            })) : [{
-                id: 'intro',
-                title: project.titre,
-                content: `# ${project.titre}\n\n${project.resume}\n\n## Objectifs\n${project.objectifs ? project.objectifs.map(o => `- ${o}`).join('\n') : ''}\n\n## Compétences\n${project.competences ? Object.entries(project.competences).map(([cat, skills]) => `### ${cat}\n${skills.map(s => `- **${s.nom}** (${s.niveau}): ${s.description}`).join('\n')}`).join('\n\n') : ''}`,
-                exercises: []
-            }]
+                part: `Module ${mod.id} - ${mod.duree}`,
+                content: mod.content || `**Objectif:** ${mod.objectif}\n\n*Durée estimée: ${mod.duree}*`,
+                summary: mod.summary || []
+            }))
         };
         return acc;
     }, {})
