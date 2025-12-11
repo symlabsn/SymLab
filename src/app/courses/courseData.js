@@ -308,15 +308,15 @@ export const courses = [
     },
 
     // ==================================================================================
-    // 🌍 APPLIED DATA SCIENCE LAB - 8 PROJETS MONDIAUX
+    // 🌍 DATA SCIENCE APPLIQUÉE - 8 PROJETS MONDIAUX
     // ==================================================================================
 
     {
         id: 'housing-mexico',
         level: 'Supérieur',
-        subject: 'Applied DS',
-        title: '🇲🇽 Housing in Mexico',
-        description: 'Analyse de 21,000 propriétés : corrélation, visualisation, import CSV.',
+        subject: 'Data Science',
+        title: '🇲🇽 Immobilier au Mexique',
+        description: 'Analyse de 21 000 propriétés : corrélation, visualisation, import CSV. Déterminez si le prix dépend plus de la taille ou de la localisation.',
         file: null,
         icon: '🏠',
         color: 'emerald',
@@ -326,9 +326,9 @@ export const courses = [
     {
         id: 'apartments-buenos-aires',
         level: 'Supérieur',
-        subject: 'Applied DS',
-        title: '🇦🇷 Apartments Buenos Aires',
-        description: 'Régression linéaire, pipelines scikit-learn, réduction overfitting.',
+        subject: 'Data Science',
+        title: '🇦🇷 Appartements à Buenos Aires',
+        description: 'Régression linéaire pour prédire les prix. Pipelines scikit-learn, imputation, encodage et réduction de l\'overfitting.',
         file: null,
         icon: '🏢',
         color: 'blue',
@@ -338,9 +338,9 @@ export const courses = [
     {
         id: 'air-quality-nairobi',
         level: 'Supérieur',
-        subject: 'Applied DS',
-        title: '🇰🇪 Air Quality Nairobi',
-        description: 'Modèle ARMA, MongoDB, séries temporelles, hyperparameter tuning.',
+        subject: 'Data Science',
+        title: '🇰🇪 Qualité de l\'Air à Nairobi',
+        description: 'Modèle ARMA de séries temporelles. Extraction MongoDB avec pymongo, hyperparameter tuning pour prédire la pollution.',
         file: null,
         icon: '🌍',
         color: 'green',
@@ -350,9 +350,9 @@ export const courses = [
     {
         id: 'earthquake-nepal',
         level: 'Supérieur',
-        subject: 'Applied DS',
-        title: '🇳🇵 Earthquake in Nepal',
-        description: 'Régression logistique, Decision Trees, SQLite, éthique et biais.',
+        subject: 'Data Science',
+        title: '🇳🇵 Séisme au Népal',
+        description: 'Régression logistique et arbres de décision. Extraction SQLite, révélez les biais discriminatoires dans les données.',
         file: null,
         icon: '🏚️',
         color: 'orange',
@@ -362,9 +362,9 @@ export const courses = [
     {
         id: 'bankruptcy-poland',
         level: 'Supérieur',
-        subject: 'Applied DS',
-        title: '🇵🇱 Bankruptcy Poland',
-        description: 'Random Forest, Gradient Boosting, SMOTE, Linux CLI.',
+        subject: 'Data Science',
+        title: '🇵🇱 Faillite en Pologne',
+        description: 'Random Forest et Gradient Boosting. Gestion du déséquilibre avec SMOTE, ligne de commande Linux, precision/recall.',
         file: null,
         icon: '📉',
         color: 'red',
@@ -374,9 +374,9 @@ export const courses = [
     {
         id: 'customer-segmentation-us',
         level: 'Supérieur',
-        subject: 'Applied DS',
-        title: '🇺🇸 Customer Segmentation US',
-        description: 'K-Means clustering, PCA, dashboard Plotly Dash interactif.',
+        subject: 'Data Science',
+        title: '🇺🇸 Segmentation Client aux USA',
+        description: 'Clustering K-Means et réduction PCA. Créez un dashboard interactif avec Plotly Dash pour visualiser les segments.',
         file: null,
         icon: '👥',
         color: 'purple',
@@ -386,9 +386,9 @@ export const courses = [
     {
         id: 'ab-testing-wqu',
         level: 'Supérieur',
-        subject: 'Applied DS',
-        title: '🌐 A/B Testing WQU',
-        description: 'Test Chi-carré, classes Python ETL, architecture three-tiered.',
+        subject: 'Data Science',
+        title: '🌐 Test A/B WorldQuant',
+        description: 'Test statistique Chi-carré. Classes Python ETL personnalisées, architecture three-tiered pour application interactive.',
         file: null,
         icon: '📧',
         color: 'indigo',
@@ -398,9 +398,9 @@ export const courses = [
     {
         id: 'volatility-india',
         level: 'Supérieur',
-        subject: 'Applied DS',
-        title: '🇮🇳 Volatility India',
-        description: 'Modèle GARCH, API finance, création d\'API REST FastAPI.',
+        subject: 'Data Science',
+        title: '🇮🇳 Volatilité en Inde',
+        description: 'Modèle GARCH pour prédire la volatilité boursière. API finance, stockage SQLite, créez votre propre API REST avec FastAPI.',
         file: null,
         icon: '📈',
         color: 'amber',
