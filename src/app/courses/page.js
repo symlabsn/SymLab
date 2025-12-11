@@ -383,6 +383,7 @@ function CoursesContent() {
 
     // Démarrer la lecture (Séquentielle pour gestion des pauses naturelles)
     const startSpeaking = (text) => {
+        return; // Lecture désactivée temporairement (demande utilisateur)
         if (!window.speechSynthesis) return;
         window.speechSynthesis.cancel();
 
