@@ -727,7 +727,7 @@ const ResultsModal = ({ isOpen, onClose, score, total }) => {
 
 export default function SimulationDetailPage({ params }) {
     const [resolvedParams, setResolvedParams] = useState(null);
-    const [activeTab, setActiveTab] = useState('simulation');
+    const [activeTab, setActiveTab] = useState('analogy');
     const [currentExercise, setCurrentExercise] = useState(0);
     const [selectedAnswer, setSelectedAnswer] = useState(null);
     const [showExplanation, setShowExplanation] = useState(false);
@@ -834,11 +834,11 @@ export default function SimulationDetailPage({ params }) {
                 {/* Tabs améliorés - Mobile First avec scroll horizontal */}
                 <div className="flex gap-1.5 sm:gap-3 mb-4 sm:mb-8 overflow-x-auto pb-2 -mx-3 px-3 sm:mx-0 sm:px-0 scrollbar-hide">
                     {[
-                        { id: 'simulation', label: 'Simulation', icon: '🎮', shortLabel: 'Simu' },
-                        { id: 'challenges', label: 'Mode Défi', icon: '⚡', shortLabel: 'Défi' },
-                        { id: 'gallery', label: 'Galerie', icon: '🖼️', shortLabel: 'Gal.' },
                         { id: 'analogy', label: 'Analogie', icon: '🌍', shortLabel: 'Analo.' },
                         { id: 'theory', label: 'Théorie', icon: '📚', shortLabel: 'Théo.' },
+                        { id: 'challenges', label: 'Mode Défi', icon: '⚡', shortLabel: 'Défi' },
+                        { id: 'gallery', label: 'Galerie', icon: '🖼️', shortLabel: 'Gal.' },
+                        { id: 'simulation', label: 'Simulation', icon: '🎮', shortLabel: 'Simu' },
                     ].map((tab) => (
                         <button
                             key={tab.id}
@@ -855,10 +855,10 @@ export default function SimulationDetailPage({ params }) {
                     ))}
                 </div>
 
-                {/* Content Grid - Mobile optimized */}
-                <div className="grid lg:grid-cols-4 gap-4 sm:gap-6">
-                    {/* Main Content - Full width on mobile */}
-                    <div className="lg:col-span-3 order-1">
+                {/* Content - Full width */}
+                <div className="space-y-4 sm:space-y-6">
+                    {/* Main Content */}
+                    <div>
                         {activeTab === 'simulation' && (
                             <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
                                 {/* Conteneur de simulation avec barre d'outils */}
@@ -918,13 +918,18 @@ export default function SimulationDetailPage({ params }) {
                                         </div>
                                     </div>
 
-                                    {/* Exploration guidée */}
-                                    <GuidedExploration
-                                        currentStep={explorationStep}
-                                        setCurrentStep={setExplorationStep}
-                                        totalSteps={explorationPoints.length}
-                                        isActive={isExplorationActive}
-                                        setIsActive={setIsExplorationActive}
+                                    {/* Contrôles avancés - Visible sur tous les écrans */}
+                                    <AdvancedControls
+                                        autoRotate={autoRotate}
+                                        setAutoRotate={setAutoRotate}
+                                        speed={speed}
+                                        setSpeed={setSpeed}
+                                        showLabels={showLabels}
+                                        setShowLabels={setShowLabels}
+                                        showGrid={showGrid}
+                                        setShowGrid={setShowGrid}
+                                        zoom={zoom}
+                                        setZoom={setZoom}
                                     />
                                 </div>
                             </div>
@@ -1036,98 +1041,6 @@ export default function SimulationDetailPage({ params }) {
                         )}
 
                         {/* Section Exercices supprimée - remplacée par Mode Défi */}
-                    </div>
-
-                    {/* Sidebar améliorée */}
-                    <div className="space-y-6">
-                        {/* Informations */}
-                        <div className="p-6 rounded-2xl bg-gradient-to-br from-white/10 to-white/5 border border-white/20">
-                            <h3 className="text-xl font-bold mb-4 text-[#00F5D4]">ℹ️ Informations</h3>
-                            <div className="space-y-4 text-sm">
-                                <div className="flex items-center gap-3 p-3 rounded-lg bg-white/5">
-                                    <span className="text-2xl">🎓</span>
-                                    <div>
-                                        <p className="text-gray-400">Niveau</p>
-                                        <p className="font-semibold">{simulationLevel.name}</p>
-                                    </div>
-                                </div>
-                                <div className="flex items-center gap-3 p-3 rounded-lg bg-white/5">
-                                    <span className="text-2xl">⚗️</span>
-                                    <div>
-                                        <p className="text-gray-400">Type</p>
-                                        <p className="font-semibold capitalize">{simulation.type}</p>
-                                    </div>
-                                </div>
-                                <div className="flex items-center gap-3 p-3 rounded-lg bg-white/5">
-                                    <span className="text-2xl">⏱️</span>
-                                    <div>
-                                        <p className="text-gray-400">Durée estimée</p>
-                                        <p className="font-semibold">30-45 minutes</p>
-                                    </div>
-                                </div>
-                                <div className="flex items-center gap-3 p-3 rounded-lg bg-white/5">
-                                    <span className="text-2xl">📊</span>
-                                    <div>
-                                        <p className="text-gray-400">Difficulté</p>
-                                        <p className={`font-semibold ${simulationLevel.name.includes('Collège') ? 'text-green-400' : 'text-orange-400'}`}>
-                                            {simulationLevel.name.includes('Collège') ? '⭐ Facile / Moyen' : '⭐⭐ Moyen / Difficile'}
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        {/* Contrôles avancés */}
-                        <AdvancedControls
-                            autoRotate={autoRotate}
-                            setAutoRotate={setAutoRotate}
-                            speed={speed}
-                            setSpeed={setSpeed}
-                            showLabels={showLabels}
-                            setShowLabels={setShowLabels}
-                            showGrid={showGrid}
-                            setShowGrid={setShowGrid}
-                            zoom={zoom}
-                            setZoom={setZoom}
-                        />
-
-                        {/* Notes personnelles */}
-                        <PersonalNotes simulationId={resolvedParams.id} />
-
-                        {/* Actions */}
-                        <div className="p-6 rounded-2xl bg-gradient-to-br from-white/10 to-white/5 border border-white/20">
-                            <h3 className="text-xl font-bold mb-4 text-[#00F5D4]">⚡ Actions</h3>
-                            <div className="space-y-3">
-                                <button className="w-full px-4 py-3 rounded-xl bg-gradient-to-r from-[#00F5D4] to-cyan-500 text-black font-bold hover:scale-105 transition-transform flex items-center justify-center gap-2">
-                                    <span>📥</span> Télécharger le PDF
-                                </button>
-                                <button className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 transition-all flex items-center justify-center gap-2">
-                                    <span>⭐</span> Ajouter aux favoris
-                                </button>
-                                <button className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 transition-all flex items-center justify-center gap-2">
-                                    <span>📤</span> Partager
-                                </button>
-                            </div>
-                        </div>
-
-                        {/* Simulations liées */}
-                        {simulation.relatedSimulations && (
-                            <div className="p-6 rounded-2xl bg-gradient-to-br from-white/10 to-white/5 border border-white/20">
-                                <h3 className="text-xl font-bold mb-4 text-[#00F5D4]">🔗 À découvrir aussi</h3>
-                                <div className="space-y-2 text-sm">
-                                    {simulation.relatedSimulations.map(simId => (
-                                        <Link
-                                            key={simId}
-                                            href={`/simulations/${simId}`}
-                                            className="block p-3 rounded-lg bg-white/5 hover:bg-white/10 hover:translate-x-1 transition-all capitalize group"
-                                        >
-                                            <span className="group-hover:text-[#00F5D4]">{simId.replace(/-/g, ' ')}</span>
-                                            <span className="float-right opacity-0 group-hover:opacity-100 transition-opacity">→</span>
-                                        </Link>
-                                    ))}
-                                </div>
-                            </div>
-                        )}
                     </div>
                 </div>
             </div>
