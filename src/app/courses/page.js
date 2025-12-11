@@ -162,217 +162,114 @@ function CoursesContent() {
         if (!text) return '';
 
         let result = text
-            // Supprimer emojis
+            // Supprimer emojis et formatage basique
             .replace(/[\u{1F600}-\u{1F64F}]/gu, '')
             .replace(/[\u{1F300}-\u{1F5FF}]/gu, '')
             .replace(/[\u{1F680}-\u{1F6FF}]/gu, '')
             .replace(/[\u{1F900}-\u{1F9FF}]/gu, '')
             .replace(/[\u{2600}-\u{27BF}]/gu, '')
-            // Supprimer blocs de code
             .replace(/```[\s\S]*?```/g, '. ')
             .replace(/`([^`]+)`/g, '$1')
-            // Supprimer formatage Markdown
             .replace(/\*\*([^*]+)\*\*/g, '$1')
             .replace(/\*([^*]+)\*/g, '$1')
             .replace(/#{1,6}\s*/g, '')
             .replace(/\$/g, '');
 
+        // === LECTURE FONCTIONNELLE INTELLIGENTE ===
+        // f(x) -> f de x
+        result = result.replace(/\b([fghuv])\s*\(\s*([a-z0-9]+)\s*\)/gi, '$1 de $2');
+        result = result.replace(/\\(sin|cos|tan|ln|log|exp)\s*\(\s*([^)]+)\s*\)/g, '$1 de $2');
+
+        // === INTERVALLES ===
+        result = result.replace(/\[\s*([^;]+)\s*;\s*([^\]]+)\s*\]/g, 'intervalle fermé de $1 à $2');
+        result = result.replace(/\]\s*([^;]+)\s*;\s*([^\[]+)\s*\[/g, 'intervalle ouvert de $1 à $2');
+
         // === LATEX AVANCÉ ===
-        // Fractions imbriquées
-        result = result.replace(/\\frac\{([^{}]*(?:\{[^{}]*\}[^{}]*)*)\}\{([^{}]*(?:\{[^{}]*\}[^{}]*)*)\}/g,
-            (_, num, den) => ` ${num} sur ${den} `);
+        // Fractions : amélioration pour éviter "a sur b" si c'est très long, mais "a sur b" reste le standard oral simple
+        result = result.replace(/\\frac\s*\{([^{}]*)\}\s*\{([^{}]*)\}/g, ' $1 sur $2 ');
 
-        // Racines avec indices
-        result = result.replace(/\\sqrt\[(\d+)\]\{([^}]+)\}/g, 'racine $1-ième de $2');
-        result = result.replace(/\\sqrt\{([^}]+)\}/g, 'racine carrée de $1');
+        // Racines
+        result = result.replace(/\\sqrt\[(\d+)\]\s*\{([^}]+)\}/g, 'racine $1-ième de $2');
+        result = result.replace(/\\sqrt\s*\{([^}]+)\}/g, 'racine carrée de $1');
 
-        // Puissances et exposants
-        result = result.replace(/\^{([^}]+)}/g, ' puissance $1 ');
+        // Puissances et indices
+        result = result.replace(/\^\{([^}]+)\}/g, ' puissance $1 ');
         result = result.replace(/\^(\d+)/g, ' puissance $1 ');
-        result = result.replace(/\^(-\d+)/g, ' puissance moins $1 ');
+        result = result.replace(/_\s*\{([^}]+)\}/g, ' indice $1 ');
+        result = result.replace(/_\s*(\d+|[a-z])/gi, ' indice $1 ');
 
-        // Indices
-        result = result.replace(/_{([^}]+)}/g, ' indice $1 ');
-        result = result.replace(/_(\d+)/g, ' indice $1 ');
-        result = result.replace(/_([a-z])/gi, ' indice $1 ');
+        // Vecteurs améliorés
+        result = result.replace(/\\vec\s*\{([^}]+)\}/g, 'vecteur $1');
+        result = result.replace(/\\overrightarrow\s*\{([^}]+)\}/g, 'vecteur $1');
+        result = result.replace(/\\|\s*\\|\s*/g, ' norme de $1 ');
 
-        // Opérateurs mathématiques LaTeX
-        result = result.replace(/\\times/g, ' multiplié par ');
-        result = result.replace(/\\cdot/g, ' fois ');
-        result = result.replace(/\\div/g, ' divisé par ');
-        result = result.replace(/\\pm/g, ' plus ou moins ');
-        result = result.replace(/\\mp/g, ' moins ou plus ');
+        // Opérateurs et Relations
+        result = result
+            .replace(/\\times/g, ' fois ')
+            .replace(/\\cdot/g, ' fois ')
+            .replace(/\\div/g, ' divisé par ')
+            .replace(/\\pm/g, ' plus ou moins ')
+            .replace(/\\leq/g, ' inférieur ou égal à ')
+            .replace(/\\geq/g, ' supérieur ou égal à ')
+            .replace(/\\neq/g, ' différent de ')
+            .replace(/\\approx/g, ' environ égal à ')
+            .replace(/\\equiv/g, ' équivalent à ')
+            .replace(/\\in/g, ' appartient à ')
+            .replace(/\\notin/g, ' n\'appartient pas à ')
+            .replace(/\\forall/g, ' pour tout ')
+            .replace(/\\exists/g, ' il existe ')
+            .replace(/\\infty/g, ' l\'infini ')
+            .replace(/\\rightarrow/g, ' tend vers ')
+            .replace(/\\Rightarrow/g, ' implique ')
+            .replace(/\\Leftrightarrow/g, ' équivaut à ');
 
-        // Comparaisons
-        result = result.replace(/\\leq/g, ' inférieur ou égal à ');
-        result = result.replace(/\\geq/g, ' supérieur ou égal à ');
-        result = result.replace(/\\neq/g, ' différent de ');
-        result = result.replace(/\\approx/g, ' environ égal à ');
-        result = result.replace(/\\equiv/g, ' équivalent à ');
-        result = result.replace(/\\sim/g, ' similaire à ');
+        // Lettres Grecques
+        result = result
+            .replace(/\\pi/g, ' pi ')
+            .replace(/\\alpha/g, ' alpha ')
+            .replace(/\\beta/g, ' bêta ')
+            .replace(/\\gamma/g, ' gamma ')
+            .replace(/\\delta/g, ' delta ')
+            .replace(/\\Delta/g, ' Delta ')
+            .replace(/\\theta/g, ' thêta ')
+            .replace(/\\lambda/g, ' lambda ')
+            .replace(/\\sigma/g, ' sigma ')
+            .replace(/\\Sigma/g, ' Sigma ')
+            .replace(/\\omega/g, ' oméga ')
+            .replace(/\\Omega/g, ' Oméga ');
 
-        // Ensembles et logique
-        result = result.replace(/\\in/g, ' appartient à ');
-        result = result.replace(/\\notin/g, ' n\'appartient pas à ');
-        result = result.replace(/\\subset/g, ' inclus dans ');
-        result = result.replace(/\\supset/g, ' contient ');
-        result = result.replace(/\\cup/g, ' union ');
-        result = result.replace(/\\cap/g, ' intersection ');
-        result = result.replace(/\\emptyset/g, ' ensemble vide ');
-        result = result.replace(/\\forall/g, ' pour tout ');
-        result = result.replace(/\\exists/g, ' il existe ');
-        result = result.replace(/\\Rightarrow/g, ' implique ');
-        result = result.replace(/\\Leftrightarrow/g, ' si et seulement si ');
-        result = result.replace(/\\therefore/g, ' donc ');
+        // Nettoyage LaTeX restant
+        result = result
+            .replace(/\\left/g, '')
+            .replace(/\\right/g, '')
+            .replace(/\\text\{([^}]+)\}/g, '$1')
+            .replace(/\\/g, ''); // Supprime les backslashs restants
 
-        // Constantes et symboles
-        result = result.replace(/\\infty/g, ' infini ');
-        result = result.replace(/\\pi/g, ' pi ');
-        result = result.replace(/\\alpha/g, ' alpha ');
-        result = result.replace(/\\beta/g, ' bêta ');
-        result = result.replace(/\\gamma/g, ' gamma ');
-        result = result.replace(/\\delta/g, ' delta ');
-        result = result.replace(/\\epsilon/g, ' epsilon ');
-        result = result.replace(/\\theta/g, ' thêta ');
-        result = result.replace(/\\lambda/g, ' lambda ');
-        result = result.replace(/\\mu/g, ' mu ');
-        result = result.replace(/\\sigma/g, ' sigma ');
-        result = result.replace(/\\omega/g, ' oméga ');
-        result = result.replace(/\\phi/g, ' phi ');
-        result = result.replace(/\\psi/g, ' psi ');
-        result = result.replace(/\\rho/g, ' rho ');
-        result = result.replace(/\\tau/g, ' tau ');
-        result = result.replace(/\\Delta/g, ' delta majuscule ');
-        result = result.replace(/\\Omega/g, ' oméga majuscule ');
-        result = result.replace(/\\Sigma/g, ' sigma majuscule ');
+        // === LECTURE NATURELLE MATHS ===
+        // Opérateurs standards isolés
+        result = result.replace(/(\d|[a-z])\s*\+\s*(\d|[a-z])/gi, '$1 plus $2');
+        result = result.replace(/(\d|[a-z])\s*-\s*(\d|[a-z])/gi, '$1 moins $2');
+        result = result.replace(/(\d|[a-z])\s*=\s*(\d|[a-z])/gi, '$1 égale $2');
+        result = result.replace(/(\d|[a-z])\s*>\s*(\d|[a-z])/gi, '$1 supérieur à $2');
+        result = result.replace(/(\d|[a-z])\s*<\s*(\d|[a-z])/gi, '$1 inférieur à $2');
 
-        // Fonctions mathématiques
-        result = result.replace(/\\sin/g, ' sinus de ');
-        result = result.replace(/\\cos/g, ' cosinus de ');
-        result = result.replace(/\\tan/g, ' tangente de ');
-        result = result.replace(/\\log/g, ' logarithme de ');
-        result = result.replace(/\\ln/g, ' logarithme népérien de ');
-        result = result.replace(/\\exp/g, ' exponentielle de ');
-        result = result.replace(/\\lim/g, ' limite de ');
-        result = result.replace(/\\sum/g, ' somme de ');
-        result = result.replace(/\\prod/g, ' produit de ');
-        result = result.replace(/\\int/g, ' intégrale de ');
-
-        // Vecteurs et matrices
-        result = result.replace(/\\vec\{([^}]+)\}/g, ' vecteur $1 ');
-        result = result.replace(/\\overrightarrow\{([^}]+)\}/g, ' vecteur $1 ');
-        result = result.replace(/\\bar\{([^}]+)\}/g, ' $1 barre ');
-        result = result.replace(/\\hat\{([^}]+)\}/g, ' $1 chapeau ');
-
-        // Parenthèses LaTeX
-        result = result.replace(/\\left\(/g, ' parenthèse ouvrante ');
-        result = result.replace(/\\right\)/g, ' parenthèse fermante ');
-        result = result.replace(/\\left\[/g, ' crochet ouvrant ');
-        result = result.replace(/\\right\]/g, ' crochet fermant ');
-        result = result.replace(/\\left\{/g, ' accolade ouvrante ');
-        result = result.replace(/\\right\}/g, ' accolade fermante ');
-
-        // Nettoyer les délimiteurs LaTeX restants
-        result = result.replace(/\\\(/g, '').replace(/\\\)/g, '');
-        result = result.replace(/\\\[/g, '').replace(/\\\]/g, '');
-        result = result.replace(/\\[a-zA-Z]+/g, '');
-        result = result.replace(/\{|\}/g, '');
-
-        // === SYMBOLES UNICODE MATHÉMATIQUES ===
-        result = result.replace(/≤/g, ' inférieur ou égal à ');
-        result = result.replace(/≥/g, ' supérieur ou égal à ');
-        result = result.replace(/≠/g, ' différent de ');
-        result = result.replace(/≈/g, ' environ ');
-        result = result.replace(/×/g, ' multiplié par ');
-        result = result.replace(/÷/g, ' divisé par ');
-        result = result.replace(/±/g, ' plus ou moins ');
-        result = result.replace(/∞/g, ' infini ');
-        result = result.replace(/π/g, ' pi ');
-        result = result.replace(/√/g, ' racine de ');
-        result = result.replace(/∑/g, ' somme ');
-        result = result.replace(/∫/g, ' intégrale ');
-        result = result.replace(/∈/g, ' appartient à ');
-        result = result.replace(/∉/g, ' n\'appartient pas à ');
-        result = result.replace(/⊂/g, ' inclus dans ');
-        result = result.replace(/∪/g, ' union ');
-        result = result.replace(/∩/g, ' intersection ');
-        result = result.replace(/∅/g, ' ensemble vide ');
-        result = result.replace(/∀/g, ' pour tout ');
-        result = result.replace(/∃/g, ' il existe ');
-        result = result.replace(/→/g, ' donne ');
-        result = result.replace(/←/g, ' vient de ');
-        result = result.replace(/↔/g, ' équivaut à ');
-        result = result.replace(/⇒/g, ' implique ');
-        result = result.replace(/⇔/g, ' si et seulement si ');
-
-        // === OPÉRATEURS STANDARD ===
-        // Équations (lecture naturelle de a = b)
-        result = result.replace(/\s*=\s*/g, ' égale ');
-        result = result.replace(/\s*\+\s*/g, ' plus ');
-        result = result.replace(/\s*-\s*/g, ' moins ');
-        result = result.replace(/\s*<\s*/g, ' inférieur à ');
-        result = result.replace(/\s*>\s*/g, ' supérieur à ');
-
-        // === NOMBRES ET UNITÉS ===
-        // Notation scientifique
-        result = result.replace(/(\d+)\s*[×x]\s*10\^(-?\d+)/g, '$1 fois 10 puissance $2');
-        result = result.replace(/10\^(-?\d+)/g, '10 puissance $1');
-
-        // Nombres décimaux
+        // Unités et Nombres
         result = result.replace(/(\d+),(\d+)/g, '$1 virgule $2');
         result = result.replace(/(\d+)\.(\d+)/g, '$1 virgule $2');
+        result = result.replace(/°C/g, ' degrés Celsius');
+        result = result.replace(/%/g, ' pour cent');
+        result = result.replace(/kg\b/g, ' kilogrammes');
+        result = result.replace(/cm\b/g, ' centimètres');
+        result = result.replace(/mm\b/g, ' millimètres');
+        result = result.replace(/\bkm\b/g, ' kilomètres');
 
-        // Puissances courantes
-        result = result.replace(/(\w)²/g, '$1 au carré');
-        result = result.replace(/(\w)³/g, '$1 au cube');
-        result = result.replace(/(\d+)²/g, '$1 au carré');
-        result = result.replace(/(\d+)³/g, '$1 au cube');
-
-        // Unités physiques
-        result = result.replace(/m²/g, ' mètres carrés ');
-        result = result.replace(/m³/g, ' mètres cubes ');
-        result = result.replace(/cm²/g, ' centimètres carrés ');
-        result = result.replace(/cm³/g, ' centimètres cubes ');
-        result = result.replace(/km²/g, ' kilomètres carrés ');
-        result = result.replace(/m\/s²/g, ' mètres par seconde au carré ');
-        result = result.replace(/m\/s/g, ' mètres par seconde ');
-        result = result.replace(/km\/h/g, ' kilomètres par heure ');
-        result = result.replace(/kg/g, ' kilogrammes ');
-        result = result.replace(/(\d+)\s*g\b/g, '$1 grammes ');
-        result = result.replace(/(\d+)\s*L\b/g, '$1 litres ');
-        result = result.replace(/(\d+)\s*mL\b/g, '$1 millilitres ');
-        result = result.replace(/°C/g, ' degrés Celsius ');
-        result = result.replace(/°F/g, ' degrés Fahrenheit ');
-        result = result.replace(/°K/g, ' Kelvins ');
-        result = result.replace(/°/g, ' degrés ');
-        result = result.replace(/%/g, ' pourcent ');
-        result = result.replace(/(\d+)\s*mol\b/g, '$1 moles ');
-        result = result.replace(/(\d+)\s*N\b/g, '$1 Newtons ');
-        result = result.replace(/(\d+)\s*J\b/g, '$1 Joules ');
-        result = result.replace(/(\d+)\s*W\b/g, '$1 Watts ');
-        result = result.replace(/(\d+)\s*V\b/g, '$1 Volts ');
-        result = result.replace(/(\d+)\s*A\b/g, '$1 Ampères ');
-        result = result.replace(/(\d+)\s*Hz\b/g, '$1 Hertz ');
-
-        // === CHIMIE ===
-        result = result.replace(/H₂O/g, ' H deux O ');
-        result = result.replace(/CO₂/g, ' C O deux ');
-        result = result.replace(/O₂/g, ' O deux ');
-        result = result.replace(/N₂/g, ' N deux ');
-        result = result.replace(/H₂/g, ' H deux ');
-        result = result.replace(/NaCl/g, ' N A C L ');
-
-        // === NETTOYAGE FINAL ===
+        // Nettoyage final ponctuation et espaces
         result = result
+            .replace(/\{/g, '')
+            .replace(/\}/g, '')
             .replace(/\n+/g, '. ')
-            .replace(/&nbsp;/g, ' ')
-            .replace(/&amp;/g, ' et ')
-            .replace(/&lt;/g, ' inférieur à ')
-            .replace(/&gt;/g, ' supérieur à ')
             .replace(/\s+/g, ' ')
             .replace(/\.\s*\./g, '.')
-            .replace(/\s+,/g, ',')
-            .replace(/,\s*,/g, ',')
             .trim();
 
         return result;
@@ -387,7 +284,7 @@ function CoursesContent() {
 
         speechRef.current = new SpeechSynthesisUtterance(cleanText);
         speechRef.current.lang = 'fr-FR';
-        speechRef.current.rate = 0.9;
+        speechRef.current.rate = 1.0; // Vitesse normale
         speechRef.current.pitch = 1;
         if (selectedVoice) speechRef.current.voice = selectedVoice;
 
