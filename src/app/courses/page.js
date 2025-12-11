@@ -192,6 +192,14 @@ function CoursesContent() {
             .replace(/\\mathbb\{C\}/g, " l'ensemble des nombres complexes ")
             .replace(/\\mathbb\{D\}/g, " l'ensemble des nombres décimaux ");
 
+        // === VALEURS ABSOLUES ===
+        // LaTeX: \left| x \right| ou |x|
+        result = result.replace(/\\left\|([^|]+)\\right\|/g, ' valeur absolue de $1 ');
+        result = result.replace(/\|([^|]+)\|/g, ' valeur absolue de $1 ');
+        result = result.replace(/\\lvert\s*([^|\\]+)\s*\\rvert/g, ' valeur absolue de $1 ');
+        // Module (vecteurs)
+        result = result.replace(/\\left\|\\vec\{([^}]+)\}\\right\|/g, ' norme du vecteur $1 ');
+
         // === IDENTITÉS REMARQUABLES ET PUISSANCES ===
         // (a+b)^2 -> a plus b le tout au carré
         result = result.replace(/\(([^)]+)\)\^2/g, ' $1 le tout au carré ');
@@ -200,16 +208,40 @@ function CoursesContent() {
         result = result.replace(/([a-zA-Z0-9]+)\^2/g, ' $1 au carré ');
         result = result.replace(/([a-zA-Z0-9]+)\^3/g, ' $1 au cube ');
 
+        // Cas général: 10^n, a^n, x^{n+1}
+        result = result.replace(/([a-zA-Z0-9]+)\^([a-zA-Z0-9]+)/g, ' $1 puissance $2 ');
+        result = result.replace(/([a-zA-Z0-9]+)\^\{([^}]+)\}/g, ' $1 puissance $2 ');
+        result = result.replace(/\^([a-zA-Z0-9]+)/g, ' puissance $1 '); // Puissance orpheline
+
+        // Indices: u_n -> u indice n
+        result = result.replace(/([a-zA-Z])_([a-zA-Z0-9]+)/g, ' $1 indice $2 ');
+        result = result.replace(/([a-zA-Z])_\{([^}]+)\}/g, ' $1 indice $2 ');
+
         // === LECTURE FONCTIONNELLE INTELLIGENTE ===
         // f(x) -> f de x
         result = result.replace(/\b([fghuv])\s*\(\s*([a-z0-9]+)\s*\)/gi, '$1 de $2');
         result = result.replace(/\\(sin|cos|tan|ln|log|exp)\s*\(\s*([^)]+)\s*\)/g, '$1 de $2');
+        result = result.replace(/\\lim_\{([^}]+)\}/g, ' limite quand $1 ');
+
+        // === SOMMES ET PRODUITS ===
+        result = result.replace(/\\sum_\{([^}]+)\}\^\{([^}]+)\}/g, ' somme de $1 à $2 ');
+        result = result.replace(/\\sum/g, ' somme ');
 
         // === INTERVALLES ===
         result = result.replace(/\[\s*([^;]+)\s*;\s*([^\]]+)\s*\]/g, ' intervalle fermé de $1 à $2 ');
         result = result.replace(/\]\s*([^;]+)\s*;\s*([^\[]+)\s*\[/g, ' intervalle ouvert de $1 à $2 ');
         result = result.replace(/\[\s*([^;]+)\s*;\s*([^\[]+)\s*\[/g, ' intervalle de $1 fermé à $2 ouvert ');
         result = result.replace(/\]\s*([^;]+)\s*;\s*([^\]]+)\s*\]/g, ' intervalle de $1 ouvert à $2 fermé ');
+
+        // === INÉGALITÉS ===
+        result = result
+            .replace(/\\leq/g, ' inférieur ou égal à ')
+            .replace(/\\geq/g, ' supérieur ou égal à ')
+            .replace(/<=/g, ' inférieur ou égal à ')
+            .replace(/>=/g, ' supérieur ou égal à ')
+            .replace(/</g, ' inférieur à ')
+            .replace(/>/g, ' supérieur à ')
+            .replace(/\\neq/g, ' différent de ');
 
         // === LATEX AVANCÉ ET MATHS ===
         result = result
@@ -231,9 +263,6 @@ function CoursesContent() {
             .replace(/\\times/g, ' fois ')
             .replace(/\\cdot/g, ' fois ')
             .replace(/\\div/g, ' divisé par ')
-            .replace(/\\leq/g, ' inférieur ou égal à ')
-            .replace(/\\geq/g, ' supérieur ou égal à ')
-            .replace(/\\neq/g, ' différent de ')
             .replace(/\\approx/g, ' environ égal à ')
             // Grecques
             .replace(/\\pi/g, ' pi ')
@@ -243,6 +272,7 @@ function CoursesContent() {
             .replace(/\\theta/g, ' thêta ')
             .replace(/\\lambda/g, ' lambda ')
             // Nettoyage LaTeX résiduel
+            .replace(/\\text\{([^}]+)\}/g, '$1')
             .replace(/\\[a-zA-Z]+/g, '')
             .replace(/\{|\}/g, '');
 
@@ -273,7 +303,7 @@ function CoursesContent() {
 
         speechRef.current = new SpeechSynthesisUtterance(cleanText);
         speechRef.current.lang = 'fr-FR';
-        speechRef.current.rate = 1.0; // Vitesse normale
+        speechRef.current.rate = 0.9; // Vitesse 0.9x demandée
         speechRef.current.pitch = 1;
         if (selectedVoice) speechRef.current.voice = selectedVoice;
 
