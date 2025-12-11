@@ -162,12 +162,20 @@ function CoursesContent() {
         if (!text) return '';
 
         let result = text
-            // Supprimer emojis et formatage basique
-            .replace(/[\u{1F600}-\u{1F64F}]/gu, '')
-            .replace(/[\u{1F300}-\u{1F5FF}]/gu, '')
-            .replace(/[\u{1F680}-\u{1F6FF}]/gu, '')
-            .replace(/[\u{1F900}-\u{1F9FF}]/gu, '')
-            .replace(/[\u{2600}-\u{27BF}]/gu, '')
+            // === FILTRAGE STRICT ICÔNES ET FLÈCHES ===
+            .replace(/[\u{1F600}-\u{1F64F}]/gu, '') // Emoticons
+            .replace(/[\u{1F300}-\u{1F5FF}]/gu, '') // Misc Symbols and Pictographs
+            .replace(/[\u{1F680}-\u{1F6FF}]/gu, '') // Transport and Map
+            .replace(/[\u{1F900}-\u{1F9FF}]/gu, '') // Supplemental Symbols
+            .replace(/[\u{2600}-\u{27BF}]/gu, '')   // Misc Symbols
+            .replace(/[\u{2190}-\u{21FF}]/gu, '')   // Arrows (Unicode)
+            .replace(/[\u{2B00}-\u{2BFF}]/gu, '')   // Misc Symbols and Arrows
+            .replace(/→/g, '')                      // Flèche simple
+            .replace(/⇒/g, ' implique ')
+            .replace(/↔/g, ' équivaut à ')
+            .replace(/⇔/g, ' équivaut à ')
+
+            // Supprimer blocs de code et formatage
             .replace(/```[\s\S]*?```/g, '. ')
             .replace(/`([^`]+)`/g, '$1')
             .replace(/\*\*([^*]+)\*\*/g, '$1')
@@ -175,101 +183,82 @@ function CoursesContent() {
             .replace(/#{1,6}\s*/g, '')
             .replace(/\$/g, '');
 
+        // === ENSEMBLES DE NOMBRES (LaTeX) ===
+        result = result
+            .replace(/\\mathbb\{R\}/g, " l'ensemble des nombres réels ")
+            .replace(/\\mathbb\{N\}/g, " l'ensemble des entiers naturels ")
+            .replace(/\\mathbb\{Z\}/g, " l'ensemble des entiers relatifs ")
+            .replace(/\\mathbb\{Q\}/g, " l'ensemble des nombres rationnels ")
+            .replace(/\\mathbb\{C\}/g, " l'ensemble des nombres complexes ")
+            .replace(/\\mathbb\{D\}/g, " l'ensemble des nombres décimaux ");
+
+        // === IDENTITÉS REMARQUABLES ET PUISSANCES ===
+        // (a+b)^2 -> a plus b le tout au carré
+        result = result.replace(/\(([^)]+)\)\^2/g, ' $1 le tout au carré ');
+        result = result.replace(/\(([^)]+)\)\^3/g, ' $1 le tout au cube ');
+        // a^2 -> a au carré (déjà géré mais renforcé)
+        result = result.replace(/([a-zA-Z0-9]+)\^2/g, ' $1 au carré ');
+        result = result.replace(/([a-zA-Z0-9]+)\^3/g, ' $1 au cube ');
+
         // === LECTURE FONCTIONNELLE INTELLIGENTE ===
         // f(x) -> f de x
         result = result.replace(/\b([fghuv])\s*\(\s*([a-z0-9]+)\s*\)/gi, '$1 de $2');
         result = result.replace(/\\(sin|cos|tan|ln|log|exp)\s*\(\s*([^)]+)\s*\)/g, '$1 de $2');
 
         // === INTERVALLES ===
-        result = result.replace(/\[\s*([^;]+)\s*;\s*([^\]]+)\s*\]/g, 'intervalle fermé de $1 à $2');
-        result = result.replace(/\]\s*([^;]+)\s*;\s*([^\[]+)\s*\[/g, 'intervalle ouvert de $1 à $2');
+        result = result.replace(/\[\s*([^;]+)\s*;\s*([^\]]+)\s*\]/g, ' intervalle fermé de $1 à $2 ');
+        result = result.replace(/\]\s*([^;]+)\s*;\s*([^\[]+)\s*\[/g, ' intervalle ouvert de $1 à $2 ');
+        result = result.replace(/\[\s*([^;]+)\s*;\s*([^\[]+)\s*\[/g, ' intervalle de $1 fermé à $2 ouvert ');
+        result = result.replace(/\]\s*([^;]+)\s*;\s*([^\]]+)\s*\]/g, ' intervalle de $1 ouvert à $2 fermé ');
 
-        // === LATEX AVANCÉ ===
-        // Fractions : amélioration pour éviter "a sur b" si c'est très long, mais "a sur b" reste le standard oral simple
-        result = result.replace(/\\frac\s*\{([^{}]*)\}\s*\{([^{}]*)\}/g, ' $1 sur $2 ');
-
-        // Racines
-        result = result.replace(/\\sqrt\[(\d+)\]\s*\{([^}]+)\}/g, 'racine $1-ième de $2');
-        result = result.replace(/\\sqrt\s*\{([^}]+)\}/g, 'racine carrée de $1');
-
-        // Puissances et indices
-        result = result.replace(/\^\{([^}]+)\}/g, ' puissance $1 ');
-        result = result.replace(/\^(\d+)/g, ' puissance $1 ');
-        result = result.replace(/_\s*\{([^}]+)\}/g, ' indice $1 ');
-        result = result.replace(/_\s*(\d+|[a-z])/gi, ' indice $1 ');
-
-        // Vecteurs améliorés
-        result = result.replace(/\\vec\s*\{([^}]+)\}/g, 'vecteur $1');
-        result = result.replace(/\\overrightarrow\s*\{([^}]+)\}/g, 'vecteur $1');
-        result = result.replace(/\\|\s*\\|\s*/g, ' norme de $1 ');
-
-        // Opérateurs et Relations
+        // === LATEX AVANCÉ ET MATHS ===
         result = result
+            .replace(/\\frac\s*\{([^{}]*)\}\s*\{([^{}]*)\}/g, ' $1 sur $2 ')
+            .replace(/\\sqrt\[(\d+)\]\s*\{([^}]+)\}/g, ' racine $1-ième de $2 ')
+            .replace(/\\sqrt\s*\{([^}]+)\}/g, ' racine carrée de $2 ')
+            .replace(/\\vec\s*\{([^}]+)\}/g, ' vecteur $1 ')
+            .replace(/\\overrightarrow\s*\{([^}]+)\}/g, ' vecteur $1 ')
+            // Logique et Ensembles
+            .replace(/\\in/g, ' appartient à ')
+            .replace(/\\notin/g, ' n\'appartient pas à ')
+            .replace(/\\cup/g, ' union ')
+            .replace(/\\cap/g, ' intersection ')
+            .replace(/\\subset/g, ' inclus dans ')
+            .replace(/\\forall/g, ' pour tout ')
+            .replace(/\\exists/g, ' il existe ')
+            .replace(/\\infty/g, ' l\'infini ')
+            // Opérateurs
             .replace(/\\times/g, ' fois ')
             .replace(/\\cdot/g, ' fois ')
             .replace(/\\div/g, ' divisé par ')
-            .replace(/\\pm/g, ' plus ou moins ')
             .replace(/\\leq/g, ' inférieur ou égal à ')
             .replace(/\\geq/g, ' supérieur ou égal à ')
             .replace(/\\neq/g, ' différent de ')
             .replace(/\\approx/g, ' environ égal à ')
-            .replace(/\\equiv/g, ' équivalent à ')
-            .replace(/\\in/g, ' appartient à ')
-            .replace(/\\notin/g, ' n\'appartient pas à ')
-            .replace(/\\forall/g, ' pour tout ')
-            .replace(/\\exists/g, ' il existe ')
-            .replace(/\\infty/g, ' l\'infini ')
-            .replace(/\\rightarrow/g, ' tend vers ')
-            .replace(/\\Rightarrow/g, ' implique ')
-            .replace(/\\Leftrightarrow/g, ' équivaut à ');
-
-        // Lettres Grecques
-        result = result
+            // Grecques
             .replace(/\\pi/g, ' pi ')
             .replace(/\\alpha/g, ' alpha ')
             .replace(/\\beta/g, ' bêta ')
-            .replace(/\\gamma/g, ' gamma ')
-            .replace(/\\delta/g, ' delta ')
             .replace(/\\Delta/g, ' Delta ')
             .replace(/\\theta/g, ' thêta ')
             .replace(/\\lambda/g, ' lambda ')
-            .replace(/\\sigma/g, ' sigma ')
-            .replace(/\\Sigma/g, ' Sigma ')
-            .replace(/\\omega/g, ' oméga ')
-            .replace(/\\Omega/g, ' Oméga ');
+            // Nettoyage LaTeX résiduel
+            .replace(/\\[a-zA-Z]+/g, '')
+            .replace(/\{|\}/g, '');
 
-        // Nettoyage LaTeX restant
-        result = result
-            .replace(/\\left/g, '')
-            .replace(/\\right/g, '')
-            .replace(/\\text\{([^}]+)\}/g, '$1')
-            .replace(/\\/g, ''); // Supprime les backslashs restants
-
-        // === LECTURE NATURELLE MATHS ===
-        // Opérateurs standards isolés
-        result = result.replace(/(\d|[a-z])\s*\+\s*(\d|[a-z])/gi, '$1 plus $2');
-        result = result.replace(/(\d|[a-z])\s*-\s*(\d|[a-z])/gi, '$1 moins $2');
-        result = result.replace(/(\d|[a-z])\s*=\s*(\d|[a-z])/gi, '$1 égale $2');
-        result = result.replace(/(\d|[a-z])\s*>\s*(\d|[a-z])/gi, '$1 supérieur à $2');
-        result = result.replace(/(\d|[a-z])\s*<\s*(\d|[a-z])/gi, '$1 inférieur à $2');
-
-        // Unités et Nombres
+        // === LECTURE NATURELLE ===
         result = result.replace(/(\d+),(\d+)/g, '$1 virgule $2');
         result = result.replace(/(\d+)\.(\d+)/g, '$1 virgule $2');
-        result = result.replace(/°C/g, ' degrés Celsius');
-        result = result.replace(/%/g, ' pour cent');
-        result = result.replace(/kg\b/g, ' kilogrammes');
-        result = result.replace(/cm\b/g, ' centimètres');
-        result = result.replace(/mm\b/g, ' millimètres');
-        result = result.replace(/\bkm\b/g, ' kilomètres');
+        result = result.replace(/=/g, ' égale ');
+        result = result.replace(/\+/g, ' plus ');
+        // Attention au moins (-) qui peut être un tiret. On suppose math si entouré d'espaces ou chiffres
+        result = result.replace(/(\d)\s*-\s*(\d)/g, '$1 moins $2');
 
-        // Nettoyage final ponctuation et espaces
+        // Nettoyage final
         result = result
-            .replace(/\{/g, '')
-            .replace(/\}/g, '')
             .replace(/\n+/g, '. ')
             .replace(/\s+/g, ' ')
-            .replace(/\.\s*\./g, '.')
+            .replace(/^[.,\s]+/, '') // Nettoyer début
             .trim();
 
         return result;
