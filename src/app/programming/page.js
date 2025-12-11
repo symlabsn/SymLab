@@ -89,6 +89,11 @@ function ProgrammingContent() {
             .replace(/\*\*([^*]+)\*\*/g, '$1')
             .replace(/\*([^*]+)\*/g, '$1')
             .replace(/#{1,6}\s*/g, '')
+            .replace(/\$/g, '')  // Supprimer $
+            // Nombres - Lire correctement en français
+            .replace(/(\d+),(\d+)/g, '$1 virgule $2')
+            .replace(/(\d+)\.(\d+)/g, '$1 virgule $2')
+            .replace(/%/g, ' pourcent ')
             // Améliorer la ponctuation pour une lecture naturelle
             .replace(/\n\n+/g, '. ')
             .replace(/\n/g, ', ')
@@ -97,7 +102,7 @@ function ProgrammingContent() {
             // Supprimer caractères spéciaux
             .replace(/[<>]/g, '')
             .replace(/&nbsp;/g, ' ')
-            .replace(/&amp;/g, 'et')
+            .replace(/&amp;/g, ' et ')
             .replace(/→/g, ' vers ')
             .replace(/←/g, ' depuis ')
             .replace(/•/g, '')

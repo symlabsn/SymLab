@@ -157,32 +157,99 @@ function CoursesContent() {
         return () => window.speechSynthesis?.removeEventListener('voiceschanged', loadVoices);
     }, [selectedVoice]);
 
-    // Nettoyer le texte pour TTS
+    // Nettoyer le texte pour TTS (maths, sciences)
     const cleanTextForSpeech = (text) => {
         if (!text) return '';
         return text
+            // Supprimer emojis
             .replace(/[\u{1F600}-\u{1F64F}]/gu, '')
             .replace(/[\u{1F300}-\u{1F5FF}]/gu, '')
             .replace(/[\u{1F680}-\u{1F6FF}]/gu, '')
             .replace(/[\u{1F900}-\u{1F9FF}]/gu, '')
             .replace(/[\u{2600}-\u{27BF}]/gu, '')
+            // Supprimer blocs de code
             .replace(/```[\s\S]*?```/g, '. ')
             .replace(/`([^`]+)`/g, '$1')
-            .replace(/\*\*([^*]+)\*\*/g, '$1')
-            .replace(/\*([^*]+)\*/g, '$1')
-            .replace(/#{1,6}\s*/g, '')
+            // Supprimer formatage Markdown
+            .replace(/\*\*([^*]+)\*\*/g, '$1')  // **gras**
+            .replace(/\*([^*]+)\*/g, '$1')      // *italique*
+            .replace(/#{1,6}\s*/g, '')          // # titres
+            .replace(/\$/g, '')                  // Supprimer $
+            // LaTeX - Convertir en texte français
             .replace(/\\\(/g, '').replace(/\\\)/g, '')
             .replace(/\\\[/g, '').replace(/\\\]/g, '')
             .replace(/\\frac\{([^}]+)\}\{([^}]+)\}/g, '$1 sur $2')
-            .replace(/\\sqrt\{([^}]+)\}/g, 'racine de $1')
-            .replace(/\\times/g, 'fois')
-            .replace(/\\div/g, 'divisé par')
-            .replace(/\\[a-zA-Z]+/g, '')
-            .replace(/\{|\}/g, '')
+            .replace(/\\sqrt\{([^}]+)\}/g, 'racine carrée de $1')
+            .replace(/\\times/g, ' fois ')
+            .replace(/\\div/g, ' divisé par ')
+            .replace(/\\cdot/g, ' fois ')
+            .replace(/\\pm/g, ' plus ou moins ')
+            .replace(/\\leq/g, ' inférieur ou égal à ')
+            .replace(/\\geq/g, ' supérieur ou égal à ')
+            .replace(/\\neq/g, ' différent de ')
+            .replace(/\\approx/g, ' environ ')
+            .replace(/\\infty/g, ' infini ')
+            .replace(/\\pi/g, ' pi ')
+            .replace(/\\alpha/g, ' alpha ')
+            .replace(/\\beta/g, ' beta ')
+            .replace(/\\gamma/g, ' gamma ')
+            .replace(/\\delta/g, ' delta ')
+            .replace(/\\theta/g, ' thêta ')
+            .replace(/\\lambda/g, ' lambda ')
+            .replace(/\\mu/g, ' mu ')
+            .replace(/\\sigma/g, ' sigma ')
+            .replace(/\\omega/g, ' oméga ')
+            .replace(/\\sum/g, ' somme ')
+            .replace(/\\int/g, ' intégrale ')
+            .replace(/\\[a-zA-Z]+/g, '')        // Autres commandes LaTeX
+            .replace(/\{|\}/g, '')               // Accolades
+            .replace(/\^(\d)/g, ' puissance $1 ') // Exposants simples
+            .replace(/\^{([^}]+)}/g, ' puissance $1 ')
+            .replace(/_(\d)/g, ' indice $1 ')    // Indices simples
+            .replace(/_{([^}]+)}/g, ' indice $1 ')
+            // Nombres - Lire correctement en français
+            .replace(/(\d+),(\d+)/g, '$1 virgule $2')  // 3,14 → "3 virgule 14"
+            .replace(/(\d+)\.(\d+)/g, '$1 virgule $2') // 3.14 → "3 virgule 14"
+            .replace(/(\d+)\s*×\s*10\^(-?\d+)/g, '$1 fois 10 puissance $2') // Notation scientifique
+            .replace(/(\d+)\s*x\s*10\^(-?\d+)/g, '$1 fois 10 puissance $2')
+            .replace(/10\^(-?\d+)/g, '10 puissance $1')
+            .replace(/(\d)²/g, '$1 au carré')
+            .replace(/(\d)³/g, '$1 au cube')
+            .replace(/m²/g, 'mètres carrés')
+            .replace(/m³/g, 'mètres cubes')
+            .replace(/cm²/g, 'centimètres carrés')
+            .replace(/km²/g, 'kilomètres carrés')
+            .replace(/°C/g, ' degrés Celsius')
+            .replace(/°F/g, ' degrés Fahrenheit')
+            .replace(/°/g, ' degrés ')
+            .replace(/%/g, ' pourcent ')
+            // Symboles mathématiques en texte
+            .replace(/≤/g, ' inférieur ou égal à ')
+            .replace(/≥/g, ' supérieur ou égal à ')
+            .replace(/≠/g, ' différent de ')
+            .replace(/≈/g, ' environ ')
+            .replace(/×/g, ' fois ')
+            .replace(/÷/g, ' divisé par ')
+            .replace(/±/g, ' plus ou moins ')
+            .replace(/∞/g, ' infini ')
+            .replace(/π/g, ' pi ')
+            .replace(/√/g, ' racine de ')
+            .replace(/∑/g, ' somme ')
+            .replace(/∫/g, ' intégrale ')
+            .replace(/→/g, ' donne ')
+            .replace(/←/g, ' provient de ')
+            .replace(/↔/g, ' équivaut à ')
+            .replace(/⇒/g, ' implique ')
+            .replace(/⇔/g, ' si et seulement si ')
+            // Nettoyage final
             .replace(/\n+/g, '. ')
             .replace(/[<>]/g, '')
             .replace(/&nbsp;/g, ' ')
+            .replace(/&amp;/g, ' et ')
+            .replace(/&lt;/g, ' inférieur à ')
+            .replace(/&gt;/g, ' supérieur à ')
             .replace(/\s+/g, ' ')
+            .replace(/\.\s*\./g, '.')
             .trim();
     };
 
