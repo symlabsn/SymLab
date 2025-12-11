@@ -10,7 +10,7 @@ export const math3eData = {
             id: 'alg-3e-01',
             part: 'Partie 1 : Activités Numériques',
             title: '1. Racine Carrée',
-            story: `Imaginez un carré de 25 m². Quelle est la longueur de son côté ? C'est 5m, car 5×5=25. La racine carrée, c'est l'opération inverse du carré. C'est comme défaire une multiplication par elle-même.`,
+            story: `Imaginez un carré de 25 m². Quelle est la longueur de son côté ? C'est 5 m, car 5 fois 5 égale 25. La racine carrée, c'est l'opération inverse du carré. C'est comme défaire une multiplication par elle-même.`,
             content: `
 ### 1. Définition
 La racine carrée d'un nombre positif $a$ est le nombre positif dont le carré vaut $a$.
@@ -28,9 +28,9 @@ $\\sqrt{50} = \\sqrt{25 \\times 2} = \\sqrt{25} \\times \\sqrt{2} = 5\\sqrt{2}$
 > Si un carton carré a une surface de 36 m², chaque côté mesure $\\sqrt{36} = 6$ m. C'est le côté du carré parfait.
             `,
             summary: [
-                "$\\sqrt{a^2} = a$ (si a positif).",
-                "On ne peut pas calculer la racine d'un nombre négatif (dans $\\mathbb{R}$).",
-                "Simplifier en cherchant les carrés parfaits."
+                "$\\sqrt{a^2} = a$ pour tout nombre a positif.",
+                "On ne peut pas calculer la racine d'un nombre négatif.",
+                "Pour simplifier : cherchez les carrés parfaits (4, 9, 16, 25...)."
             ],
             exercises: [
                 {
@@ -38,7 +38,7 @@ $\\sqrt{50} = \\sqrt{25 \\times 2} = \\sqrt{25} \\times \\sqrt{2} = 5\\sqrt{2}$
                     question: "Que vaut $\\sqrt{64}$ ?",
                     options: ["6", "7", "8", "32"],
                     correctAnswer: 2,
-                    explanation: "$8 \\times 8 = 64$, donc $\\sqrt{64} = 8$."
+                    explanation: "Car $8 \\times 8 = 64$."
                 }
             ]
         },
