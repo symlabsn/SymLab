@@ -951,8 +951,10 @@ function CoursesContent() {
                                                                 <span className="text-2xl">{activeChapter.analogy.title.split(' ')[0]}</span>
                                                                 {activeChapter.analogy.title.replace(/^[^\s]+\s/, '')}
                                                             </h3>
-                                                            <div className="text-gray-300 leading-relaxed text-base whitespace-pre-line font-serif">
-                                                                {activeChapter.analogy.content}
+                                                            <div className="prose prose-invert prose-sm max-w-none prose-strong:text-amber-200 prose-strong:font-bold prose-p:text-gray-300 prose-p:leading-relaxed">
+                                                                <ReactMarkdown>
+                                                                    {activeChapter.analogy.content}
+                                                                </ReactMarkdown>
                                                             </div>
                                                         </div>
                                                     )}
