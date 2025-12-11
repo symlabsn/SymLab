@@ -375,7 +375,7 @@ function CoursesContent() {
 
         speechRef.current = new SpeechSynthesisUtterance(cleanText);
         speechRef.current.lang = 'fr-FR';
-        speechRef.current.rate = 0.9; // Vitesse 0.9x demandée
+        speechRef.current.rate = 1.0; // Vitesse naturelle (Standard)
         speechRef.current.pitch = 1;
         if (selectedVoice) speechRef.current.voice = selectedVoice;
 
