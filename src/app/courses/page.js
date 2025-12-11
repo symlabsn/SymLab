@@ -328,7 +328,7 @@ function CoursesContent() {
             const original = t;
             t = t.replace(/\\frac\s*\{([^{}]+)\}\s*\{([^{}]+)\}/g, ' $1 sur $2 ');
             t = t.replace(/\\sqrt\s*\[([^{}]+)\]\s*\{([^{}]+)\}/g, ' racine $1-ième de $2 ');
-            t = t.replace(/\\sqrt\s*\{([^{}]+)\}/g, ' racine de $1 ');
+            t = t.replace(/\\sqrt\s*\{([^{}]+)\}/g, ' racine d fois e $1 ');
             t = t.replace(/\^\{([^{}]+)\}/g, ' puissance $1 ');
             t = t.replace(/_\{([^{}]+)\}/g, ' indice $1 ');
             t = t.replace(/\\vec\s*\{([^{}]+)\}/g, ' vecteur $1 ');
