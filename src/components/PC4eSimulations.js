@@ -1763,8 +1763,8 @@ export function IntroElectricity() {
                         <button
                             onClick={() => setIsClosed(!isClosed)}
                             className={`flex-1 py-3 rounded-lg font-bold transition-all ${isClosed
-                                    ? 'bg-green-600 shadow-[0_0_20px_rgba(34,197,94,0.5)]'
-                                    : 'bg-red-600'
+                                ? 'bg-green-600 shadow-[0_0_20px_rgba(34,197,94,0.5)]'
+                                : 'bg-red-600'
                                 }`}
                         >
                             {isClosed ? '🔓 OUVRIR' : '🔒 FERMER'}
@@ -1793,8 +1793,8 @@ export function IntroElectricity() {
                                 key={key}
                                 onClick={() => setSelectedMaterial(key)}
                                 className={`p-2 rounded text-center transition-all ${selectedMaterial === key
-                                        ? 'ring-2 ring-yellow-400 bg-yellow-600/20'
-                                        : 'bg-gray-800 hover:bg-gray-700'
+                                    ? 'ring-2 ring-yellow-400 bg-yellow-600/20'
+                                    : 'bg-gray-800 hover:bg-gray-700'
                                     }`}
                                 title={m.name}
                             >
@@ -1806,8 +1806,8 @@ export function IntroElectricity() {
 
                     {/* Résultat */}
                     <div className={`p-3 rounded-lg text-center ${mat.conductor
-                            ? 'bg-green-900/30 border border-green-500/30'
-                            : 'bg-red-900/30 border border-red-500/30'
+                        ? 'bg-green-900/30 border border-green-500/30'
+                        : 'bg-red-900/30 border border-red-500/30'
                         }`}>
                         <div className="text-2xl mb-1">{mat.conductor ? '✅' : '❌'}</div>
                         <div className="font-bold">
@@ -1822,8 +1822,8 @@ export function IntroElectricity() {
 
                     {/* État du circuit */}
                     <div className={`mt-3 p-2 rounded text-center text-sm ${circuitWorks
-                            ? 'bg-yellow-900/30 text-yellow-300'
-                            : 'bg-gray-800 text-gray-400'
+                        ? 'bg-yellow-900/30 text-yellow-300'
+                        : 'bg-gray-800 text-gray-400'
                         }`}>
                         {circuitWorks
                             ? '💡 La lampe brille !'
@@ -1992,4 +1992,528 @@ export function IntroElectricity() {
     );
 }
 
+// ============================================================
+// 10. SÉPARATION DES MÉLANGES - Simulation Immersive
+// ============================================================
+export function MixtureSeparationPC4() {
+    const [technique, setTechnique] = useState('filtration');
+    const [isAnimating, setIsAnimating] = useState(false);
+    const [progress, setProgress] = useState(0);
 
+    const techniques = {
+        filtration: {
+            name: 'Filtration',
+            icon: '🔍',
+            color: '#3B82F6',
+            desc: 'Sépare un solide d\'un liquide',
+            example: 'Séparer le sable de l\'eau'
+        },
+        decantation: {
+            name: 'Décantation',
+            icon: '🫗',
+            color: '#10B981',
+            desc: 'Sépare deux liquides non miscibles',
+            example: 'Séparer l\'huile de l\'eau'
+        },
+        distillation: {
+            name: 'Distillation',
+            icon: '🧪',
+            color: '#8B5CF6',
+            desc: 'Sépare par évaporation et condensation',
+            example: 'Séparer l\'eau salée'
+        },
+        magnetique: {
+            name: 'Magnétique',
+            icon: '🧲',
+            color: '#EF4444',
+            desc: 'Sépare les métaux magnétiques',
+            example: 'Récupérer la limaille de fer'
+        }
+    };
+
+    const tech = techniques[technique];
+
+    // Animation
+    const liquidRef = useRef();
+    const particlesRef = useRef([]);
+
+    useFrame(({ clock }) => {
+        if (isAnimating && liquidRef.current) {
+            const newProgress = Math.min(progress + 0.005, 1);
+            setProgress(newProgress);
+
+            if (newProgress >= 1) {
+                setIsAnimating(false);
+            }
+        }
+
+        // Animation des particules
+        particlesRef.current.forEach((mesh, i) => {
+            if (mesh) {
+                if (technique === 'filtration' && isAnimating) {
+                    mesh.position.y = 2 - progress * 4 - i * 0.3;
+                } else if (technique === 'decantation') {
+                    mesh.position.y = Math.sin(clock.elapsedTime + i) * 0.05 + 1;
+                }
+            }
+        });
+    });
+
+    const startAnimation = () => {
+        setProgress(0);
+        setIsAnimating(true);
+    };
+
+    return (
+        <group>
+            {/* Panneau de contrôle */}
+            <Html position={[4.5, 1.5, 0]} center>
+                <div className="bg-black/95 p-4 rounded-xl text-white border border-cyan-500/30 min-w-[300px] backdrop-blur-md select-none shadow-xl">
+                    <h3 className="text-cyan-400 font-bold mb-3 text-lg">🧪 Séparation des Mélanges</h3>
+
+                    {/* Sélection technique */}
+                    <div className="grid grid-cols-2 gap-2 mb-4">
+                        {Object.entries(techniques).map(([key, t]) => (
+                            <button
+                                key={key}
+                                onClick={() => { setTechnique(key); setProgress(0); setIsAnimating(false); }}
+                                className={`p-2 rounded-lg text-left transition-all ${technique === key
+                                        ? 'ring-2 ring-cyan-400 bg-cyan-600/20'
+                                        : 'bg-gray-800 hover:bg-gray-700'
+                                    }`}
+                            >
+                                <div className="text-xl mb-1">{t.icon}</div>
+                                <div className="text-sm font-bold">{t.name}</div>
+                            </button>
+                        ))}
+                    </div>
+
+                    {/* Info technique */}
+                    <div className="bg-gray-900/80 p-3 rounded-lg mb-4">
+                        <div className="flex items-center gap-2 mb-2">
+                            <span className="text-2xl">{tech.icon}</span>
+                            <span className="font-bold" style={{ color: tech.color }}>{tech.name}</span>
+                        </div>
+                        <p className="text-sm text-gray-300 mb-2">{tech.desc}</p>
+                        <p className="text-xs text-gray-400 italic">Ex: {tech.example}</p>
+                    </div>
+
+                    {/* Bouton démarrer */}
+                    <button
+                        onClick={startAnimation}
+                        disabled={isAnimating}
+                        className="w-full py-3 rounded-lg font-bold text-white mb-3 transition-all disabled:opacity-50"
+                        style={{ backgroundColor: tech.color }}
+                    >
+                        {isAnimating ? '⏳ En cours...' : '▶️ Démarrer la séparation'}
+                    </button>
+
+                    {/* Barre de progression */}
+                    <div className="bg-gray-800 rounded-full h-3 overflow-hidden">
+                        <div
+                            className="h-full transition-all duration-300"
+                            style={{
+                                width: `${progress * 100}%`,
+                                backgroundColor: tech.color
+                            }}
+                        />
+                    </div>
+                    <div className="text-center text-xs text-gray-400 mt-1">
+                        {Math.round(progress * 100)}% complété
+                    </div>
+                </div>
+            </Html>
+
+            <Text position={[0, 3.5, 0]} fontSize={0.5} color="#22D3EE">
+                SÉPARATION DES MÉLANGES
+            </Text>
+
+            {/* Visualisation selon la technique */}
+            <group position={[0, 0, 0]}>
+                {technique === 'filtration' && (
+                    <group>
+                        {/* Entonnoir */}
+                        <mesh position={[0, 1.5, 0]}>
+                            <coneGeometry args={[0.8, 1.5, 32, 1, true]} />
+                            <meshStandardMaterial color="#9CA3AF" side={THREE.DoubleSide} transparent opacity={0.6} />
+                        </mesh>
+                        {/* Filtre */}
+                        <mesh position={[0, 1.2, 0]}>
+                            <circleGeometry args={[0.7, 32]} />
+                            <meshStandardMaterial color="#FEF3C7" side={THREE.DoubleSide} />
+                        </mesh>
+                        {/* Bécher en dessous */}
+                        <mesh position={[0, -0.5, 0]}>
+                            <cylinderGeometry args={[0.6, 0.5, 1.5, 32, 1, true]} />
+                            <meshStandardMaterial color="#60A5FA" transparent opacity={0.3} side={THREE.DoubleSide} />
+                        </mesh>
+                        {/* Eau filtrée */}
+                        <mesh position={[0, -0.8 + progress * 0.5, 0]}>
+                            <cylinderGeometry args={[0.55, 0.5, progress * 1, 32]} />
+                            <meshStandardMaterial color="#3B82F6" transparent opacity={0.7} />
+                        </mesh>
+                        {/* Particules (sable) */}
+                        {Array.from({ length: 10 }).map((_, i) => (
+                            <mesh key={i} ref={el => particlesRef.current[i] = el} position={[Math.sin(i) * 0.3, 2 - i * 0.1, Math.cos(i) * 0.3]}>
+                                <sphereGeometry args={[0.08]} />
+                                <meshStandardMaterial color="#92400E" visible={progress < (1 - i * 0.1)} />
+                            </mesh>
+                        ))}
+                        <Text position={[0, -1.8, 0]} fontSize={0.2} color="#3B82F6">
+                            {progress >= 1 ? 'Eau pure ✓' : 'Eau + Sable'}
+                        </Text>
+                    </group>
+                )}
+
+                {technique === 'decantation' && (
+                    <group>
+                        {/* Ampoule à décanter */}
+                        <mesh position={[0, 0.5, 0]}>
+                            <sphereGeometry args={[1, 32, 32, 0, Math.PI * 2, 0, Math.PI * 0.7]} />
+                            <meshStandardMaterial color="#9CA3AF" transparent opacity={0.3} side={THREE.DoubleSide} />
+                        </mesh>
+                        {/* Huile (en haut) */}
+                        <mesh position={[0, 1 - progress * 0.3, 0]}>
+                            <sphereGeometry args={[0.9, 32, 32, 0, Math.PI * 2, 0, Math.PI * 0.3]} />
+                            <meshStandardMaterial color="#FBBF24" transparent opacity={0.8} />
+                        </mesh>
+                        {/* Eau (en bas) */}
+                        <mesh position={[0, 0.3, 0]}>
+                            <sphereGeometry args={[0.85, 32, 32, 0, Math.PI * 2, Math.PI * 0.3, Math.PI * 0.4]} />
+                            <meshStandardMaterial color="#3B82F6" transparent opacity={0.7} />
+                        </mesh>
+                        {/* Robinet */}
+                        <mesh position={[0, -0.8, 0]}>
+                            <cylinderGeometry args={[0.1, 0.1, 0.5]} />
+                            <meshStandardMaterial color="#374151" />
+                        </mesh>
+                        {/* Eau qui coule */}
+                        {progress > 0.3 && (
+                            <mesh position={[0, -1.5, 0]}>
+                                <cylinderGeometry args={[0.05, 0.05, 1]} />
+                                <meshStandardMaterial color="#3B82F6" transparent opacity={0.7} />
+                            </mesh>
+                        )}
+                        <Text position={[-1.5, 1, 0]} fontSize={0.15} color="#FBBF24">Huile (d &lt; 1)</Text>
+                        <Text position={[-1.5, 0.3, 0]} fontSize={0.15} color="#3B82F6">Eau (d = 1)</Text>
+                    </group>
+                )}
+
+                {technique === 'distillation' && (
+                    <group>
+                        {/* Ballon */}
+                        <mesh position={[-1.5, 0, 0]}>
+                            <sphereGeometry args={[0.7, 32, 32]} />
+                            <meshStandardMaterial color="#60A5FA" transparent opacity={0.4} />
+                        </mesh>
+                        {/* Eau salée */}
+                        <mesh position={[-1.5, -0.2, 0]}>
+                            <sphereGeometry args={[0.6, 32, 32, 0, Math.PI * 2, Math.PI * 0.4, Math.PI * 0.6]} />
+                            <meshStandardMaterial color="#3B82F6" transparent opacity={0.7} />
+                        </mesh>
+                        {/* Flamme */}
+                        <mesh position={[-1.5, -1, 0]}>
+                            <coneGeometry args={[0.3, 0.6, 16]} />
+                            <meshStandardMaterial color="#F59E0B" emissive="#F59E0B" emissiveIntensity={0.5} />
+                        </mesh>
+                        {/* Tube de connexion */}
+                        <mesh position={[0, 1, 0]} rotation={[0, 0, Math.PI / 4]}>
+                            <cylinderGeometry args={[0.08, 0.08, 3]} />
+                            <meshStandardMaterial color="#9CA3AF" />
+                        </mesh>
+                        {/* Condenseur */}
+                        <mesh position={[1.5, 0.5, 0]}>
+                            <cylinderGeometry args={[0.15, 0.15, 2, 32, 1, true]} />
+                            <meshStandardMaterial color="#60A5FA" transparent opacity={0.4} side={THREE.DoubleSide} />
+                        </mesh>
+                        {/* Bécher collecteur */}
+                        <mesh position={[1.5, -0.8, 0]}>
+                            <cylinderGeometry args={[0.4, 0.35, 0.8, 32, 1, true]} />
+                            <meshStandardMaterial color="#9CA3AF" transparent opacity={0.3} side={THREE.DoubleSide} />
+                        </mesh>
+                        {/* Eau distillée */}
+                        <mesh position={[1.5, -0.9 + progress * 0.3, 0]}>
+                            <cylinderGeometry args={[0.35, 0.3, progress * 0.6, 32]} />
+                            <meshStandardMaterial color="#67E8F9" transparent opacity={0.7} />
+                        </mesh>
+                        {/* Vapeur */}
+                        {isAnimating && Array.from({ length: 5 }).map((_, i) => (
+                            <mesh key={i} position={[-1.5 + i * 0.3, 0.8 + Math.sin(Date.now() * 0.001 + i) * 0.2, 0]}>
+                                <sphereGeometry args={[0.1]} />
+                                <meshStandardMaterial color="#E5E7EB" transparent opacity={0.5} />
+                            </mesh>
+                        ))}
+                        <Text position={[-1.5, -1.7, 0]} fontSize={0.12} color="#F59E0B">Chauffage</Text>
+                        <Text position={[1.5, -1.5, 0]} fontSize={0.12} color="#67E8F9">Eau pure</Text>
+                    </group>
+                )}
+
+                {technique === 'magnetique' && (
+                    <group>
+                        {/* Récipient avec mélange */}
+                        <mesh position={[0, -0.5, 0]}>
+                            <cylinderGeometry args={[1, 0.9, 0.5, 32, 1, true]} />
+                            <meshStandardMaterial color="#9CA3AF" transparent opacity={0.3} side={THREE.DoubleSide} />
+                        </mesh>
+                        {/* Sable */}
+                        <mesh position={[0, -0.6, 0]}>
+                            <cylinderGeometry args={[0.85, 0.8, 0.3, 32]} />
+                            <meshStandardMaterial color="#FCD34D" />
+                        </mesh>
+                        {/* Aimant */}
+                        <mesh position={[0, 1 - progress * 1.5, 0]}>
+                            <boxGeometry args={[0.6, 0.2, 0.3]} />
+                            <meshStandardMaterial color="#EF4444" />
+                        </mesh>
+                        <mesh position={[0.4, 1 - progress * 1.5, 0]}>
+                            <boxGeometry args={[0.2, 0.2, 0.3]} />
+                            <meshStandardMaterial color="#6B7280" />
+                        </mesh>
+                        {/* Limaille de fer attirée */}
+                        {Array.from({ length: 15 }).map((_, i) => (
+                            <mesh
+                                key={i}
+                                position={[
+                                    Math.sin(i * 0.5) * (0.6 - progress * 0.5),
+                                    -0.4 + progress * (1.4 + i * 0.02),
+                                    Math.cos(i * 0.5) * (0.6 - progress * 0.5)
+                                ]}
+                            >
+                                <sphereGeometry args={[0.05]} />
+                                <meshStandardMaterial color="#374151" />
+                            </mesh>
+                        ))}
+                        <Text position={[0, 1.5, 0]} fontSize={0.15} color="#EF4444">Aimant</Text>
+                        <Text position={[0, -1.2, 0]} fontSize={0.15} color="#FCD34D">Sable + Fer</Text>
+                    </group>
+                )}
+            </group>
+
+            {/* Légende */}
+            <Text position={[0, -2.8, 0]} fontSize={0.18} color="#9CA3AF">
+                Chaque mélange a sa technique de séparation !
+            </Text>
+        </group>
+    );
+}
+
+// ============================================================
+// 11. CONCEPT DE MOLE - Simulation Immersive
+// ============================================================
+export function MoleConceptPC4() {
+    const [substance, setSubstance] = useState('water');
+    const [moles, setMoles] = useState(1);
+    const [showAtoms, setShowAtoms] = useState(true);
+
+    const substances = {
+        water: {
+            name: 'Eau (H₂O)',
+            icon: '💧',
+            color: '#3B82F6',
+            molarMass: 18,
+            atoms: ['H', 'H', 'O']
+        },
+        carbon: {
+            name: 'Carbone (C)',
+            icon: '⚫',
+            color: '#374151',
+            molarMass: 12,
+            atoms: ['C']
+        },
+        oxygen: {
+            name: 'Dioxygène (O₂)',
+            icon: '🔵',
+            color: '#60A5FA',
+            molarMass: 32,
+            atoms: ['O', 'O']
+        },
+        iron: {
+            name: 'Fer (Fe)',
+            icon: '🔩',
+            color: '#9CA3AF',
+            molarMass: 56,
+            atoms: ['Fe']
+        },
+        sucrose: {
+            name: 'Sucre (C₁₂H₂₂O₁₁)',
+            icon: '🍬',
+            color: '#FEF3C7',
+            molarMass: 342,
+            atoms: ['C', 'H', 'O']
+        }
+    };
+
+    const sub = substances[substance];
+    const mass = moles * sub.molarMass;
+    const particles = moles * 6.022e23;
+
+    // Animation des particules
+    const atomsRef = useRef([]);
+
+    useFrame(({ clock }) => {
+        atomsRef.current.forEach((mesh, i) => {
+            if (mesh) {
+                mesh.rotation.y = clock.elapsedTime * 0.5 + i * 0.5;
+                mesh.position.y = Math.sin(clock.elapsedTime + i * 0.3) * 0.1;
+            }
+        });
+    });
+
+    const formatNumber = (num) => {
+        if (num >= 1e23) return `${(num / 1e23).toFixed(2)} × 10²³`;
+        return num.toFixed(2);
+    };
+
+    return (
+        <group>
+            {/* Panneau de contrôle */}
+            <Html position={[4.5, 1.5, 0]} center>
+                <div className="bg-black/95 p-4 rounded-xl text-white border border-purple-500/30 min-w-[320px] backdrop-blur-md select-none shadow-xl">
+                    <h3 className="text-purple-400 font-bold mb-3 text-lg">📦 Le Concept de Mole</h3>
+
+                    {/* Sélection substance */}
+                    <div className="grid grid-cols-5 gap-1 mb-4">
+                        {Object.entries(substances).map(([key, s]) => (
+                            <button
+                                key={key}
+                                onClick={() => setSubstance(key)}
+                                className={`p-2 rounded text-center transition-all ${substance === key
+                                        ? 'ring-2 ring-purple-400 bg-purple-600/20'
+                                        : 'bg-gray-800 hover:bg-gray-700'
+                                    }`}
+                                title={s.name}
+                            >
+                                <div className="text-lg">{s.icon}</div>
+                            </button>
+                        ))}
+                    </div>
+
+                    {/* Nombre de moles */}
+                    <label className="block text-sm mb-1">
+                        Nombre de moles : <span className="font-bold text-purple-400">{moles} mol</span>
+                    </label>
+                    <input
+                        type="range"
+                        min="0.5"
+                        max="5"
+                        step="0.5"
+                        value={moles}
+                        onChange={(e) => setMoles(parseFloat(e.target.value))}
+                        className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-purple-500 mb-4"
+                    />
+
+                    {/* Informations */}
+                    <div className="bg-gray-900/80 p-3 rounded-lg mb-4 space-y-2">
+                        <div className="flex justify-between">
+                            <span className="text-gray-400">Substance :</span>
+                            <span className="font-bold" style={{ color: sub.color }}>{sub.name}</span>
+                        </div>
+                        <div className="flex justify-between">
+                            <span className="text-gray-400">Masse molaire :</span>
+                            <span className="font-mono">{sub.molarMass} g/mol</span>
+                        </div>
+                        <div className="flex justify-between border-t border-gray-700 pt-2">
+                            <span className="text-gray-400">Masse totale :</span>
+                            <span className="font-bold text-lg text-green-400">{mass.toFixed(1)} g</span>
+                        </div>
+                        <div className="flex justify-between">
+                            <span className="text-gray-400">Nombre de particules :</span>
+                            <span className="font-mono text-xs text-yellow-400">{formatNumber(particles)}</span>
+                        </div>
+                    </div>
+
+                    {/* Toggle atomes */}
+                    <label className="flex items-center gap-2 cursor-pointer">
+                        <input
+                            type="checkbox"
+                            checked={showAtoms}
+                            onChange={(e) => setShowAtoms(e.target.checked)}
+                            className="w-4 h-4 accent-purple-500"
+                        />
+                        <span className="text-sm">Afficher les atomes</span>
+                    </label>
+
+                    {/* Formule */}
+                    <div className="mt-3 p-2 bg-purple-900/20 rounded text-center">
+                        <div className="text-sm text-purple-300">n = m / M</div>
+                        <div className="text-xs text-gray-400">n: moles, m: masse, M: masse molaire</div>
+                    </div>
+                </div>
+            </Html>
+
+            <Text position={[0, 3.5, 0]} fontSize={0.5} color="#A855F7">
+                LE CONCEPT DE MOLE
+            </Text>
+
+            {/* Visualisation de la mole */}
+            <group>
+                {/* Représentation du nombre d'Avogadro */}
+                <group position={[0, 1.5, 0]}>
+                    <Text position={[0, 0.5, 0]} fontSize={0.3} color="#F59E0B">
+                        1 mole = 6,022 × 10²³ particules
+                    </Text>
+                    <Text position={[0, 0, 0]} fontSize={0.2} color="#9CA3AF">
+                        (Nombre d'Avogadro)
+                    </Text>
+                </group>
+
+                {/* Représentation visuelle de la substance */}
+                <group position={[0, -0.5, 0]}>
+                    {/* Récipient */}
+                    <mesh position={[0, 0, 0]}>
+                        <cylinderGeometry args={[1.2, 1, 1.5, 32, 1, true]} />
+                        <meshStandardMaterial color="#6B7280" transparent opacity={0.2} side={THREE.DoubleSide} />
+                    </mesh>
+
+                    {/* Contenu (substance) */}
+                    <mesh position={[0, -0.2, 0]}>
+                        <cylinderGeometry args={[1.1, 0.9, 0.8 + moles * 0.2, 32]} />
+                        <meshStandardMaterial color={sub.color} transparent opacity={0.6} />
+                    </mesh>
+
+                    {/* Atomes animés */}
+                    {showAtoms && Array.from({ length: Math.min(20, Math.floor(moles * 8)) }).map((_, i) => {
+                        const angle = (i / 20) * Math.PI * 2;
+                        const radius = 0.5 + Math.random() * 0.4;
+                        return (
+                            <group
+                                key={i}
+                                ref={el => atomsRef.current[i] = el}
+                                position={[
+                                    Math.cos(angle) * radius,
+                                    -0.2 + Math.random() * 0.5,
+                                    Math.sin(angle) * radius
+                                ]}
+                            >
+                                <mesh>
+                                    <sphereGeometry args={[0.1, 16, 16]} />
+                                    <meshStandardMaterial
+                                        color={sub.color}
+                                        emissive={sub.color}
+                                        emissiveIntensity={0.3}
+                                    />
+                                </mesh>
+                            </group>
+                        );
+                    })}
+                </group>
+
+                {/* Balance avec masse */}
+                <group position={[0, -2.2, 0]}>
+                    <mesh>
+                        <boxGeometry args={[2, 0.1, 1]} />
+                        <meshStandardMaterial color="#374151" />
+                    </mesh>
+                    <Text position={[0, 0.3, 0]} fontSize={0.35} color="#10B981">
+                        {mass.toFixed(1)} g
+                    </Text>
+                </group>
+            </group>
+
+            {/* Légende */}
+            <Text position={[0, -3.2, 0]} fontSize={0.18} color="#9CA3AF">
+                Une mole contient toujours le même nombre de particules !
+            </Text>
+        </group>
+    );
+}
