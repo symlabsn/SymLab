@@ -339,7 +339,22 @@ function CoursesContent() {
             loops++;
         }
 
-        // 3. Sémantique et Phonétique
+        // 3. Correctifs Phonétiques Spécifiques (USER REQUEST)
+        t = t
+            // Unités attachées (6m -> 6 mètres) - Prioritaire sur les variables
+            .replace(/(\d+)\s*m²\b/gi, '$1 mètres carrés ')
+            .replace(/(\d+)\s*cm²\b/gi, '$1 centimètres carrés ')
+            .replace(/(\d+)\s*km²\b/gi, '$1 kilomètres carrés ')
+            .replace(/(\d+)\s*m\b/gi, '$1 mètres ')
+            .replace(/(\d+)\s*cm\b/gi, '$1 centimètres ')
+            .replace(/(\d+)\s*mm\b/gi, '$1 millimètres ')
+            .replace(/(\d+)\s*km\b/gi, '$1 kilomètres ')
+            .replace(/(\d+)\s*kg\b/gi, '$1 kilogrammes ')
+            // Variables collées (bd -> b fois d)
+            .replace(/\b(ab|bc|cd|de|ef|fg|gh|xy|yz|uv|vw|bd|ac|ad)\b/gi, (match) => match.split('').join(' fois '))
+            .replace(/\bm\b/g, ' mètres ');
+
+        // 4. Sémantique Globale
         t = t
             .replace(/(\d)\s*([a-zA-Z])/g, '$1 fois $2')
             .replace(/(\d)\s*\(/g, '$1 facteur de (')
@@ -353,8 +368,6 @@ function CoursesContent() {
             .replace(/\\sum/g, ' somme ')
             .replace(/\\lim/g, ' limite ')
             .replace(/\\int/g, ' intégrale ')
-            .replace(/cm\^2/g, ' centimètres carrés ')
-            .replace(/m\^2/g, ' mètres carrés ')
             .replace(/°C/g, ' degrés Celsius ')
             .replace(/(\d+)[.,](\d+)/g, '$1 virgule $2')
             .replace(/\\[a-zA-Z]+/g, '')
@@ -366,24 +379,59 @@ function CoursesContent() {
         return t;
     };
 
-    // Démarrer la lecture
+    // Démarrer la lecture (Séquentielle pour gestion des pauses naturelles)
     const startSpeaking = (text) => {
         if (!window.speechSynthesis) return;
         window.speechSynthesis.cancel();
+
         const cleanText = smartTTS(text);
         if (!cleanText) return;
 
-        speechRef.current = new SpeechSynthesisUtterance(cleanText);
-        speechRef.current.lang = 'fr-FR';
-        speechRef.current.rate = 1.0; // Vitesse naturelle (Standard)
-        speechRef.current.pitch = 1;
-        if (selectedVoice) speechRef.current.voice = selectedVoice;
+        // Découpage en phrases
+        const sentences = cleanText.match(/[^.!?]+[.!?]+|[^.!?]+$/g) || [cleanText];
 
-        speechRef.current.onstart = () => { setIsSpeaking(true); setIsPaused(false); };
-        speechRef.current.onend = () => { setIsSpeaking(false); setIsPaused(false); };
-        speechRef.current.onerror = () => { setIsSpeaking(false); setIsPaused(false); };
+        setIsSpeaking(true);
+        setIsPaused(false);
 
-        window.speechSynthesis.speak(speechRef.current);
+        let currentIndex = 0;
+
+        const speakNext = () => {
+            // Si la lecture est annulée ou finie
+            if (currentIndex >= sentences.length) {
+                setIsSpeaking(false);
+                return;
+            }
+
+            const sentence = sentences[currentIndex].trim();
+            if (!sentence) {
+                currentIndex++;
+                speakNext();
+                return;
+            }
+
+            const utterance = new SpeechSynthesisUtterance(sentence);
+            speechRef.current = utterance; // Mettre à jour la ref pour les contrôles pause/stop
+
+            utterance.lang = 'fr-FR';
+            utterance.rate = 1.0;
+            utterance.pitch = 1;
+            if (selectedVoice) utterance.voice = selectedVoice;
+
+            utterance.onend = () => {
+                currentIndex++;
+                speakNext();
+            };
+
+            utterance.onerror = (e) => {
+                console.error("Erreur TTS:", e);
+                currentIndex++;
+                speakNext();
+            };
+
+            window.speechSynthesis.speak(utterance);
+        };
+
+        speakNext();
     };
 
     const togglePause = () => {
