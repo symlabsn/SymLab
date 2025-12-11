@@ -294,11 +294,83 @@ function CoursesContent() {
         return result;
     };
 
+    const smartTTS = (text) => {
+        if (!text) return '';
+        // 1. Nettoyage initial et Dictionnaire
+        let t = text
+            .replace(/[\u{1F600}-\u{1F64F}\u{1F300}-\u{1F5FF}\u{1F680}-\u{1F6FF}\u{1F900}-\u{1F9FF}\u{2600}-\u{27BF}\u{2190}-\u{21FF}\u{2B00}-\u{2BFF}]/gu, '')
+            .replace(/→|⇒|⇔|↔/g, ' ')
+            .replace(/```[\s\S]*?```/g, '. Code. ')
+            .replace(/`([^`]+)`/g, '$1')
+            .replace(/\*\*([^*]+)\*\*/g, '$1')
+            .replace(/\*([^*]+)\*/g, '$1')
+            .replace(/#{1,6}\s*/g, '')
+            .replace(/\$/g, ' ');
+
+        const replacements = {
+            '\\in': ' appartient à ', '\\notin': " n'appartient pas à ",
+            '\\cup': ' union ', '\\cap': ' inter ', '\\subset': ' inclus dans ',
+            '\\forall': ' pour tout ', '\\exists': ' il existe ', '\\infty': " l'infini ",
+            '\\neq': ' différent de ', '\\leq': ' inférieur ou égal à ', '\\geq': ' supérieur ou égal à ',
+            '\\approx': ' environ ', '\\pm': ' plus ou moins ', '\\times': ' fois ', '\\cdot': ' fois ', '\\div': ' divisé par ',
+            '\\pi': ' pi ', '\\alpha': ' alpha ', '\\beta': ' bêta ', '\\theta': ' thêta ',
+            '\\lambda': ' lambda ', '\\Delta': ' Delta ', '\\gamma': ' gamma ', '\\sigma': ' sigma ',
+            '\\Omega': ' oméga ', '\\omega': ' oméga ', '\\phi': ' phi ', '\\psi': ' psi ',
+            '=': ' égale ', '+': ' plus ', '<': ' inférieur à ', '>': ' supérieur à '
+        };
+        for (const [key, val] of Object.entries(replacements)) { t = t.split(key).join(val); }
+
+        // 2. Traitement Itératif (Imbrication)
+        let hasChanged = true;
+        let loops = 0;
+        while (hasChanged && loops < 5) {
+            hasChanged = false;
+            const original = t;
+            t = t.replace(/\\frac\s*\{([^{}]+)\}\s*\{([^{}]+)\}/g, ' $1 sur $2 ');
+            t = t.replace(/\\sqrt\s*\[([^{}]+)\]\s*\{([^{}]+)\}/g, ' racine $1-ième de $2 ');
+            t = t.replace(/\\sqrt\s*\{([^{}]+)\}/g, ' racine carrée de $1 ');
+            t = t.replace(/\^\{([^{}]+)\}/g, ' puissance $1 ');
+            t = t.replace(/_\{([^{}]+)\}/g, ' indice $1 ');
+            t = t.replace(/\\vec\s*\{([^{}]+)\}/g, ' vecteur $1 ');
+            t = t.replace(/\\overrightarrow\s*\{([^{}]+)\}/g, ' vecteur $1 ');
+            t = t.replace(/\\left\|\s*([^{}]+)\s*\\right\|/g, ' valeur absolue de $1 ');
+            t = t.replace(/\|\s*([^{}]+)\s*\|/g, ' valeur absolue de $1 ');
+            if (t !== original) hasChanged = true;
+            loops++;
+        }
+
+        // 3. Sémantique et Phonétique
+        t = t
+            .replace(/(\d)\s*([a-zA-Z])/g, '$1 fois $2')
+            .replace(/(\d)\s*\(/g, '$1 facteur de (')
+            .replace(/\b([fghuv])\s*\(\s*([a-z0-9]+)\s*\)/gi, '$1 de $2')
+            .replace(/\\?(sin|cos|tan|ln|log|exp)\s*\(\s*([^)]+)\s*\)/gi, '$1 de $2')
+            .replace(/([a-zA-Z0-9]+)\^([a-zA-Z0-9]+)/g, '$1 puissance $2')
+            .replace(/\[\s*([^;]+)\s*[;,]\s*([^\]]+)\s*\]/g, ' intervalle fermé de $1 à $2 ')
+            .replace(/\]\s*([^;]+)\s*[;,]\s*([^\[]+)\s*\[/g, ' intervalle ouvert de $1 à $2 ')
+            .replace(/\\mathbb\{R\}/g, " R ")
+            .replace(/\\mathbb\{N\}/g, " N ")
+            .replace(/\\sum/g, ' somme ')
+            .replace(/\\lim/g, ' limite ')
+            .replace(/\\int/g, ' intégrale ')
+            .replace(/cm\^2/g, ' centimètres carrés ')
+            .replace(/m\^2/g, ' mètres carrés ')
+            .replace(/°C/g, ' degrés Celsius ')
+            .replace(/(\d+)[.,](\d+)/g, '$1 virgule $2')
+            .replace(/\\[a-zA-Z]+/g, '')
+            .replace(/[{}]/g, '')
+            .replace(/[\(\)]/g, ' ')
+            .replace(/\n+/g, '. ')
+            .replace(/\s+/g, ' ')
+            .trim();
+        return t;
+    };
+
     // Démarrer la lecture
     const startSpeaking = (text) => {
         if (!window.speechSynthesis) return;
         window.speechSynthesis.cancel();
-        const cleanText = cleanTextForSpeech(text);
+        const cleanText = smartTTS(text);
         if (!cleanText) return;
 
         speechRef.current = new SpeechSynthesisUtterance(cleanText);
