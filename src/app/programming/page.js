@@ -39,24 +39,20 @@ function ProgrammingContent() {
         }
     }, [searchParams]);
 
-    // Charger uniquement les voix françaises
+    // Charger uniquement les voix françaises (pas Canada)
     useEffect(() => {
         const loadVoices = () => {
             const voices = window.speechSynthesis?.getVoices() || [];
-            // Filtrer uniquement les voix françaises
-            const french = voices.filter(v => v.lang.startsWith('fr'));
+            // Filtrer français de France uniquement (exclure fr-CA)
+            const french = voices.filter(v =>
+                (v.lang === 'fr-FR' || v.lang === 'fr_FR') && !v.lang.includes('CA')
+            );
             setFrenchVoices(french);
 
-            // Sélectionner la meilleure voix française par défaut
+            // Sélectionner Google français par défaut (dernier de la liste)
             if (french.length > 0 && !selectedVoice) {
-                // Priorité: Google > Microsoft > Natural > autres
-                const priority = french.find(v =>
-                    v.name.includes('Google') ||
-                    v.name.includes('Microsoft') ||
-                    v.name.includes('Natural') ||
-                    v.name.includes('Neural')
-                ) || french[0];
-                setSelectedVoice(priority);
+                const googleFr = french.find(v => v.name.includes('Google')) || french[french.length - 1];
+                setSelectedVoice(googleFr);
             }
         };
 
@@ -226,8 +222,8 @@ function ProgrammingContent() {
                                         key={idx}
                                         onClick={() => { setSelectedVoice(voice); setShowVoiceSelector(false); }}
                                         className={`w-full text-left px-3 py-2 rounded-lg transition-all text-sm ${selectedVoice?.name === voice.name
-                                                ? 'bg-[#00F5D4]/20 text-[#00F5D4] border border-[#00F5D4]/30'
-                                                : 'bg-white/5 text-gray-300 hover:bg-white/10'
+                                            ? 'bg-[#00F5D4]/20 text-[#00F5D4] border border-[#00F5D4]/30'
+                                            : 'bg-white/5 text-gray-300 hover:bg-white/10'
                                             }`}
                                     >
                                         <div className="font-medium">{voice.name}</div>
