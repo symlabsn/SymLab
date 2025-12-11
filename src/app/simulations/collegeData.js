@@ -987,6 +987,433 @@ Chute Libre
         relatedSimulations: ['energy-conservation', 'simple-circuits', 'plate-tectonics']
     },
 
+    // === PC 4ÈME - SIMULATIONS IMMERSIVES ===
+    'density-explorer': {
+        title: 'Masse Volumique et Densité',
+        description: 'Expérimentez avec différents matériaux pour comprendre pourquoi certains flottent et d\'autres coulent',
+        type: 'density-explorer',
+        config: {},
+        analogy: {
+            title: 'La Densité comme les Pirogues et les Pierres au Fleuve',
+            content: `La densité, c'est comme comparer une pirogue en bois et une pierre au fleuve Sénégal ! ⛵
+
+La pirogue en bois est légère pour sa taille - elle a une faible masse volumique.
+Elle flotte car sa densité est inférieure à celle de l'eau (d < 1).
+
+La pierre est lourde pour sa taille - elle a une forte masse volumique.
+Elle coule car sa densité est supérieure à celle de l'eau (d > 1).
+
+Imagine : un sac de riz de 50 kg est un gros sac, mais un lingot d'or de 50 kg tiendrait dans ta main !
+Même masse, mais volume très différent.
+
+Formule magique : ρ = m / V (masse divisée par volume)
+Plus c'est tassé, plus c'est dense !`
+        },
+        theory: `Masse Volumique et Densité
+
+La masse volumique (ρ) indique combien de masse est contenue dans un volume donné.
+
+Définition
+
+Masse Volumique (ρ)
+- ρ = m / V
+- Unité : kg/m³ ou g/cm³ ou kg/L
+- Propriété caractéristique d'un matériau
+
+Exemples
+- Eau : ρ = 1 kg/L = 1 g/cm³
+- Fer : ρ = 7,87 kg/L
+- Huile : ρ = 0,92 kg/L
+- Or : ρ = 19,3 kg/L
+- Air : ρ = 0,0012 kg/L
+
+Densité (d)
+
+Définition
+d = ρ_objet / ρ_eau
+
+Interprétation
+- Si d < 1 : L'objet FLOTTE
+- Si d > 1 : L'objet COULE
+- Si d = 1 : L'objet est en équilibre
+
+Applications
+- Flottaison des bateaux
+- Séparation d'huile et d'eau
+- Contrôle de qualité des métaux
+- Densimètre pour l'urine (médecine)`,
+        exercises: [
+            {
+                question: 'L\'huile flotte sur l\'eau. Que peut-on dire de sa densité ?',
+                options: ['d > 1', 'd < 1', 'd = 1', 'd = 0'],
+                correct: 1,
+                explanation: 'Si l\'huile flotte, sa densité est inférieure à 1 (celle de l\'eau) !'
+            },
+            {
+                question: 'Un objet a une masse de 200g et un volume de 50 cm³. Quelle est sa masse volumique ?',
+                options: ['4 g/cm³', '0,25 g/cm³', '250 g/cm³', '10000 g/cm³'],
+                correct: 0,
+                explanation: 'ρ = m/V = 200/50 = 4 g/cm³. Cet objet coulera !'
+            }
+        ],
+        relatedSimulations: ['states-of-matter', 'forces-motion', 'weight-mass']
+    },
+
+    'refraction-simulator': {
+        title: 'Réfraction de la Lumière',
+        description: 'Visualisez comment la lumière change de direction en passant d\'un milieu à un autre',
+        type: 'refraction-simulator',
+        config: {},
+        analogy: {
+            title: 'La Réfraction comme un Car Rapide qui change de Route',
+            content: `La réfraction, c'est comme un car rapide qui passe du goudron au sable ! 🚌
+
+Imagine un car qui roule vite sur la route goudronnée (l'air).
+Soudain, une roue entre dans le sable (l'eau).
+Cette roue ralentit en premier, et le car tourne automatiquement !
+
+C'est exactement ce qui arrive à la lumière !
+Quand elle passe de l'air à l'eau, elle ralentit et change de direction.
+
+C'est pour ça que :
+- Un bâton dans l'eau paraît cassé (mais il ne l'est pas !)
+- Les poissons ne sont pas où on les voit
+- Les lunettes et les loupes fonctionnent
+
+Plus le milieu est "épais" (indice élevé), plus la lumière ralentit et dévie.
+Diamant : la lumière ralentit beaucoup → il brille énormément !`
+        },
+        theory: `Réfraction de la Lumière
+
+La réfraction est le changement de direction de la lumière lorsqu'elle passe d'un milieu transparent à un autre.
+
+Loi de Snell-Descartes
+
+Formule
+n₁ × sin(i) = n₂ × sin(r)
+
+Où :
+- n₁ : indice de réfraction du milieu 1
+- n₂ : indice de réfraction du milieu 2
+- i : angle d'incidence
+- r : angle de réfraction
+
+Indices de Réfraction
+
+Milieu - Indice n
+- Vide : 1,000
+- Air : 1,0003 (≈ 1)
+- Eau : 1,33
+- Verre : 1,5
+- Diamant : 2,42
+
+Phénomènes
+
+Déviation vers la normale
+Si n₂ > n₁ (air → eau)
+La lumière se rapproche de la normale
+
+Déviation en s'éloignant
+Si n₂ < n₁ (eau → air)
+La lumière s'éloigne de la normale
+
+Réflexion Totale
+Si l'angle d'incidence dépasse l'angle critique
+Toute la lumière est réfléchie (fibres optiques !)
+
+Angle critique
+sin(θc) = n₂/n₁ (uniquement si n₁ > n₂)
+
+Applications
+- Lunettes et lentilles
+- Loupe et microscope
+- Fibres optiques
+- Mirages`,
+        exercises: [
+            {
+                question: 'Un rayon lumineux passe de l\'air (n=1) vers l\'eau (n=1,33). Il va :',
+                options: ['S\'éloigner de la normale', 'Se rapprocher de la normale', 'Continuer tout droit', 'Revenir en arrière'],
+                correct: 1,
+                explanation: 'Quand la lumière passe vers un milieu plus réfringent (n plus grand), elle se rapproche de la normale.'
+            },
+            {
+                question: 'Pourquoi un bâton dans l\'eau semble cassé ?',
+                options: ['L\'eau casse le bâton', 'Illusion d\'optique due à la réfraction', 'L\'eau est trouble', 'Le bâton est flexible'],
+                correct: 1,
+                explanation: 'Les rayons lumineux sont déviés en sortant de l\'eau, trompant notre cerveau sur la position réelle !'
+            }
+        ],
+        relatedSimulations: ['light-reflection', 'light-propagation', 'lens-optics']
+    },
+
+    'circuit-series-parallel': {
+        title: 'Circuits Série vs Parallèle',
+        description: 'Comparez les circuits en série et en parallèle avec des ampoules interactives',
+        type: 'circuit-series-parallel',
+        config: {},
+        analogy: {
+            title: 'Les Circuits comme le Réseau d\'Eau de Dakar',
+            content: `Les circuits électriques, c'est comme la distribution d'eau dans une maison ! 🚰
+
+CIRCUIT SÉRIE = Un seul tuyau qui passe de maison en maison
+- Si une maison bouche le tuyau, PERSONNE n'a d'eau !
+- Le débit (courant) est le même partout
+- La pression (tension) se partage entre les maisons
+
+Exemple : Les guirlandes de Noël d'autrefois
+→ Une ampoule grille = toutes s'éteignent !
+
+CIRCUIT PARALLÈLE = Chaque maison a son propre tuyau
+- Si une maison ferme son robinet, les autres ont toujours de l'eau
+- Chaque maison a la même pression (même tension)
+- Les débits s'additionnent (courant total = I₁ + I₂)
+
+Exemple : Les prises de ta maison
+→ Tu peux éteindre la télé sans éteindre le frigo !
+
+C'est pour ça que les maisons sont câblées en parallèle !`
+        },
+        theory: `Circuits Série et Parallèle
+
+Deux façons de connecter des dipôles dans un circuit électrique.
+
+Circuit Série
+
+Caractéristiques
+- Un seul chemin pour le courant
+- Si un élément s'ouvre, tout le circuit s'arrête
+- Le courant est IDENTIQUE partout : I = I₁ = I₂
+
+Lois
+- Loi des tensions : U = U₁ + U₂ (additive)
+- Résistance équivalente : R = R₁ + R₂
+
+Inconvénient
+Une ampoule grillée éteint tout !
+
+Circuit Parallèle
+
+Caractéristiques
+- Plusieurs chemins pour le courant
+- Chaque branche est indépendante
+- La tension est IDENTIQUE : U = U₁ = U₂
+
+Lois
+- Loi des courants : I = I₁ + I₂ (additive)
+- Résistance équivalente : 1/R = 1/R₁ + 1/R₂
+
+Avantage
+Une ampoule grillée n'affecte pas les autres !
+
+Loi d'Ohm
+U = R × I
+
+Applications
+- Série : guirlandes simples, diviseurs de tension
+- Parallèle : installations domestiques, prises murales`,
+        exercises: [
+            {
+                question: 'Dans un circuit en série avec 2 ampoules, que se passe-t-il si l\'une grille ?',
+                options: ['L\'autre brille plus fort', 'L\'autre s\'éteint aussi', 'Rien ne change', 'L\'autre brille moins'],
+                correct: 1,
+                explanation: 'En série, si un élément s\'ouvre, le circuit est coupé et tout s\'éteint !'
+            },
+            {
+                question: 'Quel montage a-t-on dans une maison typique ?',
+                options: ['Série', 'Parallèle', 'Mixte uniquement', 'Ni l\'un ni l\'autre'],
+                correct: 1,
+                explanation: 'Les installations domestiques sont en parallèle pour que chaque appareil soit indépendant.'
+            }
+        ],
+        relatedSimulations: ['simple-circuits', 'energy-conservation', 'electromagnetic-induction']
+    },
+
+    'mass-conservation': {
+        title: 'Conservation de la Masse (Lavoisier)',
+        description: 'Observez que rien ne se perd lors d\'une réaction chimique - la masse totale est conservée',
+        type: 'mass-conservation',
+        config: {},
+        analogy: {
+            title: 'La Conservation de la Masse comme une Cuisine',
+            content: `La loi de Lavoisier, c'est comme cuisiner un thiéboudienne ! 🍚
+
+Imagine : tu prends 500g de riz, 300g de poisson, 200g de légumes.
+Masse totale AVANT = 500 + 300 + 200 = 1000g
+
+Après la cuisson, tu as un délicieux plat.
+Masse totale APRÈS = toujours 1000g !
+
+Rien ne disparaît, tout se transforme !
+Les ingrédients ont changé de forme, mais tous les atomes sont toujours là.
+
+C'est pareil en chimie :
+- Carbone + Oxygène → Dioxyde de carbone
+- 12g de C + 32g de O₂ = 44g de CO₂
+
+Lavoisier a dit : "Rien ne se perd, rien ne se crée, tout se transforme."
+C'est la loi la plus importante de la chimie !
+
+Important : Il faut peser TOUT (même les gaz qui s'échappent) !`
+        },
+        theory: `Conservation de la Masse
+
+Loi fondamentale découverte par Antoine Lavoisier en 1789.
+
+Énoncé
+
+"Au cours d'une transformation chimique, la masse totale des réactifs est égale à la masse totale des produits."
+
+Ou : "Rien ne se perd, rien ne se crée, tout se transforme."
+
+Explication Atomique
+
+Les atomes ne sont ni créés ni détruits
+- Ils se réarrangent pour former de nouvelles molécules
+- Le nombre d'atomes de chaque élément reste constant
+- La masse totale est donc conservée
+
+Exemple : Combustion du Carbone
+
+Réaction
+C + O₂ → CO₂
+
+Bilan de masse
+- Carbone : 12 g
+- Dioxygène : 32 g
+- Total réactifs : 44 g
+- Dioxyde de carbone produit : 44 g ✓
+
+Équilibrage
+
+Une équation chimique doit être équilibrée :
+- Même nombre d'atomes de chaque côté
+- Coefficients stœchiométriques
+
+Exemple
+2 H₂ + O₂ → 2 H₂O
+4 H et 2 O de chaque côté ✓
+
+Applications
+- Dosages en chimie
+- Calculs de rendement
+- Industrie chimique
+- Médecine (dosages médicamenteux)`,
+        exercises: [
+            {
+                question: 'Lors de la combustion du bois, la masse des cendres est inférieure à celle du bois. Où est passée la masse manquante ?',
+                options: ['Elle a disparu', 'Elle est dans les gaz (CO₂, H₂O)', 'Elle est devenue de l\'énergie', 'Elle est restée dans le feu'],
+                correct: 1,
+                explanation: 'La masse "perdue" est dans les gaz (CO₂, vapeur d\'eau) qui s\'échappent. La masse totale est conservée !'
+            },
+            {
+                question: 'Qui a énoncé la loi de conservation de la masse ?',
+                options: ['Newton', 'Einstein', 'Lavoisier', 'Pasteur'],
+                correct: 2,
+                explanation: 'Antoine Lavoisier, père de la chimie moderne, a énoncé cette loi en 1789.'
+            }
+        ],
+        relatedSimulations: ['chemical-reactions', 'combustion', 'atomic-structure']
+    },
+
+    'light-propagation-pc4': {
+        title: 'Propagation Rectiligne de la Lumière',
+        description: 'Démontrez que la lumière voyage en ligne droite et crée des ombres',
+        type: 'light-propagation-pc4',
+        config: {},
+        analogy: {
+            title: 'La Lumière comme une Flèche',
+            content: `La lumière voyage en ligne droite, comme une flèche tirée par un arc ! 🏹
+
+Imagine un tireur à l'arc qui vise une cible.
+La flèche va tout droit - elle ne contourne pas les obstacles !
+
+C'est pareil pour la lumière :
+- Elle ne peut pas tourner
+- Elle ne passe pas à travers les murs
+- Elle crée des OMBRES derrière les objets opaques
+
+Expérience simple :
+Dans une pièce sombre, allume une lampe de poche.
+Place ta main devant → une ombre apparaît sur le mur !
+
+Ton ombre existe parce que la lumière ne peut pas contourner ta main.
+
+C'est aussi pour ça qu'on ne peut pas voir derrière un mur,
+mais qu'on peut entendre (le son, lui, peut contourner les obstacles).
+
+La vitesse de la lumière : 300 000 km/s !
+Le record de vitesse de l'univers !`
+        },
+        theory: `Propagation Rectiligne de la Lumière
+
+Dans un milieu transparent et homogène, la lumière se propage en ligne droite.
+
+Principe Fondamental
+
+Énoncé
+La lumière se propage en ligne droite dans un milieu homogène.
+
+Représentation
+- Rayon lumineux : droite avec une flèche (sens de propagation)
+- Faisceau : ensemble de rayons lumineux
+
+Vitesse de la Lumière
+c = 299 792 458 m/s ≈ 300 000 km/s (dans le vide)
+
+Conséquences
+
+Formation des Ombres
+
+Ombre propre
+- Sur l'objet lui-même
+- Partie non éclairée de l'objet
+
+Ombre portée
+- Sur une surface derrière l'objet
+- Silhouette de l'objet
+
+Pénombre
+- Zone partiellement éclairée
+- Source de lumière étendue
+
+Éclipses
+
+Éclipse de Soleil
+- La Lune bloque le Soleil
+- Ombre de la Lune sur Terre
+
+Éclipse de Lune
+- La Terre bloque le Soleil
+- La Lune passe dans l'ombre de la Terre
+
+Chambre Noire
+
+Principe
+- Petite ouverture dans une boîte opaque
+- Image inversée se forme à l'intérieur
+- Preuve de la propagation rectiligne
+
+Applications
+- Appareil photo (historique)
+- Projection d'images
+- Localisation d'objets`,
+        exercises: [
+            {
+                question: 'Pourquoi voit-on notre ombre au sol par une journée ensoleillée ?',
+                options: ['La lumière attire notre corps', 'La lumière ne peut pas traverser notre corps', 'Notre corps absorbe la lumière', 'C\'est un effet d\'optique'],
+                correct: 1,
+                explanation: 'Notre corps est opaque. La lumière ne peut pas le traverser, créant une zone d\'ombre derrière nous.'
+            },
+            {
+                question: 'Dans quel milieu la lumière se propage-t-elle en ligne droite ?',
+                options: ['Uniquement dans le vide', 'Dans tout milieu homogène', 'Uniquement dans l\'air', 'Elle ne va jamais en ligne droite'],
+                correct: 1,
+                explanation: 'La lumière se propage en ligne droite dans tout milieu transparent ET homogène (vide, air, eau, verre...).'
+            }
+        ],
+        relatedSimulations: ['light-reflection', 'refraction-simulator', 'lens-optics']
+    },
+
     // ========== 3ÈME (BFEM) ==========
     'genetics-dna': {
         title: 'ADN et Génétique',

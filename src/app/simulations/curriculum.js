@@ -373,6 +373,51 @@ export const simulationsCurriculum = {
                                 duration: "20 min",
                                 icon: "🔊",
                                 tags: ["physique", "son", "ondes"]
+                            },
+                            {
+                                id: "density-explorer",
+                                title: "Masse Volumique et Densité",
+                                description: "Comprenez pourquoi certains objets flottent et d'autres coulent",
+                                difficulty: "moyen",
+                                duration: "25 min",
+                                icon: "⚗️",
+                                tags: ["physique", "matière", "Archimède"]
+                            },
+                            {
+                                id: "refraction-simulator",
+                                title: "Réfraction de la Lumière",
+                                description: "Visualisez comment la lumière change de direction entre milieux",
+                                difficulty: "moyen",
+                                duration: "25 min",
+                                icon: "🔦",
+                                tags: ["optique", "lumière", "Snell"]
+                            },
+                            {
+                                id: "circuit-series-parallel",
+                                title: "Circuits Série vs Parallèle",
+                                description: "Comparez les deux types de montages électriques",
+                                difficulty: "moyen",
+                                duration: "30 min",
+                                icon: "💡",
+                                tags: ["électricité", "circuit", "courant"]
+                            },
+                            {
+                                id: "mass-conservation",
+                                title: "Conservation de la Masse",
+                                description: "Découvrez la loi de Lavoisier lors des réactions chimiques",
+                                difficulty: "moyen",
+                                duration: "25 min",
+                                icon: "⚖️",
+                                tags: ["chimie", "réaction", "Lavoisier"]
+                            },
+                            {
+                                id: "light-propagation-pc4",
+                                title: "Propagation Rectiligne",
+                                description: "Démontrez que la lumière voyage en ligne droite",
+                                difficulty: "moyen",
+                                duration: "20 min",
+                                icon: "☀️",
+                                tags: ["optique", "ombre", "lumière"]
                             }
                         ]
                     },

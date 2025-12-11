@@ -479,7 +479,9 @@ function CoursesContent() {
         }));
 
         const chapter = structuredCourses[selectedCourse.id].chapters.find(c => c.id === chapterId);
-        const exercise = chapter.exercises.find(e => e.id === exerciseId);
+        // Support both 'exercises' and 'defis'
+        const exercisesList = chapter.defis || chapter.exercises || [];
+        const exercise = exercisesList.find(e => e.id === exerciseId);
         const isCorrect = exercise.correctAnswer === optionIndex;
 
         setQuizResults(prev => ({
@@ -782,7 +784,7 @@ function CoursesContent() {
                                                             className={`flex-1 py-4 text-sm font-bold uppercase tracking-wider transition-colors ${showExercises ? 'bg-[#0F1115] text-blue-400 border-t-2 border-blue-500' : 'text-gray-500 hover:text-white bg-black/20'
                                                                 }`}
                                                         >
-                                                            ✏️ Exercices
+                                                            🎯 Défis
                                                         </button>
                                                     </>
                                                 )}
@@ -940,11 +942,52 @@ function CoursesContent() {
                                                             </ul>
                                                         </div>
                                                     )}
+
+                                                    {/* Analogie Pédagogique */}
+                                                    {activeChapter?.analogy && (
+                                                        <div className="mt-12 p-6 rounded-2xl bg-gradient-to-br from-amber-900/20 via-orange-900/10 to-yellow-900/20 border border-amber-500/20 relative overflow-hidden group hover:border-amber-500/40 transition-all">
+                                                            <div className="absolute top-0 right-0 p-6 text-8xl opacity-5 group-hover:opacity-10 transition-opacity select-none">🌍</div>
+                                                            <h3 className="text-lg font-bold text-amber-300 mb-4 flex items-center gap-2">
+                                                                <span className="text-2xl">{activeChapter.analogy.title.split(' ')[0]}</span>
+                                                                {activeChapter.analogy.title.replace(/^[^\s]+\s/, '')}
+                                                            </h3>
+                                                            <div className="text-gray-300 leading-relaxed text-base whitespace-pre-line font-serif">
+                                                                {activeChapter.analogy.content}
+                                                            </div>
+                                                        </div>
+                                                    )}
+
+                                                    {/* Lien vers la Simulation */}
+                                                    {activeChapter?.simulation && (
+                                                        <div className="mt-12 p-6 rounded-2xl bg-gradient-to-br from-cyan-900/30 via-blue-900/20 to-purple-900/20 border border-cyan-500/30 relative overflow-hidden group hover:scale-[1.01] transition-all cursor-pointer">
+                                                            <Link href={`/simulations/${activeChapter.simulation.id}`}>
+                                                                <div className="flex items-center gap-6">
+                                                                    <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-cyan-500/30 to-blue-500/30 flex items-center justify-center text-5xl border border-cyan-500/20 group-hover:scale-110 transition-transform shadow-lg shadow-cyan-500/10">
+                                                                        🎮
+                                                                    </div>
+                                                                    <div className="flex-1">
+                                                                        <div className="text-xs font-bold text-cyan-400 uppercase tracking-wider mb-1">
+                                                                            🚀 Simulation Interactive
+                                                                        </div>
+                                                                        <h4 className="text-xl font-bold text-white mb-1 group-hover:text-cyan-400 transition-colors">
+                                                                            {activeChapter.simulation.title}
+                                                                        </h4>
+                                                                        <p className="text-sm text-gray-400">
+                                                                            Expérimente ce concept en 3D pour mieux le comprendre !
+                                                                        </p>
+                                                                    </div>
+                                                                    <div className="text-3xl group-hover:translate-x-2 transition-transform">
+                                                                        →
+                                                                    </div>
+                                                                </div>
+                                                            </Link>
+                                                        </div>
+                                                    )}
                                                     {/* In Training Mode, Show Exercises Below Content */}
                                                     {selectedCourse.id.includes('entrainement') && (
                                                         <div className="mt-16 pt-10 border-t border-white/10 space-y-8">
                                                             <h2 className="text-2xl font-bold mb-6">Questions</h2>
-                                                            {activeChapter?.exercises.map((ex, idx) => (
+                                                            {(activeChapter?.defis || activeChapter?.exercises || []).map((ex, idx) => (
                                                                 <div key={ex.id} className="bg-black/30 rounded-xl p-4 md:p-6 border border-white/10">
                                                                     <div className="flex items-start gap-4 mb-4">
                                                                         <span className="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center font-bold text-sm shrink-0">
@@ -996,8 +1039,10 @@ function CoursesContent() {
                                                 </div>
                                             ) : (
                                                 <div className="max-w-3xl mx-auto space-y-8">
-                                                    <h2 className="text-2xl font-bold mb-6">Exercices d&apos;application</h2>
-                                                    {activeChapter?.exercises.map((ex, idx) => (
+                                                    <h2 className="text-2xl font-bold mb-6 flex items-center gap-3">
+                                                        <span className="text-3xl">🎯</span> Défis
+                                                    </h2>
+                                                    {(activeChapter?.defis || activeChapter?.exercises || []).map((ex, idx) => (
                                                         <div key={ex.id} className="bg-black/30 rounded-xl p-4 md:p-6 border border-white/10">
                                                             <div className="flex items-start gap-4 mb-4">
                                                                 <span className="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center font-bold text-sm shrink-0">

@@ -43,6 +43,7 @@ import { ChemicalReaction } from './ChemicalReaction';
 import { ImmuneSystem } from './ImmuneSystem';
 import { ThermalTransfer } from './ThermalTransfer';
 import { SoundPropagation } from './SoundPropagation';
+import { DensityExplorer, RefractionSimulator, CircuitSeriesParallel, MassConservation, LightPropagationPC4 } from './PC4eSimulations';
 
 // ... (existing helper components)
 
@@ -4371,6 +4372,19 @@ export default function Simulation3D({ type = 'atom', config = {} }) {
             case 'infection-defense':
             case 'immune': // Fallback generique
                 return <ImmuneSystem type="infection" />;
+
+            // === PC 4ÈME - SIMULATIONS IMMERSIVES ===
+            case 'density-explorer':
+                return <DensityExplorer />;
+            case 'refraction-simulator':
+                return <RefractionSimulator />;
+            case 'circuit-series-parallel':
+                return <CircuitSeriesParallel />;
+            case 'mass-conservation':
+                return <MassConservation />;
+            case 'light-propagation-pc4':
+                return <LightPropagationPC4 />;
+
             default:
                 return <Atom {...config} />;
         }
