@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { courses } from './courseData';
 import { math6eData } from './data/math6e';
@@ -133,6 +133,94 @@ function CoursesContent() {
     const [showExercises, setShowExercises] = useState(false);
     const [quizAnswers, setQuizAnswers] = useState({});
     const [quizResults, setQuizResults] = useState({});
+
+    // TTS State
+    const [isSpeaking, setIsSpeaking] = useState(false);
+    const [isPaused, setIsPaused] = useState(false);
+    const [selectedVoice, setSelectedVoice] = useState(null);
+    const [frenchVoices, setFrenchVoices] = useState([]);
+    const speechRef = useRef(null);
+
+    // Charger les voix françaises (fr-FR uniquement)
+    useEffect(() => {
+        const loadVoices = () => {
+            const voices = window.speechSynthesis?.getVoices() || [];
+            const french = voices.filter(v => v.lang === 'fr-FR' || v.lang === 'fr_FR');
+            setFrenchVoices(french);
+            if (french.length > 0 && !selectedVoice) {
+                const googleFr = french.find(v => v.name.includes('Google')) || french[french.length - 1];
+                setSelectedVoice(googleFr);
+            }
+        };
+        loadVoices();
+        window.speechSynthesis?.addEventListener('voiceschanged', loadVoices);
+        return () => window.speechSynthesis?.removeEventListener('voiceschanged', loadVoices);
+    }, [selectedVoice]);
+
+    // Nettoyer le texte pour TTS
+    const cleanTextForSpeech = (text) => {
+        if (!text) return '';
+        return text
+            .replace(/[\u{1F600}-\u{1F64F}]/gu, '')
+            .replace(/[\u{1F300}-\u{1F5FF}]/gu, '')
+            .replace(/[\u{1F680}-\u{1F6FF}]/gu, '')
+            .replace(/[\u{1F900}-\u{1F9FF}]/gu, '')
+            .replace(/[\u{2600}-\u{27BF}]/gu, '')
+            .replace(/```[\s\S]*?```/g, '. ')
+            .replace(/`([^`]+)`/g, '$1')
+            .replace(/\*\*([^*]+)\*\*/g, '$1')
+            .replace(/\*([^*]+)\*/g, '$1')
+            .replace(/#{1,6}\s*/g, '')
+            .replace(/\\\(/g, '').replace(/\\\)/g, '')
+            .replace(/\\\[/g, '').replace(/\\\]/g, '')
+            .replace(/\\frac\{([^}]+)\}\{([^}]+)\}/g, '$1 sur $2')
+            .replace(/\\sqrt\{([^}]+)\}/g, 'racine de $1')
+            .replace(/\\times/g, 'fois')
+            .replace(/\\div/g, 'divisé par')
+            .replace(/\\[a-zA-Z]+/g, '')
+            .replace(/\{|\}/g, '')
+            .replace(/\n+/g, '. ')
+            .replace(/[<>]/g, '')
+            .replace(/&nbsp;/g, ' ')
+            .replace(/\s+/g, ' ')
+            .trim();
+    };
+
+    // Démarrer la lecture
+    const startSpeaking = (text) => {
+        if (!window.speechSynthesis) return;
+        window.speechSynthesis.cancel();
+        const cleanText = cleanTextForSpeech(text);
+        if (!cleanText) return;
+
+        speechRef.current = new SpeechSynthesisUtterance(cleanText);
+        speechRef.current.lang = 'fr-FR';
+        speechRef.current.rate = 0.9;
+        speechRef.current.pitch = 1;
+        if (selectedVoice) speechRef.current.voice = selectedVoice;
+
+        speechRef.current.onstart = () => { setIsSpeaking(true); setIsPaused(false); };
+        speechRef.current.onend = () => { setIsSpeaking(false); setIsPaused(false); };
+        speechRef.current.onerror = () => { setIsSpeaking(false); setIsPaused(false); };
+
+        window.speechSynthesis.speak(speechRef.current);
+    };
+
+    const togglePause = () => {
+        if (window.speechSynthesis.paused) {
+            window.speechSynthesis.resume();
+            setIsPaused(false);
+        } else {
+            window.speechSynthesis.pause();
+            setIsPaused(true);
+        }
+    };
+
+    const stopSpeaking = () => {
+        window.speechSynthesis.cancel();
+        setIsSpeaking(false);
+        setIsPaused(false);
+    };
 
     const filteredCourses = courses.filter(course => {
         const matchLevel = course.level === activeLevel;
@@ -491,11 +579,43 @@ function CoursesContent() {
                                                         </div>
                                                     )}
 
-                                                    <h2 className="text-2xl md:text-4xl font-black mb-6 md:mb-8 text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-purple-400 to-white leading-tight">
+                                                    <h2 className="text-2xl md:text-4xl font-black mb-4 text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-purple-400 to-white leading-tight">
                                                         {activeChapter?.title}
                                                     </h2>
 
-                                                    {/* Story Section */}
+                                                    {/* Bouton Écouter */}
+                                                    {activeChapter?.content && (
+                                                        <div className="flex items-center gap-3 mb-6 p-3 rounded-xl bg-[#00F5D4]/10 border border-[#00F5D4]/20">
+                                                            <span className="text-xl">🎧</span>
+                                                            <div className="flex-1">
+                                                                <div className="text-sm font-medium text-white">Écouter ce chapitre</div>
+                                                                <div className="text-xs text-gray-400">Voix française naturelle</div>
+                                                            </div>
+                                                            {isSpeaking ? (
+                                                                <div className="flex items-center gap-2">
+                                                                    <button
+                                                                        onClick={togglePause}
+                                                                        className={`p-2 rounded-lg transition-all ${isPaused ? 'bg-yellow-500/20 text-yellow-400' : 'bg-blue-500/20 text-blue-400'}`}
+                                                                    >
+                                                                        {isPaused ? '▶️' : '⏸️'}
+                                                                    </button>
+                                                                    <button
+                                                                        onClick={stopSpeaking}
+                                                                        className="p-2 rounded-lg bg-red-500/20 text-red-400"
+                                                                    >
+                                                                        ⏹️
+                                                                    </button>
+                                                                </div>
+                                                            ) : (
+                                                                <button
+                                                                    onClick={() => startSpeaking(activeChapter.content)}
+                                                                    className="flex items-center gap-2 px-4 py-2 rounded-lg bg-[#00F5D4] text-black font-bold hover:bg-[#00F5D4]/90 transition-all"
+                                                                >
+                                                                    ▶️ Écouter
+                                                                </button>
+                                                            )}
+                                                        </div>
+                                                    )}
                                                     {activeChapter?.story && (
                                                         <div className="mb-8 md:mb-10 p-4 md:p-6 rounded-2xl bg-gradient-to-br from-indigo-900/20 to-purple-900/20 border border-indigo-500/20 relative overflow-hidden group hover:border-indigo-500/40 transition-all">
                                                             <div className="absolute top-0 right-0 p-6 text-8xl opacity-5 group-hover:opacity-10 transition-opacity select-none">📖</div>
@@ -712,6 +832,22 @@ function CoursesContent() {
                     )}
                 </div>
             </div>
+
+            {/* Floating Audio Player */}
+            {isSpeaking && (
+                <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50">
+                    <div className="flex items-center gap-4 px-5 py-3 rounded-full bg-[#0F1115] border border-[#00F5D4]/30 shadow-lg">
+                        <div className="w-2 h-2 rounded-full bg-[#00F5D4] animate-pulse"></div>
+                        <span className="text-sm text-gray-300">Lecture en cours</span>
+                        <button onClick={togglePause} className={`p-2 rounded-full ${isPaused ? 'bg-yellow-500/20 text-yellow-400' : 'bg-blue-500/20 text-blue-400'}`}>
+                            {isPaused ? '▶️' : '⏸️'}
+                        </button>
+                        <button onClick={stopSpeaking} className="p-2 rounded-full bg-red-500/20 text-red-400">
+                            ⏹️
+                        </button>
+                    </div>
+                </div>
+            )}
         </main>
     );
 }
