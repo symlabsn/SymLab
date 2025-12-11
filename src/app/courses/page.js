@@ -335,6 +335,8 @@ function CoursesContent() {
             t = t.replace(/\\overrightarrow\s*\{([^{}]+)\}/g, ' vecteur $1 ');
             t = t.replace(/\\left\|\s*([^{}]+)\s*\\right\|/g, ' valeur absolue de $1 ');
             t = t.replace(/\|\s*([^{}]+)\s*\|/g, ' valeur absolue de $1 ');
+            // Matrices/Vecteurs colonnes (Maths 3e)
+            t = t.replace(/\\begin\{pmatrix\}\s*([^\\]+)\s*\\\\\s*([^\\]+)\s*\\end\{pmatrix\}/g, ' de coordonnées $1 et $2 ');
             if (t !== original) hasChanged = true;
             loops++;
         }
