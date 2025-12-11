@@ -797,65 +797,68 @@ export default function SimulationDetailPage({ params }) {
 
     return (
         <main className="min-h-screen bg-gradient-to-br from-black via-slate-950 to-black text-white">
-            {/* Navbar améliorée */}
-            <nav className="border-b border-white/10 backdrop-blur-xl bg-black/50 sticky top-0 z-50">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            {/* Navbar améliorée - Mobile First */}
+            <nav className="border-b border-white/10 backdrop-blur-xl bg-black/80 sticky top-0 z-50">
+                <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 h-14 sm:h-16 flex items-center justify-between">
                     <Link
                         href={`/simulations?level=${lyceeSimulationsData[resolvedParams.id] ? 'lycee' : 'college'}#${resolvedParams.id}`}
-                        className="text-gray-400 hover:text-white transition-colors flex items-center gap-2 group"
+                        className="text-gray-400 hover:text-white transition-colors flex items-center gap-1 sm:gap-2 group"
                     >
-                        <span className="text-2xl group-hover:-translate-x-1 transition-transform">←</span>
-                        <span>Retour aux simulations</span>
+                        <span className="text-xl sm:text-2xl group-hover:-translate-x-1 transition-transform">←</span>
+                        <span className="hidden sm:inline">Retour aux simulations</span>
+                        <span className="sm:hidden text-sm">Retour</span>
                     </Link>
-                    <div className="flex items-center gap-4">
-                        <SessionTimer startTime={sessionStartTime} />
+                    <div className="flex items-center gap-2 sm:gap-4">
+                        <div className="hidden sm:block"><SessionTimer startTime={sessionStartTime} /></div>
                         <AnimatedBadge color="cyan">
-                            Simulation 3D
+                            <span className="hidden sm:inline">Simulation 3D</span>
+                            <span className="sm:hidden">3D</span>
                         </AnimatedBadge>
                     </div>
                 </div>
             </nav>
 
-            {/* Header avec titre animé */}
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-                <div className="mb-8">
-                    <div className="flex flex-wrap items-center gap-3 mb-4">
+            {/* Header avec titre animé - Mobile First */}
+            <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-4 sm:py-8">
+                <div className="mb-4 sm:mb-8">
+                    <div className="flex flex-wrap items-center gap-2 mb-2 sm:mb-4">
                         <AnimatedBadge color="purple">{simulationLevel.name}</AnimatedBadge>
                         <AnimatedBadge color="green">{simulationLevel.description}</AnimatedBadge>
                     </div>
-                    <h1 className="text-4xl md:text-5xl font-black mb-4 bg-clip-text text-transparent bg-gradient-to-r from-[#00F5D4] via-purple-500 to-pink-500 animate-gradient">
+                    <h1 className="text-2xl sm:text-4xl md:text-5xl font-black mb-2 sm:mb-4 bg-clip-text text-transparent bg-gradient-to-r from-[#00F5D4] via-purple-500 to-pink-500">
                         {simulation.title}
                     </h1>
-                    <p className="text-xl text-gray-300">{simulation.description}</p>
+                    <p className="text-sm sm:text-xl text-gray-300 line-clamp-2 sm:line-clamp-none">{simulation.description}</p>
                 </div>
 
-                {/* Tabs améliorés avec icônes */}
-                <div className="flex gap-2 md:gap-4 mb-8 overflow-x-auto pb-2 scrollbar-hide">
+                {/* Tabs améliorés - Mobile First avec scroll horizontal */}
+                <div className="flex gap-1.5 sm:gap-3 mb-4 sm:mb-8 overflow-x-auto pb-2 -mx-3 px-3 sm:mx-0 sm:px-0 scrollbar-hide">
                     {[
-                        { id: 'simulation', label: 'Simulation', icon: '🎮' },
-                        { id: 'challenges', label: 'Mode Défi', icon: '⚡' },
-                        { id: 'gallery', label: 'Galerie', icon: '🖼️' },
-                        { id: 'analogy', label: 'Analogie', icon: '🌍' },
-                        { id: 'theory', label: 'Théorie', icon: '📚' },
+                        { id: 'simulation', label: 'Simulation', icon: '🎮', shortLabel: 'Simu' },
+                        { id: 'challenges', label: 'Mode Défi', icon: '⚡', shortLabel: 'Défi' },
+                        { id: 'gallery', label: 'Galerie', icon: '🖼️', shortLabel: 'Gal.' },
+                        { id: 'analogy', label: 'Analogie', icon: '🌍', shortLabel: 'Analo.' },
+                        { id: 'theory', label: 'Théorie', icon: '📚', shortLabel: 'Théo.' },
                     ].map((tab) => (
                         <button
                             key={tab.id}
                             onClick={() => setActiveTab(tab.id)}
-                            className={`px-4 md:px-6 py-3 rounded-xl font-bold transition-all duration-300 whitespace-nowrap flex items-center gap-2 ${activeTab === tab.id
-                                ? 'bg-gradient-to-r from-[#00F5D4] to-purple-500 text-black shadow-lg scale-105'
+                            className={`px-2.5 sm:px-5 py-2 sm:py-3 rounded-lg sm:rounded-xl text-xs sm:text-sm font-bold transition-all duration-300 whitespace-nowrap flex items-center gap-1 sm:gap-2 flex-shrink-0 ${activeTab === tab.id
+                                ? 'bg-gradient-to-r from-[#00F5D4] to-purple-500 text-black shadow-lg'
                                 : 'bg-white/5 text-gray-400 hover:bg-white/10 border border-white/10'
                                 }`}
                         >
-                            <span>{tab.icon}</span>
-                            <span className="hidden md:inline">{tab.label}</span>
+                            <span className="text-sm sm:text-base">{tab.icon}</span>
+                            <span className="hidden sm:inline">{tab.label}</span>
+                            <span className="sm:hidden">{tab.shortLabel}</span>
                         </button>
                     ))}
                 </div>
 
-                {/* Content Grid */}
-                <div className="grid lg:grid-cols-4 gap-6">
-                    {/* Main Content */}
-                    <div className="lg:col-span-3">
+                {/* Content Grid - Mobile optimized */}
+                <div className="grid lg:grid-cols-4 gap-4 sm:gap-6">
+                    {/* Main Content - Full width on mobile */}
+                    <div className="lg:col-span-3 order-1">
                         {activeTab === 'simulation' && (
                             <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
                                 {/* Conteneur de simulation avec barre d'outils */}
@@ -879,37 +882,37 @@ export default function SimulationDetailPage({ params }) {
                                     title={simulation.title}
                                 />
 
-                                {/* Contrôles et infos en grille */}
-                                <div className="grid md:grid-cols-2 gap-4">
-                                    <div className="p-6 rounded-2xl bg-gradient-to-br from-white/10 to-white/5 border border-white/20">
-                                        <h3 className="text-xl font-bold mb-4 text-[#00F5D4]">🎮 Contrôles</h3>
-                                        <div className="grid grid-cols-2 gap-4 text-sm">
-                                            <div className="flex items-center gap-3 p-3 rounded-lg bg-white/5 hover:bg-white/10 transition-all">
-                                                <span className="text-2xl">🖱️</span>
+                                {/* Contrôles et infos en grille - Caché sur mobile */}
+                                <div className="hidden sm:grid md:grid-cols-2 gap-4">
+                                    <div className="p-4 sm:p-6 rounded-2xl bg-gradient-to-br from-white/10 to-white/5 border border-white/20">
+                                        <h3 className="text-lg sm:text-xl font-bold mb-3 sm:mb-4 text-[#00F5D4]">🎮 Contrôles</h3>
+                                        <div className="grid grid-cols-2 gap-2 sm:gap-4 text-sm">
+                                            <div className="flex items-center gap-2 sm:gap-3 p-2 sm:p-3 rounded-lg bg-white/5">
+                                                <span className="text-xl sm:text-2xl">🖱️</span>
                                                 <div>
-                                                    <p className="font-semibold">Rotation</p>
-                                                    <p className="text-gray-400 text-xs">Clic + Glisser</p>
+                                                    <p className="font-semibold text-xs sm:text-sm">Rotation</p>
+                                                    <p className="text-gray-400 text-xs hidden sm:block">Clic + Glisser</p>
                                                 </div>
                                             </div>
-                                            <div className="flex items-center gap-3 p-3 rounded-lg bg-white/5 hover:bg-white/10 transition-all">
-                                                <span className="text-2xl">🔍</span>
+                                            <div className="flex items-center gap-2 sm:gap-3 p-2 sm:p-3 rounded-lg bg-white/5">
+                                                <span className="text-xl sm:text-2xl">🔍</span>
                                                 <div>
-                                                    <p className="font-semibold">Zoom</p>
-                                                    <p className="text-gray-400 text-xs">Molette</p>
+                                                    <p className="font-semibold text-xs sm:text-sm">Zoom</p>
+                                                    <p className="text-gray-400 text-xs hidden sm:block">Molette</p>
                                                 </div>
                                             </div>
-                                            <div className="flex items-center gap-3 p-3 rounded-lg bg-white/5 hover:bg-white/10 transition-all">
-                                                <span className="text-2xl">👆</span>
+                                            <div className="flex items-center gap-2 sm:gap-3 p-2 sm:p-3 rounded-lg bg-white/5">
+                                                <span className="text-xl sm:text-2xl">👆</span>
                                                 <div>
-                                                    <p className="font-semibold">Déplacer</p>
-                                                    <p className="text-gray-400 text-xs">Clic droit</p>
+                                                    <p className="font-semibold text-xs sm:text-sm">Déplacer</p>
+                                                    <p className="text-gray-400 text-xs hidden sm:block">Clic droit</p>
                                                 </div>
                                             </div>
-                                            <div className="flex items-center gap-3 p-3 rounded-lg bg-white/5 hover:bg-white/10 transition-all">
-                                                <span className="text-2xl">🔄</span>
+                                            <div className="flex items-center gap-2 sm:gap-3 p-2 sm:p-3 rounded-lg bg-white/5">
+                                                <span className="text-xl sm:text-2xl">🔄</span>
                                                 <div>
-                                                    <p className="font-semibold">Auto-rotation</p>
-                                                    <p className="text-gray-400 text-xs">Activée</p>
+                                                    <p className="font-semibold text-xs sm:text-sm">Auto-rotation</p>
+                                                    <p className="text-gray-400 text-xs hidden sm:block">Activée</p>
                                                 </div>
                                             </div>
                                         </div>
