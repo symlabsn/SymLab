@@ -104,19 +104,43 @@ function ProgrammingContent() {
         setTimeout(() => setCopiedCode(null), 2000);
     };
 
-    // Nettoyer texte pour TTS
+    // Nettoyer texte pour TTS (sans emojis ni icônes)
     const cleanTextForSpeech = (text) => {
         if (!text) return '';
         return text
+            // Supprimer les emojis et symboles
+            .replace(/[\u{1F600}-\u{1F64F}]/gu, '') // Emoticons
+            .replace(/[\u{1F300}-\u{1F5FF}]/gu, '') // Misc Symbols and Pictographs
+            .replace(/[\u{1F680}-\u{1F6FF}]/gu, '') // Transport and Map
+            .replace(/[\u{1F700}-\u{1F77F}]/gu, '') // Alchemical Symbols
+            .replace(/[\u{1F780}-\u{1F7FF}]/gu, '') // Geometric Shapes Extended
+            .replace(/[\u{1F800}-\u{1F8FF}]/gu, '') // Supplemental Arrows-C
+            .replace(/[\u{1F900}-\u{1F9FF}]/gu, '') // Supplemental Symbols and Pictographs
+            .replace(/[\u{1FA00}-\u{1FA6F}]/gu, '') // Chess Symbols
+            .replace(/[\u{1FA70}-\u{1FAFF}]/gu, '') // Symbols and Pictographs Extended-A
+            .replace(/[\u{2600}-\u{26FF}]/gu, '')   // Misc symbols
+            .replace(/[\u{2700}-\u{27BF}]/gu, '')   // Dingbats
+            .replace(/[\u{FE00}-\u{FE0F}]/gu, '')   // Variation Selectors
+            .replace(/[\u{1F1E0}-\u{1F1FF}]/gu, '') // Flags
+            // Supprimer les blocs de code
             .replace(/```[\s\S]*?```/g, '. Voici un exemple de code. ')
             .replace(/`([^`]+)`/g, '$1')
+            // Supprimer le formatage Markdown
             .replace(/\*\*([^*]+)\*\*/g, '$1')
             .replace(/\*([^*]+)\*/g, '$1')
             .replace(/#+ /g, '')
+            // Nettoyer les caractères spéciaux
             .replace(/\n+/g, '. ')
             .replace(/[<>]/g, '')
             .replace(/&nbsp;/g, ' ')
             .replace(/&amp;/g, 'et')
+            .replace(/→/g, '')
+            .replace(/←/g, '')
+            .replace(/•/g, '')
+            .replace(/✓/g, '')
+            .replace(/✗/g, '')
+            .replace(/★/g, '')
+            .replace(/☆/g, '')
             .replace(/\s+/g, ' ')
             .trim()
             .substring(0, 2500);
@@ -333,8 +357,8 @@ function ProgrammingContent() {
                                 <button
                                     onClick={() => setTtsMode('browser')}
                                     className={`p-4 rounded-xl border transition-all ${ttsMode === 'browser'
-                                            ? 'border-cyan-500 bg-cyan-500/10 text-white'
-                                            : 'border-white/10 bg-white/5 text-gray-400 hover:bg-white/10'
+                                        ? 'border-cyan-500 bg-cyan-500/10 text-white'
+                                        : 'border-white/10 bg-white/5 text-gray-400 hover:bg-white/10'
                                         }`}
                                 >
                                     <div className="text-2xl mb-2">🌐</div>
@@ -344,8 +368,8 @@ function ProgrammingContent() {
                                 <button
                                     onClick={() => setTtsMode('elevenlabs')}
                                     className={`p-4 rounded-xl border transition-all ${ttsMode === 'elevenlabs'
-                                            ? 'border-purple-500 bg-purple-500/10 text-white'
-                                            : 'border-white/10 bg-white/5 text-gray-400 hover:bg-white/10'
+                                        ? 'border-purple-500 bg-purple-500/10 text-white'
+                                        : 'border-white/10 bg-white/5 text-gray-400 hover:bg-white/10'
                                         }`}
                                 >
                                     <div className="text-2xl mb-2">✨</div>
@@ -379,8 +403,8 @@ function ProgrammingContent() {
                                                 key={voice.id}
                                                 onClick={() => setSelectedElevenLabsVoice(voice)}
                                                 className={`p-3 rounded-lg text-left transition-all ${selectedElevenLabsVoice.id === voice.id
-                                                        ? 'bg-purple-500/20 border-purple-500'
-                                                        : 'bg-white/5 border-white/10 hover:bg-white/10'
+                                                    ? 'bg-purple-500/20 border-purple-500'
+                                                    : 'bg-white/5 border-white/10 hover:bg-white/10'
                                                     } border`}
                                             >
                                                 <div className="flex items-center gap-2">
