@@ -31,6 +31,7 @@ import { chimieTsData } from './data/chimieTs';
 import { machineLearningData } from './data/machineLearning';
 import { mathForMLData } from './data/mathForML';
 import { visualizationData } from './data/visualization';
+import { dataScienceProjects } from './data/appliedDataScience';
 import { BookOpen, Download, Eye, ChevronRight, GraduationCap, Atom, Calculator, Dna, CheckCircle, XCircle, Menu, ArrowLeft } from 'lucide-react';
 import 'katex/dist/katex.min.css';
 import ReactMarkdown from 'react-markdown';
@@ -72,7 +73,7 @@ const stripIndentation = (str) => {
 };
 
 const levels = ['6ème', '5ème', '4ème', '3ème', 'Seconde', 'Première', 'Terminale', 'Supérieur'];
-const subjects = ['Tous', 'Mathématiques', 'Physique-Chimie', 'SVT', 'Informatique', 'Data & IA'];
+const subjects = ['Tous', 'Mathématiques', 'Physique-Chimie', 'SVT', 'Informatique', 'Data & IA', 'Data Science'];
 
 // Map course IDs to their structured data if available
 const structuredCourses = {
@@ -103,7 +104,31 @@ const structuredCourses = {
     'chimie-ts': chimieTsData,
     'ml-intro': machineLearningData,
     'math-ml': mathForMLData,
-    'vis-data': visualizationData
+    'vis-data': visualizationData,
+    // Data Science Projects - Map each project to its detailed data
+    ...dataScienceProjects.reduce((acc, project) => {
+        // Create chapters from modules
+        acc[project.id] = {
+            chapters: project.modules ? project.modules.map(mod => ({
+                id: `mod-${mod.id}`,
+                title: mod.titre,
+                part: `Module ${mod.id}`,
+                content: mod.contenu ? mod.contenu.map(c => {
+                    if (c.type === 'theorie') return `## ${c.titre}\n\n${c.texte}`;
+                    if (c.type === 'code') return `## ${c.titre}\n\n\`\`\`${c.langage}\n${c.code}\n\`\`\``;
+                    if (c.type === 'exercice') return `## 📝 ${c.titre}\n\n**Énoncé:** ${c.enonce}\n\n*Indice: ${c.indice || 'Aucun'}*`;
+                    return '';
+                }).join('\n\n') : `**Objectif:** ${mod.objectif}\n\n*Durée estimée: ${mod.duree}*`,
+                exercises: []
+            })) : [{
+                id: 'intro',
+                title: project.titre,
+                content: `# ${project.titre}\n\n${project.resume}\n\n## Objectifs\n${project.objectifs ? project.objectifs.map(o => `- ${o}`).join('\n') : ''}\n\n## Compétences\n${project.competences ? Object.entries(project.competences).map(([cat, skills]) => `### ${cat}\n${skills.map(s => `- **${s.nom}** (${s.niveau}): ${s.description}`).join('\n')}`).join('\n\n') : ''}`,
+                exercises: []
+            }]
+        };
+        return acc;
+    }, {})
 };
 
 function CoursesContent() {
