@@ -103,12 +103,40 @@ export default function ChallengesPage() {
                 </div>
             </div>
 
+
             {/* Modules Explanation Section */}
             <div className="max-w-7xl mx-auto px-4 mb-20">
                 <h2 className="text-2xl font-bold mb-8 flex items-center gap-3">
                     <span className="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center text-lg">📚</span>
                     Modules & Outils
                 </h2>
+
+                {/* Featured Masterclass Banner */}
+                <Link href="/challenges/masterclass" className="block w-full bg-gradient-to-r from-purple-900/50 to-blue-900/50 border border-purple-500/30 rounded-3xl p-8 mb-8 relative overflow-hidden group hover:border-purple-500/60 transition-all">
+                    <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-purple-500/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 group-hover:bg-purple-500/20 transition-all duration-700"></div>
+                    <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-6">
+                        <div>
+                            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-500/20 border border-purple-500/30 mb-4">
+                                <span className="text-xs font-bold text-purple-300 uppercase tracking-wider">Nouveau Cours Complet</span>
+                            </div>
+                            <h3 className="text-3xl md:text-4xl font-black mb-4">
+                                Mathématiques & Python <br />
+                                <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400">Masterclass</span>
+                            </h3>
+                            <p className="text-gray-300 max-w-xl text-lg mb-6">
+                                Un cursus complet de l'Introduction à la Théorie des Nombres. Explorez l'Algèbre, le Calcul, la Trigonométrie et plus encore avec des notebooks interactifs et des exercices pratiques.
+                            </p>
+                            <div className="inline-flex items-center gap-2 text-white font-bold bg-purple-600 hover:bg-purple-500 px-6 py-3 rounded-xl transition-colors shadow-lg shadow-purple-900/40">
+                                Commencer le Cours
+                                <span>→</span>
+                            </div>
+                        </div>
+                        <div className="hidden md:block">
+                            <div className="text-[120px] leading-none opacity-20 rotate-12 select-none">🐍</div>
+                        </div>
+                    </div>
+                </Link>
+
                 <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
                     <div className="bg-[#0F1115] border border-white/10 rounded-2xl p-6 hover:border-[#00F5D4]/30 transition-colors">
                         <div className="w-12 h-12 rounded-xl bg-orange-500/10 flex items-center justify-center text-2xl mb-4 text-orange-500">
