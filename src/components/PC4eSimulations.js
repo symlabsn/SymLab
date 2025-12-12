@@ -413,124 +413,236 @@ export function MoleConceptPC4() {
 
 
 // ============================================================
-// CHAPITRE 12: CONSERVATION DE LA MASSE
+// CHAPITRE 1: DÉMARCHE SCIENTIFIQUE
 // ============================================================
-export function MassConservation() {
-    const [step, setStep] = useState(0); // 0: Avant, 1: Réaction, 2: Après
-    const [system, setSystem] = useState('open'); // open, closed
-    const [gasParticles, setGasParticles] = useState(null);
-
-    // Initialisation particules gaz avec useEffect
-    useEffect(() => {
-        if (step === 1) {
-            const pts = new Float32Array(50 * 3);
-            for (let i = 0; i < 50; i++) {
-                pts[i * 3] = (Math.random() - 0.5) * 1;
-                pts[i * 3 + 1] = Math.random() * 2;
-                pts[i * 3 + 2] = (Math.random() - 0.5) * 1;
-            }
-            setGasParticles(pts);
-        } else {
-            setGasParticles(null);
-        }
-    }, [step]);
-
-    // Réaction: Craie (CaCO3) + Vinaigre (H+) -> CO2 (gaz) + ...
-    const initialMass = 200;
-    const lostMass = 10;
-    const finalMass = system === 'open' ? initialMass - lostMass : initialMass;
-
-    const startReaction = () => {
-        setStep(1);
-        setTimeout(() => setStep(2), 3000);
-    };
+export function ScientificMethod() {
+    const [step, setStep] = useState(0);
+    const steps = [
+        { title: "1. Observation", text: "La plante est fanée.", icon: "🥀" },
+        { title: "2. Hypothèse", text: "Elle manque d'eau ?", icon: "🤔" },
+        { title: "3. Expérience", text: "Arrosons la plante...", icon: "💧" },
+        { title: "4. Conclusion", text: "L'eau est essentielle !", icon: "✅" }
+    ];
 
     return (
         <group>
-            <Html position={[5, 2, 0]} center>
-                <div className="bg-black/90 p-5 rounded-2xl text-white border border-red-500/30 w-[350px]">
-                    <h3 className="text-red-400 font-bold text-xl mb-4">⚖️ Conservation de la Masse</h3>
+            <Html position={[0, 3, 0]} center>
+                <div className="bg-black/90 p-6 rounded-2xl text-white border border-blue-500/30 w-[300px] text-center">
+                    <div className="text-4xl mb-4">{steps[step].icon}</div>
+                    <h3 className="text-xl font-bold text-blue-400 mb-2">{steps[step].title}</h3>
+                    <p className="mb-6">{steps[step].text}</p>
 
-                    <div className="flex gap-2 mb-4">
-                        <button onClick={() => setSystem('open')} className={`flex-1 p-2 rounded ${system === 'open' ? 'bg-red-600' : 'bg-gray-700'}`}>
-                            Système OUVERT
+                    <div className="flex gap-2 justify-center">
+                        <button
+                            onClick={() => setStep(Math.max(0, step - 1))}
+                            disabled={step === 0}
+                            className="px-4 py-2 bg-gray-700 rounded disabled:opacity-50"
+                        >
+                            ←
                         </button>
-                        <button onClick={() => setSystem('closed')} className={`flex-1 p-2 rounded ${system === 'closed' ? 'bg-green-600' : 'bg-gray-700'}`}>
-                            Système FERMÉ
+                        <button
+                            onClick={() => setStep(Math.min(3, step + 1))}
+                            disabled={step === 3}
+                            className="px-4 py-2 bg-blue-600 rounded disabled:opacity-50"
+                        >
+                            →
                         </button>
                     </div>
-
-                    <div className="bg-gray-800 p-4 rounded-xl text-center mb-4">
-                        <div className="text-sm text-gray-400">Masse sur la balance</div>
-                        <div className="text-4xl font-mono font-bold text-yellow-400">
-                            {step === 0 ? initialMass : (step === 2 ? finalMass : '...')} g
-                        </div>
-                    </div>
-
-                    {step === 0 && (
-                        <button onClick={startReaction} className="w-full py-4 bg-white text-black font-bold rounded-xl hover:bg-gray-200">
-                            🧪 Lancer la réaction
-                        </button>
-                    )}
-
-                    {step === 2 && (
-                        <div className={`p-3 rounded-lg text-center font-bold ${system === 'closed' ? 'text-green-400' : 'text-red-400'}`}>
-                            {system === 'closed' ? 'Masse conservée !' : 'Masse perdue (Gaz échappé)'}
-                        </div>
-                    )}
-
-                    {step === 2 && (
-                        <button onClick={() => setStep(0)} className="mt-2 w-full py-2 bg-gray-800 rounded text-sm">
-                            🔄 Recommencer
-                        </button>
-                    )}
                 </div>
             </Html>
 
-            {/* Balance */}
-            <group position={[0, -2, 0]}>
-                <Box args={[4, 0.5, 3]} material-color="#333" />
-                <Text position={[0, 0.51, 1]} rotation={[-Math.PI / 2, 0, 0]} fontSize={0.5} color="red">
-                    {step === 0 ? initialMass : (step === 1 ? '---' : finalMass)} g
-                </Text>
-
-                {/* Erlenmeyer */}
-                <group position={[0, 0.25, 0]}>
-                    <mesh position={[0, 1, 0]}>
-                        <cylinderGeometry args={[0.5, 1.5, 2, 32, 1, true]} />
-                        <meshPhysicalMaterial color="#A5F3FC" transmission={0.9} opacity={0.5} transparent side={THREE.DoubleSide} />
+            {/* Visualisation simple */}
+            <mesh position={[0, -1, 0]} scale={step === 3 ? 1.2 : 0.8}>
+                <dodecahedronGeometry args={[1]} />
+                <meshStandardMaterial color={step === 0 ? "brown" : (step === 3 ? "green" : "yellow")} />
+            </mesh>
+            {step >= 2 && (
+                <group position={[0, 1.5, 0]}>
+                    <mesh rotation={[Math.PI, 0, 0]}>
+                        <coneGeometry args={[0.5, 1, 32]} />
+                        <meshStandardMaterial color="blue" transparent opacity={0.5} />
                     </mesh>
-
-                    {/* Liquide */}
-                    <mesh position={[0, 0.5, 0]}>
-                        <cylinderGeometry args={[0.9, 1.4, 1, 32]} />
-                        <meshStandardMaterial color={step > 0 ? "#FCD34D" : "white"} transparent opacity={0.8} />
-                    </mesh>
-
-                    {/* Craie (disparait) */}
-                    {step === 0 && <Box position={[0, 0.5, 0]} args={[0.3, 0.3, 0.3]} material-color="white" />}
-
-                    {/* Bulles / Gaz (Client Only) */}
-                    {step === 1 && gasParticles && (
-                        <points position={[0, 1, 0]}>
-                            <bufferGeometry>
-                                <bufferAttribute attach="attributes-position" count={50} array={gasParticles} itemSize={3} />
-                            </bufferGeometry>
-                            <pointsMaterial size={0.1} color="white" transparent opacity={0.5} />
-                        </points>
-                    )}
-
-                    {/* Ballon si fermé */}
-                    {system === 'closed' && (
-                        <group position={[0, 2, 0]}>
-                            <mesh scale={step > 0 ? 1.5 : 0.5}>
-                                <sphereGeometry args={[0.8, 32, 32]} />
-                                <meshStandardMaterial color="red" roughness={0.4} />
-                            </mesh>
-                        </group>
-                    )}
                 </group>
-            </group>
+            )}
+        </group>
+    );
+}
+
+// ============================================================
+// DENSITÉ
+// ============================================================
+export function DensityExplorer() {
+    return (
+        <group>
+            <Html position={[0, 2, 0]} center>
+                <div className="bg-black/80 p-4 rounded text-white">
+                    Simulation Densité (En construction)
+                </div>
+            </Html>
+            <mesh position={[0, -1, 0]}>
+                <boxGeometry args={[2, 2, 2]} />
+                <meshStandardMaterial color="blue" transparent opacity={0.5} />
+            </mesh>
+        </group>
+    );
+}
+
+// ============================================================
+// RÉFRACTION
+// ============================================================
+export function RefractionSimulator() {
+    return (
+        <group>
+            <Html position={[0, 2, 0]} center>
+                <div className="bg-black/80 p-4 rounded text-white">
+                    Simulation Réfraction (En construction)
+                </div>
+            </Html>
+            <mesh rotation={[0, 0, Math.PI / 4]}>
+                <boxGeometry args={[0.1, 4, 0.1]} />
+                <meshStandardMaterial color="red" emissive="red" />
+            </mesh>
+            <mesh position={[1, -1, 0]}>
+                <boxGeometry args={[2, 2, 0.5]} />
+                <meshStandardMaterial color="cyan" transparent opacity={0.3} />
+            </mesh>
+        </group>
+    );
+}
+
+// ============================================================
+// CIRCUITS SÉRIE / PARALLÈLE
+// ============================================================
+export function CircuitSeriesParallel() {
+    const [mode, setMode] = useState('series');
+    return (
+        <group>
+            <Html position={[0, 3, 0]} center>
+                <div className="bg-black/90 p-4 rounded-xl text-white border border-yellow-500/30">
+                    <div className="flex gap-2">
+                        <button onClick={() => setMode('series')} className={`px-4 py-2 rounded ${mode === 'series' ? 'bg-yellow-600' : 'bg-gray-700'}`}>Série</button>
+                        <button onClick={() => setMode('parallel')} className={`px-4 py-2 rounded ${mode === 'parallel' ? 'bg-yellow-600' : 'bg-gray-700'}`}>Parallèle</button>
+                    </div>
+                </div>
+            </Html>
+
+            {/* Battery */}
+            <mesh position={[-2, 0, 0]}>
+                <boxGeometry args={[0.5, 1, 0.5]} />
+                <meshStandardMaterial color="black" />
+            </mesh>
+
+            {/* Wires & Bulbs */}
+            {mode === 'series' ? (
+                <group>
+                    <mesh position={[0, 1, 0]}><sphereGeometry args={[0.3]} /><meshStandardMaterial color="yellow" emissive="yellow" /></mesh>
+                    <mesh position={[2, 1, 0]}><sphereGeometry args={[0.3]} /><meshStandardMaterial color="yellow" emissive="yellow" /></mesh>
+                </group>
+            ) : (
+                <group>
+                    <mesh position={[0, 1, 0]}><sphereGeometry args={[0.3]} /><meshStandardMaterial color="yellow" emissive="yellow" /></mesh>
+                    <mesh position={[0, -1, 0]}><sphereGeometry args={[0.3]} /><meshStandardMaterial color="yellow" emissive="yellow" /></mesh>
+                </group>
+            )}
+        </group>
+    );
+}
+
+// ============================================================
+// PROPAGATION LUMIÈRE
+// ============================================================
+export function LightPropagationPC4() {
+    return (
+        <group>
+            <Html position={[0, 2, 0]} center>
+                <div className="bg-black/80 p-4 rounded text-white">
+                    Propagation Rectiligne
+                </div>
+            </Html>
+            <pointLight position={[-3, 0, 0]} intensity={2} color="white" />
+            <mesh position={[-3, 0, 0]}>
+                <sphereGeometry args={[0.2]} />
+                <meshStandardMaterial color="white" emissive="white" />
+            </mesh>
+
+            <mesh position={[0, 0, 0]}>
+                <boxGeometry args={[1, 1, 0.1]} />
+                <meshStandardMaterial color="gray" />
+            </mesh>
+
+            <mesh position={[3, 0, 0]} rotation={[0, -Math.PI / 2, 0]}>
+                <planeGeometry args={[4, 4]} />
+                <meshStandardMaterial color="white" side={THREE.DoubleSide} />
+            </mesh>
+        </group>
+    );
+}
+
+// ============================================================
+// OUTILS DE MESURE
+// ============================================================
+export function MeasurementTools() {
+    return (
+        <group>
+            <Html position={[0, 2, 0]} center>
+                <div className="bg-black/80 p-4 rounded text-white">
+                    Outils de Mesure
+                </div>
+            </Html>
+            <mesh position={[-1, 0, 0]}>
+                <cylinderGeometry args={[0.2, 0.2, 2]} />
+                <meshStandardMaterial color="glass" transparent opacity={0.5} />
+            </mesh>
+            <mesh position={[1, 0, 0]}>
+                <boxGeometry args={[2, 0.1, 0.5]} />
+                <meshStandardMaterial color="yellow" />
+            </mesh>
+        </group>
+    );
+}
+
+// ============================================================
+// SOURCES DE LUMIÈRE
+// ============================================================
+export function LightSources() {
+    return (
+        <group>
+            <Html position={[0, 2, 0]} center>
+                <div className="bg-black/80 p-4 rounded text-white">
+                    Sources: Primaire vs Secondaire
+                </div>
+            </Html>
+            <mesh position={[-2, 0, 0]}>
+                <sphereGeometry args={[0.5]} />
+                <meshStandardMaterial color="yellow" emissive="yellow" />
+            </mesh>
+            <mesh position={[2, 0, 0]}>
+                <sphereGeometry args={[0.5]} />
+                <meshStandardMaterial color="gray" />
+            </mesh>
+        </group>
+    );
+}
+
+// ============================================================
+// INTRODUCTION ÉLECTRICITÉ
+// ============================================================
+export function IntroElectricity() {
+    return (
+        <group>
+            <Html position={[0, 2, 0]} center>
+                <div className="bg-black/80 p-4 rounded text-white">
+                    Introduction Électricité
+                </div>
+            </Html>
+            <mesh position={[-2, 0, 0]}>
+                <boxGeometry args={[0.5, 1, 0.5]} />
+                <meshStandardMaterial color="black" />
+            </mesh>
+            <mesh position={[2, 0, 0]}>
+                <sphereGeometry args={[0.5]} />
+                <meshStandardMaterial color="yellow" emissive="yellow" />
+            </mesh>
         </group>
     );
 }
