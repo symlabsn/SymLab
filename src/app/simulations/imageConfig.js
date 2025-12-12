@@ -553,4 +553,18 @@ Object.assign(simulationImages, {
     'hiv-immune-system': '/images/cell_biology_visual_1765400155186.png',
     'climate-feedback': '/images/water_cycle_visual_1765402157306.png',
     'enzymatic-kinetics': '/images/cell_biology_visual_1765400155186.png',
+
+    // PC 4e - Simulations
+    'scientific-method-sim': '/images/simulations/pc4e/scientific-method.png',
+    'measurement-tools-sim': '/images/simulations/pc4e/measurement.png',
+    'intro-electricity-sim': '/images/simulations/pc4e/electricity.png',
+    'light-sources-sim': '/images/simulations/pc4e/light-sources.png',
+    'atom-builder-sim': '/images/simulations/pc4e/atoms-molecules.png',
+    'mole-concept-sim': '/images/simulations/pc4e/mole.png',
+    'mixture-separation-sim': '/images/simulations/pc4e/mixture.png',
+    'weight-mass-sim': '/images/simulations/pc4e/weight-mass.png',
+    'density-explorer': '/images/simulations/pc4e/density.png',
+    'light-propagation-pc4': '/images/simulations/pc4e/light-propagation.png',
+    'refraction-simulator': '/images/simulations/pc4e/refraction.png',
+    'mass-conservation': '/images/simulations/pc4e/mass-conservation.png',
 });

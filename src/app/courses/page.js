@@ -493,7 +493,28 @@ function CoursesContent() {
     // Handle deep linking via search params
     useEffect(() => {
         const courseId = searchParams.get('course');
-        if (courseId) {
+        const chapterId = searchParams.get('activeChapter');
+
+        // Si un chapitre est spécifié, trouver le cours correspondant
+        if (chapterId && !courseId) {
+            // Chercher dans tous les cours structurés
+            for (const [cid, courseData] of Object.entries(structuredCourses)) {
+                const chapter = courseData.chapters?.find(ch => ch.id === chapterId);
+                if (chapter) {
+                    const course = courses.find(c => c.id === cid);
+                    if (course) {
+                        setSelectedCourse(course);
+                        setActiveLevel(course.level);
+                        setActiveSubject(course.subject);
+                        setActiveChapter(chapter);
+                        setShowExercises(false);
+                        setQuizAnswers({});
+                        setQuizResults({});
+                    }
+                    break;
+                }
+            }
+        } else if (courseId) {
             const course = courses.find(c => c.id === courseId);
             if (course && course.id !== selectedCourse?.id) {
                 // Determine layout based on course type

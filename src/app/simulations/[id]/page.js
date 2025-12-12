@@ -884,77 +884,87 @@ export default function SimulationDetailPage({ params }) {
                     {/* Main Content */}
                     <div>
                         {activeTab === 'simulation' && (
-                            <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
-                                {/* Conteneur de simulation avec barre d'outils */}
-                                <div ref={simulationContainerRef} className="relative rounded-2xl overflow-hidden">
-                                    <Simulation3D type={simulation.type} config={simulation.config} />
-                                    <FloatingToolbar
-                                        onScreenshot={handleScreenshot}
-                                        onReset={handleReset}
-                                        onHelp={() => setShowHelpModal(true)}
-                                        isPlaying={isPlaying}
-                                        setIsPlaying={setIsPlaying}
-                                    />
-                                    <div className="absolute top-4 right-4">
-                                        <FullscreenButton containerRef={simulationContainerRef} />
+                            <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
+                                {/* Layout principal : Simulation à gauche, Contrôles à droite sur Desktop */}
+                                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                                    {/* Colonne Simulation (2/3 largeur) */}
+                                    <div className="lg:col-span-2 space-y-6">
+                                        {/* Conteneur de simulation avec barre d'outils */}
+                                        <div ref={simulationContainerRef} className="relative rounded-2xl overflow-hidden shadow-2xl border border-white/20 bg-black/50 aspect-video lg:aspect-auto lg:h-[600px]">
+                                            <Simulation3D type={simulation.type} config={simulation.config} />
+                                            <FloatingToolbar
+                                                onScreenshot={handleScreenshot}
+                                                onReset={handleReset}
+                                                onHelp={() => setShowHelpModal(true)}
+                                                isPlaying={isPlaying}
+                                                setIsPlaying={setIsPlaying}
+                                            />
+                                            <div className="absolute top-4 right-4 z-10">
+                                                <FullscreenButton containerRef={simulationContainerRef} />
+                                            </div>
+                                        </div>
+
+                                        {/* Visualisation Interactive (Image backup si 3D lourd) */}
+                                        <div className="hidden sm:block">
+                                            <ImageSimulation
+                                                simulationId={resolvedParams.id}
+                                                title={simulation.title}
+                                            />
+                                        </div>
                                     </div>
-                                </div>
 
-                                {/* Visualisation Interactive */}
-                                <ImageSimulation
-                                    simulationId={resolvedParams.id}
-                                    title={simulation.title}
-                                />
+                                    {/* Colonne Contrôles (1/3 largeur) - Sticky sur Desktop */}
+                                    <div className="lg:col-span-1 space-y-4">
+                                        <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-4 border border-white/10 sticky top-20">
+                                            <h3 className="text-xl font-bold mb-4 flex items-center gap-2 text-[#00F5D4]">
+                                                <span className="text-2xl">🎛️</span> Panneau de Contrôle
+                                            </h3>
 
-                                {/* Contrôles et infos en grille - Caché sur mobile */}
-                                <div className="hidden sm:grid md:grid-cols-2 gap-4">
-                                    <div className="p-4 sm:p-6 rounded-2xl bg-gradient-to-br from-white/10 to-white/5 border border-white/20">
-                                        <h3 className="text-lg sm:text-xl font-bold mb-3 sm:mb-4 text-[#00F5D4]">🎮 Contrôles</h3>
-                                        <div className="grid grid-cols-2 gap-2 sm:gap-4 text-sm">
-                                            <div className="flex items-center gap-2 sm:gap-3 p-2 sm:p-3 rounded-lg bg-white/5">
-                                                <span className="text-xl sm:text-2xl">🖱️</span>
-                                                <div>
-                                                    <p className="font-semibold text-xs sm:text-sm">Rotation</p>
-                                                    <p className="text-gray-400 text-xs hidden sm:block">Clic + Glisser</p>
-                                                </div>
+                                            {/* Contrôles de base */}
+                                            <div className="space-y-4 mb-6">
+                                                <AdvancedControls
+                                                    autoRotate={autoRotate}
+                                                    setAutoRotate={setAutoRotate}
+                                                    speed={speed}
+                                                    setSpeed={setSpeed}
+                                                    showLabels={showLabels}
+                                                    setShowLabels={setShowLabels}
+                                                    showGrid={showGrid}
+                                                    setShowGrid={setShowGrid}
+                                                    zoom={zoom}
+                                                    setZoom={setZoom}
+                                                />
                                             </div>
-                                            <div className="flex items-center gap-2 sm:gap-3 p-2 sm:p-3 rounded-lg bg-white/5">
-                                                <span className="text-xl sm:text-2xl">🔍</span>
-                                                <div>
-                                                    <p className="font-semibold text-xs sm:text-sm">Zoom</p>
-                                                    <p className="text-gray-400 text-xs hidden sm:block">Molette</p>
-                                                </div>
-                                            </div>
-                                            <div className="flex items-center gap-2 sm:gap-3 p-2 sm:p-3 rounded-lg bg-white/5">
-                                                <span className="text-xl sm:text-2xl">👆</span>
-                                                <div>
-                                                    <p className="font-semibold text-xs sm:text-sm">Déplacer</p>
-                                                    <p className="text-gray-400 text-xs hidden sm:block">Clic droit</p>
-                                                </div>
-                                            </div>
-                                            <div className="flex items-center gap-2 sm:gap-3 p-2 sm:p-3 rounded-lg bg-white/5">
-                                                <span className="text-xl sm:text-2xl">🔄</span>
-                                                <div>
-                                                    <p className="font-semibold text-xs sm:text-sm">Auto-rotation</p>
-                                                    <p className="text-gray-400 text-xs hidden sm:block">Activée</p>
+
+                                            {/* Guide des interactions */}
+                                            <div className="bg-black/30 rounded-xl p-4">
+                                                <h4 className="font-semibold text-sm text-gray-400 mb-3 uppercase tracking-wider">Interactions</h4>
+                                                <div className="space-y-3 text-sm">
+                                                    <div className="flex items-center gap-3">
+                                                        <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center">🖱️</div>
+                                                        <div>
+                                                            <p className="font-medium">Rotation</p>
+                                                            <p className="text-xs text-gray-400">Clic gauche + Glisser</p>
+                                                        </div>
+                                                    </div>
+                                                    <div className="flex items-center gap-3">
+                                                        <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center">🔍</div>
+                                                        <div>
+                                                            <p className="font-medium">Zoom</p>
+                                                            <p className="text-xs text-gray-400">Molette souris</p>
+                                                        </div>
+                                                    </div>
+                                                    <div className="flex items-center gap-3">
+                                                        <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center">✋</div>
+                                                        <div>
+                                                            <p className="font-medium">Déplacer</p>
+                                                            <p className="text-xs text-gray-400">Clic droit + Glisser</p>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-
-                                    {/* Contrôles avancés - Visible sur tous les écrans */}
-                                    <AdvancedControls
-                                        autoRotate={autoRotate}
-                                        setAutoRotate={setAutoRotate}
-                                        speed={speed}
-                                        setSpeed={setSpeed}
-                                        showLabels={showLabels}
-                                        setShowLabels={setShowLabels}
-                                        showGrid={showGrid}
-                                        setShowGrid={setShowGrid}
-                                        zoom={zoom}
-                                        setZoom={setZoom}
-                                    />
                                 </div>
                             </div>
                         )}
