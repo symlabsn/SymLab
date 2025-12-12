@@ -238,14 +238,14 @@ print("2^10 =", 2 ** 10)
 resultat = (5 + 3) * 2 - 10 / 2
 print("(5 + 3) * 2 - 10 / 2 =", resultat)`,
                 exercice: `
-**Exercice :**
+### 📝 Exercice
 
 Calculez les expressions suivantes en Python :
 
-1. \\( 125 \\div 5 + 3 \\times 8 \\)
-2. \\( 2^{15} - 1 \\) (un nombre de Mersenne)
-3. Le reste de la division de 1234 par 17
-4. \\( \\frac{22}{7} \\) (approximation de \\( \\pi \\))
+1. **125 ÷ 5 + 3 × 8** → Utilisez \`125 / 5 + 3 * 8\`
+2. **2¹⁵ − 1** (un nombre de Mersenne) → Utilisez \`2 ** 15 - 1\`
+3. **Le reste de 1234 ÷ 17** → Utilisez \`1234 % 17\`
+4. **22/7** (approximation de π) → Comparez avec \`3.14159...\`
         `
         },
 
@@ -304,15 +304,16 @@ rayon = 5
 perimetre = 2 * PI * rayon
 print(f"Perimetre d'un cercle de rayon {rayon} = {perimetre:.2f}")`,
                 exercice: `
-**Exercice :**
+### 📝 Exercice
 
-1. Creez des variables pour :
-   - La masse de la Terre (\\( 5.972 \\times 10^{24} \\) kg)
-   - Le rayon de la Terre (6 371 km)
+1. Créez des variables pour :
+   - **Masse de la Terre** : 5.972 × 10²⁴ kg → \`masse_terre = 5.972e24\`
+   - **Rayon de la Terre** : 6 371 km → \`rayon_terre = 6.371e6\`
    
 2. Calculez :
-   - La surface de la Terre (\\( 4\\pi r^2 \\))
-   - La densite moyenne (\\( \\frac{masse}{volume} \\))
+   - **Surface** : 4πr² → \`4 * 3.14159 * rayon**2\`
+   - **Volume** : (4/3)πr³
+   - **Densité** : masse / volume
         `
         },
 
@@ -386,17 +387,18 @@ print(f"Expression : {expr}")
 print(f"Factorisee : {sp.factor(expr)}")
 print(f"Derivee : {sp.diff(expr, x)}")`,
                 exercice: `
-**Exercice :**
+### 📝 Exercice
 
-1. Affichez une table des carres de 1 a 10 en utilisant les f-strings
-2. Formatez le nombre \\( \\pi \\) avec 8 decimales
-3. Creez un affichage aligne comme :
-   \`\`\`
-   n  | n^2  | n^3
-   ---|------|-----
-   1  |    1 |    1
-   2  |    4 |    8
-   \`\`\`
+1. Affichez une table des carrés de 1 à 10 avec les f-strings
+2. Affichez **π** avec 8 décimales : \`f"{math.pi:.8f}"\`
+3. Créez un affichage aligné :
+
+\`\`\`
+n  | n²   | n³
+---|------|-----
+1  |    1 |    1
+2  |    4 |    8
+\`\`\`
         `
         },
 
@@ -547,12 +549,12 @@ loi2 = (a**m)**n
 verification2 = a**(m * n)
 print(f"(a^m)^n = a^(m*n) : {loi2} = {verification2} ? {loi2 == verification2}")`,
                 exercice: `
-**Exercice :**
+### 📝 Exercice
 
-1. Calculez \\( 3^{100} \\) (Python gere les grands entiers !)
-2. Verifiez que \\( 2^{10} = 1024 \\) (1 Ko en informatique)
-3. Calculez \\( \\sqrt[4]{625} \\) en utilisant les exposants
-4. Trouvez \\( 7^{500} \\mod 13 \\) avec pow()
+1. Calculez **3¹⁰⁰** → \`3 ** 100\` (Python gère les grands entiers !)
+2. Vérifiez que **2¹⁰ = 1024** (1 Ko en informatique)
+3. Calculez **⁴√625** (racine 4ème) → \`625 ** (1/4)\`
+4. Trouvez **7⁵⁰⁰ mod 13** → \`pow(7, 500, 13)\`
         `
         },
 
@@ -623,11 +625,11 @@ for i in range(10):
 print(f"\\nSomme 2^0 + 2^1 + ... + 2^9 = {somme}")
 print(f"Formule 2^10 - 1 = {2**10 - 1}")`,
                 exercice: `
-**Exercice :**
+### 📝 Exercice
 
-1. Ecrivez une boucle qui affiche les 20 premieres puissances de 3
-2. Calculez \\( \\sum_{k=0}^{n} 2^k \\) pour n = 15
-3. Verifiez la formule \\( \\sum_{k=0}^{n} 2^k = 2^{n+1} - 1 \\)
+1. Écrivez une boucle qui affiche les 20 premières puissances de 3
+2. Calculez la somme **2⁰ + 2¹ + ... + 2¹⁵** pour n = 15
+3. Vérifiez que cette somme égale **2¹⁶ − 1**
         `
         },
 

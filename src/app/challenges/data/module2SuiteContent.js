@@ -72,12 +72,12 @@ print(f"ax^2 + bx + c = 0 avec a={a}, b={b}, c={c}")
 print(f"Discriminant = {discriminant}")
 print(f"x1 = {x1}, x2 = {x2}")`,
         exercice: `
-**Exercice :**
+### 📝 Exercice
 
-1. Calculez 8 / 2 * (2 + 2) sans Python, puis verifiez
-2. Quelle est la difference entre 2 ** 2 ** 3 et (2 ** 2) ** 3 ?
-3. Evaluez : 5 + 3 * 2 - 8 / 4 + 1
-4. Ecrivez l'expression pour le volume d'une sphere : V = 4/3 * pi * r^3
+1. Calculez **8 / 2 × (2 + 2)** sans Python, puis vérifiez
+2. Quelle différence entre \`2 ** 2 ** 3\` et \`(2 ** 2) ** 3\` ?
+3. Évaluez : **5 + 3 × 2 − 8 / 4 + 1**
+4. Écrivez le volume d'une sphère : \`V = 4/3 * pi * r**3\`
         `
     },
 
@@ -157,12 +157,12 @@ print(f"0.1 + 0.2 = {0.1 + 0.2}")
 import math
 print(f"math.isclose(0.1 + 0.2, 0.3) : {math.isclose(0.1 + 0.2, 0.3)}")`,
         exercice: `
-**Exercice :**
+### 📝 Exercice
 
-1. Verifiez si 17 est entre 10 et 20 (inclus)
-2. Testez si la racine carree de 2 au carre egale 2
-3. Quelle est la valeur booleenne de -1 ? De 0.0 ?
-4. Comparez les chaines "abc" < "abd" - que se passe-t-il ?
+1. Vérifiez si 17 est entre 10 et 20 (inclus) → \`10 <= 17 <= 20\`
+2. Testez si **(√2)² = 2** → Attention aux flottants !
+3. Quelle valeur booléenne pour \`-1\` ? Pour \`0.0\` ?
+4. Comparez \`"abc" < "abd"\` - que se passe-t-il ?
         `
     },
 
@@ -252,12 +252,12 @@ if len(liste) > 0 and liste[0] == 1:
 else:
     print("Liste vide ou premier element different de 1")`,
         exercice: `
-**Exercice :**
+### 📝 Exercice
 
-1. Ecrivez un if qui teste si un nombre est positif, negatif ou nul
-2. Verifiez si une annee est bissextile :
-   - Divisible par 4 ET (non divisible par 100 OU divisible par 400)
-3. Determinez si un triangle est valide (somme de 2 cotes > 3e cote)
+1. Écrivez un \`if\` qui teste si un nombre est **positif**, **négatif** ou **nul**
+2. Vérifiez si une année est bissextile :
+   - Divisible par 4 **ET** (non divisible par 100 **OU** divisible par 400)
+3. Déterminez si un triangle est valide (somme de 2 côtés > 3e côté)
         `
     },
 
@@ -337,12 +337,12 @@ print(f"|x + y| = {abs(x + y)}")
 print(f"|x| + |y| = {abs(x) + abs(y)}")
 print(f"|x + y| <= |x| + |y| : {abs(x + y) <= abs(x) + abs(y)}")`,
         exercice: `
-**Exercice :**
+### 📝 Exercice
 
-1. Calculez |3 - 10| et |-7 + 2|
-2. Trouvez le module du nombre complexe z = 5 - 12i
-3. Calculez l'erreur relative entre sqrt(2) et 1.414
-4. Verifiez l'inegalite triangulaire pour x = -4, y = 7
+1. Calculez **|3 − 10|** et **|−7 + 2|**
+2. Trouvez le module de **z = 5 − 12i** → \`abs(5 - 12j)\`
+3. Calculez l'erreur relative entre √2 et 1.414
+4. Vérifiez l'inégalité triangulaire pour x = −4, y = 7
         `
     },
 
@@ -426,12 +426,12 @@ if heure_12 == 0:
 periode = "PM" if heure_24 >= 12 else "AM"
 print(f"{heure_24}h00 en format 12h = {heure_12}:00 {periode}")`,
         exercice: `
-**Exercice :**
+### 📝 Exercice
 
-1. Verifiez si 2024 est une annee bissextile (divisible par 4)
+1. Vérifiez si **2024** est bissextile → \`2024 % 4 == 0\`
 2. Trouvez tous les multiples de 7 entre 1 et 100
-3. Convertissez 10000 secondes en heures:minutes:secondes
-4. Creez une fonction qui trouve le dernier chiffre d'un nombre
+3. Convertissez **10000 secondes** en heures:minutes:secondes
+4. Créez une fonction qui trouve le dernier chiffre → \`n % 10\`
         `
     },
 
