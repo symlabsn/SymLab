@@ -1,4 +1,5 @@
 import { Text, Html } from '@react-three/drei';
+import DraggableHtmlPanel from './DraggableHtmlPanel';
 import { useRef, useState, useMemo } from 'react';
 import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
@@ -43,8 +44,7 @@ export function RefractionLight() {
         <group>
             {/* Panneau de contrôle */}
             <Html position={[-4.5, 1, 0]} center>
-                <div className="bg-black/95 p-4 rounded-xl text-white border border-white/20 min-w-[280px] backdrop-blur-md select-none">
-                    <h3 className="text-[#FCD34D] font-bold mb-3 text-center">🔦 Réfraction de la Lumière</h3>
+                <DraggableHtmlPanel title="🔦 Réfraction de la Lumière" className="min-w-[280px] border-white/20 text-white">
 
                     <div className="space-y-3">
                         {/* Milieu 1 */}
@@ -119,7 +119,7 @@ export function RefractionLight() {
                             Afficher la normale
                         </label>
                     </div>
-                </div>
+                </DraggableHtmlPanel>
             </Html>
 
             <Text position={[1.5, 3.5, 0]} fontSize={0.4} color="white">

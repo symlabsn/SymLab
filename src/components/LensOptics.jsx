@@ -1,4 +1,5 @@
 import { Text, Html } from '@react-three/drei';
+import DraggableHtmlPanel from './DraggableHtmlPanel';
 import { useRef, useState } from 'react';
 import { useFrame } from '@react-three/fiber';
 
@@ -21,8 +22,7 @@ export function LensOptics() {
         <group>
             {/* Panneau de Contrôle */}
             <Html position={[0, 4, 0]} center>
-                <div className="bg-black/90 p-4 rounded-xl text-white border border-white/20 min-w-[300px] backdrop-blur-md select-none">
-                    <h3 className="text-[#60A5FA] font-bold mb-3 text-center">🔍 Lentilles et Optique</h3>
+                <DraggableHtmlPanel title="🔍 Lentilles et Optique" className="min-w-[300px] border-white/20 text-white">
 
                     <div className="space-y-3">
                         <div>
@@ -31,8 +31,8 @@ export function LensOptics() {
                                 <button
                                     onClick={() => setLensType('convergent')}
                                     className={`py-2 px-3 rounded-lg text-xs font-bold transition-colors ${lensType === 'convergent'
-                                            ? 'bg-blue-600'
-                                            : 'bg-gray-700 hover:bg-gray-600'
+                                        ? 'bg-blue-600'
+                                        : 'bg-gray-700 hover:bg-gray-600'
                                         }`}
                                 >
                                     🔮 Convergente
@@ -40,8 +40,8 @@ export function LensOptics() {
                                 <button
                                     onClick={() => setLensType('divergent')}
                                     className={`py-2 px-3 rounded-lg text-xs font-bold transition-colors ${lensType === 'divergent'
-                                            ? 'bg-red-600'
-                                            : 'bg-gray-700 hover:bg-gray-600'
+                                        ? 'bg-red-600'
+                                        : 'bg-gray-700 hover:bg-gray-600'
                                         }`}
                                 >
                                     🔻 Divergente
@@ -105,7 +105,7 @@ export function LensOptics() {
                             1/f = 1/p' - 1/p
                         </div>
                     </div>
-                </div>
+                </DraggableHtmlPanel>
             </Html>
 
             <Text position={[0, 3, 0]} fontSize={0.5} color="white">

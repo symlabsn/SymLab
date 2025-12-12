@@ -3,6 +3,7 @@ import { useRef, useMemo, useState, useEffect } from 'react';
 import * as THREE from 'three';
 import { useFrame } from '@react-three/fiber';
 import { Text, Html, Float, Sphere, OrbitControls, Box, Cylinder, Torus } from '@react-three/drei';
+import DraggableHtmlPanel from './DraggableHtmlPanel';
 
 // ============================================================
 // CHAPITRE 9: SÉPARATION DES MÉLANGES (IMMERSIVE & CHALLENGE)
@@ -64,9 +65,8 @@ export function MixtureSeparationPC4() {
     return (
         <group>
             <Html position={[5, 2, 0]} center>
-                <div className="bg-black/90 p-5 rounded-2xl text-white border border-orange-500/30 w-[350px] backdrop-blur-md">
-                    <div className="flex justify-between items-center mb-4">
-                        <h3 className="text-orange-400 font-bold text-xl">⚗️ Séparation</h3>
+                <DraggableHtmlPanel title="⚗️ Séparation" className="w-[350px] border-orange-500/30 text-white">
+                    <div className="flex justify-end mb-4">
                         <button onClick={() => setMode(mode === 'explore' ? 'challenge' : 'explore')}
                             className="text-xs bg-gray-700 px-2 py-1 rounded hover:bg-white hover:text-black transition-colors">
                             {mode === 'explore' ? 'Aller au Défi 🏆' : 'Retour Exploration'}
@@ -131,7 +131,7 @@ export function MixtureSeparationPC4() {
                             </div>
                         </div>
                     )}
-                </div>
+                </DraggableHtmlPanel>
             </Html>
 
             {/* Visualisation 3D */}
@@ -267,9 +267,8 @@ export function AtomBuilderSim() {
     return (
         <group>
             <Html position={[5, 2, 0]} center>
-                <div className="bg-black/90 p-5 rounded-2xl text-white border border-pink-500/30 w-[350px] backdrop-blur-md">
-                    <div className="flex justify-between items-center mb-4">
-                        <h3 className="text-pink-400 font-bold text-xl">⚛️ Constructeur</h3>
+                <DraggableHtmlPanel title="⚛️ Constructeur" className="w-[350px] border-pink-500/30 text-white">
+                    <div className="flex justify-end mb-4">
                         <button onClick={startMission} className="text-xs bg-pink-700 px-3 py-1 rounded hover:bg-pink-600 animate-pulse">
                             {mission ? 'Nouvelle Mission 🎯' : 'Lancer Mission 🎯'}
                         </button>
@@ -314,7 +313,7 @@ export function AtomBuilderSim() {
                         <input type="checkbox" checked={showShells} onChange={() => setShowShells(!showShells)} />
                         <span className="text-sm">Voir couches (K, L)</span>
                     </div>
-                </div>
+                </DraggableHtmlPanel>
             </Html>
 
             <Text position={[0, 3.5, 0]} fontSize={0.5} color="#EC4899">STRUCTURE DE L'ATOME</Text>
@@ -431,9 +430,8 @@ export function MoleConceptPC4() {
     return (
         <group>
             <Html position={[5, 2, 0]} center>
-                <div className="bg-black/90 p-5 rounded-2xl text-white border border-green-500/30 w-[350px] backdrop-blur-md">
-                    <div className="flex justify-between items-center mb-4">
-                        <h3 className="text-green-400 font-bold text-xl">⚖️ La Mole</h3>
+                <DraggableHtmlPanel title="⚖️ La Mole" className="w-[350px] border-green-500/30 text-white">
+                    <div className="flex justify-end mb-4">
                         <button onClick={() => { setMode(mode === 'explore' ? 'challenge' : 'explore'); if (mode === 'explore') startChallenge(); }}
                             className="text-xs bg-green-700 px-2 py-1 rounded hover:bg-green-600 transition-colors">
                             {mode === 'explore' ? 'Mode Défi 🏆' : 'Mode Libre'}
@@ -484,7 +482,7 @@ export function MoleConceptPC4() {
                             </div>
                         )}
                     </div>
-                </div>
+                </DraggableHtmlPanel>
             </Html>
 
             <Text position={[0, 3.5, 0]} fontSize={0.5} color="#4ADE80">n = m / M</Text>
@@ -577,8 +575,7 @@ export function MassConservation() {
     return (
         <group>
             <Html position={[5, 2, 0]} center>
-                <div className="bg-black/90 p-5 rounded-2xl text-white border border-red-500/30 w-[350px] backdrop-blur-md">
-                    <h3 className="text-red-400 font-bold text-xl mb-4">⚖️ Conservation de la Masse</h3>
+                <DraggableHtmlPanel title="⚖️ Conservation de la Masse" className="w-[350px] border-red-500/30 text-white">
 
                     <div className="mb-4 bg-gray-800 p-3 rounded-xl">
                         <div className="text-xs text-gray-400 mb-2">CHOIX DU SYSTÈME</div>
@@ -613,7 +610,7 @@ export function MassConservation() {
                                 : "Le gaz reste piégé, la masse est conservée."}
                         </div>
                     )}
-                </div>
+                </DraggableHtmlPanel>
             </Html>
 
             {/* Scene */}
@@ -753,9 +750,8 @@ export function ScientificMethod() {
     return (
         <group>
             <Html position={[5, 2, 0]} center>
-                <div className="bg-black/90 p-5 rounded-2xl text-white border border-blue-500/30 w-[380px] backdrop-blur-md">
-                    <div className="flex justify-between items-center mb-4">
-                        <h3 className="text-blue-400 font-bold text-xl">🔬 Démarche Scientifique</h3>
+                <DraggableHtmlPanel title="🔬 Démarche Scientifique" className="w-[380px] border-blue-500/30 text-white">
+                    <div className="flex justify-end mb-4">
                         <button onClick={reset} className="text-xs bg-gray-700 px-2 py-1 rounded hover:bg-gray-600">🔄 Reset</button>
                     </div>
 
@@ -814,7 +810,7 @@ export function ScientificMethod() {
                             </button>
                         </div>
                     )}
-                </div>
+                </DraggableHtmlPanel>
             </Html>
 
             {/* SCÈNE 3D DYNAMIQUE */}
@@ -961,9 +957,8 @@ export function DensityExplorer() {
     return (
         <group>
             <Html position={[5, 2, 0]} center>
-                <div className="bg-black/90 p-5 rounded-2xl text-white border border-cyan-500/30 w-[350px] backdrop-blur-md">
-                    <div className="flex justify-between items-center mb-4">
-                        <h3 className="text-cyan-400 font-bold text-xl">🌊 Laboratoire de Densité</h3>
+                <DraggableHtmlPanel title="🌊 Laboratoire de Densité" className="w-[350px] border-cyan-500/30 text-white">
+                    <div className="flex justify-end mb-4">
                         {mode !== 'challenge' && <button onClick={startChallenge} className="text-xs bg-cyan-700 px-2 py-1 rounded hover:bg-white hover:text-black transition-colors">Mode Défi 🏆</button>}
                         {mode === 'challenge' && <button onClick={() => setMode('sinkfloat')} className="text-xs bg-gray-700 px-2 py-1 rounded">Retour</button>}
                     </div>
@@ -1028,7 +1023,7 @@ export function DensityExplorer() {
                             </ul>
                         </div>
                     )}
-                </div>
+                </DraggableHtmlPanel>
             </Html>
 
             {/* Aquarium */}
@@ -1120,8 +1115,7 @@ export function MeasurementTools() {
     return (
         <group>
             <Html position={[5, 2, 0]} center>
-                <div className="bg-black/90 p-5 rounded-2xl text-white border border-yellow-500/30 w-[350px] backdrop-blur-md">
-                    <h3 className="text-yellow-400 font-bold text-xl mb-4">📏 Précision de Mesure</h3>
+                <DraggableHtmlPanel title="📏 Précision de Mesure" className="w-[350px] border-yellow-500/30 text-white">
 
                     <div className="mb-4 text-sm text-gray-300">
                         Objectif : Mesure la longueur de la barre verte le plus précisément possible !
@@ -1150,7 +1144,7 @@ export function MeasurementTools() {
                     <button onClick={() => { setTarget((Math.random() * 3 + 3).toFixed(1)); setScore(null); }} className="mt-2 text-xs text-gray-400 hover:text-white underline w-full text-center">
                         Nouvel objet
                     </button>
-                </div>
+                </DraggableHtmlPanel>
             </Html>
 
             <group position={[0, -1, 0]}>
@@ -1242,9 +1236,8 @@ export function RefractionSimulator() {
     return (
         <group>
             <Html position={[5, 2, 0]} center>
-                <div className="bg-black/90 p-5 rounded-2xl text-white border border-red-500/30 w-[350px] backdrop-blur-md">
-                    <div className="flex justify-between items-center mb-4">
-                        <h3 className="text-red-400 font-bold text-xl">🔦 La Réfraction</h3>
+                <DraggableHtmlPanel title="🔦 La Réfraction" className="w-[350px] border-red-500/30 text-white">
+                    <div className="flex justify-end mb-4">
                         <button onClick={mode === 'explore' ? startChallenge : () => setMode('explore')}
                             className={`text-xs px-2 py-1 rounded transition-colors ${mode === 'explore' ? 'bg-red-700 hover:bg-white hover:text-red-700' : 'bg-gray-700'}`}>
                             {mode === 'explore' ? 'Mode Cible 🎯' : 'Retour'}
@@ -1280,7 +1273,7 @@ export function RefractionSimulator() {
                     <div className="bg-gray-900 p-3 rounded text-center font-mono text-sm">
                         Angle de réfraction (r) : <span className="text-green-400 font-bold text-lg">{rDeg.toFixed(1)}°</span>
                     </div>
-                </div>
+                </DraggableHtmlPanel>
             </Html>
 
             {/* Laser Source (Updated rotation logic for +/- angles) */}
@@ -1360,8 +1353,7 @@ export function CircuitSeriesParallel() {
     return (
         <group>
             <Html position={[5, 2, 0]} center>
-                <div className="bg-black/90 p-5 rounded-2xl text-white border border-yellow-500/30 w-[350px] backdrop-blur-md">
-                    <h3 className="text-yellow-400 font-bold text-xl mb-4">⚡ Série vs Parallèle</h3>
+                <DraggableHtmlPanel title="⚡ Série vs Parallèle" className="w-[350px] border-yellow-500/30 text-white">
 
                     <div className="flex gap-2 mb-6">
                         <button onClick={() => { setMode('series'); setBulbs([true, true]); }} className={`flex-1 py-2 rounded font-bold ${mode === 'series' ? 'bg-yellow-600' : 'bg-gray-700'}`}>Série</button>
@@ -1376,7 +1368,7 @@ export function CircuitSeriesParallel() {
                             ? "En SÉRIE : Si une seule ampoule grille, le circuit est ouvert et TOUT s'éteint !"
                             : "En PARALLÈLE : Chaque ampoule a sa propre boucle. Si l'une grille, l'autre RESTE allumée !"}
                     </div>
-                </div>
+                </DraggableHtmlPanel>
             </Html>
 
             {/* Battery */}
@@ -1474,8 +1466,7 @@ export function LightPropagationPC4() {
     return (
         <group>
             <Html position={[5, 2, 0]} center>
-                <div className="bg-black/90 p-5 rounded-2xl text-white border border-white/30 w-[350px] backdrop-blur-md">
-                    <h3 className="text-white font-bold text-xl mb-4">🔦 Propagation Rectiligne</h3>
+                <DraggableHtmlPanel title="🔦 Propagation Rectiligne" className="w-[350px] border-white/30 text-white">
                     <p className="text-sm text-gray-400 mb-4">La lumière voyage en ligne droite. Aligne les trous pour que le laser atteigne la cible !</p>
 
                     <div className="flex justify-between gap-2">
@@ -1494,7 +1485,7 @@ export function LightPropagationPC4() {
                             CIBLE ATTEINTE ! 🎯
                         </div>
                     )}
-                </div>
+                </DraggableHtmlPanel>
             </Html>
 
             {/* Laser */}
@@ -1615,8 +1606,7 @@ export function ShadowsSimulator() {
     return (
         <group>
             <Html position={[5, 2, 0]} center>
-                <div className="bg-black/90 p-5 rounded-2xl text-white border border-gray-500/30 w-[350px] backdrop-blur-md">
-                    <h3 className="text-gray-300 font-bold text-xl mb-4">🌑 Ombres & Pénombre</h3>
+                <DraggableHtmlPanel title="🌑 Ombres & Pénombre" className="w-[350px] border-gray-500/30 text-white">
 
                     <div className="flex bg-gray-800 p-1 rounded-lg mb-6">
                         <button onClick={() => setSourceType('point')} className={`flex-1 py-2 rounded text-sm ${sourceType === 'point' ? 'bg-yellow-600 font-bold' : 'text-gray-400'}`}>Source Ponctuelle</button>
@@ -1637,7 +1627,7 @@ export function ShadowsSimulator() {
                             ? "Une source ponctuelle crée une ombre nette (ombre portée)."
                             : "Une source étendue crée une ombre centrale et une zone de pénombre floue."}
                     </div>
-                </div>
+                </DraggableHtmlPanel>
             </Html>
 
             {/* Source */}
