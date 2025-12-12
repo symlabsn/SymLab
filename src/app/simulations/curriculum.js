@@ -493,50 +493,106 @@ export const simulationsCurriculum = {
                     physique: {
                         title: "Physique-Chimie",
                         simulations: [
+                            // PHYSIQUE - 7 simulations
                             {
-                                id: "atomic-structure",
-                                title: "Structure de l'Atome",
-                                description: "Plongez dans le monde subatomique",
+                                id: "lens-optics-3e",
+                                title: "Lentilles Minces",
+                                description: "Explorez lentilles convergentes et divergentes, foyer et images",
                                 difficulty: "difficile",
                                 duration: "30 min",
-                                icon: "⚛️",
-                                tags: ["atome", "électrons", "noyau"]
+                                icon: "🔍",
+                                tags: ["optique", "lentilles", "image"]
                             },
                             {
-                                id: "energy-conservation",
-                                title: "Conservation de l'Énergie",
-                                description: "Explorez les transformations d'énergie",
+                                id: "light-dispersion-3e",
+                                title: "Dispersion de la Lumière",
+                                description: "L'arc-en-ciel et le prisme : décomposition de la lumière blanche",
+                                difficulty: "difficile",
+                                duration: "25 min",
+                                icon: "🌈",
+                                tags: ["optique", "spectre", "couleurs"]
+                            },
+                            {
+                                id: "forces-vectors-3e",
+                                title: "Forces et Vecteurs",
+                                description: "Représentation vectorielle des forces, poids et Newton",
+                                difficulty: "difficile",
+                                duration: "30 min",
+                                icon: "🎯",
+                                tags: ["mécanique", "forces", "vecteurs"]
+                            },
+                            {
+                                id: "work-power-3e",
+                                title: "Travail et Puissance",
+                                description: "Calcul du travail W = F×d et puissance P = W/t",
+                                difficulty: "difficile",
+                                duration: "30 min",
+                                icon: "⚡",
+                                tags: ["mécanique", "énergie", "joule"]
+                            },
+                            {
+                                id: "electrostatics-3e",
+                                title: "Électrisation par Frottement",
+                                description: "Charges électriques, attraction et répulsion",
+                                difficulty: "difficile",
+                                duration: "25 min",
+                                icon: "⚡",
+                                tags: ["électricité", "charges", "atomes"]
+                            },
+                            {
+                                id: "resistance-ohm-3e",
+                                title: "Résistance et Loi d'Ohm",
+                                description: "U = R×I, résistances en série et parallèle",
                                 difficulty: "difficile",
                                 duration: "35 min",
-                                icon: "⚡",
-                                tags: ["énergie", "conservation", "thermodynamique"]
+                                icon: "🔋",
+                                tags: ["électricité", "ohm", "circuit"]
                             },
                             {
-                                id: "ions-formation",
-                                title: "Formation des Ions",
-                                description: "Cations, anions et solutions ioniques",
+                                id: "energy-transformations-3e",
+                                title: "Transformations d'Énergie",
+                                description: "Conservation et rendement énergétique",
                                 difficulty: "difficile",
                                 duration: "30 min",
-                                icon: "🔋",
-                                tags: ["chimie", "électricité", "matière"]
+                                icon: "🔄",
+                                tags: ["énergie", "rendement", "formes"]
                             },
+                            // CHIMIE - 4 simulations
                             {
-                                id: "ph-scale",
-                                title: "Échelle de pH",
-                                description: "Acides, bases et indicateurs colorés",
+                                id: "aqueous-solutions-3e",
+                                title: "Solutions Aqueuses",
+                                description: "Solvant, soluté, concentration et saturation",
                                 difficulty: "difficile",
                                 duration: "25 min",
                                 icon: "🧪",
-                                tags: ["chimie", "acidité", "mesure"]
+                                tags: ["chimie", "solutions", "eau"]
                             },
                             {
-                                id: "weight-mass-relation",
-                                title: "Poids et Masse",
-                                description: "Relation P = m x g et gravité",
+                                id: "acids-bases-ph-3e",
+                                title: "Acides, Bases et pH",
+                                description: "Échelle pH, indicateurs colorés et neutralisation",
                                 difficulty: "difficile",
-                                duration: "25 min",
-                                icon: "⚖️",
-                                tags: ["physique", "newton", "espace"]
+                                duration: "30 min",
+                                icon: "🧫",
+                                tags: ["chimie", "pH", "acide"]
+                            },
+                            {
+                                id: "metals-properties-3e",
+                                title: "Propriétés des Métaux",
+                                description: "Réactions avec l'oxygène, l'eau et les acides",
+                                difficulty: "difficile",
+                                duration: "30 min",
+                                icon: "⚙️",
+                                tags: ["chimie", "métaux", "réactions"]
+                            },
+                            {
+                                id: "hydrocarbons-3e",
+                                title: "Hydrocarbures et Combustion",
+                                description: "Pétrole, alcanes et réaction de combustion",
+                                difficulty: "difficile",
+                                duration: "30 min",
+                                icon: "🛢️",
+                                tags: ["chimie", "organique", "pétrole"]
                             }
                         ]
                     },

@@ -1,7 +1,9 @@
 // Données détaillées des simulations du collège avec analogies sénégalaises
 // Complètes pour 6ème, 5ème, 4ème et 3ème (BFEM)
 
-export const collegeSimulationsData = {
+import { pc3eSimulationsData } from './pc3eSimulations';
+
+const baseCollegeSimulations = {
     // ========== 6ÈME ==========
     'cell-structure': {
         title: 'Structure de la Cellule',
@@ -3726,5 +3728,10 @@ Fréquence (Hz) :
     }
 };
 
-export default collegeSimulationsData;
+// Fusion des simulations de base avec les simulations PC 3e
+export const collegeSimulationsData = {
+    ...baseCollegeSimulations,
+    ...pc3eSimulationsData
+};
 
+export default collegeSimulationsData;

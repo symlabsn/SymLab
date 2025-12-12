@@ -4432,6 +4432,30 @@ export default function Simulation3D({ type = 'atom', config = {} }) {
             case 'chap12-conservation':
                 return <MassConservation />;
 
+            // === PC 3ÈME - SIMULATIONS PROGRAMME BFEM ===
+            case 'lens-optics':
+                return <LensOptics />;
+            case 'light-dispersion':
+                return <LightSpectrum />;
+            case 'forces-vectors':
+                return <ForcePhysics />;
+            case 'work-power':
+                return <EnergyConservation />;
+            case 'electrostatics':
+                return <IonsFormation />;
+            case 'ohm-law-circuit':
+                return <ElectricCircuit />;
+            case 'energy-flow':
+                return <EnergyConservation />;
+            case 'solution-mixing':
+                return <SolutionsSolubility />;
+            case 'ph-scale':
+                return <PHScale />;
+            case 'metal-reactions':
+                return <ChemicalReaction />;
+            case 'combustion-3d':
+                return <CombustionReaction />;
+
             default:
                 return <Atom {...config} />;
         }
