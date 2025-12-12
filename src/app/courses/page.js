@@ -1019,7 +1019,11 @@ function CoursesContent() {
                                                                         <span className="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center font-bold text-sm shrink-0">
                                                                             {idx + 1}
                                                                         </span>
-                                                                        <h3 className="text-lg font-medium pt-1">{ex.question}</h3>
+                                                                        <div className="text-lg font-medium pt-1">
+                                                                            <ReactMarkdown remarkPlugins={[remarkMath]} rehypePlugins={[rehypeKatex, rehypeRaw]}>
+                                                                                {ex.question}
+                                                                            </ReactMarkdown>
+                                                                        </div>
                                                                     </div>
 
                                                                     <div className="space-y-3 pl-0 md:pl-12">
@@ -1043,7 +1047,15 @@ function CoursesContent() {
                                                                                     className={btnClass}
                                                                                 >
                                                                                     <div className="flex items-center justify-between">
-                                                                                        <span>{option}</span>
+                                                                                        <div>
+                                                                                            <ReactMarkdown
+                                                                                                remarkPlugins={[remarkMath]}
+                                                                                                rehypePlugins={[rehypeKatex, rehypeRaw]}
+                                                                                                components={{ p: ({ node, ...props }) => <span {...props} /> }}
+                                                                                            >
+                                                                                                {option}
+                                                                                            </ReactMarkdown>
+                                                                                        </div>
                                                                                         {isSelected && (
                                                                                             isCorrect ? <CheckCircle size={20} /> : <XCircle size={20} />
                                                                                         )}
@@ -1055,7 +1067,16 @@ function CoursesContent() {
 
                                                                     {quizAnswers[`${activeChapter.id}-${ex.id}`] !== undefined && (
                                                                         <div className={`mt-4 ml-0 md:ml-12 p-4 rounded-lg text-sm ${quizResults[`${activeChapter.id}-${ex.id}`] ? 'bg-green-900/20 text-green-300' : 'bg-red-900/20 text-red-300'}`}>
-                                                                            <strong>Explication :</strong> {ex.explanation}
+                                                                            <strong>Explication :</strong>
+                                                                            <span className="inline-block ml-1">
+                                                                                <ReactMarkdown
+                                                                                    remarkPlugins={[remarkMath]}
+                                                                                    rehypePlugins={[rehypeKatex, rehypeRaw]}
+                                                                                    components={{ p: ({ node, ...props }) => <span {...props} /> }}
+                                                                                >
+                                                                                    {ex.explanation}
+                                                                                </ReactMarkdown>
+                                                                            </span>
                                                                         </div>
                                                                     )}
                                                                 </div>
@@ -1074,7 +1095,11 @@ function CoursesContent() {
                                                                 <span className="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center font-bold text-sm shrink-0">
                                                                     {idx + 1}
                                                                 </span>
-                                                                <h3 className="text-lg font-medium pt-1">{ex.question}</h3>
+                                                                <div className="text-lg font-medium pt-1">
+                                                                    <ReactMarkdown remarkPlugins={[remarkMath]} rehypePlugins={[rehypeKatex, rehypeRaw]}>
+                                                                        {ex.question}
+                                                                    </ReactMarkdown>
+                                                                </div>
                                                             </div>
 
                                                             <div className="space-y-3 pl-0 md:pl-12">
@@ -1098,7 +1123,15 @@ function CoursesContent() {
                                                                             className={btnClass}
                                                                         >
                                                                             <div className="flex items-center justify-between">
-                                                                                <span>{option}</span>
+                                                                                <div>
+                                                                                    <ReactMarkdown
+                                                                                        remarkPlugins={[remarkMath]}
+                                                                                        rehypePlugins={[rehypeKatex, rehypeRaw]}
+                                                                                        components={{ p: ({ node, ...props }) => <span {...props} /> }}
+                                                                                    >
+                                                                                        {option}
+                                                                                    </ReactMarkdown>
+                                                                                </div>
                                                                                 {isSelected && (
                                                                                     isCorrect ? <CheckCircle size={20} /> : <XCircle size={20} />
                                                                                 )}
@@ -1110,7 +1143,16 @@ function CoursesContent() {
 
                                                             {quizAnswers[`${activeChapter.id}-${ex.id}`] !== undefined && (
                                                                 <div className={`mt-4 ml-0 md:ml-12 p-4 rounded-lg text-sm ${quizResults[`${activeChapter.id}-${ex.id}`] ? 'bg-green-900/20 text-green-300' : 'bg-red-900/20 text-red-300'}`}>
-                                                                    <strong>Explication :</strong> {ex.explanation}
+                                                                    <strong>Explication :</strong>
+                                                                    <span className="inline-block ml-1">
+                                                                        <ReactMarkdown
+                                                                            remarkPlugins={[remarkMath]}
+                                                                            rehypePlugins={[rehypeKatex, rehypeRaw]}
+                                                                            components={{ p: ({ node, ...props }) => <span {...props} /> }}
+                                                                        >
+                                                                            {ex.explanation}
+                                                                        </ReactMarkdown>
+                                                                    </span>
                                                                 </div>
                                                             )}
                                                         </div>

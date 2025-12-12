@@ -43,7 +43,7 @@ import { ChemicalReaction } from './ChemicalReaction';
 import { ImmuneSystem } from './ImmuneSystem';
 import { ThermalTransfer } from './ThermalTransfer';
 import { SoundPropagation } from './SoundPropagation';
-import { DensityExplorer, RefractionSimulator, CircuitSeriesParallel, MassConservation, LightPropagationPC4, ScientificMethod, MeasurementTools, LightSources, IntroElectricity, MixtureSeparationPC4, MoleConceptPC4 } from './PC4eSimulations';
+import { DensityExplorer, RefractionSimulator, CircuitSeriesParallel, MassConservation, LightPropagationPC4, ScientificMethod, MeasurementTools, LightSources, IntroElectricity, MixtureSeparationPC4, MoleConceptPC4, AtomBuilderSim } from './PC4eSimulations';
 import { Chap1ScienceIntro, Chap2Mesures, Chap3Densite, Chap4PoidsMasse, Chap5Electricite } from './PC4eChapter1to5';
 import { Chap6SourcesLumiere, Chap7PropagationLumiere, Chap8Refraction } from './PC4eChapter6to8';
 
@@ -4418,6 +4418,16 @@ export default function Simulation3D({ type = 'atom', config = {} }) {
                 return <Chap7PropagationLumiere />;
             case 'chap8-refraction':
                 return <Chap8Refraction />;
+
+            // === CHAPITRES 9-12 PC 4E ===
+            case 'chap9-melanges':
+                return <MixtureSeparationPC4 />;
+            case 'chap10-atomes':
+                return <AtomBuilderSim />;
+            case 'chap11-mole':
+                return <MoleConceptPC4 />;
+            case 'chap12-conservation':
+                return <MassConservation />;
 
             default:
                 return <Atom {...config} />;

@@ -47,7 +47,7 @@ La Physique-Chimie, c'est résoudre les mystères de l'univers avec méthode.`
             simulation: {
                 id: 'scientific-method-sim',
                 title: 'La Démarche Scientifique Interactive',
-                type: 'scientific-method'
+                type: 'chap1-science-intro'
             },
             defis: [
                 {
@@ -115,7 +115,7 @@ La balance du marché et la balance du laboratoire parlent le même langage : le
             simulation: {
                 id: 'measurement-tools-sim',
                 title: 'Laboratoire de Mesures',
-                type: 'measurement-tools'
+                type: 'chap2-mesures'
             },
             defis: [
                 {
@@ -185,7 +185,7 @@ C'est comme ça que grand-mère vérifie ses œufs au marché !`
             simulation: {
                 id: 'density-explorer',
                 title: 'Explorateur de Densité',
-                type: 'density-explorer'
+                type: 'chap3-densite'
             },
             defis: [
                 {
@@ -255,7 +255,7 @@ La balance mesure la MASSE (quantité de matière).`
             simulation: {
                 id: 'weight-mass-sim',
                 title: 'Poids vs Masse : Terre et Lune',
-                type: 'weight-mass'
+                type: 'chap4-poids-masse'
             },
             defis: [
                 {
@@ -327,7 +327,7 @@ Si la route est coupée quelque part, plus personne ne circule !`
             simulation: {
                 id: 'intro-electricity-sim',
                 title: "Introduction à l'Électricité",
-                type: 'intro-electricity'
+                type: 'chap5-electricite'
             },
             defis: [
                 {
@@ -392,7 +392,7 @@ C'est une chaîne : Source → Objet → Récepteur !`
             simulation: {
                 id: 'light-sources-sim',
                 title: 'Sources et Récepteurs de Lumière',
-                type: 'light-sources'
+                type: 'chap6-sources-lumiere'
             },
             defis: [
                 {
@@ -460,7 +460,7 @@ Le son fait des courbes, la lumière non.`
             simulation: {
                 id: 'light-propagation-pc4',
                 title: 'Propagation Rectiligne',
-                type: 'light-propagation-pc4'
+                type: 'chap7-propagation-lumiere'
             },
             defis: [
                 {
@@ -530,7 +530,7 @@ Elles utilisent la réfraction pour agrandir ou corriger la vue !`
             simulation: {
                 id: 'refraction-simulator',
                 title: 'Simulateur de Réfraction',
-                type: 'refraction-simulator'
+                type: 'chap8-refraction'
             },
             defis: [
                 {
@@ -607,7 +607,7 @@ Au labo, on utilise du papier filtre.`
             simulation: {
                 id: 'mixture-separation-sim',
                 title: 'Séparation des Mélanges',
-                type: 'mixture-separation'
+                type: 'chap9-melanges'
             },
             defis: [
                 {
@@ -682,7 +682,7 @@ L'air contient des molécules $O_2$ (dioxygène), $N_2$ (diazote), $CO_2$...`
             simulation: {
                 id: 'atom-builder-sim',
                 title: 'Constructeur de Molécules',
-                type: 'atom-molecule-intro'
+                type: 'chap10-atomes'
             },
             defis: [
                 {
@@ -755,7 +755,7 @@ On dit "donne-moi 1 mole de fer" = 56 g de fer. Simple !`
             simulation: {
                 id: 'mole-concept-sim',
                 title: 'Le Concept de Mole',
-                type: 'mole-concept'
+                type: 'chap11-mole'
             },
             defis: [
                 {
@@ -832,7 +832,7 @@ Si tu enlèves un élément → le feu s'éteint !`
             simulation: {
                 id: 'mass-conservation',
                 title: 'Conservation de la Masse',
-                type: 'mass-conservation'
+                type: 'chap12-conservation'
             },
             defis: [
                 {
