@@ -141,6 +141,11 @@ function CoursesContent() {
     const [frenchVoices, setFrenchVoices] = useState([]);
     const speechRef = useRef(null);
 
+    // Scroll to top on mount
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
+
     // Charger les voix françaises (fr-FR uniquement)
     useEffect(() => {
         const loadVoices = () => {

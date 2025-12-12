@@ -11,6 +11,9 @@ export default function ChallengesPage() {
     const [mounted, setMounted] = useState(false);
 
     useEffect(() => {
+        // Scroll to top on mount
+        window.scrollTo(0, 0);
+
         setMounted(true);
         // Charger la progression depuis localStorage
         if (typeof window !== 'undefined') {
