@@ -1,8 +1,16 @@
+'use client';
 import React, { useState, useEffect, useRef } from 'react';
 
 // Composant Panneau Draggable pour l'intérieur des simulations 3D (via Html de drei)
-const DraggableHtmlPanel = ({ children, title, className = "", initialPos = { x: 0, y: 0 } }) => {
-    const [position, setPosition] = useState(initialPos);
+const DraggableHtmlPanel = ({ children, title, className = "", initialPos = null }) => {
+    const [position, setPosition] = useState(() => {
+        if (initialPos) return initialPos;
+        // Par défaut sur le côté droit pour ne pas gêner
+        if (typeof window !== 'undefined' && window.innerWidth > 1024) {
+            return { x: 350, y: 0 };
+        }
+        return { x: 0, y: 0 };
+    });
     const [isDragging, setIsDragging] = useState(false);
     const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
     const [isMinimized, setIsMinimized] = useState(false);
