@@ -2523,5 +2523,174 @@ print(f"Nombre d'or = {(1 + np.sqrt(5))/2:.6f}")`,
 3. Calculez les 50 premiers termes de Fibonacci
 4. Tracez la spirale de Fibonacci
         `
+    },
+
+    sympy_plotting: {
+        title: "Visualiser avec SymPy et Matplotlib",
+        theorie: `## SymPy + Matplotlib\n\nSymPy et Matplotlib ensemble permettent de visualiser des expressions symboliques.`,
+        code: `import numpy as np
+import matplotlib.pyplot as plt
+import sympy as sp
+from sympy import lambdify
+
+x = sp.Symbol('x')
+fig, ax = plt.subplots(figsize=(10, 6))
+
+poly = x**3 - 3*x**2 + 2*x
+f = lambdify(x, poly, 'numpy')
+x_vals = np.linspace(-1, 3, 200)
+ax.plot(x_vals, f(x_vals), 'b-', lw=2, label='x³ - 3x² + 2x')
+ax.axhline(0, color='k', lw=0.5)
+ax.legend(); ax.grid(True, alpha=0.3)
+ax.set_title('Polynôme avec SymPy')
+plt.show()`,
+        exercice: `**Exercices :** Tracez une fonction et sa dérivée.`
+    },
+
+    polynomials_visual: {
+        title: "Polynômes et leurs racines",
+        theorie: `## Racines de polynômes\n\nUn polynôme de degré n a n racines (complexes).`,
+        code: `import numpy as np
+import matplotlib.pyplot as plt
+
+coeffs = [1, -6, 11, -6]
+racines = np.roots(coeffs)
+x = np.linspace(0, 4, 200)
+y = np.polyval(coeffs, x)
+
+plt.figure(figsize=(10, 6))
+plt.plot(x, y, 'b-', lw=2)
+plt.scatter(racines.real, np.zeros_like(racines), color='red', s=100, zorder=5)
+plt.axhline(0, color='k', lw=0.5)
+plt.title(f'Racines: {racines.real}')
+plt.grid(True, alpha=0.3)
+plt.show()`,
+        exercice: `**Exercice :** Trouvez les racines de x⁴ - 5x² + 4.`
+    },
+
+    gcd_visual: {
+        title: "PGCD et algorithme d'Euclide visualisé",
+        theorie: `## Algorithme d'Euclide\n\ngcd(a, b) = gcd(b, a mod b)`,
+        code: `import numpy as np
+import matplotlib.pyplot as plt
+
+n = 20
+gcd_matrix = np.zeros((n, n))
+for i in range(1, n+1):
+    for j in range(1, n+1):
+        gcd_matrix[i-1, j-1] = np.gcd(i, j)
+
+plt.figure(figsize=(8, 8))
+plt.imshow(gcd_matrix, cmap='viridis')
+plt.colorbar(label='PGCD')
+plt.title('Matrice des PGCD(i,j)')
+plt.show()`,
+        exercice: `**Exercice :** Visualisez l'algorithme d'Euclide étape par étape.`
+    },
+
+    exp_log_visual: {
+        title: "Exponentielles et logarithmes",
+        theorie: `## Fonctions réciproques\n\ny = eˣ ⟺ x = ln(y)`,
+        code: `import numpy as np
+import matplotlib.pyplot as plt
+
+x = np.linspace(-2, 3, 200)
+x_pos = np.linspace(0.01, 5, 200)
+
+plt.figure(figsize=(10, 8))
+plt.plot(x, np.exp(x), 'b-', lw=2, label='eˣ')
+plt.plot(x_pos, np.log(x_pos), 'r-', lw=2, label='ln(x)')
+plt.plot(x, x, 'k--', alpha=0.5, label='y = x')
+plt.xlim([-2, 5]); plt.ylim([-2, 5])
+plt.legend(); plt.grid(True, alpha=0.3)
+plt.gca().set_aspect('equal')
+plt.title('Fonctions réciproques')
+plt.show()`,
+        exercice: `**Exercice :** Tracez log₂(x), ln(x), log₁₀(x).`
+    },
+
+    extrema_visual: {
+        title: "Extrema de fonctions",
+        theorie: `## Points critiques\n\nUn extremum local où f'(x) = 0.`,
+        code: `import numpy as np
+import matplotlib.pyplot as plt
+
+x = np.linspace(-2, 4, 200)
+f = lambda x: x**4 - 4*x**3 + 4*x**2
+f_prime = lambda x: 4*x**3 - 12*x**2 + 8*x
+
+plt.figure(figsize=(10, 6))
+plt.plot(x, f(x), 'b-', lw=2, label='f(x)')
+plt.plot(x, f_prime(x), 'r--', lw=2, label="f'(x)")
+for xc in [0, 1, 2]:
+    plt.plot(xc, f(xc), 'go', ms=10)
+plt.axhline(0, color='k', lw=0.5)
+plt.legend(); plt.grid(True, alpha=0.3)
+plt.title('Extrema')
+plt.show()`,
+        exercice: `**Exercice :** Trouvez les extrema de x³ - 6x² + 9x + 1.`
+    },
+
+    fourier_intro: {
+        title: "Introduction à Fourier",
+        theorie: `## Séries de Fourier\n\nToute fonction périodique se décompose en somme de sinus et cosinus.`,
+        code: `import numpy as np
+import matplotlib.pyplot as plt
+
+x = np.linspace(-np.pi, np.pi, 500)
+square = np.sign(np.sin(x))
+
+plt.figure(figsize=(10, 6))
+plt.plot(x, square, 'k-', lw=2, label='Signal carré')
+for n_terms in [1, 5, 15]:
+    approx = np.zeros_like(x)
+    for k in range(1, n_terms+1, 2):
+        approx += (4/(k*np.pi)) * np.sin(k*x)
+    plt.plot(x, approx, '--', alpha=0.7, label=f'{n_terms} termes')
+plt.legend(); plt.grid(True, alpha=0.3)
+plt.title('Série de Fourier')
+plt.show()`,
+        exercice: `**Exercice :** Approximez une onde triangulaire.`
+    },
+
+    data_fitting: {
+        title: "Ajustement de données (fitting)",
+        theorie: `## Régression\n\nMinimiser la somme des erreurs au carré.`,
+        code: `import numpy as np
+import matplotlib.pyplot as plt
+
+np.random.seed(42)
+x = np.linspace(0, 10, 20)
+y = 2.5*x + 3 + np.random.randn(20)*2
+coeffs = np.polyfit(x, y, 1)
+
+plt.figure(figsize=(10, 6))
+plt.scatter(x, y, color='blue', s=50)
+plt.plot(x, np.polyval(coeffs, x), 'r-', lw=2, label=f'y = {coeffs[0]:.2f}x + {coeffs[1]:.2f}')
+plt.legend(); plt.grid(True, alpha=0.3)
+plt.title('Régression linéaire')
+plt.show()`,
+        exercice: `**Exercice :** Ajustez un polynôme de degré 3 à des données.`
+    },
+
+    signal_processing: {
+        title: "Traitement du signal",
+        theorie: `## Analyse spectrale\n\nLa FFT décompose un signal en ses fréquences.`,
+        code: `import numpy as np
+import matplotlib.pyplot as plt
+
+t = np.linspace(0, 1, 1000)
+signal = np.sin(2*np.pi*5*t) + 0.5*np.sin(2*np.pi*12*t)
+fft = np.abs(np.fft.fft(signal))[:500]
+freqs = np.fft.fftfreq(1000, 0.001)[:500]
+
+fig, axes = plt.subplots(1, 2, figsize=(14, 5))
+axes[0].plot(t[:200], signal[:200])
+axes[0].set_title('Signal temporel')
+axes[1].stem(freqs[:50], fft[:50], basefmt=' ')
+axes[1].set_title('Spectre')
+plt.tight_layout()
+plt.show()`,
+        exercice: `**Exercice :** Analysez un signal avec 3 fréquences.`
     }
 };

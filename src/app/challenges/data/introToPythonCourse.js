@@ -52,7 +52,8 @@ export const introToPythonCourse = [
             { id: "f_strings", title: "Affichage avec les f-strings" },
             { id: "exponents_law", title: "Exemple : Loi des exposants avec Sympy" },
             { id: "sympy_latex_bug", title: "Chasse aux bugs Sympy/LaTeX !" },
-            { id: "latex_beauty", title: "LaTeX pour de belles equations" }
+            { id: "latex_beauty", title: "LaTeX pour de belles equations" },
+            { id: "sympy_plotting", title: "Visualiser avec SymPy et Matplotlib" }
         ]
     },
     // ============================================================
@@ -84,6 +85,7 @@ export const introToPythonCourse = [
             { id: "slicing", title: "Le slicing en Python" },
             { id: "gcd", title: "Plus Grand Commun Diviseur (PGCD)" },
             { id: "gcd_ex", title: "PGCD : Exercices" },
+            { id: "gcd_visual", title: "PGCD et algorithme d'Euclide visualise" },
             { id: "dictionaries", title: "Introduction aux dictionnaires Python" },
             { id: "prime_factor", title: "Decomposition en facteurs premiers" },
             { id: "inequalities_solve", title: "Resoudre des inequations" },
@@ -91,6 +93,7 @@ export const introToPythonCourse = [
             { id: "poly_mult", title: "Multiplier des polynomes" },
             { id: "poly_div", title: "Diviser des polynomes" },
             { id: "factoring", title: "Factoriser des polynomes" },
+            { id: "polynomials_visual", title: "Polynomes et leurs racines" },
             { id: "alg1_bug", title: "Chasse aux bugs Algebre 1 !" }
         ]
     },
@@ -148,6 +151,8 @@ export const introToPythonCourse = [
             { id: "even_odd", title: "Fonctions paires et impaires" },
             { id: "complex_visualization", title: "Visualiser les nombres complexes" },
             { id: "gaussian_curves", title: "Famille de courbes Gaussiennes" },
+            { id: "exp_log_visual", title: "Exponentielles et logarithmes" },
+            { id: "extrema_visual", title: "Extrema de fonctions" },
             { id: "alg2_bug", title: "Chasse aux bugs Algebre 2 !" }
         ]
     },
@@ -188,6 +193,9 @@ export const introToPythonCourse = [
             { id: "snakes", title: "Exercice : Serpents avec cos et sin" },
             { id: "trig_visualization", title: "Visualiser la trigonometrie avec NumPy/Matplotlib" },
             { id: "waves_interference", title: "Ondes et interferences" },
+            { id: "fourier_intro", title: "Introduction a Fourier" },
+            { id: "signal_processing", title: "Traitement du signal" },
+            { id: "data_fitting", title: "Ajustement de donnees (fitting)" },
             { id: "trig_bug", title: "Chasse aux bugs Trigonometrie !" }
         ]
     },
