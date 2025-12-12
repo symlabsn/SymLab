@@ -44,6 +44,7 @@ import { ImmuneSystem } from './ImmuneSystem';
 import { ThermalTransfer } from './ThermalTransfer';
 import { SoundPropagation } from './SoundPropagation';
 import { DensityExplorer, RefractionSimulator, CircuitSeriesParallel, MassConservation, LightPropagationPC4, ScientificMethod, MeasurementTools, LightSources, IntroElectricity, MixtureSeparationPC4, MoleConceptPC4 } from './PC4eSimulations';
+import { Chap1ScienceIntro, Chap2Mesures, Chap3Densite, Chap4PoidsMasse, Chap5Electricite } from './PC4eChapter1to5';
 
 // ... (existing helper components)
 
@@ -4396,6 +4397,18 @@ export default function Simulation3D({ type = 'atom', config = {} }) {
                 return <MixtureSeparationPC4 />;
             case 'mole-concept':
                 return <MoleConceptPC4 />;
+
+            // === CHAPITRES 1-5 PC 4E ===
+            case 'chap1-science-intro':
+                return <Chap1ScienceIntro />;
+            case 'chap2-mesures':
+                return <Chap2Mesures />;
+            case 'chap3-densite':
+                return <Chap3Densite />;
+            case 'chap4-poids-masse':
+                return <Chap4PoidsMasse />;
+            case 'chap5-electricite':
+                return <Chap5Electricite />;
 
             default:
                 return <Atom {...config} />;
