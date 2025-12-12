@@ -59,7 +59,8 @@ export const introToPythonCourse = [
         title: "Types de donnees Python",
         chapters: [
             { id: "nums_strings", title: "Nombres et chaines de caracteres" },
-            { id: "lists_numpy", title: "Listes et tableaux NumPy" }
+            { id: "lists_numpy", title: "Listes et tableaux NumPy" },
+            { id: "lists_numpy_enriched", title: "Maitriser NumPy : Tableaux et operations" }
         ]
     },
     // ============================================================
@@ -98,6 +99,8 @@ export const introToPythonCourse = [
         chapters: [
             { id: "coords", title: "Tracer des points dans un repere" },
             { id: "coords_ex", title: "Tracer des coordonnees : Exercice" },
+            { id: "matplotlib_basics", title: "Matplotlib : Visualisation de donnees" },
+            { id: "multiple_plots", title: "Sous-graphiques et layouts avances" },
             { id: "lines_1", title: "Tracer des droites Partie 1 : Notation debut/fin" },
             { id: "lines_2", title: "Tracer des droites Partie 2 : Forme y = mx + p" },
             { id: "rational", title: "Tracer des fonctions rationnelles" },
@@ -176,6 +179,8 @@ export const introToPythonCourse = [
             { id: "euler_ex", title: "Formule d'Euler : Exercice" },
             { id: "euler_explode", title: "Exercice : Euler aleatoire explosif" },
             { id: "snakes", title: "Exercice : Serpents avec cos et sin" },
+            { id: "trig_visualization", title: "Visualiser la trigonometrie avec NumPy/Matplotlib" },
+            { id: "waves_interference", title: "Ondes et interferences" },
             { id: "trig_bug", title: "Chasse aux bugs Trigonometrie !" }
         ]
     },
@@ -243,6 +248,8 @@ export const introToPythonCourse = [
             { id: "eigen_decomp", title: "Diagonalisation : Exercice" },
             { id: "svd", title: "Decomposition en valeurs singulieres (SVD)" },
             { id: "svd_einstein", title: "SVD d'Einstein : Exercice" },
+            { id: "linalg_numpy", title: "Algebre lineaire avec NumPy" },
+            { id: "matrix_visualization", title: "Visualiser les matrices" },
             { id: "lin_alg_bug", title: "Chasse aux bugs Algebre lineaire !" }
         ]
     },
@@ -262,6 +269,8 @@ export const introToPythonCourse = [
             { id: "clt", title: "Le theoreme central limite" },
             { id: "clt_ex", title: "Theoreme central limite : Exercice" },
             { id: "joint_prob", title: "Distributions de probabilite conjointes" },
+            { id: "stats_visualization", title: "Visualiser les distributions statistiques" },
+            { id: "monte_carlo", title: "Simulation Monte Carlo" },
             { id: "prob_bug", title: "Chasse aux bugs Probabilites !" }
         ]
     },
@@ -281,6 +290,7 @@ export const introToPythonCourse = [
             { id: "heron_mosquito", title: "Exercice : Le vaisseau moustique de Heron" },
             { id: "smooth_nums", title: "Nombres friables (smooth numbers)" },
             { id: "smooth_ex", title: "Nombres friables : Exercice" },
+            { id: "prime_visualization", title: "Visualiser les nombres premiers" },
             { id: "num_theory_bug", title: "Chasse aux bugs Theorie des nombres !" }
         ]
     }

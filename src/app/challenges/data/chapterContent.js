@@ -1256,10 +1256,13 @@ import { module9SympyContent } from './module9SympyContent';
 import { module6SympyContent } from './module6SympyContent';
 import { module8SympyContent } from './module8SympyContent';
 import { module10SympyContent } from './module10SympyContent';
+import { numpyMatplotlibContent } from './numpyMatplotlibContent';
 
 // Fonction pour obtenir le contenu d'un chapitre
 export const getChapterContent = (chapterId) => {
-        // Priorité aux nouveaux contenus Sympy
+        // Priorité aux nouveaux contenus enrichis NumPy/Matplotlib
+        if (numpyMatplotlibContent[chapterId]) return numpyMatplotlibContent[chapterId];
+        // Contenus Sympy
         if (module5SympyContent[chapterId]) return module5SympyContent[chapterId];
         if (module6SympyContent[chapterId]) return module6SympyContent[chapterId];
         if (module8SympyContent[chapterId]) return module8SympyContent[chapterId];
