@@ -1,643 +1,901 @@
-// MODULE 7 : ALGEBRE 2
+// MODULE 7 : ALGEBRE 2 (Focus Sympy)
 export const module7Content = {
-    sum_prod: {
-        title: "Sommes et produits",
-        theorie: `
-## Notations Sigma et Pi
+        sum_prod: {
+                title: "Sommes et produits",
+                theorie: `
+## Sommes et produits avec Sympy
 
-### Somme (Σ)
-$$\\sum_{i=1}^{n} a_i = a_1 + a_2 + ... + a_n$$
+### Sympy : calcul symbolique exact
+\`\`\`python
+from sympy import Sum, Product, symbols
 
-### Produit (Π)  
-$$\\prod_{i=1}^{n} a_i = a_1 \\times a_2 \\times ... \\times a_n$$
+Sum(expr, (i, a, b))     # Σ
+Product(expr, (i, a, b)) # Π
+\`\`\`
 
-### Formules utiles
+### Formules prouvées par Sympy
 - $\\sum_{i=1}^{n} i = \\frac{n(n+1)}{2}$
 - $\\sum_{i=1}^{n} i^2 = \\frac{n(n+1)(2n+1)}{6}$
         `,
-        code: `import sympy as sp
-from sympy import Sum, Product, symbols, factorial
+                code: `import sympy as sp
+from sympy import Sum, Product, symbols, factorial, simplify
 
-n, i = symbols('n i', integer=True, positive=True)
+n, i, k = symbols('n i k', integer=True, positive=True)
+
+print("=== Sommes symboliques avec Sympy ===")
 
 # Somme des n premiers entiers
 somme = Sum(i, (i, 1, n))
-print(f"Somme 1+2+...+n = {somme.doit()}")
+print(f"Σ(i, 1, n) = {somme.doit()}")
 
 # Somme des carrés
 somme_carres = Sum(i**2, (i, 1, n))
-print(f"Somme des carrés = {somme_carres.doit()}")
+resultat = somme_carres.doit()
+print(f"Σ(i², 1, n) = {resultat}")
+print(f"Factorisé : {sp.factor(resultat)}")
 
-# Produit (factorielle)
+# Somme des cubes
+somme_cubes = Sum(i**3, (i, 1, n))
+print(f"Σ(i³, 1, n) = {sp.factor(somme_cubes.doit())}")
+
+# Produit = factorielle
 prod = Product(i, (i, 1, n))
-print(f"Produit 1*2*...*n = {prod.doit()}")
+print(f"\\nΠ(i, 1, n) = {prod.doit()}")
 
-# Calcul numérique
-print(f"\\nSomme 1 à 100 = {sum(range(1, 101))}")
-print(f"Formule : 100*101/2 = {100*101//2}")`,
-        exercice: `Calculez $\\sum_{k=1}^{50} k^3$ avec Python et vérifiez avec la formule $\\left(\\frac{n(n+1)}{2}\\right)^2$`
-    },
+# Vérification identité
+print(f"\\n=== Vérification ===")
+print(f"[Σi]² = Σi³ ? {simplify((Sum(i, (i,1,n)).doit())**2 - Sum(i**3, (i,1,n)).doit()) == 0}")`,
+                exercice: `Prouvez avec Sympy que $\\sum_{k=1}^{n} k^3 = \\left(\\frac{n(n+1)}{2}\\right)^2$`
+        },
 
-    discrete_diff: {
-        title: "Différences (dérivée discrète)",
-        theorie: `
-## Différences finies
+        discrete_diff: {
+                title: "Différences (dérivée discrète)",
+                theorie: `
+## Différences finies avec Sympy
 
-La **différence** d'une suite est l'analogue discret de la dérivée :
-
-$$\\Delta a_n = a_{n+1} - a_n$$
-
-### Propriétés
-- Polynôme de degré $d$ → différence de degré $d-1$
-- Suite arithmétique : $\\Delta a_n$ = constante
-- Suite géométrique : $\\Delta a_n = a_n(r-1)$
-        `,
-        code: `import numpy as np
-
-# Suite : carrés parfaits
-n = np.arange(10)
-a = n**2
-print(f"Suite a_n = n² : {a}")
-
-# Première différence
-diff1 = np.diff(a)
-print(f"Δa_n : {diff1}")
-
-# Deuxième différence
-diff2 = np.diff(diff1)
-print(f"Δ²a_n : {diff2}")  # Constant !
-
-# Suite géométrique
-r = 2
-geo = r ** n
-print(f"\\nSuite géométrique 2^n : {geo}")
-print(f"Δ(2^n) : {np.diff(geo)}")`,
-        exercice: `Montrez que la 3ème différence de $n^3$ est constante.`
-    },
-
-    roots_poly: {
-        title: "Racines de polynômes",
-        theorie: `
-## Trouver les racines
-
-Une **racine** d'un polynôme $P(x)$ est une valeur $r$ telle que $P(r) = 0$.
-
-### Théorème fondamental de l'algèbre
-Un polynôme de degré $n$ a exactement $n$ racines (comptées avec multiplicité, dans $\\mathbb{C}$).
-
-### Avec Sympy
 \`\`\`python
-sp.solve(P, x)  # Racines
-sp.roots(P, x)  # Avec multiplicités
+from sympy import difference_delta
+
+difference_delta(f, n)  # Δf(n) = f(n+1) - f(n)
 \`\`\`
+
+### Propriété clé
+Polynôme de degré $d$ → différence de degré $d-1$
         `,
-        code: `import sympy as sp
-import numpy as np
+                code: `import sympy as sp
+from sympy import symbols, simplify, Function
 
-x = sp.Symbol('x')
+n = symbols('n', integer=True)
 
-# Polynôme de degré 3
-P = x**3 - 6*x**2 + 11*x - 6
-print(f"P(x) = {P}")
+# Différence manuelle
+def delta(f, var):
+    return simplify(f.subs(var, var + 1) - f)
 
-# Racines avec solve
-racines = sp.solve(P, x)
-print(f"Racines : {racines}")
+print("=== Différences avec Sympy ===")
 
-# Racines avec multiplicités
-P2 = (x - 1)**2 * (x - 2)
-print(f"\\nP2(x) = {sp.expand(P2)}")
-print(f"Racines avec multiplicité : {sp.roots(P2, x)}")
+# Carrés parfaits
+f = n**2
+df = delta(f, n)
+ddf = delta(df, n)
+print(f"f(n) = {f}")
+print(f"Δf(n) = {df}")
+print(f"Δ²f(n) = {ddf}")  # Constant !
 
-# Vérification
-for r in racines:
-    print(f"P({r}) = {P.subs(x, r)}")`,
-        exercice: `Trouvez les racines de $x^4 - 5x^2 + 4$`
-    },
+# Cubes
+g = n**3
+dg = delta(g, n)
+ddg = delta(dg, n)
+dddg = delta(ddg, n)
+print(f"\\ng(n) = {g}")
+print(f"Δg(n) = {sp.expand(dg)}")
+print(f"Δ²g(n) = {sp.expand(ddg)}")
+print(f"Δ³g(n) = {dddg}")  # Constant !
 
-    roots_ex: {
-        title: "Racines de polynômes : Exercice",
-        theorie: `## Relations de Viète
+# Exponentielle
+h = 2**n
+print(f"\\nΔ(2^n) = {simplify(delta(h, n))}")`,
+                exercice: `Montrez que $\\Delta^4(n^4)$ est constant avec Sympy.`
+        },
 
-Pour $ax^2 + bx + c = 0$ avec racines $r_1, r_2$ :
-- $r_1 + r_2 = -\\frac{b}{a}$
-- $r_1 \\cdot r_2 = \\frac{c}{a}$
+        roots_poly: {
+                title: "Racines de polynômes",
+                theorie: `
+## Trouver les racines avec Sympy
+
+\`\`\`python
+sp.solve(P, x)     # Liste des racines
+sp.roots(P, x)     # Dict {racine: multiplicité}
+sp.real_roots(P)   # Racines réelles seulement
+\`\`\`
+
+### Théorème fondamental
+Polynôme de degré $n$ → exactement $n$ racines dans $\\mathbb{C}$
         `,
-        code: `import sympy as sp
+                code: `import sympy as sp
+from sympy import symbols, solve, roots, real_roots, I, sqrt
 
-x = sp.Symbol('x')
-a, b, c = 1, -5, 6
+x = symbols('x')
 
-# Équation x² - 5x + 6 = 0
+print("=== Racines avec Sympy ===")
+
+# Degré 2
+P1 = x**2 - 5*x + 6
+print(f"P(x) = {P1}")
+print(f"solve : {solve(P1, x)}")
+print(f"roots : {roots(P1, x)}")
+
+# Degré 3 avec racines exactes
+P2 = x**3 - 6*x**2 + 11*x - 6
+print(f"\\nP(x) = {P2}")
+print(f"Racines : {solve(P2, x)}")
+
+# Avec multiplicités
+P3 = (x - 1)**2 * (x - 2)
+print(f"\\nP(x) = {sp.expand(P3)}")
+print(f"Multiplicités : {roots(P3, x)}")
+
+# Racines complexes
+P4 = x**4 + 1
+print(f"\\nx⁴ + 1 = 0 :")
+for r in solve(P4, x):
+    print(f"  {r} = {sp.simplify(r)}")`,
+                exercice: `Trouvez les racines exactes de $x^4 - 5x^2 + 4$ avec Sympy.`
+        },
+
+        roots_ex: {
+                title: "Racines de polynômes : Exercice",
+                theorie: `
+## Relations de Viète avec Sympy
+
+Sympy peut vérifier symboliquement :
+- Somme des racines = $-b/a$
+- Produit des racines = $c/a$ (degré 2)
+        `,
+                code: `import sympy as sp
+from sympy import symbols, solve, expand, Poly
+
+x = symbols('x')
+a, b, c = symbols('a b c')
+
+print("=== Viète symbolique ===")
+
+# Équation générale
 P = a*x**2 + b*x + c
-racines = sp.solve(P, x)
+racines = solve(P, x)
+print(f"Racines de ax² + bx + c :")
+for r in racines:
+    print(f"  {r}")
+
+# Vérification Viète
 r1, r2 = racines
+somme = sp.simplify(r1 + r2)
+produit = sp.simplify(r1 * r2)
+print(f"\\nSomme : {somme}")
+print(f"Produit : {produit}")
 
-print(f"Racines : {r1}, {r2}")
-print(f"Somme : {r1 + r2} = -b/a = {-b/a}")
-print(f"Produit : {r1 * r2} = c/a = {c/a}")`,
-        exercice: `Vérifiez Viète pour $x^3 - 6x^2 + 11x - 6 = 0$`
-    },
+# Exemple numérique
+P_num = x**2 - 5*x + 6
+r = solve(P_num, x)
+print(f"\\nExemple : {P_num} = 0")
+print(f"Racines : {r}")
+print(f"Somme = {sum(r)} = -b/a = {5}")
+print(f"Produit = {r[0]*r[1]} = c/a = {6}")`,
+                exercice: `Vérifiez Viète pour $x^3 - 6x^2 + 11x - 6 = 0$ (3 relations).`
+        },
 
-    quadratic: {
-        title: "L'équation du second degré",
-        theorie: `
-## Formule quadratique
+        quadratic: {
+                title: "L'équation du second degré",
+                theorie: `
+## Formule quadratique avec Sympy
 
-Pour $ax^2 + bx + c = 0$ :
+Sympy résout symboliquement :
+\`\`\`python
+sp.solve(a*x**2 + b*x + c, x)
+\`\`\`
 
-$$x = \\frac{-b \\pm \\sqrt{b^2 - 4ac}}{2a}$$
-
-### Discriminant $\\Delta = b^2 - 4ac$
-- $\\Delta > 0$ : 2 racines réelles distinctes
-- $\\Delta = 0$ : 1 racine double
-- $\\Delta < 0$ : 2 racines complexes conjuguées
+Et donne la formule exacte avec le discriminant !
         `,
-        code: `import sympy as sp
-import cmath
+                code: `import sympy as sp
+from sympy import symbols, solve, sqrt, I, simplify
 
-def resoudre_quadratique(a, b, c):
-    delta = b**2 - 4*a*c
-    print(f"Δ = {delta}")
-    
-    if delta > 0:
-        x1 = (-b + delta**0.5) / (2*a)
-        x2 = (-b - delta**0.5) / (2*a)
-        return x1, x2
-    elif delta == 0:
-        return -b / (2*a),
-    else:
-        x1 = (-b + cmath.sqrt(delta)) / (2*a)
-        x2 = (-b - cmath.sqrt(delta)) / (2*a)
-        return x1, x2
+x = symbols('x')
+a, b, c = symbols('a b c')
 
-print("x² - 5x + 6 = 0 :", resoudre_quadratique(1, -5, 6))
-print("x² - 2x + 1 = 0 :", resoudre_quadratique(1, -2, 1))
-print("x² + 1 = 0 :", resoudre_quadratique(1, 0, 1))`,
-        exercice: `Résolvez $2x^2 + 3x - 2 = 0$`
-    },
+print("=== Équation quadratique symbolique ===")
 
-    complex_add: {
-        title: "Nombres complexes : Addition et soustraction",
-        theorie: `
-## Nombres complexes
+# Formule générale
+eq = a*x**2 + b*x + c
+solutions = solve(eq, x)
+print("Solutions de ax² + bx + c = 0 :")
+for s in solutions:
+    print(f"  x = {s}")
 
-Un nombre complexe : $z = a + bi$ où $i^2 = -1$
-- $a$ = partie réelle
-- $b$ = partie imaginaire
+# Cas concrets
+print("\\n=== Exemples ===")
+equations = [
+    x**2 - 5*x + 6,      # Δ > 0
+    x**2 - 2*x + 1,      # Δ = 0
+    x**2 + 1,            # Δ < 0
+    2*x**2 + 3*x - 2,    # Coefficients variés
+]
 
-### Addition
-$(a + bi) + (c + di) = (a+c) + (b+d)i$
+for eq in equations:
+    sol = solve(eq, x)
+    print(f"{eq} = 0 → x = {sol}")
+
+# Racines exactes irrationnelles
+eq5 = x**2 - 2
+print(f"\\nx² - 2 = 0 → x = {solve(eq5, x)}")`,
+                exercice: `Résolvez $3x^2 - 2\\sqrt{3}x - 1 = 0$ avec Sympy.`
+        },
+
+        complex_add: {
+                title: "Nombres complexes : Addition et soustraction",
+                theorie: `
+## Nombres complexes avec Sympy
+
+\`\`\`python
+from sympy import I, re, im, Abs, conjugate
+
+z = 3 + 4*I  # Nombre complexe
+re(z)        # Partie réelle
+im(z)        # Partie imaginaire
+\`\`\`
+
+Sympy : calcul **exact** avec des complexes symboliques !
         `,
-        code: `# Nombres complexes en Python
-z1 = 3 + 4j
-z2 = 1 - 2j
+                code: `import sympy as sp
+from sympy import I, re, im, symbols, simplify, expand
+
+print("=== Complexes avec Sympy ===")
+
+# Définition
+z1 = 3 + 4*I
+z2 = 1 - 2*I
 
 print(f"z1 = {z1}")
 print(f"z2 = {z2}")
-print(f"z1 + z2 = {z1 + z2}")
+print(f"re(z1) = {re(z1)}")
+print(f"im(z1) = {im(z1)}")
+
+# Opérations
+print(f"\\nz1 + z2 = {z1 + z2}")
 print(f"z1 - z2 = {z1 - z2}")
 
-print(f"\\nPartie réelle de z1 : {z1.real}")
-print(f"Partie imaginaire de z1 : {z1.imag}")`,
-        exercice: `Calculez $(3 + 2i) + (5 - 7i) - (2 + i)$`
-    },
+# Symbolique
+a, b, c, d = symbols('a b c d', real=True)
+w1 = a + b*I
+w2 = c + d*I
+print(f"\\n(a + bi) + (c + di) = {expand(w1 + w2)}")
 
-    complex_mult: {
-        title: "Nombres complexes : Conjugué et multiplication",
-        theorie: `
-## Conjugué et multiplication
+# Vérification i² = -1
+print(f"\\ni² = {I**2}")
+print(f"i³ = {I**3}")
+print(f"i⁴ = {I**4}")`,
+                exercice: `Calculez $(3 + 2i) + (5 - 7i) - (2 + i)$ avec Sympy.`
+        },
 
-### Conjugué
-$\\bar{z} = a - bi$ si $z = a + bi$
+        complex_mult: {
+                title: "Nombres complexes : Conjugué et multiplication",
+                theorie: `
+## Opérations avec Sympy
 
-### Multiplication
-$(a + bi)(c + di) = (ac - bd) + (ad + bc)i$
+\`\`\`python
+conjugate(z)  # Conjugué
+Abs(z)        # Module
+z * w         # Multiplication exacte
+\`\`\`
 
-### Module
-$|z| = \\sqrt{a^2 + b^2}$
+Sympy simplifie automatiquement !
         `,
-        code: `import cmath
+                code: `import sympy as sp
+from sympy import I, conjugate, Abs, symbols, expand, simplify, sqrt
 
-z = 3 + 4j
+z = 3 + 4*I
 
+print("=== Conjugué et module ===")
 print(f"z = {z}")
-print(f"Conjugué = {z.conjugate()}")
-print(f"|z| = {abs(z)}")
+print(f"z̄ = {conjugate(z)}")
+print(f"|z| = {Abs(z)}")
 
-z1, z2 = 2 + 3j, 1 - 2j
-print(f"\\nz1 * z2 = {z1 * z2}")
-print(f"z * z̄ = {z * z.conjugate()}")  # = |z|²`,
-        exercice: `Calculez $(2 + 3i)(4 - i)$ et vérifiez $z \\cdot \\bar{z} = |z|^2$`
-    },
+# Propriété z * z̄ = |z|²
+print(f"\\nz × z̄ = {expand(z * conjugate(z))}")
+print(f"|z|² = {Abs(z)**2}")
 
-    complex_div: {
-        title: "Nombres complexes : Division",
-        theorie: `
-## Division de complexes
+# Multiplication symbolique
+a, b, c, d = symbols('a b c d', real=True)
+w1 = a + b*I
+w2 = c + d*I
+produit = expand(w1 * w2)
+print(f"\\n(a+bi)(c+di) = {produit}")
 
-$$\\frac{z_1}{z_2} = \\frac{z_1 \\cdot \\bar{z_2}}{|z_2|^2}$$
+# Exemple avec radicaux
+z1 = sqrt(2) + sqrt(3)*I
+z2 = sqrt(2) - sqrt(3)*I
+print(f"\\n(√2 + √3i)(√2 - √3i) = {expand(z1 * z2)}")`,
+                exercice: `Montrez que $|z_1 z_2| = |z_1| |z_2|$ avec Sympy.`
+        },
 
-On multiplie numérateur et dénominateur par le conjugué.
+        complex_div: {
+                title: "Nombres complexes : Division",
+                theorie: `
+## Division avec Sympy
+
+\`\`\`python
+(z1 / z2).simplify()  # Division simplifiée
+\`\`\`
+
+Sympy rationalise automatiquement le dénominateur.
         `,
-        code: `z1 = 3 + 4j
-z2 = 1 + 2j
+                code: `import sympy as sp
+from sympy import I, simplify, expand, re, im, Rational
 
-# Division directe
-resultat = z1 / z2
-print(f"({z1}) / ({z2}) = {resultat}")
+z1 = 3 + 4*I
+z2 = 1 + 2*I
 
-# Vérification manuelle
-conj_z2 = z2.conjugate()
-num = z1 * conj_z2
-den = abs(z2)**2
-print(f"Manuel : {num} / {den} = {num/den}")`,
-        exercice: `Calculez $\\frac{5 + 3i}{2 - i}$`
-    },
-
-    complex_graph: {
-        title: "Représenter les nombres complexes",
-        theorie: `
-## Plan complexe
-
-Un nombre complexe $z = a + bi$ est représenté par le point $(a, b)$.
-
-- Axe horizontal : partie réelle
-- Axe vertical : partie imaginaire
-- $|z|$ : distance à l'origine
-        `,
-        code: `import matplotlib.pyplot as plt
-import numpy as np
-
-complexes = [3+4j, -2+1j, 1-3j, -1-2j, 2+0j, 0+2j]
-
-fig, ax = plt.subplots(figsize=(8, 8))
-for z in complexes:
-    ax.plot(z.real, z.imag, 'o', markersize=10)
-    ax.annotate(f'{z}', (z.real+0.1, z.imag+0.1))
-    ax.arrow(0, 0, z.real, z.imag, head_width=0.15, alpha=0.3)
-
-ax.axhline(0, color='k'); ax.axvline(0, color='k')
-ax.set_xlabel('Re'); ax.set_ylabel('Im')
-ax.set_aspect('equal'); ax.grid(True)
-plt.title('Plan complexe')
-plt.show()`,
-        exercice: `Représentez les racines de $z^4 = 1$`
-    },
-
-    quad_complex: {
-        title: "Équation du 2nd degré avec nombres complexes",
-        theorie: `
-## Racines complexes
-
-Quand $\\Delta < 0$, les solutions sont complexes conjuguées :
-
-$$x = \\frac{-b \\pm i\\sqrt{|\\Delta|}}{2a}$$
-        `,
-        code: `import sympy as sp
-
-x = sp.Symbol('x')
-
-# x² + 1 = 0
-eq1 = x**2 + 1
-print(f"x² + 1 = 0 : {sp.solve(eq1, x)}")
-
-# x² + 2x + 5 = 0 (Δ = -16)
-eq2 = x**2 + 2*x + 5
-sol = sp.solve(eq2, x)
-print(f"x² + 2x + 5 = 0 : {sol}")
+print("=== Division avec Sympy ===")
+quotient = z1 / z2
+print(f"({z1}) / ({z2}) = {simplify(quotient)}")
+print(f"Partie réelle : {re(simplify(quotient))}")
+print(f"Partie imaginaire : {im(simplify(quotient))}")
 
 # Vérification
-for s in sol:
-    print(f"P({s}) = {eq2.subs(x, s)}")`,
-        exercice: `Résolvez $x^2 + 4x + 13 = 0$`
-    },
+verif = simplify(quotient * z2)
+print(f"\\nVérification : résultat × z2 = {verif}")
 
-    unit_circle: {
-        title: "Le cercle trigonométrique",
-        theorie: `
-## Cercle unité
+# Division symbolique
+from sympy import symbols
+a, b, c, d = symbols('a b c d', real=True)
+w1 = a + b*I
+w2 = c + d*I
+div = simplify(w1 / w2)
+print(f"\\n(a+bi)/(c+di) = {div}")
 
-Le cercle unité : $|z| = 1$
+# Forme standard
+print(f"Re = {re(div)}")
+print(f"Im = {im(div)}")`,
+                exercice: `Calculez $\\frac{5 + 3i}{2 - i}$ et simplifiez avec Sympy.`
+        },
 
-Tout point s'écrit : $z = \\cos\\theta + i\\sin\\theta = e^{i\\theta}$
+        complex_graph: {
+                title: "Représenter les nombres complexes",
+                theorie: `
+## Plan complexe avec Sympy
+
+\`\`\`python
+from sympy import arg, Abs
+
+arg(z)  # Argument (angle)
+Abs(z)  # Module
+\`\`\`
+
+Forme polaire : $z = r e^{i\\theta}$
+        `,
+                code: `import sympy as sp
+from sympy import I, Abs, arg, pi, cos, sin, exp, simplify
+import matplotlib.pyplot as plt
+
+# Points en notation Sympy
+complexes = [3+4*I, -2+I, 1-3*I, exp(I*pi/4)]
+
+print("=== Forme polaire avec Sympy ===")
+for z in complexes:
+    r = Abs(z)
+    theta = arg(z)
+    print(f"z = {z}")
+    print(f"  |z| = {r}, arg(z) = {theta} = {float(theta):.4f} rad")
+    print()
+
+# Conversion polaire → cartésien
+r, theta = sp.symbols('r theta', real=True, positive=True)
+z_polaire = r * exp(I * theta)
+print(f"r·e^(iθ) = {sp.expand(z_polaire, complex=True)}")
+
+# Formule d'Euler
+theta_val = pi/4
+euler = exp(I * theta_val)
+print(f"\\ne^(iπ/4) = {simplify(euler)} = {simplify(sp.re(euler))} + {simplify(sp.im(euler))}i")`,
+                exercice: `Représentez $z = 2e^{i\\pi/3}$ en forme cartésienne avec Sympy.`
+        },
+
+        quad_complex: {
+                title: "Équation du 2nd degré avec nombres complexes",
+                theorie: `
+## Racines complexes avec Sympy
+
+Sympy trouve automatiquement les racines complexes !
+
+\`\`\`python
+solve(x**2 + 1, x)  # → [I, -I]
+\`\`\`
+        `,
+                code: `import sympy as sp
+from sympy import I, symbols, solve, sqrt, simplify
+
+x = symbols('x')
+
+print("=== Équations à racines complexes ===")
+
+equations = [
+    x**2 + 1,          # x = ±i
+    x**2 + 2*x + 5,    # Δ < 0
+    x**2 + 4*x + 13,   # Δ = -36
+    x**4 + 1,          # Racines 8èmes de -1
+]
+
+for eq in equations:
+    sol = solve(eq, x)
+    print(f"\\n{eq} = 0 :")
+    for s in sol:
+        # Vérification
+        verif = simplify(eq.subs(x, s))
+        print(f"  x = {s} → P(x) = {verif}")
+
+# Équation générale avec Δ < 0
+a, b, c = symbols('a b c', real=True)
+print("\\n=== Formule générale (Δ < 0) ===")
+# x = (-b ± i√|Δ|) / 2a
+delta = b**2 - 4*a*c
+print(f"Si Δ = {delta} < 0, les racines sont complexes conjuguées")`,
+                exercice: `Résolvez $x^2 + 4x + 13 = 0$ et vérifiez que les racines sont conjuguées.`
+        },
+
+        unit_circle: {
+                title: "Le cercle trigonométrique",
+                theorie: `
+## Cercle unité avec Sympy
+
+\`\`\`python
+from sympy import exp, I, pi, cos, sin
+
+exp(I*theta) == cos(theta) + I*sin(theta)
+\`\`\`
 
 ### Formule d'Euler
 $$e^{i\\theta} = \\cos\\theta + i\\sin\\theta$$
         `,
-        code: `import numpy as np
-import matplotlib.pyplot as plt
+                code: `import sympy as sp
+from sympy import exp, I, pi, cos, sin, symbols, simplify, expand
 
-theta = np.linspace(0, 2*np.pi, 100)
-x, y = np.cos(theta), np.sin(theta)
+theta = symbols('theta', real=True)
 
-plt.figure(figsize=(8, 8))
-plt.plot(x, y, 'b-')
+print("=== Formule d'Euler avec Sympy ===")
+
+# Vérification
+euler = exp(I * theta)
+trigo = cos(theta) + I * sin(theta)
+print(f"e^(iθ) = {expand(euler, complex=True)}")
+print(f"cos(θ) + i·sin(θ) = {trigo}")
 
 # Points remarquables
-angles = [0, np.pi/6, np.pi/4, np.pi/3, np.pi/2, np.pi]
+print("\\n=== Points remarquables ===")
+angles = [0, pi/6, pi/4, pi/3, pi/2, pi]
 for a in angles:
-    plt.plot(np.cos(a), np.sin(a), 'ro', markersize=8)
+    z = exp(I * a)
+    z_simple = simplify(z)
+    print(f"e^(i·{a}) = {z_simple}")
 
-plt.axhline(0, color='k'); plt.axvline(0, color='k')
-plt.axis('equal'); plt.grid(True)
-plt.title('Cercle trigonométrique')
-plt.show()`,
-        exercice: `Placez les racines 6èmes de l'unité sur le cercle.`
-    },
+# L'identité d'Euler
+print(f"\\n=== Identité d'Euler ===")
+euler_identity = exp(I * pi) + 1
+print(f"e^(iπ) + 1 = {simplify(euler_identity)}")`,
+                exercice: `Vérifiez que $e^{i\\pi/2} = i$ avec Sympy.`
+        },
 
-    nat_exp_log: {
-        title: "Exponentielle et logarithme népérien",
-        theorie: `
-## Fonctions exp et ln
+        nat_exp_log: {
+                title: "Exponentielle et logarithme népérien",
+                theorie: `
+## exp et log avec Sympy
 
-### Exponentielle
-$e^x$ : fonction réciproque de $\\ln$
+\`\`\`python
+from sympy import exp, log, E, ln
 
-### Logarithme népérien
-$\\ln(x)$ : fonction réciproque de $e^x$
+exp(x)        # e^x
+log(x)        # ln(x)
+log(x, base)  # log_base(x)
+\`\`\`
 
-### Propriétés
-- $e^{\\ln x} = x$
-- $\\ln(e^x) = x$
-- $\\ln(ab) = \\ln a + \\ln b$
+Sympy simplifie automatiquement !
         `,
-        code: `import numpy as np
-import sympy as sp
+                code: `import sympy as sp
+from sympy import exp, log, ln, E, symbols, simplify, expand_log
 
-x = sp.Symbol('x')
+x, a, b = symbols('x a b', positive=True)
 
-# Propriétés
-print(f"exp(ln(5)) = {sp.exp(sp.ln(5)).simplify()}")
-print(f"ln(e^3) = {sp.ln(sp.exp(3)).simplify()}")
-print(f"ln(a*b) = {sp.expand_log(sp.ln(sp.Symbol('a')*sp.Symbol('b')), force=True)}")
+print("=== exp et log avec Sympy ===")
 
-# Dérivées
-print(f"\\nd/dx(e^x) = {sp.diff(sp.exp(x), x)}")
-print(f"d/dx(ln(x)) = {sp.diff(sp.ln(x), x)}")`,
-        exercice: `Simplifiez $\\ln(e^2 \\cdot e^3)$ et $e^{\\ln 4 + \\ln 5}$`
-    },
+# Propriétés fondamentales
+print(f"exp(ln(x)) = {simplify(exp(ln(x)))}")
+print(f"ln(exp(x)) = {simplify(ln(exp(x)))}")
+print(f"E = {E} ≈ {float(E):.10f}")
 
-    gaussian_pt: {
-        title: "Trouver un point sur une Gaussienne",
-        theorie: `
-## Distribution gaussienne
+# Règles des logarithmes
+print("\\n=== Règles des logarithmes ===")
+print(f"ln(a·b) = {expand_log(ln(a*b), force=True)}")
+print(f"ln(a/b) = {expand_log(ln(a/b), force=True)}")
+print(f"ln(a^n) = {expand_log(ln(a**3), force=True)}")
 
-$$f(x) = \\frac{1}{\\sigma\\sqrt{2\\pi}} e^{-\\frac{(x-\\mu)^2}{2\\sigma^2}}$$
-
-- $\\mu$ : moyenne
-- $\\sigma$ : écart-type
-        `,
-        code: `import numpy as np
-import matplotlib.pyplot as plt
-
-def gaussienne(x, mu, sigma):
-    return np.exp(-(x-mu)**2/(2*sigma**2)) / (sigma*np.sqrt(2*np.pi))
-
-x = np.linspace(-5, 5, 200)
-plt.plot(x, gaussienne(x, 0, 1), label='σ=1')
-plt.plot(x, gaussienne(x, 0, 2), label='σ=2')
-plt.legend(); plt.grid(); plt.title('Gaussiennes')
-plt.show()
-
-# Point particulier
-print(f"f(0) pour μ=0, σ=1 : {gaussienne(0, 0, 1):.4f}")`,
-        exercice: `Trouvez $x$ tel que $f(x) = 0.1$ pour $\\mu=0, \\sigma=1$`
-    },
-
-    gaussian_fam: {
-        title: "Exercice : Une famille de Gaussiennes",
-        theorie: `## Effet des paramètres
-
-- $\\mu$ décale la courbe
-- $\\sigma$ élargit/rétrécit
-        `,
-        code: `import numpy as np
-import matplotlib.pyplot as plt
-
-x = np.linspace(-10, 10, 200)
-
-for mu in [-3, 0, 3]:
-    for sigma in [0.5, 1, 2]:
-        y = np.exp(-(x-mu)**2/(2*sigma**2)) / (sigma*np.sqrt(2*np.pi))
-        plt.plot(x, y, label=f'μ={mu}, σ={sigma}')
-
-plt.legend(); plt.grid()
-plt.title('Famille de Gaussiennes')
-plt.show()`,
-        exercice: `Créez une animation de Gaussienne avec μ qui varie.`
-    },
-
-    roots_unity: {
-        title: "Racines n-ièmes de l'unité",
-        theorie: `
-## Racines de $z^n = 1$
-
-Les $n$ racines sont :
-$$\\omega_k = e^{2i\\pi k/n} = \\cos\\frac{2\\pi k}{n} + i\\sin\\frac{2\\pi k}{n}$$
-
-pour $k = 0, 1, ..., n-1$
-        `,
-        code: `import numpy as np
-import sympy as sp
-
-n = 6  # Racines 6èmes
-racines = [np.exp(2j*np.pi*k/n) for k in range(n)]
-print(f"Racines {n}èmes de l'unité :")
-for k, r in enumerate(racines):
-    print(f"  ω_{k} = {r.real:.3f} + {r.imag:.3f}i")
-
-# Avec Sympy
-x = sp.Symbol('x')
-print(f"\\nSympy : {sp.solve(x**n - 1, x)}")`,
-        exercice: `Représentez graphiquement les racines 8èmes de l'unité.`
-    },
-
-    log_lin_space: {
-        title: "Espaces logarithmique et linéaire",
-        theorie: `
-## Échelles
-
-### Linéaire
-\`np.linspace(a, b, n)\` : n points équidistants
-
-### Logarithmique
-\`np.logspace(a, b, n)\` : n points en progression géométrique
-        `,
-        code: `import numpy as np
-import matplotlib.pyplot as plt
-
-# Linéaire
-lin = np.linspace(1, 100, 10)
-print(f"Linéaire : {lin}")
-
-# Logarithmique
-log = np.logspace(0, 2, 10)  # 10^0 à 10^2
-print(f"Log : {log}")
-
-# Graphique
-fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 4))
-ax1.plot(lin, 'o-'); ax1.set_title('Linéaire')
-ax2.semilogy(log, 'o-'); ax2.set_title('Logarithmique')
-plt.show()`,
-        exercice: `Tracez $y = x^2$ en échelle log-log.`
-    },
-
-    log_props: {
-        title: "Propriétés du logarithme",
-        theorie: `
-## Propriétés
-
-- $\\log(ab) = \\log a + \\log b$
-- $\\log(a/b) = \\log a - \\log b$
-- $\\log(a^n) = n \\log a$
-- $\\log_b a = \\frac{\\ln a}{\\ln b}$
-        `,
-        code: `import sympy as sp
-import math
-
-a, b, n = sp.symbols('a b n', positive=True)
-
-print("=== Propriétés du log ===")
-print(f"log(a*b) = {sp.expand_log(sp.log(a*b), force=True)}")
-print(f"log(a/b) = {sp.expand_log(sp.log(a/b), force=True)}")
-print(f"log(a^n) = {sp.expand_log(sp.log(a**n), force=True)}")
+# Dérivées (aperçu calcul)
+print("\\n=== Dérivées ===")
+print(f"d/dx(e^x) = {sp.diff(exp(x), x)}")
+print(f"d/dx(ln(x)) = {sp.diff(ln(x), x)}")
 
 # Changement de base
-print(f"\\nlog_2(8) = ln(8)/ln(2) = {math.log(8)/math.log(2)}")`,
-        exercice: `Simplifiez $\\log_2(32) + \\log_2(4)$`
-    },
+print(f"\\nlog_2(8) = ln(8)/ln(2) = {simplify(log(8, 2))}")`,
+                exercice: `Simplifiez $\\ln(e^2 \\cdot e^3)$ et $e^{\\ln 4 + \\ln 5}$ avec Sympy.`
+        },
 
-    sequences: {
-        title: "Suites arithmétiques et géométriques",
-        theorie: `
-## Suites
+        gaussian_pt: {
+                title: "Trouver un point sur une Gaussienne",
+                theorie: `
+## Gaussienne symbolique
 
-### Arithmétique : $a_n = a_0 + n \\cdot r$
-Somme : $S_n = \\frac{n(a_0 + a_n)}{2}$
+\`\`\`python
+from sympy import exp, sqrt, pi, symbols
 
-### Géométrique : $a_n = a_0 \\cdot r^n$
-Somme : $S_n = a_0 \\frac{1-r^n}{1-r}$
+f = 1/(sigma*sqrt(2*pi)) * exp(-(x-mu)**2 / (2*sigma**2))
+\`\`\`
+
+Sympy peut intégrer la Gaussienne symboliquement !
         `,
-        code: `import numpy as np
+                code: `import sympy as sp
+from sympy import exp, sqrt, pi, symbols, integrate, oo, simplify
 
-# Suite arithmétique
-a0, r = 2, 3
-arith = [a0 + n*r for n in range(10)]
-print(f"Arithmétique : {arith}")
-print(f"Somme : {sum(arith)}")
+x, mu, sigma = symbols('x mu sigma', real=True)
+sigma = symbols('sigma', positive=True)
 
-# Suite géométrique
-a0, q = 1, 2
-geo = [a0 * q**n for n in range(10)]
-print(f"\\nGéométrique : {geo}")
-print(f"Somme : {sum(geo)}")`,
-        exercice: `Calculez la somme des 20 premiers termes de 1, 3, 5, 7, ...`
-    },
+# Densité gaussienne symbolique
+f = 1/(sigma*sqrt(2*pi)) * exp(-(x-mu)**2 / (2*sigma**2))
+print(f"Densité : f(x) = {f}")
 
-    orders_mag: {
-        title: "Ordres de grandeur et notation scientifique",
-        theorie: `
-## Notation scientifique
+# Intégrale = 1
+print("\\n=== Vérification : intégrale = 1 ===")
+integrale = integrate(f, (x, -oo, oo))
+print(f"∫f(x)dx = {simplify(integrale)}")
 
-$a \\times 10^n$ où $1 \\leq |a| < 10$
+# Cas standard N(0,1)
+f_std = 1/sqrt(2*pi) * exp(-x**2/2)
+print(f"\\nN(0,1) : f(x) = {f_std}")
 
-### Exemples
-- Vitesse lumière : $3 \\times 10^8$ m/s
-- Masse électron : $9.1 \\times 10^{-31}$ kg
+# Valeurs particulières
+print(f"f(0) = {simplify(f_std.subs(x, 0))}")
+print(f"f(0) ≈ {float(f_std.subs(x, 0)):.6f}")`,
+                exercice: `Trouvez $x$ tel que $f(x) = 0.1$ pour $N(0,1)$ avec Sympy.`
+        },
+
+        gaussian_fam: {
+                title: "Exercice : Une famille de Gaussiennes",
+                theorie: `
+## Famille paramétrique
+
+Sympy permet d'étudier l'effet des paramètres symboliquement.
         `,
-        code: `# Notation scientifique
-c = 3e8  # 3 × 10^8
-m_e = 9.1e-31
+                code: `import sympy as sp
+from sympy import exp, sqrt, pi, symbols, diff, simplify
 
-print(f"Vitesse lumière : {c:.2e} m/s")
-print(f"Masse électron : {m_e:.2e} kg")
+x, mu, sigma = symbols('x mu sigma', real=True, positive=True)
 
-# Comparaison d'ordres
-import math
-print(f"\\nlog10(c) = {math.log10(c):.1f}")
-print(f"log10(m_e) = {math.log10(m_e):.1f}")`,
-        exercice: `Exprimez le nombre d'Avogadro en notation scientifique.`
-    },
+f = 1/(sigma*sqrt(2*pi)) * exp(-(x-mu)**2 / (2*sigma**2))
 
-    min_max: {
-        title: "Extrema de fonctions",
-        theorie: `
-## Trouver les extrema
+print("=== Analyse symbolique ===")
 
-1. Calculer $f'(x) = 0$
-2. Points critiques
-3. Tester $f''(x)$ : + min, - max
+# Dérivée par rapport à x (pour trouver le max)
+df = diff(f, x)
+print(f"df/dx = {simplify(df)}")
+
+# Le maximum est en x = μ
+print(f"\\nMaximum en x = μ : f(μ) = {simplify(f.subs(x, mu))}")
+
+# Effet de σ sur la hauteur du pic
+hauteur = 1/(sigma*sqrt(2*pi))
+print(f"Hauteur du pic = {hauteur}")
+
+# Points d'inflexion
+ddf = diff(f, x, 2)
+inflexions = sp.solve(ddf, x)
+print(f"\\nPoints d'inflexion : x = μ ± σ")`,
+                exercice: `Montrez que f(μ+σ) = f(μ-σ) avec Sympy.`
+        },
+
+        roots_unity: {
+                title: "Racines n-ièmes de l'unité",
+                theorie: `
+## Racines de $z^n = 1$ avec Sympy
+
+\`\`\`python
+solve(x**n - 1, x)
+\`\`\`
+
+Sympy donne les racines exactes en forme exponentielle !
         `,
-        code: `import sympy as sp
+                code: `import sympy as sp
+from sympy import symbols, solve, exp, I, pi, simplify, cos, sin, Abs
 
-x = sp.Symbol('x')
+x = symbols('x')
+
+print("=== Racines de l'unité avec Sympy ===")
+
+for n in [3, 4, 5, 6]:
+    print(f"\\n--- Racines {n}èmes ---")
+    racines = solve(x**n - 1, x)
+    for k, r in enumerate(racines):
+        r_simp = simplify(r)
+        module = Abs(r_simp)
+        print(f"ω_{k} = {r_simp}, |ω| = {module}")
+
+# Propriétés
+print("\\n=== Propriétés ===")
+racines_4 = solve(x**4 - 1, x)
+print(f"Racines 4èmes : {racines_4}")
+somme = sum(racines_4)
+produit = sp.prod(racines_4)
+print(f"Somme = {somme}")
+print(f"Produit = {simplify(produit)}")`,
+                exercice: `Montrez que la somme des racines n-ièmes de l'unité est 0.`
+        },
+
+        log_lin_space: {
+                title: "Espaces logarithmique et linéaire",
+                theorie: `
+## Séquences avec Sympy
+
+\`\`\`python
+from sympy import SeqFormula, symbols
+
+a = SeqFormula(2**n, (n, 0, 10))
+list(a)  # [1, 2, 4, 8, ...]
+\`\`\`
+        `,
+                code: `import sympy as sp
+from sympy import symbols, log, exp, simplify
+
+n, x = symbols('n x', positive=True)
+
+print("=== Progressions avec Sympy ===")
+
+# Arithmétique
+a_arith = 2 + 3*n  # a_n = 2 + 3n
+print(f"Arithmétique : a_n = {a_arith}")
+print(f"Premiers termes : {[a_arith.subs(n, i) for i in range(6)]}")
+
+# Géométrique
+a_geo = 2**n
+print(f"\\nGéométrique : a_n = {a_geo}")
+print(f"Premiers termes : {[a_geo.subs(n, i) for i in range(6)]}")
+
+# Échelle log
+print("\\n=== Échelle logarithmique ===")
+print(f"log(1) = {log(1)}")
+print(f"log(10) = {simplify(log(10))}")
+print(f"log(100) = {simplify(log(100))}")
+print(f"log(1000) = {simplify(log(1000))} = {float(log(1000)):.4f}")`,
+                exercice: `Créez une suite géométrique symbolique et calculez sa somme.`
+        },
+
+        log_props: {
+                title: "Propriétés du logarithme",
+                theorie: `
+## Propriétés avec Sympy
+
+\`\`\`python
+expand_log(expr)  # Développe les logs
+logcombine(expr)  # Combine les logs
+\`\`\`
+        `,
+                code: `import sympy as sp
+from sympy import log, symbols, expand_log, logcombine, simplify
+
+a, b, n = symbols('a b n', positive=True)
+x = symbols('x', positive=True)
+
+print("=== Développement des logs ===")
+print(f"log(a·b) = {expand_log(log(a*b), force=True)}")
+print(f"log(a/b) = {expand_log(log(a/b), force=True)}")
+print(f"log(a^n) = {expand_log(log(a**n), force=True)}")
+
+print("\\n=== Combinaison des logs ===")
+expr = log(a) + log(b)
+print(f"log(a) + log(b) = {logcombine(expr, force=True)}")
+
+expr2 = 2*log(a) - 3*log(b)
+print(f"2·log(a) - 3·log(b) = {logcombine(expr2, force=True)}")
+
+# Changement de base
+print("\\n=== Changement de base ===")
+print(f"log_2(x) = {log(x, 2)}")
+print(f"log_2(8) = {log(8, 2)}")
+print(f"log_3(27) = {log(27, 3)}")`,
+                exercice: `Simplifiez $\\log_2(32) + \\log_2(4)$ avec Sympy.`
+        },
+
+        sequences: {
+                title: "Suites arithmétiques et géométriques",
+                theorie: `
+## Suites avec Sympy
+
+\`\`\`python
+from sympy import Sum, symbols, summation
+
+Sum(a_n, (n, 0, N)).doit()
+\`\`\`
+        `,
+                code: `import sympy as sp
+from sympy import symbols, Sum, summation, simplify, Rational
+
+n, N = symbols('n N', integer=True, positive=True)
+a0, r, q = symbols('a0 r q')
+
+print("=== Suite arithmétique ===")
+a_arith = a0 + n*r
+S_arith = Sum(a_arith, (n, 0, N-1))
+print(f"a_n = {a_arith}")
+print(f"S_N = {S_arith.doit()}")
+print(f"Factorisé : {sp.factor(S_arith.doit())}")
+
+print("\\n=== Suite géométrique ===")
+a_geo = a0 * q**n
+S_geo = Sum(a_geo, (n, 0, N-1))
+resultat = S_geo.doit()
+print(f"a_n = {a_geo}")
+print(f"S_N = {simplify(resultat)}")
+
+# Exemple numérique
+print("\\n=== Exemple : 1 + 2 + 4 + ... + 2^9 ===")
+S = Sum(2**n, (n, 0, 9))
+print(f"Somme = {S.doit()}")
+print(f"Formule : (2^10 - 1)/(2-1) = {2**10 - 1}")`,
+                exercice: `Prouvez que $\\sum_{k=0}^{n-1} r^k = \\frac{1-r^n}{1-r}$ avec Sympy.`
+        },
+
+        orders_mag: {
+                title: "Ordres de grandeur et notation scientifique",
+                theorie: `
+## Grands nombres avec Sympy
+
+Sympy gère les grands entiers **exactement** !
+
+\`\`\`python
+factorial(100)  # Calcul exact
+10**100         # Pas d'overflow
+\`\`\`
+        `,
+                code: `import sympy as sp
+from sympy import factorial, log, floor, N, Integer
+
+print("=== Grands nombres avec Sympy ===")
+
+# Factorielle exacte
+f100 = factorial(100)
+print(f"100! a {len(str(f100))} chiffres")
+print(f"100! = {str(f100)[:50]}...")
+
+# Ordre de grandeur
+ordre = floor(log(f100, 10))
+print(f"100! ≈ 10^{ordre}")
+
+# Notation scientifique
+print(f"\\n100! ≈ {N(f100, 5):.4e}")
+
+# Constantes physiques exactes
+c = Integer(299792458)  # m/s
+G = sp.Rational(667430, 10**16)  # N⋅m²/kg²
+print(f"\\nVitesse lumière : {c} m/s")
+print(f"log10(c) = {float(log(c, 10)):.2f}")`,
+                exercice: `Calculez le nombre de chiffres de $1000!$ avec Sympy.`
+        },
+
+        min_max: {
+                title: "Extrema de fonctions",
+                theorie: `
+## Extrema avec Sympy
+
+\`\`\`python
+solve(diff(f, x), x)      # Points critiques
+diff(f, x, 2).subs(x, c)  # Test 2nde dérivée
+\`\`\`
+        `,
+                code: `import sympy as sp
+from sympy import symbols, diff, solve, simplify
+
+x = symbols('x')
 f = x**3 - 3*x + 1
 
-# Dérivée et points critiques
-fp = sp.diff(f, x)
-critiques = sp.solve(fp, x)
+print("=== Extrema avec Sympy ===")
 print(f"f(x) = {f}")
+
+# Dérivées
+fp = diff(f, x)
+fpp = diff(f, x, 2)
 print(f"f'(x) = {fp}")
-print(f"Points critiques : {critiques}")
+print(f"f''(x) = {fpp}")
 
-# Test avec f''
-fpp = sp.diff(fp, x)
+# Points critiques
+critiques = solve(fp, x)
+print(f"\\nPoints critiques : {critiques}")
+
+# Classification
+print("\\nClassification :")
 for c in critiques:
-    val = fpp.subs(x, c)
-    nature = "minimum" if val > 0 else "maximum"
-    print(f"x = {c} : f''({c}) = {val} → {nature}")`,
-        exercice: `Trouvez les extrema de $f(x) = x^4 - 2x^2$`
-    },
+    val_fpp = fpp.subs(x, c)
+    val_f = f.subs(x, c)
+    nature = "minimum local" if val_fpp > 0 else "maximum local"
+    print(f"  x = {c} : f({c}) = {val_f}, f''({c}) = {val_fpp} → {nature}")`,
+                exercice: `Trouvez les extrema de $f(x) = xe^{-x}$ avec Sympy.`
+        },
 
-    even_odd: {
-        title: "Fonctions paires et impaires",
-        theorie: `
-## Parité
+        even_odd: {
+                title: "Fonctions paires et impaires",
+                theorie: `
+## Parité avec Sympy
 
-### Paire : $f(-x) = f(x)$
-Symétrique par rapport à l'axe y. Ex: $\\cos(x), x^2$
-
-### Impaire : $f(-x) = -f(x)$
-Symétrique par rapport à l'origine. Ex: $\\sin(x), x^3$
+\`\`\`python
+simplify(f.subs(x, -x) - f)   # = 0 si paire
+simplify(f.subs(x, -x) + f)   # = 0 si impaire
+\`\`\`
         `,
-        code: `import sympy as sp
+                code: `import sympy as sp
+from sympy import symbols, simplify, cos, sin, exp
 
-x = sp.Symbol('x')
+x = symbols('x')
 
-def parite(f):
-    if sp.simplify(f.subs(x, -x) - f) == 0:
+def parite(f, var):
+    f_neg = f.subs(var, -var)
+    if simplify(f_neg - f) == 0:
         return "paire"
-    elif sp.simplify(f.subs(x, -x) + f) == 0:
+    elif simplify(f_neg + f) == 0:
         return "impaire"
     return "ni paire ni impaire"
 
-fonctions = [x**2, x**3, sp.cos(x), sp.sin(x), x**2 + x]
+print("=== Parité avec Sympy ===")
+
+fonctions = [
+    x**2,              # Paire
+    x**3,              # Impaire
+    cos(x),            # Paire
+    sin(x),            # Impaire
+    exp(x),            # Ni l'un ni l'autre
+    x / (x**2 + 1),    # Impaire
+    x**2 + x,          # Ni l'un ni l'autre
+]
+
 for f in fonctions:
-    print(f"{f} : {parite(f)}")`,
-        exercice: `Déterminez la parité de $f(x) = \\frac{x}{x^2+1}$`
-    },
+    p = parite(f, x)
+    print(f"{f} : {p}")`,
+                exercice: `Déterminez la parité de $f(x) = \\ln\\left(\\frac{1+x}{1-x}\\right)$.`
+        },
 
-    alg2_bug: {
-        title: "Chasse aux bugs Algèbre 2 !",
-        theorie: `
-## Erreurs courantes
+        alg2_bug: {
+                title: "Chasse aux bugs Algèbre 2 !",
+                theorie: `
+## Erreurs courantes avec Sympy
 
-1. Oublier $i = \\sqrt{-1}$
-2. Division par zéro dans les fractions
-3. Logarithme de nombres négatifs
+1. Oublier \`from sympy import I\`
+2. Confondre \`log\` (ln) et \`log(x, 10)\`
+3. Ne pas simplifier les résultats
         `,
-        code: `import cmath
-import math
+                code: `import sympy as sp
+from sympy import I, sqrt, log, exp, simplify, symbols
 
-# Bug 1 : sqrt de négatif
-print("sqrt(-1) avec cmath :", cmath.sqrt(-1))  # OK
+x = symbols('x')
 
-# Bug 2 : log de négatif
-print("log(-1) complexe :", cmath.log(-1))  # = iπ
+print("=== Bug 1 : Racine de négatif ===")
+# Sympy gère automatiquement !
+print(f"sqrt(-1) = {sqrt(-1)}")
+print(f"sqrt(-4) = {sqrt(-4)}")
 
-# Bug 3 : précision flottante
-print("e^(iπ) + 1 :", cmath.exp(1j * cmath.pi) + 1)  # ≈ 0`,
-        exercice: `Pourquoi \`math.sqrt(-1)\` donne une erreur ?`
-    }
+print("\\n=== Bug 2 : log vs log base 10 ===")
+print(f"log(10) = {log(10)} (c'est ln !)")
+print(f"log(10, 10) = {log(10, 10)} (log base 10)")
+
+print("\\n=== Bug 3 : Simplification ===")
+expr = (x**2 - 1) / (x - 1)
+print(f"(x²-1)/(x-1) non simplifié : {expr}")
+print(f"Simplifié : {simplify(expr)}")
+
+print("\\n=== Bug 4 : e^(iπ) + 1 ===")
+from sympy import pi
+result = exp(I * pi) + 1
+print(f"e^(iπ) + 1 = {simplify(result)}")`,
+                exercice: `Pourquoi \`sqrt(-1)\` marche avec Sympy mais pas avec math ?`
+        }
 };
