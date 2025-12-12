@@ -95,8 +95,8 @@ export default function Home() {
                 </div>
 
                 <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6">
-                    {/* Programmation et Math */}
-                    <Link href="/challenges" onClick={handleNavClick}
+                    {/* Programmation et Math - Ouvre le cours directement */}
+                    <Link href="/challenges/masterclass" onClick={handleNavClick}
                         className="group p-4 sm:p-6 rounded-xl sm:rounded-2xl bg-[#0F1115] border border-white/10 hover:border-[#F43F5E]/50 transition-all active:scale-95 hover:-translate-y-1 hover:shadow-lg hover:shadow-[#F43F5E]/20">
                         <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg sm:rounded-xl bg-rose-500/20 flex items-center justify-center text-xl sm:text-2xl mb-3 sm:mb-4 group-hover:scale-110 transition-transform">
                             🐍
@@ -125,14 +125,14 @@ export default function Home() {
                         <p className="text-xs sm:text-sm text-gray-400 hidden sm:block">Storytelling et graphiques interactifs.</p>
                     </Link>
 
-                    {/* Cours de Math */}
-                    <Link href="/courses#mathematiques" onClick={handleNavClick}
+                    {/* Cours de Math - Ouvre Math Supérieur */}
+                    <Link href="/courses#math-ml" onClick={handleNavClick}
                         className="group p-4 sm:p-6 rounded-xl sm:rounded-2xl bg-[#0F1115] border border-white/10 hover:border-[#00F5D4]/50 transition-all active:scale-95 hover:-translate-y-1 hover:shadow-lg hover:shadow-[#00F5D4]/20">
                         <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg sm:rounded-xl bg-teal-500/20 flex items-center justify-center text-xl sm:text-2xl mb-3 sm:mb-4 group-hover:scale-110 transition-transform">
                             ♾️
                         </div>
-                        <h3 className="text-sm sm:text-lg font-bold text-white mb-1 sm:mb-2 group-hover:text-teal-400 leading-tight">Cours de Math</h3>
-                        <p className="text-xs sm:text-sm text-gray-400 hidden sm:block">Du Collège au Supérieur.</p>
+                        <h3 className="text-sm sm:text-lg font-bold text-white mb-1 sm:mb-2 group-hover:text-teal-400 leading-tight">Math Supérieur</h3>
+                        <p className="text-xs sm:text-sm text-gray-400 hidden sm:block">Mathématiques pour l'IA et ML.</p>
                     </Link>
                 </div>
             </section>
