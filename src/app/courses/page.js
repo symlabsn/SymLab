@@ -632,7 +632,7 @@ function CoursesContent() {
                 )}
 
                 {/* Main Content */}
-                <div className={`flex-1 ${!selectedCourse ? 'md:ml-64' : ''} p-4 md:p-12`}>
+                <div className={`flex-1 ${!selectedCourse ? 'md:ml-64' : ''} p-2 sm:p-4 md:p-8 lg:p-12`}>
 
                     {!selectedCourse ? (
                         // COURSE LIST VIEW
@@ -664,23 +664,22 @@ function CoursesContent() {
                                 </select>
                             </div>
 
-                            <div className="mb-8 md:mb-12">
-                                <h1 className="text-2xl md:text-4xl font-black mb-4 flex items-center gap-3">
-                                    <GraduationCap size={40} className="text-blue-500" />
-                                    Cours de {activeLevel}
+                            <div className="mb-4 sm:mb-6 md:mb-12 text-center sm:text-left">
+                                <h1 className="text-xl sm:text-2xl md:text-4xl font-black mb-2 sm:mb-4 flex items-center justify-center sm:justify-start gap-2 sm:gap-3">
+                                    <GraduationCap size={24} className="sm:w-8 sm:h-8 md:w-10 md:h-10 text-blue-500" />
+                                    <span>Cours de {activeLevel}</span>
                                 </h1>
-                                <p className="text-sm md:text-base text-gray-400">
-                                    Accédez aux ressources pédagogiques conformes au programme du Sénégal.
+                                <p className="text-xs sm:text-sm md:text-base text-gray-400 px-4 sm:px-0">
+                                    Ressources pédagogiques conformes au programme du Sénégal.
                                 </p>
                             </div>
 
-
-                            <div className="flex gap-2 mb-8 overflow-x-auto pb-2">
+                            <div className="flex gap-1.5 sm:gap-2 mb-4 sm:mb-6 md:mb-8 overflow-x-auto pb-2 -mx-2 px-2 sm:mx-0 sm:px-0 scrollbar-hide">
                                 {subjects.map(subject => (
                                     <button
                                         key={subject}
                                         onClick={() => setActiveSubject(subject)}
-                                        className={`px-4 py-2 rounded-full text-sm font-bold whitespace-nowrap transition-all ${activeSubject === subject
+                                        className={`px-2.5 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-bold whitespace-nowrap transition-all active:scale-95 ${activeSubject === subject
                                             ? 'bg-white text-black'
                                             : 'bg-white/5 text-gray-400 hover:bg-white/10 hover:text-white'
                                             }`}
@@ -692,37 +691,36 @@ function CoursesContent() {
 
 
                             {filteredCourses.length > 0 ? (
-                                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+                                <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 sm:gap-3 md:gap-4 lg:gap-6">
                                     {filteredCourses.map((course) => (
                                         <div
                                             key={course.id}
-                                            className="group bg-[#0F1115] rounded-2xl border border-white/10 p-6 hover:border-blue-500/50 transition-all hover:-translate-y-1 hover:shadow-xl hover:shadow-blue-500/10"
+                                            className="group bg-[#0F1115] rounded-xl sm:rounded-2xl border border-white/10 p-3 sm:p-4 md:p-6 hover:border-blue-500/50 transition-all active:scale-[0.98] hover:-translate-y-1 hover:shadow-xl hover:shadow-blue-500/10"
                                         >
-                                            <div className="flex items-start justify-between mb-4">
-                                                <div className={`w-12 h-12 rounded-xl flex items-center justify-center text-2xl bg-${course.color}-500/10 text-${course.color}-500`}>
+                                            <div className="flex items-start justify-between mb-2 sm:mb-4">
+                                                <div className={`w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 rounded-lg sm:rounded-xl flex items-center justify-center text-lg sm:text-xl md:text-2xl bg-${course.color}-500/10 text-${course.color}-500`}>
                                                     {course.icon}
                                                 </div>
-                                                <span className="px-2 py-1 rounded text-[10px] font-bold uppercase tracking-wider bg-white/5 text-gray-400 border border-white/5">
+                                                <span className="hidden sm:inline px-2 py-1 rounded text-[10px] font-bold uppercase tracking-wider bg-white/5 text-gray-400 border border-white/5">
                                                     {course.subject}
                                                 </span>
                                             </div>
 
-                                            <h3 className="text-lg font-bold mb-2 group-hover:text-blue-400 transition-colors">
+                                            <h3 className="text-sm sm:text-base md:text-lg font-bold mb-1 sm:mb-2 group-hover:text-blue-400 transition-colors line-clamp-2">
                                                 {course.title}
                                             </h3>
-                                            <p className="text-sm text-gray-500 mb-6 line-clamp-2">
+                                            <p className="hidden sm:block text-xs sm:text-sm text-gray-500 mb-3 sm:mb-6 line-clamp-2">
                                                 {course.description}
                                             </p>
 
-                                            <div className="flex gap-3">
-                                                <button
-                                                    onClick={() => handleCourseSelect(course)}
-                                                    className="flex-1 flex items-center justify-center gap-2 px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-500 text-white text-sm font-bold transition-colors"
-                                                >
-                                                    <Eye size={16} />
-                                                    {structuredCourses[course.id] ? 'Commencer' : 'Aperçu'}
-                                                </button>
-                                            </div>
+                                            <button
+                                                onClick={() => handleCourseSelect(course)}
+                                                className="w-full flex items-center justify-center gap-1 sm:gap-2 px-2 sm:px-4 py-1.5 sm:py-2 rounded-lg bg-blue-600 hover:bg-blue-500 active:scale-95 text-white text-xs sm:text-sm font-bold transition-all"
+                                            >
+                                                <Eye size={14} className="sm:w-4 sm:h-4" />
+                                                <span className="hidden sm:inline">{structuredCourses[course.id] ? 'Commencer' : 'Aperçu'}</span>
+                                                <span className="sm:hidden">Voir</span>
+                                            </button>
                                         </div>
                                     ))}
                                 </div>
