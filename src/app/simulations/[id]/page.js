@@ -732,6 +732,9 @@ export default function SimulationDetailPage({ params }) {
     const [selectedAnswer, setSelectedAnswer] = useState(null);
     const [showExplanation, setShowExplanation] = useState(false);
 
+    // État pour le retour au cours
+    const [returnInfo, setReturnInfo] = useState(null);
+
     // États pour les nouvelles fonctionnalités
     const [sessionStartTime] = useState(Date.now());
     const [autoRotate, setAutoRotate] = useState(true);
@@ -755,6 +758,15 @@ export default function SimulationDetailPage({ params }) {
 
     useEffect(() => {
         Promise.resolve(params).then(setResolvedParams);
+        // Lire les paramètres URL pour le retour
+        if (typeof window !== 'undefined') {
+            const urlParams = new URLSearchParams(window.location.search);
+            const returnTo = urlParams.get('returnTo');
+            const chapter = urlParams.get('chapter');
+            if (returnTo === 'courses' && chapter) {
+                setReturnInfo({ returnTo, chapter });
+            }
+        }
     }, [params]);
 
     const handleChallengeComplete = useCallback((score, total) => {
@@ -800,14 +812,26 @@ export default function SimulationDetailPage({ params }) {
             {/* Navbar améliorée - Mobile First */}
             <nav className="border-b border-white/10 backdrop-blur-xl bg-black/80 sticky top-0 z-50">
                 <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 h-14 sm:h-16 flex items-center justify-between">
-                    <Link
-                        href={`/simulations?level=${lyceeSimulationsData[resolvedParams.id] ? 'lycee' : 'college'}#${resolvedParams.id}`}
-                        className="text-gray-400 hover:text-white transition-colors flex items-center gap-1 sm:gap-2 group"
-                    >
-                        <span className="text-xl sm:text-2xl group-hover:-translate-x-1 transition-transform">←</span>
-                        <span className="hidden sm:inline">Retour aux simulations</span>
-                        <span className="sm:hidden text-sm">Retour</span>
-                    </Link>
+                    {/* Bouton retour conditionnel */}
+                    {returnInfo ? (
+                        <Link
+                            href={`/courses?activeChapter=${returnInfo.chapter}`}
+                            className="text-emerald-400 hover:text-emerald-300 transition-colors flex items-center gap-1 sm:gap-2 group bg-emerald-500/10 px-3 py-1.5 rounded-lg border border-emerald-500/30"
+                        >
+                            <span className="text-xl sm:text-2xl group-hover:-translate-x-1 transition-transform">📚</span>
+                            <span className="hidden sm:inline font-bold">Retour au cours</span>
+                            <span className="sm:hidden text-sm font-bold">Cours</span>
+                        </Link>
+                    ) : (
+                        <Link
+                            href={`/simulations?level=${lyceeSimulationsData[resolvedParams.id] ? 'lycee' : 'college'}#${resolvedParams.id}`}
+                            className="text-gray-400 hover:text-white transition-colors flex items-center gap-1 sm:gap-2 group"
+                        >
+                            <span className="text-xl sm:text-2xl group-hover:-translate-x-1 transition-transform">←</span>
+                            <span className="hidden sm:inline">Retour aux simulations</span>
+                            <span className="sm:hidden text-sm">Retour</span>
+                        </Link>
+                    )}
                     <div className="flex items-center gap-2 sm:gap-4">
                         <div className="hidden sm:block"><SessionTimer startTime={sessionStartTime} /></div>
                         <AnimatedBadge color="cyan">

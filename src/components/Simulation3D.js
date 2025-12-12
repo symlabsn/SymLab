@@ -45,6 +45,7 @@ import { ThermalTransfer } from './ThermalTransfer';
 import { SoundPropagation } from './SoundPropagation';
 import { DensityExplorer, RefractionSimulator, CircuitSeriesParallel, MassConservation, LightPropagationPC4, ScientificMethod, MeasurementTools, LightSources, IntroElectricity, MixtureSeparationPC4, MoleConceptPC4 } from './PC4eSimulations';
 import { Chap1ScienceIntro, Chap2Mesures, Chap3Densite, Chap4PoidsMasse, Chap5Electricite } from './PC4eChapter1to5';
+import { Chap6SourcesLumiere, Chap7PropagationLumiere, Chap8Refraction } from './PC4eChapter6to8';
 
 // ... (existing helper components)
 
@@ -4409,6 +4410,14 @@ export default function Simulation3D({ type = 'atom', config = {} }) {
                 return <Chap4PoidsMasse />;
             case 'chap5-electricite':
                 return <Chap5Electricite />;
+
+            // === CHAPITRES 6-8 PC 4E ===
+            case 'chap6-sources-lumiere':
+                return <Chap6SourcesLumiere />;
+            case 'chap7-propagation-lumiere':
+                return <Chap7PropagationLumiere />;
+            case 'chap8-refraction':
+                return <Chap8Refraction />;
 
             default:
                 return <Atom {...config} />;

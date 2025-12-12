@@ -965,7 +965,7 @@ function CoursesContent() {
                                                     {/* Lien vers la Simulation */}
                                                     {activeChapter?.simulation && (
                                                         <div className="mt-12 p-6 rounded-2xl bg-gradient-to-br from-cyan-900/30 via-blue-900/20 to-purple-900/20 border border-cyan-500/30 relative overflow-hidden group hover:scale-[1.01] transition-all cursor-pointer">
-                                                            <Link href={`/simulations/${activeChapter.simulation.id}`}>
+                                                            <Link href={`/simulations/${activeChapter.simulation.id}?returnTo=courses&chapter=${activeChapter.id}`}>
                                                                 <div className="flex items-center gap-6">
                                                                     <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-cyan-500/30 to-blue-500/30 flex items-center justify-center text-5xl border border-cyan-500/20 group-hover:scale-110 transition-transform shadow-lg shadow-cyan-500/10">
                                                                         🎮
