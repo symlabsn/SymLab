@@ -1238,6 +1238,8 @@ print(f"LaTeX matrice : {sp.latex(M)}")`,
 
 // Import du contenu des modules 4, 5, 6
 import { modules456Content } from './modules456Content';
+// Import du contenu du module 2 (suite)
+import { module2SuiteContent } from './module2SuiteContent';
 
 // Fonction pour obtenir le contenu d'un chapitre
 export const getChapterContent = (chapterId) => {
@@ -1245,9 +1247,13 @@ export const getChapterContent = (chapterId) => {
         if (chapterContent[chapterId]) {
                 return chapterContent[chapterId];
         }
-        // Sinon chercher dans les modules 4-6
+        // Chercher dans les modules 4-6
         if (modules456Content[chapterId]) {
                 return modules456Content[chapterId];
+        }
+        // Chercher dans le module 2 suite
+        if (module2SuiteContent[chapterId]) {
+                return module2SuiteContent[chapterId];
         }
         return null;
 };
