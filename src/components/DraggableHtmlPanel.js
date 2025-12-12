@@ -7,7 +7,7 @@ const DraggableHtmlPanel = ({ children, title, className = "", initialPos = null
         if (initialPos) return initialPos;
         // Par défaut sur le côté droit pour ne pas gêner
         if (typeof window !== 'undefined' && window.innerWidth > 1024) {
-            return { x: 350, y: 0 };
+            return { x: 350, y: 150 };
         }
         return { x: 0, y: 0 };
     });
