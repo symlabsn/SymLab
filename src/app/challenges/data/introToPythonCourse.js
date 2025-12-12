@@ -142,6 +142,8 @@ export const introToPythonCourse = [
             { id: "orders_mag", title: "Ordres de grandeur et notation scientifique" },
             { id: "min_max", title: "Extrema de fonctions" },
             { id: "even_odd", title: "Fonctions paires et impaires" },
+            { id: "complex_visualization", title: "Visualiser les nombres complexes" },
+            { id: "gaussian_curves", title: "Famille de courbes Gaussiennes" },
             { id: "alg2_bug", title: "Chasse aux bugs Algebre 2 !" }
         ]
     },
@@ -157,6 +159,7 @@ export const introToPythonCourse = [
             { id: "circles", title: "Tracer des cercles" },
             { id: "ellipses", title: "Tracer des ellipses" },
             { id: "hyperbolas", title: "Tracer des hyperboles" },
+            { id: "conics_visualization", title: "Sections coniques animees" },
             { id: "conic_bug", title: "Chasse aux bugs Coniques !" }
         ]
     },
@@ -195,7 +198,9 @@ export const introToPythonCourse = [
             { id: "rose", title: "Courbes en rose" },
             { id: "squircle", title: "Le Squircle" },
             { id: "log_spiral", title: "Spirale logarithmique" },
-            { id: "logistic", title: "Application logistique" }
+            { id: "logistic", title: "Application logistique" },
+            { id: "trig_art", title: "Art mathematique avec NumPy" },
+            { id: "fractals", title: "Fractales avec NumPy" }
         ]
     },
     // ============================================================
@@ -222,6 +227,9 @@ export const introToPythonCourse = [
             { id: "fund_theorem", title: "Exercice : Theoreme fondamental de l'analyse" },
             { id: "area_curves", title: "Aire entre deux courbes" },
             { id: "area_ex", title: "Aire entre courbes : Exercice" },
+            { id: "derivative_visualization", title: "Visualiser les derivees" },
+            { id: "integral_visualization", title: "Visualiser les integrales" },
+            { id: "physics_applications", title: "Applications physiques avec NumPy" },
             { id: "calc_bug", title: "Chasse aux bugs Calcul !" }
         ]
     },
