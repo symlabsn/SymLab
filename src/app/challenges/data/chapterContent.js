@@ -1253,12 +1253,18 @@ import { module13Content } from './module13Content';
 import { module14Content } from './module14Content';
 import { module5SympyContent } from './module5SympyContent';
 import { module9SympyContent } from './module9SympyContent';
+import { module6SympyContent } from './module6SympyContent';
+import { module8SympyContent } from './module8SympyContent';
+import { module10SympyContent } from './module10SympyContent';
 
 // Fonction pour obtenir le contenu d'un chapitre
 export const getChapterContent = (chapterId) => {
         // Priorité aux nouveaux contenus Sympy
         if (module5SympyContent[chapterId]) return module5SympyContent[chapterId];
+        if (module6SympyContent[chapterId]) return module6SympyContent[chapterId];
+        if (module8SympyContent[chapterId]) return module8SympyContent[chapterId];
         if (module9SympyContent[chapterId]) return module9SympyContent[chapterId];
+        if (module10SympyContent[chapterId]) return module10SympyContent[chapterId];
         // Contenus existants
         if (chapterContent[chapterId]) return chapterContent[chapterId];
         if (modules456Content[chapterId]) return modules456Content[chapterId];
