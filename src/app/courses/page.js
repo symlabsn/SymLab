@@ -534,6 +534,51 @@ function CoursesContent() {
         }
     }, [searchParams, selectedCourse]);
 
+    // Handle hash-based navigation (e.g., /courses#ml-intro)
+    useEffect(() => {
+        const handleHashNavigation = () => {
+            const hash = window.location.hash.replace('#', '');
+            if (!hash) return;
+
+            // Map hash to course ID
+            const hashToCourse = {
+                'ml-intro': 'ml-intro',
+                'vis-data': 'vis-data',
+                'mathematiques': null, // Filter by subject
+                'math': null,
+            };
+
+            if (hash === 'mathematiques' || hash === 'math') {
+                // Filter to show Math courses
+                setActiveSubject('Mathématiques');
+                setSelectedCourse(null);
+                return;
+            }
+
+            const courseId = hashToCourse[hash] || hash;
+            const course = courses.find(c => c.id === courseId);
+
+            if (course) {
+                setActiveLevel(course.level);
+                setActiveSubject(course.subject);
+
+                if (structuredCourses[course.id]) {
+                    setActiveChapter(structuredCourses[course.id].chapters[0]);
+                    setShowExercises(false);
+                    setQuizAnswers({});
+                    setQuizResults({});
+                } else {
+                    setActiveChapter(null);
+                }
+                setSelectedCourse(course);
+            }
+        };
+
+        handleHashNavigation();
+        window.addEventListener('hashchange', handleHashNavigation);
+        return () => window.removeEventListener('hashchange', handleHashNavigation);
+    }, []);
+
     // ReactMarkdown avec rehype-katex gère maintenant le rendu LaTeX automatiquement
 
 
