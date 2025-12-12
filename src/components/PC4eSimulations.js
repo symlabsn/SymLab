@@ -2,7 +2,7 @@
 import { useRef, useMemo, useState, useEffect } from 'react';
 import * as THREE from 'three';
 import { useFrame } from '@react-three/fiber';
-import { Text, Html, Float, Sphere, OrbitControls, Box, Cylinder } from '@react-three/drei';
+import { Text, Html, Float, Sphere, OrbitControls, Box, Cylinder, Torus } from '@react-three/drei';
 
 // ============================================================
 // CHAPITRE 9: SÉPARATION DES MÉLANGES
@@ -11,6 +11,14 @@ export function MixtureSeparationPC4() {
     const [mixture, setMixture] = useState('mud'); // mud, salt_water, oil_water
     const [method, setMethod] = useState(null); // decantation, filtration, evaporation
     const [progress, setProgress] = useState(0);
+    const [particles, setParticles] = useState(null);
+
+    // Initialisation des particules côté client pour éviter erreur hydratation
+    useEffect(() => {
+        // Générer les positions aléatoires une seule fois au montage
+        const pts = new Float32Array(600).map(() => (Math.random() - 0.5) * 1.5);
+        setParticles(pts);
+    }, []);
 
     const mixtures = {
         mud: { name: 'Eau boueuse', components: ['Eau', 'Terre'], color: '#78350F', separated: false },
@@ -108,12 +116,12 @@ export function MixtureSeparationPC4() {
                             <meshStandardMaterial color={mix.color} transparent opacity={0.8} />
                         </mesh>
 
-                        {/* Particules / Sédiments */}
-                        {mixture === 'mud' && (
+                        {/* Particules / Sédiments (Client Side Only) */}
+                        {mixture === 'mud' && particles && (
                             <group position={[0, isSuccess && method === 'decantation' ? -0.6 : 0, 0]}>
                                 <points>
                                     <bufferGeometry>
-                                        <bufferAttribute attach="attributes-position" count={200} array={new Float32Array(600).map(() => (Math.random() - 0.5) * 1.5)} itemSize={3} />
+                                        <bufferAttribute attach="attributes-position" count={200} array={particles} itemSize={3} />
                                     </bufferGeometry>
                                     <pointsMaterial size={0.05} color="#5D4037" />
                                 </points>
@@ -159,10 +167,12 @@ export function MixtureSeparationPC4() {
                 {method === 'evaporation' && (
                     <group position={[0, -2, 0]}>
                         <pointLight color="orange" intensity={2} distance={3} />
-                        <mesh scale={[1, 1 + Math.random() * 0.2, 1]}>
-                            <coneGeometry args={[0.5, 1, 32]} />
-                            <meshStandardMaterial color="orange" emissive="red" emissiveIntensity={2} />
-                        </mesh>
+                        {particles && ( // Utiliser particles pour randomiser un peu la flamme
+                            <mesh scale={[1, 1, 1]}>
+                                <coneGeometry args={[0.5, 1, 32]} />
+                                <meshStandardMaterial color="orange" emissive="red" emissiveIntensity={2} />
+                            </mesh>
+                        )}
                     </group>
                 )}
             </group>
@@ -408,11 +418,24 @@ export function MoleConceptPC4() {
 export function MassConservation() {
     const [step, setStep] = useState(0); // 0: Avant, 1: Réaction, 2: Après
     const [system, setSystem] = useState('open'); // open, closed
+    const [gasParticles, setGasParticles] = useState(null);
+
+    // Initialisation particules gaz avec useEffect
+    useEffect(() => {
+        if (step === 1) {
+            const pts = new Float32Array(50 * 3);
+            for (let i = 0; i < 50; i++) {
+                pts[i * 3] = (Math.random() - 0.5) * 1;
+                pts[i * 3 + 1] = Math.random() * 2;
+                pts[i * 3 + 2] = (Math.random() - 0.5) * 1;
+            }
+            setGasParticles(pts);
+        } else {
+            setGasParticles(null);
+        }
+    }, [step]);
 
     // Réaction: Craie (CaCO3) + Vinaigre (H+) -> CO2 (gaz) + ...
-    // Masse initiale: 200g
-    // Masse gaz perdu (système ouvert): 10g
-
     const initialMass = 200;
     const lostMass = 10;
     const finalMass = system === 'open' ? initialMass - lostMass : initialMass;
@@ -487,9 +510,14 @@ export function MassConservation() {
                     {/* Craie (disparait) */}
                     {step === 0 && <Box position={[0, 0.5, 0]} args={[0.3, 0.3, 0.3]} material-color="white" />}
 
-                    {/* Bulles / Gaz */}
-                    {step === 1 && (
-                        <Points count={50} />
+                    {/* Bulles / Gaz (Client Only) */}
+                    {step === 1 && gasParticles && (
+                        <points position={[0, 1, 0]}>
+                            <bufferGeometry>
+                                <bufferAttribute attach="attributes-position" count={50} array={gasParticles} itemSize={3} />
+                            </bufferGeometry>
+                            <pointsMaterial size={0.1} color="white" transparent opacity={0.5} />
+                        </points>
                     )}
 
                     {/* Ballon si fermé */}
@@ -505,28 +533,4 @@ export function MassConservation() {
             </group>
         </group>
     );
-}
-
-function Points({ count = 50 }) {
-    const points = useMemo(() => {
-        const p = new Float32Array(count * 3)
-        for (let i = 0; i < count; i++) {
-            let x = (Math.random() - 0.5) * 1
-            let y = Math.random() * 2
-            let z = (Math.random() - 0.5) * 1
-            p[i * 3] = x
-            p[i * 3 + 1] = y
-            p[i * 3 + 2] = z
-        }
-        return p
-    }, [count])
-
-    return (
-        <points position={[0, 1, 0]}>
-            <bufferGeometry>
-                <bufferAttribute attach="attributes-position" count={points.length / 3} array={points} itemSize={3} />
-            </bufferGeometry>
-            <pointsMaterial size={0.1} color="white" transparent opacity={0.5} />
-        </points>
-    )
 }

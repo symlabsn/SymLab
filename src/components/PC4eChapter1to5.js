@@ -145,12 +145,20 @@ export function Chap1ScienceIntro() {
 
 // Sous-composants Scènes 3D
 function ChimieScene({ active }) {
-    const bubbles = useMemo(() => Array.from({ length: 40 }).map(() => ({
-        x: (Math.random() - 0.5) * 1.5,
-        y: Math.random() * 3,
-        scale: Math.random() * 0.1 + 0.05,
-        speed: Math.random() * 2 + 1
-    })), []);
+    const [bubbles, setBubbles] = useState([]);
+
+    useEffect(() => {
+        if (active) {
+            setBubbles(Array.from({ length: 40 }).map(() => ({
+                x: (Math.random() - 0.5) * 1.5,
+                y: Math.random() * 3,
+                scale: Math.random() * 0.1 + 0.05,
+                speed: Math.random() * 2 + 1
+            })));
+        } else {
+            setBubbles([]);
+        }
+    }, [active]);
 
     return (
         <group>
@@ -220,6 +228,17 @@ function PlanteScene({ active, step }) {
 }
 
 function FlotteScene({ active }) {
+    const [saltParticles, setSaltParticles] = useState(null);
+
+    useEffect(() => {
+        if (active) {
+            const particles = new Float32Array(300).map(() => (Math.random() - 0.5) * 3);
+            setSaltParticles(particles);
+        } else {
+            setSaltParticles(null);
+        }
+    }, [active]);
+
     return (
         <group>
             {/* Aquarium */}
@@ -233,10 +252,10 @@ function FlotteScene({ active }) {
                 <meshStandardMaterial color="#3B82F6" transparent opacity={0.5} />
             </mesh>
             {/* Particules de sel si actif */}
-            {active && (
+            {active && saltParticles && (
                 <points position={[0, -1, 0]}>
                     <bufferGeometry>
-                        <bufferAttribute attach="attributes-position" count={100} array={new Float32Array(300).map(() => (Math.random() - 0.5) * 3)} itemSize={3} />
+                        <bufferAttribute attach="attributes-position" count={100} array={saltParticles} itemSize={3} />
                     </bufferGeometry>
                     <pointsMaterial size={0.05} color="white" />
                 </points>
