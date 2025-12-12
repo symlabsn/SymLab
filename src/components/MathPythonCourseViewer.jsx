@@ -2,8 +2,154 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import ReactMarkdown from 'react-markdown';
+import remarkMath from 'remark-math';
+import rehypeKatex from 'rehype-katex';
 import { introToPythonCourse } from '../app/challenges/data/introToPythonCourse';
 import { getChapterContent } from '../app/challenges/data/chapterContent';
+
+// Composant pour le rendu du contenu Markdown avec LaTeX
+function ContentRenderer({ content, className = "" }) {
+    if (!content) return null;
+
+    return (
+        <div className={`prose prose-invert prose-lg max-w-none ${className}`}>
+            <style jsx global>{`
+                .masterclass-content .katex-display {
+                    display: flex;
+                    justify-content: center;
+                    padding: 1.5rem;
+                    margin: 1.5rem 0;
+                    background: rgba(139, 92, 246, 0.05);
+                    border: 1px solid rgba(139, 92, 246, 0.2);
+                    border-radius: 0.75rem;
+                    overflow-x: auto;
+                }
+                .masterclass-content .katex-display > .katex {
+                    color: #a78bfa;
+                }
+                .masterclass-content .katex {
+                    font-size: 1.1em;
+                    color: #c4b5fd;
+                }
+                .masterclass-content h2 {
+                    color: #fff;
+                    font-size: 1.5rem;
+                    font-weight: 700;
+                    margin-top: 2rem;
+                    margin-bottom: 1rem;
+                    padding-bottom: 0.5rem;
+                    border-bottom: 2px solid rgba(139, 92, 246, 0.3);
+                }
+                .masterclass-content h3 {
+                    color: #a78bfa;
+                    font-size: 1.25rem;
+                    font-weight: 600;
+                    margin-top: 1.5rem;
+                    margin-bottom: 0.75rem;
+                }
+                .masterclass-content h4 {
+                    color: #c4b5fd;
+                    font-size: 1.1rem;
+                    font-weight: 600;
+                    margin-top: 1rem;
+                    margin-bottom: 0.5rem;
+                }
+                .masterclass-content p {
+                    color: #d1d5db;
+                    line-height: 1.8;
+                    margin-bottom: 1rem;
+                }
+                .masterclass-content ul, .masterclass-content ol {
+                    color: #d1d5db;
+                    margin-left: 1.5rem;
+                    margin-bottom: 1rem;
+                }
+                .masterclass-content li {
+                    margin-bottom: 0.5rem;
+                }
+                .masterclass-content code {
+                    background: rgba(139, 92, 246, 0.15);
+                    color: #f9a8d4;
+                    padding: 0.2rem 0.4rem;
+                    border-radius: 0.25rem;
+                    font-family: 'Fira Code', 'Monaco', monospace;
+                    font-size: 0.9em;
+                }
+                .masterclass-content pre {
+                    background: #1e1e2e;
+                    border: 1px solid rgba(139, 92, 246, 0.2);
+                    border-radius: 0.75rem;
+                    padding: 1.25rem;
+                    margin: 1rem 0;
+                    overflow-x: auto;
+                }
+                .masterclass-content pre code {
+                    background: transparent;
+                    color: #a6e3a1;
+                    padding: 0;
+                    font-size: 0.875rem;
+                }
+                .masterclass-content table {
+                    width: 100%;
+                    border-collapse: collapse;
+                    margin: 1.5rem 0;
+                    background: rgba(15, 17, 21, 0.5);
+                    border-radius: 0.5rem;
+                    overflow: hidden;
+                }
+                .masterclass-content th {
+                    background: rgba(139, 92, 246, 0.2);
+                    color: #a78bfa;
+                    padding: 0.75rem 1rem;
+                    text-align: left;
+                    font-weight: 600;
+                    border-bottom: 1px solid rgba(139, 92, 246, 0.3);
+                }
+                .masterclass-content td {
+                    padding: 0.75rem 1rem;
+                    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+                    color: #d1d5db;
+                }
+                .masterclass-content tr:hover td {
+                    background: rgba(139, 92, 246, 0.05);
+                }
+                .masterclass-content blockquote {
+                    border-left: 4px solid #8b5cf6;
+                    background: rgba(139, 92, 246, 0.1);
+                    padding: 1rem 1.5rem;
+                    margin: 1.5rem 0;
+                    border-radius: 0 0.5rem 0.5rem 0;
+                    color: #c4b5fd;
+                }
+                .masterclass-content strong {
+                    color: #fff;
+                    font-weight: 600;
+                }
+                .masterclass-content a {
+                    color: #8b5cf6;
+                    text-decoration: underline;
+                }
+                .masterclass-content a:hover {
+                    color: #a78bfa;
+                }
+                .masterclass-content hr {
+                    border: none;
+                    border-top: 1px solid rgba(139, 92, 246, 0.2);
+                    margin: 2rem 0;
+                }
+            `}</style>
+            <div className="masterclass-content">
+                <ReactMarkdown
+                    remarkPlugins={[remarkMath]}
+                    rehypePlugins={[rehypeKatex]}
+                >
+                    {content}
+                </ReactMarkdown>
+            </div>
+        </div>
+    );
+}
 
 export default function MathPythonCourseViewer() {
     const [activeModuleIndex, setActiveModuleIndex] = useState(0);
@@ -51,11 +197,11 @@ export default function MathPythonCourseViewer() {
                     <div className="text-6xl mb-6 opacity-30">🚧</div>
                     <h2 className="text-2xl font-bold mb-4 text-white">{activeChapter?.title}</h2>
                     <p className="text-gray-400 mb-6">
-                        Le contenu de ce chapitre est en cours de redaction.
+                        Le contenu de ce chapitre est en cours de rédaction.
                     </p>
                     <div className="inline-flex items-center gap-2 px-4 py-2 bg-purple-500/20 text-purple-300 rounded-lg text-sm">
                         <span className="animate-pulse">●</span>
-                        Bientot disponible
+                        Bientôt disponible
                     </div>
                 </div>
             );
@@ -81,7 +227,7 @@ export default function MathPythonCourseViewer() {
                 {/* Tabs */}
                 <div className="flex gap-2 bg-black/50 p-2 rounded-xl border border-white/10">
                     {[
-                        { id: 'theorie', label: 'Theorie', icon: '📖' },
+                        { id: 'theorie', label: 'Théorie', icon: '📖' },
                         { id: 'code', label: 'Code Python', icon: '🐍' },
                         { id: 'exercice', label: 'Exercice', icon: '✏️' }
                     ].map(tab => (
@@ -102,10 +248,8 @@ export default function MathPythonCourseViewer() {
                 {/* Contenu selon l'onglet */}
                 <div className="bg-[#0F1115] border border-white/10 rounded-2xl overflow-hidden">
                     {activeTab === 'theorie' && (
-                        <div className="p-6 md:p-8 prose prose-invert max-w-none">
-                            <div className="text-gray-300 leading-relaxed whitespace-pre-wrap text-base">
-                                {chapterData.theorie}
-                            </div>
+                        <div className="p-6 md:p-8">
+                            <ContentRenderer content={chapterData.theorie} />
                         </div>
                     )}
 
@@ -123,13 +267,13 @@ export default function MathPythonCourseViewer() {
                                     </span>
                                 </div>
                             </div>
-                            <pre className="p-6 overflow-x-auto text-sm font-mono text-gray-300 bg-[#1E1E1E]">
+                            <pre className="p-6 overflow-x-auto text-sm font-mono text-green-300 bg-[#1E1E1E] leading-relaxed">
                                 <code>{chapterData.code}</code>
                             </pre>
                             <div className="p-4 bg-blue-900/20 border-t border-blue-500/20">
                                 <p className="text-blue-300 text-sm flex items-center gap-2">
                                     <span>💡</span>
-                                    <span>Copiez ce code dans Jupyter ou Google Colab pour l'executer !</span>
+                                    <span>Copiez ce code dans Jupyter ou Google Colab pour l'exécuter !</span>
                                 </p>
                             </div>
                         </div>
@@ -140,11 +284,9 @@ export default function MathPythonCourseViewer() {
                             <div className="bg-gradient-to-r from-orange-900/30 to-red-900/30 border border-orange-500/20 rounded-xl p-6 mb-6">
                                 <h3 className="text-xl font-bold text-orange-300 mb-4 flex items-center gap-2">
                                     <span>🎯</span>
-                                    A vous de jouer !
+                                    À vous de jouer !
                                 </h3>
-                                <div className="text-gray-300 leading-relaxed whitespace-pre-wrap">
-                                    {chapterData.exercice}
-                                </div>
+                                <ContentRenderer content={chapterData.exercice} />
                             </div>
                             <Link
                                 href="/code"
@@ -263,7 +405,7 @@ export default function MathPythonCourseViewer() {
                             disabled={activeModuleIndex === 0 && activeChapterIndex === 0}
                             className="p-2 rounded-lg bg-white/5 hover:bg-white/10 disabled:opacity-30 disabled:cursor-not-allowed transition-all border border-white/10"
                         >
-                            ← Precedent
+                            ← Précédent
                         </button>
                         <button
                             onClick={nextChapter}
