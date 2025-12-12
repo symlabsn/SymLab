@@ -1,247 +1,287 @@
 export const introToPythonCourse = [
+    // ============================================================
+    // MODULE 1 : INTRODUCTION ET INSTALLATION
+    // ============================================================
     {
         id: "intro_install",
-        title: "Introduction and Installations",
+        title: "Introduction et Installation",
         chapters: [
-            { id: "jupyter", title: "Using Python through Jupyter (Anaconda)" },
-            { id: "colab", title: "Using Python via Google Colab" },
-            { id: "help", title: "Getting help in Python" }
+            { id: "jupyter", title: "Utiliser Python avec Jupyter (Anaconda)" },
+            { id: "colab", title: "Utiliser Python via Google Colab" },
+            { id: "help", title: "Obtenir de l'aide en Python" }
         ]
     },
+    // ============================================================
+    // MODULE 2 : ARITHMETIQUE
+    // ============================================================
     {
         id: "arithmetic",
-        title: "Arithmetic",
+        title: "Arithmetique",
         chapters: [
-            { id: "basic_ops", title: "Addition, subtraction, multiplication, division" },
-            { id: "variables", title: "Using variables" },
-            { id: "printing", title: "Printing equations in Jupyter" },
-            { id: "comments", title: "Writing comments" },
-            { id: "exponents", title: "Exponents (powers)" },
-            { id: "loops_powers", title: "Using for-loops for powers" },
-            { id: "order_ops", title: "Order of operations" },
-            { id: "inequalities", title: "Testing inequalities & Boolean types" },
-            { id: "if_logic", title: "If-statements and logical operators" },
-            { id: "abs_val", title: "Absolute value" },
-            { id: "modulus", title: "Remainder after division (modulus)" },
-            { id: "interactive_1", title: "Create interactive math functions, Part 1" },
-            { id: "interactive_2", title: "Create interactive math functions, Part 2" },
-            { id: "interactive_3", title: "Create interactive math functions, Part 3" },
-            { id: "bug_hunt", title: "Arithmetic Bug Hunt!" }
+            { id: "basic_ops", title: "Addition, soustraction, multiplication, division" },
+            { id: "variables", title: "Utiliser des variables" },
+            { id: "printing", title: "Afficher des equations dans Jupyter" },
+            { id: "comments", title: "Ecrire des commentaires" },
+            { id: "exponents", title: "Exposants (puissances)" },
+            { id: "loops_powers", title: "Boucles for pour calculer des puissances" },
+            { id: "order_ops", title: "Ordre des operations" },
+            { id: "inequalities", title: "Tester des inegalites et type Booleen" },
+            { id: "if_logic", title: "Instructions if et operateurs logiques" },
+            { id: "abs_val", title: "Valeur absolue" },
+            { id: "modulus", title: "Reste de la division (modulo)" },
+            { id: "interactive_1", title: "Fonctions mathematiques interactives, Partie 1" },
+            { id: "interactive_2", title: "Fonctions mathematiques interactives, Partie 2" },
+            { id: "interactive_3", title: "Fonctions mathematiques interactives, Partie 3" },
+            { id: "bug_hunt", title: "Chasse aux bugs Arithmetique !" }
         ]
     },
-    // ... Truncated for brevity, normally I'd put all content here but I'm careful about length and encoding risks.
-    // I will put the rest of the structure in subsequent edits if needed, but let's try the full structure.
+    // ============================================================
+    // MODULE 3 : INTRODUCTION A SYMPY
+    // ============================================================
     {
         id: "sympy_intro",
-        title: "Introduction to Sympy",
+        title: "Introduction a Sympy",
         chapters: [
-            { id: "sympy_1", title: "Intro to Sympy, Part 1" },
-            { id: "latex_intro", title: "Intro to LaTeX" },
-            { id: "sympy_2", title: "Intro to Sympy, Part 2" },
-            { id: "f_strings", title: "Printing with f-strings" },
-            { id: "exponents_law", title: "Example: Law of Exponents with Sympy" },
-            { id: "sympy_latex_bug", title: "Sympy/Latex Bug Hunt!" },
-            { id: "latex_beauty", title: "Introduction to LaTeX (Beautiful Equations)" }
+            { id: "sympy_1", title: "Introduction a Sympy, Partie 1" },
+            { id: "latex_intro", title: "Introduction a LaTeX" },
+            { id: "sympy_2", title: "Introduction a Sympy, Partie 2" },
+            { id: "f_strings", title: "Affichage avec les f-strings" },
+            { id: "exponents_law", title: "Exemple : Loi des exposants avec Sympy" },
+            { id: "sympy_latex_bug", title: "Chasse aux bugs Sympy/LaTeX !" },
+            { id: "latex_beauty", title: "LaTeX pour de belles equations" }
         ]
     },
+    // ============================================================
+    // MODULE 4 : TYPES DE DONNEES PYTHON
+    // ============================================================
     {
         id: "python_types",
-        title: "Python Data Types",
+        title: "Types de donnees Python",
         chapters: [
-            { id: "nums_strings", title: "Numbers and Strings" },
-            { id: "lists_numpy", title: "Lists and Numpy Arrays" }
+            { id: "nums_strings", title: "Nombres et chaines de caracteres" },
+            { id: "lists_numpy", title: "Listes et tableaux NumPy" }
         ]
     },
+    // ============================================================
+    // MODULE 5 : ALGEBRE 1
+    // ============================================================
     {
         id: "algebra_1",
-        title: "Algebra 1",
+        title: "Algebre 1",
         chapters: [
-            { id: "solve_x", title: "Solving for x" },
-            { id: "solve_x_ex", title: "Solving for x: Exercises" },
-            { id: "expanding", title: "Expanding terms" },
-            { id: "matrices_numpy", title: "Creating and accessing matrices with numpy" },
-            { id: "mult_table", title: "Exercise: Multiplication Table" },
-            { id: "properties", title: "Associative, Commutative, Distributive properties" },
-            { id: "lists_more", title: "Creating and working with Python lists" },
-            { id: "slicing", title: "More on 'slicing' in Python" },
-            { id: "gcd", title: "Greatest Common Denominator (GCD)" },
-            { id: "gcd_ex", title: "GCD: Exercises" },
-            { id: "dictionaries", title: "Introduction to Python Dictionaries" },
-            { id: "prime_factor", title: "Prime Factorization" },
-            { id: "inequalities_solve", title: "Solving Inequalities" },
-            { id: "poly_add", title: "Adding Polynomials" },
-            { id: "poly_mult", title: "Multiplying Polynomials" },
-            { id: "poly_div", title: "Dividing by Polynomials" },
-            { id: "factoring", title: "Factoring Polynomials" },
-            { id: "alg1_bug", title: "Algebra 1 Bug Hunt!" }
+            { id: "solve_x", title: "Resoudre une equation en x" },
+            { id: "solve_x_ex", title: "Resoudre en x : Exercices" },
+            { id: "expanding", title: "Developper des expressions" },
+            { id: "matrices_numpy", title: "Creer et manipuler des matrices avec NumPy" },
+            { id: "mult_table", title: "Exercice : Table de multiplication" },
+            { id: "properties", title: "Proprietes associative, commutative, distributive" },
+            { id: "lists_more", title: "Travailler avec les listes Python" },
+            { id: "slicing", title: "Le slicing en Python" },
+            { id: "gcd", title: "Plus Grand Commun Diviseur (PGCD)" },
+            { id: "gcd_ex", title: "PGCD : Exercices" },
+            { id: "dictionaries", title: "Introduction aux dictionnaires Python" },
+            { id: "prime_factor", title: "Decomposition en facteurs premiers" },
+            { id: "inequalities_solve", title: "Resoudre des inequations" },
+            { id: "poly_add", title: "Ajouter des polynomes" },
+            { id: "poly_mult", title: "Multiplier des polynomes" },
+            { id: "poly_div", title: "Diviser des polynomes" },
+            { id: "factoring", title: "Factoriser des polynomes" },
+            { id: "alg1_bug", title: "Chasse aux bugs Algebre 1 !" }
         ]
     },
+    // ============================================================
+    // MODULE 6 : GRAPHIQUES
+    // ============================================================
     {
         id: "graphing",
-        title: "Graphing",
+        title: "Graphiques",
         chapters: [
-            { id: "coords", title: "Plotting coordinates on a plane" },
-            { id: "coords_ex", title: "Plotting coordinates: Exercise" },
-            { id: "lines_1", title: "Graphing lines Part 1: Start/End notation" },
-            { id: "lines_2", title: "Graphing lines Part 2: Slope-intercept form" },
-            { id: "rational", title: "Graphing rational functions" },
-            { id: "sympy_plot", title: "Plotting with Sympy" },
-            { id: "sympy_plot_ex", title: "Plotting with Sympy: Exercises" },
-            { id: "accountability", title: "Self-accountability in online learning" },
-            { id: "matrix_images", title: "Making images from matrices" },
-            { id: "matrix_img_ex", title: "Images from matrices: Exercise" },
-            { id: "polygons", title: "Drawing patches with polygons" },
-            { id: "export_img", title: "Exporting graphics as pictures" },
-            { id: "graph_bug", title: "Graphing Bug Hunt!" }
+            { id: "coords", title: "Tracer des points dans un repere" },
+            { id: "coords_ex", title: "Tracer des coordonnees : Exercice" },
+            { id: "lines_1", title: "Tracer des droites Partie 1 : Notation debut/fin" },
+            { id: "lines_2", title: "Tracer des droites Partie 2 : Forme y = mx + p" },
+            { id: "rational", title: "Tracer des fonctions rationnelles" },
+            { id: "sympy_plot", title: "Tracer avec Sympy" },
+            { id: "sympy_plot_ex", title: "Tracer avec Sympy : Exercices" },
+            { id: "accountability", title: "Auto-discipline en apprentissage en ligne" },
+            { id: "matrix_images", title: "Creer des images a partir de matrices" },
+            { id: "matrix_img_ex", title: "Images matricielles : Exercice" },
+            { id: "polygons", title: "Dessiner des polygones" },
+            { id: "export_img", title: "Exporter des graphiques en images" },
+            { id: "graph_bug", title: "Chasse aux bugs Graphiques !" }
         ]
     },
+    // ============================================================
+    // MODULE 7 : ALGEBRE 2
+    // ============================================================
     {
         id: "algebra_2",
-        title: "Algebra 2",
+        title: "Algebre 2",
         chapters: [
-            { id: "sum_prod", title: "Summation and products" },
-            { id: "discrete_diff", title: "Differences (Discrete derivative)" },
-            { id: "roots_poly", title: "Roots of polynomials" },
-            { id: "roots_ex", title: "Roots of polynomials: Exercise" },
-            { id: "quadratic", title: "The Quadratic Equation" },
-            { id: "complex_add", title: "Complex Numbers: Addition & Subtraction" },
-            { id: "complex_mult", title: "Complex Numbers: Conjugate & Multiplication" },
-            { id: "complex_div", title: "Complex Numbers: Division" },
-            { id: "complex_graph", title: "Graphing Complex Numbers" },
-            { id: "quad_complex", title: "Revisiting Quadratic Eq with Complex Numbers" },
-            { id: "unit_circle", title: "The Unit Circle" },
-            { id: "nat_exp_log", title: "Natural Exponent and Logarithm" },
-            { id: "gaussian_pt", title: "Find a specific point on a Gaussian" },
-            { id: "gaussian_fam", title: "Exercise: A family of Gaussians" },
-            { id: "roots_unity", title: "Graphing complex roots of unity" },
-            { id: "log_lin_space", title: "Log-spaced and Linearly-spaced numbers" },
-            { id: "log_props", title: "Logarithm properties: Mult & Div" },
-            { id: "sequences", title: "Arithmetic and Geometric sequences" },
-            { id: "orders_mag", title: "Orders of Magnitude & Scientific Notation" },
-            { id: "min_max", title: "Maxima and Minima of functions" },
-            { id: "even_odd", title: "Even and Odd functions" },
-            { id: "alg2_bug", title: "Algebra 2 Bug Hunt!" }
+            { id: "sum_prod", title: "Sommes et produits" },
+            { id: "discrete_diff", title: "Differences (derivee discrete)" },
+            { id: "roots_poly", title: "Racines de polynomes" },
+            { id: "roots_ex", title: "Racines de polynomes : Exercice" },
+            { id: "quadratic", title: "L'equation du second degre" },
+            { id: "complex_add", title: "Nombres complexes : Addition et soustraction" },
+            { id: "complex_mult", title: "Nombres complexes : Conjugue et multiplication" },
+            { id: "complex_div", title: "Nombres complexes : Division" },
+            { id: "complex_graph", title: "Representer les nombres complexes" },
+            { id: "quad_complex", title: "Equation du 2nd degre avec nombres complexes" },
+            { id: "unit_circle", title: "Le cercle trigonometrique" },
+            { id: "nat_exp_log", title: "Exponentielle et logarithme neperien" },
+            { id: "gaussian_pt", title: "Trouver un point sur une Gaussienne" },
+            { id: "gaussian_fam", title: "Exercice : Une famille de Gaussiennes" },
+            { id: "roots_unity", title: "Racines n-iemes de l'unite" },
+            { id: "log_lin_space", title: "Espaces logarithmique et lineaire" },
+            { id: "log_props", title: "Proprietes du logarithme" },
+            { id: "sequences", title: "Suites arithmetiques et geometriques" },
+            { id: "orders_mag", title: "Ordres de grandeur et notation scientifique" },
+            { id: "min_max", title: "Extrema de fonctions" },
+            { id: "even_odd", title: "Fonctions paires et impaires" },
+            { id: "alg2_bug", title: "Chasse aux bugs Algebre 2 !" }
         ]
     },
+    // ============================================================
+    // MODULE 8 : SECTIONS CONIQUES
+    // ============================================================
     {
         id: "conic_sections",
-        title: "Graphing Conic Sections",
+        title: "Sections coniques",
         chapters: [
-            { id: "parabolas", title: "Graphing Parabolas" },
-            { id: "contours", title: "Creating contours from meshes" },
-            { id: "circles", title: "Graphing Circles" },
-            { id: "ellipses", title: "Graphing Ellipses" },
-            { id: "hyperbolas", title: "Graphing Hyperbolas" },
-            { id: "conic_bug", title: "Conic Bug Hunt!" }
+            { id: "parabolas", title: "Tracer des paraboles" },
+            { id: "contours", title: "Creer des contours a partir de maillages" },
+            { id: "circles", title: "Tracer des cercles" },
+            { id: "ellipses", title: "Tracer des ellipses" },
+            { id: "hyperbolas", title: "Tracer des hyperboles" },
+            { id: "conic_bug", title: "Chasse aux bugs Coniques !" }
         ]
     },
+    // ============================================================
+    // MODULE 9 : TRIGONOMETRIE
+    // ============================================================
     {
         id: "trigonometry",
-        title: "Trigonometry",
+        title: "Trigonometrie",
         chapters: [
-            { id: "random_nums", title: "Introduction to Random Numbers" },
-            { id: "random_ex", title: "Intro to Random Numbers: Exercise" },
-            { id: "phase_angles", title: "Exercise: Plotting random phase angles" },
-            { id: "rad_deg", title: "Converting between Radians and Degrees" },
-            { id: "rad_deg_ex", title: "Converting angles: Exercise" },
-            { id: "pythagoras", title: "The Pythagorean Theorem" },
-            { id: "res_trig", title: "Graphing resolution for Sin, Cos, Tan" },
-            { id: "res_ex", title: "Graphing and resolution: Exercise" },
-            { id: "euler", title: "Euler's Formula" },
-            { id: "euler_ex", title: "Euler's Formula: Exercise" },
-            { id: "euler_explode", title: "Exercise: Random Exploding Euler" },
-            { id: "snakes", title: "Exercise: Random Snakes with Cosine and Sine" },
-            { id: "trig_bug", title: "Trigonometry Bug Hunt!" }
+            { id: "random_nums", title: "Introduction aux nombres aleatoires" },
+            { id: "random_ex", title: "Nombres aleatoires : Exercice" },
+            { id: "phase_angles", title: "Exercice : Tracer des phases aleatoires" },
+            { id: "rad_deg", title: "Conversion radians et degres" },
+            { id: "rad_deg_ex", title: "Conversion d'angles : Exercice" },
+            { id: "pythagoras", title: "Le theoreme de Pythagore" },
+            { id: "res_trig", title: "Resolution graphique pour sin, cos, tan" },
+            { id: "res_ex", title: "Resolution graphique : Exercice" },
+            { id: "euler", title: "La formule d'Euler" },
+            { id: "euler_ex", title: "Formule d'Euler : Exercice" },
+            { id: "euler_explode", title: "Exercice : Euler aleatoire explosif" },
+            { id: "snakes", title: "Exercice : Serpents avec cos et sin" },
+            { id: "trig_bug", title: "Chasse aux bugs Trigonometrie !" }
         ]
     },
+    // ============================================================
+    // MODULE 10 : ART DE LA TRIGONOMETRIE
+    // ============================================================
     {
         id: "art_trig",
-        title: "Art of Trigonometry",
+        title: "Art de la Trigonometrie",
         chapters: [
-            { id: "astroid", title: "Astroid Radial Curve" },
-            { id: "rose", title: "Rose Curves" },
-            { id: "squircle", title: "Squircle" },
-            { id: "log_spiral", title: "Logarithmic Spiral" },
-            { id: "logistic", title: "Logistic Map" }
+            { id: "astroid", title: "Courbe radiale Astroide" },
+            { id: "rose", title: "Courbes en rose" },
+            { id: "squircle", title: "Le Squircle" },
+            { id: "log_spiral", title: "Spirale logarithmique" },
+            { id: "logistic", title: "Application logistique" }
         ]
     },
+    // ============================================================
+    // MODULE 11 : CALCUL INFINITESIMAL
+    // ============================================================
     {
         id: "calculus",
-        title: "Calculus",
+        title: "Calcul infinitesimal",
         chapters: [
-            { id: "proofs_intuition", title: "Mathematical proofs vs Intuition" },
-            { id: "limits", title: "Computing Limits of a function" },
-            { id: "limits_ex", title: "Computing Limits: Exercise" },
-            { id: "piecewise", title: "Piecewise functions" },
-            { id: "deriv_poly", title: "Derivatives of Polynomials" },
-            { id: "deriv_poly_ex", title: "Derivatives of Polynomials: Exercise" },
-            { id: "deriv_trig", title: "Derivatives of Trig functions" },
-            { id: "deriv_trig_ex", title: "Derivatives of Trig functions: Exercise" },
-            { id: "tangent_line", title: "Graphing a function tangent line" },
-            { id: "tangent_ex", title: "Graphing tangent lines: Exercise" },
-            { id: "crit_points", title: "Finding critical points" },
-            { id: "crit_ex", title: "Finding critical points: Exercise" },
-            { id: "partial_deriv", title: "Partial Derivatives" },
-            { id: "integrals", title: "Indefinite and Definite Integrals" },
-            { id: "fund_theorem", title: "Exercise: Fundamental Theorem of Calculus" },
-            { id: "area_curves", title: "Area between two curves" },
-            { id: "area_ex", title: "Area between two curves: Exercise" },
-            { id: "calc_bug", title: "Calculus Bug Hunt!" }
+            { id: "proofs_intuition", title: "Preuves mathematiques vs Intuition" },
+            { id: "limits", title: "Calculer des limites" },
+            { id: "limits_ex", title: "Limites : Exercice" },
+            { id: "piecewise", title: "Fonctions par morceaux" },
+            { id: "deriv_poly", title: "Derivees de polynomes" },
+            { id: "deriv_poly_ex", title: "Derivees de polynomes : Exercice" },
+            { id: "deriv_trig", title: "Derivees de fonctions trigonometriques" },
+            { id: "deriv_trig_ex", title: "Derivees trigo : Exercice" },
+            { id: "tangent_line", title: "Tracer une tangente a une courbe" },
+            { id: "tangent_ex", title: "Tangentes : Exercice" },
+            { id: "crit_points", title: "Trouver les points critiques" },
+            { id: "crit_ex", title: "Points critiques : Exercice" },
+            { id: "partial_deriv", title: "Derivees partielles" },
+            { id: "integrals", title: "Integrales definies et indefinies" },
+            { id: "fund_theorem", title: "Exercice : Theoreme fondamental de l'analyse" },
+            { id: "area_curves", title: "Aire entre deux courbes" },
+            { id: "area_ex", title: "Aire entre courbes : Exercice" },
+            { id: "calc_bug", title: "Chasse aux bugs Calcul !" }
         ]
     },
+    // ============================================================
+    // MODULE 12 : ALGEBRE LINEAIRE
+    // ============================================================
     {
         id: "linear_algebra",
-        title: "Linear Algebra",
+        title: "Algebre lineaire",
         chapters: [
-            { id: "vectors", title: "Row and Column Vectors" },
-            { id: "vector_ops", title: "Adding and Scalar-multiplying Vectors" },
-            { id: "dot_product", title: "The Dot Product" },
-            { id: "correlation", title: "Dot Product App: Correlation Coefficient" },
-            { id: "outer_product", title: "The Outer Product" },
-            { id: "matrix_mult", title: "Matrix Multiplication" },
-            { id: "transposing", title: "Transposing Vectors and Matrices" },
-            { id: "special_matrices", title: "Various Special Matrices" },
-            { id: "matrix_inv", title: "Matrix Inverse" },
-            { id: "pseudo_inv", title: "Matrix Pseudoinverse: Exercise" },
-            { id: "systems_eq", title: "Solving a System of Equations" },
-            { id: "visual_mult", title: "Visualizing Matrix-Vector Multiplication" },
-            { id: "eigen", title: "Eigenvalues and Eigenvectors" },
-            { id: "eigen_decomp", title: "Eigendecomposition: Exercise" },
-            { id: "svd", title: "Singular Value Decomposition (SVD)" },
-            { id: "svd_einstein", title: "SVD of Einstein: Exercise" },
-            { id: "lin_alg_bug", title: "Linear Algebra Bug Hunt!" }
+            { id: "vectors", title: "Vecteurs lignes et colonnes" },
+            { id: "vector_ops", title: "Addition et multiplication scalaire" },
+            { id: "dot_product", title: "Le produit scalaire" },
+            { id: "correlation", title: "Application : Coefficient de correlation" },
+            { id: "outer_product", title: "Le produit exterieur" },
+            { id: "matrix_mult", title: "Multiplication matricielle" },
+            { id: "transposing", title: "Transposition de vecteurs et matrices" },
+            { id: "special_matrices", title: "Matrices speciales" },
+            { id: "matrix_inv", title: "Inverse d'une matrice" },
+            { id: "pseudo_inv", title: "Pseudo-inverse : Exercice" },
+            { id: "systems_eq", title: "Resoudre un systeme d'equations" },
+            { id: "visual_mult", title: "Visualiser la multiplication matrice-vecteur" },
+            { id: "eigen", title: "Valeurs propres et vecteurs propres" },
+            { id: "eigen_decomp", title: "Diagonalisation : Exercice" },
+            { id: "svd", title: "Decomposition en valeurs singulieres (SVD)" },
+            { id: "svd_einstein", title: "SVD d'Einstein : Exercice" },
+            { id: "lin_alg_bug", title: "Chasse aux bugs Algebre lineaire !" }
         ]
     },
+    // ============================================================
+    // MODULE 13 : PROBABILITES ET HISTOGRAMMES
+    // ============================================================
     {
         id: "probabilities",
-        title: "Probabilities and Histograms",
+        title: "Probabilites et histogrammes",
         chapters: [
-            { id: "histograms", title: "Histograms and Probability Densities" },
-            { id: "prob_ex", title: "Probability Exercise: Math functions" },
-            { id: "coin_toss", title: "Virtual Coin Tosses" },
-            { id: "loaded_dice", title: "Exercise: Virtual Weighted Dice" },
-            { id: "distributions", title: "Building Distributions from Random Numbers" },
-            { id: "normalize_gauss", title: "Exercise: Normalize any distribution to Gaussian" },
-            { id: "clt", title: "The Central Limit Theorem (CLT)" },
-            { id: "clt_ex", title: "Exercise: The Central Limit Theorem" },
-            { id: "joint_prob", title: "Joint Probability Distributions" },
-            { id: "prob_bug", title: "Probability Bug Hunt!" }
+            { id: "histograms", title: "Histogrammes et densites de probabilite" },
+            { id: "prob_ex", title: "Probabilites : Exercice avec fonctions" },
+            { id: "coin_toss", title: "Lancer de piece virtuel" },
+            { id: "loaded_dice", title: "Exercice : Des pipes virtuels" },
+            { id: "distributions", title: "Construire des distributions aleatoires" },
+            { id: "normalize_gauss", title: "Exercice : Normaliser vers une Gaussienne" },
+            { id: "clt", title: "Le theoreme central limite" },
+            { id: "clt_ex", title: "Theoreme central limite : Exercice" },
+            { id: "joint_prob", title: "Distributions de probabilite conjointes" },
+            { id: "prob_bug", title: "Chasse aux bugs Probabilites !" }
         ]
     },
+    // ============================================================
+    // MODULE 14 : THEORIE DES NOMBRES
+    // ============================================================
     {
         id: "number_theory",
-        title: "Number Theory",
+        title: "Theorie des nombres",
         chapters: [
-            { id: "perfect_nums", title: "Counting Perfect Numbers" },
-            { id: "pythag_triplets", title: "Euclid's Pythagorean Triplets" },
-            { id: "fermat", title: "Fermat's Theorem" },
-            { id: "sequences_plot", title: "Plotting Number Sequences" },
-            { id: "convergent", title: "Exercise: Con/Divergent Sequences" },
-            { id: "heron", title: "Heron's Method of Square Roots" },
-            { id: "heron_mosquito", title: "Exercise: Heron's Mosquito Spaceship" },
-            { id: "smooth_nums", title: "Smooth Numbers" },
-            { id: "smooth_ex", title: "Exercise: Smooth Numbers" },
-            { id: "num_theory_bug", title: "Number Theory Bug Hunt!" }
+            { id: "perfect_nums", title: "Compter les nombres parfaits" },
+            { id: "pythag_triplets", title: "Triplets pythagoriciens d'Euclide" },
+            { id: "fermat", title: "Le theoreme de Fermat" },
+            { id: "sequences_plot", title: "Tracer des suites numeriques" },
+            { id: "convergent", title: "Exercice : Suites convergentes/divergentes" },
+            { id: "heron", title: "Methode de Heron pour les racines carrees" },
+            { id: "heron_mosquito", title: "Exercice : Le vaisseau moustique de Heron" },
+            { id: "smooth_nums", title: "Nombres friables (smooth numbers)" },
+            { id: "smooth_ex", title: "Nombres friables : Exercice" },
+            { id: "num_theory_bug", title: "Chasse aux bugs Theorie des nombres !" }
         ]
     }
 ];

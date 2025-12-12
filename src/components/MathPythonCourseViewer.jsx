@@ -1,17 +1,19 @@
 'use client';
 
-import { useState, useRef, useEffect } from 'react';
+import { useState, useEffect } from 'react';
+import Link from 'next/link';
 import { introToPythonCourse } from '../app/challenges/data/introToPythonCourse';
-import { OrbitControls } from '@react-three/drei';
-import { Canvas } from '@react-three/fiber';
+import { getChapterContent } from '../app/challenges/data/chapterContent';
 
 export default function MathPythonCourseViewer() {
     const [activeModuleIndex, setActiveModuleIndex] = useState(0);
     const [activeChapterIndex, setActiveChapterIndex] = useState(0);
     const [showSidebar, setShowSidebar] = useState(true);
+    const [activeTab, setActiveTab] = useState('theorie');
 
     const activeModule = introToPythonCourse[activeModuleIndex];
-    const activeChapter = activeModule.chapters[activeChapterIndex];
+    const activeChapter = activeModule?.chapters?.[activeChapterIndex];
+    const chapterData = activeChapter ? getChapterContent(activeChapter.id) : null;
 
     const nextChapter = () => {
         if (activeChapterIndex < activeModule.chapters.length - 1) {
@@ -20,6 +22,7 @@ export default function MathPythonCourseViewer() {
             setActiveModuleIndex(activeModuleIndex + 1);
             setActiveChapterIndex(0);
         }
+        setActiveTab('theorie');
     };
 
     const prevChapter = () => {
@@ -29,127 +32,200 @@ export default function MathPythonCourseViewer() {
             setActiveModuleIndex(activeModuleIndex - 1);
             setActiveChapterIndex(introToPythonCourse[activeModuleIndex - 1].chapters.length - 1);
         }
+        setActiveTab('theorie');
     };
 
-    // Placeholder content generator based on chapter ID
-    const getContent = (id) => {
+    // Calculer la progression
+    const totalChapters = introToPythonCourse.reduce((acc, m) => acc + m.chapters.length, 0);
+    let currentChapterNumber = 0;
+    for (let i = 0; i < activeModuleIndex; i++) {
+        currentChapterNumber += introToPythonCourse[i].chapters.length;
+    }
+    currentChapterNumber += activeChapterIndex + 1;
+    const progressPercent = (currentChapterNumber / totalChapters) * 100;
 
-        const codeExamples = {
-            'basic_ops': `
-# Addition
-print(2 + 2)
-
-# Multiplication
-print(50 * 5)
-
-# Division (float)
-print(10 / 3) 
-`,
-            'variables': `
-mass = 10  # kg
-accel = 9.8 # m/s^2
-force = mass * accel
-print(f"Force = {force} Newtons")
-`,
-            'loops_powers': `
-for i in range(10):
-    print(f"2 to the power of {i} is {2**i}")
-`
-        };
-
-        const defaultContent = (
-            <div className="space-y-6 animate-fade-in">
-                <div className="bg-gradient-to-br from-gray-900 to-black border border-white/10 rounded-2xl p-8 shadow-2xl relative overflow-hidden">
-                    <div className="absolute top-0 right-0 w-64 h-64 bg-[#00F5D4]/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
-
-                    <h1 className="text-4xl font-black mb-6 bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-400">
-                        {activeChapter.title}
-                    </h1>
-
-                    <p className="text-xl text-gray-300 leading-relaxed mb-8">
-                        Bienvenue dans ce chapitre sur <strong>{activeChapter.title}</strong>.
-                        Ici, nous allons explorer les concepts fondamentaux à l'aide de Python.
+    const renderContent = () => {
+        if (!chapterData) {
+            return (
+                <div className="bg-gradient-to-br from-gray-900 to-black border border-white/10 rounded-2xl p-8 text-center">
+                    <div className="text-6xl mb-6 opacity-30">🚧</div>
+                    <h2 className="text-2xl font-bold mb-4 text-white">{activeChapter?.title}</h2>
+                    <p className="text-gray-400 mb-6">
+                        Le contenu de ce chapitre est en cours de redaction.
                     </p>
+                    <div className="inline-flex items-center gap-2 px-4 py-2 bg-purple-500/20 text-purple-300 rounded-lg text-sm">
+                        <span className="animate-pulse">●</span>
+                        Bientot disponible
+                    </div>
+                </div>
+            );
+        }
 
-                    <div className="grid md:grid-cols-2 gap-8 items-start">
-                        <div className="space-y-4">
-                            <h3 className="text-[#00F5D4] font-mono text-sm uppercase tracking-wider">Concept Clé</h3>
-                            <p className="text-gray-400">
-                                Python est un outil puissant pour les mathématiques. Ce module vous permet de visualiser et de calculer des concepts complexes instantanément.
-                            </p>
-                            <div className="p-4 bg-blue-500/10 border-l-4 border-blue-500 rounded-r-lg">
-                                <p className="text-blue-300 text-sm">
-                                    <strong>Astuce :</strong> N'oubliez pas d'exécuter chaque cellule de code pour voir le résultat !
-                                </p>
+        return (
+            <div className="space-y-6">
+                {/* Header du chapitre */}
+                <div className="bg-gradient-to-br from-purple-900/30 to-blue-900/30 border border-purple-500/20 rounded-2xl p-8 relative overflow-hidden">
+                    <div className="absolute top-0 right-0 w-64 h-64 bg-purple-500/10 rounded-full blur-3xl"></div>
+                    <div className="relative z-10">
+                        <div className="flex items-center gap-3 mb-4">
+                            <span className="px-3 py-1 bg-purple-500/20 text-purple-300 rounded-full text-xs font-mono">
+                                Module {activeModuleIndex + 1} / Chapitre {activeChapterIndex + 1}
+                            </span>
+                        </div>
+                        <h1 className="text-3xl md:text-4xl font-black mb-4 text-white">
+                            {chapterData.title}
+                        </h1>
+                    </div>
+                </div>
+
+                {/* Tabs */}
+                <div className="flex gap-2 bg-black/50 p-2 rounded-xl border border-white/10">
+                    {[
+                        { id: 'theorie', label: 'Theorie', icon: '📖' },
+                        { id: 'code', label: 'Code Python', icon: '🐍' },
+                        { id: 'exercice', label: 'Exercice', icon: '✏️' }
+                    ].map(tab => (
+                        <button
+                            key={tab.id}
+                            onClick={() => setActiveTab(tab.id)}
+                            className={`flex-1 py-3 px-4 rounded-lg text-sm font-medium transition-all flex items-center justify-center gap-2 ${activeTab === tab.id
+                                    ? 'bg-gradient-to-r from-purple-600 to-blue-600 text-white shadow-lg'
+                                    : 'text-gray-400 hover:text-white hover:bg-white/5'
+                                }`}
+                        >
+                            <span>{tab.icon}</span>
+                            <span className="hidden sm:inline">{tab.label}</span>
+                        </button>
+                    ))}
+                </div>
+
+                {/* Contenu selon l'onglet */}
+                <div className="bg-[#0F1115] border border-white/10 rounded-2xl overflow-hidden">
+                    {activeTab === 'theorie' && (
+                        <div className="p-6 md:p-8 prose prose-invert max-w-none">
+                            <div className="text-gray-300 leading-relaxed whitespace-pre-wrap text-base">
+                                {chapterData.theorie}
                             </div>
                         </div>
+                    )}
 
-                        <div className="bg-[#1E1E1E] rounded-xl overflow-hidden shadow-lg border border-white/5">
-                            <div className="flex items-center gap-2 px-4 py-2 bg-[#2D2D2D] border-b border-white/5">
+                    {activeTab === 'code' && (
+                        <div>
+                            <div className="flex items-center gap-2 px-4 py-3 bg-[#1E1E1E] border-b border-white/5">
                                 <div className="w-3 h-3 rounded-full bg-red-500"></div>
                                 <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
                                 <div className="w-3 h-3 rounded-full bg-green-500"></div>
-                                <span className="ml-2 text-xs text-gray-400 font-mono">main.py</span>
+                                <span className="ml-3 text-xs text-gray-400 font-mono">exemple.py</span>
+                                <div className="ml-auto flex items-center gap-2">
+                                    <span className="text-xs text-green-400 font-mono flex items-center gap-1">
+                                        <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+                                        Python 3.10
+                                    </span>
+                                </div>
                             </div>
-                            <div className="text-sm p-4 overflow-x-auto font-mono text-gray-300">
-                                <pre>{codeExamples[id] || `# Exemple de code pour ${activeChapter.title}\nimport numpy as np\nimport matplotlib.pyplot as plt\n\nx = np.linspace(0, 10, 100)\ny = x ** 2\nprint("Calcul terminé!")`}</pre>
+                            <pre className="p-6 overflow-x-auto text-sm font-mono text-gray-300 bg-[#1E1E1E]">
+                                <code>{chapterData.code}</code>
+                            </pre>
+                            <div className="p-4 bg-blue-900/20 border-t border-blue-500/20">
+                                <p className="text-blue-300 text-sm flex items-center gap-2">
+                                    <span>💡</span>
+                                    <span>Copiez ce code dans Jupyter ou Google Colab pour l'executer !</span>
+                                </p>
                             </div>
                         </div>
-                    </div>
-                </div>
+                    )}
 
-                {/* Interactive / Visual Area Placeholder */}
-                <div className="bg-black/50 border border-white/10 rounded-2xl p-6 min-h-[300px] flex items-center justify-center relative">
-                    <div className="text-center">
-                        <div className="text-6xl mb-4 opacity-20">📊</div>
-                        <p className="text-gray-500">Zone de visualisation interactive</p>
-                        <p className="text-xs text-gray-600 mt-2">(Graphiques, 3D, ou résultats s'afficheront ici)</p>
-                    </div>
+                    {activeTab === 'exercice' && (
+                        <div className="p-6 md:p-8">
+                            <div className="bg-gradient-to-r from-orange-900/30 to-red-900/30 border border-orange-500/20 rounded-xl p-6 mb-6">
+                                <h3 className="text-xl font-bold text-orange-300 mb-4 flex items-center gap-2">
+                                    <span>🎯</span>
+                                    A vous de jouer !
+                                </h3>
+                                <div className="text-gray-300 leading-relaxed whitespace-pre-wrap">
+                                    {chapterData.exercice}
+                                </div>
+                            </div>
+                            <Link
+                                href="/code"
+                                className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-purple-600 to-blue-600 text-white font-bold rounded-xl hover:opacity-90 transition-opacity"
+                            >
+                                <span>🚀</span>
+                                Ouvrir le Notebook Python
+                            </Link>
+                        </div>
+                    )}
                 </div>
             </div>
         );
-
-        return defaultContent;
     };
 
+    if (!activeModule || !activeChapter) {
+        return <div className="text-white p-10">Chargement...</div>;
+    }
+
     return (
-        <div className="flex bg-black text-white min-h-screen font-sans selection:bg-[#00F5D4] selection:text-black">
+        <div className="flex bg-black text-white min-h-screen font-sans selection:bg-purple-500 selection:text-white">
             {/* Sidebar */}
             <div className={`fixed inset-y-0 left-0 z-50 w-80 bg-[#0F1115] border-r border-white/10 transform transition-transform duration-300 ease-in-out ${showSidebar ? 'translate-x-0' : '-translate-x-full'}`}>
                 <div className="h-full flex flex-col">
-                    <div className="p-6 border-b border-white/10 flex justify-between items-center">
+                    {/* Header Sidebar */}
+                    <div className="p-6 border-b border-white/10">
+                        <Link href="/challenges" className="flex items-center gap-2 text-gray-400 hover:text-white mb-4 text-sm">
+                            <span>←</span>
+                            <span>Retour aux Challenges</span>
+                        </Link>
                         <h2 className="font-bold text-xl tracking-tight">
-                            SymLab <span className="text-[#00F5D4]">Masterclass</span>
+                            Maths & Python <span className="text-purple-400">Masterclass</span>
                         </h2>
-                        <button onClick={() => setShowSidebar(false)} className="md:hidden text-gray-400 hover:text-white">
-                            ✕
-                        </button>
+                        {/* Barre de progression */}
+                        <div className="mt-4">
+                            <div className="flex justify-between text-xs text-gray-500 mb-1">
+                                <span>Progression</span>
+                                <span>{currentChapterNumber}/{totalChapters}</span>
+                            </div>
+                            <div className="h-2 bg-gray-800 rounded-full overflow-hidden">
+                                <div
+                                    className="h-full bg-gradient-to-r from-purple-500 to-blue-500 transition-all duration-300"
+                                    style={{ width: `${progressPercent}%` }}
+                                ></div>
+                            </div>
+                        </div>
                     </div>
 
-                    <div className="flex-1 overflow-y-auto p-4 space-y-6 scrollbar-thin scrollbar-thumb-gray-800 scrollbar-track-transparent">
+                    {/* Liste des modules */}
+                    <div className="flex-1 overflow-y-auto p-4 space-y-4">
                         {introToPythonCourse.map((module, mIndex) => (
-                            <div key={module.id} className="animate-fade-in-up" style={{ animationDelay: `${mIndex * 50}ms` }}>
-                                <h3 className="text-xs font-mono uppercase text-gray-500 mb-3 px-2 flex items-center gap-2">
-                                    <span className="w-1.5 h-1.5 rounded-full bg-[#00F5D4]"></span>
+                            <div key={module.id}>
+                                <h3 className="text-xs font-mono uppercase text-gray-500 mb-2 px-2 flex items-center gap-2">
+                                    <span className={`w-2 h-2 rounded-full ${mIndex <= activeModuleIndex ? 'bg-purple-500' : 'bg-gray-700'}`}></span>
                                     {module.title}
                                 </h3>
                                 <div className="space-y-1">
                                     {module.chapters.map((chapter, cIndex) => {
                                         const isActive = mIndex === activeModuleIndex && cIndex === activeChapterIndex;
+                                        const hasContent = getChapterContent(chapter.id) !== null;
                                         return (
                                             <button
                                                 key={chapter.id}
                                                 onClick={() => {
                                                     setActiveModuleIndex(mIndex);
                                                     setActiveChapterIndex(cIndex);
+                                                    setActiveTab('theorie');
                                                 }}
                                                 className={`w-full text-left px-3 py-2 rounded-lg text-sm transition-all duration-200 flex items-center justify-between group ${isActive
-                                                        ? 'bg-[#00F5D4]/10 text-[#00F5D4] font-medium border border-[#00F5D4]/20'
+                                                        ? 'bg-purple-500/20 text-purple-300 font-medium border border-purple-500/30'
                                                         : 'text-gray-400 hover:bg-white/5 hover:text-white'
                                                     }`}
                                             >
-                                                <span className="truncate">{chapter.title}</span>
-                                                {isActive && <span className="text-xs">●</span>}
+                                                <span className="truncate flex items-center gap-2">
+                                                    {hasContent ? (
+                                                        <span className="text-green-400">●</span>
+                                                    ) : (
+                                                        <span className="text-gray-600">○</span>
+                                                    )}
+                                                    {chapter.title}
+                                                </span>
                                             </button>
                                         );
                                     })}
@@ -163,46 +239,45 @@ for i in range(10):
             {/* Main Content */}
             <div className={`flex-1 transition-all duration-300 ${showSidebar ? 'ml-80' : 'ml-0'}`}>
                 {/* Top Bar */}
-                <header className="sticky top-0 z-40 bg-black/80 backdrop-blur-xl border-b border-white/10 h-16 flex items-center justify-between px-6">
+                <header className="sticky top-0 z-40 bg-black/90 backdrop-blur-xl border-b border-white/10 h-16 flex items-center justify-between px-6">
                     <div className="flex items-center gap-4">
-                        {!showSidebar && (
-                            <button onClick={() => setShowSidebar(true)} className="p-2 hover:bg-white/10 rounded-lg transition-colors">
-                                <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-                                </svg>
-                            </button>
-                        )}
+                        <button
+                            onClick={() => setShowSidebar(!showSidebar)}
+                            className="p-2 hover:bg-white/10 rounded-lg transition-colors"
+                        >
+                            <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                            </svg>
+                        </button>
                         <div className="flex flex-col">
-                            <span className="text-xs text-gray-500 font-mono">Module {activeModuleIndex + 1}/{introToPythonCourse.length}</span>
+                            <span className="text-xs text-gray-500 font-mono">
+                                Module {activeModuleIndex + 1}/{introToPythonCourse.length}
+                            </span>
                             <span className="font-bold text-sm text-gray-300">{activeModule.title}</span>
                         </div>
                     </div>
 
-                    <div className="flex items-center gap-2">
-                        <div className="hidden md:flex items-center gap-2 px-3 py-1 bg-white/5 rounded-full border border-white/10 mr-4">
-                            <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
-                            <span className="text-xs text-green-400 font-mono">Python 3.10 Ready</span>
-                        </div>
+                    <div className="flex items-center gap-3">
                         <button
                             onClick={prevChapter}
                             disabled={activeModuleIndex === 0 && activeChapterIndex === 0}
                             className="p-2 rounded-lg bg-white/5 hover:bg-white/10 disabled:opacity-30 disabled:cursor-not-allowed transition-all border border-white/10"
                         >
-                            ←
+                            ← Precedent
                         </button>
                         <button
                             onClick={nextChapter}
                             disabled={activeModuleIndex === introToPythonCourse.length - 1 && activeChapterIndex === activeModule.chapters.length - 1}
-                            className="p-2 rounded-lg bg-[#00F5D4] text-black font-bold hover:bg-[#00F5D4]/90 disabled:opacity-30 disabled:cursor-not-allowed transition-all shadow-[0_0_15px_rgba(0,245,212,0.3)]"
+                            className="px-4 py-2 rounded-lg bg-gradient-to-r from-purple-600 to-blue-600 text-white font-bold hover:opacity-90 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
                         >
-                            →
+                            Suivant →
                         </button>
                     </div>
                 </header>
 
                 {/* Content Area */}
-                <main className="p-6 md:p-12 max-w-5xl mx-auto min-h-[calc(100vh-64px)]">
-                    {getContent(activeChapter.id)}
+                <main className="p-6 md:p-12 max-w-4xl mx-auto min-h-[calc(100vh-64px)]">
+                    {renderContent()}
                 </main>
             </div>
         </div>
