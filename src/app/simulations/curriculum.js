@@ -501,6 +501,7 @@ export const simulationsCurriculum = {
                                 difficulty: "difficile",
                                 duration: "30 min",
                                 icon: "🔍",
+                                image: "/simulations/pc3e/lens-optics-3e.png",
                                 tags: ["optique", "lentilles", "image"]
                             },
                             {
@@ -510,6 +511,7 @@ export const simulationsCurriculum = {
                                 difficulty: "difficile",
                                 duration: "25 min",
                                 icon: "🌈",
+                                image: "/simulations/pc3e/light-dispersion-3e.png",
                                 tags: ["optique", "spectre", "couleurs"]
                             },
                             {
@@ -519,6 +521,7 @@ export const simulationsCurriculum = {
                                 difficulty: "difficile",
                                 duration: "30 min",
                                 icon: "🎯",
+                                image: "/simulations/pc3e/forces-vectors-3e.png",
                                 tags: ["mécanique", "forces", "vecteurs"]
                             },
                             {
@@ -528,6 +531,7 @@ export const simulationsCurriculum = {
                                 difficulty: "difficile",
                                 duration: "30 min",
                                 icon: "⚡",
+                                image: "/simulations/pc3e/work-power-3e.png",
                                 tags: ["mécanique", "énergie", "joule"]
                             },
                             {
@@ -537,6 +541,7 @@ export const simulationsCurriculum = {
                                 difficulty: "difficile",
                                 duration: "25 min",
                                 icon: "⚡",
+                                image: "/simulations/pc3e/electrostatics-3e.png",
                                 tags: ["électricité", "charges", "atomes"]
                             },
                             {
@@ -546,6 +551,7 @@ export const simulationsCurriculum = {
                                 difficulty: "difficile",
                                 duration: "35 min",
                                 icon: "🔋",
+                                image: "/simulations/pc3e/resistance-ohm-3e.png",
                                 tags: ["électricité", "ohm", "circuit"]
                             },
                             {
@@ -555,6 +561,7 @@ export const simulationsCurriculum = {
                                 difficulty: "difficile",
                                 duration: "30 min",
                                 icon: "🔄",
+                                image: "/simulations/pc3e/energy-transformations-3e.png",
                                 tags: ["énergie", "rendement", "formes"]
                             },
                             // CHIMIE - 4 simulations
@@ -565,6 +572,7 @@ export const simulationsCurriculum = {
                                 difficulty: "difficile",
                                 duration: "25 min",
                                 icon: "🧪",
+                                image: "/simulations/pc3e/aqueous-solutions-3e.png",
                                 tags: ["chimie", "solutions", "eau"]
                             },
                             {
@@ -574,6 +582,7 @@ export const simulationsCurriculum = {
                                 difficulty: "difficile",
                                 duration: "30 min",
                                 icon: "🧫",
+                                image: "/simulations/pc3e/acids-bases-ph-3e.png",
                                 tags: ["chimie", "pH", "acide"]
                             },
                             {
@@ -583,6 +592,7 @@ export const simulationsCurriculum = {
                                 difficulty: "difficile",
                                 duration: "30 min",
                                 icon: "⚙️",
+                                image: "/simulations/pc3e/metals-properties-3e.png",
                                 tags: ["chimie", "métaux", "réactions"]
                             },
                             {
@@ -592,6 +602,7 @@ export const simulationsCurriculum = {
                                 difficulty: "difficile",
                                 duration: "30 min",
                                 icon: "🛢️",
+                                image: "/simulations/pc3e/hydrocarbons-3e.png",
                                 tags: ["chimie", "organique", "pétrole"]
                             }
                         ]

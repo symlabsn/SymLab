@@ -226,9 +226,22 @@ export default function SimulationsPage() {
                                     {difficultyData?.label}
                                 </div>
 
-                                {/* Icône */}
-                                <div className="text-6xl mb-4 group-hover:scale-110 transition-transform">
-                                    {sim.icon}
+                                {/* Image ou Icône */}
+                                <div className="mb-4 h-48 relative overflow-hidden rounded-xl border border-white/10 group-hover:border-[#00F5D4]/30 transition-colors">
+                                    {sim.image ? (
+                                        <Image
+                                            src={sim.image}
+                                            alt={sim.title}
+                                            fill
+                                            className="object-cover group-hover:scale-110 transition-transform duration-500"
+                                        />
+                                    ) : (
+                                        <div className="text-6xl flex items-center justify-center h-full bg-white/5 group-hover:bg-white/10 transition-colors">
+                                            <div className="group-hover:scale-110 transition-transform duration-300">
+                                                {sim.icon}
+                                            </div>
+                                        </div>
+                                    )}
                                 </div>
 
                                 {/* Titre */}
