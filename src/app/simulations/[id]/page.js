@@ -580,6 +580,151 @@ const FullscreenButton = ({ containerRef }) => {
     );
 };
 
+// Composant Panneau Draggable (Déplaçable)
+const DraggableControlPanel = ({
+    children,
+    title = "🎛️ Contrôles",
+    initialPosition = { x: 20, y: 20 },
+    isVisible,
+    setIsVisible
+}) => {
+    const [position, setPosition] = useState(initialPosition);
+    const [isDragging, setIsDragging] = useState(false);
+    const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
+    const [isMinimized, setIsMinimized] = useState(false);
+    const panelRef = useRef(null);
+
+    const handleMouseDown = (e) => {
+        if (e.target.closest('.no-drag')) return;
+        setIsDragging(true);
+        const rect = panelRef.current.getBoundingClientRect();
+        setDragOffset({
+            x: e.clientX - rect.left,
+            y: e.clientY - rect.top
+        });
+    };
+
+    const handleMouseMove = useCallback((e) => {
+        if (!isDragging) return;
+
+        const newX = e.clientX - dragOffset.x;
+        const newY = e.clientY - dragOffset.y;
+
+        // Limiter aux bords de l'écran
+        const maxX = window.innerWidth - (panelRef.current?.offsetWidth || 300);
+        const maxY = window.innerHeight - (panelRef.current?.offsetHeight || 200);
+
+        setPosition({
+            x: Math.max(0, Math.min(newX, maxX)),
+            y: Math.max(0, Math.min(newY, maxY))
+        });
+    }, [isDragging, dragOffset]);
+
+    const handleMouseUp = () => {
+        setIsDragging(false);
+    };
+
+    // Touch support
+    const handleTouchStart = (e) => {
+        if (e.target.closest('.no-drag')) return;
+        const touch = e.touches[0];
+        setIsDragging(true);
+        const rect = panelRef.current.getBoundingClientRect();
+        setDragOffset({
+            x: touch.clientX - rect.left,
+            y: touch.clientY - rect.top
+        });
+    };
+
+    const handleTouchMove = useCallback((e) => {
+        if (!isDragging) return;
+        const touch = e.touches[0];
+
+        const newX = touch.clientX - dragOffset.x;
+        const newY = touch.clientY - dragOffset.y;
+
+        const maxX = window.innerWidth - (panelRef.current?.offsetWidth || 300);
+        const maxY = window.innerHeight - (panelRef.current?.offsetHeight || 200);
+
+        setPosition({
+            x: Math.max(0, Math.min(newX, maxX)),
+            y: Math.max(0, Math.min(newY, maxY))
+        });
+    }, [isDragging, dragOffset]);
+
+    useEffect(() => {
+        if (isDragging) {
+            window.addEventListener('mousemove', handleMouseMove);
+            window.addEventListener('mouseup', handleMouseUp);
+            window.addEventListener('touchmove', handleTouchMove);
+            window.addEventListener('touchend', handleMouseUp);
+        }
+        return () => {
+            window.removeEventListener('mousemove', handleMouseMove);
+            window.removeEventListener('mouseup', handleMouseUp);
+            window.removeEventListener('touchmove', handleTouchMove);
+            window.removeEventListener('touchend', handleMouseUp);
+        };
+    }, [isDragging, handleMouseMove, handleTouchMove]);
+
+    if (!isVisible) return null;
+
+    return (
+        <div
+            ref={panelRef}
+            className={`fixed z-50 bg-black/95 backdrop-blur-xl rounded-2xl border border-white/20 shadow-2xl overflow-hidden transition-all duration-200 ${isDragging ? 'cursor-grabbing scale-[1.02]' : ''}`}
+            style={{
+                left: position.x,
+                top: position.y,
+                width: isMinimized ? '200px' : '320px',
+                maxHeight: isMinimized ? '50px' : '80vh'
+            }}
+        >
+            {/* Header - Zone de drag */}
+            <div
+                className="flex items-center justify-between p-3 bg-gradient-to-r from-[#00F5D4]/20 to-purple-500/20 border-b border-white/10 cursor-grab active:cursor-grabbing select-none"
+                onMouseDown={handleMouseDown}
+                onTouchStart={handleTouchStart}
+            >
+                <div className="flex items-center gap-2">
+                    <span className="text-lg">{title.split(' ')[0]}</span>
+                    <span className="font-bold text-sm text-[#00F5D4]">{title.split(' ').slice(1).join(' ')}</span>
+                </div>
+                <div className="flex items-center gap-1">
+                    {/* Bouton Minimiser */}
+                    <button
+                        onClick={() => setIsMinimized(!isMinimized)}
+                        className="no-drag w-7 h-7 rounded-lg bg-white/10 hover:bg-white/20 flex items-center justify-center transition-all text-sm"
+                        title={isMinimized ? "Agrandir" : "Réduire"}
+                    >
+                        {isMinimized ? '🔼' : '🔽'}
+                    </button>
+                    {/* Bouton Fermer */}
+                    <button
+                        onClick={() => setIsVisible(false)}
+                        className="no-drag w-7 h-7 rounded-lg bg-red-500/20 hover:bg-red-500/40 flex items-center justify-center transition-all text-red-400 text-sm"
+                        title="Fermer"
+                    >
+                        ✕
+                    </button>
+                </div>
+            </div>
+
+            {/* Content */}
+            {!isMinimized && (
+                <div className="p-4 overflow-y-auto max-h-[calc(80vh-50px)] no-drag">
+                    {children}
+                </div>
+            )}
+
+            {/* Indicateur de drag */}
+            {isMinimized && (
+                <div className="absolute bottom-1 left-1/2 -translate-x-1/2 w-8 h-1 rounded-full bg-white/30" />
+            )}
+        </div>
+    );
+};
+
 // Composant Barre d'outils flottante - Optimisé Mobile
 const FloatingToolbar = ({
     onScreenshot,
@@ -745,6 +890,9 @@ export default function SimulationDetailPage({ params }) {
     const [showHelpModal, setShowHelpModal] = useState(false);
     const [showResultsModal, setShowResultsModal] = useState(false);
     const [quizResults, setQuizResults] = useState({ score: 0, total: 0 });
+
+    // Panneau de contrôle draggable
+    const [showControlPanel, setShowControlPanel] = useState(true);
 
     // Ref pour le conteneur de simulation
     const simulationContainerRef = useRef(null);
@@ -925,46 +1073,61 @@ export default function SimulationDetailPage({ params }) {
                                         </div>
                                     </details>
 
-                                    {/* Panneau de contrôle visible sur desktop */}
-                                    <div className="hidden lg:block">
-                                        <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-4 border border-white/10">
-                                            <h3 className="text-lg font-bold mb-4 flex items-center gap-2 text-[#00F5D4]">
-                                                <span className="text-xl">🎛️</span> Panneau de Contrôle
-                                            </h3>
-                                            <div className="grid grid-cols-2 gap-4">
-                                                <AdvancedControls
-                                                    autoRotate={autoRotate}
-                                                    setAutoRotate={setAutoRotate}
-                                                    speed={speed}
-                                                    setSpeed={setSpeed}
-                                                    showLabels={showLabels}
-                                                    setShowLabels={setShowLabels}
-                                                    showGrid={showGrid}
-                                                    setShowGrid={setShowGrid}
-                                                    zoom={zoom}
-                                                    setZoom={setZoom}
-                                                />
-                                                {/* Guide des interactions */}
-                                                <div className="bg-black/30 rounded-xl p-4">
-                                                    <h4 className="font-semibold text-sm text-gray-400 mb-3 uppercase tracking-wider">Interactions</h4>
-                                                    <div className="space-y-2 text-sm">
-                                                        <div className="flex items-center gap-2">
-                                                            <span>🖱️</span>
-                                                            <span className="text-gray-300">Rotation: Clic + Glisser</span>
-                                                        </div>
-                                                        <div className="flex items-center gap-2">
-                                                            <span>🔍</span>
-                                                            <span className="text-gray-300">Zoom: Molette</span>
-                                                        </div>
-                                                        <div className="flex items-center gap-2">
-                                                            <span>✋</span>
-                                                            <span className="text-gray-300">Déplacer: Clic droit</span>
-                                                        </div>
+                                    {/* Bouton pour ouvrir le panneau de contrôle (si fermé) */}
+                                    {!showControlPanel && (
+                                        <button
+                                            onClick={() => setShowControlPanel(true)}
+                                            className="fixed bottom-20 right-4 z-40 p-3 rounded-xl bg-gradient-to-r from-[#00F5D4] to-purple-500 text-black font-bold shadow-2xl hover:scale-110 transition-all animate-pulse"
+                                            title="Ouvrir le panneau de contrôle"
+                                        >
+                                            🎛️
+                                        </button>
+                                    )}
+
+                                    {/* Panneau de contrôle Draggable (Desktop + Mobile) */}
+                                    <DraggableControlPanel
+                                        title="🎛️ Panneau de Contrôle"
+                                        initialPosition={{ x: 20, y: 120 }}
+                                        isVisible={showControlPanel}
+                                        setIsVisible={setShowControlPanel}
+                                    >
+                                        <div className="space-y-4">
+                                            <AdvancedControls
+                                                autoRotate={autoRotate}
+                                                setAutoRotate={setAutoRotate}
+                                                speed={speed}
+                                                setSpeed={setSpeed}
+                                                showLabels={showLabels}
+                                                setShowLabels={setShowLabels}
+                                                showGrid={showGrid}
+                                                setShowGrid={setShowGrid}
+                                                zoom={zoom}
+                                                setZoom={setZoom}
+                                            />
+                                            {/* Guide des interactions */}
+                                            <div className="bg-black/30 rounded-xl p-3">
+                                                <h4 className="font-semibold text-xs text-gray-400 mb-2 uppercase tracking-wider">Interactions</h4>
+                                                <div className="space-y-1.5 text-xs">
+                                                    <div className="flex items-center gap-2">
+                                                        <span>🖱️</span>
+                                                        <span className="text-gray-300">Rotation: Clic + Glisser</span>
+                                                    </div>
+                                                    <div className="flex items-center gap-2">
+                                                        <span>🔍</span>
+                                                        <span className="text-gray-300">Zoom: Molette</span>
+                                                    </div>
+                                                    <div className="flex items-center gap-2">
+                                                        <span>✋</span>
+                                                        <span className="text-gray-300">Déplacer: Clic droit</span>
+                                                    </div>
+                                                    <div className="flex items-center gap-2">
+                                                        <span>✊</span>
+                                                        <span className="text-gray-300">Déplacer ce panneau: Header</span>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    </DraggableControlPanel>
 
                                     {/* Visualisation Interactive (Image backup) - Hidden on mobile */}
                                     <div className="hidden sm:block">
