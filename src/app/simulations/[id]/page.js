@@ -580,7 +580,7 @@ const FullscreenButton = ({ containerRef }) => {
     );
 };
 
-// Composant Barre d'outils flottante
+// Composant Barre d'outils flottante - Optimisé Mobile
 const FloatingToolbar = ({
     onScreenshot,
     onReset,
@@ -588,34 +588,27 @@ const FloatingToolbar = ({
     isPlaying,
     setIsPlaying
 }) => (
-    <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex gap-2 p-2 rounded-2xl bg-black/80 backdrop-blur-xl border border-white/20 z-10">
+    <div className="absolute bottom-2 sm:bottom-4 left-1/2 transform -translate-x-1/2 flex gap-1 sm:gap-2 p-1.5 sm:p-2 rounded-xl sm:rounded-2xl bg-black/90 backdrop-blur-xl border border-white/20 z-10">
         <button
             onClick={() => setIsPlaying(!isPlaying)}
-            className={`w-10 h-10 rounded-xl flex items-center justify-center transition-all hover:scale-110 ${isPlaying ? 'bg-red-500/20 text-red-400' : 'bg-green-500/20 text-green-400'}`}
+            className={`w-8 h-8 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl flex items-center justify-center transition-all active:scale-95 ${isPlaying ? 'bg-red-500/20 text-red-400' : 'bg-green-500/20 text-green-400'}`}
             title={isPlaying ? "Pause" : "Play"}
         >
-            {isPlaying ? '⏸️' : '▶️'}
+            <span className="text-sm sm:text-base">{isPlaying ? '⏸️' : '▶️'}</span>
         </button>
         <button
             onClick={onReset}
-            className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center hover:bg-white/20 transition-all hover:scale-110"
+            className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl bg-white/10 flex items-center justify-center active:scale-95 transition-all"
             title="Réinitialiser"
         >
-            🔄
-        </button>
-        <button
-            onClick={onScreenshot}
-            className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center hover:bg-white/20 transition-all hover:scale-110"
-            title="Capture d'écran"
-        >
-            📸
+            <span className="text-sm sm:text-base">🔄</span>
         </button>
         <button
             onClick={onHelp}
-            className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center hover:bg-white/20 transition-all hover:scale-110"
+            className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl bg-white/10 flex items-center justify-center active:scale-95 transition-all"
             title="Aide"
         >
-            ❓
+            <span className="text-sm sm:text-base">❓</span>
         </button>
     </div>
 );
@@ -885,43 +878,60 @@ export default function SimulationDetailPage({ params }) {
                     <div>
                         {activeTab === 'simulation' && (
                             <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
-                                {/* Layout principal : Simulation à gauche, Contrôles à droite sur Desktop */}
-                                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                                    {/* Colonne Simulation (2/3 largeur) */}
-                                    <div className="lg:col-span-2 space-y-6">
-                                        {/* Conteneur de simulation avec barre d'outils */}
-                                        <div ref={simulationContainerRef} className="relative rounded-2xl overflow-hidden shadow-2xl border border-white/20 bg-black/50 aspect-video lg:aspect-auto lg:h-[600px]">
-                                            <Simulation3D type={simulation.type} config={simulation.config} />
-                                            <FloatingToolbar
-                                                onScreenshot={handleScreenshot}
-                                                onReset={handleReset}
-                                                onHelp={() => setShowHelpModal(true)}
-                                                isPlaying={isPlaying}
-                                                setIsPlaying={setIsPlaying}
-                                            />
-                                            <div className="absolute top-4 right-4 z-10">
-                                                <FullscreenButton containerRef={simulationContainerRef} />
-                                            </div>
-                                        </div>
-
-                                        {/* Visualisation Interactive (Image backup si 3D lourd) */}
-                                        <div className="hidden sm:block">
-                                            <ImageSimulation
-                                                simulationId={resolvedParams.id}
-                                                title={simulation.title}
-                                            />
+                                {/* Simulation en pleine largeur sur mobile */}
+                                <div className="space-y-4">
+                                    {/* Conteneur de simulation - Plein écran mobile */}
+                                    <div ref={simulationContainerRef} className="relative rounded-xl sm:rounded-2xl overflow-hidden shadow-2xl border border-white/20 bg-black/50 h-[50vh] sm:h-[60vh] lg:h-[70vh]">
+                                        <Simulation3D type={simulation.type} config={simulation.config} />
+                                        <FloatingToolbar
+                                            onScreenshot={handleScreenshot}
+                                            onReset={handleReset}
+                                            onHelp={() => setShowHelpModal(true)}
+                                            isPlaying={isPlaying}
+                                            setIsPlaying={setIsPlaying}
+                                        />
+                                        <div className="absolute top-2 right-2 sm:top-4 sm:right-4 z-10">
+                                            <FullscreenButton containerRef={simulationContainerRef} />
                                         </div>
                                     </div>
 
-                                    {/* Colonne Contrôles (1/3 largeur) - Sticky sur Desktop */}
-                                    <div className="lg:col-span-1 space-y-4">
-                                        <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-4 border border-white/10 sticky top-20">
-                                            <h3 className="text-xl font-bold mb-4 flex items-center gap-2 text-[#00F5D4]">
-                                                <span className="text-2xl">🎛️</span> Panneau de Contrôle
-                                            </h3>
+                                    {/* Panneau de contrôle repliable sur mobile */}
+                                    <details className="lg:hidden group">
+                                        <summary className="flex items-center justify-between p-3 rounded-xl bg-white/5 border border-white/10 cursor-pointer list-none active:scale-[0.98] transition-all">
+                                            <div className="flex items-center gap-2">
+                                                <span className="text-lg">🎛️</span>
+                                                <span className="font-bold text-sm text-[#00F5D4]">Contrôles</span>
+                                            </div>
+                                            <span className="text-gray-400 group-open:rotate-180 transition-transform">▼</span>
+                                        </summary>
+                                        <div className="mt-2 p-4 rounded-xl bg-white/5 border border-white/10 space-y-4">
+                                            <AdvancedControls
+                                                autoRotate={autoRotate}
+                                                setAutoRotate={setAutoRotate}
+                                                speed={speed}
+                                                setSpeed={setSpeed}
+                                                showLabels={showLabels}
+                                                setShowLabels={setShowLabels}
+                                                showGrid={showGrid}
+                                                setShowGrid={setShowGrid}
+                                                zoom={zoom}
+                                                setZoom={setZoom}
+                                            />
+                                            {/* Guide tactile mobile */}
+                                            <div className="flex flex-wrap gap-2 text-xs text-gray-400">
+                                                <span className="flex items-center gap-1 bg-white/5 px-2 py-1 rounded">👆 Glisser = Rotation</span>
+                                                <span className="flex items-center gap-1 bg-white/5 px-2 py-1 rounded">🤏 Pincer = Zoom</span>
+                                            </div>
+                                        </div>
+                                    </details>
 
-                                            {/* Contrôles de base */}
-                                            <div className="space-y-4 mb-6">
+                                    {/* Panneau de contrôle visible sur desktop */}
+                                    <div className="hidden lg:block">
+                                        <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-4 border border-white/10">
+                                            <h3 className="text-lg font-bold mb-4 flex items-center gap-2 text-[#00F5D4]">
+                                                <span className="text-xl">🎛️</span> Panneau de Contrôle
+                                            </h3>
+                                            <div className="grid grid-cols-2 gap-4">
                                                 <AdvancedControls
                                                     autoRotate={autoRotate}
                                                     setAutoRotate={setAutoRotate}
@@ -934,36 +944,34 @@ export default function SimulationDetailPage({ params }) {
                                                     zoom={zoom}
                                                     setZoom={setZoom}
                                                 />
-                                            </div>
-
-                                            {/* Guide des interactions */}
-                                            <div className="bg-black/30 rounded-xl p-4">
-                                                <h4 className="font-semibold text-sm text-gray-400 mb-3 uppercase tracking-wider">Interactions</h4>
-                                                <div className="space-y-3 text-sm">
-                                                    <div className="flex items-center gap-3">
-                                                        <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center">🖱️</div>
-                                                        <div>
-                                                            <p className="font-medium">Rotation</p>
-                                                            <p className="text-xs text-gray-400">Clic gauche + Glisser</p>
+                                                {/* Guide des interactions */}
+                                                <div className="bg-black/30 rounded-xl p-4">
+                                                    <h4 className="font-semibold text-sm text-gray-400 mb-3 uppercase tracking-wider">Interactions</h4>
+                                                    <div className="space-y-2 text-sm">
+                                                        <div className="flex items-center gap-2">
+                                                            <span>🖱️</span>
+                                                            <span className="text-gray-300">Rotation: Clic + Glisser</span>
                                                         </div>
-                                                    </div>
-                                                    <div className="flex items-center gap-3">
-                                                        <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center">🔍</div>
-                                                        <div>
-                                                            <p className="font-medium">Zoom</p>
-                                                            <p className="text-xs text-gray-400">Molette souris</p>
+                                                        <div className="flex items-center gap-2">
+                                                            <span>🔍</span>
+                                                            <span className="text-gray-300">Zoom: Molette</span>
                                                         </div>
-                                                    </div>
-                                                    <div className="flex items-center gap-3">
-                                                        <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center">✋</div>
-                                                        <div>
-                                                            <p className="font-medium">Déplacer</p>
-                                                            <p className="text-xs text-gray-400">Clic droit + Glisser</p>
+                                                        <div className="flex items-center gap-2">
+                                                            <span>✋</span>
+                                                            <span className="text-gray-300">Déplacer: Clic droit</span>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
+                                    </div>
+
+                                    {/* Visualisation Interactive (Image backup) - Hidden on mobile */}
+                                    <div className="hidden sm:block">
+                                        <ImageSimulation
+                                            simulationId={resolvedParams.id}
+                                            title={simulation.title}
+                                        />
                                     </div>
                                 </div>
                             </div>
