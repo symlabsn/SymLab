@@ -48,6 +48,110 @@ import { DensityExplorer, RefractionSimulator, CircuitSeriesParallel, MassConser
 import { Chap1ScienceIntro, Chap2Mesures, Chap3Densite, Chap4PoidsMasse, Chap5Electricite } from './PC4eChapter1to5';
 import { Chap6SourcesLumiere, Chap7PropagationLumiere, Chap8Refraction } from './PC4eChapter6to8';
 
+// Composant Panneau Draggable pour l'intérieur des simulations 3D
+const DraggableHtmlPanel = ({ children, title, className = "", initialPos = { x: 0, y: 0 } }) => {
+    const [position, setPosition] = useState(initialPos);
+    const [isDragging, setIsDragging] = useState(false);
+    const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
+    const [isMinimized, setIsMinimized] = useState(false);
+    const panelRef = useRef(null);
+
+    const handleMouseDown = (e) => {
+        if (e.target.closest('.no-drag')) return;
+        e.stopPropagation();
+        setIsDragging(true);
+        setDragStart({
+            x: e.clientX - position.x,
+            y: e.clientY - position.y
+        });
+    };
+
+    const handleMouseMove = (e) => {
+        if (!isDragging) return;
+        e.stopPropagation();
+        setPosition({
+            x: e.clientX - dragStart.x,
+            y: e.clientY - dragStart.y
+        });
+    };
+
+    const handleMouseUp = () => {
+        setIsDragging(false);
+    };
+
+    const handleTouchStart = (e) => {
+        if (e.target.closest('.no-drag')) return;
+        const touch = e.touches[0];
+        setIsDragging(true);
+        setDragStart({
+            x: touch.clientX - position.x,
+            y: touch.clientY - position.y
+        });
+    };
+
+    const handleTouchMove = (e) => {
+        if (!isDragging) return;
+        const touch = e.touches[0];
+        setPosition({
+            x: touch.clientX - dragStart.x,
+            y: touch.clientY - dragStart.y
+        });
+    };
+
+    useEffect(() => {
+        if (isDragging) {
+            window.addEventListener('mousemove', handleMouseMove);
+            window.addEventListener('mouseup', handleMouseUp);
+            window.addEventListener('touchmove', handleTouchMove);
+            window.addEventListener('touchend', handleMouseUp);
+        }
+        return () => {
+            window.removeEventListener('mousemove', handleMouseMove);
+            window.removeEventListener('mouseup', handleMouseUp);
+            window.removeEventListener('touchmove', handleTouchMove);
+            window.removeEventListener('touchend', handleMouseUp);
+        };
+    }, [isDragging, dragStart]);
+
+    return (
+        <div
+            ref={panelRef}
+            className={`bg-black/95 backdrop-blur-xl rounded-xl border border-white/30 shadow-2xl overflow-hidden transition-all duration-200 ${isDragging ? 'scale-[1.02] shadow-[0_0_30px_rgba(0,245,212,0.3)]' : ''} ${className}`}
+            style={{
+                transform: `translate(${position.x}px, ${position.y}px)`,
+                minWidth: isMinimized ? '150px' : '220px',
+                maxWidth: '350px',
+                pointerEvents: 'auto'
+            }}
+        >
+            {/* Header draggable */}
+            <div
+                className="flex items-center justify-between px-3 py-2 bg-gradient-to-r from-[#00F5D4]/30 to-purple-500/30 border-b border-white/20 cursor-grab active:cursor-grabbing select-none"
+                onMouseDown={handleMouseDown}
+                onTouchStart={handleTouchStart}
+            >
+                <span className="text-sm font-bold text-[#00F5D4] flex items-center gap-1.5">
+                    <span className="text-base">☰</span>
+                    {title || 'Contrôles'}
+                </span>
+                <button
+                    onClick={() => setIsMinimized(!isMinimized)}
+                    className="no-drag w-6 h-6 rounded bg-white/10 hover:bg-white/20 flex items-center justify-center text-xs transition-all"
+                >
+                    {isMinimized ? '▼' : '▲'}
+                </button>
+            </div>
+
+            {/* Content */}
+            {!isMinimized && (
+                <div className="p-3 no-drag">
+                    {children}
+                </div>
+            )}
+        </div>
+    );
+};
+
 // ... (existing helper components)
 
 // Composant Poids vs Masse (Terre vs Lune)
@@ -56,23 +160,35 @@ function WeightMass() {
 
     return (
         <group>
-            {/* Controls */}
+            {/* Controls - Panneau Draggable */}
             <Html position={[0, 4, 0]} center>
-                <div className="bg-black/90 p-4 rounded-xl text-white border border-white/20 min-w-[200px] backdrop-blur-md select-none">
-                    <label className="block text-sm font-bold mb-2 text-[#00F5D4]">Masse : {mass} kg</label>
-                    <input
-                        type="range"
-                        min="1"
-                        max="50"
-                        value={mass}
-                        onChange={(e) => setMass(parseInt(e.target.value))}
-                        className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-[#00F5D4]"
-                    />
-                    <div className="flex justify-between text-xs text-gray-400 mt-1">
-                        <span>1kg</span>
-                        <span>50kg</span>
+                <DraggableHtmlPanel title="⚖️ Poids vs Masse">
+                    <div className="text-white">
+                        <label className="block text-sm font-bold mb-2 text-[#00F5D4]">Masse : {mass} kg</label>
+                        <input
+                            type="range"
+                            min="1"
+                            max="50"
+                            value={mass}
+                            onChange={(e) => setMass(parseInt(e.target.value))}
+                            className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-[#00F5D4]"
+                        />
+                        <div className="flex justify-between text-xs text-gray-400 mt-1">
+                            <span>1kg</span>
+                            <span>50kg</span>
+                        </div>
+                        <div className="mt-3 pt-3 border-t border-white/10 grid grid-cols-2 gap-2 text-xs">
+                            <div className="p-2 rounded bg-blue-500/20">
+                                <div className="text-blue-400">🌍 Terre</div>
+                                <div className="font-bold">{(mass * 9.8).toFixed(1)} N</div>
+                            </div>
+                            <div className="p-2 rounded bg-gray-500/20">
+                                <div className="text-gray-400">🌙 Lune</div>
+                                <div className="font-bold">{(mass * 1.6).toFixed(1)} N</div>
+                            </div>
+                        </div>
                     </div>
-                </div>
+                </DraggableHtmlPanel>
             </Html>
 
             {/* Terre */}
@@ -159,26 +275,27 @@ function ThalesTheorem() {
 
     return (
         <group>
-            {/* Controls */}
+            {/* Controls - Draggable */}
             <Html position={[-3, 4, 0]} center>
-                <div className="bg-black/90 p-4 rounded-xl text-white border border-white/20 min-w-[220px] backdrop-blur-md select-none">
-                    <h3 className="text-[#00F5D4] font-bold mb-2">Contrôles Thalès</h3>
-                    <label className="block text-sm mb-1">Position MN (Ratio : {ratio.toFixed(2)})</label>
-                    <input
-                        type="range"
-                        min="0.1"
-                        max="0.9"
-                        step="0.05"
-                        value={ratio}
-                        onChange={(e) => setRatio(parseFloat(e.target.value))}
-                        className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-[#EF4444]"
-                    />
-                    <div className="mt-3 text-xs space-y-1 font-mono text-gray-300">
-                        <div className="flex justify-between"><span>AM/AB =</span> <span className="text-[#EF4444]">{ratio.toFixed(2)}</span></div>
-                        <div className="flex justify-between"><span>AN/AC =</span> <span className="text-[#EF4444]">{ratio.toFixed(2)}</span></div>
-                        <div className="flex justify-between"><span>MN/BC =</span> <span className="text-[#EF4444]">{ratio.toFixed(2)}</span></div>
+                <DraggableHtmlPanel title="📐 Théorème de Thalès">
+                    <div className="text-white">
+                        <label className="block text-sm mb-1">Position MN (Ratio : {ratio.toFixed(2)})</label>
+                        <input
+                            type="range"
+                            min="0.1"
+                            max="0.9"
+                            step="0.05"
+                            value={ratio}
+                            onChange={(e) => setRatio(parseFloat(e.target.value))}
+                            className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-[#EF4444]"
+                        />
+                        <div className="mt-3 text-xs space-y-1 font-mono text-gray-300">
+                            <div className="flex justify-between"><span>AM/AB =</span> <span className="text-[#EF4444]">{ratio.toFixed(2)}</span></div>
+                            <div className="flex justify-between"><span>AN/AC =</span> <span className="text-[#EF4444]">{ratio.toFixed(2)}</span></div>
+                            <div className="flex justify-between"><span>MN/BC =</span> <span className="text-[#EF4444]">{ratio.toFixed(2)}</span></div>
+                        </div>
                     </div>
-                </div>
+                </DraggableHtmlPanel>
             </Html>
 
             {/* Sommet A */}
@@ -244,49 +361,51 @@ function TrigUnitCircle() {
 
     return (
         <group>
-            {/* Controls */}
+            {/* Controls - Draggable */}
             <Html position={[-3.5, 2, 0]} center>
-                <div className="bg-black/90 p-4 rounded-xl text-white border border-white/20 min-w-[220px] backdrop-blur-md">
-                    <div className="flex items-center justify-between mb-4">
-                        <span className="font-bold text-[#00F5D4]">Contrôles</span>
-                        <button
-                            onClick={() => setAutoPlay(!autoPlay)}
-                            className={`px-3 py-1 rounded-lg text-xs font-bold ${autoPlay ? 'bg-red-500/20 text-red-400' : 'bg-green-500/20 text-green-400'}`}
-                        >
-                            {autoPlay ? 'Pause ⏸' : 'Play ▶'}
-                        </button>
-                    </div>
+                <DraggableHtmlPanel title="⭕ Cercle Trigonométrique">
+                    <div className="text-white">
+                        <div className="flex items-center justify-between mb-4">
+                            <span className="text-xs text-gray-400">Animation</span>
+                            <button
+                                onClick={() => setAutoPlay(!autoPlay)}
+                                className={`px-3 py-1 rounded-lg text-xs font-bold ${autoPlay ? 'bg-red-500/20 text-red-400' : 'bg-green-500/20 text-green-400'}`}
+                            >
+                                {autoPlay ? 'Pause ⏸' : 'Play ▶'}
+                            </button>
+                        </div>
 
-                    {!autoPlay && (
-                        <div className="mb-4">
-                            <label className="block text-xs mb-1 text-gray-400">Angle (rad)</label>
-                            <input
-                                type="range"
-                                min="0"
-                                max={Math.PI * 2}
-                                step="0.01"
-                                value={angle}
-                                onChange={(e) => setAngle(parseFloat(e.target.value))}
-                                className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-[#00F5D4]"
-                            />
-                        </div>
-                    )}
+                        {!autoPlay && (
+                            <div className="mb-4">
+                                <label className="block text-xs mb-1 text-gray-400">Angle (rad)</label>
+                                <input
+                                    type="range"
+                                    min="0"
+                                    max={Math.PI * 2}
+                                    step="0.01"
+                                    value={angle}
+                                    onChange={(e) => setAngle(parseFloat(e.target.value))}
+                                    className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-[#00F5D4]"
+                                />
+                            </div>
+                        )}
 
-                    <div className="space-y-2 text-xs font-mono">
-                        <div className="flex justify-between">
-                            <span className="text-blue-400">Cos (x) :</span>
-                            <span>{cosVal.toFixed(2)}</span>
-                        </div>
-                        <div className="flex justify-between">
-                            <span className="text-red-400">Sin (y) :</span>
-                            <span>{sinVal.toFixed(2)}</span>
-                        </div>
-                        <div className="flex justify-between border-t border-white/10 pt-2">
-                            <span className="text-gray-400">Angle :</span>
-                            <span>{((currentAngle * 180) / Math.PI).toFixed(0)}°</span>
+                        <div className="space-y-2 text-xs font-mono border-t border-white/10 pt-2">
+                            <div className="flex justify-between">
+                                <span className="text-blue-400">Cos (x) :</span>
+                                <span>{cosVal.toFixed(2)}</span>
+                            </div>
+                            <div className="flex justify-between">
+                                <span className="text-red-400">Sin (y) :</span>
+                                <span>{sinVal.toFixed(2)}</span>
+                            </div>
+                            <div className="flex justify-between font-bold">
+                                <span className="text-gray-400">Angle :</span>
+                                <span>{((currentAngle * 180) / Math.PI).toFixed(0)}°</span>
+                            </div>
                         </div>
                     </div>
-                </div>
+                </DraggableHtmlPanel>
             </Html>
 
             {/* Cercle Unité */}
@@ -4130,28 +4249,28 @@ function VolcanoEruption() {
 
     return (
         <group>
-            {/* Controls */}
+            {/* Controls - Draggable */}
             <Html position={[3, 3, 0]} center>
-                <div className="bg-black/90 p-4 rounded-xl text-white border border-white/20 min-w-[200px] backdrop-blur-md select-none">
-                    <h3 className="text-[#EF4444] font-bold mb-2">Contrôle Volcan</h3>
+                <DraggableHtmlPanel title="🌋 Contrôle Volcan">
+                    <div className="text-white">
+                        <button
+                            onClick={() => setErupting(!erupting)}
+                            className={`w-full py-2 rounded-lg font-bold mb-3 transition-colors ${erupting ? 'bg-red-600 animate-pulse' : 'bg-green-600 hover:bg-green-500'}`}
+                        >
+                            {erupting ? "ARRÊTER !" : "DÉCLENCHER"}
+                        </button>
 
-                    <button
-                        onClick={() => setErupting(!erupting)}
-                        className={`w-full py-2 rounded-lg font-bold mb-3 transition-colors ${erupting ? 'bg-red-600 animate-pulse' : 'bg-green-600 hover:bg-green-500'}`}
-                    >
-                        {erupting ? "ARRÊTER !" : "DÉCLENCHER"}
-                    </button>
-
-                    <label className="block text-sm mb-1">Pression Magmatique</label>
-                    <input
-                        type="range"
-                        min="1"
-                        max="10"
-                        value={pressure}
-                        onChange={(e) => setPressure(parseInt(e.target.value))}
-                        className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-[#EF4444]"
-                    />
-                </div>
+                        <label className="block text-sm mb-1">Pression Magmatique</label>
+                        <input
+                            type="range"
+                            min="1"
+                            max="10"
+                            value={pressure}
+                            onChange={(e) => setPressure(parseInt(e.target.value))}
+                            className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-[#EF4444]"
+                        />
+                    </div>
+                </DraggableHtmlPanel>
             </Html>
 
             <Text position={[0, 3.5, 0]} fontSize={0.5} color="#EF4444">ÉRUPTION VOLCANIQUE</Text>
