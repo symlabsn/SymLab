@@ -5,96 +5,130 @@ import { useFrame } from '@react-three/fiber';
 import { Text, Html, Float, Sphere, OrbitControls, Box, Cylinder, Torus } from '@react-three/drei';
 
 // ============================================================
-// CHAPITRE 9: SÉPARATION DES MÉLANGES
+// CHAPITRE 9: SÉPARATION DES MÉLANGES (IMMERSIVE & CHALLENGE)
 // ============================================================
 export function MixtureSeparationPC4() {
-    const [mixture, setMixture] = useState('mud'); // mud, salt_water, oil_water
-    const [method, setMethod] = useState(null); // decantation, filtration, evaporation
+    const [mode, setMode] = useState('explore'); // explore, challenge
+    const [mixture, setMixture] = useState('mud');
+    const [method, setMethod] = useState(null);
     const [progress, setProgress] = useState(0);
     const [particles, setParticles] = useState(null);
+    const [challengeTarget, setChallengeTarget] = useState(null);
+    const [message, setMessage] = useState(null);
 
-    // Initialisation des particules côté client pour éviter erreur hydratation
+    // Initialisation des particules
     useEffect(() => {
-        // Générer les positions aléatoires une seule fois au montage
         const pts = new Float32Array(600).map(() => (Math.random() - 0.5) * 1.5);
         setParticles(pts);
     }, []);
 
     const mixtures = {
         mud: { name: 'Eau boueuse', components: ['Eau', 'Terre'], color: '#78350F', separated: false },
-        salt_water: { name: 'Eau salée', components: ['Eau', 'Sel dissous'], color: '#93C5FD', separated: false },
+        salt_water: { name: 'Eau salée', components: ['Eau', 'Sel'], color: '#93C5FD', separated: false },
         oil_water: { name: 'Eau + Huile', components: ['Eau', 'Huile'], color: '#FEF3C7', separated: false }
     };
 
     const methods = {
-        decantation: { name: 'Décantation', icon: '⏳', effective: ['mud', 'oil_water'], desc: 'Laisser reposer pour séparer par densité.' },
-        filtration: { name: 'Filtration', icon: '☕', effective: ['mud'], desc: 'Passer à travers un filtre.' },
-        evaporation: { name: 'Vaporisation', icon: '🔥', effective: ['salt_water'], desc: 'Chauffer pour récupérer le solide dissous.' }
+        decantation: { name: 'Décantation', icon: '⏳', effective: ['mud', 'oil_water'], desc: 'Laisser reposer (densité)' },
+        filtration: { name: 'Filtration', icon: '☕', effective: ['mud'], desc: 'Passer à travers un filtre (taille)' },
+        evaporation: { name: 'Vaporisation', icon: '🔥', effective: ['salt_water'], desc: 'Chauffer pour récupérer le solide' }
     };
 
-    const mix = mixtures[mixture];
+    const mix = mixtures[challengeTarget || mixture];
 
     const startSeparation = (m) => {
         setMethod(m);
         setProgress(0);
+        setMessage(null);
     };
 
     useFrame((state, delta) => {
         if (method && progress < 1) {
-            setProgress(prev => Math.min(prev + delta * 0.2, 1));
+            setProgress(prev => Math.min(prev + delta * 0.3, 1));
         }
     });
 
-    const isSuccess = method && methods[method].effective.includes(mixture);
+    const isSuccess = method && methods[method].effective.includes(challengeTarget || mixture);
+
+    const startChallenge = () => {
+        const keys = Object.keys(mixtures);
+        const randomKey = keys[Math.floor(Math.random() * keys.length)];
+        setChallengeTarget(randomKey);
+        setMixture(randomKey);
+        setMode('challenge');
+        setMethod(null);
+        setProgress(0);
+        setMessage(null);
+    };
 
     return (
         <group>
             <Html position={[5, 2, 0]} center>
-                <div className="bg-black/90 p-5 rounded-2xl text-white border border-orange-500/30 w-[350px]">
-                    <h3 className="text-orange-400 font-bold text-xl mb-4">⚗️ Séparation de Mélanges</h3>
-
-                    <div className="mb-4">
-                        <label className="text-xs text-gray-400 uppercase font-bold">1. Choisir le mélange</label>
-                        <div className="grid grid-cols-3 gap-2 mt-1">
-                            {Object.entries(mixtures).map(([k, m]) => (
-                                <button key={k} onClick={() => { setMixture(k); setMethod(null); setProgress(0); }}
-                                    className={`p-2 rounded-lg text-xs font-bold ${mixture === k ? 'bg-orange-600' : 'bg-gray-800'}`}>
-                                    {m.name}
-                                </button>
-                            ))}
-                        </div>
+                <div className="bg-black/90 p-5 rounded-2xl text-white border border-orange-500/30 w-[350px] backdrop-blur-md">
+                    <div className="flex justify-between items-center mb-4">
+                        <h3 className="text-orange-400 font-bold text-xl">⚗️ Séparation</h3>
+                        <button onClick={() => setMode(mode === 'explore' ? 'challenge' : 'explore')}
+                            className="text-xs bg-gray-700 px-2 py-1 rounded hover:bg-white hover:text-black transition-colors">
+                            {mode === 'explore' ? 'Aller au Défi 🏆' : 'Retour Exploration'}
+                        </button>
                     </div>
 
-                    <div className="mb-4">
-                        <label className="text-xs text-gray-400 uppercase font-bold">2. Choisir la technique</label>
-                        <div className="grid grid-cols-1 gap-2 mt-1">
-                            {Object.entries(methods).map(([k, m]) => (
-                                <button key={k} onClick={() => startSeparation(k)}
-                                    className={`flex items-center gap-3 p-3 rounded-lg text-sm text-left transition-colors ${method === k ? 'bg-white text-black' : 'bg-gray-800 hover:bg-gray-700'}`}>
-                                    <span className="text-2xl">{m.icon}</span>
-                                    <div>
-                                        <div className="font-bold">{m.name}</div>
-                                        <div className="text-xs opacity-70">{m.desc}</div>
-                                    </div>
-                                </button>
-                            ))}
+                    {mode === 'explore' ? (
+                        <div className="mb-4">
+                            <label className="text-xs text-gray-400 uppercase font-bold">1. Choisir le mélange</label>
+                            <div className="grid grid-cols-3 gap-2 mt-1">
+                                {Object.entries(mixtures).map(([k, m]) => (
+                                    <button key={k} onClick={() => { setMixture(k); setMethod(null); setProgress(0); }}
+                                        className={`p-2 rounded-lg text-xs font-bold transition-all ${mixture === k ? 'bg-orange-600 scale-105' : 'bg-gray-800 hover:bg-gray-700'}`}>
+                                        {m.name}
+                                    </button>
+                                ))}
+                            </div>
                         </div>
-                    </div>
+                    ) : (
+                        <div className="mb-4 bg-gray-800 p-3 rounded-xl border border-orange-500 text-center">
+                            {!challengeTarget ? (
+                                <button onClick={startChallenge} className="w-full py-2 bg-orange-600 font-bold rounded hover:bg-orange-500">Lancer un Défi Aléatoire</button>
+                            ) : (
+                                <div>
+                                    <div className="text-sm">Mélange Mystère :</div>
+                                    <div className="font-bold text-lg text-orange-200">?</div>
+                                    <div className="text-xs text-gray-400 mt-1">Indice visuel : Regarde la couleur !</div>
+                                    {progress === 1 && isSuccess && <div className="mt-2 text-green-400 font-bold animate-bounce">Bravo ! C'était : {mixtures[challengeTarget].name}</div>}
+                                    {progress === 1 && !isSuccess && <div className="mt-2 text-red-400">Raté ! Essaie une autre technique.</div>}
+                                    {(progress === 1 && isSuccess) && <button onClick={startChallenge} className="mt-2 text-xs underline">Nouveau défi</button>}
+                                </div>
+                            )}
+                        </div>
+                    )}
+
+                    {(mode === 'explore' || challengeTarget) && (
+                        <div className="mb-4">
+                            <label className="text-xs text-gray-400 uppercase font-bold">Technique de séparation</label>
+                            <div className="grid grid-cols-1 gap-2 mt-1">
+                                {Object.entries(methods).map(([k, m]) => (
+                                    <button key={k} onClick={() => startSeparation(k)}
+                                        className={`flex items-center gap-3 p-2 rounded-lg text-sm text-left transition-all ${method === k ? 'bg-orange-100 text-black border-l-4 border-orange-500' : 'bg-gray-800 hover:bg-gray-700'}`}>
+                                        <span className="text-xl">{m.icon}</span>
+                                        <div>
+                                            <div className="font-bold">{m.name}</div>
+                                            <div className="text-[10px] opacity-70 leading-tight">{m.desc}</div>
+                                        </div>
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
+                    )}
 
                     {method && (
-                        <div className={`p-4 rounded-xl border ${progress < 1 ? 'border-yellow-500/30 bg-yellow-900/10' : (isSuccess ? 'border-green-500/30 bg-green-900/20' : 'border-red-500/30 bg-red-900/20')}`}>
-                            <div className="flex justify-between mb-2 text-sm font-bold">
+                        <div className="relative pt-2">
+                            <div className="flex justify-between text-xs font-bold mb-1">
                                 <span>{methods[method].name}</span>
                                 <span>{Math.round(progress * 100)}%</span>
                             </div>
                             <div className="h-2 bg-gray-700 rounded-full overflow-hidden">
                                 <div className="h-full bg-orange-500 transition-all duration-100" style={{ width: `${progress * 100}%` }}></div>
                             </div>
-                            {progress === 1 && (
-                                <div className={`mt-3 text-center font-bold ${isSuccess ? 'text-green-400' : 'text-red-400'}`}>
-                                    {isSuccess ? '✅ Séparation réussie !' : '❌ Technique inefficace ici.'}
-                                </div>
-                            )}
                         </div>
                     )}
                 </div>
@@ -113,11 +147,11 @@ export function MixtureSeparationPC4() {
                     <group position={[0, -0.5, 0]}>
                         <mesh scale={[0.95, isSuccess && method === 'evaporation' ? 1 - progress : 1, 0.95]}>
                             <cylinderGeometry args={[1, 1, 1.4, 32]} />
-                            <meshStandardMaterial color={mix.color} transparent opacity={0.8} />
+                            <meshStandardMaterial color={mix ? mix.color : '#FFF'} transparent opacity={0.8} />
                         </mesh>
 
-                        {/* Particules / Sédiments (Client Side Only) */}
-                        {mixture === 'mud' && particles && (
+                        {/* Particules / Sédiments */}
+                        {(challengeTarget === 'mud' || mixture === 'mud') && particles && (
                             <group position={[0, isSuccess && method === 'decantation' ? -0.6 : 0, 0]}>
                                 <points>
                                     <bufferGeometry>
@@ -129,7 +163,7 @@ export function MixtureSeparationPC4() {
                         )}
 
                         {/* Huile séparation */}
-                        {mixture === 'oil_water' && isSuccess && method === 'decantation' && (
+                        {(challengeTarget === 'oil_water' || mixture === 'oil_water') && isSuccess && method === 'decantation' && (
                             <mesh position={[0, 0.5, 0]}>
                                 <cylinderGeometry args={[0.95, 0.95, 0.5, 32]} />
                                 <meshStandardMaterial color="#FBBF24" transparent opacity={0.8} />
@@ -137,7 +171,7 @@ export function MixtureSeparationPC4() {
                         )}
 
                         {/* Sel résiduel chauffage */}
-                        {mixture === 'salt_water' && isSuccess && method === 'evaporation' && progress > 0.8 && (
+                        {(challengeTarget === 'salt_water' || mixture === 'salt_water') && isSuccess && method === 'evaporation' && progress > 0.8 && (
                             <mesh position={[0, -0.7, 0]}>
                                 <cylinderGeometry args={[0.9, 0.9, 0.1, 32]} />
                                 <meshStandardMaterial color="white" roughness={0.8} />
@@ -146,14 +180,13 @@ export function MixtureSeparationPC4() {
                     </group>
                 )}
 
-                {/* Filtre et Entonnoir pour Filtration */}
+                {/* Filtre */}
                 {method === 'filtration' && (
                     <group position={[0, 1.5, 0]}>
                         <mesh rotation={[Math.PI, 0, 0]}>
                             <coneGeometry args={[1.2, 1.5, 32, 1, true]} />
                             <meshStandardMaterial color="white" transparent opacity={0.8} side={THREE.DoubleSide} />
                         </mesh>
-                        {/* Gouttes */}
                         {progress < 1 && (
                             <mesh position={[0, -1.5 - (progress * 2), 0]}>
                                 <sphereGeometry args={[0.1]} />
@@ -163,11 +196,11 @@ export function MixtureSeparationPC4() {
                     </group>
                 )}
 
-                {/* Flamme pour évaporation */}
+                {/* Flamme */}
                 {method === 'evaporation' && (
                     <group position={[0, -2, 0]}>
                         <pointLight color="orange" intensity={2} distance={3} />
-                        {particles && ( // Utiliser particles pour randomiser un peu la flamme
+                        {particles && (
                             <mesh scale={[1, 1, 1]}>
                                 <coneGeometry args={[0.5, 1, 32]} />
                                 <meshStandardMaterial color="orange" emissive="red" emissiveIntensity={2} />
@@ -181,15 +214,17 @@ export function MixtureSeparationPC4() {
 }
 
 // ============================================================
-// CHAPITRE 10: LES ATOMES (ENRICHI)
+// CHAPITRE 10: LES ATOMES (IMMERSIVE & MISSION)
 // ============================================================
 export function AtomBuilderSim() {
     const [protons, setProtons] = useState(1);
     const [neutrons, setNeutrons] = useState(0);
     const [electrons, setElectrons] = useState(1);
     const [showShells, setShowShells] = useState(true);
+    const [mission, setMission] = useState(null);
+    const [success, setSuccess] = useState(false);
 
-    // Tableaux simplifiés
+    // Données simplifiées
     const elements = {
         1: { name: 'Hydrogène', symbol: 'H' },
         2: { name: 'Hélium', symbol: 'He' },
@@ -202,31 +237,67 @@ export function AtomBuilderSim() {
     const element = elements[protons] || { name: 'Inconnu', symbol: '?' };
     const massNumber = protons + neutrons;
     const charge = protons - electrons;
-
-    // Stabilité simple : N ~ Z pour les petits atomes
     const isStable = Math.abs(neutrons - protons) <= 1 || (protons === 1 && neutrons === 0);
+
+    const startMission = () => {
+        // Random target (Example: Li-7 => p=3, n=4, e=3)
+        const targets = [
+            { p: 1, n: 0, e: 1, name: "Hydrogène-1" },
+            { p: 2, n: 2, e: 2, name: "Hélium-4" },
+            { p: 3, n: 4, e: 3, name: "Lithium-7" },
+            { p: 6, n: 6, e: 6, name: "Carbone-12" }
+        ];
+        const t = targets[Math.floor(Math.random() * targets.length)];
+        setMission(t);
+        setSuccess(false);
+        // Reset to basic H
+        setProtons(1); setNeutrons(0); setElectrons(1);
+    };
+
+    useEffect(() => {
+        if (mission) {
+            if (protons === mission.p && neutrons === mission.n && electrons === mission.e) {
+                setSuccess(true);
+            } else {
+                setSuccess(false);
+            }
+        }
+    }, [protons, neutrons, electrons, mission]);
 
     return (
         <group>
             <Html position={[5, 2, 0]} center>
-                <div className="bg-black/90 p-5 rounded-2xl text-white border border-pink-500/30 w-[350px]">
-                    <h3 className="text-pink-400 font-bold text-xl mb-4">⚛️ Constructeur d'Atomes</h3>
-
-                    <div className="bg-gray-800 p-4 rounded-xl mb-4 flex items-center justify-between">
-                        <div className="text-center">
-                            <div className="text-xs text-gray-400">Numéro Atomique (Z)</div>
-                            <div className="text-3xl font-bold">{protons}</div>
-                        </div>
-                        <div className="bg-white text-black w-16 h-16 flex items-center justify-center rounded-lg font-bold text-2xl border-4 border-pink-500">
-                            {element.symbol}
-                        </div>
-                        <div className="text-center">
-                            <div className="text-xs text-gray-400">Masse (A)</div>
-                            <div className="text-3xl font-bold">{massNumber}</div>
-                        </div>
+                <div className="bg-black/90 p-5 rounded-2xl text-white border border-pink-500/30 w-[350px] backdrop-blur-md">
+                    <div className="flex justify-between items-center mb-4">
+                        <h3 className="text-pink-400 font-bold text-xl">⚛️ Constructeur</h3>
+                        <button onClick={startMission} className="text-xs bg-pink-700 px-3 py-1 rounded hover:bg-pink-600 animate-pulse">
+                            {mission ? 'Nouvelle Mission 🎯' : 'Lancer Mission 🎯'}
+                        </button>
                     </div>
 
-                    <div className="text-center mb-4 font-bold text-lg">{element.name}</div>
+                    {mission && (
+                        <div className={`mb-4 p-3 rounded-xl border ${success ? 'bg-green-900/50 border-green-500' : 'bg-gray-800 border-gray-600'}`}>
+                            <div className="text-xs text-gray-400 uppercase">Objectif :</div>
+                            <div className="font-bold text-lg">{mission.name} (Neutre)</div>
+                            {success && <div className="text-green-400 font-bold mt-1">✅ MISSION ACCOMPLIE !</div>}
+                        </div>
+                    )}
+
+                    {!mission && (
+                        <div className="bg-gray-800 p-4 rounded-xl mb-4 flex items-center justify-between">
+                            <div className="text-center">
+                                <div className="text-xs text-gray-400">Z</div>
+                                <div className="text-xl font-bold">{protons}</div>
+                            </div>
+                            <div className="bg-white text-black w-12 h-12 flex items-center justify-center rounded-lg font-bold text-xl border-4 border-pink-500">
+                                {element.symbol}
+                            </div>
+                            <div className="text-center">
+                                <div className="text-xs text-gray-400">A</div>
+                                <div className="text-xl font-bold">{massNumber}</div>
+                            </div>
+                        </div>
+                    )}
 
                     <div className="space-y-3">
                         <ControlRow label="Protons (+)" color="text-red-400" value={protons} onChange={setProtons} min={1} max={6} />
@@ -250,16 +321,16 @@ export function AtomBuilderSim() {
 
             {/* Noyau */}
             <group position={[0, 0, 0]}>
-                {/* Protons rouges */}
+                {/* Protons rouges (Improved positioning logic) */}
                 {Array.from({ length: protons }).map((_, i) => (
-                    <Sphere key={`p-${i}`} args={[0.3]} position={[Math.sin(i) * 0.4, Math.cos(i) * 0.4, Math.sin(i * 2) * 0.4]}>
-                        <meshStandardMaterial color="#EF4444" />
+                    <Sphere key={`p-${i}`} args={[0.3]} position={[Math.sin(i * 2) * 0.35, Math.cos(i * 3) * 0.35, Math.sin(i * 4) * 0.35]}>
+                        <meshStandardMaterial color="#EF4444" roughness={0.3} />
                     </Sphere>
                 ))}
                 {/* Neutrons gris */}
                 {Array.from({ length: neutrons }).map((_, i) => (
-                    <Sphere key={`n-${i}`} args={[0.3]} position={[Math.cos(i) * 0.4, Math.sin(i) * 0.4, Math.cos(i * 2) * 0.4]}>
-                        <meshStandardMaterial color="#9CA3AF" />
+                    <Sphere key={`n-${i}`} args={[0.3]} position={[Math.cos(i * 2) * 0.35, Math.sin(i * 3) * 0.35, Math.cos(i * 5) * 0.35]}>
+                        <meshStandardMaterial color="#9CA3AF" roughness={0.3} />
                     </Sphere>
                 ))}
             </group>
@@ -279,8 +350,8 @@ export function AtomBuilderSim() {
             {/* Orbites visuelles */}
             {showShells && (
                 <group rotation={[Math.PI / 4, Math.PI / 4, 0]}>
-                    <Torus args={[2, 0.02, 16, 100]} rotation={[Math.PI / 2, 0, 0]}><meshBasicMaterial color="#3B82F6" opacity={0.3} transparent /></Torus>
-                    {electrons > 2 && <Torus args={[4, 0.02, 16, 100]} rotation={[Math.PI / 2, 0, 0]}><meshBasicMaterial color="#3B82F6" opacity={0.3} transparent /></Torus>}
+                    <Torus args={[2, 0.02, 32, 100]} rotation={[Math.PI / 2, 0, 0]}><meshBasicMaterial color="#3B82F6" opacity={0.3} transparent /></Torus>
+                    {electrons > 2 && <Torus args={[4, 0.02, 32, 100]} rotation={[Math.PI / 2, 0, 0]}><meshBasicMaterial color="#3B82F6" opacity={0.3} transparent /></Torus>}
                 </group>
             )}
         </group>
@@ -292,9 +363,9 @@ function ControlRow({ label, color, value, onChange, min, max }) {
         <div className="flex items-center justify-between">
             <span className={`text-sm font-bold ${color}`}>{label}</span>
             <div className="flex items-center gap-3">
-                <button onClick={() => onChange(Math.max(min, value - 1))} className="w-8 h-8 rounded bg-gray-700 hover:bg-gray-600">-</button>
-                <span className="w-4 text-center">{value}</span>
-                <button onClick={() => onChange(Math.min(max, value + 1))} className="w-8 h-8 rounded bg-gray-700 hover:bg-gray-600">+</button>
+                <button onClick={() => onChange(Math.max(min, value - 1))} className="w-8 h-8 rounded bg-gray-700 hover:bg-gray-600 border border-gray-600">-</button>
+                <span className="w-4 text-center font-mono font-bold">{value}</span>
+                <button onClick={() => onChange(Math.min(max, value + 1))} className="w-8 h-8 rounded bg-gray-700 hover:bg-gray-600 border border-gray-600">+</button>
             </div>
         </div>
     );
@@ -312,67 +383,106 @@ function Electron({ radius, speed, offset }) {
     return (
         <mesh ref={ref}>
             <sphereGeometry args={[0.1]} />
-            <meshStandardMaterial color="#3B82F6" emissive="#3B82F6" />
+            <meshStandardMaterial color="#3B82F6" emissive="#3B82F6" emissiveIntensity={2} />
+            <pointLight distance={1} intensity={1} color="#3B82F6" />
         </mesh>
     );
 }
 
 
 // ============================================================
-// CHAPITRE 11: LA MOLE (ENRICHI)
+// CHAPITRE 11: LA MOLE (IMMERSIVE & CHALLENGE)
 // ============================================================
 export function MoleConceptPC4() {
+    const [mode, setMode] = useState('explore'); // explore, challenge
     const [element, setElement] = useState('C');
     const [moles, setMoles] = useState(1);
+    const [targetMass, setTargetMass] = useState(null);
 
     // Données molaires
     const elements = {
-        C: { name: 'Carbone', M: 12.0, color: '#1F2937' }, // Noir
-        S: { name: 'Soufre', M: 32.1, color: '#FCD34D' }, // Jaune
-        Cu: { name: 'Cuivre', M: 63.5, color: '#B45309' }, // Orange/Brun
-        H2O: { name: 'Eau', M: 18.0, color: '#3B82F6' }, // Bleu
-        Fe: { name: 'Fer', M: 55.8, color: '#9CA3AF' }  // Gris
+        C: { name: 'Carbone', M: 12.0, color: '#1F2937' },
+        S: { name: 'Soufre', M: 32.1, color: '#FCD34D' },
+        Cu: { name: 'Cuivre', M: 63.5, color: '#B45309' },
+        H2O: { name: 'Eau', M: 18.0, color: '#3B82F6' },
+        Fe: { name: 'Fer', M: 55.8, color: '#9CA3AF' }
     };
 
     const el = elements[element];
     const mass = moles * el.M;
-    const atoms = (moles * 6.02).toFixed(2); // x 10^23
+    const atoms = (moles * 6.02).toFixed(2);
+
+    const startChallenge = () => {
+        // Pick random element
+        const keys = Object.keys(elements);
+        const randEl = keys[Math.floor(Math.random() * keys.length)];
+        setElement(randEl);
+
+        // Pick random target mass (multiple of M to be reachable)
+        const randMoles = (Math.floor(Math.random() * 40) + 1) / 10; // 0.1 to 4.0
+        setTargetMass((randMoles * elements[randEl].M).toFixed(1));
+        setMoles(0);
+        setMode('challenge');
+    };
+
+    // Check success (mass is within small margin, but here we calculate exactly based on slider step)
+    const isSuccess = targetMass && Math.abs(mass - parseFloat(targetMass)) < 0.1;
 
     return (
         <group>
             <Html position={[5, 2, 0]} center>
-                <div className="bg-black/90 p-5 rounded-2xl text-white border border-green-500/30 w-[350px]">
-                    <h3 className="text-green-400 font-bold text-xl mb-4">⚖️ La Mole</h3>
-
-                    <div className="flex flex-wrap gap-2 mb-4">
-                        {Object.entries(elements).map(([k, e]) => (
-                            <button key={k} onClick={() => setElement(k)}
-                                className={`px-3 py-1 rounded-full text-sm font-bold border ${element === k ? 'bg-white text-black' : 'border-gray-600 text-gray-400'}`}>
-                                {e.name} ({k})
-                            </button>
-                        ))}
+                <div className="bg-black/90 p-5 rounded-2xl text-white border border-green-500/30 w-[350px] backdrop-blur-md">
+                    <div className="flex justify-between items-center mb-4">
+                        <h3 className="text-green-400 font-bold text-xl">⚖️ La Mole</h3>
+                        <button onClick={() => { setMode(mode === 'explore' ? 'challenge' : 'explore'); if (mode === 'explore') startChallenge(); }}
+                            className="text-xs bg-green-700 px-2 py-1 rounded hover:bg-green-600 transition-colors">
+                            {mode === 'explore' ? 'Mode Défi 🏆' : 'Mode Libre'}
+                        </button>
                     </div>
 
-                    <div className="mb-6 bg-gray-800 p-4 rounded-xl text-center">
-                        <div className="text-xs text-gray-400 uppercase">Quantité de matière</div>
-                        <div className="text-4xl font-bold my-2 text-green-300">{moles} mol</div>
-                        <input type="range" min="0.1" max="5" step="0.1" value={moles} onChange={(e) => setMoles(Number(e.target.value))}
-                            className="w-full accent-green-500" />
+                    {mode === 'challenge' && (
+                        <div className={`mb-4 p-3 rounded-xl border-2 text-center transition-colors ${isSuccess ? 'border-green-500 bg-green-900/40' : 'border-gray-500 bg-gray-800'}`}>
+                            <div className="text-xs text-gray-400 uppercase">Objectif : Peser exactement</div>
+                            <div className="text-3xl font-bold font-mono">{targetMass} g</div>
+                            <div className="text-sm">de {el.name}</div>
+                            {isSuccess && <div className="mt-2 font-bold text-green-400 animate-pulse">Cible Atteinte ! Bravo ! 🎉</div>}
+                            {isSuccess && <button onClick={startChallenge} className="mt-2 text-xs underline text-white">Nouveau Défi</button>}
+                        </div>
+                    )}
+
+                    {mode === 'explore' && (
+                        <div className="flex flex-wrap gap-2 mb-4">
+                            {Object.entries(elements).map(([k, e]) => (
+                                <button key={k} onClick={() => setElement(k)}
+                                    className={`px-3 py-1 rounded-full text-sm font-bold border ${element === k ? 'bg-white text-black' : 'border-gray-600 text-gray-400'}`}>
+                                    {e.name} ({k})
+                                </button>
+                            ))}
+                        </div>
+                    )}
+
+                    <div className="mb-6 bg-gray-800 p-4 rounded-xl text-center shadow-inner">
+                        <div className="text-xs text-gray-400 uppercase">Quantité de matière (n)</div>
+                        <div className="text-4xl font-bold my-2 text-green-300 font-mono">{moles} <span className="text-lg">mol</span></div>
+                        <input type="range" min="0" max="5" step="0.1" value={moles} onChange={(e) => setMoles(Number(e.target.value))}
+                            className="w-full accent-green-500 cursor-pointer" />
                     </div>
 
                     <div className="space-y-2 font-mono text-sm">
-                        <div className="flex justify-between">
-                            <span>Masse Molaire (M) :</span>
+                        <div className="flex justify-between text-gray-400">
+                            <span>Masse Molaire ({el.symbol}) :</span>
                             <span>{el.M} g/mol</span>
                         </div>
-                        <div className="flex justify-between bg-white/10 p-2 rounded">
-                            <span>Masse (m = n × M) :</span>
-                            <span className="font-bold text-lg">{mass.toFixed(1)} g</span>
+                        <div className="flex justify-between bg-white/10 p-2 rounded items-center">
+                            <span>Masse (m) :</span>
+                            <span className={`font-bold text-lg ${isSuccess ? 'text-green-400' : 'text-white'}`}>{mass.toFixed(1)} g</span>
                         </div>
-                        <div className="flex justify-between">
-                            <span>Entités (N) :</span>
-                            <span>{atoms} × 10²³</span>
-                        </div>
+                        {mode === 'explore' && (
+                            <div className="flex justify-between text-gray-400">
+                                <span>Entités (N) :</span>
+                                <span>{atoms} × 10²³</span>
+                            </div>
+                        )}
                     </div>
                 </div>
             </Html>
@@ -384,25 +494,37 @@ export function MoleConceptPC4() {
                 <Box args={[4, 0.5, 3]} material-color="#333" />
                 <Box args={[3, 0.2, 2.5]} position={[0, 0.4, 0]} material-color="#111" />
 
-                {/* Affichage digital */}
-                <Text position={[0, 0.51, 1]} rotation={[-Math.PI / 2, 0, 0]} fontSize={0.5} color="red">
-                    {mass.toFixed(1)} g
-                </Text>
+                {/* Affichage digital sur la balance */}
+                <group position={[0, 0.51, 1.2]} rotation={[-Math.PI / 2, 0, 0]}>
+                    <mesh position={[0, 0, -0.01]}>
+                        <planeGeometry args={[1.5, 0.6]} />
+                        <meshBasicMaterial color="#000" />
+                    </mesh>
+                    <Text position={[0, 0, 0]} fontSize={0.4} color={isSuccess ? "#4ADE80" : "red"}>
+                        {mass.toFixed(1)} g
+                    </Text>
+                </group>
 
                 {/* Tas de matière */}
                 <group position={[0, 0.5, 0]}>
                     {/* Le tas grossit avec le nombre de moles */}
-                    <mesh scale={Math.pow(moles, 1 / 3) * (el.M / 20)}>
-                        {/* Forme irrégulière pour poudre/grain */}
-                        <coneGeometry args={[1, 1.5, 32]} />
-                        <meshStandardMaterial color={el.color} roughness={0.9} />
-                    </mesh>
+                    {moles > 0 && (
+                        <mesh scale={Math.pow(moles, 1 / 3) * (Math.max(1, el.M / 20))}>
+                            {/* Forme irrégulière pour poudre/grain vs Cylindre pour liquide */}
+                            {element === 'H2O' ? (
+                                <cylinderGeometry args={[0.5, 0.5, 0.5, 32]} />
+                            ) : (
+                                <coneGeometry args={[0.6, 0.8, 32]} />
+                            )}
+                            <meshStandardMaterial color={el.color} roughness={0.9} transparent opacity={element === 'H2O' ? 0.6 : 1} />
+                        </mesh>
+                    )}
 
                     {/* Béchers si liquide */}
                     {element === 'H2O' && (
-                        <mesh position={[0, 0.5, 0]} scale={Math.pow(moles, 1 / 3)}>
-                            <cylinderGeometry args={[1.1, 1.1, 1.6, 32, 1, true]} />
-                            <meshPhysicalMaterial color="#A5F3FC" transmission={0.8} opacity={0.4} transparent side={THREE.DoubleSide} />
+                        <mesh position={[0, 0.25 * Math.pow(moles, 1 / 3), 0]} scale={Math.pow(moles, 1 / 3)}>
+                            <cylinderGeometry args={[0.6, 0.6, 0.6, 32, 1, true]} />
+                            <meshPhysicalMaterial color="#A5F3FC" transmission={0.9} opacity={0.3} transparent side={THREE.DoubleSide} />
                         </mesh>
                     )}
                 </group>
@@ -413,236 +535,1187 @@ export function MoleConceptPC4() {
 
 
 // ============================================================
-// CHAPITRE 1: DÉMARCHE SCIENTIFIQUE
+// CHAPITRE 4: CONSERVATION DE LA MASSE (IMMERSIVE)
 // ============================================================
-export function ScientificMethod() {
-    const [step, setStep] = useState(0);
-    const steps = [
-        { title: "1. Observation", text: "La plante est fanée.", icon: "🥀" },
-        { title: "2. Hypothèse", text: "Elle manque d'eau ?", icon: "🤔" },
-        { title: "3. Expérience", text: "Arrosons la plante...", icon: "💧" },
-        { title: "4. Conclusion", text: "L'eau est essentielle !", icon: "✅" }
-    ];
+export function MassConservation() {
+    const [step, setStep] = useState(0); // 0: Setup, 1: Reaction
+    const [system, setSystem] = useState('open'); // open, closed
+    const [gasParticles, setGasParticles] = useState(null);
+    const [balanceValue, setBalanceValue] = useState(200);
+
+    // Initialisation particules
+    useEffect(() => {
+        const pts = new Float32Array(150 * 3);
+        for (let i = 0; i < 150 * 3; i++) pts[i] = (Math.random() - 0.5) * 1.0;
+        setGasParticles(pts);
+    }, []);
+
+    const startReaction = () => {
+        setStep(1);
+        // Animation of mass loss if open
+        let target = system === 'open' ? 190 : 200; // Lost 10g of gas
+        const duration = 3000;
+        const start = 200;
+        const startTime = Date.now();
+
+        const animate = () => {
+            const elapsed = Date.now() - startTime;
+            const progress = Math.min(elapsed / duration, 1);
+
+            setBalanceValue(start - (start - target) * progress);
+
+            if (progress < 1) requestAnimationFrame(animate);
+        };
+        animate();
+    };
+
+    const reset = () => {
+        setStep(0);
+        setBalanceValue(200);
+    };
 
     return (
         <group>
-            <Html position={[0, 3, 0]} center>
-                <div className="bg-black/90 p-6 rounded-2xl text-white border border-blue-500/30 w-[300px] text-center">
-                    <div className="text-4xl mb-4">{steps[step].icon}</div>
-                    <h3 className="text-xl font-bold text-blue-400 mb-2">{steps[step].title}</h3>
-                    <p className="mb-6">{steps[step].text}</p>
+            <Html position={[5, 2, 0]} center>
+                <div className="bg-black/90 p-5 rounded-2xl text-white border border-red-500/30 w-[350px] backdrop-blur-md">
+                    <h3 className="text-red-400 font-bold text-xl mb-4">⚖️ Conservation de la Masse</h3>
 
-                    <div className="flex gap-2 justify-center">
-                        <button
-                            onClick={() => setStep(Math.max(0, step - 1))}
-                            disabled={step === 0}
-                            className="px-4 py-2 bg-gray-700 rounded disabled:opacity-50"
-                        >
-                            ←
+                    <div className="mb-4 bg-gray-800 p-3 rounded-xl">
+                        <div className="text-xs text-gray-400 mb-2">CHOIX DU SYSTÈME</div>
+                        <div className="flex gap-2">
+                            <button onClick={() => !step && setSystem('open')} disabled={step === 1}
+                                className={`flex-1 py-2 rounded font-bold ${system === 'open' ? 'bg-red-600' : 'bg-gray-700 opacity-50'}`}>
+                                Ouvert 🔓
+                            </button>
+                            <button onClick={() => !step && setSystem('closed')} disabled={step === 1}
+                                className={`flex-1 py-2 rounded font-bold ${system === 'closed' ? 'bg-green-600' : 'bg-gray-700 opacity-50'}`}>
+                                Fermé 🔒
+                            </button>
+                        </div>
+                    </div>
+
+                    <div className="mb-4 p-3 border border-gray-600 rounded bg-black/50 text-center">
+                        <div className="text-gray-400 text-xs uppercase">Masse Totale</div>
+                        <div className={`text-3xl font-mono font-bold ${step === 1 && system === 'open' ? 'text-red-400 animate-pulse' : 'text-green-400'}`}>
+                            {balanceValue.toFixed(1)} g
+                        </div>
+                    </div>
+
+                    <button onClick={step === 0 ? startReaction : reset}
+                        className={`w-full py-3 rounded-xl font-bold text-lg transition-transform hover:scale-105 ${step === 0 ? 'bg-white text-black' : 'bg-gray-700 text-white'}`}>
+                        {step === 0 ? "Lancer la Réaction 💥" : "Réinitialiser 🔄"}
+                    </button>
+
+                    {step === 1 && (
+                        <div className="mt-3 text-sm text-center">
+                            {system === 'open'
+                                ? "Le gaz s'échappe, la masse diminue !"
+                                : "Le gaz reste piégé, la masse est conservée."}
+                        </div>
+                    )}
+                </div>
+            </Html>
+
+            {/* Scene */}
+            <group position={[0, -1, 0]}>
+                {/* Balance */}
+                <group position={[0, -1, 0]}>
+                    <boxGeometry args={[3, 0.2, 2]} />
+                    <meshStandardMaterial color="#333" />
+                    {/* Screen */}
+                    <mesh position={[0, 0.11, 0.8]} rotation={[-Math.PI / 2, 0, 0]}>
+                        <planeGeometry args={[1, 0.4]} />
+                        <meshBasicMaterial color="black" />
+                    </mesh>
+                    <Text position={[0, 0.12, 0.8]} rotation={[-Math.PI / 2, 0, 0]} fontSize={0.2} color="red">
+                        {balanceValue.toFixed(1)} g
+                    </Text>
+                </group>
+
+                {/* Flask */}
+                <group position={[0, 0.5, 0]}>
+                    <mesh position={[0, -0.5, 0]}>
+                        <cylinderGeometry args={[0.8, 1, 1.5, 32, 1, true]} />
+                        <meshPhysicalMaterial color="white" transmission={0.9} opacity={0.3} transparent side={THREE.DoubleSide} />
+                    </mesh>
+                    {/* Liquid Reactants */}
+                    <mesh position={[0, -1, 0]} scale={[1, step === 1 ? 0.8 : 1, 1]}>
+                        <cylinderGeometry args={[0.9, 0.9, 0.5, 32]} />
+                        <meshStandardMaterial color="#E91E63" transparent opacity={0.8} />
+                    </mesh>
+
+                    {/* Gas Particles */}
+                    {step === 1 && gasParticles && (
+                        <GasParticles particles={gasParticles} escape={system === 'open'} />
+                    )}
+
+                    {/* Stopper */}
+                    {system === 'closed' && (
+                        <mesh position={[0, 0.3, 0]}>
+                            <cylinderGeometry args={[0.85, 0.8, 0.2]} />
+                            <meshStandardMaterial color="#5D4037" />
+                        </mesh>
+                    )}
+                </group>
+            </group>
+        </group>
+    );
+}
+
+function GasParticles({ particles, escape }) {
+    const ref = useRef();
+    useFrame((state, delta) => {
+        if (!ref.current) return;
+        const positions = ref.current.geometry.attributes.position.array;
+        for (let i = 0; i < positions.length; i += 3) {
+            // Move up
+            positions[i + 1] += delta * (0.5 + Math.random());
+            // Wiggle
+            positions[i] += (Math.random() - 0.5) * 0.05;
+            positions[i + 2] += (Math.random() - 0.5) * 0.05;
+
+            // Reset if too high (loop for visual) or remove if escape
+            if (escape) {
+                if (positions[i + 1] > 5) positions[i + 1] = -0.5;
+            } else {
+                // Bounce in flask (approx)
+                if (positions[i + 1] > 0.2) positions[i + 1] = -0.5;
+            }
+        }
+        ref.current.geometry.attributes.position.needsUpdate = true;
+    });
+
+    return (
+        <points ref={ref} position={[0, -0.5, 0]}>
+            <bufferGeometry>
+                <bufferAttribute attach="attributes-position" count={particles.length / 3} array={particles} itemSize={3} />
+            </bufferGeometry>
+            <pointsMaterial size={0.1} color="#FFF" transparent opacity={0.6} />
+        </points>
+    );
+}
+
+
+// ============================================================
+// CHAPITRE 1: DÉMARCHE SCIENTIFIQUE (IMMERSIVE)
+// ============================================================
+export function ScientificMethod() {
+
+    const [scenario, setScenario] = useState('plant'); // plant, pendulum
+    const [step, setStep] = useState(0);
+    const [variable, setVariable] = useState(null); // water/light or length/mass
+    const [result, setResult] = useState(null);
+
+    const scenarios = {
+        plant: {
+            title: "🌱 Mystère de la Plante",
+            obs: "Cette plante est toute fanée... Pourquoi ?",
+            hypotheses: [
+                { id: 'water', text: "Elle manque d'eau", correct: true },
+                { id: 'music', text: "Elle n'aime pas ma musique", correct: false },
+                { id: 'light', text: "Elle manque de lumière", correct: false } // Simplification check
+            ],
+            exp: "Testons ton hypothèse sur 3 jours...",
+            conc: { true: "Bravo ! L'eau est vitale.", false: "Rien ne change... Essayons autre chose." }
+        },
+        pendulum: {
+            title: "⏱️ Le Pendule Simple",
+            obs: "Qu'est-ce qui change la vitesse de balancement ?",
+            hypotheses: [
+                { id: 'mass', text: "La masse de l'objet", correct: false },
+                { id: 'length', text: "La longueur de la ficelle", correct: true },
+                { id: 'force', text: "La force de poussée", correct: false }
+            ],
+            exp: "Lançons le pendule avec ce paramètre...",
+            conc: { true: "Exact ! Plus c'est court, plus c'est rapide.", false: "La période reste la même." }
+        }
+    };
+
+    const sc = scenarios[scenario];
+
+    const runExperiment = (hId) => {
+        setVariable(hId);
+        setStep(2);
+        // Simulation du temps d'expérience
+        setTimeout(() => {
+            const isCorrect = sc.hypotheses.find(h => h.id === hId).correct;
+            setResult(isCorrect);
+            setStep(3);
+        }, 3000);
+    };
+
+    const reset = () => {
+        setStep(0);
+        setVariable(null);
+        setResult(null);
+    };
+
+    return (
+        <group>
+            <Html position={[5, 2, 0]} center>
+                <div className="bg-black/90 p-5 rounded-2xl text-white border border-blue-500/30 w-[380px] backdrop-blur-md">
+                    <div className="flex justify-between items-center mb-4">
+                        <h3 className="text-blue-400 font-bold text-xl">🔬 Démarche Scientifique</h3>
+                        <button onClick={reset} className="text-xs bg-gray-700 px-2 py-1 rounded hover:bg-gray-600">🔄 Reset</button>
+                    </div>
+
+                    {/* Choix Scénario */}
+                    {step === 0 && (
+                        <div className="space-y-3">
+                            <p className="text-sm text-gray-300 mb-2">Choisis une énigme à résoudre :</p>
+                            <button onClick={() => setScenario('plant')} className={`w-full p-3 rounded-xl border text-left transition-all ${scenario === 'plant' ? 'border-green-500 bg-green-900/30' : 'border-gray-700 hover:border-green-500'}`}>
+                                🌿 La Plante Triste
+                            </button>
+                            <button onClick={() => setScenario('pendulum')} className={`w-full p-3 rounded-xl border text-left transition-all ${scenario === 'pendulum' ? 'border-purple-500 bg-purple-900/30' : 'border-gray-700 hover:border-purple-500'}`}>
+                                ⏱️ Le Pendule Mystérieux
+                            </button>
+                            <button onClick={() => setStep(1)} className="w-full mt-2 py-3 bg-blue-600 font-bold rounded-xl hover:bg-blue-500 shadow-lg">
+                                COMMENCER L'ENQUÊTE ➡️
+                            </button>
+                        </div>
+                    )}
+
+                    {/* Étapes */}
+                    {step === 1 && (
+                        <div className="animate-in slide-in-from-right">
+                            <div className="bg-gray-800 p-3 rounded-lg border-l-4 border-blue-500 mb-4">
+                                <div className="text-xs font-bold text-gray-400 uppercase">1. Observation</div>
+                                <p>{sc.obs}</p>
+                            </div>
+                            <div className="text-sm font-bold mb-2">2. Formule une hypothèse :</div>
+                            <div className="space-y-2">
+                                {sc.hypotheses.map(h => (
+                                    <button key={h.id} onClick={() => runExperiment(h.id)}
+                                        className="w-full p-3 bg-gray-700 hover:bg-gray-600 rounded-lg text-left text-sm transition-colors border border-transparent hover:border-blue-400">
+                                        🤔 {h.text}
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
+                    )}
+
+                    {step === 2 && (
+                        <div className="text-center py-8 animate-pulse">
+                            <div className="text-4xl mb-2">⚙️</div>
+                            <div className="text-xl font-bold text-blue-400">Expérience en cours...</div>
+                            <p className="text-sm text-gray-400">{sc.exp}</p>
+                        </div>
+                    )}
+
+                    {step === 3 && (
+                        <div className="animate-in zoom-in">
+                            <div className={`p-4 rounded-xl border-2 mb-4 ${result ? 'border-green-500 bg-green-900/20' : 'border-red-500 bg-red-900/20'}`}>
+                                <div className="text-3xl mb-2">{result ? '🎉' : '❌'}</div>
+                                <div className="font-bold text-lg mb-1">Conclusion</div>
+                                <p>{sc.conc[result]}</p>
+                            </div>
+                            <button onClick={() => setStep(1)} className="w-full py-3 bg-gray-700 rounded-xl hover:bg-gray-600">
+                                Tester une autre hypothèse
+                            </button>
+                        </div>
+                    )}
+                </div>
+            </Html>
+
+            {/* SCÈNE 3D DYNAMIQUE */}
+            <group position={[0, -1, 0]}>
+                {scenario === 'plant' && <PlantSim state={step === 0 ? 'dead' : (step === 2 ? 'growing' : (result ? 'alive' : 'dead_dry'))} />}
+                {scenario === 'pendulum' && <PendulumSim moving={step === 2} length={variable === 'length' ? 1 : 2} mass={variable === 'mass' ? 2 : 1} />}
+            </group>
+        </group>
+    );
+}
+
+function PlantSim({ state }) {
+    // state: dead, growing, alive, dead_dry
+    return (
+        <group>
+            <mesh position={[0, -1, 0]}>
+                <cylinderGeometry args={[0.5, 0.3, 1]} />
+                <meshStandardMaterial color="#8D6E63" />
+            </mesh>
+            <group position={[0, -0.5, 0]}>
+                {/* Tige */}
+                <mesh position={[0, 1, 0]} rotation={[0, 0, state.startsWith('dead') ? 0.2 : 0]}>
+                    <cylinderGeometry args={[0.05, 0.05, 2]} />
+                    <meshStandardMaterial color={state === 'alive' ? "#4CAF50" : "#8D6E63"} />
+                </mesh>
+                {/* Feuilles */}
+                <mesh position={[0, 1.8, 0]} scale={state === 'alive' ? 1 : 0.5} rotation={[0, 0, state.startsWith('dead') ? 0.5 : 0]}>
+                    <dodecahedronGeometry args={[0.8]} />
+                    <meshStandardMaterial color={state === 'alive' ? "#66BB6A" : (state === 'dead_dry' ? "#D7CCC8" : "#A1887F")} />
+                </mesh>
+                {/* Eau qui tombe (si growing) */}
+                {state === 'growing' && (
+                    <group position={[0, 3, 0]}>
+                        <mesh position={[0, 0, 0]}>
+                            <coneGeometry args={[0.5, 1, 32]} rotation={[Math.PI, 0, 0]} />
+                            <meshStandardMaterial color="blue" transparent opacity={0.5} />
+                        </mesh>
+                        {Array.from({ length: 5 }).map((_, i) => (
+                            <mesh key={i} position={[(Math.random() - 0.5) * 0.5, -1 - Math.random(), (Math.random() - 0.5) * 0.5]}>
+                                <sphereGeometry args={[0.05]} />
+                                <meshStandardMaterial color="cyan" />
+                            </mesh>
+                        ))}
+                    </group>
+                )}
+            </group>
+        </group>
+    );
+}
+
+function PendulumSim({ moving, length, mass }) {
+    const groupRef = useRef();
+    useFrame(({ clock }) => {
+        if (moving && groupRef.current) {
+            // Période T = 2*PI*sqrt(L/g)
+            // Si L est petit (1), T est petit -> w est grand
+            // Simplification visuelle : w = 1 / sqrt(L)
+            const speed = 3 / Math.sqrt(length);
+            const angle = Math.sin(clock.elapsedTime * speed) * 0.5;
+            groupRef.current.rotation.z = angle;
+        } else if (groupRef.current) {
+            groupRef.current.rotation.z = 0;
+        }
+    });
+
+    return (
+        <group position={[0, 2, 0]}>
+            <mesh position={[0, 0, 0]}>
+                <boxGeometry args={[0.2, 0.2, 0.2]} />
+                <meshStandardMaterial color="gray" />
+            </mesh>
+            <group ref={groupRef}>
+                <mesh position={[0, -length / 2, 0]}>
+                    <cylinderGeometry args={[0.02, 0.02, length]} />
+                    <meshStandardMaterial color="white" />
+                </mesh>
+                <mesh position={[0, -length, 0]}>
+                    <sphereGeometry args={[mass * 0.2]} />
+                    <meshStandardMaterial color={mass > 1 ? "red" : "yellow"} />
+                </mesh>
+            </group>
+        </group>
+    );
+}
+
+// ============================================================
+// DENSITÉ (IMMERSIVE)
+// ============================================================
+export function DensityExplorer() {
+    const [mode, setMode] = useState('sinkfloat'); // sinkfloat, tower
+    const [selectedObject, setSelectedObject] = useState(null);
+    const [objectsInWater, setObjectsInWater] = useState([]);
+
+    const items = [
+        { id: 'wood', name: 'Bois', dens: 0.6, color: '#A1887F' },
+        { id: 'brick', name: 'Brique', dens: 2.0, color: '#EF5350' },
+        { id: 'ice', name: 'Glaçon', dens: 0.92, color: '#E0F7FA' },
+        { id: 'gold', name: 'Or', dens: 19.3, color: '#FFD700' }
+    ];
+
+    const liquids = [
+        { id: 'oil', name: 'Huile', dens: 0.9, color: '#FFF176', y: 1 },
+        { id: 'water', name: 'Eau', dens: 1.0, color: '#4FC3F7', y: 0 },
+        { id: 'honey', name: 'Miel', dens: 1.4, color: '#FFB74D', y: -1 }
+    ];
+
+    const dropObject = (obj) => {
+        // Reset animation par suppression/rajout
+        setObjectsInWater(prev => [...prev.filter(o => o.id !== obj.id), { ...obj, key: Math.random() }]);
+    };
+
+    return (
+        <group>
+            <Html position={[5, 2, 0]} center>
+                <div className="bg-black/90 p-5 rounded-2xl text-white border border-cyan-500/30 w-[350px] backdrop-blur-md">
+                    <h3 className="text-cyan-400 font-bold text-xl mb-4">🌊 Laboratoire de Densité</h3>
+
+                    <div className="flex gap-2 mb-4 bg-gray-800 p-1 rounded-lg">
+                        <button onClick={() => { setMode('sinkfloat'); setObjectsInWater([]); }}
+                            className={`flex-1 py-1 rounded text-sm ${mode === 'sinkfloat' ? 'bg-cyan-600' : 'hover:bg-gray-700'}`}>
+                            Flotte ou Coule
                         </button>
-                        <button
-                            onClick={() => setStep(Math.min(3, step + 1))}
-                            disabled={step === 3}
-                            className="px-4 py-2 bg-blue-600 rounded disabled:opacity-50"
-                        >
-                            →
+                        <button onClick={() => { setMode('tower'); setObjectsInWater([]); }}
+                            className={`flex-1 py-1 rounded text-sm ${mode === 'tower' ? 'bg-orange-600' : 'hover:bg-gray-700'}`}>
+                            Tour de Liquides
                         </button>
+                    </div>
+
+                    {mode === 'sinkfloat' && (
+                        <div className="grid grid-cols-2 gap-2">
+                            {items.map(item => (
+                                <button key={item.id} onClick={() => dropObject(item)}
+                                    className="p-3 bg-gray-800 rounded-xl hover:bg-gray-700 border border-gray-600 hover:border-cyan-400 transition-all flex items-center gap-2">
+                                    <div className="w-4 h-4 rounded-full" style={{ backgroundColor: item.color }}></div>
+                                    <span className="text-sm font-bold">{item.name}</span>
+                                </button>
+                            ))}
+                        </div>
+                    )}
+
+                    {mode === 'tower' && (
+                        <div className="text-sm p-4 bg-gray-800 rounded-xl">
+                            <p className="mb-2">Densité des liquides :</p>
+                            <ul className="space-y-1">
+                                {liquids.map(l => (
+                                    <li key={l.id} className="flex justify-between" style={{ color: l.color }}>
+                                        <span>{l.name}</span>
+                                        <span className="font-mono">{l.dens}</span>
+                                    </li>
+                                ))}
+                            </ul>
+                            <div className="mt-4 text-xs text-gray-400">
+                                Les liquides les moins denses flottent sur les plus denses !
+                            </div>
+                        </div>
+                    )}
+                </div>
+            </Html>
+
+            {/* Aquarium */}
+            <group position={[0, -1.5, 0]}>
+                <mesh position={[0, 1.5, 0]}>
+                    <boxGeometry args={[3.2, 3.2, 2.2]} />
+                    <meshPhysicalMaterial color="#E0F7FA" transmission={0.9} opacity={0.3} transparent side={THREE.DoubleSide} thickness={0.5} roughness={0} />
+                </mesh>
+
+                {mode === 'sinkfloat' ? (
+                    <mesh position={[0, 1, 0]}>
+                        <boxGeometry args={[3, 2, 2]} />
+                        <meshStandardMaterial color="#4FC3F7" transparent opacity={0.6} />
+                    </mesh>
+                ) : (
+                    // Tour de liquides
+                    <group>
+                        {liquids.map((l, i) => (
+                            <mesh key={l.id} position={[0, l.y, 0]}>
+                                <boxGeometry args={[3, 1, 2]} />
+                                <meshStandardMaterial color={l.color} transparent opacity={0.8} />
+                            </mesh>
+                        ))}
+                    </group>
+                )}
+
+                {/* Objets Simulés */}
+                {objectsInWater.map(obj => (
+                    <FloatingObject key={obj.key} obj={obj} mode={mode} liquids={liquids} />
+                ))}
+            </group>
+        </group>
+    );
+}
+
+function FloatingObject({ obj, mode, liquids }) {
+    const ref = useRef();
+    const [yPos, setYPos] = useState(3); // Start high
+
+    // Physics simplified
+    useFrame((state, delta) => {
+        let targetY = -0.5; // Bottom by default
+
+        if (mode === 'sinkfloat') {
+            // Water density = 1
+            if (obj.dens < 1) targetY = 1.8; // Float surface
+            else targetY = 0.1; // Sink bottom
+        } else {
+            // Find layer based on density
+            // Ascending order of Y: Honey (-1), Water (0), Oil (1)
+            if (obj.dens > 1.4) targetY = -0.5; // Bottom of Honey
+            else if (obj.dens > 1.0) targetY = -0.5; // In Honey (sink) / At interface Honey/Water approx
+            else if (obj.dens > 0.9) targetY = 0.5; // In Water
+            else targetY = 1.5; // In Oil / Float
+        }
+
+        // Smooth Lerp
+        const newY = THREE.MathUtils.lerp(ref.current.position.y, targetY, delta * 2);
+        ref.current.position.y = newY;
+    });
+
+    return (
+        <mesh ref={ref} position={[0, 3, 0]}>
+            <boxGeometry args={[0.5, 0.5, 0.5]} />
+            <meshStandardMaterial color={obj.color} />
+        </mesh>
+    );
+}
+
+// ============================================================
+// OUTILS DE MESURE (IMMERSIVE)
+// ============================================================
+export function MeasurementTools() {
+    const [tool, setTool] = useState('ruler');
+    const [target, setTarget] = useState(5.0); // True value
+    const [userDist, setUserDist] = useState(0); // User measurement slider
+    const [score, setScore] = useState(null);
+
+    const checkMeasurement = () => {
+        const diff = Math.abs(userDist - target);
+        // Tolérance 0.1
+        setScore(diff < 0.2 ? 'perfect' : (diff < 0.5 ? 'good' : 'bad'));
+    };
+
+    return (
+        <group>
+            <Html position={[5, 2, 0]} center>
+                <div className="bg-black/90 p-5 rounded-2xl text-white border border-yellow-500/30 w-[350px] backdrop-blur-md">
+                    <h3 className="text-yellow-400 font-bold text-xl mb-4">📏 Précision de Mesure</h3>
+
+                    <div className="mb-4 text-sm text-gray-300">
+                        Objectif : Mesure la longueur de la barre verte le plus précisément possible !
+                    </div>
+
+                    <div className="bg-gray-800 p-4 rounded-xl mb-4">
+                        <label className="block text-xs uppercase text-gray-500 mb-2">Ta lecture (cm)</label>
+                        <div className="flex items-center gap-3">
+                            <input type="range" min="3" max="7" step="0.1" value={userDist} onChange={(e) => { setUserDist(parseFloat(e.target.value)); setScore(null); }}
+                                className="w-full accent-yellow-500" />
+                            <span className="font-mono text-xl font-bold">{userDist.toFixed(1)}</span>
+                        </div>
+                    </div>
+
+                    <button onClick={checkMeasurement} className="w-full py-3 bg-yellow-600 font-bold rounded-xl hover:bg-yellow-500 shadow-lg text-black">
+                        VÉRIFIER
+                    </button>
+
+                    {score && (
+                        <div className={`mt-3 p-2 rounded text-center font-bold ${score === 'perfect' ? 'bg-green-500 text-black' : (score === 'good' ? 'bg-yellow-500 text-black' : 'bg-red-500 text-white')}`}>
+                            {score === 'perfect' ? 'PARFAIT ! 🎯' : (score === 'good' ? 'Pas mal ! 👍' : 'Essaie encore... 🧐')}
+                            <div className="text-xs font-normal mt-1">Vraie valeur : {target} cm</div>
+                        </div>
+                    )}
+
+                    <button onClick={() => { setTarget((Math.random() * 3 + 3).toFixed(1)); setScore(null); }} className="mt-2 text-xs text-gray-400 hover:text-white underline w-full text-center">
+                        Nouvel objet
+                    </button>
+                </div>
+            </Html>
+
+            <group position={[0, -1, 0]}>
+                {/* Rule */}
+                <mesh position={[0, 0, -0.1]}>
+                    <boxGeometry args={[10, 1, 0.1]} />
+                    <meshStandardMaterial color="#FFCA28" />
+                </mesh>
+                {/* Graduations Visuals (Simplified stripes) */}
+                {Array.from({ length: 11 }).map((_, i) => (
+                    <mesh key={i} position={[i - 5, 0.2, 0]}>
+                        <boxGeometry args={[0.05, 0.5, 0.15]} />
+                        <meshStandardMaterial color="black" />
+                    </mesh>
+                ))}
+
+                {/* Object to measure */}
+                <mesh position={[(target / 2) - 5, -0.2, 0.1]}>
+                    <boxGeometry args={[target, 0.5, 0.1]} />
+                    <meshStandardMaterial color="#66BB6A" />
+                </mesh>
+
+                {/* Cursor User */}
+                <mesh position={[userDist - 5, 0.5, 0.2]}>
+                    <coneGeometry args={[0.2, 0.5, 16]} rotation={[Math.PI, 0, 0]} />
+                    <meshStandardMaterial color="red" />
+                </mesh>
+            </group>
+        </group>
+    );
+}
+
+// ============================================================
+// RÉFRACTION (IMMERSIVE)
+// ============================================================
+export function RefractionSimulator() {
+    const [angle, setAngle] = useState(45); // Degrés
+    const [material, setMaterial] = useState('water'); // water, glass, diamond
+
+    const materials = {
+        water: { n: 1.33, name: 'Eau', color: '#4FC3F7' },
+        glass: { n: 1.5, name: 'Verre', color: '#EEEEEE' },
+        diamond: { n: 2.42, name: 'Diamant', color: '#E1F5FE' }
+    };
+
+    const n1 = 1.0; // Air
+    const n2 = materials[material].n;
+
+    // Snell-Descartes: n1 * sin(i) = n2 * sin(r)
+    // r = asin( n1/n2 * sin(i) )
+    const rad = (deg) => deg * Math.PI / 180;
+    const angleRad = rad(angle);
+    const rRad = Math.asin((n1 / n2) * Math.sin(angleRad));
+    const rDeg = rRad * 180 / Math.PI;
+
+    return (
+        <group>
+            <Html position={[5, 2, 0]} center>
+                <div className="bg-black/90 p-5 rounded-2xl text-white border border-red-500/30 w-[350px] backdrop-blur-md">
+                    <h3 className="text-red-400 font-bold text-xl mb-4">🔦 La Réfraction</h3>
+
+                    <div className="bg-gray-800 p-4 rounded-xl mb-4">
+                        <label className="text-xs text-gray-400 uppercase">Angle d'incidence (i)</label>
+                        <div className="flex items-center gap-3">
+                            <input type="range" min="0" max="80" value={angle} onChange={(e) => setAngle(parseFloat(e.target.value))} className="w-full accent-red-500" />
+                            <span className="font-mono text-xl">{angle}°</span>
+                        </div>
+                    </div>
+
+                    <div className="flex gap-2 mb-4">
+                        {Object.entries(materials).map(([k, m]) => (
+                            <button key={k} onClick={() => setMaterial(k)}
+                                className={`flex-1 py-2 text-xs font-bold rounded ${material === k ? 'bg-white text-black' : 'bg-gray-700 text-gray-300'}`}>
+                                {m.name} (n={m.n})
+                            </button>
+                        ))}
+                    </div>
+
+                    <div className="bg-gray-900 p-3 rounded text-center font-mono text-sm">
+                        Angle de réfraction (r) : <span className="text-green-400 font-bold text-lg">{rDeg.toFixed(1)}°</span>
                     </div>
                 </div>
             </Html>
 
-            {/* Visualisation simple */}
-            <mesh position={[0, -1, 0]} scale={step === 3 ? 1.2 : 0.8}>
-                <dodecahedronGeometry args={[1]} />
-                <meshStandardMaterial color={step === 0 ? "brown" : (step === 3 ? "green" : "yellow")} />
+            {/* Laser Source */}
+            <group position={[0, 2, 0]} rotation={[0, 0, -angleRad - Math.PI / 2]}>
+                <mesh position={[0, 0.5, 0]}>
+                    <cylinderGeometry args={[0.1, 0.1, 1]} />
+                    <meshStandardMaterial color="gray" />
+                </mesh>
+                {/* Rayon Incident */}
+                <mesh position={[0, -2, 0]}>
+                    <cylinderGeometry args={[0.02, 0.02, 4]} />
+                    <meshBasicMaterial color="red" />
+                </mesh>
+            </group>
+
+            {/* Surface / Milieu 2 */}
+            <mesh position={[0, -2, 0]}>
+                <boxGeometry args={[6, 4, 2]} />
+                <meshPhysicalMaterial color={materials[material].color} transmission={0.9} opacity={0.5} transparent roughness={0.1} />
             </mesh>
-            {step >= 2 && (
-                <group position={[0, 1.5, 0]}>
-                    <mesh rotation={[Math.PI, 0, 0]}>
-                        <coneGeometry args={[0.5, 1, 32]} />
-                        <meshStandardMaterial color="blue" transparent opacity={0.5} />
-                    </mesh>
-                </group>
-            )}
+
+            {/* Normale */}
+            <mesh position={[0, 0, 0]}>
+                <cylinderGeometry args={[0.01, 0.01, 6]} />
+                <meshBasicMaterial color="white" opacity={0.3} transparent />
+            </mesh>
+
+            {/* Rayon Réfracté */}
+            <group position={[0, 0, 0]} rotation={[0, 0, -rRad + Math.PI]}>
+                <mesh position={[0, 2, 0]}>
+                    <cylinderGeometry args={[0.02, 0.02, 4]} />
+                    <meshBasicMaterial color="red" opacity={0.7} transparent />
+                </mesh>
+            </group>
+
+            <Text position={[-2, 0.5, 0]} fontSize={0.3} color="white">Air (n=1.0)</Text>
+            <Text position={[-2, -1, 0]} fontSize={0.3} color="white">{materials[material].name}</Text>
         </group>
     );
 }
 
 // ============================================================
-// DENSITÉ
-// ============================================================
-export function DensityExplorer() {
-    return (
-        <group>
-            <Html position={[0, 2, 0]} center>
-                <div className="bg-black/80 p-4 rounded text-white">
-                    Simulation Densité (En construction)
-                </div>
-            </Html>
-            <mesh position={[0, -1, 0]}>
-                <boxGeometry args={[2, 2, 2]} />
-                <meshStandardMaterial color="blue" transparent opacity={0.5} />
-            </mesh>
-        </group>
-    );
-}
-
-// ============================================================
-// RÉFRACTION
-// ============================================================
-export function RefractionSimulator() {
-    return (
-        <group>
-            <Html position={[0, 2, 0]} center>
-                <div className="bg-black/80 p-4 rounded text-white">
-                    Simulation Réfraction (En construction)
-                </div>
-            </Html>
-            <mesh rotation={[0, 0, Math.PI / 4]}>
-                <boxGeometry args={[0.1, 4, 0.1]} />
-                <meshStandardMaterial color="red" emissive="red" />
-            </mesh>
-            <mesh position={[1, -1, 0]}>
-                <boxGeometry args={[2, 2, 0.5]} />
-                <meshStandardMaterial color="cyan" transparent opacity={0.3} />
-            </mesh>
-        </group>
-    );
-}
-
-// ============================================================
-// CIRCUITS SÉRIE / PARALLÈLE
+// CIRCUITS SÉRIE / PARALLÈLE (IMMERSIVE)
 // ============================================================
 export function CircuitSeriesParallel() {
     const [mode, setMode] = useState('series');
+    const [bulbs, setBulbs] = useState([true, true]); // true = working, false = broken
+
+    const toggleBulb = (index) => {
+        const newBulbs = [...bulbs];
+        newBulbs[index] = !newBulbs[index];
+        setBulbs(newBulbs);
+    };
+
+    // Logic: 
+    // Series: All must be working for ANY to light up.
+    // Parallel: Each lights up if it is working (independent).
+    const isLit = (index) => {
+        if (!bulbs[index]) return false; // If broken, not lit
+        if (mode === 'series') return bulbs.every(b => b); // All must work
+        return true; // Parallel: Independent
+    };
+
     return (
         <group>
-            <Html position={[0, 3, 0]} center>
-                <div className="bg-black/90 p-4 rounded-xl text-white border border-yellow-500/30">
-                    <div className="flex gap-2">
-                        <button onClick={() => setMode('series')} className={`px-4 py-2 rounded ${mode === 'series' ? 'bg-yellow-600' : 'bg-gray-700'}`}>Série</button>
-                        <button onClick={() => setMode('parallel')} className={`px-4 py-2 rounded ${mode === 'parallel' ? 'bg-yellow-600' : 'bg-gray-700'}`}>Parallèle</button>
+            <Html position={[5, 2, 0]} center>
+                <div className="bg-black/90 p-5 rounded-2xl text-white border border-yellow-500/30 w-[350px] backdrop-blur-md">
+                    <h3 className="text-yellow-400 font-bold text-xl mb-4">⚡ Série vs Parallèle</h3>
+
+                    <div className="flex gap-2 mb-6">
+                        <button onClick={() => { setMode('series'); setBulbs([true, true]); }} className={`flex-1 py-2 rounded font-bold ${mode === 'series' ? 'bg-yellow-600' : 'bg-gray-700'}`}>Série</button>
+                        <button onClick={() => { setMode('parallel'); setBulbs([true, true]); }} className={`flex-1 py-2 rounded font-bold ${mode === 'parallel' ? 'bg-yellow-600' : 'bg-gray-700'}`}>Parallèle</button>
+                    </div>
+
+                    <p className="text-sm text-gray-300 mb-2">
+                        Clique sur une ampoule pour la "dévisser" (ou la casser).
+                    </p>
+                    <div className="p-3 bg-gray-800 rounded-xl text-center text-sm">
+                        {mode === 'series'
+                            ? "En SÉRIE : Si une seule ampoule grille, le circuit est ouvert et TOUT s'éteint !"
+                            : "En PARALLÈLE : Chaque ampoule a sa propre boucle. Si l'une grille, l'autre RESTE allumée !"}
                     </div>
                 </div>
             </Html>
 
             {/* Battery */}
-            <mesh position={[-2, 0, 0]}>
-                <boxGeometry args={[0.5, 1, 0.5]} />
-                <meshStandardMaterial color="black" />
+            <mesh position={[-3, 0, 0]}>
+                <boxGeometry args={[1, 1.5, 1]} />
+                <meshStandardMaterial color="#333" />
+                <Text position={[0, 0, 0.6]} fontSize={0.5} color="white">⚡</Text>
             </mesh>
 
-            {/* Wires & Bulbs */}
+            {/* Circuit */}
             {mode === 'series' ? (
                 <group>
-                    <mesh position={[0, 1, 0]}><sphereGeometry args={[0.3]} /><meshStandardMaterial color="yellow" emissive="yellow" /></mesh>
-                    <mesh position={[2, 1, 0]}><sphereGeometry args={[0.3]} /><meshStandardMaterial color="yellow" emissive="yellow" /></mesh>
+                    {/* Wires */}
+                    <mesh position={[0, 1.5, 0]} rotation={[0, 0, Math.PI / 2]}><cylinderGeometry args={[0.05, 0.05, 6]} /><meshStandardMaterial color="orange" /></mesh>
+                    <mesh position={[0, -1.5, 0]} rotation={[0, 0, Math.PI / 2]}><cylinderGeometry args={[0.05, 0.05, 6]} /><meshStandardMaterial color="orange" /></mesh>
+                    <mesh position={[3, 0, 0]}><cylinderGeometry args={[0.05, 0.05, 3]} /><meshStandardMaterial color="orange" /></mesh>
+
+                    {/* Bulbs */}
+                    <InteractiveBulb position={[-1, 1.5, 0]} lit={isLit(0)} working={bulbs[0]} onClick={() => toggleBulb(0)} />
+                    <InteractiveBulb position={[1, 1.5, 0]} lit={isLit(1)} working={bulbs[1]} onClick={() => toggleBulb(1)} />
                 </group>
             ) : (
                 <group>
-                    <mesh position={[0, 1, 0]}><sphereGeometry args={[0.3]} /><meshStandardMaterial color="yellow" emissive="yellow" /></mesh>
-                    <mesh position={[0, -1, 0]}><sphereGeometry args={[0.3]} /><meshStandardMaterial color="yellow" emissive="yellow" /></mesh>
+                    {/* Main Wires */}
+                    <mesh position={[-1, 2, 0]} rotation={[0, 0, Math.PI / 2]}><cylinderGeometry args={[0.05, 0.05, 4]} /><meshStandardMaterial color="orange" /></mesh>
+                    <mesh position={[-1, -2, 0]} rotation={[0, 0, Math.PI / 2]}><cylinderGeometry args={[0.05, 0.05, 4]} /><meshStandardMaterial color="orange" /></mesh>
+
+                    {/* Branches */}
+                    <group position={[1, 0, 0]}>
+                        <mesh position={[0, 0, 0]}><cylinderGeometry args={[0.05, 0.05, 4]} /><meshStandardMaterial color="orange" /></mesh>
+                        <InteractiveBulb position={[0, 0, 0]} lit={isLit(0)} working={bulbs[0]} onClick={() => toggleBulb(0)} />
+                    </group>
+                    <group position={[3, 0, 0]}>
+                        <mesh position={[0, 0, 0]}><cylinderGeometry args={[0.05, 0.05, 4]} /><meshStandardMaterial color="orange" /></mesh>
+                        <InteractiveBulb position={[0, 0, 0]} lit={isLit(1)} working={bulbs[1]} onClick={() => toggleBulb(1)} />
+                    </group>
                 </group>
             )}
         </group>
     );
 }
 
+function InteractiveBulb({ position, lit, working, onClick }) {
+    const [hovered, setHover] = useState(false);
+    return (
+        <group position={position} onClick={onClick} onPointerOver={() => setHover(true)} onPointerOut={() => setHover(false)}>
+            <mesh position={[0, 0.5, 0]}>
+                <sphereGeometry args={[0.4, 32, 32]} />
+                <meshStandardMaterial
+                    color={lit ? "#FFEB3B" : (working ? "#FFFFFF" : "#424242")}
+                    emissive={lit ? "#FFEB3B" : "#000000"}
+                    emissiveIntensity={lit ? 2 : 0}
+                    transparent opacity={working ? 0.9 : 0.4}
+                />
+            </mesh>
+            <mesh position={[0, 0, 0]}>
+                <cylinderGeometry args={[0.2, 0.2, 0.5]} />
+                <meshStandardMaterial color="#9E9E9E" />
+            </mesh>
+            {/* Socket */}
+            <mesh position={[0, -0.3, 0]}>
+                <cylinderGeometry args={[0.15, 0.15, 0.3]} />
+                <meshStandardMaterial color="#BDBDBD" />
+            </mesh>
+            {hovered && <Text position={[0, 1.2, 0]} fontSize={0.2} color="white">{working ? "Dévisser" : "Revisser"}</Text>}
+        </group>
+    );
+}
+
 // ============================================================
-// PROPAGATION LUMIÈRE
+// PROPAGATION LUMIÈRE (IMMERSIVE - ALIGNEMENT)
 // ============================================================
 export function LightPropagationPC4() {
+    const [screens, setScreens] = useState([0, 0, 0.5]); // Y positions of holes
+    const dragIndex = useRef(null);
+
+    const onPointerDown = (i) => (e) => {
+        e.stopPropagation();
+        dragIndex.current = i;
+    };
+
+    // Simple drag simulation logic would require more complex events or useGesture
+    // We will use simple Up/Down buttons for simplicity in this context
+    const moveScreen = (i, dir) => {
+        setScreens(prev => {
+            const next = [...prev];
+            next[i] = Math.max(-1, Math.min(1, next[i] + dir * 0.2));
+            return next;
+        });
+    };
+
+    // Check alignment (approx 0)
+    const aligned = screens.every(y => Math.abs(y) < 0.1);
+
     return (
         <group>
-            <Html position={[0, 2, 0]} center>
-                <div className="bg-black/80 p-4 rounded text-white">
-                    Propagation Rectiligne
+            <Html position={[5, 2, 0]} center>
+                <div className="bg-black/90 p-5 rounded-2xl text-white border border-white/30 w-[350px] backdrop-blur-md">
+                    <h3 className="text-white font-bold text-xl mb-4">🔦 Propagation Rectiligne</h3>
+                    <p className="text-sm text-gray-400 mb-4">La lumière voyage en ligne droite. Aligne les trous pour que le laser atteigne la cible !</p>
+
+                    <div className="flex justify-between gap-2">
+                        {[0, 1, 2].map(i => (
+                            <div key={i} className="flex flex-col items-center bg-gray-800 p-2 rounded">
+                                <div className="text-xs mb-1">Écran {i + 1}</div>
+                                <button onClick={() => moveScreen(i, 1)} className="p-1 bg-gray-700 hover:bg-gray-600 rounded">⬆️</button>
+                                <div className="h-4 my-1 w-1 bg-white/20"></div>
+                                <button onClick={() => moveScreen(i, -1)} className="p-1 bg-gray-700 hover:bg-gray-600 rounded">⬇️</button>
+                            </div>
+                        ))}
+                    </div>
+
+                    {aligned && (
+                        <div className="mt-4 p-3 bg-green-600 text-center font-bold rounded-xl animate-bounce">
+                            CIBLE ATTEINTE ! 🎯
+                        </div>
+                    )}
                 </div>
             </Html>
-            <pointLight position={[-3, 0, 0]} intensity={2} color="white" />
-            <mesh position={[-3, 0, 0]}>
-                <sphereGeometry args={[0.2]} />
-                <meshStandardMaterial color="white" emissive="white" />
+
+            {/* Laser */}
+            <mesh position={[-4, 0, 0]} rotation={[0, 0, -Math.PI / 2]}>
+                <cylinderGeometry args={[0.2, 0.2, 1]} />
+                <meshStandardMaterial color="#333" />
             </mesh>
 
-            <mesh position={[0, 0, 0]}>
-                <boxGeometry args={[1, 1, 0.1]} />
-                <meshStandardMaterial color="gray" />
+            {/* Beam Segment 1 (Always on) */}
+            <mesh position={[-2, 0, 0]} rotation={[0, 0, -Math.PI / 2]}>
+                <cylinderGeometry args={[0.05, 0.05, 3]} />
+                <meshBasicMaterial color="red" />
             </mesh>
 
-            <mesh position={[3, 0, 0]} rotation={[0, -Math.PI / 2, 0]}>
-                <planeGeometry args={[4, 4]} />
-                <meshStandardMaterial color="white" side={THREE.DoubleSide} />
+            {/* Beam Segment 2 (If Screen 1 Aligned) */}
+            {Math.abs(screens[0]) < 0.1 && (
+                <mesh position={[0, 0, 0]} rotation={[0, 0, -Math.PI / 2]}>
+                    <cylinderGeometry args={[0.05, 0.05, 1]} />
+                    <meshBasicMaterial color="red" />
+                </mesh>
+            )}
+            {/* Beam Segment 3 (If Screen 1&2 Aligned) */}
+            {Math.abs(screens[0]) < 0.1 && Math.abs(screens[1]) < 0.1 && (
+                <mesh position={[1.5, 0, 0]} rotation={[0, 0, -Math.PI / 2]}>
+                    <cylinderGeometry args={[0.05, 0.05, 2]} />
+                    <meshBasicMaterial color="red" />
+                </mesh>
+            )}
+            {/* Beam Segment 4 (If All Aligned - Hit Target) */}
+            {aligned && (
+                <mesh position={[3.5, 0, 0]} rotation={[0, 0, -Math.PI / 2]}>
+                    <cylinderGeometry args={[0.05, 0.05, 2]} />
+                    <meshBasicMaterial color="red" />
+                </mesh>
+            )}
+
+            {/* Screens */}
+            {[0, 1, 2].map(i => (
+                <group key={i} position={[-0.5 + i * 1.5, screens[i], 0]}>
+                    {/* Board with hole */}
+                    <mesh position={[0, 0.75, 0]}>
+                        <boxGeometry args={[0.1, 1.4, 1.4]} />
+                        <meshStandardMaterial color="#546E7A" />
+                    </mesh>
+                    <mesh position={[0, -0.75, 0]}>
+                        <boxGeometry args={[0.1, 1.4, 1.4]} />
+                        <meshStandardMaterial color="#546E7A" />
+                    </mesh>
+                </group>
+            ))}
+
+            {/* Target */}
+            <mesh position={[4.5, 0, 0]} rotation={[0, -Math.PI / 2, 0]}>
+                <circleGeometry args={[1, 32]} />
+                <meshStandardMaterial color={aligned ? "#4CAF50" : "#263238"} emissive={aligned ? "#4CAF50" : "black"} />
+                <mesh position={[0, 0, 0.1]}>
+                    <ringGeometry args={[0.2, 0.3, 32]} />
+                    <meshBasicMaterial color="white" />
+                </mesh>
+                <mesh position={[0, 0, 0.1]}>
+                    <ringGeometry args={[0.5, 0.6, 32]} />
+                    <meshBasicMaterial color="white" />
+                </mesh>
             </mesh>
         </group>
     );
 }
 
-// ============================================================
-// OUTILS DE MESURE
-// ============================================================
-export function MeasurementTools() {
-    return (
-        <group>
-            <Html position={[0, 2, 0]} center>
-                <div className="bg-black/80 p-4 rounded text-white">
-                    Outils de Mesure
-                </div>
-            </Html>
-            <mesh position={[-1, 0, 0]}>
-                <cylinderGeometry args={[0.2, 0.2, 2]} />
-                <meshStandardMaterial color="glass" transparent opacity={0.5} />
-            </mesh>
-            <mesh position={[1, 0, 0]}>
-                <boxGeometry args={[2, 0.1, 0.5]} />
-                <meshStandardMaterial color="yellow" />
-            </mesh>
-        </group>
-    );
-}
 
 // ============================================================
-// SOURCES DE LUMIÈRE
+// SOURCES DE LUMIÈRE (IMMERSIVE)
 // ============================================================
 export function LightSources() {
+    const [sunOn, setSunOn] = useState(true);
+    const [lampOn, setLampOn] = useState(false);
+    const [info, setInfo] = useState(null);
+
+    const objects = [
+        { id: 'sun', type: 'primary', name: 'Soleil', pos: [-3, 2, -2], color: '#FDB813', scale: 1 },
+        { id: 'lamp', type: 'primary', name: 'Lampe', pos: [3, 0, 0], color: '#FFFFFF', scale: 0.5 },
+        { id: 'moon', type: 'secondary', name: 'Lune', pos: [-2, 2, 2], color: '#CFD8DC', scale: 0.8 },
+        { id: 'mirror', type: 'secondary', name: 'Miroir', pos: [0, -1, 1], color: '#B0BEC5', scale: 1 }
+    ];
+
+    const handleObjectClick = (obj) => {
+        if (obj.id === 'sun') setSunOn(!sunOn);
+        if (obj.id === 'lamp') setLampOn(!lampOn);
+        setInfo(obj);
+    };
+
     return (
         <group>
-            <Html position={[0, 2, 0]} center>
-                <div className="bg-black/80 p-4 rounded text-white">
-                    Sources: Primaire vs Secondaire
+            <Html position={[5, 2, 0]} center>
+                <div className="bg-black/90 p-5 rounded-2xl text-white border border-yellow-500/30 w-[350px] backdrop-blur-md">
+                    <h3 className="text-yellow-400 font-bold text-xl mb-4">☀️ Sources de Lumière</h3>
+
+                    <p className="text-sm text-gray-300 mb-4">
+                        Clique sur les objets pour explorer leurs propriétés.
+                    </p>
+
+                    <div className="flex gap-2 mb-4">
+                        <div className="flex-1 bg-gray-800 p-2 rounded text-center">
+                            <div className="text-yellow-400 font-bold text-lg">{sunOn ? "ON" : "OFF"}</div>
+                            <div className="text-xs">Soleil</div>
+                        </div>
+                        <div className="flex-1 bg-gray-800 p-2 rounded text-center">
+                            <div className="text-white font-bold text-lg">{lampOn ? "ON" : "OFF"}</div>
+                            <div className="text-xs">Lampe</div>
+                        </div>
+                    </div>
+
+                    {info && (
+                        <div className="p-3 bg-gray-800 rounded-xl border-l-4 border-yellow-500 animate-in slide-in-from-bottom">
+                            <div className="font-bold text-lg">{info.name}</div>
+                            <div className="text-sm text-yellow-200 uppercase font-bold mb-1">
+                                {info.type === 'primary' ? 'Source Primaire 🌟' : 'Source Secondaire 🌙'}
+                            </div>
+                            <p className="text-sm text-gray-400">
+                                {info.type === 'primary'
+                                    ? "Produit sa propre lumière."
+                                    : "Ne produit pas de lumière, diffuse celle reçue."}
+                            </p>
+                        </div>
+                    )}
                 </div>
             </Html>
-            <mesh position={[-2, 0, 0]}>
-                <sphereGeometry args={[0.5]} />
-                <meshStandardMaterial color="yellow" emissive="yellow" />
-            </mesh>
-            <mesh position={[2, 0, 0]}>
-                <sphereGeometry args={[0.5]} />
-                <meshStandardMaterial color="gray" />
-            </mesh>
+
+            {/* Ambient Light (low) */}
+            <ambientLight intensity={0.1} />
+
+            {/* Sun Light source */}
+            {sunOn && <pointLight position={[-3, 2, -2]} intensity={2} color="#FDB813" distance={10} />}
+
+            {/* Lamp Light source */}
+            {lampOn && <pointLight position={[3, 0.5, 0]} intensity={1.5} color="#FFFFFF" distance={5} />}
+
+            {/* Objects */}
+            {objects.map(obj => {
+                let isLit = false;
+                if (obj.type === 'primary') {
+                    if (obj.id === 'sun') isLit = sunOn;
+                    if (obj.id === 'lamp') isLit = lampOn;
+                } else {
+                    // Secondary objects need a primary source ON
+                    isLit = sunOn || lampOn; // Simplified logic
+                }
+
+                return (
+                    <group key={obj.id} position={obj.pos} onClick={() => handleObjectClick(obj)}
+                        onPointerOver={(e) => document.body.style.cursor = 'pointer'}
+                        onPointerOut={(e) => document.body.style.cursor = 'auto'}>
+
+                        {/* Sun Visual */}
+                        {obj.id === 'sun' && (
+                            <mesh scale={obj.scale}>
+                                <sphereGeometry args={[1, 32, 32]} />
+                                <meshStandardMaterial color={obj.color} emissive={obj.color} emissiveIntensity={sunOn ? 2 : 0.1} />
+                            </mesh>
+                        )}
+
+                        {/* Moon Visual */}
+                        {obj.id === 'moon' && (
+                            <mesh scale={obj.scale}>
+                                <sphereGeometry args={[1, 32, 32]} />
+                                <meshStandardMaterial color={obj.color} roughness={0.8} />
+                            </mesh>
+                        )}
+
+                        {/* Lamp Visual */}
+                        {obj.id === 'lamp' && (
+                            <group scale={obj.scale}>
+                                <mesh position={[0, 0, 0]}>
+                                    <cylinderGeometry args={[0.5, 0.8, 1]} />
+                                    <meshStandardMaterial color="white" emissive="white" emissiveIntensity={lampOn ? 1 : 0} transparent opacity={0.8} />
+                                </mesh>
+                                <mesh position={[0, -0.6, 0]}>
+                                    <cylinderGeometry args={[0.1, 0.5, 0.2]} />
+                                    <meshStandardMaterial color="black" />
+                                </mesh>
+                            </group>
+                        )}
+
+                        {/* Mirror Visual */}
+                        {obj.id === 'mirror' && (
+                            <mesh scale={obj.scale} rotation={[-Math.PI / 4, 0, 0]}>
+                                <boxGeometry args={[2, 2, 0.1]} />
+                                <meshStandardMaterial color="#E0E0E0" metalness={1} roughness={0} />
+                            </mesh>
+                        )}
+                    </group>
+                );
+            })}
         </group>
     );
 }
 
 // ============================================================
-// INTRODUCTION ÉLECTRICITÉ
+// INTRODUCTION ÉLECTRICITÉ (IMMERSIVE)
 // ============================================================
 export function IntroElectricity() {
+    const [switchClosed, setSwitchClosed] = useState(false);
+
+    // Electrons animation reference
+    const electronsRef = useRef([]);
+
+    useFrame((state) => {
+        if (switchClosed) {
+            const t = state.clock.getElapsedTime();
+            if (electronsRef.current) {
+                electronsRef.current.position.x = (t % 2) * 2; // Simple loop movement visual placeholder
+                // Proper circular path logic would be better but keeping it simple for stability
+            }
+        }
+    });
+
     return (
         <group>
-            <Html position={[0, 2, 0]} center>
-                <div className="bg-black/80 p-4 rounded text-white">
-                    Introduction Électricité
+            <Html position={[5, 2, 0]} center>
+                <div className="bg-black/90 p-5 rounded-2xl text-white border border-blue-500/30 w-[350px] backdrop-blur-md">
+                    <h3 className="text-blue-400 font-bold text-xl mb-4">🔌 Le Circuit Simple</h3>
+
+                    <p className="text-sm text-gray-300 mb-6">
+                        Pour que le courant circule, la boucle doit être <strong>fermée</strong>.
+                    </p>
+
+                    <button onClick={() => setSwitchClosed(!switchClosed)}
+                        className={`w-full py-4 rounded-xl font-bold text-lg transition-all ${switchClosed ? 'bg-green-600 shadow-green-500/50 shadow-lg' : 'bg-red-600 shadow-red-500/10'}`}>
+                        {switchClosed ? "INTERRUPTEUR FERMÉ (ON)" : "INTERRUPTEUR OUVERT (OFF)"}
+                    </button>
+
+                    <div className="mt-6 p-3 bg-gray-800 rounded-xl flex items-center gap-3">
+                        <div className={`w-3 h-3 rounded-full ${switchClosed ? 'bg-green-500 animate-pulse' : 'bg-red-500'}`}></div>
+                        <span className="text-sm">{switchClosed ? "Le courant circule !" : "Le courant ne passe pas."}</span>
+                    </div>
                 </div>
             </Html>
-            <mesh position={[-2, 0, 0]}>
-                <boxGeometry args={[0.5, 1, 0.5]} />
-                <meshStandardMaterial color="black" />
-            </mesh>
-            <mesh position={[2, 0, 0]}>
-                <sphereGeometry args={[0.5]} />
-                <meshStandardMaterial color="yellow" emissive="yellow" />
-            </mesh>
+
+            <group position={[0, -1, 0]}>
+                {/* Battery */}
+                <group position={[-2, 0, 0]}>
+                    <boxGeometry args={[1, 1.5, 1]} />
+                    <meshStandardMaterial color="#212121" />
+                    <Text position={[0, 0, 0.6]} fontSize={0.8} color="white">+</Text>
+                </group>
+
+                {/* Bulb */}
+                <group position={[2, 0, 0]}>
+                    <mesh position={[0, 0.8, 0]}>
+                        <sphereGeometry args={[0.6]} />
+                        <meshStandardMaterial
+                            color={switchClosed ? "#FFEB3B" : "white"}
+                            emissive={switchClosed ? "#FFEB3B" : "black"}
+                            emissiveIntensity={switchClosed ? 2 : 0}
+                            transparent opacity={0.6}
+                        />
+                    </mesh>
+                    <mesh position={[0, 0, 0]}>
+                        <cylinderGeometry args={[0.3, 0.3, 0.8]} />
+                        <meshStandardMaterial color="#B0BEC5" />
+                    </mesh>
+                </group>
+
+                {/* Switch Visual */}
+                <group position={[0, -1.5, 0]}>
+                    <mesh position={[-0.5, 0, 0]}><boxGeometry args={[0.2, 0.2, 0.2]} /><meshStandardMaterial color="gray" /></mesh>
+                    <mesh position={[0.5, 0, 0]}><boxGeometry args={[0.2, 0.2, 0.2]} /><meshStandardMaterial color="gray" /></mesh>
+                    {/* The moving part */}
+                    <mesh position={[-0.5, 0.2, 0]} rotation={[0, 0, switchClosed ? 0 : 0.5]}>
+                        <boxGeometry args={[1.2, 0.1, 0.1]} />
+                        <meshStandardMaterial color="red" />
+                    </mesh>
+                </group>
+
+                {/* Wires */}
+                <WirePath points={[[-2, 0.75, 0], [-2, 1.5, 0], [2, 1.5, 0], [2, 0.8, 0]]} color="red" />
+                <WirePath points={[[-2, -0.75, 0], [-2, -1.5, 0], [-0.5, -1.5, 0]]} color="black" />
+                <WirePath points={[[0.5, -1.5, 0], [2, -1.5, 0], [2, -0.4, 0]]} color="black" />
+
+                {/* Electron Flow Visualization (Simplified) */}
+                {switchClosed && (
+                    <group>
+                        {/* Top path */}
+                        <ElectronStream start={[-2, 1.5, 0]} end={[2, 1.5, 0]} />
+                        {/* Bottom path */}
+                        <ElectronStream start={[2, -1.5, 0]} end={[-2, -1.5, 0]} />
+                    </group>
+                )}
+            </group>
         </group>
+    );
+}
+
+function WirePath({ points, color }) {
+    // Simple segmented wire connecting points
+    // Could use TubeGeometry or CatmullRomCurve3 for smoother wires
+    // Using simple cylinders for segments
+    const segments = [];
+    for (let i = 0; i < points.length - 1; i++) {
+        const p1 = new THREE.Vector3(...points[i]);
+        const p2 = new THREE.Vector3(...points[i + 1]);
+        const dist = p1.distanceTo(p2);
+        const center = p1.clone().add(p2).multiplyScalar(0.5);
+        // LookAt logic needs correct orientation, simplified here to box for ease
+        const lookAtRot = new THREE.Euler().setFromQuaternion(new THREE.Quaternion().setFromUnitVectors(new THREE.Vector3(0, 1, 0), p2.clone().sub(p1).normalize()));
+
+        segments.push(
+            <mesh key={i} position={center} rotation={lookAtRot}>
+                <cylinderGeometry args={[0.05, 0.05, dist]} />
+                <meshStandardMaterial color={color} />
+            </mesh>
+        );
+    }
+    return <group>{segments}</group>;
+}
+
+function ElectronStream({ start, end }) {
+    // Array of moving particles along the vector
+    const count = 5;
+    return (
+        <group>
+            {Array.from({ length: count }).map((_, i) => (
+                <MovingElectron key={i} start={start} end={end} offset={i / count} />
+            ))}
+        </group>
+    );
+}
+
+function MovingElectron({ start, end, offset }) {
+    const ref = useRef();
+    const p1 = new THREE.Vector3(...start);
+    const p2 = new THREE.Vector3(...end);
+
+    useFrame((state) => {
+        if (ref.current) {
+            const t = (state.clock.elapsedTime * 0.5 + offset) % 1;
+            ref.current.position.lerpVectors(p1, p2, t);
+        }
+    });
+
+    return (
+        <mesh ref={ref}>
+            <sphereGeometry args={[0.08]} />
+            <meshBasicMaterial color="#FFFF00" />
+        </mesh>
     );
 }
