@@ -4,13 +4,13 @@
 // ============================================================
 
 export const numpyMatplotlibContent = {
-        // ============================================================
-        // MODULE 4 : TYPES DE DONNÉES - NUMPY ENRICHI
-        // ============================================================
+    // ============================================================
+    // MODULE 4 : TYPES DE DONNÉES - NUMPY ENRICHI
+    // ============================================================
 
-        lists_numpy_enriched: {
-                title: "Maîtriser NumPy : Tableaux et opérations",
-                theorie: `
+    lists_numpy_enriched: {
+        title: "Maîtriser NumPy : Tableaux et opérations",
+        theorie: `
 ## NumPy : La base du calcul scientifique en Python
 
 **NumPy** (Numerical Python) est LA bibliothèque fondamentale pour le calcul scientifique. Elle fournit :
@@ -45,7 +45,7 @@ $$\\vec{a} + \\vec{b} = [a_1 + b_1, a_2 + b_2, ..., a_n + b_n]$$
 
 NumPy applique les opérations élément par élément automatiquement !
         `,
-                code: `import numpy as np
+        code: `import numpy as np
 
 # ===============================================
 # CRÉATION DE TABLEAUX
@@ -111,7 +111,7 @@ print(f"arr[-3:] = {arr[-3:]}")
 # Indexation booléenne
 print(f"\\narr > 5 : {arr[arr > 5]}")
 print(f"arr % 2 == 0 : {arr[arr % 2 == 0]}")`,
-                exercice: `
+        exercice: `
 **Exercices NumPy :**
 
 1. Créez un tableau de 100 éléments de 0 à 99
@@ -120,15 +120,15 @@ print(f"arr % 2 == 0 : {arr[arr % 2 == 0]}")`,
 4. Calculez la moyenne des éléments > 50
 5. Créez une matrice 5×5 remplie de 1 à 25
         `
-        },
+    },
 
-        // ============================================================
-        // MODULE 6 : GRAPHIQUES MATPLOTLIB ENRICHI
-        // ============================================================
+    // ============================================================
+    // MODULE 6 : GRAPHIQUES MATPLOTLIB ENRICHI
+    // ============================================================
 
-        matplotlib_basics: {
-                title: "Matplotlib : Visualisation de données",
-                theorie: `
+    matplotlib_basics: {
+        title: "Matplotlib : Visualisation de données",
+        theorie: `
 ## Matplotlib : La référence pour les graphiques
 
 **Matplotlib** permet de créer des visualisations de qualité publication.
@@ -170,7 +170,7 @@ plt.legend()
 plt.grid(True)
 \`\`\`
         `,
-                code: `import numpy as np
+        code: `import numpy as np
 import matplotlib.pyplot as plt
 
 # ===============================================
@@ -204,7 +204,7 @@ plt.tight_layout()
 plt.show()
 
 print("Graphique créé avec succès !")`,
-                exercice: `
+        exercice: `
 **Exercice Matplotlib :**
 
 1. Tracez \\( y = x^2 \\), \\( y = x^3 \\), \\( y = \\sqrt{x} \\) sur \\([0, 4]\\)
@@ -212,11 +212,11 @@ print("Graphique créé avec succès !")`,
 3. Ajoutez titre, labels, légende et grille
 4. Marquez les points d'intersection
         `
-        },
+    },
 
-        multiple_plots: {
-                title: "Sous-graphiques et layouts avancés",
-                theorie: `
+    multiple_plots: {
+        title: "Sous-graphiques et layouts avancés",
+        theorie: `
 ## Sous-graphiques avec Matplotlib
 
 ### Méthode subplots
@@ -239,7 +239,7 @@ plt.tight_layout()  # Ajustement automatique
 - Organisation claire
 - Partage d'axes possible
         `,
-                code: `import numpy as np
+        code: `import numpy as np
 import matplotlib.pyplot as plt
 
 # ===============================================
@@ -290,22 +290,22 @@ plt.tight_layout()
 plt.show()
 
 print("Grille de graphiques créée !")`,
-                exercice: `
+        exercice: `
 **Exercice :**
 
 Créez une grille 3×2 avec :
 1. sin(x), cos(x), tan(x)
 2. Leurs dérivées respectives
         `
-        },
+    },
 
-        // ============================================================
-        // MODULE 9 : TRIGONOMÉTRIE VISUALISÉE
-        // ============================================================
+    // ============================================================
+    // MODULE 9 : TRIGONOMÉTRIE VISUALISÉE
+    // ============================================================
 
-        trig_visualization: {
-                title: "Visualiser la trigonométrie avec NumPy/Matplotlib",
-                theorie: `
+    trig_visualization: {
+        title: "Visualiser la trigonométrie avec NumPy/Matplotlib",
+        theorie: `
 ## Trigonométrie interactive
 
 ### Le cercle trigonométrique
@@ -330,7 +330,7 @@ x = np.cos(theta)
 y = np.sin(theta)
 \`\`\`
         `,
-                code: `import numpy as np
+        code: `import numpy as np
 import matplotlib.pyplot as plt
 
 # ===============================================
@@ -380,18 +380,18 @@ plt.tight_layout()
 plt.show()
 
 print("Visualisation trigonométrique créée !")`,
-                exercice: `
+        exercice: `
 **Exercice :**
 
 1. Créez un cercle avec 12 points équidistants
 2. Tracez sin(x), sin(2x), sin(3x) sur le même graphique
 3. Animez un point qui tourne sur le cercle
         `
-        },
+    },
 
-        waves_interference: {
-                title: "Ondes et interférences",
-                theorie: `
+    waves_interference: {
+        title: "Ondes et interférences",
+        theorie: `
 ## Superposition d'ondes
 
 ### Principe de superposition
@@ -408,7 +408,7 @@ $$y_{total} = y_1 + y_2 = A_1\\sin(kx - \\omega t) + A_2\\sin(kx - \\omega t + \
 Deux ondes de fréquences proches :
 $$y = 2A\\cos\\left(\\frac{\\omega_1 - \\omega_2}{2}t\\right)\\sin\\left(\\frac{\\omega_1 + \\omega_2}{2}t\\right)$$
         `,
-                code: `import numpy as np
+        code: `import numpy as np
 import matplotlib.pyplot as plt
 
 # ===============================================
@@ -479,22 +479,22 @@ plt.tight_layout()
 plt.show()
 
 print("Visualisation des interférences créée !")`,
-                exercice: `
+        exercice: `
 **Exercice :**
 
 1. Créez une animation de deux ondes qui interfèrent
 2. Variez la phase de 0 à 2pi
 3. Visualisez les battements pour f1=440Hz et f2=442Hz
         `
-        },
+    },
 
-        // ============================================================
-        // MODULE 12 : ALGÈBRE LINÉAIRE NUMPY
-        // ============================================================
+    // ============================================================
+    // MODULE 12 : ALGÈBRE LINÉAIRE NUMPY
+    // ============================================================
 
-        linalg_numpy: {
-                title: "Algèbre linéaire avec NumPy",
-                theorie: `
+    linalg_numpy: {
+        title: "Algèbre linéaire avec NumPy",
+        theorie: `
 ## numpy.linalg : Algèbre linéaire rapide
 
 ### Opérations matricielles
@@ -525,7 +525,7 @@ U, S, Vt = np.linalg.svd(A)
 | Numérique | Symbolique |
 | Grands calculs | Formules |
         `,
-                code: `import numpy as np
+        code: `import numpy as np
 from numpy.linalg import det, inv, eig, solve, matrix_rank
 import matplotlib.pyplot as plt
 
@@ -599,7 +599,7 @@ ax.set_title('Transformation linéaire (cercle vers ellipse)')
 plt.show()
 
 print("\\nGraphique de transformation créé !")`,
-                exercice: `
+        exercice: `
 **Exercice :**
 
 1. Créez une matrice de rotation 45 degrés
@@ -607,11 +607,11 @@ print("\\nGraphique de transformation créé !")`,
 3. Visualisez le résultat
 4. Calculez ses valeurs propres (complexes !)
         `
-        },
+    },
 
-        matrix_visualization: {
-                title: "Visualiser les matrices",
-                theorie: `
+    matrix_visualization: {
+        title: "Visualiser les matrices",
+        theorie: `
 ## Représentation visuelle des matrices
 
 ### Heatmap (carte de chaleur)
@@ -633,7 +633,7 @@ plt.colorbar()
 - Images numériques
 - Matrices de confusion
         `,
-                code: `import numpy as np
+        code: `import numpy as np
 import matplotlib.pyplot as plt
 
 # ===============================================
@@ -699,22 +699,22 @@ print(f"cond(I) = {np.linalg.cond(I):.2f}")
 print(f"cond(H) = {np.linalg.cond(H):.2e} (tres mal conditionnee !)")
 
 print("\\nVisualisations de matrices créées !")`,
-                exercice: `
+        exercice: `
 **Exercice :**
 
 1. Créez une matrice 20×20 avec un motif en damier
 2. Visualisez-la avec différentes palettes de couleurs
 3. Calculez et visualisez son inverse
         `
-        },
+    },
 
-        // ============================================================
-        // MODULE 13 : PROBABILITÉS ET STATISTIQUES
-        // ============================================================
+    // ============================================================
+    // MODULE 13 : PROBABILITÉS ET STATISTIQUES
+    // ============================================================
 
-        stats_visualization: {
-                title: "Visualiser les distributions statistiques",
-                theorie: `
+    stats_visualization: {
+        title: "Visualiser les distributions statistiques",
+        theorie: `
 ## Distributions avec NumPy et Matplotlib
 
 ### Générer des échantillons
@@ -741,7 +741,7 @@ plt.hist(data, bins=30, density=True)
 
 $$f(x) = \\frac{1}{\\sigma\\sqrt{2\\pi}} e^{-\\frac{(x-\\mu)^2}{2\\sigma^2}}$$
         `,
-                code: `import numpy as np
+        code: `import numpy as np
 import matplotlib.pyplot as plt
 
 # ===============================================
@@ -808,18 +808,18 @@ plt.tight_layout()
 plt.show()
 
 print("Visualisation des distributions créée !")`,
-                exercice: `
+        exercice: `
 **Exercice :**
 
 1. Générez 10000 échantillons d'une distribution Beta(2, 5)
 2. Tracez l'histogramme et la densité théorique
 3. Calculez les moments et comparez avec la théorie
         `
-        },
+    },
 
-        monte_carlo: {
-                title: "Simulation Monte Carlo",
-                theorie: `
+    monte_carlo: {
+        title: "Simulation Monte Carlo",
+        theorie: `
 ## Méthode de Monte Carlo
 
 ### Principe
@@ -839,7 +839,7 @@ $$\\pi \\approx 4 \\times \\frac{\\text{points dans le cercle}}{\\text{total de 
 
 L'erreur décroît en \\( O(1/\\sqrt{n}) \\)
         `,
-                code: `import numpy as np
+        code: `import numpy as np
 import matplotlib.pyplot as plt
 
 # ===============================================
@@ -921,22 +921,22 @@ plt.show()
 print(f"Estimation de pi : {pi_estimate:.6f}")
 print(f"Valeur exacte : {np.pi:.6f}")
 print(f"Erreur : {abs(pi_estimate - np.pi):.6f}")`,
-                exercice: `
+        exercice: `
 **Exercice :**
 
 1. Estimez l'aire sous la courbe \\( e^{-x^2} \\) de -infini à +infini (= sqrt(pi))
 2. Calculez la probabilité de tomber dans un cercle de rayon 0.5
 3. Simulez 1000 parties de pile ou face et tracez l'évolution du gain
         `
-        },
+    },
 
-        // ============================================================
-        // MODULE 14 : THÉORIE DES NOMBRES VISUALISÉE
-        // ============================================================
+    // ============================================================
+    // MODULE 14 : THÉORIE DES NOMBRES VISUALISÉE
+    // ============================================================
 
-        prime_visualization: {
-                title: "Visualiser les nombres premiers",
-                theorie: `
+    prime_visualization: {
+        title: "Visualiser les nombres premiers",
+        theorie: `
 ## Les nombres premiers avec NumPy
 
 ### Crible d'Ératosthène
@@ -957,7 +957,7 @@ def sieve(n):
 - Distribution des écarts
 - pi(x) vs x/ln(x)
         `,
-                code: `import numpy as np
+        code: `import numpy as np
 import matplotlib.pyplot as plt
 
 # ===============================================
@@ -1029,22 +1029,22 @@ plt.tight_layout()
 plt.show()
 
 print("Visualisation des nombres premiers créée !")`,
-                exercice: `
+        exercice: `
 **Exercice :**
 
 1. Trouvez tous les "jumeaux" (p, p+2) premiers jusqu'à 1000
 2. Visualisez leur distribution
 3. Comptez les premiers de Sophie Germain (p et 2p+1 premiers)
         `
-        },
+    },
 
-        // ============================================================
-        // MODULE 7 : ALGÈBRE 2 - NOMBRES COMPLEXES VISUALISÉS
-        // ============================================================
+    // ============================================================
+    // MODULE 7 : ALGÈBRE 2 - NOMBRES COMPLEXES VISUALISÉS
+    // ============================================================
 
-        complex_visualization: {
-                title: "Visualiser les nombres complexes",
-                theorie: `
+    complex_visualization: {
+        title: "Visualiser les nombres complexes",
+        theorie: `
 ## Le plan complexe avec NumPy et Matplotlib
 
 ### Représentation
@@ -1071,7 +1071,7 @@ z.real      # Partie réelle
 z.imag      # Partie imaginaire
 \`\`\`
         `,
-                code: `import numpy as np
+        code: `import numpy as np
 import matplotlib.pyplot as plt
 
 # ===============================================
@@ -1161,18 +1161,18 @@ plt.tight_layout()
 plt.show()
 
 print("Visualisation des nombres complexes créée !")`,
-                exercice: `
+        exercice: `
 **Exercice :**
 
 1. Tracez les 8 racines 8-ièmes de l'unité
 2. Montrez que leur somme = 0
 3. Visualisez la transformation z → z³
         `
-        },
+    },
 
-        gaussian_curves: {
-                title: "Famille de courbes Gaussiennes",
-                theorie: `
+    gaussian_curves: {
+        title: "Famille de courbes Gaussiennes",
+        theorie: `
 ## La distribution Gaussienne
 
 ### Formule
@@ -1191,7 +1191,7 @@ $$f(x) = \\frac{1}{\\sigma\\sqrt{2\\pi}} e^{-\\frac{(x-\\mu)^2}{2\\sigma^2}}$$
 - 95% dans \\([\\mu - 2\\sigma, \\mu + 2\\sigma]\\)
 - 99.7% dans \\([\\mu - 3\\sigma, \\mu + 3\\sigma]\\)
         `,
-                code: `import numpy as np
+        code: `import numpy as np
 import matplotlib.pyplot as plt
 
 # ===============================================
@@ -1272,22 +1272,22 @@ plt.tight_layout()
 plt.show()
 
 print("Famille de Gaussiennes visualisée !")`,
-                exercice: `
+        exercice: `
 **Exercice :**
 
 1. Créez une animation où sigma varie de 0.5 à 3
 2. Vérifiez numériquement que l'aire sous la courbe = 1
 3. Tracez 100 Gaussiennes avec mu et sigma aléatoires
         `
-        },
+    },
 
-        // ============================================================
-        // MODULE 8 : SECTIONS CONIQUES ANIMÉES
-        // ============================================================
+    // ============================================================
+    // MODULE 8 : SECTIONS CONIQUES ANIMÉES
+    // ============================================================
 
-        conics_visualization: {
-                title: "Sections coniques animées",
-                theorie: `
+    conics_visualization: {
+        title: "Sections coniques animées",
+        theorie: `
 ## Les quatre coniques
 
 ### Équation générale
@@ -1307,7 +1307,7 @@ $$Ax^2 + Bxy + Cy^2 + Dx + Ey + F = 0$$
 
 Toutes les coniques ont une définition par foyer et directrice !
         `,
-                code: `import numpy as np
+        code: `import numpy as np
 import matplotlib.pyplot as plt
 
 # ===============================================
@@ -1394,22 +1394,22 @@ plt.tight_layout()
 plt.show()
 
 print("Sections coniques visualisées !")`,
-                exercice: `
+        exercice: `
 **Exercice :**
 
 1. Tracez une ellipse avec ses deux foyers F1 et F2
 2. Vérifiez que pour tout point P sur l'ellipse, |PF1| + |PF2| = 2a
 3. Créez une animation d'une ellipse dont l'excentricité varie
         `
-        },
+    },
 
-        // ============================================================
-        // MODULE 10 : ART TRIGONOMÉTRIQUE
-        // ============================================================
+    // ============================================================
+    // MODULE 10 : ART TRIGONOMÉTRIQUE
+    // ============================================================
 
-        trig_art: {
-                title: "Art mathématique avec NumPy",
-                theorie: `
+    trig_art: {
+        title: "Art mathématique avec NumPy",
+        theorie: `
 ## Courbes artistiques
 
 ### Courbes de Lissajous
@@ -1429,7 +1429,7 @@ $$r = a\\cos(n\\theta)$$
 
 n impair → n pétales, n pair → 2n pétales
         `,
-                code: `import numpy as np
+        code: `import numpy as np
 import matplotlib.pyplot as plt
 
 # ===============================================
@@ -1532,18 +1532,18 @@ plt.tight_layout()
 plt.show()
 
 print("Art mathématique créé !")`,
-                exercice: `
+        exercice: `
 **Exercice :**
 
 1. Créez votre propre courbe artistique
 2. Animez une spirale qui se dessine progressivement
 3. Combinez plusieurs courbes pour créer un mandala
         `
-        },
+    },
 
-        fractals: {
-                title: "Fractales avec NumPy",
-                theorie: `
+    fractals: {
+        title: "Fractales avec NumPy",
+        theorie: `
 ## Introduction aux fractales
 
 ### Ensemble de Mandelbrot
@@ -1560,7 +1560,7 @@ Même itération mais \\( c \\) est fixe, on varie \\( z_0 \\).
 
 Fractal géométrique par subdivision récursive.
         `,
-                code: `import numpy as np
+        code: `import numpy as np
 import matplotlib.pyplot as plt
 
 # ===============================================
@@ -1656,22 +1656,22 @@ plt.tight_layout()
 plt.show()
 
 print("Fractales créées !")`,
-                exercice: `
+        exercice: `
 **Exercice :**
 
 1. Zoomez sur une partie intéressante de Mandelbrot
 2. Explorez différentes valeurs de c pour Julia
 3. Créez le triangle de Sierpiński avec récursion
         `
-        },
+    },
 
-        // ============================================================
-        // MODULE 11 : CALCUL INFINITÉSIMAL VISUEL
-        // ============================================================
+    // ============================================================
+    // MODULE 11 : CALCUL INFINITÉSIMAL VISUEL
+    // ============================================================
 
-        derivative_visualization: {
-                title: "Visualiser les dérivées",
-                theorie: `
+    derivative_visualization: {
+        title: "Visualiser les dérivées",
+        theorie: `
 ## La dérivée visuellement
 
 ### Définition
@@ -1691,7 +1691,7 @@ La dérivée = pente de la tangente au point.
 | \\( \\sin(x) \\) | \\( \\cos(x) \\) |
 | \\( \\ln(x) \\) | \\( 1/x \\) |
         `,
-                code: `import numpy as np
+        code: `import numpy as np
 import matplotlib.pyplot as plt
 
 # ===============================================
@@ -1786,18 +1786,18 @@ plt.tight_layout()
 plt.show()
 
 print("Visualisation des dérivées créée !")`,
-                exercice: `
+        exercice: `
 **Exercice :**
 
 1. Trouvez les maxima/minima de f(x) = x³ - 3x visuellement
 2. Tracez f, f', f'' sur le même graphique
 3. Animez la tangente qui glisse le long de la courbe
         `
-        },
+    },
 
-        integral_visualization: {
-                title: "Visualiser les intégrales",
-                theorie: `
+    integral_visualization: {
+        title: "Visualiser les intégrales",
+        theorie: `
 ## L'intégrale visuellement
 
 ### Définition
@@ -1812,7 +1812,7 @@ L'intégrale = aire sous la courbe (signée).
 
 $$\\frac{d}{dx} \\int_a^x f(t) dt = f(x)$$
         `,
-                code: `import numpy as np
+        code: `import numpy as np
 import matplotlib.pyplot as plt
 
 # ===============================================
@@ -1932,18 +1932,18 @@ plt.tight_layout()
 plt.show()
 
 print("Visualisation des intégrales créée !")`,
-                exercice: `
+        exercice: `
 **Exercice :**
 
 1. Calculez l'aire sous y = e^(-x²) de -3 à 3 (≈ √π)
 2. Animez les rectangles de Riemann avec n croissant
 3. Trouvez le volume de révolution de y = √x autour de l'axe x
         `
-        },
+    },
 
-        physics_applications: {
-                title: "Applications physiques avec NumPy",
-                theorie: `
+    physics_applications: {
+        title: "Applications physiques avec NumPy",
+        theorie: `
 ## Physique computationnelle
 
 ### Mouvement
@@ -1961,7 +1961,7 @@ $$F = ma \\Rightarrow a = \\frac{F}{m}$$
 $$x_{n+1} = x_n + v_n \\cdot \\Delta t$$
 $$v_{n+1} = v_n + a_n \\cdot \\Delta t$$
         `,
-                code: `import numpy as np
+        code: `import numpy as np
 import matplotlib.pyplot as plt
 
 # ===============================================
@@ -2082,12 +2082,446 @@ plt.tight_layout()
 plt.show()
 
 print("Applications physiques simulées !")`,
-                exercice: `
+        exercice: `
 **Exercice :**
 
 1. Simulez un système masse-ressort amorti
 2. Tracez le portrait de phase de l'oscillateur Van der Pol
 3. Simulez un double pendule (mouvement chaotique !)
         `
-        }
+    },
+
+    // ============================================================
+    // MODULE 2 : ARITHMÉTIQUE ENRICHIE
+    // ============================================================
+
+    arithmetic_visualization: {
+        title: "Visualiser les opérations arithmétiques",
+        theorie: `
+## Arithmétique visuelle avec Python
+
+### Les opérations de base
+
+En Python, les opérations arithmétiques fondamentales sont :
+
+| Opérateur | Opération | Exemple |
+|-----------|-----------|---------|
+| + | Addition | 5 + 3 = 8 |
+| - | Soustraction | 10 - 4 = 6 |
+| * | Multiplication | 6 * 7 = 42 |
+| / | Division | 15 / 4 = 3.75 |
+| // | Division entière | 15 // 4 = 3 |
+| % | Modulo (reste) | 15 % 4 = 3 |
+| ** | Puissance | 2 ** 10 = 1024 |
+
+### Visualisation
+
+Les graphiques permettent de mieux comprendre les relations entre nombres !
+        `,
+        code: `import numpy as np
+import matplotlib.pyplot as plt
+
+# ===============================================
+# VISUALISATION DES OPÉRATIONS ARITHMÉTIQUES
+# ===============================================
+
+fig, axes = plt.subplots(2, 2, figsize=(14, 10))
+
+# --- Tables de multiplication ---
+ax1 = axes[0, 0]
+n = 10
+table = np.outer(np.arange(1, n+1), np.arange(1, n+1))
+im = ax1.imshow(table, cmap='YlOrRd')
+ax1.set_title('Table de multiplication')
+ax1.set_xlabel('Facteur 1')
+ax1.set_ylabel('Facteur 2')
+ax1.set_xticks(range(n))
+ax1.set_yticks(range(n))
+ax1.set_xticklabels(range(1, n+1))
+ax1.set_yticklabels(range(1, n+1))
+plt.colorbar(im, ax=ax1)
+
+# Ajouter les valeurs
+for i in range(n):
+    for j in range(n):
+        ax1.text(j, i, table[i, j], ha='center', va='center', 
+                fontsize=8, color='black' if table[i, j] < 50 else 'white')
+
+# --- Division et reste ---
+ax2 = axes[0, 1]
+dividendes = range(1, 25)
+diviseur = 5
+quotients = [d // diviseur for d in dividendes]
+restes = [d % diviseur for d in dividendes]
+
+ax2.bar(dividendes, quotients, alpha=0.7, label='Quotient (//)')
+ax2.scatter(dividendes, restes, color='red', s=50, zorder=5, label='Reste (%)')
+ax2.set_xlabel('Dividende')
+ax2.set_ylabel('Valeur')
+ax2.set_title(f'Division par {diviseur} : quotient et reste')
+ax2.legend()
+ax2.grid(True, alpha=0.3)
+
+# --- Croissance des opérations ---
+ax3 = axes[1, 0]
+x = np.linspace(1, 10, 100)
+ax3.plot(x, x, 'b-', label='n (linéaire)', linewidth=2)
+ax3.plot(x, x**2, 'r-', label='n² (quadratique)', linewidth=2)
+ax3.plot(x, 2**x, 'g-', label='2^n (exponentiel)', linewidth=2)
+ax3.plot(x, np.log2(x), 'm-', label='log2(n)', linewidth=2)
+
+ax3.set_xlabel('n')
+ax3.set_ylabel('Valeur')
+ax3.set_title('Croissance des fonctions')
+ax3.legend()
+ax3.set_ylim([0, 50])
+ax3.grid(True, alpha=0.3)
+
+# --- Nombres pairs et impairs ---
+ax4 = axes[1, 1]
+nombres = np.arange(1, 21)
+pairs = nombres % 2 == 0
+couleurs = ['blue' if p else 'red' for p in pairs]
+
+ax4.bar(nombres, nombres, color=couleurs, alpha=0.7)
+ax4.axhline(y=0, color='black', linewidth=0.5)
+ax4.set_xlabel('Nombre')
+ax4.set_ylabel('Valeur')
+ax4.set_title('Pairs (bleu) vs Impairs (rouge)')
+ax4.grid(True, alpha=0.3, axis='y')
+
+plt.tight_layout()
+plt.show()
+
+print("Visualisation arithmétique créée !")`,
+        exercice: `
+**Exercices :**
+
+1. Créez une visualisation de la table de multiplication jusqu'à 12
+2. Tracez un graphique montrant les diviseurs de 60
+3. Visualisez les multiples de 3 et 5 de 1 à 100 (FizzBuzz visuel)
+        `
+    },
+
+    powers_visualization: {
+        title: "Puissances et exposants visuels",
+        theorie: `
+## Les puissances en Python
+
+### Notation
+
+En Python, on utilise ** pour les puissances :
+
+$$a^n = \\underbrace{a \\times a \\times ... \\times a}_{n \\text{ fois}}$$
+
+### Lois des exposants
+
+- \\( a^m \\times a^n = a^{m+n} \\)
+- \\( (a^m)^n = a^{m \\times n} \\)
+- \\( a^0 = 1 \\)
+- \\( a^{-n} = \\frac{1}{a^n} \\)
+
+### Racines
+
+$$\\sqrt[n]{a} = a^{1/n}$$
+        `,
+        code: `import numpy as np
+import matplotlib.pyplot as plt
+
+# ===============================================
+# VISUALISATION DES PUISSANCES
+# ===============================================
+
+fig, axes = plt.subplots(2, 2, figsize=(14, 10))
+
+# --- Croissance exponentielle ---
+ax1 = axes[0, 0]
+n = np.arange(0, 15)
+
+for base in [2, 3, 5, 10]:
+    ax1.plot(n, base**n, 'o-', label=f'{base}^n', linewidth=2, markersize=5)
+
+ax1.set_xlabel('Exposant n')
+ax1.set_ylabel('Valeur')
+ax1.set_title('Croissance exponentielle')
+ax1.legend()
+ax1.set_yscale('log')
+ax1.grid(True, alpha=0.3)
+
+# --- Puissances de 2 ---
+ax2 = axes[0, 1]
+puissances_2 = [2**i for i in range(11)]
+labels = [f'2^{i}' for i in range(11)]
+
+bars = ax2.bar(range(11), puissances_2, color='steelblue', alpha=0.7)
+ax2.set_xticks(range(11))
+ax2.set_xticklabels(labels, rotation=45)
+ax2.set_ylabel('Valeur')
+ax2.set_title('Puissances de 2')
+ax2.set_ylim([0, 1200])
+
+# --- Racines ---
+ax3 = axes[1, 0]
+x = np.linspace(0, 100, 200)
+
+ax3.plot(x, x**(1/2), 'b-', label='Racine carrée', linewidth=2)
+ax3.plot(x, x**(1/3), 'r-', label='Racine cubique', linewidth=2)
+ax3.plot(x, x**(1/4), 'g-', label='Racine 4ème', linewidth=2)
+
+ax3.set_xlabel('x')
+ax3.set_ylabel('y')
+ax3.set_title('Fonctions racines')
+ax3.legend()
+ax3.grid(True, alpha=0.3)
+
+# --- Comparaison polynomial vs exponentiel ---
+ax4 = axes[1, 1]
+x = np.linspace(1, 8, 100)
+
+ax4.plot(x, x**2, label='n² (polynomial)', linewidth=2)
+ax4.plot(x, x**3, label='n³ (polynomial)', linewidth=2)
+ax4.plot(x, 2**x, label='2^n (exponentiel)', linewidth=2)
+
+ax4.set_xlabel('n')
+ax4.set_ylabel('Valeur')
+ax4.set_title('Polynomial vs Exponentiel')
+ax4.legend()
+ax4.set_ylim([0, 300])
+ax4.grid(True, alpha=0.3)
+
+plt.tight_layout()
+plt.show()
+
+# Vérification des lois des exposants
+print("=== Vérification des lois des exposants ===")
+a, m, n = 3, 4, 2
+print(f"a^m * a^n = {a**m * a**n}")
+print(f"a^(m+n) = {a**(m+n)}")
+print(f"Égaux ? {a**m * a**n == a**(m+n)}")`,
+        exercice: `
+**Exercices :**
+
+1. Calculez \\( 2^{100} \\) (Python gère les grands entiers !)
+2. Vérifiez que \\( 2^{10} = 1024 \\) (1 Ko en informatique)
+3. Calculez \\( \\sqrt[4]{625} \\) en utilisant les exposants fractionnaires
+4. Tracez les courbes \\( y = x^n \\) pour \\( n = 0.5, 1, 2, 3 \\)
+        `
+    },
+
+    factorial_combinatorics: {
+        title: "Factorielle et combinatoire",
+        theorie: `
+## Factorielle et dénombrement
+
+### Factorielle
+
+$$n! = n \\times (n-1) \\times ... \\times 2 \\times 1$$
+
+Par convention : \\( 0! = 1 \\)
+
+### Combinaisons
+
+$$C_n^k = \\binom{n}{k} = \\frac{n!}{k!(n-k)!}$$
+
+### Triangle de Pascal
+
+$$\\binom{n}{k} = \\binom{n-1}{k-1} + \\binom{n-1}{k}$$
+        `,
+        code: `import numpy as np
+import matplotlib.pyplot as plt
+from math import factorial, comb
+
+# ===============================================
+# FACTORIELLE ET COMBINATOIRE
+# ===============================================
+
+fig, axes = plt.subplots(2, 2, figsize=(14, 10))
+
+# --- Croissance de la factorielle ---
+ax1 = axes[0, 0]
+n_vals = range(1, 13)
+factorielles = [factorial(n) for n in n_vals]
+
+ax1.bar(n_vals, factorielles, color='purple', alpha=0.7)
+ax1.set_xlabel('n')
+ax1.set_ylabel('n!')
+ax1.set_title('Croissance de la factorielle')
+ax1.set_yscale('log')
+
+# --- Triangle de Pascal ---
+ax2 = axes[0, 1]
+n_lignes = 10
+
+for n in range(n_lignes):
+    for k in range(n + 1):
+        val = comb(n, k)
+        x = k - n/2
+        y = -n
+        ax2.text(x, y, str(val), ha='center', va='center', fontsize=10,
+                bbox=dict(boxstyle='circle', facecolor='lightblue', alpha=0.7))
+
+ax2.set_xlim([-6, 6])
+ax2.set_ylim([-n_lignes, 1])
+ax2.set_title('Triangle de Pascal')
+ax2.axis('off')
+
+# --- Coefficients binomiaux ---
+ax3 = axes[1, 0]
+for n in [5, 10, 15, 20]:
+    k_vals = range(n + 1)
+    coeffs = [comb(n, k) for k in k_vals]
+    ax3.plot(k_vals, coeffs, 'o-', label=f'n = {n}', markersize=4)
+
+ax3.set_xlabel('k')
+ax3.set_ylabel('C(n,k)')
+ax3.set_title('Coefficients binomiaux')
+ax3.legend()
+ax3.grid(True, alpha=0.3)
+
+# --- Approximation de Stirling ---
+ax4 = axes[1, 1]
+n_vals = np.arange(1, 20)
+exact = np.array([factorial(n) for n in n_vals])
+stirling = np.sqrt(2 * np.pi * n_vals) * (n_vals / np.e) ** n_vals
+
+ax4.plot(n_vals, exact, 'b-', label='n! exact', linewidth=2)
+ax4.plot(n_vals, stirling, 'r--', label='Stirling', linewidth=2)
+ax4.set_xlabel('n')
+ax4.set_ylabel('Valeur')
+ax4.set_title('Approximation de Stirling')
+ax4.legend()
+ax4.set_yscale('log')
+ax4.grid(True, alpha=0.3)
+
+plt.tight_layout()
+plt.show()
+
+print("=== Factorielles ===")
+for n in range(11):
+    print(f"{n}! = {factorial(n)}")
+
+print("\\n=== Combinaisons ===")
+print(f"Mains de poker (5 parmi 52) : C(52,5) = {comb(52, 5):,}")`,
+        exercice: `
+**Exercices :**
+
+1. Calculez \\( 20! \\) et comparez avec l'approximation de Stirling
+2. Combien de façons de choisir 3 délégués parmi 30 élèves ?
+3. Affichez les 15 premières lignes du triangle de Pascal
+4. Calculez la probabilité de gagner au Loto (5 parmi 49)
+        `
+    },
+
+    sequences_series: {
+        title: "Suites et séries numériques",
+        theorie: `
+## Suites et séries
+
+### Suite arithmétique
+
+$$a_n = a_1 + (n-1) \\times r$$
+
+### Suite géométrique
+
+$$a_n = a_1 \\times q^{n-1}$$
+
+### Sommes célèbres
+
+- \\( 1 + 2 + ... + n = \\frac{n(n+1)}{2} \\)
+- \\( 1^2 + 2^2 + ... + n^2 = \\frac{n(n+1)(2n+1)}{6} \\)
+
+### Fibonacci
+
+\\( F_n = F_{n-1} + F_{n-2} \\) avec \\( F_0 = 0, F_1 = 1 \\)
+        `,
+        code: `import numpy as np
+import matplotlib.pyplot as plt
+
+# ===============================================
+# SUITES ET SÉRIES NUMÉRIQUES
+# ===============================================
+
+fig, axes = plt.subplots(2, 2, figsize=(14, 10))
+
+# --- Suite arithmétique ---
+ax1 = axes[0, 0]
+a1, r = 3, 5
+n = np.arange(1, 16)
+suite_arith = a1 + (n - 1) * r
+
+ax1.plot(n, suite_arith, 'bo-', linewidth=2, markersize=8, label=f'a1={a1}, r={r}')
+ax1.fill_between(n, suite_arith, alpha=0.2)
+ax1.set_xlabel('n')
+ax1.set_ylabel('an')
+ax1.set_title('Suite arithmétique')
+ax1.legend()
+ax1.grid(True, alpha=0.3)
+
+# --- Suite géométrique ---
+ax2 = axes[0, 1]
+a1, q = 2, 1.5
+suite_geom = a1 * q**(n - 1)
+
+ax2.plot(n, suite_geom, 'ro-', linewidth=2, markersize=8, label=f'a1={a1}, q={q}')
+ax2.fill_between(n, suite_geom, alpha=0.2, color='red')
+ax2.set_xlabel('n')
+ax2.set_ylabel('an')
+ax2.set_title('Suite géométrique')
+ax2.legend()
+ax2.grid(True, alpha=0.3)
+
+# --- Fibonacci ---
+ax3 = axes[1, 0]
+
+def fibonacci(n_terms):
+    fib = [0, 1]
+    for i in range(2, n_terms):
+        fib.append(fib[-1] + fib[-2])
+    return fib
+
+fib = fibonacci(20)
+n_fib = range(len(fib))
+
+ax3.bar(n_fib, fib, color='green', alpha=0.7)
+ax3.set_xlabel('n')
+ax3.set_ylabel('Fn')
+ax3.set_title('Suite de Fibonacci')
+ax3.grid(True, alpha=0.3, axis='y')
+
+# --- Sommes partielles ---
+ax4 = axes[1, 1]
+n = np.arange(1, 21)
+
+somme_entiers = n * (n + 1) / 2
+somme_carres = n * (n + 1) * (2*n + 1) / 6
+somme_harmonique = [sum(1/k for k in range(1, i+1)) for i in n]
+
+ax4.plot(n, somme_entiers, 'b-', label='Somme k', linewidth=2)
+ax4.plot(n, somme_carres, 'r-', label='Somme k²', linewidth=2)
+ax4.plot(n, somme_harmonique, 'g-', label='Harmonique', linewidth=2)
+
+ax4.set_xlabel('n')
+ax4.set_ylabel('Somme')
+ax4.set_title('Sommes partielles')
+ax4.legend()
+ax4.grid(True, alpha=0.3)
+
+plt.tight_layout()
+plt.show()
+
+# Ratio doré
+print("=== Ratio doré (Fibonacci) ===")
+for i in range(5, 15):
+    ratio = fib[i] / fib[i-1]
+    print(f"F({i})/F({i-1}) = {ratio:.6f}")
+print(f"Nombre d'or = {(1 + np.sqrt(5))/2:.6f}")`,
+        exercice: `
+**Exercices :**
+
+1. Calculez la somme des 1000 premiers entiers avec la formule de Gauss
+2. Vérifiez que \\( \\sum_{k=0}^{n} 2^k = 2^{n+1} - 1 \\)
+3. Calculez les 50 premiers termes de Fibonacci
+4. Tracez la spirale de Fibonacci
+        `
+    }
 };

@@ -32,6 +32,10 @@ export const introToPythonCourse = [
             { id: "interactive_1", title: "Fonctions mathematiques interactives, Partie 1" },
             { id: "interactive_2", title: "Fonctions mathematiques interactives, Partie 2" },
             { id: "interactive_3", title: "Fonctions mathematiques interactives, Partie 3" },
+            { id: "arithmetic_visualization", title: "Visualiser les operations arithmetiques" },
+            { id: "powers_visualization", title: "Puissances et exposants visuels" },
+            { id: "factorial_combinatorics", title: "Factorielle et combinatoire" },
+            { id: "sequences_series", title: "Suites et series numeriques" },
             { id: "bug_hunt", title: "Chasse aux bugs Arithmetique !" }
         ]
     },
