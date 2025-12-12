@@ -903,10 +903,15 @@ function PendulumSim({ moving, length, mass }) {
 // ============================================================
 // DENSITÉ (IMMERSIVE)
 // ============================================================
+// ============================================================
+// DENSITÉ (IMMERSIVE & CHALLENGE)
+// ============================================================
 export function DensityExplorer() {
-    const [mode, setMode] = useState('sinkfloat'); // sinkfloat, tower
+    const [mode, setMode] = useState('sinkfloat'); // sinkfloat, tower, challenge
     const [selectedObject, setSelectedObject] = useState(null);
     const [objectsInWater, setObjectsInWater] = useState([]);
+    const [mysteryObj, setMysteryObj] = useState(null);
+    const [success, setSuccess] = useState(null);
 
     const items = [
         { id: 'wood', name: 'Bois', dens: 0.6, color: '#A1887F' },
@@ -926,22 +931,77 @@ export function DensityExplorer() {
         setObjectsInWater(prev => [...prev.filter(o => o.id !== obj.id), { ...obj, key: Math.random() }]);
     };
 
+    const startChallenge = () => {
+        const secret = items[Math.floor(Math.random() * items.length)];
+        setMysteryObj({ ...secret, id: 'mystery', name: 'Mystère❓', color: '#607D8B' });
+        setMode('challenge');
+        setObjectsInWater([]);
+        setSuccess(null);
+    };
+
+    const verifyGuess = (guessId) => {
+        if (!mysteryObj) return;
+        if (guessId === mysteryObj.originalId || items.find(i => i.id === guessId).dens === mysteryObj.dens) {
+            setSuccess(true);
+        } else {
+            setSuccess(false);
+        }
+    };
+
+    // Pre-process mystery object to keep original ID reference for checking
+    useEffect(() => {
+        if (mysteryObj && !mysteryObj.originalId) {
+            // Find which item it corresponds to based on density if not set
+            const original = items.find(i => i.dens === mysteryObj.dens);
+            if (original) setMysteryObj(prev => ({ ...prev, originalId: original.id }));
+        }
+    }, [mysteryObj]);
+
+
     return (
         <group>
             <Html position={[5, 2, 0]} center>
                 <div className="bg-black/90 p-5 rounded-2xl text-white border border-cyan-500/30 w-[350px] backdrop-blur-md">
-                    <h3 className="text-cyan-400 font-bold text-xl mb-4">🌊 Laboratoire de Densité</h3>
+                    <div className="flex justify-between items-center mb-4">
+                        <h3 className="text-cyan-400 font-bold text-xl">🌊 Laboratoire de Densité</h3>
+                        {mode !== 'challenge' && <button onClick={startChallenge} className="text-xs bg-cyan-700 px-2 py-1 rounded hover:bg-white hover:text-black transition-colors">Mode Défi 🏆</button>}
+                        {mode === 'challenge' && <button onClick={() => setMode('sinkfloat')} className="text-xs bg-gray-700 px-2 py-1 rounded">Retour</button>}
+                    </div>
 
                     <div className="flex gap-2 mb-4 bg-gray-800 p-1 rounded-lg">
                         <button onClick={() => { setMode('sinkfloat'); setObjectsInWater([]); }}
                             className={`flex-1 py-1 rounded text-sm ${mode === 'sinkfloat' ? 'bg-cyan-600' : 'hover:bg-gray-700'}`}>
-                            Flotte ou Coule
+                            Libre
                         </button>
                         <button onClick={() => { setMode('tower'); setObjectsInWater([]); }}
                             className={`flex-1 py-1 rounded text-sm ${mode === 'tower' ? 'bg-orange-600' : 'hover:bg-gray-700'}`}>
-                            Tour de Liquides
+                            Tour
                         </button>
                     </div>
+
+                    {mode === 'challenge' && (
+                        <div className="mb-4">
+                            <div className="bg-gray-800 p-3 rounded-lg mb-3 border-l-4 border-cyan-500">
+                                <p className="text-sm">Identifie le matériau de l'objet mystère !</p>
+                                <button onClick={() => dropObject(mysteryObj)} className="mt-2 text-xs bg-white text-black px-3 py-1 rounded font-bold hover:bg-gray-200 w-full">
+                                    Lâcher l'Objet Mystère 👇
+                                </button>
+                            </div>
+
+                            <div className="text-xs text-gray-400 mb-2">C'est quoi selon toi ?</div>
+                            <div className="grid grid-cols-2 gap-2">
+                                {items.map(item => (
+                                    <button key={item.id} onClick={() => verifyGuess(item.id)}
+                                        className={`p-2 rounded border ${success === true && item.dens === mysteryObj.dens ? 'bg-green-600 border-green-400' : 'bg-gray-700 border-gray-600 hover:border-cyan-400'}`}>
+                                        {item.name}
+                                    </button>
+                                ))}
+                            </div>
+                            {success === true && <div className="mt-3 text-center text-green-400 font-bold animate-bounce">Correct ! C'était bien du {items.find(i => i.dens === mysteryObj.dens).name}.</div>}
+                            {success === false && <div className="mt-3 text-center text-red-400 font-bold animate-pulse">Incorrect ! Observe bien où il flotte.</div>}
+                            {success === true && <button onClick={startChallenge} className="mt-2 w-full py-1 bg-green-800 rounded text-xs">Nouveau Défi</button>}
+                        </div>
+                    )}
 
                     {mode === 'sinkfloat' && (
                         <div className="grid grid-cols-2 gap-2">
@@ -966,9 +1026,6 @@ export function DensityExplorer() {
                                     </li>
                                 ))}
                             </ul>
-                            <div className="mt-4 text-xs text-gray-400">
-                                Les liquides les moins denses flottent sur les plus denses !
-                            </div>
                         </div>
                     )}
                 </div>
@@ -981,11 +1038,14 @@ export function DensityExplorer() {
                     <meshPhysicalMaterial color="#E0F7FA" transmission={0.9} opacity={0.3} transparent side={THREE.DoubleSide} thickness={0.5} roughness={0} />
                 </mesh>
 
-                {mode === 'sinkfloat' ? (
-                    <mesh position={[0, 1, 0]}>
-                        <boxGeometry args={[3, 2, 2]} />
-                        <meshStandardMaterial color="#4FC3F7" transparent opacity={0.6} />
-                    </mesh>
+                {mode === 'sinkfloat' || mode === 'challenge' ? (
+                    <group>
+                        <mesh position={[0, 1, 0]}>
+                            <boxGeometry args={[3, 2, 2]} />
+                            <meshStandardMaterial color="#4FC3F7" transparent opacity={0.6} />
+                        </mesh>
+                        {/* Simulation des liquides multiples pour le mode challenge aussi si besoin, mais simplifions a l'eau unique pour sinkfloat/challenge simple */}
+                    </group>
                 ) : (
                     // Tour de liquides
                     <group>
@@ -1000,12 +1060,13 @@ export function DensityExplorer() {
 
                 {/* Objets Simulés */}
                 {objectsInWater.map(obj => (
-                    <FloatingObject key={obj.key} obj={obj} mode={mode} liquids={liquids} />
+                    <FloatingObject key={obj.key} obj={obj} mode={mode === 'challenge' ? 'sinkfloat' : mode} liquids={liquids} />
                 ))}
             </group>
         </group>
     );
 }
+
 
 function FloatingObject({ obj, mode, liquids }) {
     const ref = useRef();
@@ -1125,9 +1186,15 @@ export function MeasurementTools() {
 // ============================================================
 // RÉFRACTION (IMMERSIVE)
 // ============================================================
+// ============================================================
+// RÉFRACTION (IMMERSIVE & CHALLENGE)
+// ============================================================
 export function RefractionSimulator() {
     const [angle, setAngle] = useState(45); // Degrés
     const [material, setMaterial] = useState('water'); // water, glass, diamond
+    const [mode, setMode] = useState('explore'); // explore, challenge
+    const [targetX, setTargetX] = useState(1.5); // Target position
+    const [hit, setHit] = useState(false);
 
     const materials = {
         water: { n: 1.33, name: 'Eau', color: '#4FC3F7' },
@@ -1145,17 +1212,59 @@ export function RefractionSimulator() {
     const rRad = Math.asin((n1 / n2) * Math.sin(angleRad));
     const rDeg = rRad * 180 / Math.PI;
 
+    // Calcul de l'impact
+    // Source à (0, 0), interface à y=0 (dans le repère local du rayon réfracté, non c'est plus compliqué en 3D absolue)
+    // Le rayon part de (0,0) (interface) avec angle rRad par rapport à la verticale (normale)
+    // Profondeur du bac = 2 unités (de 0 à -2)
+    // x = tan(r) * profondeur
+    // profondeur = 2
+    // x_hit = tan(rRad) * 2
+    const hitX = Math.tan(rRad) * 2;
+
+    const startChallenge = () => {
+        setMode('challenge');
+        setTargetX((Math.random() * 2 + 0.5) * (Math.random() > 0.5 ? 1 : -1)); // Random X between [-2.5, -0.5] U [0.5, 2.5]
+        setHit(false);
+    };
+
+    useEffect(() => {
+        if (mode === 'challenge') {
+            // Check hit with tolerance
+            if (Math.abs(hitX - targetX) < 0.2) {
+                setHit(true);
+            } else {
+                setHit(false);
+            }
+        }
+    }, [hitX, targetX, mode]);
+
+
     return (
         <group>
             <Html position={[5, 2, 0]} center>
                 <div className="bg-black/90 p-5 rounded-2xl text-white border border-red-500/30 w-[350px] backdrop-blur-md">
-                    <h3 className="text-red-400 font-bold text-xl mb-4">🔦 La Réfraction</h3>
+                    <div className="flex justify-between items-center mb-4">
+                        <h3 className="text-red-400 font-bold text-xl">🔦 La Réfraction</h3>
+                        <button onClick={mode === 'explore' ? startChallenge : () => setMode('explore')}
+                            className={`text-xs px-2 py-1 rounded transition-colors ${mode === 'explore' ? 'bg-red-700 hover:bg-white hover:text-red-700' : 'bg-gray-700'}`}>
+                            {mode === 'explore' ? 'Mode Cible 🎯' : 'Retour'}
+                        </button>
+                    </div>
+
+                    {mode === 'challenge' && (
+                        <div className={`mb-4 p-3 border-l-4 rounded bg-gray-800 ${hit ? 'border-green-500' : 'border-red-500'}`}>
+                            <div className="text-xs uppercase text-gray-400">Objectif</div>
+                            <div className="text-sm">Touche la cible au fond !</div>
+                            {hit && <div className="text-green-400 font-bold mt-1 animate-bounce">CIBLE TOUCHÉE ! BRAVO !</div>}
+                            {hit && <button onClick={startChallenge} className="mt-2 text-xs underline">Nouvelle Cible</button>}
+                        </div>
+                    )}
 
                     <div className="bg-gray-800 p-4 rounded-xl mb-4">
                         <label className="text-xs text-gray-400 uppercase">Angle d'incidence (i)</label>
                         <div className="flex items-center gap-3">
-                            <input type="range" min="0" max="80" value={angle} onChange={(e) => setAngle(parseFloat(e.target.value))} className="w-full accent-red-500" />
-                            <span className="font-mono text-xl">{angle}°</span>
+                            <input type="range" min="-80" max="80" value={angle} onChange={(e) => setAngle(parseFloat(e.target.value))} className="w-full accent-red-500" />
+                            <span className="font-mono text-xl">{Math.abs(angle)}°</span>
                         </div>
                     </div>
 
@@ -1163,7 +1272,7 @@ export function RefractionSimulator() {
                         {Object.entries(materials).map(([k, m]) => (
                             <button key={k} onClick={() => setMaterial(k)}
                                 className={`flex-1 py-2 text-xs font-bold rounded ${material === k ? 'bg-white text-black' : 'bg-gray-700 text-gray-300'}`}>
-                                {m.name} (n={m.n})
+                                {m.name} ({m.n})
                             </button>
                         ))}
                     </div>
@@ -1174,7 +1283,7 @@ export function RefractionSimulator() {
                 </div>
             </Html>
 
-            {/* Laser Source */}
+            {/* Laser Source (Updated rotation logic for +/- angles) */}
             <group position={[0, 2, 0]} rotation={[0, 0, -angleRad - Math.PI / 2]}>
                 <mesh position={[0, 0.5, 0]}>
                     <cylinderGeometry args={[0.1, 0.1, 1]} />
@@ -1202,16 +1311,29 @@ export function RefractionSimulator() {
             {/* Rayon Réfracté */}
             <group position={[0, 0, 0]} rotation={[0, 0, -rRad + Math.PI]}>
                 <mesh position={[0, 2, 0]}>
-                    <cylinderGeometry args={[0.02, 0.02, 4]} />
+                    <cylinderGeometry args={[0.02, 0.02, 4.5]} /> {/* Lengthened to hit bottom */}
                     <meshBasicMaterial color="red" opacity={0.7} transparent />
                 </mesh>
             </group>
+
+            {/* Target in Challenge Mode */}
+            {mode === 'challenge' && (
+                <mesh position={[targetX, -4, 0]}>
+                    <cylinderGeometry args={[0.3, 0.3, 0.1]} />
+                    <meshStandardMaterial color={hit ? "#4CAF50" : "#F44336"} emissive={hit ? "#4CAF50" : "black"} />
+                    <mesh position={[0, 0.1, 0]}>
+                        <ringGeometry args={[0.1, 0.2, 32]} />
+                        <meshBasicMaterial color="white" side={THREE.DoubleSide} rotation={[-Math.PI / 2, 0, 0]} />
+                    </mesh>
+                </mesh>
+            )}
 
             <Text position={[-2, 0.5, 0]} fontSize={0.3} color="white">Air (n=1.0)</Text>
             <Text position={[-2, -1, 0]} fontSize={0.3} color="white">{materials[material].name}</Text>
         </group>
     );
 }
+
 
 // ============================================================
 // CIRCUITS SÉRIE / PARALLÈLE (IMMERSIVE)
@@ -1442,10 +1564,147 @@ export function LightPropagationPC4() {
 }
 
 
+
+// ============================================================
+// OMBRES ET PÉNOMBRE (IMMERSIVE)
+// ============================================================
+export function ShadowsSimulator() {
+    const [sourceType, setSourceType] = useState('point'); // point, extended
+    const [objZ, setObjZ] = useState(-2); // Position between source (-4) and screen (2)
+
+    // Geometry Constants
+    const sourceZ = -4;
+    const screenZ = 2;
+    const objRadius = 0.5;
+
+    // Thales calculations
+    const d1 = Math.abs(objZ - sourceZ); // Dist Source-Object
+    const dTotal = Math.abs(screenZ - sourceZ); // Dist Source-Screen
+    const d2 = Math.abs(screenZ - objZ); // Dist Object-Screen
+
+    // Shadow sizes (Homothétie)
+    // Scale factor k = dTotal / d1
+    const k = dTotal / d1;
+
+    // For Point Source: simple projection
+    const shadowRadius = objRadius * k;
+
+    // For Extended Source:
+    // Umbra (Ombre propre/portée pure) shrinks if source > object
+    // Penumbra (Pénombre) expands
+    // Simplified model: 
+    // Source Radius roughly 0.1 (Point) vs 0.8 (Extended)
+    const sourceRadius = sourceType === 'point' ? 0.05 : 0.8;
+
+    // Umbra Radius (approximation usually r_u = (r*D - R*d2)/d1 ... complex geometry)
+    // Let's use simple visual approximation for the 'faked' shadow on screen
+    // If source is bigger than object, umbra shrinks.
+    // Geometrically: H = source radius, h = object radius
+    // Umbra radius U = (h*D - H*d2) / d1  (where D is source-screen dist? No, typically simpler)
+    // Visual logic: 
+    // Outer Penumbra Radius = (h*D + H*d2) / d1 ... ?
+    // Let's stick to visual tweaking:
+    // Point source: Sharp shadow size = h * (d1+d2)/d1
+    // Extended:
+    // Umbra matches point source logic but subtracts influence of extended source angle
+    // Penumbra is the blur area.
+
+    const penumbraRadius = shadowRadius + (sourceType === 'extended' ? (d2 * 0.5) : 0); // Blur grows with distance from screen
+    const umbraRadius = sourceType === 'extended' ? Math.max(0, shadowRadius - (d2 * 0.3)) : shadowRadius; // Umbra shrinks
+
+    return (
+        <group>
+            <Html position={[5, 2, 0]} center>
+                <div className="bg-black/90 p-5 rounded-2xl text-white border border-gray-500/30 w-[350px] backdrop-blur-md">
+                    <h3 className="text-gray-300 font-bold text-xl mb-4">🌑 Ombres & Pénombre</h3>
+
+                    <div className="flex bg-gray-800 p-1 rounded-lg mb-6">
+                        <button onClick={() => setSourceType('point')} className={`flex-1 py-2 rounded text-sm ${sourceType === 'point' ? 'bg-yellow-600 font-bold' : 'text-gray-400'}`}>Source Ponctuelle</button>
+                        <button onClick={() => setSourceType('extended')} className={`flex-1 py-2 rounded text-sm ${sourceType === 'extended' ? 'bg-orange-600 font-bold' : 'text-gray-400'}`}>Source Étendue</button>
+                    </div>
+
+                    <div className="mb-4">
+                        <label className="text-xs text-gray-400 uppercase">Position de l'objet</label>
+                        <input type="range" min="-3" max="0" step="0.1" value={objZ} onChange={(e) => setObjZ(parseFloat(e.target.value))} className="w-full accent-white" />
+                        <div className="flex justify-between text-xs text-gray-500">
+                            <span>Près Source</span>
+                            <span>Près Écran</span>
+                        </div>
+                    </div>
+
+                    <div className="p-3 bg-gray-900 rounded text-sm text-gray-300">
+                        {sourceType === 'point'
+                            ? "Une source ponctuelle crée une ombre nette (ombre portée)."
+                            : "Une source étendue crée une ombre centrale et une zone de pénombre floue."}
+                    </div>
+                </div>
+            </Html>
+
+            {/* Source */}
+            <group position={[0, 0, sourceZ]}>
+                {sourceType === 'point' ? (
+                    <mesh>
+                        <sphereGeometry args={[0.1]} />
+                        <meshBasicMaterial color="#FFD700" />
+                        <pointLight intensity={1.5} distance={10} />
+                    </mesh>
+                ) : (
+                    <group>
+                        <mesh rotation={[Math.PI / 2, 0, 0]}>
+                            <cylinderGeometry args={[0.8, 0.8, 0.1]} />
+                            <meshBasicMaterial color="#FFA000" />
+                        </mesh>
+                        {/* Fake multiple lights for soft shadow if we were using real shadows, 
+                            but here we use manual shadow shape calculation so simple light is ok for illumination */}
+                        <pointLight intensity={1.5} distance={10} />
+                    </group>
+                )}
+            </group>
+
+            {/* Object */}
+            <mesh position={[0, 0, objZ]}>
+                <sphereGeometry args={[objRadius, 32, 32]} />
+                <meshStandardMaterial color="#EF5350" />
+            </mesh>
+
+            {/* Screen */}
+            <group position={[0, 0, screenZ]}>
+                <mesh>
+                    <planeGeometry args={[6, 6]} />
+                    <meshStandardMaterial color="white" side={THREE.DoubleSide} />
+                </mesh>
+
+                {/* Simulated Shadow on Screen */}
+                <group position={[0, 0, 0.01]}> {/* Slightly in front to avoid z-fight */}
+                    {/* Penumbra (Grey blur) */}
+                    {sourceType === 'extended' && (
+                        <mesh>
+                            <ringGeometry args={[umbraRadius, penumbraRadius, 32]} />
+                            <meshBasicMaterial color="gray" opacity={0.5} transparent />
+                        </mesh>
+                    )}
+                    {/* Umbra (Black) */}
+                    <mesh>
+                        <circleGeometry args={[umbraRadius, 32]} />
+                        <meshBasicMaterial color="black" opacity={0.8} transparent />
+                    </mesh>
+                </group>
+            </group>
+
+            {/* Visual Ray Lines (Simplified) */}
+            <group>
+                <Line points={[[0, (sourceType === 'extended' ? 0.8 : 0), sourceZ], [0, objRadius, objZ], [0, penumbraRadius, screenZ]]} color="yellow" opacity={0.3} transparent />
+                <Line points={[[0, (sourceType === 'extended' ? -0.8 : 0), sourceZ], [0, -objRadius, objZ], [0, -penumbraRadius, screenZ]]} color="yellow" opacity={0.3} transparent />
+            </group>
+        </group>
+    );
+}
+
 // ============================================================
 // SOURCES DE LUMIÈRE (IMMERSIVE)
 // ============================================================
 export function LightSources() {
+
     const [sunOn, setSunOn] = useState(true);
     const [lampOn, setLampOn] = useState(false);
     const [info, setInfo] = useState(null);
@@ -1572,41 +1831,88 @@ export function LightSources() {
 // ============================================================
 // INTRODUCTION ÉLECTRICITÉ (IMMERSIVE)
 // ============================================================
+
+// ============================================================
+// INTRODUCTION ÉLECTRICITÉ (IMMERSIVE & SÉCURITÉ)
+// ============================================================
 export function IntroElectricity() {
     const [switchClosed, setSwitchClosed] = useState(false);
+    const [shortCircuit, setShortCircuit] = useState(false);
+    const [fuseBlown, setFuseBlown] = useState(false);
 
     // Electrons animation reference
     const electronsRef = useRef([]);
 
     useFrame((state) => {
-        if (switchClosed) {
+        if (switchClosed && !fuseBlown) {
             const t = state.clock.getElapsedTime();
             if (electronsRef.current) {
-                electronsRef.current.position.x = (t % 2) * 2; // Simple loop movement visual placeholder
-                // Proper circular path logic would be better but keeping it simple for stability
+                // S'il y a court-circuit, les électrons s'affolent (vitesse x5)
+                const speed = shortCircuit ? 10 : 2;
+                electronsRef.current.position.x = (t * speed % 2) * 2;
             }
         }
     });
+
+    const toggleShortCircuit = () => {
+        if (fuseBlown) return; // Trop tard
+        if (!shortCircuit) {
+            // Activer court-circuit
+            setShortCircuit(true);
+            setSwitchClosed(true); // Forcer le passage
+            // Le fusible grille après 1.5 secondes
+            setTimeout(() => {
+                setFuseBlown(true);
+                setSwitchClosed(false);
+            }, 1500);
+        } else {
+            setShortCircuit(false);
+        }
+    };
+
+    const replaceFuse = () => {
+        setFuseBlown(false);
+        setShortCircuit(false);
+        setSwitchClosed(false);
+    };
 
     return (
         <group>
             <Html position={[5, 2, 0]} center>
                 <div className="bg-black/90 p-5 rounded-2xl text-white border border-blue-500/30 w-[350px] backdrop-blur-md">
-                    <h3 className="text-blue-400 font-bold text-xl mb-4">🔌 Le Circuit Simple</h3>
+                    <h3 className="text-blue-400 font-bold text-xl mb-4">🔌 Le Circuit & Sécurité</h3>
 
-                    <p className="text-sm text-gray-300 mb-6">
-                        Pour que le courant circule, la boucle doit être <strong>fermée</strong>.
-                    </p>
+                    <div className="bg-gray-800 p-3 rounded-lg mb-4">
+                        <div className="flex justify-between items-center mb-2">
+                            <span className="text-sm font-bold">État du Circuit :</span>
+                            <span className={`text-xs px-2 py-1 rounded font-bold ${fuseBlown ? 'bg-red-900 text-red-200' : (switchClosed ? 'bg-green-600' : 'bg-gray-600')}`}>
+                                {fuseBlown ? "FUSIBLE GRILLÉ 💥" : (switchClosed ? "FERMÉ (ON)" : "OUVERT (OFF)")}
+                            </span>
+                        </div>
+                        <p className="text-xs text-gray-400">
+                            {fuseBlown
+                                ? "Le courant était trop fort ! Le fusible a fondu pour protéger le circuit."
+                                : (shortCircuit ? "DANGER ! Court-circuit en cours !" : "Tout fonctionne normalement.")}
+                        </p>
+                    </div>
 
-                    <button onClick={() => setSwitchClosed(!switchClosed)}
-                        className={`w-full py-4 rounded-xl font-bold text-lg transition-all ${switchClosed ? 'bg-green-600 shadow-green-500/50 shadow-lg' : 'bg-red-600 shadow-red-500/10'}`}>
-                        {switchClosed ? "INTERRUPTEUR FERMÉ (ON)" : "INTERRUPTEUR OUVERT (OFF)"}
+                    <button onClick={() => !fuseBlown && setSwitchClosed(!switchClosed)} disabled={fuseBlown || shortCircuit}
+                        className={`w-full py-3 mb-2 rounded-xl font-bold text-lg transition-all 
+                        ${fuseBlown ? 'bg-gray-700 opacity-50 cursor-not-allowed' : (switchClosed ? 'bg-green-600 hover:bg-green-500' : 'bg-blue-600 hover:bg-blue-500')}`}>
+                        {switchClosed ? "Ouvrir Interrupteur" : "Fermer Interrupteur"}
                     </button>
 
-                    <div className="mt-6 p-3 bg-gray-800 rounded-xl flex items-center gap-3">
-                        <div className={`w-3 h-3 rounded-full ${switchClosed ? 'bg-green-500 animate-pulse' : 'bg-red-500'}`}></div>
-                        <span className="text-sm">{switchClosed ? "Le courant circule !" : "Le courant ne passe pas."}</span>
-                    </div>
+                    <button onClick={toggleShortCircuit} disabled={fuseBlown}
+                        className={`w-full py-3 mb-2 rounded-xl font-bold text-lg transition-all border-2 
+                        ${shortCircuit ? 'bg-red-600 border-red-800 animate-pulse' : 'bg-transparent border-red-600 text-red-500 hover:bg-red-900/30'}`}>
+                        {shortCircuit ? "⚠️ COURT-CIRCUIT !!!" : "🔥 Créer Court-Circuit"}
+                    </button>
+
+                    {fuseBlown && (
+                        <button onClick={replaceFuse} className="w-full py-2 bg-yellow-600 rounded-lg text-white font-bold animate-bounce">
+                            🛠️ Remplacer le Fusible
+                        </button>
+                    )}
                 </div>
             </Html>
 
@@ -1614,8 +1920,29 @@ export function IntroElectricity() {
                 {/* Battery */}
                 <group position={[-2, 0, 0]}>
                     <boxGeometry args={[1, 1.5, 1]} />
-                    <meshStandardMaterial color="#212121" />
+                    <meshStandardMaterial color={shortCircuit && !fuseBlown ? "#ff3333" : "#212121"} />
                     <Text position={[0, 0, 0.6]} fontSize={0.8} color="white">+</Text>
+                    {/* Fire effect if short circuit */}
+                    {shortCircuit && !fuseBlown && (
+                        <mesh position={[0, 1, 0]}>
+                            <sphereGeometry args={[0.5]} />
+                            <meshBasicMaterial color="orange" transparent opacity={0.6} />
+                        </mesh>
+                    )}
+                </group>
+
+                {/* Fuse */}
+                <group position={[0, 1.5, 0]}>
+                    <mesh rotation={[0, 0, Math.PI / 2]}>
+                        <cylinderGeometry args={[0.1, 0.1, 1]} />
+                        <meshStandardMaterial color="white" transparent opacity={0.5} />
+                    </mesh>
+                    {/* Visual filament inside */}
+                    <mesh rotation={[0, 0, Math.PI / 2]}>
+                        <cylinderGeometry args={[0.02, 0.02, fuseBlown ? 0.2 : 1]} /> {/* Broken if blown */}
+                        <meshBasicMaterial color={fuseBlown ? "black" : "red"} />
+                    </mesh>
+                    <Text position={[0, 0.3, 0]} fontSize={0.2} color="white">Fusible</Text>
                 </group>
 
                 {/* Bulb */}
@@ -1623,9 +1950,9 @@ export function IntroElectricity() {
                     <mesh position={[0, 0.8, 0]}>
                         <sphereGeometry args={[0.6]} />
                         <meshStandardMaterial
-                            color={switchClosed ? "#FFEB3B" : "white"}
-                            emissive={switchClosed ? "#FFEB3B" : "black"}
-                            emissiveIntensity={switchClosed ? 2 : 0}
+                            color={switchClosed && !shortCircuit ? "#FFEB3B" : "white"}
+                            emissive={switchClosed && !shortCircuit ? "#FFEB3B" : "black"}
+                            emissiveIntensity={switchClosed && !shortCircuit ? 2 : 0}
                             transparent opacity={0.6}
                         />
                     </mesh>
@@ -1647,17 +1974,33 @@ export function IntroElectricity() {
                 </group>
 
                 {/* Wires */}
-                <WirePath points={[[-2, 0.75, 0], [-2, 1.5, 0], [2, 1.5, 0], [2, 0.8, 0]]} color="red" />
+                {/* Battery + to Fuse */}
+                <WirePath points={[[-2, 0.75, 0], [-2, 1.5, 0], [-0.5, 1.5, 0]]} color="red" />
+                {/* Fuse to Bulb */}
+                <WirePath points={[[0.5, 1.5, 0], [2, 1.5, 0], [2, 0.8, 0]]} color="red" />
+
+                {/* Battery - to Switch */}
                 <WirePath points={[[-2, -0.75, 0], [-2, -1.5, 0], [-0.5, -1.5, 0]]} color="black" />
+                {/* Switch to Bulb */}
                 <WirePath points={[[0.5, -1.5, 0], [2, -1.5, 0], [2, -0.4, 0]]} color="black" />
 
-                {/* Electron Flow Visualization (Simplified) */}
-                {switchClosed && (
+                {/* SHORT CIRCUIT WIRE (bypass bulb) */}
+                {shortCircuit && (
+                    <WirePath points={[[1, 1.5, 0], [1, -1.5, 0]]} color="#FF5722" /> // Direct connecting + line to - line
+                )}
+
+                {/* Electron Flow Visualization */}
+                {switchClosed && !fuseBlown && (
                     <group>
                         {/* Top path */}
-                        <ElectronStream start={[-2, 1.5, 0]} end={[2, 1.5, 0]} />
+                        <ElectronStream start={[-2, 1.5, 0]} end={[0, 1.5, 0]} speed={shortCircuit ? 5 : 1} />
+                        {!shortCircuit && <ElectronStream start={[0.1, 1.5, 0]} end={[2, 1.5, 0]} speed={1} />}
+
+                        {/* Short circuit path */}
+                        {shortCircuit && <ElectronStream start={[0, 1.5, 0]} end={[0, -1.5, 0]} speed={5} />}
+
                         {/* Bottom path */}
-                        <ElectronStream start={[2, -1.5, 0]} end={[-2, -1.5, 0]} />
+                        <ElectronStream start={[2, -1.5, 0]} end={[-2, -1.5, 0]} speed={shortCircuit ? 5 : 1} />
                     </group>
                 )}
             </group>
@@ -1666,16 +2009,13 @@ export function IntroElectricity() {
 }
 
 function WirePath({ points, color }) {
-    // Simple segmented wire connecting points
-    // Could use TubeGeometry or CatmullRomCurve3 for smoother wires
-    // Using simple cylinders for segments
+    // Simple segmented wire
     const segments = [];
     for (let i = 0; i < points.length - 1; i++) {
         const p1 = new THREE.Vector3(...points[i]);
         const p2 = new THREE.Vector3(...points[i + 1]);
         const dist = p1.distanceTo(p2);
         const center = p1.clone().add(p2).multiplyScalar(0.5);
-        // LookAt logic needs correct orientation, simplified here to box for ease
         const lookAtRot = new THREE.Euler().setFromQuaternion(new THREE.Quaternion().setFromUnitVectors(new THREE.Vector3(0, 1, 0), p2.clone().sub(p1).normalize()));
 
         segments.push(
@@ -1688,26 +2028,25 @@ function WirePath({ points, color }) {
     return <group>{segments}</group>;
 }
 
-function ElectronStream({ start, end }) {
-    // Array of moving particles along the vector
+function ElectronStream({ start, end, speed = 1 }) {
     const count = 5;
     return (
         <group>
             {Array.from({ length: count }).map((_, i) => (
-                <MovingElectron key={i} start={start} end={end} offset={i / count} />
+                <MovingElectron key={i} start={start} end={end} offset={i / count} speed={speed} />
             ))}
         </group>
     );
 }
 
-function MovingElectron({ start, end, offset }) {
+function MovingElectron({ start, end, offset, speed }) {
     const ref = useRef();
     const p1 = new THREE.Vector3(...start);
     const p2 = new THREE.Vector3(...end);
 
     useFrame((state) => {
         if (ref.current) {
-            const t = (state.clock.elapsedTime * 0.5 + offset) % 1;
+            const t = (state.clock.elapsedTime * 0.5 * speed + offset) % 1;
             ref.current.position.lerpVectors(p1, p2, t);
         }
     });
@@ -1719,3 +2058,4 @@ function MovingElectron({ start, end, offset }) {
         </mesh>
     );
 }
+
