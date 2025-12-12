@@ -1245,6 +1245,7 @@ import { modules56SuiteContent } from './modules56SuiteContent';
 // Import du contenu du module 7
 import { module7Content } from './module7Content';
 import { module8Content } from './module8Content';
+import { module9Content } from './module9Content';
 
 // Fonction pour obtenir le contenu d'un chapitre
 export const getChapterContent = (chapterId) => {
@@ -1254,5 +1255,6 @@ export const getChapterContent = (chapterId) => {
         if (modules56SuiteContent[chapterId]) return modules56SuiteContent[chapterId];
         if (module7Content[chapterId]) return module7Content[chapterId];
         if (module8Content[chapterId]) return module8Content[chapterId];
+        if (module9Content[chapterId]) return module9Content[chapterId];
         return null;
 };
