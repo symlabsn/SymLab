@@ -1247,6 +1247,7 @@ import { module7Content } from './module7Content';
 import { module8Content } from './module8Content';
 import { module9Content } from './module9Content';
 import { module10Content } from './module10Content';
+import { module11Content } from './module11Content';
 
 // Fonction pour obtenir le contenu d'un chapitre
 export const getChapterContent = (chapterId) => {
@@ -1258,5 +1259,6 @@ export const getChapterContent = (chapterId) => {
         if (module8Content[chapterId]) return module8Content[chapterId];
         if (module9Content[chapterId]) return module9Content[chapterId];
         if (module10Content[chapterId]) return module10Content[chapterId];
+        if (module11Content[chapterId]) return module11Content[chapterId];
         return null;
 };
