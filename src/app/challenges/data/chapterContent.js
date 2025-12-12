@@ -3,13 +3,13 @@
 // ============================================================
 
 export const chapterContent = {
-    // ============================================================
-    // MODULE 1 : INTRODUCTION ET INSTALLATION
-    // ============================================================
+        // ============================================================
+        // MODULE 1 : INTRODUCTION ET INSTALLATION
+        // ============================================================
 
-    jupyter: {
-        title: "Utiliser Python avec Jupyter (Anaconda)",
-        theorie: `
+        jupyter: {
+                title: "Utiliser Python avec Jupyter (Anaconda)",
+                theorie: `
 ## Qu'est-ce que Jupyter Notebook ?
 
 **Jupyter Notebook** est un environnement de developpement interactif qui permet d'ecrire et d'executer du code Python dans des "cellules". C'est l'outil ideal pour :
@@ -39,7 +39,7 @@ jupyter notebook
 
 Cela ouvrira automatiquement votre navigateur web avec l'interface Jupyter.
         `,
-        code: `# Votre premiere cellule Jupyter !
+                code: `# Votre premiere cellule Jupyter !
 # Executez cette cellule avec Shift + Entree
 
 print("Bienvenue dans Jupyter Notebook !")
@@ -51,7 +51,7 @@ print(f"2 + 2 = {resultat}")
 
 # La derniere expression est automatiquement affichee
 42 * 3`,
-        exercice: `
+                exercice: `
 **Exercice pratique :**
 
 1. Creez une nouvelle cellule (bouton "+" ou touche "b")
@@ -59,11 +59,11 @@ print(f"2 + 2 = {resultat}")
 3. Executez avec **Shift + Entree**
 4. Observez le resultat !
         `
-    },
+        },
 
-    colab: {
-        title: "Utiliser Python via Google Colab",
-        theorie: `
+        colab: {
+                title: "Utiliser Python via Google Colab",
+                theorie: `
 ## Google Colab : Python dans le cloud
 
 **Google Colaboratory** (Colab) est un service gratuit de Google qui permet d'executer du code Python directement dans votre navigateur, sans aucune installation !
@@ -88,7 +88,7 @@ print(f"2 + 2 = {resultat}")
 - **Cellules de texte** : Pour documenter avec Markdown/LaTeX
 - **Menu Runtime** : Pour executer toutes les cellules ou redemarrer
         `,
-        code: `# Test de Google Colab
+                code: `# Test de Google Colab
 # Executez avec Ctrl + Entree ou le bouton Play
 
 import sys
@@ -106,7 +106,7 @@ x = sp.Symbol('x')
 expression = x**2 + 2*x + 1
 print(f"Expression : {expression}")
 print(f"Factorisee : {sp.factor(expression)}")`,
-        exercice: `
+                exercice: `
 **Exercice pratique :**
 
 1. Ouvrez Google Colab
@@ -118,11 +118,11 @@ print(f"Factorisee : {sp.factor(expression)}")`,
    \`\`\`
 4. Executez et observez le rendu des formules !
         `
-    },
+        },
 
-    help: {
-        title: "Obtenir de l'aide en Python",
-        theorie: `
+        help: {
+                title: "Obtenir de l'aide en Python",
+                theorie: `
 ## Trouver de l'aide en Python
 
 Python dispose de plusieurs mecanismes integres pour obtenir de l'aide sur les fonctions et les modules.
@@ -154,7 +154,7 @@ dir(str)     # Liste toutes les methodes d'un objet
 - **Sympy** : [docs.sympy.org](https://docs.sympy.org)
 - **Stack Overflow** : Pour les questions specifiques
         `,
-        code: `# Differentes facons d'obtenir de l'aide en Python
+                code: `# Differentes facons d'obtenir de l'aide en Python
 
 # 1. Fonction help() - Documentation complete
 print("=== Documentation de abs() ===")
@@ -172,7 +172,7 @@ print(sum.__doc__)
 # 4. Type d'un objet
 valeur = 3.14159
 print(f"\\nLe type de {valeur} est : {type(valeur)}")`,
-        exercice: `
+                exercice: `
 **Exercice pratique :**
 
 1. Utilisez \`help()\` pour decouvrir la fonction \`round()\`
@@ -180,15 +180,15 @@ print(f"\\nLe type de {valeur} est : {type(valeur)}")`,
 3. Utilisez \`dir()\` sur un nombre flottant (\`3.14\`)
 4. Trouvez une methode interessante et testez-la !
         `
-    },
+        },
 
-    // ============================================================
-    // MODULE 2 : ARITHMETIQUE
-    // ============================================================
+        // ============================================================
+        // MODULE 2 : ARITHMETIQUE
+        // ============================================================
 
-    basic_ops: {
-        title: "Addition, soustraction, multiplication, division",
-        theorie: `
+        basic_ops: {
+                title: "Addition, soustraction, multiplication, division",
+                theorie: `
 ## Operations arithmetiques de base
 
 Python peut etre utilise comme une calculatrice puissante. Voici les operateurs de base :
@@ -211,7 +211,7 @@ Python peut etre utilise comme une calculatrice puissante. Voici les operateurs 
 - \`/\` donne toujours un **float**
 - \`//\` donne la partie entiere (floor division)
         `,
-        code: `# Operations arithmetiques de base en Python
+                code: `# Operations arithmetiques de base en Python
 
 # Addition
 print("5 + 3 =", 5 + 3)
@@ -237,7 +237,7 @@ print("2^10 =", 2 ** 10)
 # Combinaison d'operations
 resultat = (5 + 3) * 2 - 10 / 2
 print("(5 + 3) * 2 - 10 / 2 =", resultat)`,
-        exercice: `
+                exercice: `
 **Exercice :**
 
 Calculez les expressions suivantes en Python :
@@ -247,11 +247,11 @@ Calculez les expressions suivantes en Python :
 3. Le reste de la division de 1234 par 17
 4. \\( \\frac{22}{7} \\) (approximation de \\( \\pi \\))
         `
-    },
+        },
 
-    variables: {
-        title: "Utiliser des variables",
-        theorie: `
+        variables: {
+                title: "Utiliser des variables",
+                theorie: `
 ## Les variables en Python
 
 Une **variable** est un nom qui reference une valeur en memoire. C'est comme une etiquette sur une boite.
@@ -277,7 +277,7 @@ x = x + 1      # x devient 6
 x += 1         # raccourci pour x = x + 1
 \`\`\`
         `,
-        code: `# Utilisation des variables en Python
+                code: `# Utilisation des variables en Python
 
 # Declaration et affectation
 masse = 10          # en kilogrammes
@@ -303,7 +303,7 @@ VITESSE_LUMIERE = 299_792_458  # m/s (underscores pour lisibilite)
 rayon = 5
 perimetre = 2 * PI * rayon
 print(f"Perimetre d'un cercle de rayon {rayon} = {perimetre:.2f}")`,
-        exercice: `
+                exercice: `
 **Exercice :**
 
 1. Creez des variables pour :
@@ -314,11 +314,11 @@ print(f"Perimetre d'un cercle de rayon {rayon} = {perimetre:.2f}")`,
    - La surface de la Terre (\\( 4\\pi r^2 \\))
    - La densite moyenne (\\( \\frac{masse}{volume} \\))
         `
-    },
+        },
 
-    printing: {
-        title: "Afficher des equations dans Jupyter",
-        theorie: `
+        printing: {
+                title: "Afficher des equations dans Jupyter",
+                theorie: `
 ## Affichage formate en Python
 
 ### 1. La fonction print()
@@ -353,7 +353,7 @@ import sympy as sp
 sp.init_printing()  # Active le rendu LaTeX
 \`\`\`
         `,
-        code: `# Differentes methodes d'affichage en Python
+                code: `# Differentes methodes d'affichage en Python
 
 import sympy as sp
 
@@ -385,7 +385,7 @@ expr = x**2 + 2*x + 1
 print(f"Expression : {expr}")
 print(f"Factorisee : {sp.factor(expr)}")
 print(f"Derivee : {sp.diff(expr, x)}")`,
-        exercice: `
+                exercice: `
 **Exercice :**
 
 1. Affichez une table des carres de 1 a 10 en utilisant les f-strings
@@ -398,11 +398,11 @@ print(f"Derivee : {sp.diff(expr, x)}")`,
    2  |    4 |    8
    \`\`\`
         `
-    },
+        },
 
-    comments: {
-        title: "Ecrire des commentaires",
-        theorie: `
+        comments: {
+                title: "Ecrire des commentaires",
+                theorie: `
 ## Les commentaires en Python
 
 Les commentaires sont ignores par Python. Ils servent a :
@@ -434,7 +434,7 @@ Souvent utilise comme docstring.
 3. Utilisez des docstrings pour les fonctions
 4. Evitez les commentaires evidents
         `,
-        code: `# ==================================================
+                code: `# ==================================================
 # Exemple de code bien commente
 # ==================================================
 
@@ -466,7 +466,7 @@ print(f"Energie cinetique : {energie:.2f} J")
 
 # TODO: Ajouter la verification des unites
 # FIXME: Gerer les vitesses negatives`,
-        exercice: `
+                exercice: `
 **Exercice :**
 
 1. Ajoutez des commentaires au code suivant :
@@ -479,11 +479,11 @@ print(f"Energie cinetique : {energie:.2f} J")
 
 2. Ecrivez une fonction avec une docstring complete
         `
-    },
+        },
 
-    exponents: {
-        title: "Exposants (puissances)",
-        theorie: `
+        exponents: {
+                title: "Exposants (puissances)",
+                theorie: `
 ## Les puissances en Python
 
 ### Operateur **
@@ -516,7 +516,7 @@ pow(2, 10, 7)   # 2^10 mod 7 = 2 (modulaire)
 - \\( a^0 = 1 \\)
 - \\( a^{-n} = \\frac{1}{a^n} \\)
         `,
-        code: `# Les puissances en Python
+                code: `# Les puissances en Python
 
 # Operateur **
 print("=== Puissances avec ** ===")
@@ -546,7 +546,7 @@ print(f"a^m * a^n = a^(m+n) : {loi1} = {verification1} ? {loi1 == verification1}
 loi2 = (a**m)**n
 verification2 = a**(m * n)
 print(f"(a^m)^n = a^(m*n) : {loi2} = {verification2} ? {loi2 == verification2}")`,
-        exercice: `
+                exercice: `
 **Exercice :**
 
 1. Calculez \\( 3^{100} \\) (Python gere les grands entiers !)
@@ -554,11 +554,11 @@ print(f"(a^m)^n = a^(m*n) : {loi2} = {verification2} ? {loi2 == verification2}")
 3. Calculez \\( \\sqrt[4]{625} \\) en utilisant les exposants
 4. Trouvez \\( 7^{500} \\mod 13 \\) avec pow()
         `
-    },
+        },
 
-    loops_powers: {
-        title: "Boucles for pour calculer des puissances",
-        theorie: `
+        loops_powers: {
+                title: "Boucles for pour calculer des puissances",
+                theorie: `
 ## La boucle for en Python
 
 La boucle \`for\` permet de repeter des instructions un nombre defini de fois.
@@ -589,7 +589,7 @@ for i in range(5):
 # resultat = 32
 \`\`\`
         `,
-        code: `# Boucles for pour calculer des puissances
+                code: `# Boucles for pour calculer des puissances
 
 # 1. Les puissances de 2
 print("=== Puissances de 2 ===")
@@ -622,22 +622,22 @@ for i in range(10):
     somme += 2 ** i
 print(f"\\nSomme 2^0 + 2^1 + ... + 2^9 = {somme}")
 print(f"Formule 2^10 - 1 = {2**10 - 1}")`,
-        exercice: `
+                exercice: `
 **Exercice :**
 
 1. Ecrivez une boucle qui affiche les 20 premieres puissances de 3
 2. Calculez \\( \\sum_{k=0}^{n} 2^k \\) pour n = 15
 3. Verifiez la formule \\( \\sum_{k=0}^{n} 2^k = 2^{n+1} - 1 \\)
         `
-    },
+        },
 
-    // ============================================================
-    // MODULE 3 : INTRODUCTION A SYMPY
-    // ============================================================
+        // ============================================================
+        // MODULE 3 : INTRODUCTION A SYMPY
+        // ============================================================
 
-    sympy_1: {
-        title: "Introduction a Sympy, Partie 1",
-        theorie: `
+        sympy_1: {
+                title: "Introduction a Sympy, Partie 1",
+                theorie: `
 ## Sympy : Calcul symbolique en Python
 
 **Sympy** (Symbolic Python) est une bibliotheque qui permet de faire du calcul symbolique, c'est-a-dire de manipuler des expressions mathematiques de facon exacte.
@@ -670,7 +670,7 @@ x = sp.Symbol('x')
 x, y, z = sp.symbols('x y z')
 \`\`\`
         `,
-        code: `import sympy as sp
+                code: `import sympy as sp
 
 # Definir des symboles
 x = sp.Symbol('x')
@@ -706,7 +706,7 @@ print(f"pi = {sp.pi}")
 print(f"E (Euler) = {sp.E}")
 print(f"oo (infini) = {sp.oo}")
 print(f"I (imaginaire) = {sp.I}")`,
-        exercice: `
+                exercice: `
 **Exercice :**
 
 1. Definissez les symboles \\( a, b, c \\)
@@ -714,11 +714,11 @@ print(f"I (imaginaire) = {sp.I}")`,
 3. Utilisez \`sp.expand()\` sur \\( (x+1)(x-1) \\)
 4. Comparez \\( \\pi \\) symbolique et numerique
         `
-    },
+        },
 
-    latex_intro: {
-        title: "Introduction a LaTeX",
-        theorie: `
+        latex_intro: {
+                title: "Introduction a LaTeX",
+                theorie: `
 ## LaTeX : Le langage des mathematiques
 
 **LaTeX** est un systeme de composition de documents qui permet d'ecrire de belles formules mathematiques.
@@ -746,7 +746,7 @@ print(f"I (imaginaire) = {sp.I}")`,
 sp.latex(expression)  # Convertit en LaTeX
 \`\`\`
         `,
-        code: `import sympy as sp
+                code: `import sympy as sp
 from sympy import symbols, sqrt, sin, cos, pi, exp, Integral, Sum
 
 # Definir les symboles
@@ -784,18 +784,18 @@ print(f"LaTeX : {sp.latex(somme)}")
 formule_euler = sp.Eq(exp(sp.I * x), cos(x) + sp.I * sin(x))
 print(f"\\nFormule d'Euler : {formule_euler}")
 print(f"LaTeX : {sp.latex(formule_euler)}")`,
-        exercice: `
+                exercice: `
 **Exercice :**
 
 1. Creez la formule quadratique \\( x = \\frac{-b \\pm \\sqrt{b^2 - 4ac}}{2a} \\)
 2. Convertissez-la en LaTeX avec Sympy
 3. Creez une cellule Markdown et affichez-la
         `
-    },
+        },
 
-    sympy_2: {
-        title: "Introduction a Sympy, Partie 2",
-        theorie: `
+        sympy_2: {
+                title: "Introduction a Sympy, Partie 2",
+                theorie: `
 ## Operations avancees avec Sympy
 
 ### Simplification :
@@ -830,7 +830,7 @@ expr.evalf()      # Evaluation flottante
 sp.N(expr, 50)    # 50 chiffres significatifs
 \`\`\`
         `,
-        code: `import sympy as sp
+                code: `import sympy as sp
 
 x, y = sp.symbols('x y')
 
@@ -876,7 +876,7 @@ print("\\n=== Evaluation numerique ===")
 print(f"sqrt(2) exact : {sp.sqrt(2)}")
 print(f"sqrt(2) decimal : {sp.sqrt(2).evalf()}")
 print(f"pi a 50 decimales : {sp.pi.evalf(50)}")`,
-        exercice: `
+                exercice: `
 **Exercice :**
 
 1. Simplifiez \\( \\frac{x^3 - x}{x^2 - 1} \\)
@@ -884,11 +884,11 @@ print(f"pi a 50 decimales : {sp.pi.evalf(50)}")`,
 3. Integrez \\( \\frac{1}{x^2 + 1} \\)
 4. Resolvez \\( x^3 - 6x^2 + 11x - 6 = 0 \\)
         `
-    },
+        },
 
-    f_strings: {
-        title: "Affichage avec les f-strings",
-        theorie: `
+        f_strings: {
+                title: "Affichage avec les f-strings",
+                theorie: `
 ## Les f-strings en Python
 
 Les **f-strings** (formatted string literals) sont la methode moderne et recommandee pour formater des chaines en Python (depuis 3.6).
@@ -914,7 +914,7 @@ f"Decimales : {nombre:.2f}"
 | \`{x:<10}\` | Aligne gauche | |
 | \`{x:^10}\` | Centre | |
         `,
-        code: `import sympy as sp
+                code: `import sympy as sp
 
 # 1. f-strings basiques
 x = 42
@@ -954,18 +954,18 @@ expr = x**2 + 2*x + 1
 print(f"Expression : {expr}")
 print(f"Factorisee : {sp.factor(expr)}")
 print(f"Derivee : {sp.diff(expr, x)}")`,
-        exercice: `
+                exercice: `
 **Exercice :**
 
 1. Creez une table des carres et cubes avec alignement parfait
 2. Affichez \\( e \\) et \\( \\pi \\) avec 15 decimales
 3. Formatez le nombre d'Avogadro en notation scientifique
         `
-    },
+        },
 
-    exponents_law: {
-        title: "Exemple : Loi des exposants avec Sympy",
-        theorie: `
+        exponents_law: {
+                title: "Exemple : Loi des exposants avec Sympy",
+                theorie: `
 ## Verification des lois des exposants
 
 Les lois des exposants sont des regles fondamentales :
@@ -980,7 +980,7 @@ Les lois des exposants sont des regles fondamentales :
 
 Sympy peut verifier ces lois symboliquement !
         `,
-        code: `import sympy as sp
+                code: `import sympy as sp
 
 # Definir les symboles
 a, b, m, n = sp.symbols('a b m n', positive=True, real=True)
@@ -1024,18 +1024,18 @@ print(f"x^3 * x^5 = {sp.powsimp(expr)}")
 # Verification par substitution
 print(f"Pour x=2 : 2^3 * 2^5 = {(2**3) * (2**5)}")
 print(f"         = 2^8 = {2**8}")`,
-        exercice: `
+                exercice: `
 **Exercice :**
 
 1. Verifiez symboliquement que \\( a^{-n} = \\frac{1}{a^n} \\)
 2. Simplifiez \\( \\frac{x^5 \\cdot x^3}{x^4} \\) avec Sympy
 3. Prouvez que \\( (a/b)^n = a^n / b^n \\)
         `
-    },
+        },
 
-    sympy_latex_bug: {
-        title: "Chasse aux bugs Sympy/LaTeX !",
-        theorie: `
+        sympy_latex_bug: {
+                title: "Chasse aux bugs Sympy/LaTeX !",
+                theorie: `
 ## Erreurs courantes avec Sympy
 
 ### 1. Symboles non definis
@@ -1072,7 +1072,7 @@ sp.simplify(expr)  # Correct
 sp.simpify(expr)   # ERREUR : orthographe !
 \`\`\`
         `,
-        code: `import sympy as sp
+                code: `import sympy as sp
 
 print("=== Chasse aux bugs Sympy ===")
 
@@ -1118,7 +1118,7 @@ x_pos = sp.Symbol('x', positive=True)  # x > 0
 
 print(f"sqrt(x^2) general = {sp.sqrt(x_gen**2)}")
 print(f"sqrt(x^2) positif = {sp.sqrt(x_pos**2)}")`,
-        exercice: `
+                exercice: `
 **Exercice :**
 
 Trouvez et corrigez les bugs dans ce code :
@@ -1138,11 +1138,11 @@ solutions = sp.solve(expr)
 integrale = sp.integrate(1/x, x)
 \`\`\`
         `
-    },
+        },
 
-    latex_beauty: {
-        title: "LaTeX pour de belles equations",
-        theorie: `
+        latex_beauty: {
+                title: "LaTeX pour de belles equations",
+                theorie: `
 ## Creer de belles equations avec Sympy et LaTeX
 
 ### Activer le rendu :
@@ -1174,7 +1174,7 @@ sp.latex(expr, mode='equation')
 sp.latex(expr, fold_short_frac=True)
 \`\`\`
         `,
-        code: `import sympy as sp
+                code: `import sympy as sp
 from sympy import symbols, sqrt, pi, sin, cos, exp, Integral, Sum, oo
 
 # Initialiser le rendu
@@ -1225,17 +1225,29 @@ M = sp.Matrix([[a, b], [c, a]])
 print(f"Matrice :\\n{M}")
 print(f"Determinant : {M.det()}")
 print(f"LaTeX matrice : {sp.latex(M)}")`,
-        exercice: `
+                exercice: `
 **Exercice :**
 
 1. Creez et affichez en LaTeX la formule de l'aire d'un cercle
 2. Generez le developpement de Taylor de \\( e^x \\) jusqu'a l'ordre 5
 3. Affichez la matrice identite 3x3 en LaTeX
         `
-    }
+        }
 };
+
+
+// Import du contenu des modules 4, 5, 6
+import { modules456Content } from './modules456Content';
 
 // Fonction pour obtenir le contenu d'un chapitre
 export const getChapterContent = (chapterId) => {
-    return chapterContent[chapterId] || null;
+        // Chercher d'abord dans le contenu principal (modules 1-3)
+        if (chapterContent[chapterId]) {
+                return chapterContent[chapterId];
+        }
+        // Sinon chercher dans les modules 4-6
+        if (modules456Content[chapterId]) {
+                return modules456Content[chapterId];
+        }
+        return null;
 };
