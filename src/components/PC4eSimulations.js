@@ -2,2518 +2,531 @@
 import { useRef, useMemo, useState, useEffect } from 'react';
 import * as THREE from 'three';
 import { useFrame } from '@react-three/fiber';
-import { Text, Html } from '@react-three/drei';
+import { Text, Html, Float, Sphere, OrbitControls, Box, Cylinder } from '@react-three/drei';
 
 // ============================================================
-// 1. MASSE VOLUMIQUE ET DENSITÉ - Simulation Interactive
-// ============================================================
-export function DensityExplorer() {
-    const [selectedMaterial, setSelectedMaterial] = useState('eau');
-    const [cubeSize, setCubeSize] = useState(1);
-
-    const materials = {
-        eau: { name: 'Eau', density: 1, color: '#3B82F6', emoji: '💧' },
-        huile: { name: 'Huile', density: 0.92, color: '#F59E0B', emoji: '🫒' },
-        fer: { name: 'Fer', density: 7.87, color: '#6B7280', emoji: '🔩' },
-        bois: { name: 'Bois (Chêne)', density: 0.75, color: '#92400E', emoji: '🪵' },
-        plomb: { name: 'Plomb', density: 11.34, color: '#374151', emoji: '⚫' },
-        air: { name: 'Air', density: 0.0012, color: '#E5E7EB', emoji: '💨' },
-        or: { name: 'Or', density: 19.3, color: '#FBBF24', emoji: '🥇' },
-        liege: { name: 'Liège', density: 0.24, color: '#D2B48C', emoji: '🍾' },
-    };
-
-    const mat = materials[selectedMaterial];
-    const volume = cubeSize ** 3;
-    const mass = volume * mat.density * 1000; // en kg
-
-    // Animation de flottaison
-    const cubeRef = useRef();
-    const [floatY, setFloatY] = useState(0);
-
-    useFrame(({ clock }) => {
-        if (cubeRef.current) {
-            // Si densité < 1, flotte (y positif), sinon coule
-            const targetY = mat.density < 1 ? 0.5 : (mat.density > 1 ? -1.5 : 0);
-            cubeRef.current.position.y = THREE.MathUtils.lerp(cubeRef.current.position.y, targetY, 0.02);
-
-            // Légère oscillation pour effet réaliste
-            if (mat.density < 1) {
-                cubeRef.current.position.y += Math.sin(clock.elapsedTime * 2) * 0.02;
-            }
-        }
-    });
-
-    return (
-        <group>
-            {/* Panneau de contrôle */}
-            <Html position={[3.5, 2.5, 0]} center>
-                <div className="bg-black/95 p-4 rounded-xl text-white border border-cyan-500/30 min-w-[280px] backdrop-blur-md select-none shadow-xl">
-                    <h3 className="text-cyan-400 font-bold mb-3 text-lg">⚗️ Masse Volumique</h3>
-
-                    {/* Sélection du matériau */}
-                    <label className="block text-sm mb-2">Matériau :</label>
-                    <div className="grid grid-cols-4 gap-1 mb-4">
-                        {Object.entries(materials).map(([key, m]) => (
-                            <button
-                                key={key}
-                                onClick={() => setSelectedMaterial(key)}
-                                className={`p-1 rounded text-xs transition-all ${selectedMaterial === key
-                                    ? 'bg-cyan-600 ring-2 ring-cyan-400'
-                                    : 'bg-gray-700 hover:bg-gray-600'
-                                    }`}
-                            >
-                                {m.emoji}
-                            </button>
-                        ))}
-                    </div>
-
-                    {/* Taille du cube */}
-                    <label className="block text-sm mb-1">
-                        Côté du cube : {cubeSize.toFixed(1)} dm
-                    </label>
-                    <input
-                        type="range"
-                        min="0.5"
-                        max="2"
-                        step="0.1"
-                        value={cubeSize}
-                        onChange={(e) => setCubeSize(parseFloat(e.target.value))}
-                        className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-cyan-500 mb-4"
-                    />
-
-                    {/* Résultats */}
-                    <div className="bg-gray-900/80 p-3 rounded-lg space-y-2 font-mono text-sm">
-                        <div className="flex justify-between border-b border-gray-700 pb-1">
-                            <span className="text-gray-400">Matériau :</span>
-                            <span className="text-white font-bold">{mat.name}</span>
-                        </div>
-                        <div className="flex justify-between">
-                            <span className="text-gray-400">ρ (masse vol.) :</span>
-                            <span className="text-cyan-400">{mat.density} kg/L</span>
-                        </div>
-                        <div className="flex justify-between">
-                            <span className="text-gray-400">Volume :</span>
-                            <span>{volume.toFixed(2)} dm³</span>
-                        </div>
-                        <div className="flex justify-between">
-                            <span className="text-gray-400">Masse :</span>
-                            <span className="text-yellow-400">{mass.toFixed(0)} g</span>
-                        </div>
-                        <div className="flex justify-between pt-2 border-t border-gray-700">
-                            <span className="text-gray-400">Densité :</span>
-                            <span className={mat.density < 1 ? 'text-green-400' : 'text-red-400'}>
-                                {mat.density} → {mat.density < 1 ? 'FLOTTE 🏊' : 'COULE ⚓'}
-                            </span>
-                        </div>
-                    </div>
-
-                    <div className="mt-3 text-xs text-gray-400 text-center">
-                        ρ = m / V (masse / volume)
-                    </div>
-                </div>
-            </Html>
-
-            <Text position={[0, 3.5, 0]} fontSize={0.5} color="#22D3EE">
-                MASSE VOLUMIQUE ET DENSITÉ
-            </Text>
-
-            {/* Bécher avec eau */}
-            <group position={[0, -1, 0]}>
-                {/* Récipient transparent */}
-                <mesh>
-                    <cylinderGeometry args={[1.8, 1.5, 3, 32, 1, true]} />
-                    <meshStandardMaterial
-                        color="#87CEEB"
-                        transparent
-                        opacity={0.15}
-                        side={THREE.DoubleSide}
-                    />
-                </mesh>
-
-                {/* Eau dans le bécher */}
-                <mesh position={[0, -0.3, 0]}>
-                    <cylinderGeometry args={[1.7, 1.4, 2.4, 32]} />
-                    <meshStandardMaterial
-                        color="#3B82F6"
-                        transparent
-                        opacity={0.5}
-                    />
-                </mesh>
-
-                {/* Surface de l'eau */}
-                <mesh position={[0, 0.9, 0]} rotation={[-Math.PI / 2, 0, 0]}>
-                    <circleGeometry args={[1.7, 32]} />
-                    <meshStandardMaterial
-                        color="#60A5FA"
-                        transparent
-                        opacity={0.7}
-                    />
-                </mesh>
-
-                {/* Cube du matériau */}
-                <mesh ref={cubeRef} position={[0, 0, 0]} scale={[cubeSize, cubeSize, cubeSize]}>
-                    <boxGeometry args={[1, 1, 1]} />
-                    <meshStandardMaterial
-                        color={mat.color}
-                        metalness={mat.density > 5 ? 0.8 : 0.2}
-                        roughness={0.3}
-                    />
-                </mesh>
-            </group>
-
-            {/* Légende densité */}
-            <Text position={[-3, 1, 0]} fontSize={0.25} color="#10B981">
-                d {'<'} 1 → Flotte
-            </Text>
-            <Text position={[-3, 0.5, 0]} fontSize={0.25} color="#EF4444">
-                d {'>'} 1 → Coule
-            </Text>
-
-            {/* Formule */}
-            <Text position={[0, -3.2, 0]} fontSize={0.3} color="#F59E0B">
-                ρ = m / V | d = ρ_objet / ρ_eau
-            </Text>
-        </group>
-    );
-}
-
-// ============================================================
-// 2. RÉFRACTION DE LA LUMIÈRE - Simulation Interactive
-// ============================================================
-export function RefractionSimulator() {
-    const [incidenceAngle, setIncidenceAngle] = useState(45);
-    const [medium1, setMedium1] = useState('air');
-    const [medium2, setMedium2] = useState('eau');
-
-    const media = {
-        air: { name: 'Air', n: 1.0, color: '#E0F2FE' },
-        eau: { name: 'Eau', n: 1.33, color: '#3B82F6' },
-        verre: { name: 'Verre', n: 1.5, color: '#A5B4FC' },
-        diamant: { name: 'Diamant', n: 2.42, color: '#F472B6' },
-    };
-
-    const n1 = media[medium1].n;
-    const n2 = media[medium2].n;
-
-    // Calcul de l'angle de réfraction (Snell-Descartes)
-    const angleRad = (incidenceAngle * Math.PI) / 180;
-    const sinRefracted = (n1 / n2) * Math.sin(angleRad);
-    const isTotalReflection = Math.abs(sinRefracted) > 1;
-    const refractionAngle = isTotalReflection ? 0 : Math.asin(sinRefracted) * (180 / Math.PI);
-
-    // Calcul de l'angle critique pour réflexion totale
-    const criticalAngle = n1 > n2 ? Math.asin(n2 / n1) * (180 / Math.PI) : null;
-
-    // Animation du rayon
-    const laserRef = useRef();
-
-    useFrame(({ clock }) => {
-        if (laserRef.current) {
-            laserRef.current.material.opacity = 0.7 + Math.sin(clock.elapsedTime * 5) * 0.2;
-        }
-    });
-
-    // Position des rayons
-    const rayLength = 3;
-    const incidentStartX = -rayLength * Math.sin(angleRad);
-    const incidentStartY = rayLength * Math.cos(angleRad);
-
-    const refractedAngleRad = (refractionAngle * Math.PI) / 180;
-    const refractedEndX = rayLength * Math.sin(refractedAngleRad);
-    const refractedEndY = -rayLength * Math.cos(refractedAngleRad);
-
-    // Rayon réfléchi
-    const reflectedEndX = rayLength * Math.sin(angleRad);
-    const reflectedEndY = rayLength * Math.cos(angleRad);
-
-    return (
-        <group>
-            {/* Panneau de contrôle */}
-            <Html position={[4, 2, 0]} center>
-                <div className="bg-black/95 p-4 rounded-xl text-white border border-purple-500/30 min-w-[280px] backdrop-blur-md select-none shadow-xl">
-                    <h3 className="text-purple-400 font-bold mb-3 text-lg">🔦 Réfraction</h3>
-
-                    {/* Angle d'incidence */}
-                    <label className="block text-sm mb-1">
-                        Angle d'incidence : {incidenceAngle}°
-                    </label>
-                    <input
-                        type="range"
-                        min="0"
-                        max="85"
-                        value={incidenceAngle}
-                        onChange={(e) => setIncidenceAngle(parseInt(e.target.value))}
-                        className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-purple-500 mb-3"
-                    />
-
-                    {/* Milieu 1 */}
-                    <div className="flex gap-2 mb-2">
-                        <span className="text-sm text-gray-400 w-20">Milieu 1 :</span>
-                        <select
-                            value={medium1}
-                            onChange={(e) => setMedium1(e.target.value)}
-                            className="flex-1 bg-gray-800 rounded px-2 py-1 text-sm"
-                        >
-                            {Object.entries(media).map(([k, v]) => (
-                                <option key={k} value={k}>{v.name} (n={v.n})</option>
-                            ))}
-                        </select>
-                    </div>
-
-                    {/* Milieu 2 */}
-                    <div className="flex gap-2 mb-3">
-                        <span className="text-sm text-gray-400 w-20">Milieu 2 :</span>
-                        <select
-                            value={medium2}
-                            onChange={(e) => setMedium2(e.target.value)}
-                            className="flex-1 bg-gray-800 rounded px-2 py-1 text-sm"
-                        >
-                            {Object.entries(media).map(([k, v]) => (
-                                <option key={k} value={k}>{v.name} (n={v.n})</option>
-                            ))}
-                        </select>
-                    </div>
-
-                    {/* Résultats */}
-                    <div className="bg-gray-900/80 p-3 rounded-lg space-y-2 font-mono text-sm">
-                        <div className="flex justify-between">
-                            <span className="text-gray-400">n₁ × sin(i) :</span>
-                            <span>{(n1 * Math.sin(angleRad)).toFixed(3)}</span>
-                        </div>
-                        <div className="flex justify-between">
-                            <span className="text-gray-400">Angle réfracté :</span>
-                            <span className={isTotalReflection ? 'text-red-400' : 'text-cyan-400'}>
-                                {isTotalReflection ? 'RÉFLEXION TOTALE !' : `${refractionAngle.toFixed(1)}°`}
-                            </span>
-                        </div>
-                        {criticalAngle && (
-                            <div className="flex justify-between">
-                                <span className="text-gray-400">Angle critique :</span>
-                                <span className="text-yellow-400">{criticalAngle.toFixed(1)}°</span>
-                            </div>
-                        )}
-                    </div>
-
-                    <div className="mt-3 text-xs text-center text-purple-300">
-                        n₁ × sin(i) = n₂ × sin(r)
-                    </div>
-                </div>
-            </Html>
-
-            <Text position={[0, 3.5, 0]} fontSize={0.5} color="#A855F7">
-                RÉFRACTION DE LA LUMIÈRE
-            </Text>
-
-            {/* Surface de séparation */}
-            <mesh position={[0, 0, 0]} rotation={[-Math.PI / 2, 0, 0]}>
-                <planeGeometry args={[8, 6]} />
-                <meshStandardMaterial
-                    color="#1E3A5F"
-                    transparent
-                    opacity={0.3}
-                    side={THREE.DoubleSide}
-                />
-            </mesh>
-
-            {/* Milieu 1 (au-dessus) */}
-            <mesh position={[0, 1.5, 0]}>
-                <boxGeometry args={[8, 3, 6]} />
-                <meshStandardMaterial
-                    color={media[medium1].color}
-                    transparent
-                    opacity={0.2}
-                />
-            </mesh>
-            <Text position={[-3, 2, 0]} fontSize={0.25} color={media[medium1].color}>
-                {media[medium1].name} (n = {n1})
-            </Text>
-
-            {/* Milieu 2 (en dessous) */}
-            <mesh position={[0, -1.5, 0]}>
-                <boxGeometry args={[8, 3, 6]} />
-                <meshStandardMaterial
-                    color={media[medium2].color}
-                    transparent
-                    opacity={0.4}
-                />
-            </mesh>
-            <Text position={[-3, -2, 0]} fontSize={0.25} color={media[medium2].color}>
-                {media[medium2].name} (n = {n2})
-            </Text>
-
-            {/* Normale (ligne verticale) */}
-            <mesh position={[0, 0, 0]}>
-                <cylinderGeometry args={[0.02, 0.02, 6]} />
-                <meshBasicMaterial color="#FFFFFF" opacity={0.5} transparent />
-            </mesh>
-            <Text position={[0.3, 2.8, 0]} fontSize={0.2} color="#FFFFFF">
-                Normale
-            </Text>
-
-            {/* Rayon incident (rouge) */}
-            <group>
-                <mesh position={[incidentStartX / 2, incidentStartY / 2, 0]}
-                    rotation={[0, 0, -angleRad]}>
-                    <cylinderGeometry args={[0.05, 0.05, rayLength]} />
-                    <meshStandardMaterial
-                        ref={laserRef}
-                        color="#EF4444"
-                        emissive="#EF4444"
-                        emissiveIntensity={1}
-                        transparent
-                        opacity={0.9}
-                    />
-                </mesh>
-                <Text position={[incidentStartX - 0.5, incidentStartY / 2, 0]} fontSize={0.2} color="#EF4444">
-                    Incident ({incidenceAngle}°)
-                </Text>
-            </group>
-
-            {/* Rayon réfracté ou réfléchi */}
-            {!isTotalReflection ? (
-                // Rayon réfracté (bleu)
-                <group>
-                    <mesh position={[refractedEndX / 2, refractedEndY / 2, 0]}
-                        rotation={[0, 0, refractedAngleRad]}>
-                        <cylinderGeometry args={[0.05, 0.05, rayLength]} />
-                        <meshStandardMaterial
-                            color="#3B82F6"
-                            emissive="#3B82F6"
-                            emissiveIntensity={0.8}
-                            transparent
-                            opacity={0.8}
-                        />
-                    </mesh>
-                    <Text position={[refractedEndX + 0.5, refractedEndY / 2, 0]} fontSize={0.2} color="#3B82F6">
-                        Réfracté ({refractionAngle.toFixed(0)}°)
-                    </Text>
-                </group>
-            ) : (
-                // Réflexion totale (jaune)
-                <group>
-                    <mesh position={[reflectedEndX / 2, reflectedEndY / 2, 0]}
-                        rotation={[0, 0, angleRad]}>
-                        <cylinderGeometry args={[0.05, 0.05, rayLength]} />
-                        <meshStandardMaterial
-                            color="#FBBF24"
-                            emissive="#FBBF24"
-                            emissiveIntensity={1}
-                        />
-                    </mesh>
-                    <Text position={[reflectedEndX + 0.5, reflectedEndY / 2, 0]} fontSize={0.2} color="#FBBF24">
-                        Réfléchi (Total)
-                    </Text>
-                </group>
-            )}
-
-            {/* Indicateurs d'angles */}
-            <mesh position={[0, 0, 0]}>
-                <torusGeometry args={[0.5, 0.02, 8, 32, angleRad]} />
-                <meshBasicMaterial color="#EF4444" />
-            </mesh>
-        </group>
-    );
-}
-
-// ============================================================
-// 3. CIRCUIT SÉRIE VS PARALLÈLE - Simulation Interactive
-// ============================================================
-export function CircuitSeriesParallel() {
-    const [circuitType, setCircuitType] = useState('serie');
-    const [voltage, setVoltage] = useState(12);
-    const [isBulb1On, setIsBulb1On] = useState(true);
-    const [isBulb2On, setIsBulb2On] = useState(true);
-
-    const resistance = 6; // Ohms par ampoule
-
-    // Calculs selon le type de circuit
-    let totalResistance, current, voltageBulb1, voltageBulb2, bulb1Works, bulb2Works;
-
-    if (circuitType === 'serie') {
-        // En série : R_total = R1 + R2
-        const activeResistors = (isBulb1On ? 1 : 0) + (isBulb2On ? 1 : 0);
-        totalResistance = resistance * 2;
-        current = (isBulb1On && isBulb2On) ? voltage / totalResistance : 0;
-        voltageBulb1 = isBulb1On ? voltage / 2 : 0;
-        voltageBulb2 = isBulb2On ? voltage / 2 : 0;
-        bulb1Works = isBulb1On && isBulb2On && current > 0;
-        bulb2Works = isBulb1On && isBulb2On && current > 0;
-    } else {
-        // En parallèle : 1/R_total = 1/R1 + 1/R2
-        totalResistance = resistance / 2;
-        const current1 = isBulb1On ? voltage / resistance : 0;
-        const current2 = isBulb2On ? voltage / resistance : 0;
-        current = current1 + current2;
-        voltageBulb1 = isBulb1On ? voltage : 0;
-        voltageBulb2 = isBulb2On ? voltage : 0;
-        bulb1Works = isBulb1On;
-        bulb2Works = isBulb2On;
-    }
-
-    // Animation des électrons
-    const electron1Ref = useRef();
-    const electron2Ref = useRef();
-
-    useFrame(({ clock }) => {
-        const speed = current * 0.5;
-        if (electron1Ref.current && bulb1Works) {
-            const t = (clock.elapsedTime * speed) % 1;
-            electron1Ref.current.position.x = -2 + t * 4;
-        }
-        if (electron2Ref.current && bulb2Works) {
-            const t = (clock.elapsedTime * speed + 0.5) % 1;
-            if (circuitType === 'parallele') {
-                electron2Ref.current.position.x = -2 + t * 4;
-            }
-        }
-    });
-
-    return (
-        <group>
-            {/* Panneau de contrôle */}
-            <Html position={[4, 2, 0]} center>
-                <div className="bg-black/95 p-4 rounded-xl text-white border border-yellow-500/30 min-w-[280px] backdrop-blur-md select-none shadow-xl">
-                    <h3 className="text-yellow-400 font-bold mb-3 text-lg">⚡ Circuits Électriques</h3>
-
-                    {/* Choix du circuit */}
-                    <div className="flex gap-2 mb-3">
-                        <button
-                            onClick={() => setCircuitType('serie')}
-                            className={`flex-1 py-2 rounded-lg font-bold transition-colors ${circuitType === 'serie'
-                                ? 'bg-yellow-600 text-black'
-                                : 'bg-gray-700 hover:bg-gray-600'
-                                }`}
-                        >
-                            Série
-                        </button>
-                        <button
-                            onClick={() => setCircuitType('parallele')}
-                            className={`flex-1 py-2 rounded-lg font-bold transition-colors ${circuitType === 'parallele'
-                                ? 'bg-green-600'
-                                : 'bg-gray-700 hover:bg-gray-600'
-                                }`}
-                        >
-                            Parallèle
-                        </button>
-                    </div>
-
-                    {/* Tension */}
-                    <label className="block text-sm mb-1">
-                        Tension : {voltage} V
-                    </label>
-                    <input
-                        type="range"
-                        min="3"
-                        max="24"
-                        value={voltage}
-                        onChange={(e) => setVoltage(parseInt(e.target.value))}
-                        className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-yellow-500 mb-3"
-                    />
-
-                    {/* Interrupteurs des ampoules */}
-                    <div className="flex gap-4 mb-3">
-                        <label className="flex items-center gap-2 cursor-pointer">
-                            <input
-                                type="checkbox"
-                                checked={isBulb1On}
-                                onChange={(e) => setIsBulb1On(e.target.checked)}
-                                className="w-4 h-4 accent-yellow-500"
-                            />
-                            <span className="text-sm">Ampoule 1</span>
-                        </label>
-                        <label className="flex items-center gap-2 cursor-pointer">
-                            <input
-                                type="checkbox"
-                                checked={isBulb2On}
-                                onChange={(e) => setIsBulb2On(e.target.checked)}
-                                className="w-4 h-4 accent-yellow-500"
-                            />
-                            <span className="text-sm">Ampoule 2</span>
-                        </label>
-                    </div>
-
-                    {/* Résultats */}
-                    <div className="bg-gray-900/80 p-3 rounded-lg space-y-2 font-mono text-sm">
-                        <div className="flex justify-between">
-                            <span className="text-gray-400">R totale :</span>
-                            <span>{totalResistance.toFixed(1)} Ω</span>
-                        </div>
-                        <div className="flex justify-between">
-                            <span className="text-gray-400">Courant I :</span>
-                            <span className="text-cyan-400">{current.toFixed(2)} A</span>
-                        </div>
-                        <div className="flex justify-between">
-                            <span className="text-gray-400">U Ampoule 1 :</span>
-                            <span className={bulb1Works ? 'text-yellow-400' : 'text-red-400'}>
-                                {voltageBulb1.toFixed(1)} V
-                            </span>
-                        </div>
-                        <div className="flex justify-between">
-                            <span className="text-gray-400">U Ampoule 2 :</span>
-                            <span className={bulb2Works ? 'text-yellow-400' : 'text-red-400'}>
-                                {voltageBulb2.toFixed(1)} V
-                            </span>
-                        </div>
-                    </div>
-
-                    <div className="mt-3 p-2 rounded bg-gray-800 text-xs text-center">
-                        {circuitType === 'serie'
-                            ? '⚠️ Série : Si une ampoule grille, TOUT s\'éteint !'
-                            : '✅ Parallèle : Les ampoules sont indépendantes'
-                        }
-                    </div>
-                </div>
-            </Html>
-
-            <Text position={[0, 3.5, 0]} fontSize={0.5} color="#FBBF24">
-                CIRCUITS SÉRIE vs PARALLÈLE
-            </Text>
-
-            {/* Pile/Générateur */}
-            <group position={[-3, 0, 0]}>
-                <mesh>
-                    <boxGeometry args={[0.8, 1.5, 0.5]} />
-                    <meshStandardMaterial color="#374151" />
-                </mesh>
-                <mesh position={[0, 0.9, 0]}>
-                    <boxGeometry args={[0.3, 0.3, 0.3]} />
-                    <meshStandardMaterial color="#EF4444" />
-                </mesh>
-                <Text position={[0, -1.2, 0]} fontSize={0.3} color="#F59E0B">
-                    {voltage}V
-                </Text>
-                <Text position={[0, 1.2, 0]} fontSize={0.25} color="#EF4444">+</Text>
-                <Text position={[0, -0.9, 0]} fontSize={0.25} color="#3B82F6">-</Text>
-            </group>
-
-            {circuitType === 'serie' ? (
-                // Circuit Série
-                <group>
-                    {/* Fils */}
-                    <mesh position={[-1.5, 0.5, 0]} rotation={[0, 0, Math.PI / 2]}>
-                        <cylinderGeometry args={[0.03, 0.03, 3]} />
-                        <meshStandardMaterial color={current > 0 ? "#FBBF24" : "#374151"} />
-                    </mesh>
-                    <mesh position={[1.5, 0.5, 0]} rotation={[0, 0, Math.PI / 2]}>
-                        <cylinderGeometry args={[0.03, 0.03, 3]} />
-                        <meshStandardMaterial color={current > 0 ? "#FBBF24" : "#374151"} />
-                    </mesh>
-                    <mesh position={[3, 0, 0]}>
-                        <cylinderGeometry args={[0.03, 0.03, 1]} />
-                        <meshStandardMaterial color={current > 0 ? "#FBBF24" : "#374151"} />
-                    </mesh>
-                    <mesh position={[-2.5, -0.5, 0]} rotation={[0, 0, Math.PI / 2]}>
-                        <cylinderGeometry args={[0.03, 0.03, 4]} />
-                        <meshStandardMaterial color={current > 0 ? "#FBBF24" : "#374151"} />
-                    </mesh>
-
-                    {/* Ampoule 1 */}
-                    <group position={[0, 0.5, 0]}>
-                        <mesh>
-                            <sphereGeometry args={[0.4]} />
-                            <meshStandardMaterial
-                                color={bulb1Works ? "#FBBF24" : "#374151"}
-                                emissive={bulb1Works ? "#FBBF24" : "#000000"}
-                                emissiveIntensity={bulb1Works ? 2 : 0}
-                                transparent
-                                opacity={0.9}
-                            />
-                        </mesh>
-                        {bulb1Works && <pointLight intensity={1} color="#FBBF24" distance={3} />}
-                        <Text position={[0, -0.7, 0]} fontSize={0.2} color="#FFFFFF">L1</Text>
-                    </group>
-
-                    {/* Ampoule 2 (en série) */}
-                    <group position={[2, 0.5, 0]}>
-                        <mesh>
-                            <sphereGeometry args={[0.4]} />
-                            <meshStandardMaterial
-                                color={bulb2Works ? "#FBBF24" : "#374151"}
-                                emissive={bulb2Works ? "#FBBF24" : "#000000"}
-                                emissiveIntensity={bulb2Works ? 2 : 0}
-                                transparent
-                                opacity={0.9}
-                            />
-                        </mesh>
-                        {bulb2Works && <pointLight intensity={1} color="#FBBF24" distance={3} />}
-                        <Text position={[0, -0.7, 0]} fontSize={0.2} color="#FFFFFF">L2</Text>
-                    </group>
-
-                    {/* Électron animé */}
-                    {current > 0 && (
-                        <mesh ref={electron1Ref} position={[-2, 0.5, 0]}>
-                            <sphereGeometry args={[0.1]} />
-                            <meshStandardMaterial color="#3B82F6" emissive="#3B82F6" />
-                        </mesh>
-                    )}
-                </group>
-            ) : (
-                // Circuit Parallèle
-                <group>
-                    {/* Branche principale */}
-                    <mesh position={[-1.5, 0, 0]} rotation={[0, 0, Math.PI / 2]}>
-                        <cylinderGeometry args={[0.03, 0.03, 3]} />
-                        <meshStandardMaterial color={current > 0 ? "#10B981" : "#374151"} />
-                    </mesh>
-
-                    {/* Branche 1 (haut) */}
-                    <group position={[0, 1, 0]}>
-                        <mesh rotation={[0, 0, Math.PI / 2]}>
-                            <cylinderGeometry args={[0.03, 0.03, 4]} />
-                            <meshStandardMaterial color={bulb1Works ? "#10B981" : "#374151"} />
-                        </mesh>
-                        <mesh position={[0, 0, 0]}>
-                            <sphereGeometry args={[0.4]} />
-                            <meshStandardMaterial
-                                color={bulb1Works ? "#FBBF24" : "#374151"}
-                                emissive={bulb1Works ? "#FBBF24" : "#000000"}
-                                emissiveIntensity={bulb1Works ? 2 : 0}
-                                transparent
-                                opacity={0.9}
-                            />
-                        </mesh>
-                        {bulb1Works && <pointLight intensity={1} color="#FBBF24" distance={3} />}
-                        <Text position={[0, 0.7, 0]} fontSize={0.2} color="#FFFFFF">L1</Text>
-                    </group>
-
-                    {/* Branche 2 (bas) */}
-                    <group position={[0, -1, 0]}>
-                        <mesh rotation={[0, 0, Math.PI / 2]}>
-                            <cylinderGeometry args={[0.03, 0.03, 4]} />
-                            <meshStandardMaterial color={bulb2Works ? "#10B981" : "#374151"} />
-                        </mesh>
-                        <mesh position={[0, 0, 0]}>
-                            <sphereGeometry args={[0.4]} />
-                            <meshStandardMaterial
-                                color={bulb2Works ? "#FBBF24" : "#374151"}
-                                emissive={bulb2Works ? "#FBBF24" : "#000000"}
-                                emissiveIntensity={bulb2Works ? 2 : 0}
-                                transparent
-                                opacity={0.9}
-                            />
-                        </mesh>
-                        {bulb2Works && <pointLight intensity={1} color="#FBBF24" distance={3} />}
-                        <Text position={[0, -0.7, 0]} fontSize={0.2} color="#FFFFFF">L2</Text>
-                    </group>
-
-                    {/* Jonctions */}
-                    <mesh position={[2, 0, 0]}>
-                        <cylinderGeometry args={[0.03, 0.03, 2]} />
-                        <meshStandardMaterial color={current > 0 ? "#10B981" : "#374151"} />
-                    </mesh>
-                    <mesh position={[-2, 0, 0]}>
-                        <cylinderGeometry args={[0.03, 0.03, 2, 8, 1]} />
-                        <meshStandardMaterial color={current > 0 ? "#10B981" : "#374151"} />
-                    </mesh>
-                </group>
-            )}
-
-            {/* Légende */}
-            <Text position={[0, -2.5, 0]} fontSize={0.25} color="#9CA3AF">
-                {circuitType === 'serie'
-                    ? 'Série : I identique partout | U = U1 + U2'
-                    : 'Parallèle : U identique | I = I1 + I2'
-                }
-            </Text>
-        </group>
-    );
-}
-
-// ============================================================
-// 4. CONSERVATION DE LA MASSE (LAVOISIER) - Simulation
-// ============================================================
-export function MassConservation() {
-    const [isReacting, setIsReacting] = useState(false);
-    const [reactionProgress, setReactionProgress] = useState(0);
-
-    const massReactants = 100; // g - ne change jamais !
-    const [particles, setParticles] = useState([]);
-
-    useEffect(() => {
-        if (isReacting && reactionProgress < 100) {
-            const timer = setTimeout(() => {
-                setReactionProgress(prev => Math.min(prev + 2, 100));
-            }, 50);
-            return () => clearTimeout(timer);
-        }
-    }, [isReacting, reactionProgress]);
-
-    const carbonCount = Math.max(0, 4 - Math.floor(reactionProgress / 25));
-    const oxygenCount = Math.max(0, 8 - Math.floor(reactionProgress / 12.5));
-    const co2Count = Math.min(4, Math.floor(reactionProgress / 25));
-
-    const reset = () => {
-        setIsReacting(false);
-        setReactionProgress(0);
-    };
-
-    // Animation
-    const particlesRef = useRef([]);
-
-    useFrame(({ clock }) => {
-        particlesRef.current.forEach((mesh, i) => {
-            if (mesh && isReacting) {
-                mesh.position.y += Math.sin(clock.elapsedTime * 3 + i) * 0.005;
-                mesh.rotation.y = clock.elapsedTime * 0.5;
-            }
-        });
-    });
-
-    return (
-        <group>
-            {/* Panneau de contrôle */}
-            <Html position={[4, 2, 0]} center>
-                <div className="bg-black/95 p-4 rounded-xl text-white border border-orange-500/30 min-w-[280px] backdrop-blur-md select-none shadow-xl">
-                    <h3 className="text-orange-400 font-bold mb-3 text-lg">⚖️ Loi de Lavoisier</h3>
-
-                    <div className="flex gap-2 mb-4">
-                        <button
-                            onClick={() => setIsReacting(true)}
-                            disabled={isReacting}
-                            className={`flex-1 py-2 rounded-lg font-bold transition-colors ${isReacting
-                                ? 'bg-gray-600 cursor-not-allowed'
-                                : 'bg-orange-600 hover:bg-orange-500'
-                                }`}
-                        >
-                            🔥 Réagir !
-                        </button>
-                        <button
-                            onClick={reset}
-                            className="flex-1 py-2 rounded-lg font-bold bg-gray-700 hover:bg-gray-600"
-                        >
-                            🔄 Reset
-                        </button>
-                    </div>
-
-                    {/* Progression */}
-                    <div className="mb-4">
-                        <div className="w-full bg-gray-700 rounded-full h-3">
-                            <div
-                                className="bg-gradient-to-r from-orange-500 to-red-500 h-3 rounded-full transition-all"
-                                style={{ width: `${reactionProgress}%` }}
-                            />
-                        </div>
-                        <div className="text-center text-sm mt-1">{reactionProgress}% réagi</div>
-                    </div>
-
-                    {/* Équation */}
-                    <div className="bg-gray-900/80 p-3 rounded-lg mb-3 text-center font-mono">
-                        <div className="text-sm">C + O₂ → CO₂</div>
-                        <div className="text-xs text-gray-400 mt-1">Combustion du carbone</div>
-                    </div>
-
-                    {/* Bilan des masses */}
-                    <div className="bg-gray-900/80 p-3 rounded-lg space-y-2 font-mono text-sm">
-                        <div className="flex justify-between text-gray-400">
-                            <span>AVANT :</span>
-                            <span className="text-white">{massReactants} g</span>
-                        </div>
-                        <div className="flex justify-between text-gray-400">
-                            <span>APRÈS :</span>
-                            <span className="text-green-400">{massReactants} g ✓</span>
-                        </div>
-                        <div className="border-t border-gray-700 pt-2 text-center text-orange-400 font-bold">
-                            MASSE CONSERVÉE !
-                        </div>
-                    </div>
-
-                    <div className="mt-3 text-xs text-center text-gray-400 italic">
-                        "Rien ne se perd, rien ne se crée, tout se transforme"
-                    </div>
-                </div>
-            </Html>
-
-            <Text position={[0, 3.5, 0]} fontSize={0.5} color="#F59E0B">
-                CONSERVATION DE LA MASSE
-            </Text>
-
-            {/* Balance */}
-            <group position={[0, -2.5, 0]}>
-                {/* Pivot */}
-                <mesh>
-                    <coneGeometry args={[0.3, 0.5, 4]} />
-                    <meshStandardMaterial color="#78350F" />
-                </mesh>
-
-                {/* Barre de balance */}
-                <mesh position={[0, 0.4, 0]} rotation={[0, 0, Math.PI / 2]}>
-                    <cylinderGeometry args={[0.08, 0.08, 6]} />
-                    <meshStandardMaterial color="#92400E" />
-                </mesh>
-
-                {/* Plateau gauche (Réactifs) */}
-                <mesh position={[-2.5, 0.2, 0]}>
-                    <cylinderGeometry args={[0.8, 0.8, 0.1, 32]} />
-                    <meshStandardMaterial color="#6B7280" metalness={0.8} />
-                </mesh>
-
-                {/* Plateau droite (Produits) */}
-                <mesh position={[2.5, 0.2, 0]}>
-                    <cylinderGeometry args={[0.8, 0.8, 0.1, 32]} />
-                    <meshStandardMaterial color="#6B7280" metalness={0.8} />
-                </mesh>
-            </group>
-
-            {/* Réactifs (Gauche) */}
-            <group position={[-2.5, -1.5, 0]}>
-                <Text position={[0, 1.5, 0]} fontSize={0.3} color="#6B7280">
-                    RÉACTIFS
-                </Text>
-
-                {/* Atomes de Carbone */}
-                {[...Array(carbonCount)].map((_, i) => (
-                    <mesh
-                        key={`c-${i}`}
-                        ref={el => particlesRef.current[i] = el}
-                        position={[-0.5 + (i % 2) * 0.5, 0.5 + Math.floor(i / 2) * 0.5, 0]}
-                    >
-                        <sphereGeometry args={[0.2]} />
-                        <meshStandardMaterial color="#1F2937" />
-                    </mesh>
-                ))}
-
-                {/* Molécules O2 */}
-                {[...Array(Math.floor(oxygenCount / 2))].map((_, i) => (
-                    <group key={`o2-${i}`} position={[0.5, 0.3 + i * 0.5, 0]}>
-                        <mesh position={[-0.1, 0, 0]}>
-                            <sphereGeometry args={[0.15]} />
-                            <meshStandardMaterial color="#EF4444" />
-                        </mesh>
-                        <mesh position={[0.1, 0, 0]}>
-                            <sphereGeometry args={[0.15]} />
-                            <meshStandardMaterial color="#EF4444" />
-                        </mesh>
-                    </group>
-                ))}
-
-                <Text position={[0, -0.3, 0]} fontSize={0.2} color="#9CA3AF">
-                    C + O₂
-                </Text>
-            </group>
-
-            {/* Produits (Droite) */}
-            <group position={[2.5, -1.5, 0]}>
-                <Text position={[0, 1.5, 0]} fontSize={0.3} color="#10B981">
-                    PRODUITS
-                </Text>
-
-                {/* Molécules CO2 */}
-                {[...Array(co2Count)].map((_, i) => (
-                    <group key={`co2-${i}`} position={[0, 0.5 + i * 0.6, 0]}>
-                        {/* Carbone central */}
-                        <mesh>
-                            <sphereGeometry args={[0.18]} />
-                            <meshStandardMaterial color="#1F2937" />
-                        </mesh>
-                        {/* Oxygènes */}
-                        <mesh position={[-0.25, 0, 0]}>
-                            <sphereGeometry args={[0.15]} />
-                            <meshStandardMaterial color="#EF4444" />
-                        </mesh>
-                        <mesh position={[0.25, 0, 0]}>
-                            <sphereGeometry args={[0.15]} />
-                            <meshStandardMaterial color="#EF4444" />
-                        </mesh>
-                    </group>
-                ))}
-
-                <Text position={[0, -0.3, 0]} fontSize={0.2} color="#9CA3AF">
-                    CO₂
-                </Text>
-            </group>
-
-            {/* Flamme pendant la réaction */}
-            {isReacting && reactionProgress < 100 && (
-                <group position={[0, 0, 0]}>
-                    <mesh>
-                        <coneGeometry args={[0.3, 1, 8]} />
-                        <meshStandardMaterial
-                            color="#F59E0B"
-                            emissive="#F59E0B"
-                            emissiveIntensity={2}
-                            transparent
-                            opacity={0.8}
-                        />
-                    </mesh>
-                    <pointLight intensity={2} color="#F59E0B" distance={5} />
-                </group>
-            )}
-
-            {/* Affichage masse */}
-            <Text position={[-2.5, -2.8, 0]} fontSize={0.25} color="#FFFFFF">
-                {massReactants} g
-            </Text>
-            <Text position={[2.5, -2.8, 0]} fontSize={0.25} color="#FFFFFF">
-                {massReactants} g
-            </Text>
-        </group>
-    );
-}
-
-// ============================================================
-// 5. PROPAGATION RECTILIGNE DE LA LUMIÈRE
-// ============================================================
-export function LightPropagationPC4() {
-    const [holePosition, setHolePosition] = useState(0);
-    const [showShadow, setShowShadow] = useState(true);
-
-    // Animation du rayon
-    const rayRef = useRef();
-
-    useFrame(({ clock }) => {
-        if (rayRef.current) {
-            rayRef.current.material.opacity = 0.6 + Math.sin(clock.elapsedTime * 3) * 0.2;
-        }
-    });
-
-    return (
-        <group>
-            {/* Panneau de contrôle */}
-            <Html position={[4, 2.5, 0]} center>
-                <div className="bg-black/95 p-4 rounded-xl text-white border border-amber-500/30 min-w-[250px] backdrop-blur-md select-none shadow-xl">
-                    <h3 className="text-amber-400 font-bold mb-3 text-lg">💡 Propagation Rectiligne</h3>
-
-                    <label className="block text-sm mb-1">
-                        Position du trou : {holePosition.toFixed(1)}
-                    </label>
-                    <input
-                        type="range"
-                        min="-1"
-                        max="1"
-                        step="0.1"
-                        value={holePosition}
-                        onChange={(e) => setHolePosition(parseFloat(e.target.value))}
-                        className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-amber-500 mb-3"
-                    />
-
-                    <label className="flex items-center gap-2 cursor-pointer">
-                        <input
-                            type="checkbox"
-                            checked={showShadow}
-                            onChange={(e) => setShowShadow(e.target.checked)}
-                            className="w-4 h-4 accent-amber-500"
-                        />
-                        <span className="text-sm">Afficher l'ombre</span>
-                    </label>
-
-                    <div className="mt-3 p-2 bg-gray-900/80 rounded text-xs text-center">
-                        La lumière voyage en <span className="text-amber-400 font-bold">LIGNE DROITE</span>
-                    </div>
-                </div>
-            </Html>
-
-            <Text position={[0, 3.5, 0]} fontSize={0.5} color="#FBBF24">
-                PROPAGATION RECTILIGNE
-            </Text>
-
-            {/* Source lumineuse (bougie/lampe) */}
-            <group position={[-4, 0, 0]}>
-                <mesh>
-                    <cylinderGeometry args={[0.1, 0.15, 0.5]} />
-                    <meshStandardMaterial color="#FEF3C7" />
-                </mesh>
-                <mesh position={[0, 0.5, 0]}>
-                    <coneGeometry args={[0.15, 0.4, 8]} />
-                    <meshStandardMaterial
-                        color="#FBBF24"
-                        emissive="#FBBF24"
-                        emissiveIntensity={2}
-                    />
-                </mesh>
-                <pointLight position={[0, 0.5, 0]} intensity={3} color="#FBBF24" distance={10} />
-                <Text position={[0, -0.8, 0]} fontSize={0.25} color="#FBBF24">
-                    Source
-                </Text>
-            </group>
-
-            {/* Écran opaque avec trou */}
-            <group position={[0, 0, 0]}>
-                {/* Partie haute de l'écran */}
-                <mesh position={[0, 1 + (1 - holePosition) / 2, 0]}>
-                    <boxGeometry args={[0.2, 2 - (1 - holePosition), 3]} />
-                    <meshStandardMaterial color="#374151" />
-                </mesh>
-                {/* Partie basse de l'écran */}
-                <mesh position={[0, -1 - (1 + holePosition) / 2, 0]}>
-                    <boxGeometry args={[0.2, 2 - (1 + holePosition), 3]} />
-                    <meshStandardMaterial color="#374151" />
-                </mesh>
-                <Text position={[0, 2.5, 0]} fontSize={0.25} color="#9CA3AF">
-                    Écran opaque
-                </Text>
-            </group>
-
-            {/* Rayons lumineux */}
-            <mesh
-                ref={rayRef}
-                position={[-2, holePosition / 2, 0]}
-                rotation={[0, 0, Math.atan2(holePosition, 4)]}
-            >
-                <cylinderGeometry args={[0.02, 0.02, 4]} />
-                <meshBasicMaterial color="#FBBF24" transparent opacity={0.8} />
-            </mesh>
-
-            {/* Rayon après le trou */}
-            <mesh
-                position={[2, holePosition / 2, 0]}
-                rotation={[0, 0, Math.PI / 2]}
-            >
-                <cylinderGeometry args={[0.02, 0.02, 4]} />
-                <meshBasicMaterial color="#FBBF24" transparent opacity={0.6} />
-            </mesh>
-
-            {/* Écran de projection */}
-            <group position={[4, 0, 0]}>
-                <mesh>
-                    <boxGeometry args={[0.1, 4, 3]} />
-                    <meshStandardMaterial color="#F3F4F6" />
-                </mesh>
-
-                {/* Point lumineux sur l'écran */}
-                <mesh position={[0.1, holePosition / 2, 0]}>
-                    <circleGeometry args={[0.3, 32]} />
-                    <meshStandardMaterial
-                        color="#FBBF24"
-                        emissive="#FBBF24"
-                        emissiveIntensity={1}
-                    />
-                </mesh>
-
-                {/* Ombre */}
-                {showShadow && (
-                    <mesh position={[0.1, holePosition / 2 + 1, 0]}>
-                        <planeGeometry args={[0.5, 1]} />
-                        <meshBasicMaterial color="#1F2937" transparent opacity={0.8} />
-                    </mesh>
-                )}
-
-                <Text position={[0, -2.5, 0]} fontSize={0.25} color="#9CA3AF">
-                    Écran
-                </Text>
-            </group>
-
-            {/* Légende */}
-            <Text position={[0, -3, 0]} fontSize={0.25} color="#D1D5DB">
-                La lumière ne contourne pas les obstacles !
-            </Text>
-        </group>
-    );
-}
-
-// ============================================================
-// 6. DÉMARCHE SCIENTIFIQUE - Simulation Interactive
-// ============================================================
-export function ScientificMethod() {
-    const [step, setStep] = useState(0);
-    const [hypothesis, setHypothesis] = useState('');
-    const [experimentResult, setExperimentResult] = useState(null);
-
-    const steps = [
-        { name: 'Observation', icon: '👁️', color: '#3B82F6', description: 'Observer un phénomène naturel' },
-        { name: 'Hypothèse', icon: '💡', color: '#F59E0B', description: 'Proposer une explication' },
-        { name: 'Expérience', icon: '🔬', color: '#10B981', description: 'Tester l\'hypothèse' },
-        { name: 'Conclusion', icon: '✅', color: '#8B5CF6', description: 'Valider ou rejeter l\'hypothèse' }
-    ];
-
-    // Animation
-    const arrowRef = useRef();
-
-    useFrame(({ clock }) => {
-        if (arrowRef.current) {
-            arrowRef.current.position.y = Math.sin(clock.elapsedTime * 2) * 0.1;
-        }
-    });
-
-    const runExperiment = () => {
-        // Simulation d'une expérience
-        const success = Math.random() > 0.3;
-        setExperimentResult(success);
-        if (step === 2) setStep(3);
-    };
-
-    const resetExperiment = () => {
-        setStep(0);
-        setHypothesis('');
-        setExperimentResult(null);
-    };
-
-    return (
-        <group>
-            {/* Panneau de contrôle */}
-            <Html position={[4, 1, 0]} center>
-                <div className="bg-black/95 p-4 rounded-xl text-white border border-blue-500/30 min-w-[300px] backdrop-blur-md select-none shadow-xl">
-                    <h3 className="text-blue-400 font-bold mb-3 text-lg">🔬 Démarche Scientifique</h3>
-
-                    {/* Étapes */}
-                    <div className="flex gap-2 mb-4">
-                        {steps.map((s, i) => (
-                            <button
-                                key={s.name}
-                                onClick={() => setStep(i)}
-                                className={`flex-1 p-2 rounded-lg text-center transition-all ${step === i
-                                    ? `bg-opacity-30 border-2`
-                                    : 'bg-gray-800 opacity-50'
-                                    }`}
-                                style={{
-                                    backgroundColor: step === i ? s.color + '30' : undefined,
-                                    borderColor: step === i ? s.color : 'transparent'
-                                }}
-                            >
-                                <div className="text-2xl mb-1">{s.icon}</div>
-                                <div className="text-xs">{s.name}</div>
-                            </button>
-                        ))}
-                    </div>
-
-                    {/* Contenu selon l'étape */}
-                    <div className="bg-gray-900/80 p-4 rounded-lg">
-                        <h4 className="font-bold mb-2" style={{ color: steps[step].color }}>
-                            {steps[step].icon} {steps[step].name}
-                        </h4>
-                        <p className="text-sm text-gray-400 mb-3">{steps[step].description}</p>
-
-                        {step === 0 && (
-                            <div className="p-3 bg-blue-900/30 rounded-lg text-sm">
-                                🌊 Observation : "L'huile versée dans l'eau ne se mélange pas"
-                                <button
-                                    onClick={() => setStep(1)}
-                                    className="w-full mt-3 py-2 bg-blue-600 rounded-lg font-bold hover:bg-blue-500"
-                                >
-                                    Étape suivante →
-                                </button>
-                            </div>
-                        )}
-
-                        {step === 1 && (
-                            <div>
-                                <input
-                                    type="text"
-                                    value={hypothesis}
-                                    onChange={(e) => setHypothesis(e.target.value)}
-                                    placeholder="L'huile est moins dense que l'eau..."
-                                    className="w-full p-2 bg-gray-800 rounded border border-gray-700 text-sm mb-3"
-                                />
-                                <button
-                                    onClick={() => setStep(2)}
-                                    disabled={!hypothesis}
-                                    className="w-full py-2 bg-yellow-600 rounded-lg font-bold hover:bg-yellow-500 disabled:opacity-50"
-                                >
-                                    Tester l'hypothèse →
-                                </button>
-                            </div>
-                        )}
-
-                        {step === 2 && (
-                            <button
-                                onClick={runExperiment}
-                                className="w-full py-3 bg-green-600 rounded-lg font-bold hover:bg-green-500 text-lg"
-                            >
-                                🧪 Lancer l'expérience
-                            </button>
-                        )}
-
-                        {step === 3 && (
-                            <div className={`p-3 rounded-lg text-center ${experimentResult ? 'bg-green-900/30 text-green-400' : 'bg-red-900/30 text-red-400'}`}>
-                                {experimentResult ? (
-                                    <>
-                                        <div className="text-3xl mb-2">✅</div>
-                                        <div className="font-bold">Hypothèse VALIDÉE !</div>
-                                        <div className="text-sm opacity-80">L'huile flotte car sa densité est inférieure à celle de l'eau.</div>
-                                    </>
-                                ) : (
-                                    <>
-                                        <div className="text-3xl mb-2">❌</div>
-                                        <div className="font-bold">Hypothèse REJETÉE</div>
-                                        <div className="text-sm opacity-80">Proposez une nouvelle hypothèse !</div>
-                                    </>
-                                )}
-                                <button
-                                    onClick={resetExperiment}
-                                    className="mt-3 px-4 py-2 bg-gray-700 rounded-lg hover:bg-gray-600"
-                                >
-                                    🔄 Recommencer
-                                </button>
-                            </div>
-                        )}
-                    </div>
-                </div>
-            </Html>
-
-            <Text position={[0, 3.5, 0]} fontSize={0.5} color="#3B82F6">
-                LA DÉMARCHE SCIENTIFIQUE
-            </Text>
-
-            {/* Flèche cyclique des étapes */}
-            <group>
-                {steps.map((s, i) => {
-                    const angle = (i / steps.length) * Math.PI * 2 - Math.PI / 2;
-                    const x = Math.cos(angle) * 2;
-                    const y = Math.sin(angle) * 2;
-
-                    return (
-                        <group key={s.name} position={[x, y, 0]}>
-                            <mesh>
-                                <circleGeometry args={[0.5, 32]} />
-                                <meshStandardMaterial
-                                    color={s.color}
-                                    emissive={step === i ? s.color : '#000000'}
-                                    emissiveIntensity={step === i ? 0.5 : 0}
-                                />
-                            </mesh>
-                            <Text position={[0, 0, 0.1]} fontSize={0.3} color="#FFFFFF">
-                                {s.icon}
-                            </Text>
-                            <Text position={[0, -0.9, 0]} fontSize={0.15} color={s.color}>
-                                {s.name}
-                            </Text>
-                        </group>
-                    );
-                })}
-
-                {/* Flèches entre les étapes */}
-                <mesh ref={arrowRef} rotation={[0, 0, 0]}>
-                    <torusGeometry args={[2.3, 0.03, 8, 64]} />
-                    <meshStandardMaterial color="#4B5563" />
-                </mesh>
-            </group>
-
-            {/* Indicateur d'étape actuelle */}
-            <mesh position={[0, -2.5, 0]}>
-                <boxGeometry args={[4, 0.8, 0.1]} />
-                <meshStandardMaterial color={steps[step].color} transparent opacity={0.3} />
-            </mesh>
-            <Text position={[0, -2.5, 0.1]} fontSize={0.3} color="#FFFFFF">
-                Étape {step + 1}/4 : {steps[step].name}
-            </Text>
-        </group>
-    );
-}
-
-// ============================================================
-// 7. OUTILS DE MESURE - Simulation Interactive
-// ============================================================
-export function MeasurementTools() {
-    const [activeTool, setActiveTool] = useState('ruler');
-    const [measurement, setMeasurement] = useState(null);
-    const [unit, setUnit] = useState('cm');
-
-    const tools = {
-        ruler: { name: 'Règle', icon: '📏', measures: 'Longueur', unit: 'cm', color: '#F59E0B' },
-        balance: { name: 'Balance', icon: '⚖️', measures: 'Masse', unit: 'g', color: '#3B82F6' },
-        graduated: { name: 'Éprouvette', icon: '🧪', measures: 'Volume', unit: 'mL', color: '#10B981' },
-        chrono: { name: 'Chronomètre', icon: '⏱️', measures: 'Temps', unit: 's', color: '#8B5CF6' }
-    };
-
-    const tool = tools[activeTool];
-
-    // Animation
-    const objectRef = useRef();
-
-    useFrame(({ clock }) => {
-        if (objectRef.current) {
-            objectRef.current.rotation.y = Math.sin(clock.elapsedTime) * 0.1;
-        }
-    });
-
-    const measureObject = () => {
-        // Générer une mesure aléatoire selon l'outil
-        const measurements = {
-            ruler: (5 + Math.random() * 20).toFixed(1),
-            balance: (50 + Math.random() * 450).toFixed(0),
-            graduated: (10 + Math.random() * 90).toFixed(0),
-            chrono: (1 + Math.random() * 10).toFixed(2)
-        };
-        setMeasurement(measurements[activeTool]);
-    };
-
-    return (
-        <group>
-            {/* Panneau de contrôle */}
-            <Html position={[4, 1.5, 0]} center>
-                <div className="bg-black/95 p-4 rounded-xl text-white border border-cyan-500/30 min-w-[280px] backdrop-blur-md select-none shadow-xl">
-                    <h3 className="text-cyan-400 font-bold mb-3 text-lg">📏 Instruments de Mesure</h3>
-
-                    {/* Sélection de l'outil */}
-                    <div className="grid grid-cols-4 gap-2 mb-4">
-                        {Object.entries(tools).map(([key, t]) => (
-                            <button
-                                key={key}
-                                onClick={() => { setActiveTool(key); setMeasurement(null); }}
-                                className={`p-2 rounded-lg text-center transition-all ${activeTool === key
-                                    ? 'ring-2'
-                                    : 'bg-gray-800 hover:bg-gray-700'
-                                    }`}
-                                style={{
-                                    backgroundColor: activeTool === key ? t.color + '30' : undefined,
-                                    borderColor: activeTool === key ? t.color : undefined
-                                }}
-                            >
-                                <div className="text-2xl">{t.icon}</div>
-                            </button>
-                        ))}
-                    </div>
-
-                    {/* Info sur l'outil */}
-                    <div className="bg-gray-900/80 p-3 rounded-lg mb-4">
-                        <div className="flex items-center gap-3 mb-2">
-                            <span className="text-3xl">{tool.icon}</span>
-                            <div>
-                                <div className="font-bold" style={{ color: tool.color }}>{tool.name}</div>
-                                <div className="text-xs text-gray-400">Mesure : {tool.measures}</div>
-                            </div>
-                        </div>
-                        <div className="text-sm text-gray-300">
-                            Unité : <span className="font-mono font-bold">{tool.unit}</span>
-                        </div>
-                    </div>
-
-                    {/* Bouton de mesure */}
-                    <button
-                        onClick={measureObject}
-                        className="w-full py-3 rounded-lg font-bold text-black mb-3 hover:opacity-90 transition-opacity"
-                        style={{ backgroundColor: tool.color }}
-                    >
-                        📐 Mesurer l'objet
-                    </button>
-
-                    {/* Résultat */}
-                    {measurement !== null && (
-                        <div className="p-4 bg-white/10 rounded-lg text-center">
-                            <div className="text-xs text-gray-400 mb-1">Résultat de la mesure :</div>
-                            <div className="text-3xl font-bold font-mono" style={{ color: tool.color }}>
-                                {measurement} {tool.unit}
-                            </div>
-                        </div>
-                    )}
-                </div>
-            </Html>
-
-            <Text position={[0, 3.5, 0]} fontSize={0.5} color="#22D3EE">
-                INSTRUMENTS DE MESURE
-            </Text>
-
-            {/* Table de laboratoire */}
-            <mesh position={[0, -2, 0]}>
-                <boxGeometry args={[6, 0.2, 4]} />
-                <meshStandardMaterial color="#4A3728" />
-            </mesh>
-
-            {/* Objet à mesurer (cube mystère) */}
-            <group ref={objectRef} position={[0, -0.5, 0]}>
-                <mesh>
-                    <boxGeometry args={[1, 1, 1]} />
-                    <meshStandardMaterial color="#6366F1" metalness={0.3} roughness={0.4} />
-                </mesh>
-                <Text position={[0, 0.8, 0]} fontSize={0.2} color="#A5B4FC">
-                    Objet mystère
-                </Text>
-            </group>
-
-            {/* Représentation de l'outil actif */}
-            <group position={[-2, 0.5, 0]}>
-                {activeTool === 'ruler' && (
-                    <mesh rotation={[0, 0, Math.PI / 4]}>
-                        <boxGeometry args={[3, 0.1, 0.3]} />
-                        <meshStandardMaterial color="#F59E0B" />
-                    </mesh>
-                )}
-                {activeTool === 'balance' && (
-                    <group>
-                        <mesh position={[0, -0.5, 0]}>
-                            <cylinderGeometry args={[0.5, 0.6, 0.2]} />
-                            <meshStandardMaterial color="#3B82F6" />
-                        </mesh>
-                        <mesh position={[0, 0, 0]}>
-                            <cylinderGeometry args={[0.05, 0.05, 1]} />
-                            <meshStandardMaterial color="#6B7280" />
-                        </mesh>
-                        <mesh position={[-0.8, 0.5, 0]}>
-                            <cylinderGeometry args={[0.3, 0.3, 0.05]} />
-                            <meshStandardMaterial color="#9CA3AF" />
-                        </mesh>
-                        <mesh position={[0.8, 0.5, 0]}>
-                            <cylinderGeometry args={[0.3, 0.3, 0.05]} />
-                            <meshStandardMaterial color="#9CA3AF" />
-                        </mesh>
-                    </group>
-                )}
-                {activeTool === 'graduated' && (
-                    <group>
-                        <mesh>
-                            <cylinderGeometry args={[0.3, 0.25, 2, 32, 1, true]} />
-                            <meshStandardMaterial color="#10B981" transparent opacity={0.3} side={THREE.DoubleSide} />
-                        </mesh>
-                        <mesh position={[0, -0.5, 0]}>
-                            <cylinderGeometry args={[0.25, 0.25, 1]} />
-                            <meshStandardMaterial color="#3B82F6" transparent opacity={0.5} />
-                        </mesh>
-                    </group>
-                )}
-                {activeTool === 'chrono' && (
-                    <group>
-                        <mesh>
-                            <cylinderGeometry args={[0.6, 0.6, 0.15]} />
-                            <meshStandardMaterial color="#8B5CF6" />
-                        </mesh>
-                        <mesh position={[0, 0.5, 0]}>
-                            <sphereGeometry args={[0.15]} />
-                            <meshStandardMaterial color="#6B7280" />
-                        </mesh>
-                    </group>
-                )}
-            </group>
-
-            {/* Légende */}
-            <Text position={[0, -2.8, 0]} fontSize={0.2} color="#9CA3AF">
-                Choisis un instrument et mesure l'objet !
-            </Text>
-        </group>
-    );
-}
-
-// ============================================================
-// 8. SOURCES DE LUMIÈRE - Simulation Interactive
-// ============================================================
-export function LightSources() {
-    const [showPrimary, setShowPrimary] = useState(true);
-    const [showSecondary, setShowSecondary] = useState(true);
-    const [sunIntensity, setSunIntensity] = useState(1);
-
-    // Animation
-    const moonRef = useRef();
-    const bookRef = useRef();
-    const sunRaysRef = useRef();
-
-    useFrame(({ clock }) => {
-        if (moonRef.current) {
-            moonRef.current.rotation.y = clock.elapsedTime * 0.2;
-        }
-        if (sunRaysRef.current) {
-            sunRaysRef.current.rotation.z = clock.elapsedTime * 0.5;
-        }
-    });
-
-    return (
-        <group>
-            {/* Panneau de contrôle */}
-            <Html position={[4, 2, 0]} center>
-                <div className="bg-black/95 p-4 rounded-xl text-white border border-yellow-500/30 min-w-[280px] backdrop-blur-md select-none shadow-xl">
-                    <h3 className="text-yellow-400 font-bold mb-3 text-lg">💡 Sources de Lumière</h3>
-
-                    {/* Contrôles */}
-                    <div className="space-y-3 mb-4">
-                        <label className="flex items-center gap-3 cursor-pointer">
-                            <input
-                                type="checkbox"
-                                checked={showPrimary}
-                                onChange={(e) => setShowPrimary(e.target.checked)}
-                                className="w-5 h-5 accent-yellow-500"
-                            />
-                            <span className="text-2xl">☀️</span>
-                            <span>Sources Primaires</span>
-                        </label>
-                        <label className="flex items-center gap-3 cursor-pointer">
-                            <input
-                                type="checkbox"
-                                checked={showSecondary}
-                                onChange={(e) => setShowSecondary(e.target.checked)}
-                                className="w-5 h-5 accent-blue-500"
-                            />
-                            <span className="text-2xl">🌙</span>
-                            <span>Sources Secondaires</span>
-                        </label>
-                    </div>
-
-                    {/* Intensité du Soleil */}
-                    <label className="block text-sm mb-1">
-                        Intensité du Soleil : {Math.round(sunIntensity * 100)}%
-                    </label>
-                    <input
-                        type="range"
-                        min="0"
-                        max="1"
-                        step="0.1"
-                        value={sunIntensity}
-                        onChange={(e) => setSunIntensity(parseFloat(e.target.value))}
-                        className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-yellow-500 mb-4"
-                    />
-
-                    {/* Explications */}
-                    <div className="bg-gray-900/80 p-3 rounded-lg space-y-2 text-sm">
-                        <div className="flex items-start gap-2">
-                            <span className="text-yellow-400">☀️</span>
-                            <span><strong>Primaire :</strong> Produit sa propre lumière (Soleil, lampe)</span>
-                        </div>
-                        <div className="flex items-start gap-2">
-                            <span className="text-blue-400">🌙</span>
-                            <span><strong>Secondaire :</strong> Renvoie la lumière (Lune, livre)</span>
-                        </div>
-                    </div>
-
-                    <div className="mt-3 p-2 bg-yellow-900/20 rounded text-xs text-center text-yellow-300">
-                        {sunIntensity === 0
-                            ? "Sans Soleil, la Lune est invisible !"
-                            : "La Lune ne brille que grâce au Soleil"
-                        }
-                    </div>
-                </div>
-            </Html>
-
-            <Text position={[0, 3.5, 0]} fontSize={0.5} color="#FBBF24">
-                SOURCES DE LUMIÈRE
-            </Text>
-
-            {/* Fond étoilé */}
-            <mesh position={[0, 0, -5]}>
-                <planeGeometry args={[20, 12]} />
-                <meshBasicMaterial color="#0F172A" />
-            </mesh>
-
-            {/* SOURCE PRIMAIRE : Le Soleil */}
-            {showPrimary && (
-                <group position={[-3, 1.5, 0]}>
-                    <mesh>
-                        <sphereGeometry args={[0.8, 32, 32]} />
-                        <meshStandardMaterial
-                            color="#FBBF24"
-                            emissive="#FBBF24"
-                            emissiveIntensity={sunIntensity}
-                        />
-                    </mesh>
-                    <pointLight intensity={sunIntensity * 2} color="#FBBF24" distance={10} />
-
-                    {/* Rayons */}
-                    <group ref={sunRaysRef}>
-                        {[0, 45, 90, 135, 180, 225, 270, 315].map((angle, i) => (
-                            <mesh key={i} rotation={[0, 0, (angle * Math.PI) / 180]} position={[0, 0, -0.1]}>
-                                <boxGeometry args={[0.1, 1.5, 0.05]} />
-                                <meshStandardMaterial
-                                    color="#FBBF24"
-                                    transparent
-                                    opacity={0.5 * sunIntensity}
-                                />
-                            </mesh>
-                        ))}
-                    </group>
-
-                    <Text position={[0, -1.3, 0]} fontSize={0.2} color="#FBBF24">
-                        SOLEIL
-                    </Text>
-                    <Text position={[0, -1.6, 0]} fontSize={0.15} color="#FCD34D">
-                        Source PRIMAIRE
-                    </Text>
-                </group>
-            )}
-
-            {/* SOURCE PRIMAIRE : Lampe */}
-            {showPrimary && (
-                <group position={[-3, -1.5, 0]}>
-                    <mesh>
-                        <sphereGeometry args={[0.4, 32, 32]} />
-                        <meshStandardMaterial
-                            color="#FEF3C7"
-                            emissive="#FBBF24"
-                            emissiveIntensity={0.8}
-                            transparent
-                            opacity={0.9}
-                        />
-                    </mesh>
-                    <mesh position={[0, -0.5, 0]}>
-                        <cylinderGeometry args={[0.15, 0.25, 0.4]} />
-                        <meshStandardMaterial color="#374151" />
-                    </mesh>
-                    <pointLight intensity={1} color="#FBBF24" distance={3} />
-                    <Text position={[0, -1.1, 0]} fontSize={0.15} color="#FCD34D">
-                        LAMPE (Primaire)
-                    </Text>
-                </group>
-            )}
-
-            {/* SOURCE SECONDAIRE : La Lune */}
-            {showSecondary && (
-                <group position={[2.5, 1.5, 0]} ref={moonRef}>
-                    <mesh>
-                        <sphereGeometry args={[0.6, 32, 32]} />
-                        <meshStandardMaterial
-                            color="#E5E7EB"
-                            emissive={sunIntensity > 0 ? "#9CA3AF" : "#000000"}
-                            emissiveIntensity={sunIntensity * 0.3}
-                        />
-                    </mesh>
-                    {/* Cratères */}
-                    <mesh position={[0.2, 0.2, 0.5]}>
-                        <sphereGeometry args={[0.1]} />
-                        <meshStandardMaterial color="#9CA3AF" />
-                    </mesh>
-                    <mesh position={[-0.15, -0.1, 0.55]}>
-                        <sphereGeometry args={[0.08]} />
-                        <meshStandardMaterial color="#9CA3AF" />
-                    </mesh>
-
-                    <Text position={[0, -1, 0]} fontSize={0.2} color="#9CA3AF">
-                        LUNE
-                    </Text>
-                    <Text position={[0, -1.3, 0]} fontSize={0.15} color="#60A5FA">
-                        Source SECONDAIRE
-                    </Text>
-                </group>
-            )}
-
-            {/* SOURCE SECONDAIRE : Livre */}
-            {showSecondary && (
-                <group position={[2.5, -1.5, 0]} ref={bookRef}>
-                    <mesh>
-                        <boxGeometry args={[0.8, 0.1, 0.6]} />
-                        <meshStandardMaterial color="#DC2626" />
-                    </mesh>
-                    <mesh position={[0, 0.08, 0]}>
-                        <boxGeometry args={[0.7, 0.08, 0.55]} />
-                        <meshStandardMaterial
-                            color="#FEFCE8"
-                            emissive={sunIntensity > 0 ? "#FEFCE8" : "#000000"}
-                            emissiveIntensity={sunIntensity * 0.1}
-                        />
-                    </mesh>
-                    <Text position={[0, -0.5, 0]} fontSize={0.15} color="#60A5FA">
-                        LIVRE (Secondaire)
-                    </Text>
-                </group>
-            )}
-
-            {/* Rayons du Soleil vers la Lune */}
-            {showPrimary && showSecondary && sunIntensity > 0 && (
-                <mesh position={[-0.25, 1.5, 0]} rotation={[0, 0, 0]}>
-                    <cylinderGeometry args={[0.02, 0.02, 4.5]} />
-                    <meshStandardMaterial
-                        color="#FBBF24"
-                        transparent
-                        opacity={sunIntensity * 0.4}
-                    />
-                </mesh>
-            )}
-
-            {/* Légende */}
-            <Text position={[0, -3, 0]} fontSize={0.2} color="#9CA3AF">
-                Sans source primaire, les sources secondaires sont invisibles !
-            </Text>
-        </group>
-    );
-}
-
-// ============================================================
-// 9. INTRODUCTION À L'ÉLECTRICITÉ - Simulation Immersive
-// ============================================================
-export function IntroElectricity() {
-    const [isClosed, setIsClosed] = useState(false);
-    const [selectedMaterial, setSelectedMaterial] = useState('cuivre');
-    const [voltage, setVoltage] = useState(9);
-    const [showCurrentDirection, setShowCurrentDirection] = useState(true);
-
-    const materials = {
-        cuivre: { name: 'Cuivre', conductor: true, color: '#B87333', emoji: '🔌' },
-        fer: { name: 'Fer', conductor: true, color: '#6B7280', emoji: '🔩' },
-        aluminium: { name: 'Aluminium', conductor: true, color: '#C0C0C0', emoji: '🥄' },
-        eau_salee: { name: 'Eau Salée', conductor: true, color: '#3B82F6', emoji: '🌊' },
-        plastique: { name: 'Plastique', conductor: false, color: '#F472B6', emoji: '🧴' },
-        bois: { name: 'Bois', conductor: false, color: '#92400E', emoji: '🪵' },
-        verre: { name: 'Verre', conductor: false, color: '#A5B4FC', emoji: '🥛' },
-        caoutchouc: { name: 'Caoutchouc', conductor: false, color: '#1F2937', emoji: '🖤' }
-    };
-
-    const mat = materials[selectedMaterial];
-    const circuitWorks = isClosed && mat.conductor;
-
-    // Animation des électrons
-    const electronsRef = useRef([]);
-
-    useFrame(({ clock }) => {
-        if (circuitWorks) {
-            electronsRef.current.forEach((mesh, i) => {
-                if (mesh) {
-                    const speed = voltage * 0.05;
-                    const t = ((clock.elapsedTime * speed + i * 0.3) % 4);
-                    // Mouvement en rectangle
-                    if (t < 1) {
-                        mesh.position.x = -2 + t * 4;
-                        mesh.position.y = 1.5;
-                    } else if (t < 2) {
-                        mesh.position.x = 2;
-                        mesh.position.y = 1.5 - (t - 1) * 3;
-                    } else if (t < 3) {
-                        mesh.position.x = 2 - (t - 2) * 4;
-                        mesh.position.y = -1.5;
-                    } else {
-                        mesh.position.x = -2;
-                        mesh.position.y = -1.5 + (t - 3) * 3;
-                    }
-                }
-            });
-        }
-    });
-
-    return (
-        <group>
-            {/* Panneau de contrôle */}
-            <Html position={[4.5, 1.5, 0]} center>
-                <div className="bg-black/95 p-4 rounded-xl text-white border border-yellow-500/30 min-w-[300px] backdrop-blur-md select-none shadow-xl">
-                    <h3 className="text-yellow-400 font-bold mb-3 text-lg">⚡ Introduction à l'Électricité</h3>
-
-                    {/* Interrupteur */}
-                    <div className="flex items-center gap-3 mb-4">
-                        <button
-                            onClick={() => setIsClosed(!isClosed)}
-                            className={`flex-1 py-3 rounded-lg font-bold transition-all ${isClosed
-                                ? 'bg-green-600 shadow-[0_0_20px_rgba(34,197,94,0.5)]'
-                                : 'bg-red-600'
-                                }`}
-                        >
-                            {isClosed ? '🔓 OUVRIR' : '🔒 FERMER'}
-                        </button>
-                    </div>
-
-                    {/* Tension */}
-                    <label className="block text-sm mb-1">
-                        Tension de la pile : {voltage}V
-                    </label>
-                    <input
-                        type="range"
-                        min="1.5"
-                        max="12"
-                        step="1.5"
-                        value={voltage}
-                        onChange={(e) => setVoltage(parseFloat(e.target.value))}
-                        className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-yellow-500 mb-4"
-                    />
-
-                    {/* Sélection du matériau */}
-                    <label className="block text-sm mb-2">Test un matériau :</label>
-                    <div className="grid grid-cols-4 gap-1 mb-4">
-                        {Object.entries(materials).map(([key, m]) => (
-                            <button
-                                key={key}
-                                onClick={() => setSelectedMaterial(key)}
-                                className={`p-2 rounded text-center transition-all ${selectedMaterial === key
-                                    ? 'ring-2 ring-yellow-400 bg-yellow-600/20'
-                                    : 'bg-gray-800 hover:bg-gray-700'
-                                    }`}
-                                title={m.name}
-                            >
-                                <div className="text-lg">{m.emoji}</div>
-                                <div className="text-[8px] truncate">{m.name}</div>
-                            </button>
-                        ))}
-                    </div>
-
-                    {/* Résultat */}
-                    <div className={`p-3 rounded-lg text-center ${mat.conductor
-                        ? 'bg-green-900/30 border border-green-500/30'
-                        : 'bg-red-900/30 border border-red-500/30'
-                        }`}>
-                        <div className="text-2xl mb-1">{mat.conductor ? '✅' : '❌'}</div>
-                        <div className="font-bold">
-                            {mat.name} = {mat.conductor ? 'CONDUCTEUR' : 'ISOLANT'}
-                        </div>
-                        <div className="text-xs opacity-80 mt-1">
-                            {mat.conductor
-                                ? 'Le courant peut passer !'
-                                : 'Le courant ne passe pas.'}
-                        </div>
-                    </div>
-
-                    {/* État du circuit */}
-                    <div className={`mt-3 p-2 rounded text-center text-sm ${circuitWorks
-                        ? 'bg-yellow-900/30 text-yellow-300'
-                        : 'bg-gray-800 text-gray-400'
-                        }`}>
-                        {circuitWorks
-                            ? '💡 La lampe brille !'
-                            : isClosed
-                                ? '🚫 Matériau isolant - pas de courant'
-                                : '⚠️ Circuit ouvert'}
-                    </div>
-
-                    {/* Direction du courant */}
-                    <label className="flex items-center gap-2 mt-3 cursor-pointer">
-                        <input
-                            type="checkbox"
-                            checked={showCurrentDirection}
-                            onChange={(e) => setShowCurrentDirection(e.target.checked)}
-                            className="w-4 h-4 accent-yellow-500"
-                        />
-                        <span className="text-sm">Afficher le sens du courant</span>
-                    </label>
-                </div>
-            </Html>
-
-            <Text position={[0, 3.5, 0]} fontSize={0.5} color="#FBBF24">
-                INTRODUCTION À L'ÉLECTRICITÉ
-            </Text>
-
-            {/* Circuit rectangulaire */}
-            <group>
-                {/* Pile/Générateur (à gauche) */}
-                <group position={[-2.5, 0, 0]}>
-                    <mesh>
-                        <boxGeometry args={[0.6, 2, 0.5]} />
-                        <meshStandardMaterial color="#374151" />
-                    </mesh>
-                    <mesh position={[0, 1.1, 0]}>
-                        <boxGeometry args={[0.3, 0.2, 0.3]} />
-                        <meshStandardMaterial color="#EF4444" />
-                    </mesh>
-                    <Text position={[0, 1.4, 0]} fontSize={0.25} color="#EF4444">+</Text>
-                    <Text position={[0, -1.2, 0]} fontSize={0.25} color="#3B82F6">-</Text>
-                    <Text position={[0, -1.7, 0]} fontSize={0.2} color="#F59E0B">{voltage}V</Text>
-                </group>
-
-                {/* Fils du circuit */}
-                {/* Haut */}
-                <mesh position={[0, 1.5, 0]} rotation={[0, 0, Math.PI / 2]}>
-                    <cylinderGeometry args={[0.04, 0.04, 4.5]} />
-                    <meshStandardMaterial
-                        color={circuitWorks ? "#FBBF24" : "#4B5563"}
-                        emissive={circuitWorks ? "#FBBF24" : "#000000"}
-                        emissiveIntensity={circuitWorks ? 0.3 : 0}
-                    />
-                </mesh>
-                {/* Bas */}
-                <mesh position={[0, -1.5, 0]} rotation={[0, 0, Math.PI / 2]}>
-                    <cylinderGeometry args={[0.04, 0.04, 4.5]} />
-                    <meshStandardMaterial
-                        color={circuitWorks ? "#FBBF24" : "#4B5563"}
-                        emissive={circuitWorks ? "#FBBF24" : "#000000"}
-                        emissiveIntensity={circuitWorks ? 0.3 : 0}
-                    />
-                </mesh>
-                {/* Gauche */}
-                <mesh position={[-2, 0, 0]}>
-                    <cylinderGeometry args={[0.04, 0.04, 3]} />
-                    <meshStandardMaterial
-                        color={circuitWorks ? "#FBBF24" : "#4B5563"}
-                    />
-                </mesh>
-                {/* Droite */}
-                <mesh position={[2, 0, 0]}>
-                    <cylinderGeometry args={[0.04, 0.04, 3]} />
-                    <meshStandardMaterial
-                        color={circuitWorks ? "#FBBF24" : "#4B5563"}
-                    />
-                </mesh>
-
-                {/* Interrupteur (en haut à gauche) */}
-                <group position={[-1, 1.5, 0]}>
-                    <mesh>
-                        <boxGeometry args={[0.3, 0.3, 0.2]} />
-                        <meshStandardMaterial color="#10B981" />
-                    </mesh>
-                    <mesh
-                        position={[isClosed ? 0.3 : 0.2, isClosed ? 0 : 0.25, 0]}
-                        rotation={[0, 0, isClosed ? 0 : -0.5]}
-                    >
-                        <boxGeometry args={[0.6, 0.08, 0.1]} />
-                        <meshStandardMaterial color="#6B7280" />
-                    </mesh>
-                    <Text position={[0, 0.6, 0]} fontSize={0.15} color="#10B981">
-                        Interrupteur
-                    </Text>
-                </group>
-
-                {/* Matériau testé (en haut au centre) */}
-                <group position={[0.5, 1.5, 0]}>
-                    <mesh>
-                        <boxGeometry args={[0.8, 0.4, 0.3]} />
-                        <meshStandardMaterial
-                            color={mat.color}
-                            metalness={mat.conductor ? 0.8 : 0.1}
-                            roughness={mat.conductor ? 0.2 : 0.8}
-                        />
-                    </mesh>
-                    <Text position={[0, 0.5, 0]} fontSize={0.12} color={mat.conductor ? "#10B981" : "#EF4444"}>
-                        {mat.name}
-                    </Text>
-                </group>
-
-                {/* Lampe (à droite) */}
-                <group position={[2, 0, 0]}>
-                    <mesh>
-                        <sphereGeometry args={[0.5, 32, 32]} />
-                        <meshStandardMaterial
-                            color={circuitWorks ? "#FCD34D" : "#4B5563"}
-                            emissive={circuitWorks ? "#FCD34D" : "#000000"}
-                            emissiveIntensity={circuitWorks ? 2 : 0}
-                            transparent
-                            opacity={0.9}
-                        />
-                    </mesh>
-                    {circuitWorks && <pointLight intensity={3} color="#FCD34D" distance={5} />}
-                    <mesh position={[0, -0.7, 0]}>
-                        <cylinderGeometry args={[0.15, 0.2, 0.3]} />
-                        <meshStandardMaterial color="#374151" />
-                    </mesh>
-                    <Text position={[0, -1.2, 0]} fontSize={0.2} color="#FCD34D">
-                        Lampe
-                    </Text>
-                </group>
-
-                {/* Électrons animés */}
-                {circuitWorks && Array.from({ length: 8 }).map((_, i) => (
-                    <mesh
-                        key={i}
-                        ref={el => electronsRef.current[i] = el}
-                        position={[-2, 1.5, 0.2]}
-                    >
-                        <sphereGeometry args={[0.08]} />
-                        <meshStandardMaterial
-                            color="#3B82F6"
-                            emissive="#3B82F6"
-                            emissiveIntensity={1}
-                        />
-                    </mesh>
-                ))}
-
-                {/* Flèches du sens du courant */}
-                {showCurrentDirection && circuitWorks && (
-                    <group>
-                        <Text position={[0, 2.2, 0]} fontSize={0.25} color="#EF4444">
-                            → Sens conventionnel du courant (+ vers -)
-                        </Text>
-                        <Text position={[0, -2.2, 0]} fontSize={0.2} color="#3B82F6">
-                            ← Sens réel des électrons (- vers +)
-                        </Text>
-                    </group>
-                )}
-            </group>
-
-            {/* Légende */}
-            <Text position={[0, -3.2, 0]} fontSize={0.18} color="#9CA3AF">
-                Circuit fermé + Conducteur = Courant électrique !
-            </Text>
-        </group>
-    );
-}
-
-// ============================================================
-// 10. SÉPARATION DES MÉLANGES - Simulation Immersive
+// CHAPITRE 9: SÉPARATION DES MÉLANGES
 // ============================================================
 export function MixtureSeparationPC4() {
-    const [technique, setTechnique] = useState('filtration');
-    const [isAnimating, setIsAnimating] = useState(false);
+    const [mixture, setMixture] = useState('mud'); // mud, salt_water, oil_water
+    const [method, setMethod] = useState(null); // decantation, filtration, evaporation
     const [progress, setProgress] = useState(0);
 
-    const techniques = {
-        filtration: {
-            name: 'Filtration',
-            icon: '🔍',
-            color: '#3B82F6',
-            desc: 'Sépare un solide d\'un liquide',
-            example: 'Séparer le sable de l\'eau'
-        },
-        decantation: {
-            name: 'Décantation',
-            icon: '🫗',
-            color: '#10B981',
-            desc: 'Sépare deux liquides non miscibles',
-            example: 'Séparer l\'huile de l\'eau'
-        },
-        distillation: {
-            name: 'Distillation',
-            icon: '🧪',
-            color: '#8B5CF6',
-            desc: 'Sépare par évaporation et condensation',
-            example: 'Séparer l\'eau salée'
-        },
-        magnetique: {
-            name: 'Magnétique',
-            icon: '🧲',
-            color: '#EF4444',
-            desc: 'Sépare les métaux magnétiques',
-            example: 'Récupérer la limaille de fer'
-        }
+    const mixtures = {
+        mud: { name: 'Eau boueuse', components: ['Eau', 'Terre'], color: '#78350F', separated: false },
+        salt_water: { name: 'Eau salée', components: ['Eau', 'Sel dissous'], color: '#93C5FD', separated: false },
+        oil_water: { name: 'Eau + Huile', components: ['Eau', 'Huile'], color: '#FEF3C7', separated: false }
     };
 
-    const tech = techniques[technique];
+    const methods = {
+        decantation: { name: 'Décantation', icon: '⏳', effective: ['mud', 'oil_water'], desc: 'Laisser reposer pour séparer par densité.' },
+        filtration: { name: 'Filtration', icon: '☕', effective: ['mud'], desc: 'Passer à travers un filtre.' },
+        evaporation: { name: 'Vaporisation', icon: '🔥', effective: ['salt_water'], desc: 'Chauffer pour récupérer le solide dissous.' }
+    };
 
-    // Animation
-    const liquidRef = useRef();
-    const particlesRef = useRef([]);
+    const mix = mixtures[mixture];
 
-    useFrame(({ clock }) => {
-        if (isAnimating && liquidRef.current) {
-            const newProgress = Math.min(progress + 0.005, 1);
-            setProgress(newProgress);
+    const startSeparation = (m) => {
+        setMethod(m);
+        setProgress(0);
+    };
 
-            if (newProgress >= 1) {
-                setIsAnimating(false);
-            }
+    useFrame((state, delta) => {
+        if (method && progress < 1) {
+            setProgress(prev => Math.min(prev + delta * 0.2, 1));
         }
-
-        // Animation des particules
-        particlesRef.current.forEach((mesh, i) => {
-            if (mesh) {
-                if (technique === 'filtration' && isAnimating) {
-                    mesh.position.y = 2 - progress * 4 - i * 0.3;
-                } else if (technique === 'decantation') {
-                    mesh.position.y = Math.sin(clock.elapsedTime + i) * 0.05 + 1;
-                }
-            }
-        });
     });
 
-    const startAnimation = () => {
-        setProgress(0);
-        setIsAnimating(true);
-    };
+    const isSuccess = method && methods[method].effective.includes(mixture);
 
     return (
         <group>
-            {/* Panneau de contrôle */}
-            <Html position={[4.5, 1.5, 0]} center>
-                <div className="bg-black/95 p-4 rounded-xl text-white border border-cyan-500/30 min-w-[300px] backdrop-blur-md select-none shadow-xl">
-                    <h3 className="text-cyan-400 font-bold mb-3 text-lg">🧪 Séparation des Mélanges</h3>
+            <Html position={[5, 2, 0]} center>
+                <div className="bg-black/90 p-5 rounded-2xl text-white border border-orange-500/30 w-[350px]">
+                    <h3 className="text-orange-400 font-bold text-xl mb-4">⚗️ Séparation de Mélanges</h3>
 
-                    {/* Sélection technique */}
-                    <div className="grid grid-cols-2 gap-2 mb-4">
-                        {Object.entries(techniques).map(([key, t]) => (
-                            <button
-                                key={key}
-                                onClick={() => { setTechnique(key); setProgress(0); setIsAnimating(false); }}
-                                className={`p-2 rounded-lg text-left transition-all ${technique === key
-                                        ? 'ring-2 ring-cyan-400 bg-cyan-600/20'
-                                        : 'bg-gray-800 hover:bg-gray-700'
-                                    }`}
-                            >
-                                <div className="text-xl mb-1">{t.icon}</div>
-                                <div className="text-sm font-bold">{t.name}</div>
-                            </button>
-                        ))}
-                    </div>
-
-                    {/* Info technique */}
-                    <div className="bg-gray-900/80 p-3 rounded-lg mb-4">
-                        <div className="flex items-center gap-2 mb-2">
-                            <span className="text-2xl">{tech.icon}</span>
-                            <span className="font-bold" style={{ color: tech.color }}>{tech.name}</span>
+                    <div className="mb-4">
+                        <label className="text-xs text-gray-400 uppercase font-bold">1. Choisir le mélange</label>
+                        <div className="grid grid-cols-3 gap-2 mt-1">
+                            {Object.entries(mixtures).map(([k, m]) => (
+                                <button key={k} onClick={() => { setMixture(k); setMethod(null); setProgress(0); }}
+                                    className={`p-2 rounded-lg text-xs font-bold ${mixture === k ? 'bg-orange-600' : 'bg-gray-800'}`}>
+                                    {m.name}
+                                </button>
+                            ))}
                         </div>
-                        <p className="text-sm text-gray-300 mb-2">{tech.desc}</p>
-                        <p className="text-xs text-gray-400 italic">Ex: {tech.example}</p>
                     </div>
 
-                    {/* Bouton démarrer */}
-                    <button
-                        onClick={startAnimation}
-                        disabled={isAnimating}
-                        className="w-full py-3 rounded-lg font-bold text-white mb-3 transition-all disabled:opacity-50"
-                        style={{ backgroundColor: tech.color }}
-                    >
-                        {isAnimating ? '⏳ En cours...' : '▶️ Démarrer la séparation'}
-                    </button>
+                    <div className="mb-4">
+                        <label className="text-xs text-gray-400 uppercase font-bold">2. Choisir la technique</label>
+                        <div className="grid grid-cols-1 gap-2 mt-1">
+                            {Object.entries(methods).map(([k, m]) => (
+                                <button key={k} onClick={() => startSeparation(k)}
+                                    className={`flex items-center gap-3 p-3 rounded-lg text-sm text-left transition-colors ${method === k ? 'bg-white text-black' : 'bg-gray-800 hover:bg-gray-700'}`}>
+                                    <span className="text-2xl">{m.icon}</span>
+                                    <div>
+                                        <div className="font-bold">{m.name}</div>
+                                        <div className="text-xs opacity-70">{m.desc}</div>
+                                    </div>
+                                </button>
+                            ))}
+                        </div>
+                    </div>
 
-                    {/* Barre de progression */}
-                    <div className="bg-gray-800 rounded-full h-3 overflow-hidden">
-                        <div
-                            className="h-full transition-all duration-300"
-                            style={{
-                                width: `${progress * 100}%`,
-                                backgroundColor: tech.color
-                            }}
-                        />
-                    </div>
-                    <div className="text-center text-xs text-gray-400 mt-1">
-                        {Math.round(progress * 100)}% complété
-                    </div>
+                    {method && (
+                        <div className={`p-4 rounded-xl border ${progress < 1 ? 'border-yellow-500/30 bg-yellow-900/10' : (isSuccess ? 'border-green-500/30 bg-green-900/20' : 'border-red-500/30 bg-red-900/20')}`}>
+                            <div className="flex justify-between mb-2 text-sm font-bold">
+                                <span>{methods[method].name}</span>
+                                <span>{Math.round(progress * 100)}%</span>
+                            </div>
+                            <div className="h-2 bg-gray-700 rounded-full overflow-hidden">
+                                <div className="h-full bg-orange-500 transition-all duration-100" style={{ width: `${progress * 100}%` }}></div>
+                            </div>
+                            {progress === 1 && (
+                                <div className={`mt-3 text-center font-bold ${isSuccess ? 'text-green-400' : 'text-red-400'}`}>
+                                    {isSuccess ? '✅ Séparation réussie !' : '❌ Technique inefficace ici.'}
+                                </div>
+                            )}
+                        </div>
+                    )}
                 </div>
             </Html>
 
-            <Text position={[0, 3.5, 0]} fontSize={0.5} color="#22D3EE">
-                SÉPARATION DES MÉLANGES
-            </Text>
+            {/* Visualisation 3D */}
+            <group position={[0, -1, 0]}>
+                {/* Bécher */}
+                <mesh position={[0, 0, 0]}>
+                    <cylinderGeometry args={[1, 1, 2.5, 32, 1, true]} />
+                    <meshPhysicalMaterial color="#A5F3FC" transmission={0.9} opacity={0.3} transparent side={THREE.DoubleSide} />
+                </mesh>
 
-            {/* Visualisation selon la technique */}
-            <group position={[0, 0, 0]}>
-                {technique === 'filtration' && (
-                    <group>
-                        {/* Entonnoir */}
-                        <mesh position={[0, 1.5, 0]}>
-                            <coneGeometry args={[0.8, 1.5, 32, 1, true]} />
-                            <meshStandardMaterial color="#9CA3AF" side={THREE.DoubleSide} transparent opacity={0.6} />
+                {/* Contenu Liquide */}
+                {(!method || method === 'decantation' || method === 'evaporation') && (
+                    <group position={[0, -0.5, 0]}>
+                        <mesh scale={[0.95, isSuccess && method === 'evaporation' ? 1 - progress : 1, 0.95]}>
+                            <cylinderGeometry args={[1, 1, 1.4, 32]} />
+                            <meshStandardMaterial color={mix.color} transparent opacity={0.8} />
                         </mesh>
-                        {/* Filtre */}
-                        <mesh position={[0, 1.2, 0]}>
-                            <circleGeometry args={[0.7, 32]} />
-                            <meshStandardMaterial color="#FEF3C7" side={THREE.DoubleSide} />
-                        </mesh>
-                        {/* Bécher en dessous */}
-                        <mesh position={[0, -0.5, 0]}>
-                            <cylinderGeometry args={[0.6, 0.5, 1.5, 32, 1, true]} />
-                            <meshStandardMaterial color="#60A5FA" transparent opacity={0.3} side={THREE.DoubleSide} />
-                        </mesh>
-                        {/* Eau filtrée */}
-                        <mesh position={[0, -0.8 + progress * 0.5, 0]}>
-                            <cylinderGeometry args={[0.55, 0.5, progress * 1, 32]} />
-                            <meshStandardMaterial color="#3B82F6" transparent opacity={0.7} />
-                        </mesh>
-                        {/* Particules (sable) */}
-                        {Array.from({ length: 10 }).map((_, i) => (
-                            <mesh key={i} ref={el => particlesRef.current[i] = el} position={[Math.sin(i) * 0.3, 2 - i * 0.1, Math.cos(i) * 0.3]}>
-                                <sphereGeometry args={[0.08]} />
-                                <meshStandardMaterial color="#92400E" visible={progress < (1 - i * 0.1)} />
-                            </mesh>
-                        ))}
-                        <Text position={[0, -1.8, 0]} fontSize={0.2} color="#3B82F6">
-                            {progress >= 1 ? 'Eau pure ✓' : 'Eau + Sable'}
-                        </Text>
-                    </group>
-                )}
 
-                {technique === 'decantation' && (
-                    <group>
-                        {/* Ampoule à décanter */}
-                        <mesh position={[0, 0.5, 0]}>
-                            <sphereGeometry args={[1, 32, 32, 0, Math.PI * 2, 0, Math.PI * 0.7]} />
-                            <meshStandardMaterial color="#9CA3AF" transparent opacity={0.3} side={THREE.DoubleSide} />
-                        </mesh>
-                        {/* Huile (en haut) */}
-                        <mesh position={[0, 1 - progress * 0.3, 0]}>
-                            <sphereGeometry args={[0.9, 32, 32, 0, Math.PI * 2, 0, Math.PI * 0.3]} />
-                            <meshStandardMaterial color="#FBBF24" transparent opacity={0.8} />
-                        </mesh>
-                        {/* Eau (en bas) */}
-                        <mesh position={[0, 0.3, 0]}>
-                            <sphereGeometry args={[0.85, 32, 32, 0, Math.PI * 2, Math.PI * 0.3, Math.PI * 0.4]} />
-                            <meshStandardMaterial color="#3B82F6" transparent opacity={0.7} />
-                        </mesh>
-                        {/* Robinet */}
-                        <mesh position={[0, -0.8, 0]}>
-                            <cylinderGeometry args={[0.1, 0.1, 0.5]} />
-                            <meshStandardMaterial color="#374151" />
-                        </mesh>
-                        {/* Eau qui coule */}
-                        {progress > 0.3 && (
-                            <mesh position={[0, -1.5, 0]}>
-                                <cylinderGeometry args={[0.05, 0.05, 1]} />
-                                <meshStandardMaterial color="#3B82F6" transparent opacity={0.7} />
+                        {/* Particules / Sédiments */}
+                        {mixture === 'mud' && (
+                            <group position={[0, isSuccess && method === 'decantation' ? -0.6 : 0, 0]}>
+                                <points>
+                                    <bufferGeometry>
+                                        <bufferAttribute attach="attributes-position" count={200} array={new Float32Array(600).map(() => (Math.random() - 0.5) * 1.5)} itemSize={3} />
+                                    </bufferGeometry>
+                                    <pointsMaterial size={0.05} color="#5D4037" />
+                                </points>
+                            </group>
+                        )}
+
+                        {/* Huile séparation */}
+                        {mixture === 'oil_water' && isSuccess && method === 'decantation' && (
+                            <mesh position={[0, 0.5, 0]}>
+                                <cylinderGeometry args={[0.95, 0.95, 0.5, 32]} />
+                                <meshStandardMaterial color="#FBBF24" transparent opacity={0.8} />
                             </mesh>
                         )}
-                        <Text position={[-1.5, 1, 0]} fontSize={0.15} color="#FBBF24">Huile (d &lt; 1)</Text>
-                        <Text position={[-1.5, 0.3, 0]} fontSize={0.15} color="#3B82F6">Eau (d = 1)</Text>
+
+                        {/* Sel résiduel chauffage */}
+                        {mixture === 'salt_water' && isSuccess && method === 'evaporation' && progress > 0.8 && (
+                            <mesh position={[0, -0.7, 0]}>
+                                <cylinderGeometry args={[0.9, 0.9, 0.1, 32]} />
+                                <meshStandardMaterial color="white" roughness={0.8} />
+                            </mesh>
+                        )}
                     </group>
                 )}
 
-                {technique === 'distillation' && (
-                    <group>
-                        {/* Ballon */}
-                        <mesh position={[-1.5, 0, 0]}>
-                            <sphereGeometry args={[0.7, 32, 32]} />
-                            <meshStandardMaterial color="#60A5FA" transparent opacity={0.4} />
+                {/* Filtre et Entonnoir pour Filtration */}
+                {method === 'filtration' && (
+                    <group position={[0, 1.5, 0]}>
+                        <mesh rotation={[Math.PI, 0, 0]}>
+                            <coneGeometry args={[1.2, 1.5, 32, 1, true]} />
+                            <meshStandardMaterial color="white" transparent opacity={0.8} side={THREE.DoubleSide} />
                         </mesh>
-                        {/* Eau salée */}
-                        <mesh position={[-1.5, -0.2, 0]}>
-                            <sphereGeometry args={[0.6, 32, 32, 0, Math.PI * 2, Math.PI * 0.4, Math.PI * 0.6]} />
-                            <meshStandardMaterial color="#3B82F6" transparent opacity={0.7} />
-                        </mesh>
-                        {/* Flamme */}
-                        <mesh position={[-1.5, -1, 0]}>
-                            <coneGeometry args={[0.3, 0.6, 16]} />
-                            <meshStandardMaterial color="#F59E0B" emissive="#F59E0B" emissiveIntensity={0.5} />
-                        </mesh>
-                        {/* Tube de connexion */}
-                        <mesh position={[0, 1, 0]} rotation={[0, 0, Math.PI / 4]}>
-                            <cylinderGeometry args={[0.08, 0.08, 3]} />
-                            <meshStandardMaterial color="#9CA3AF" />
-                        </mesh>
-                        {/* Condenseur */}
-                        <mesh position={[1.5, 0.5, 0]}>
-                            <cylinderGeometry args={[0.15, 0.15, 2, 32, 1, true]} />
-                            <meshStandardMaterial color="#60A5FA" transparent opacity={0.4} side={THREE.DoubleSide} />
-                        </mesh>
-                        {/* Bécher collecteur */}
-                        <mesh position={[1.5, -0.8, 0]}>
-                            <cylinderGeometry args={[0.4, 0.35, 0.8, 32, 1, true]} />
-                            <meshStandardMaterial color="#9CA3AF" transparent opacity={0.3} side={THREE.DoubleSide} />
-                        </mesh>
-                        {/* Eau distillée */}
-                        <mesh position={[1.5, -0.9 + progress * 0.3, 0]}>
-                            <cylinderGeometry args={[0.35, 0.3, progress * 0.6, 32]} />
-                            <meshStandardMaterial color="#67E8F9" transparent opacity={0.7} />
-                        </mesh>
-                        {/* Vapeur */}
-                        {isAnimating && Array.from({ length: 5 }).map((_, i) => (
-                            <mesh key={i} position={[-1.5 + i * 0.3, 0.8 + Math.sin(Date.now() * 0.001 + i) * 0.2, 0]}>
+                        {/* Gouttes */}
+                        {progress < 1 && (
+                            <mesh position={[0, -1.5 - (progress * 2), 0]}>
                                 <sphereGeometry args={[0.1]} />
-                                <meshStandardMaterial color="#E5E7EB" transparent opacity={0.5} />
+                                <meshStandardMaterial color="#93C5FD" />
                             </mesh>
-                        ))}
-                        <Text position={[-1.5, -1.7, 0]} fontSize={0.12} color="#F59E0B">Chauffage</Text>
-                        <Text position={[1.5, -1.5, 0]} fontSize={0.12} color="#67E8F9">Eau pure</Text>
+                        )}
                     </group>
                 )}
 
-                {technique === 'magnetique' && (
-                    <group>
-                        {/* Récipient avec mélange */}
-                        <mesh position={[0, -0.5, 0]}>
-                            <cylinderGeometry args={[1, 0.9, 0.5, 32, 1, true]} />
-                            <meshStandardMaterial color="#9CA3AF" transparent opacity={0.3} side={THREE.DoubleSide} />
+                {/* Flamme pour évaporation */}
+                {method === 'evaporation' && (
+                    <group position={[0, -2, 0]}>
+                        <pointLight color="orange" intensity={2} distance={3} />
+                        <mesh scale={[1, 1 + Math.random() * 0.2, 1]}>
+                            <coneGeometry args={[0.5, 1, 32]} />
+                            <meshStandardMaterial color="orange" emissive="red" emissiveIntensity={2} />
                         </mesh>
-                        {/* Sable */}
-                        <mesh position={[0, -0.6, 0]}>
-                            <cylinderGeometry args={[0.85, 0.8, 0.3, 32]} />
-                            <meshStandardMaterial color="#FCD34D" />
-                        </mesh>
-                        {/* Aimant */}
-                        <mesh position={[0, 1 - progress * 1.5, 0]}>
-                            <boxGeometry args={[0.6, 0.2, 0.3]} />
-                            <meshStandardMaterial color="#EF4444" />
-                        </mesh>
-                        <mesh position={[0.4, 1 - progress * 1.5, 0]}>
-                            <boxGeometry args={[0.2, 0.2, 0.3]} />
-                            <meshStandardMaterial color="#6B7280" />
-                        </mesh>
-                        {/* Limaille de fer attirée */}
-                        {Array.from({ length: 15 }).map((_, i) => (
-                            <mesh
-                                key={i}
-                                position={[
-                                    Math.sin(i * 0.5) * (0.6 - progress * 0.5),
-                                    -0.4 + progress * (1.4 + i * 0.02),
-                                    Math.cos(i * 0.5) * (0.6 - progress * 0.5)
-                                ]}
-                            >
-                                <sphereGeometry args={[0.05]} />
-                                <meshStandardMaterial color="#374151" />
-                            </mesh>
-                        ))}
-                        <Text position={[0, 1.5, 0]} fontSize={0.15} color="#EF4444">Aimant</Text>
-                        <Text position={[0, -1.2, 0]} fontSize={0.15} color="#FCD34D">Sable + Fer</Text>
                     </group>
                 )}
             </group>
-
-            {/* Légende */}
-            <Text position={[0, -2.8, 0]} fontSize={0.18} color="#9CA3AF">
-                Chaque mélange a sa technique de séparation !
-            </Text>
         </group>
     );
 }
 
 // ============================================================
-// 11. CONCEPT DE MOLE - Simulation Immersive
+// CHAPITRE 10: LES ATOMES (ENRICHI)
 // ============================================================
-export function MoleConceptPC4() {
-    const [substance, setSubstance] = useState('water');
-    const [moles, setMoles] = useState(1);
-    const [showAtoms, setShowAtoms] = useState(true);
+export function AtomBuilderSim() {
+    const [protons, setProtons] = useState(1);
+    const [neutrons, setNeutrons] = useState(0);
+    const [electrons, setElectrons] = useState(1);
+    const [showShells, setShowShells] = useState(true);
 
-    const substances = {
-        water: {
-            name: 'Eau (H₂O)',
-            icon: '💧',
-            color: '#3B82F6',
-            molarMass: 18,
-            atoms: ['H', 'H', 'O']
-        },
-        carbon: {
-            name: 'Carbone (C)',
-            icon: '⚫',
-            color: '#374151',
-            molarMass: 12,
-            atoms: ['C']
-        },
-        oxygen: {
-            name: 'Dioxygène (O₂)',
-            icon: '🔵',
-            color: '#60A5FA',
-            molarMass: 32,
-            atoms: ['O', 'O']
-        },
-        iron: {
-            name: 'Fer (Fe)',
-            icon: '🔩',
-            color: '#9CA3AF',
-            molarMass: 56,
-            atoms: ['Fe']
-        },
-        sucrose: {
-            name: 'Sucre (C₁₂H₂₂O₁₁)',
-            icon: '🍬',
-            color: '#FEF3C7',
-            molarMass: 342,
-            atoms: ['C', 'H', 'O']
-        }
+    // Tableaux simplifiés
+    const elements = {
+        1: { name: 'Hydrogène', symbol: 'H' },
+        2: { name: 'Hélium', symbol: 'He' },
+        3: { name: 'Lithium', symbol: 'Li' },
+        4: { name: 'Béryllium', symbol: 'Be' },
+        5: { name: 'Bore', symbol: 'B' },
+        6: { name: 'Carbone', symbol: 'C' }
     };
 
-    const sub = substances[substance];
-    const mass = moles * sub.molarMass;
-    const particles = moles * 6.022e23;
+    const element = elements[protons] || { name: 'Inconnu', symbol: '?' };
+    const massNumber = protons + neutrons;
+    const charge = protons - electrons;
 
-    // Animation des particules
-    const atomsRef = useRef([]);
-
-    useFrame(({ clock }) => {
-        atomsRef.current.forEach((mesh, i) => {
-            if (mesh) {
-                mesh.rotation.y = clock.elapsedTime * 0.5 + i * 0.5;
-                mesh.position.y = Math.sin(clock.elapsedTime + i * 0.3) * 0.1;
-            }
-        });
-    });
-
-    const formatNumber = (num) => {
-        if (num >= 1e23) return `${(num / 1e23).toFixed(2)} × 10²³`;
-        return num.toFixed(2);
-    };
+    // Stabilité simple : N ~ Z pour les petits atomes
+    const isStable = Math.abs(neutrons - protons) <= 1 || (protons === 1 && neutrons === 0);
 
     return (
         <group>
-            {/* Panneau de contrôle */}
-            <Html position={[4.5, 1.5, 0]} center>
-                <div className="bg-black/95 p-4 rounded-xl text-white border border-purple-500/30 min-w-[320px] backdrop-blur-md select-none shadow-xl">
-                    <h3 className="text-purple-400 font-bold mb-3 text-lg">📦 Le Concept de Mole</h3>
+            <Html position={[5, 2, 0]} center>
+                <div className="bg-black/90 p-5 rounded-2xl text-white border border-pink-500/30 w-[350px]">
+                    <h3 className="text-pink-400 font-bold text-xl mb-4">⚛️ Constructeur d'Atomes</h3>
 
-                    {/* Sélection substance */}
-                    <div className="grid grid-cols-5 gap-1 mb-4">
-                        {Object.entries(substances).map(([key, s]) => (
-                            <button
-                                key={key}
-                                onClick={() => setSubstance(key)}
-                                className={`p-2 rounded text-center transition-all ${substance === key
-                                        ? 'ring-2 ring-purple-400 bg-purple-600/20'
-                                        : 'bg-gray-800 hover:bg-gray-700'
-                                    }`}
-                                title={s.name}
-                            >
-                                <div className="text-lg">{s.icon}</div>
-                            </button>
-                        ))}
-                    </div>
-
-                    {/* Nombre de moles */}
-                    <label className="block text-sm mb-1">
-                        Nombre de moles : <span className="font-bold text-purple-400">{moles} mol</span>
-                    </label>
-                    <input
-                        type="range"
-                        min="0.5"
-                        max="5"
-                        step="0.5"
-                        value={moles}
-                        onChange={(e) => setMoles(parseFloat(e.target.value))}
-                        className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-purple-500 mb-4"
-                    />
-
-                    {/* Informations */}
-                    <div className="bg-gray-900/80 p-3 rounded-lg mb-4 space-y-2">
-                        <div className="flex justify-between">
-                            <span className="text-gray-400">Substance :</span>
-                            <span className="font-bold" style={{ color: sub.color }}>{sub.name}</span>
+                    <div className="bg-gray-800 p-4 rounded-xl mb-4 flex items-center justify-between">
+                        <div className="text-center">
+                            <div className="text-xs text-gray-400">Numéro Atomique (Z)</div>
+                            <div className="text-3xl font-bold">{protons}</div>
                         </div>
-                        <div className="flex justify-between">
-                            <span className="text-gray-400">Masse molaire :</span>
-                            <span className="font-mono">{sub.molarMass} g/mol</span>
+                        <div className="bg-white text-black w-16 h-16 flex items-center justify-center rounded-lg font-bold text-2xl border-4 border-pink-500">
+                            {element.symbol}
                         </div>
-                        <div className="flex justify-between border-t border-gray-700 pt-2">
-                            <span className="text-gray-400">Masse totale :</span>
-                            <span className="font-bold text-lg text-green-400">{mass.toFixed(1)} g</span>
-                        </div>
-                        <div className="flex justify-between">
-                            <span className="text-gray-400">Nombre de particules :</span>
-                            <span className="font-mono text-xs text-yellow-400">{formatNumber(particles)}</span>
+                        <div className="text-center">
+                            <div className="text-xs text-gray-400">Masse (A)</div>
+                            <div className="text-3xl font-bold">{massNumber}</div>
                         </div>
                     </div>
 
-                    {/* Toggle atomes */}
-                    <label className="flex items-center gap-2 cursor-pointer">
-                        <input
-                            type="checkbox"
-                            checked={showAtoms}
-                            onChange={(e) => setShowAtoms(e.target.checked)}
-                            className="w-4 h-4 accent-purple-500"
-                        />
-                        <span className="text-sm">Afficher les atomes</span>
-                    </label>
+                    <div className="text-center mb-4 font-bold text-lg">{element.name}</div>
 
-                    {/* Formule */}
-                    <div className="mt-3 p-2 bg-purple-900/20 rounded text-center">
-                        <div className="text-sm text-purple-300">n = m / M</div>
-                        <div className="text-xs text-gray-400">n: moles, m: masse, M: masse molaire</div>
+                    <div className="space-y-3">
+                        <ControlRow label="Protons (+)" color="text-red-400" value={protons} onChange={setProtons} min={1} max={6} />
+                        <ControlRow label="Neutrons (0)" color="text-gray-400" value={neutrons} onChange={setNeutrons} min={0} max={8} />
+                        <ControlRow label="Électrons (-)" color="text-blue-400" value={electrons} onChange={setElectrons} min={0} max={6} />
+                    </div>
+
+                    <div className="mt-4 p-3 bg-gray-900 rounded-lg flex justify-between items-center text-sm">
+                        <span>Charge : <strong className={charge > 0 ? 'text-red-400' : (charge < 0 ? 'text-blue-400' : 'text-green-400')}>{charge > 0 ? '+' : ''}{charge}</strong></span>
+                        <span>Stabilité : <strong className={isStable ? 'text-green-400' : 'text-yellow-400'}>{isStable ? 'Stable' : 'Instable'}</strong></span>
+                    </div>
+
+                    <div className="mt-2 flex items-center gap-2">
+                        <input type="checkbox" checked={showShells} onChange={() => setShowShells(!showShells)} />
+                        <span className="text-sm">Voir couches (K, L)</span>
                     </div>
                 </div>
             </Html>
 
-            <Text position={[0, 3.5, 0]} fontSize={0.5} color="#A855F7">
-                LE CONCEPT DE MOLE
-            </Text>
+            <Text position={[0, 3.5, 0]} fontSize={0.5} color="#EC4899">STRUCTURE DE L'ATOME</Text>
 
-            {/* Visualisation de la mole */}
-            <group>
-                {/* Représentation du nombre d'Avogadro */}
-                <group position={[0, 1.5, 0]}>
-                    <Text position={[0, 0.5, 0]} fontSize={0.3} color="#F59E0B">
-                        1 mole = 6,022 × 10²³ particules
-                    </Text>
-                    <Text position={[0, 0, 0]} fontSize={0.2} color="#9CA3AF">
-                        (Nombre d'Avogadro)
-                    </Text>
-                </group>
-
-                {/* Représentation visuelle de la substance */}
-                <group position={[0, -0.5, 0]}>
-                    {/* Récipient */}
-                    <mesh position={[0, 0, 0]}>
-                        <cylinderGeometry args={[1.2, 1, 1.5, 32, 1, true]} />
-                        <meshStandardMaterial color="#6B7280" transparent opacity={0.2} side={THREE.DoubleSide} />
-                    </mesh>
-
-                    {/* Contenu (substance) */}
-                    <mesh position={[0, -0.2, 0]}>
-                        <cylinderGeometry args={[1.1, 0.9, 0.8 + moles * 0.2, 32]} />
-                        <meshStandardMaterial color={sub.color} transparent opacity={0.6} />
-                    </mesh>
-
-                    {/* Atomes animés */}
-                    {showAtoms && Array.from({ length: Math.min(20, Math.floor(moles * 8)) }).map((_, i) => {
-                        const angle = (i / 20) * Math.PI * 2;
-                        const radius = 0.5 + Math.random() * 0.4;
-                        return (
-                            <group
-                                key={i}
-                                ref={el => atomsRef.current[i] = el}
-                                position={[
-                                    Math.cos(angle) * radius,
-                                    -0.2 + Math.random() * 0.5,
-                                    Math.sin(angle) * radius
-                                ]}
-                            >
-                                <mesh>
-                                    <sphereGeometry args={[0.1, 16, 16]} />
-                                    <meshStandardMaterial
-                                        color={sub.color}
-                                        emissive={sub.color}
-                                        emissiveIntensity={0.3}
-                                    />
-                                </mesh>
-                            </group>
-                        );
-                    })}
-                </group>
-
-                {/* Balance avec masse */}
-                <group position={[0, -2.2, 0]}>
-                    <mesh>
-                        <boxGeometry args={[2, 0.1, 1]} />
-                        <meshStandardMaterial color="#374151" />
-                    </mesh>
-                    <Text position={[0, 0.3, 0]} fontSize={0.35} color="#10B981">
-                        {mass.toFixed(1)} g
-                    </Text>
-                </group>
+            {/* Noyau */}
+            <group position={[0, 0, 0]}>
+                {/* Protons rouges */}
+                {Array.from({ length: protons }).map((_, i) => (
+                    <Sphere key={`p-${i}`} args={[0.3]} position={[Math.sin(i) * 0.4, Math.cos(i) * 0.4, Math.sin(i * 2) * 0.4]}>
+                        <meshStandardMaterial color="#EF4444" />
+                    </Sphere>
+                ))}
+                {/* Neutrons gris */}
+                {Array.from({ length: neutrons }).map((_, i) => (
+                    <Sphere key={`n-${i}`} args={[0.3]} position={[Math.cos(i) * 0.4, Math.sin(i) * 0.4, Math.cos(i * 2) * 0.4]}>
+                        <meshStandardMaterial color="#9CA3AF" />
+                    </Sphere>
+                ))}
             </group>
 
-            {/* Légende */}
-            <Text position={[0, -3.2, 0]} fontSize={0.18} color="#9CA3AF">
-                Une mole contient toujours le même nombre de particules !
-            </Text>
+            {/* Électrons sur orbites */}
+            <group rotation={[Math.PI / 4, Math.PI / 4, 0]}>
+                {Array.from({ length: electrons }).map((_, i) => {
+                    const shell = i < 2 ? 1 : 2; // K=2 max, L=8 max
+                    const radius = shell * 2;
+                    const speed = 1.5 / shell;
+                    return (
+                        <Electron key={`e-${i}`} radius={radius} speed={speed} offset={i} />
+                    );
+                })}
+            </group>
+
+            {/* Orbites visuelles */}
+            {showShells && (
+                <group rotation={[Math.PI / 4, Math.PI / 4, 0]}>
+                    <Torus args={[2, 0.02, 16, 100]} rotation={[Math.PI / 2, 0, 0]}><meshBasicMaterial color="#3B82F6" opacity={0.3} transparent /></Torus>
+                    {electrons > 2 && <Torus args={[4, 0.02, 16, 100]} rotation={[Math.PI / 2, 0, 0]}><meshBasicMaterial color="#3B82F6" opacity={0.3} transparent /></Torus>}
+                </group>
+            )}
         </group>
     );
+}
+
+function ControlRow({ label, color, value, onChange, min, max }) {
+    return (
+        <div className="flex items-center justify-between">
+            <span className={`text-sm font-bold ${color}`}>{label}</span>
+            <div className="flex items-center gap-3">
+                <button onClick={() => onChange(Math.max(min, value - 1))} className="w-8 h-8 rounded bg-gray-700 hover:bg-gray-600">-</button>
+                <span className="w-4 text-center">{value}</span>
+                <button onClick={() => onChange(Math.min(max, value + 1))} className="w-8 h-8 rounded bg-gray-700 hover:bg-gray-600">+</button>
+            </div>
+        </div>
+    );
+}
+
+function Electron({ radius, speed, offset }) {
+    const ref = useRef();
+    useFrame(({ clock }) => {
+        if (ref.current) {
+            const t = clock.elapsedTime * speed + offset;
+            ref.current.position.x = Math.cos(t) * radius;
+            ref.current.position.z = Math.sin(t) * radius;
+        }
+    });
+    return (
+        <mesh ref={ref}>
+            <sphereGeometry args={[0.1]} />
+            <meshStandardMaterial color="#3B82F6" emissive="#3B82F6" />
+        </mesh>
+    );
+}
+
+
+// ============================================================
+// CHAPITRE 11: LA MOLE (ENRICHI)
+// ============================================================
+export function MoleConceptPC4() {
+    const [element, setElement] = useState('C');
+    const [moles, setMoles] = useState(1);
+
+    // Données molaires
+    const elements = {
+        C: { name: 'Carbone', M: 12.0, color: '#1F2937' }, // Noir
+        S: { name: 'Soufre', M: 32.1, color: '#FCD34D' }, // Jaune
+        Cu: { name: 'Cuivre', M: 63.5, color: '#B45309' }, // Orange/Brun
+        H2O: { name: 'Eau', M: 18.0, color: '#3B82F6' }, // Bleu
+        Fe: { name: 'Fer', M: 55.8, color: '#9CA3AF' }  // Gris
+    };
+
+    const el = elements[element];
+    const mass = moles * el.M;
+    const atoms = (moles * 6.02).toFixed(2); // x 10^23
+
+    return (
+        <group>
+            <Html position={[5, 2, 0]} center>
+                <div className="bg-black/90 p-5 rounded-2xl text-white border border-green-500/30 w-[350px]">
+                    <h3 className="text-green-400 font-bold text-xl mb-4">⚖️ La Mole</h3>
+
+                    <div className="flex flex-wrap gap-2 mb-4">
+                        {Object.entries(elements).map(([k, e]) => (
+                            <button key={k} onClick={() => setElement(k)}
+                                className={`px-3 py-1 rounded-full text-sm font-bold border ${element === k ? 'bg-white text-black' : 'border-gray-600 text-gray-400'}`}>
+                                {e.name} ({k})
+                            </button>
+                        ))}
+                    </div>
+
+                    <div className="mb-6 bg-gray-800 p-4 rounded-xl text-center">
+                        <div className="text-xs text-gray-400 uppercase">Quantité de matière</div>
+                        <div className="text-4xl font-bold my-2 text-green-300">{moles} mol</div>
+                        <input type="range" min="0.1" max="5" step="0.1" value={moles} onChange={(e) => setMoles(Number(e.target.value))}
+                            className="w-full accent-green-500" />
+                    </div>
+
+                    <div className="space-y-2 font-mono text-sm">
+                        <div className="flex justify-between">
+                            <span>Masse Molaire (M) :</span>
+                            <span>{el.M} g/mol</span>
+                        </div>
+                        <div className="flex justify-between bg-white/10 p-2 rounded">
+                            <span>Masse (m = n × M) :</span>
+                            <span className="font-bold text-lg">{mass.toFixed(1)} g</span>
+                        </div>
+                        <div className="flex justify-between">
+                            <span>Entités (N) :</span>
+                            <span>{atoms} × 10²³</span>
+                        </div>
+                    </div>
+                </div>
+            </Html>
+
+            <Text position={[0, 3.5, 0]} fontSize={0.5} color="#4ADE80">n = m / M</Text>
+
+            {/* Balance */}
+            <group position={[0, -2, 0]}>
+                <Box args={[4, 0.5, 3]} material-color="#333" />
+                <Box args={[3, 0.2, 2.5]} position={[0, 0.4, 0]} material-color="#111" />
+
+                {/* Affichage digital */}
+                <Text position={[0, 0.51, 1]} rotation={[-Math.PI / 2, 0, 0]} fontSize={0.5} color="red">
+                    {mass.toFixed(1)} g
+                </Text>
+
+                {/* Tas de matière */}
+                <group position={[0, 0.5, 0]}>
+                    {/* Le tas grossit avec le nombre de moles */}
+                    <mesh scale={Math.pow(moles, 1 / 3) * (el.M / 20)}>
+                        {/* Forme irrégulière pour poudre/grain */}
+                        <coneGeometry args={[1, 1.5, 32]} />
+                        <meshStandardMaterial color={el.color} roughness={0.9} />
+                    </mesh>
+
+                    {/* Béchers si liquide */}
+                    {element === 'H2O' && (
+                        <mesh position={[0, 0.5, 0]} scale={Math.pow(moles, 1 / 3)}>
+                            <cylinderGeometry args={[1.1, 1.1, 1.6, 32, 1, true]} />
+                            <meshPhysicalMaterial color="#A5F3FC" transmission={0.8} opacity={0.4} transparent side={THREE.DoubleSide} />
+                        </mesh>
+                    )}
+                </group>
+            </group>
+        </group>
+    );
+}
+
+
+// ============================================================
+// CHAPITRE 12: CONSERVATION DE LA MASSE
+// ============================================================
+export function MassConservation() {
+    const [step, setStep] = useState(0); // 0: Avant, 1: Réaction, 2: Après
+    const [system, setSystem] = useState('open'); // open, closed
+
+    // Réaction: Craie (CaCO3) + Vinaigre (H+) -> CO2 (gaz) + ...
+    // Masse initiale: 200g
+    // Masse gaz perdu (système ouvert): 10g
+
+    const initialMass = 200;
+    const lostMass = 10;
+    const finalMass = system === 'open' ? initialMass - lostMass : initialMass;
+
+    const startReaction = () => {
+        setStep(1);
+        setTimeout(() => setStep(2), 3000);
+    };
+
+    return (
+        <group>
+            <Html position={[5, 2, 0]} center>
+                <div className="bg-black/90 p-5 rounded-2xl text-white border border-red-500/30 w-[350px]">
+                    <h3 className="text-red-400 font-bold text-xl mb-4">⚖️ Conservation de la Masse</h3>
+
+                    <div className="flex gap-2 mb-4">
+                        <button onClick={() => setSystem('open')} className={`flex-1 p-2 rounded ${system === 'open' ? 'bg-red-600' : 'bg-gray-700'}`}>
+                            Système OUVERT
+                        </button>
+                        <button onClick={() => setSystem('closed')} className={`flex-1 p-2 rounded ${system === 'closed' ? 'bg-green-600' : 'bg-gray-700'}`}>
+                            Système FERMÉ
+                        </button>
+                    </div>
+
+                    <div className="bg-gray-800 p-4 rounded-xl text-center mb-4">
+                        <div className="text-sm text-gray-400">Masse sur la balance</div>
+                        <div className="text-4xl font-mono font-bold text-yellow-400">
+                            {step === 0 ? initialMass : (step === 2 ? finalMass : '...')} g
+                        </div>
+                    </div>
+
+                    {step === 0 && (
+                        <button onClick={startReaction} className="w-full py-4 bg-white text-black font-bold rounded-xl hover:bg-gray-200">
+                            🧪 Lancer la réaction
+                        </button>
+                    )}
+
+                    {step === 2 && (
+                        <div className={`p-3 rounded-lg text-center font-bold ${system === 'closed' ? 'text-green-400' : 'text-red-400'}`}>
+                            {system === 'closed' ? 'Masse conservée !' : 'Masse perdue (Gaz échappé)'}
+                        </div>
+                    )}
+
+                    {step === 2 && (
+                        <button onClick={() => setStep(0)} className="mt-2 w-full py-2 bg-gray-800 rounded text-sm">
+                            🔄 Recommencer
+                        </button>
+                    )}
+                </div>
+            </Html>
+
+            {/* Balance */}
+            <group position={[0, -2, 0]}>
+                <Box args={[4, 0.5, 3]} material-color="#333" />
+                <Text position={[0, 0.51, 1]} rotation={[-Math.PI / 2, 0, 0]} fontSize={0.5} color="red">
+                    {step === 0 ? initialMass : (step === 1 ? '---' : finalMass)} g
+                </Text>
+
+                {/* Erlenmeyer */}
+                <group position={[0, 0.25, 0]}>
+                    <mesh position={[0, 1, 0]}>
+                        <cylinderGeometry args={[0.5, 1.5, 2, 32, 1, true]} />
+                        <meshPhysicalMaterial color="#A5F3FC" transmission={0.9} opacity={0.5} transparent side={THREE.DoubleSide} />
+                    </mesh>
+
+                    {/* Liquide */}
+                    <mesh position={[0, 0.5, 0]}>
+                        <cylinderGeometry args={[0.9, 1.4, 1, 32]} />
+                        <meshStandardMaterial color={step > 0 ? "#FCD34D" : "white"} transparent opacity={0.8} />
+                    </mesh>
+
+                    {/* Craie (disparait) */}
+                    {step === 0 && <Box position={[0, 0.5, 0]} args={[0.3, 0.3, 0.3]} material-color="white" />}
+
+                    {/* Bulles / Gaz */}
+                    {step === 1 && (
+                        <Points count={50} />
+                    )}
+
+                    {/* Ballon si fermé */}
+                    {system === 'closed' && (
+                        <group position={[0, 2, 0]}>
+                            <mesh scale={step > 0 ? 1.5 : 0.5}>
+                                <sphereGeometry args={[0.8, 32, 32]} />
+                                <meshStandardMaterial color="red" roughness={0.4} />
+                            </mesh>
+                        </group>
+                    )}
+                </group>
+            </group>
+        </group>
+    );
+}
+
+function Points({ count = 50 }) {
+    const points = useMemo(() => {
+        const p = new Float32Array(count * 3)
+        for (let i = 0; i < count; i++) {
+            let x = (Math.random() - 0.5) * 1
+            let y = Math.random() * 2
+            let z = (Math.random() - 0.5) * 1
+            p[i * 3] = x
+            p[i * 3 + 1] = y
+            p[i * 3 + 2] = z
+        }
+        return p
+    }, [count])
+
+    return (
+        <points position={[0, 1, 0]}>
+            <bufferGeometry>
+                <bufferAttribute attach="attributes-position" count={points.length / 3} array={points} itemSize={3} />
+            </bufferGeometry>
+            <pointsMaterial size={0.1} color="white" transparent opacity={0.5} />
+        </points>
+    )
 }
