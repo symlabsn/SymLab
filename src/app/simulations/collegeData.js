@@ -3594,7 +3594,137 @@ Fréquence (Hz) :
             { question: 'On voit l\'éclair avant d\'entendre le tonnerre car...', options: ['L\'œil est plus rapide', 'La lumière est plus rapide que le son', 'Le son fait un détour', 'C\'est une illusion'], correct: 1, explanation: 'Lumière (300 000 km/s) >> Son (340 m/s).' }
         ],
         relatedSimulations: ['light-speed', 'wave-interference']
+    },
+
+    // ========== PC 4ÈME - SIMULATIONS COURS ==========
+    'scientific-method-sim': {
+        title: 'La Démarche Scientifique',
+        description: 'Découvrez les étapes de la méthode scientifique',
+        type: 'scientific-method',
+        config: {},
+        analogy: {
+            title: 'La Science comme un Enquêteur',
+            content: "La démarche scientifique: Observer, Hypothèse, Expérience, Conclusion."
+        },
+        theory: "La démarche scientifique est le fondement de toute science. Elle suit 4 étapes: Observation, Hypothèse, Expérience et Conclusion.",
+        exercises: [
+            { question: "Quelle est la première étape?", options: ["Expérience", "Hypothèse", "Observation", "Conclusion"], correct: 2, explanation: "Tout commence par observer un phénomène." }
+        ],
+        relatedSimulations: ['measurement-tools-sim']
+    },
+
+    'measurement-tools-sim': {
+        title: 'Instruments de Mesure',
+        description: 'Apprenez à utiliser les instruments de mesure',
+        type: 'measurement-tools',
+        config: {},
+        analogy: {
+            title: 'Mesurer comme au Marché',
+            content: "Au marché, tout le monde utilise les mêmes unités: kg, L, m..."
+        },
+        theory: "Unités SI: mètre (m), kilogramme (kg), litre (L), seconde (s). Préfixes: kilo (1000x), centi (1/100), milli (1/1000).",
+        exercises: [
+            { question: "Quel instrument mesure un volume?", options: ["Balance", "Règle", "Éprouvette", "Chronomètre"], correct: 2, explanation: "Une éprouvette mesure les volumes de liquides." }
+        ],
+        relatedSimulations: ['density-explorer']
+    },
+
+    'weight-mass-sim': {
+        title: 'Poids et Masse',
+        description: 'Différence entre poids et masse sur différentes planètes',
+        type: 'weight-mass',
+        config: {},
+        analogy: {
+            title: 'Terre vs Lune',
+            content: "Ta masse reste constante, mais ton poids change selon la gravité!"
+        },
+        theory: "Masse (kg) = constante. Poids (N) = m × g. Sur Terre g=10N/kg, sur la Lune g=1.6N/kg.",
+        exercises: [
+            { question: "Que mesure une balance?", options: ["Le poids", "La masse", "Le volume", "La densité"], correct: 1, explanation: "Une balance mesure la masse." }
+        ],
+        relatedSimulations: ['density-explorer']
+    },
+
+    'intro-electricity-sim': {
+        title: "Introduction à l'Électricité",
+        description: 'Circuits électriques, conducteurs et isolants',
+        type: 'intro-electricity',
+        config: {},
+        analogy: {
+            title: 'Le Circuit comme une Route',
+            content: "Les électrons circulent dans les fils comme des voitures sur une route."
+        },
+        theory: "Conducteurs: cuivre, fer. Isolants: plastique, bois. Circuit fermé = courant. Circuit ouvert = pas de courant.",
+        exercises: [
+            { question: "Le plastique est un...", options: ["Conducteur", "Isolant", "Semi-conducteur", "Supraconducteur"], correct: 1, explanation: "Le plastique ne contient pas de charges libres." }
+        ],
+        relatedSimulations: ['circuit-series-parallel']
+    },
+
+    'light-sources-sim': {
+        title: 'Sources de Lumière',
+        description: 'Sources primaires et secondaires de lumière',
+        type: 'light-sources',
+        config: {},
+        analogy: {
+            title: 'Qui Produit la Lumière?',
+            content: "Le Soleil = source primaire. La Lune = source secondaire (elle réfléchit)."
+        },
+        theory: "Sources primaires: produisent leur propre lumière (Soleil, lampe). Sources secondaires: réfléchissent la lumière (Lune, livres).",
+        exercises: [
+            { question: "La Lune est une source...", options: ["Primaire", "Secondaire", "Les deux", "Aucune"], correct: 1, explanation: "La Lune réfléchit la lumière du Soleil." }
+        ],
+        relatedSimulations: ['light-propagation-pc4']
+    },
+
+    'atom-builder-sim': {
+        title: 'Atomes et Molécules',
+        description: 'Structure des atomes et des molécules',
+        type: 'atom-molecule-intro',
+        config: {},
+        analogy: {
+            title: "L'Atome comme un Système Solaire",
+            content: "Le noyau = Soleil, les électrons = planètes qui tournent autour."
+        },
+        theory: "Atome: noyau (protons+, neutrons) + électrons-. Molécule: assemblage d'atomes. H₂O = 2H + 1O.",
+        exercises: [
+            { question: "Combien d'atomes dans H₂O?", options: ["1", "2", "3", "4"], correct: 2, explanation: "2 atomes H + 1 atome O = 3 atomes." }
+        ],
+        relatedSimulations: ['mole-concept-sim']
+    },
+
+    'mole-concept-sim': {
+        title: 'Le Concept de Mole',
+        description: "Nombre d'Avogadro et masse molaire",
+        type: 'mole-concept',
+        config: {},
+        analogy: {
+            title: 'La Mole comme une Douzaine',
+            content: "1 mole = 6,022 × 10²³ particules. Une super-douzaine pour compter les atomes!"
+        },
+        theory: "Nombre d'Avogadro: Nₐ = 6,022 × 10²³. Formule: n = m / M.",
+        exercises: [
+            { question: "Combien de particules dans 1 mole?", options: ["1000", "1 million", "6,022 × 10²³", "10²⁰"], correct: 2, explanation: "C'est le nombre d'Avogadro." }
+        ],
+        relatedSimulations: ['atom-builder-sim']
+    },
+
+    'mixture-separation-sim': {
+        title: 'Séparation des Mélanges',
+        description: 'Filtration, décantation, distillation',
+        type: 'mixture-separation',
+        config: {},
+        analogy: {
+            title: 'Séparer comme à la Cuisine',
+            content: "Filtration: passoire. Décantation: huile sur eau. Distillation: eau salée → eau pure."
+        },
+        theory: "Filtration: sépare solide/liquide. Décantation: sépare deux liquides. Distillation: évaporation/condensation.",
+        exercises: [
+            { question: "Pour séparer huile et eau?", options: ["Filtration", "Décantation", "Distillation", "Aimant"], correct: 1, explanation: "L'huile flotte, on la sépare par décantation." }
+        ],
+        relatedSimulations: ['mass-conservation']
     }
 };
 
 export default collegeSimulationsData;
+
