@@ -2216,11 +2216,11 @@ function ForcePhysics() {
     return (
         <group>
             {/* Panneau de Contrôle */}
+            {/* Panneau de Contrôle - Draggable */}
             <Html position={[0, 4, 0]} center>
-                <div className="bg-black/90 p-4 rounded-xl text-white border border-white/20 min-w-[300px] backdrop-blur-md select-none">
-                    <h3 className="text-[#3B82F6] font-bold mb-3 text-center">⚡ Forces et Mouvement</h3>
-
-                    <div className="space-y-3">
+                <DraggableHtmlPanel title="⚡ Forces et Mouvement" className="min-w-[300px]">
+                    <div className="text-white space-y-3">
+                        {/* Le reste du contenu sera inséré par le contexte, mais je dois m'assurer d'inclure tout le contenu du div original */}
                         <div>
                             <label className="block text-xs mb-1">Masse : {mass} kg</label>
                             <input
@@ -2281,7 +2281,7 @@ function ForcePhysics() {
                             {status}
                         </div>
                     </div>
-                </div>
+                </DraggableHtmlPanel>
             </Html>
 
             <Text position={[0, 2.5, 0]} fontSize={0.5} color="white">LOIS DE NEWTON</Text>
@@ -2402,56 +2402,58 @@ function TectonicPlates() {
     return (
         <group>
             {/* Panneau de Contrôle */}
+            {/* Panneau de Contrôle - Draggable */}
             <Html position={[0, 3.5, 0]} center>
-                <div className="bg-black/90 p-4 rounded-xl text-white border border-white/20 min-w-[280px] backdrop-blur-md select-none">
-                    <h3 className="text-[#FF4500] font-bold mb-3 text-center">🌍 Tectonique des Plaques</h3>
+                <DraggableHtmlPanel title="🌍 Tectonique des Plaques">
+                    <div className="bg-transparent text-white min-w-[280px]">
 
-                    <div className="space-y-3">
-                        <div>
-                            <label className="block text-xs mb-2">Type de Mouvement</label>
-                            <div className="grid grid-cols-3 gap-1">
-                                {Object.entries(movementTypes).map(([key, data]) => (
-                                    <button
-                                        key={key}
-                                        onClick={() => setMovementType(key)}
-                                        className={`py-2 px-1 rounded-lg text-xs font-bold transition-colors ${movementType === key
-                                            ? 'bg-orange-600'
-                                            : 'bg-gray-700 hover:bg-gray-600'
-                                            }`}
-                                    >
-                                        {data.icon}
-                                    </button>
-                                ))}
+                        <div className="space-y-3">
+                            <div>
+                                <label className="block text-xs mb-2">Type de Mouvement</label>
+                                <div className="grid grid-cols-3 gap-1">
+                                    {Object.entries(movementTypes).map(([key, data]) => (
+                                        <button
+                                            key={key}
+                                            onClick={() => setMovementType(key)}
+                                            className={`py-2 px-1 rounded-lg text-xs font-bold transition-colors ${movementType === key
+                                                ? 'bg-orange-600'
+                                                : 'bg-gray-700 hover:bg-gray-600'
+                                                }`}
+                                        >
+                                            {data.icon}
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+
+                            <div>
+                                <label className="block text-xs mb-1">Vitesse : {speed}x</label>
+                                <input
+                                    type="range"
+                                    min="0.1"
+                                    max="3"
+                                    step="0.1"
+                                    value={speed}
+                                    onChange={(e) => setSpeed(parseFloat(e.target.value))}
+                                    className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-[#FF4500]"
+                                />
+                            </div>
+
+                            <button
+                                onClick={() => setIsAnimating(!isAnimating)}
+                                className={`w-full py-2 rounded-lg font-bold transition-colors ${isAnimating ? 'bg-red-600' : 'bg-green-600'
+                                    }`}
+                            >
+                                {isAnimating ? '⏸️ Pause' : '▶️ Animer'}
+                            </button>
+
+                            <div className="p-2 bg-white/5 rounded-lg text-center">
+                                <div className="font-bold text-[#FF4500]">{movementTypes[movementType].name}</div>
+                                <div className="text-xs text-gray-300">{movementTypes[movementType].desc}</div>
                             </div>
                         </div>
-
-                        <div>
-                            <label className="block text-xs mb-1">Vitesse : {speed}x</label>
-                            <input
-                                type="range"
-                                min="0.1"
-                                max="3"
-                                step="0.1"
-                                value={speed}
-                                onChange={(e) => setSpeed(parseFloat(e.target.value))}
-                                className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-[#FF4500]"
-                            />
-                        </div>
-
-                        <button
-                            onClick={() => setIsAnimating(!isAnimating)}
-                            className={`w-full py-2 rounded-lg font-bold transition-colors ${isAnimating ? 'bg-red-600' : 'bg-green-600'
-                                }`}
-                        >
-                            {isAnimating ? '⏸️ Pause' : '▶️ Animer'}
-                        </button>
-
-                        <div className="p-2 bg-white/5 rounded-lg text-center">
-                            <div className="font-bold text-[#FF4500]">{movementTypes[movementType].name}</div>
-                            <div className="text-xs text-gray-300">{movementTypes[movementType].desc}</div>
-                        </div>
                     </div>
-                </div>
+                </DraggableHtmlPanel>
             </Html>
 
             <Text position={[0, 2.5, 0]} fontSize={0.5} color="white">TECTONIQUE DES PLAQUES</Text>
@@ -2579,67 +2581,68 @@ function MixtureSeparation() {
     return (
         <group>
             {/* Panneau de Contrôle */}
+            {/* Panneau de Contrôle - Draggable */}
             <Html position={[0, 4, 0]} center>
-                <div className="bg-black/90 p-4 rounded-xl text-white border border-white/20 min-w-[280px] backdrop-blur-md select-none">
-                    <h3 className="text-[#3B82F6] font-bold mb-3 text-center">🧪 Séparation des Mélanges</h3>
-
-                    <div className="space-y-3">
-                        <div>
-                            <label className="block text-xs mb-2">Technique</label>
-                            <div className="grid grid-cols-2 gap-2">
-                                <button
-                                    onClick={() => { setTechnique('decantation'); reset(); }}
-                                    className={`py-2 px-3 rounded-lg text-xs font-bold transition-colors ${technique === 'decantation'
-                                        ? 'bg-blue-600'
-                                        : 'bg-gray-700 hover:bg-gray-600'
-                                        }`}
-                                >
-                                    🏺 Décantation
-                                </button>
-                                <button
-                                    onClick={() => { setTechnique('filtration'); reset(); }}
-                                    className={`py-2 px-3 rounded-lg text-xs font-bold transition-colors ${technique === 'filtration'
-                                        ? 'bg-green-600'
-                                        : 'bg-gray-700 hover:bg-gray-600'
-                                        }`}
-                                >
-                                    📄 Filtration
-                                </button>
+                <DraggableHtmlPanel title="🧪 Séparation des Mélanges">
+                    <div className="text-white min-w-[280px]">
+                        <div className="space-y-3">
+                            <div>
+                                <label className="block text-xs mb-2">Technique</label>
+                                <div className="grid grid-cols-2 gap-2">
+                                    <button
+                                        onClick={() => { setTechnique('decantation'); reset(); }}
+                                        className={`py-2 px-3 rounded-lg text-xs font-bold transition-colors ${technique === 'decantation'
+                                            ? 'bg-blue-600'
+                                            : 'bg-gray-700 hover:bg-gray-600'
+                                            }`}
+                                    >
+                                        🏺 Décantation
+                                    </button>
+                                    <button
+                                        onClick={() => { setTechnique('filtration'); reset(); }}
+                                        className={`py-2 px-3 rounded-lg text-xs font-bold transition-colors ${technique === 'filtration'
+                                            ? 'bg-green-600'
+                                            : 'bg-gray-700 hover:bg-gray-600'
+                                            }`}
+                                    >
+                                        📄 Filtration
+                                    </button>
+                                </div>
                             </div>
-                        </div>
 
-                        <button
-                            onClick={isAnimating ? reset : startAnimation}
-                            className={`w-full py-2 rounded-lg font-bold transition-colors ${isAnimating ? 'bg-red-600' : 'bg-blue-600 hover:bg-blue-500'
-                                }`}
-                        >
-                            {isAnimating ? '🔄 Reset' : '▶️ Démarrer'}
-                        </button>
+                            <button
+                                onClick={isAnimating ? reset : startAnimation}
+                                className={`w-full py-2 rounded-lg font-bold transition-colors ${isAnimating ? 'bg-red-600' : 'bg-blue-600 hover:bg-blue-500'
+                                    }`}
+                            >
+                                {isAnimating ? '🔄 Reset' : '▶️ Démarrer'}
+                            </button>
 
-                        {/* Barre de progression */}
-                        <div>
-                            <div className="flex justify-between text-xs mb-1">
-                                <span className="text-gray-400">Séparation</span>
-                                <span>{Math.round(progress)}%</span>
+                            {/* Barre de progression */}
+                            <div>
+                                <div className="flex justify-between text-xs mb-1">
+                                    <span className="text-gray-400">Séparation</span>
+                                    <span>{Math.round(progress)}%</span>
+                                </div>
+                                <div className="w-full bg-gray-700 rounded-full h-2">
+                                    <div
+                                        className={`h-2 rounded-full transition-all ${technique === 'decantation'
+                                            ? 'bg-gradient-to-r from-yellow-600 to-blue-400'
+                                            : 'bg-gradient-to-r from-gray-400 to-blue-400'
+                                            }`}
+                                        style={{ width: `${progress}%` }}
+                                    />
+                                </div>
                             </div>
-                            <div className="w-full bg-gray-700 rounded-full h-2">
-                                <div
-                                    className={`h-2 rounded-full transition-all ${technique === 'decantation'
-                                        ? 'bg-gradient-to-r from-yellow-600 to-blue-400'
-                                        : 'bg-gradient-to-r from-gray-400 to-blue-400'
-                                        }`}
-                                    style={{ width: `${progress}%` }}
-                                />
-                            </div>
-                        </div>
 
-                        <div className="text-xs text-center text-gray-400">
-                            {technique === 'decantation'
-                                ? 'Les particules lourdes tombent au fond'
-                                : 'L\'eau passe, les impuretés restent'}
+                            <div className="text-xs text-center text-gray-400">
+                                {technique === 'decantation'
+                                    ? 'Les particules lourdes tombent au fond'
+                                    : 'L\'eau passe, les impuretés restent'}
+                            </div>
                         </div>
                     </div>
-                </div>
+                </DraggableHtmlPanel>
             </Html>
 
             <Text position={[0, 3, 0]} fontSize={0.5} color="white">
@@ -4137,34 +4140,35 @@ function SimpleMachinesLever() {
 
     return (
         <group>
-            {/* Controls */}
+            {/* Controls - Draggable */}
             <Html position={[0, 4, 0]} center>
-                <div className="bg-black/90 p-4 rounded-xl text-white border border-white/20 min-w-[250px] backdrop-blur-md select-none">
-                    <h3 className="text-[#F59E0B] font-bold mb-2">Le Levier</h3>
-                    <label className="block text-sm mb-1">Longueur du Bras de Force : {forceDist} m</label>
-                    <input
-                        type="range"
-                        min="1"
-                        max="4"
-                        step="0.1"
-                        value={forceDist}
-                        onChange={(e) => setForceDist(parseFloat(e.target.value))}
-                        className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-[#3B82F6]"
-                    />
-                    <div className="mt-3 text-xs space-y-1 font-mono text-gray-300">
-                        <div className="flex justify-between">
-                            <span>Couple Charge (Rouge):</span>
-                            <span>{momentLoad.toFixed(0)} N.m</span>
-                        </div>
-                        <div className="flex justify-between">
-                            <span>Couple Force (Bleu):</span>
-                            <span className={netMoment > 0 ? "text-green-400" : "text-red-400"}>{momentForce.toFixed(0)} N.m</span>
-                        </div>
-                        <div className="text-center mt-2 font-bold text-[#F59E0B]">
-                            {netMoment > 0 ? "ÇA SOULÈVE ! 🚀" : "TROP LOURD... 😫"}
+                <DraggableHtmlPanel title="🔧 Le Levier">
+                    <div className="text-white min-w-[250px]">
+                        <label className="block text-sm mb-1">Longueur du Bras de Force : {forceDist} m</label>
+                        <input
+                            type="range"
+                            min="1"
+                            max="4"
+                            step="0.1"
+                            value={forceDist}
+                            onChange={(e) => setForceDist(parseFloat(e.target.value))}
+                            className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-[#3B82F6]"
+                        />
+                        <div className="mt-3 text-xs space-y-1 font-mono text-gray-300">
+                            <div className="flex justify-between">
+                                <span>Couple Charge (Rouge):</span>
+                                <span>{momentLoad.toFixed(0)} N.m</span>
+                            </div>
+                            <div className="flex justify-between">
+                                <span>Couple Force (Bleu):</span>
+                                <span className={netMoment > 0 ? "text-green-400" : "text-red-400"}>{momentForce.toFixed(0)} N.m</span>
+                            </div>
+                            <div className="text-center mt-2 font-bold text-[#F59E0B]">
+                                {netMoment > 0 ? "ÇA SOULÈVE ! 🚀" : "TROP LOURD... 😫"}
+                            </div>
                         </div>
                     </div>
-                </div>
+                </DraggableHtmlPanel>
             </Html>
 
             <group position={[0, -1, 0]}>
