@@ -318,17 +318,8 @@ export const simulationsCurriculum = {
                         ]
                     },
                     physique: {
-                        title: "Physique-Chimie",
+                        title: "Physique",
                         simulations: [
-                            {
-                                id: "chemical-reactions",
-                                title: "Réactions Chimiques",
-                                description: "Visualisez les réactions au niveau atomique",
-                                difficulty: "moyen",
-                                duration: "30 min",
-                                icon: "⚗️",
-                                tags: ["chimie", "atomes", "réactions"]
-                            },
                             {
                                 id: "forces-motion",
                                 title: "Forces et Mouvement",
@@ -336,6 +327,7 @@ export const simulationsCurriculum = {
                                 difficulty: "moyen",
                                 duration: "25 min",
                                 icon: "🎯",
+                                image: "/simulations/pc4e/forces-motion.png",
                                 tags: ["mécanique", "forces", "Newton"]
                             },
                             {
@@ -345,25 +337,8 @@ export const simulationsCurriculum = {
                                 difficulty: "moyen",
                                 duration: "25 min",
                                 icon: "☀️",
+                                image: "/simulations/pc4e/light-propagation.png",
                                 tags: ["optique", "espace", "lumière"]
-                            },
-                            {
-                                id: "combustion-reaction",
-                                title: "Les Combustions",
-                                description: "Le tétraèdre du feu et réactions",
-                                difficulty: "moyen",
-                                duration: "20 min",
-                                icon: "🔥",
-                                tags: ["chimie", "feu", "énergie"]
-                            },
-                            {
-                                id: "atom-molecule-intro",
-                                title: "Atomes et Molécules",
-                                description: "Introduction à la structure de la matière",
-                                difficulty: "moyen",
-                                duration: "25 min",
-                                icon: "⚛️",
-                                tags: ["chimie", "matière", "particules"]
                             },
                             {
                                 id: "sound-propagation",
@@ -372,6 +347,7 @@ export const simulationsCurriculum = {
                                 difficulty: "moyen",
                                 duration: "20 min",
                                 icon: "🔊",
+                                image: "/simulations/pc4e/sound-propagation.png",
                                 tags: ["physique", "son", "ondes"]
                             },
                             {
@@ -381,6 +357,7 @@ export const simulationsCurriculum = {
                                 difficulty: "moyen",
                                 duration: "25 min",
                                 icon: "⚗️",
+                                image: "/simulations/pc4e/density-explorer.png",
                                 tags: ["physique", "matière", "Archimède"]
                             },
                             {
@@ -390,6 +367,7 @@ export const simulationsCurriculum = {
                                 difficulty: "moyen",
                                 duration: "25 min",
                                 icon: "🔦",
+                                image: "/simulations/pc4e/refraction-simulator.png",
                                 tags: ["optique", "lumière", "Snell"]
                             },
                             {
@@ -399,16 +377,8 @@ export const simulationsCurriculum = {
                                 difficulty: "moyen",
                                 duration: "30 min",
                                 icon: "💡",
+                                image: "/simulations/pc4e/circuit-series-parallel.png",
                                 tags: ["électricité", "circuit", "courant"]
-                            },
-                            {
-                                id: "mass-conservation",
-                                title: "Conservation de la Masse",
-                                description: "Découvrez la loi de Lavoisier lors des réactions chimiques",
-                                difficulty: "moyen",
-                                duration: "25 min",
-                                icon: "⚖️",
-                                tags: ["chimie", "réaction", "Lavoisier"]
                             },
                             {
                                 id: "light-propagation-pc4",
@@ -417,7 +387,53 @@ export const simulationsCurriculum = {
                                 difficulty: "moyen",
                                 duration: "20 min",
                                 icon: "☀️",
+                                image: "/simulations/pc4e/light-propagation-pc4.png",
                                 tags: ["optique", "ombre", "lumière"]
+                            }
+                        ]
+                    },
+                    chimie: {
+                        title: "Chimie",
+                        simulations: [
+                            {
+                                id: "chemical-reactions",
+                                title: "Réactions Chimiques",
+                                description: "Visualisez les réactions au niveau atomique",
+                                difficulty: "moyen",
+                                duration: "30 min",
+                                icon: "⚗️",
+                                image: "/simulations/pc4e/chemical-reactions.png",
+                                tags: ["chimie", "atomes", "réactions"]
+                            },
+                            {
+                                id: "combustion-reaction",
+                                title: "Les Combustions",
+                                description: "Le tétraèdre du feu et réactions",
+                                difficulty: "moyen",
+                                duration: "20 min",
+                                icon: "🔥",
+                                image: "/simulations/pc4e/combustion-reaction.png",
+                                tags: ["chimie", "feu", "énergie"]
+                            },
+                            {
+                                id: "atom-molecule-intro",
+                                title: "Atomes et Molécules",
+                                description: "Introduction à la structure de la matière",
+                                difficulty: "moyen",
+                                duration: "25 min",
+                                icon: "⚛️",
+                                image: "/simulations/pc4e/atom-molecule-intro.png",
+                                tags: ["chimie", "matière", "particules"]
+                            },
+                            {
+                                id: "mass-conservation",
+                                title: "Conservation de la Masse",
+                                description: "Découvrez la loi de Lavoisier lors des réactions chimiques",
+                                difficulty: "moyen",
+                                duration: "25 min",
+                                icon: "⚖️",
+                                image: "/simulations/pc4e/mass-conservation.png",
+                                tags: ["chimie", "réaction", "Lavoisier"]
                             }
                         ]
                     },
