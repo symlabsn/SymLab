@@ -11,6 +11,12 @@ export default function SimulationsPage() {
     const [searchQuery, setSearchQuery] = useState('');
     const [selectedDifficulty, setSelectedDifficulty] = useState(null);
     const [selectedSubject, setSelectedSubject] = useState(null);
+    const [selectedGrade, setSelectedGrade] = useState(null);
+
+    // Reset grade filter when changing level
+    useEffect(() => {
+        setSelectedGrade(null);
+    }, [selectedLevel]);
 
     // Système de gamification
     const { userData, getCurrentLevel } = useGamification();
@@ -56,6 +62,7 @@ export default function SimulationsPage() {
                     allSims.push({
                         ...sim,
                         level: levelData.title,
+                        gradeKey: levelKey,
                         subject: subjectData.title,
                         subjectKey
                     });
@@ -68,8 +75,9 @@ export default function SimulationsPage() {
                 sim.description.toLowerCase().includes(searchQuery.toLowerCase());
             const matchesDifficulty = !selectedDifficulty || sim.difficulty === selectedDifficulty;
             const matchesSubject = !selectedSubject || sim.subjectKey === selectedSubject;
+            const matchesGrade = !selectedGrade || sim.gradeKey === selectedGrade;
 
-            return matchesSearch && matchesDifficulty && matchesSubject;
+            return matchesSearch && matchesDifficulty && matchesSubject && matchesGrade;
         });
     };
 
@@ -162,6 +170,31 @@ export default function SimulationsPage() {
 
             {/* Filtres et Recherche */}
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+                {/* Filtre par Niveau Scolaire (Classe) */}
+                <div className="flex flex-wrap gap-2 mb-6">
+                    <button
+                        onClick={() => setSelectedGrade(null)}
+                        className={`px-4 py-2 rounded-full text-sm font-bold transition-all ${!selectedGrade
+                            ? 'bg-white text-black'
+                            : 'bg-white/10 text-gray-400 hover:bg-white/20'
+                            }`}
+                    >
+                        Tout voir
+                    </button>
+                    {Object.entries(currentCurriculum.levels).map(([key, data]) => (
+                        <button
+                            key={key}
+                            onClick={() => setSelectedGrade(key)}
+                            className={`px-4 py-2 rounded-full text-sm font-bold transition-all ${selectedGrade === key
+                                ? 'bg-[#00F5D4] text-black shadow-[0_0_15px_rgba(0,245,212,0.3)]'
+                                : 'bg-white/10 text-gray-300 hover:bg-white/20'
+                                }`}
+                        >
+                            {data.title}
+                        </button>
+                    ))}
+                </div>
+
                 <div className="grid md:grid-cols-4 gap-4 mb-8">
                     {/* Recherche */}
                     <div className="md:col-span-2">
