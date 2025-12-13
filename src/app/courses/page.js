@@ -864,22 +864,6 @@ function CoursesContent() {
                                         <div className="flex-1 overflow-y-auto p-4 md:p-8 scrollbar-thin scrollbar-thumb-white/10 scrollbar-track-transparent">
                                             {!showExercises || selectedCourse.id.includes('entrainement') ? (
                                                 <div className="max-w-4xl mx-auto">
-                                                    {/* Header Image if available */}
-                                                    {activeChapter?.image && (
-                                                        <div className="relative w-full mb-8 rounded-xl overflow-hidden border border-white/10 shadow-lg bg-black/40">
-                                                            <img
-                                                                src={activeChapter.image}
-                                                                alt={activeChapter.title}
-                                                                className="w-full h-48 object-cover"
-                                                            />
-                                                            <div className="absolute inset-0 bg-gradient-to-t from-[#0F1115] via-transparent to-transparent pointer-events-none"></div>
-                                                            <div className="absolute bottom-0 left-0 p-4 pointer-events-none">
-                                                                <span className="px-3 py-1 rounded-full bg-blue-500/20 text-blue-300 text-xs font-bold uppercase tracking-wider border border-blue-500/20 backdrop-blur-sm inline-block">
-                                                                    {activeChapter.part?.split(':')[0] || 'Chapitre'}
-                                                                </span>
-                                                            </div>
-                                                        </div>
-                                                    )}
 
                                                     <h2 className="text-2xl md:text-4xl font-black mb-4 text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-purple-400 to-white leading-tight">
                                                         {activeChapter?.title}
@@ -1055,6 +1039,74 @@ function CoursesContent() {
                                                                     </div>
                                                                 </div>
                                                             </Link>
+                                                        </div>
+                                                    )}
+
+                                                    {/* Image Interactive du Chapitre */}
+                                                    {activeChapter?.image && (
+                                                        <div className="mt-12 group">
+                                                            <div className="text-xs font-bold text-purple-400 uppercase tracking-wider mb-3 flex items-center gap-2">
+                                                                <span className="text-lg">🖼️</span> Illustration Interactive
+                                                            </div>
+                                                            <div
+                                                                className="relative rounded-2xl overflow-hidden border-2 border-purple-500/30 shadow-2xl shadow-purple-500/10 cursor-zoom-in transition-all duration-500 hover:border-purple-500/60 hover:shadow-purple-500/30"
+                                                                onClick={(e) => {
+                                                                    const img = e.currentTarget.querySelector('img');
+                                                                    if (img) {
+                                                                        // Toggle fullscreen lightbox
+                                                                        if (!document.getElementById('lightbox-overlay')) {
+                                                                            const overlay = document.createElement('div');
+                                                                            overlay.id = 'lightbox-overlay';
+                                                                            overlay.className = 'fixed inset-0 z-[9999] bg-black/95 flex items-center justify-center p-4 cursor-zoom-out animate-fade-in';
+                                                                            overlay.onclick = () => overlay.remove();
+                                                                            const imgClone = img.cloneNode();
+                                                                            imgClone.className = 'max-w-full max-h-[90vh] object-contain rounded-xl shadow-2xl animate-scale-in';
+                                                                            overlay.appendChild(imgClone);
+                                                                            // Close button
+                                                                            const closeBtn = document.createElement('button');
+                                                                            closeBtn.className = 'absolute top-4 right-4 w-12 h-12 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white text-2xl transition-all';
+                                                                            closeBtn.innerHTML = '✕';
+                                                                            closeBtn.onclick = () => overlay.remove();
+                                                                            overlay.appendChild(closeBtn);
+                                                                            // Caption
+                                                                            const caption = document.createElement('div');
+                                                                            caption.className = 'absolute bottom-6 left-1/2 -translate-x-1/2 px-6 py-3 rounded-full bg-black/80 backdrop-blur-xl text-white font-medium border border-white/20';
+                                                                            caption.textContent = img.alt;
+                                                                            overlay.appendChild(caption);
+                                                                            document.body.appendChild(overlay);
+                                                                        }
+                                                                    }
+                                                                }}
+                                                            >
+                                                                {/* Gradient overlay */}
+                                                                <div className="absolute inset-0 bg-gradient-to-t from-purple-900/60 via-transparent to-cyan-900/30 opacity-60 group-hover:opacity-40 transition-opacity pointer-events-none z-10"></div>
+
+                                                                {/* Image */}
+                                                                <img
+                                                                    src={activeChapter.image}
+                                                                    alt={activeChapter.title}
+                                                                    className="w-full h-64 md:h-80 object-cover transition-transform duration-700 group-hover:scale-110"
+                                                                />
+
+                                                                {/* Hover overlay */}
+                                                                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 z-20">
+                                                                    <div className="px-6 py-3 rounded-full bg-white/20 backdrop-blur-xl border border-white/30 text-white font-bold flex items-center gap-2 transform scale-90 group-hover:scale-100 transition-transform">
+                                                                        <span className="text-xl">🔍</span> Cliquez pour agrandir
+                                                                    </div>
+                                                                </div>
+
+                                                                {/* Bottom info bar */}
+                                                                <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/90 to-transparent z-10">
+                                                                    <div className="flex items-center justify-between">
+                                                                        <span className="px-3 py-1 rounded-full bg-purple-500/30 text-purple-300 text-xs font-bold uppercase tracking-wider border border-purple-500/30">
+                                                                            {activeChapter.part?.split(':')[0] || 'Illustration'}
+                                                                        </span>
+                                                                        <span className="text-gray-400 text-sm flex items-center gap-1">
+                                                                            <span>📷</span> Schéma explicatif
+                                                                        </span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                     )}
                                                     {/* In Training Mode, Show Exercises Below Content */}
