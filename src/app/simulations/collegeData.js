@@ -2,6 +2,7 @@
 // Complètes pour 6ème, 5ème, 4ème et 3ème (BFEM)
 
 import { pc3eSimulationsData } from './pc3eSimulations';
+import { pc4eSimulationsData } from './pc4eSimulations';
 
 const baseCollegeSimulations = {
     // ========== 6ÈME ==========
@@ -3728,10 +3729,11 @@ Fréquence (Hz) :
     }
 };
 
-// Fusion des simulations de base avec les simulations PC 3e
+// Fusion des simulations de base avec les simulations PC 3e et PC 4e
 export const collegeSimulationsData = {
     ...baseCollegeSimulations,
-    ...pc3eSimulationsData
+    ...pc3eSimulationsData,
+    ...pc4eSimulationsData
 };
 
 export default collegeSimulationsData;

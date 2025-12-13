@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef, useCallback } from 'react';
+import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 import dynamic from 'next/dynamic';
@@ -864,8 +865,10 @@ const ResultsModal = ({ isOpen, onClose, score, total }) => {
 };
 
 export default function SimulationDetailPage({ params }) {
+    const searchParams = useSearchParams();
+    const tabParam = searchParams.get('tab');
     const [resolvedParams, setResolvedParams] = useState(null);
-    const [activeTab, setActiveTab] = useState('analogy');
+    const [activeTab, setActiveTab] = useState(tabParam || 'simulation');
     const [currentExercise, setCurrentExercise] = useState(0);
     const [selectedAnswer, setSelectedAnswer] = useState(null);
     const [showExplanation, setShowExplanation] = useState(false);
