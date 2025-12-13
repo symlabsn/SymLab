@@ -16,7 +16,7 @@ import { createPortal } from 'react-dom';
  * - Fermable
  * - Position initiale intelligente (côté droit sur desktop, en haut sur mobile)
  */
-const DraggableHtmlPanel = ({ children, title, className = "", initialPos = null, onClose }) => {
+const DraggableHtmlPanel = ({ children, title, className = "", initialPos = null, onClose, usePortal = true, showCloseButton = true, defaultPosition = "top-right" }) => {
     const [mounted, setMounted] = useState(false);
     const [position, setPosition] = useState({ x: 20, y: 100 });
     const [isDragging, setIsDragging] = useState(false);
@@ -34,8 +34,15 @@ const DraggableHtmlPanel = ({ children, title, className = "", initialPos = null
             if (initialPos) {
                 setPosition(initialPos);
             } else if (typeof window !== 'undefined') {
-                const x = window.innerWidth > 768 ? window.innerWidth - 380 : 10;
-                const y = window.innerHeight > 600 ? 100 : 60;
+                let x, y;
+                if (defaultPosition === "bottom-center") {
+                    x = window.innerWidth / 2 - 190; // Centré (largeur approx 380)
+                    y = window.innerHeight - 300; // En bas
+                } else {
+                    // Default top-right
+                    x = window.innerWidth > 768 ? window.innerWidth - 380 : 10;
+                    y = window.innerHeight > 600 ? 100 : 60;
+                }
                 setPosition({ x, y });
             }
         }, 50);
@@ -153,14 +160,16 @@ const DraggableHtmlPanel = ({ children, title, className = "", initialPos = null
                     >
                         {isMinimized ? '🔼' : '🔽'}
                     </button>
-                    {/* Bouton Fermer */}
-                    <button
-                        onClick={handleClose}
-                        className="no-drag w-6 h-6 rounded bg-red-500/20 hover:bg-red-500/40 flex items-center justify-center text-xs text-red-400 transition-all"
-                        title="Fermer"
-                    >
-                        ✕
-                    </button>
+                    {/* Bouton Fermer (Conditionnel) */}
+                    {showCloseButton && (
+                        <button
+                            onClick={handleClose}
+                            className="no-drag w-6 h-6 rounded bg-red-500/20 hover:bg-red-500/40 flex items-center justify-center text-xs text-red-400 transition-all"
+                            title="Fermer"
+                        >
+                            ✕
+                        </button>
+                    )}
                 </div>
             </div>
 
@@ -178,9 +187,12 @@ const DraggableHtmlPanel = ({ children, title, className = "", initialPos = null
         </div>
     );
 
-    // Utiliser un portail pour rendre le panneau directement dans le body
-    // Cela le détache complètement du Canvas Three.js
-    return createPortal(panelContent, document.body);
+    // Si usePortal est vrai, utiliser createPortal (par défaut pour détachement total)
+    // Sinon retourner le contenu directement (pour utilisation dans <Html> de Drei)
+    if (usePortal && typeof document !== 'undefined') {
+        return createPortal(panelContent, document.body);
+    }
+    return panelContent;
 };
 
 export default DraggableHtmlPanel;

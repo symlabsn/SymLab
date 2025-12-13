@@ -3,6 +3,7 @@ import { useState, useRef, useEffect, useMemo } from 'react';
 import * as THREE from 'three';
 import { useFrame } from '@react-three/fiber';
 import { Text, Html, Box, Sphere, Cylinder, Float, Line } from '@react-three/drei';
+import DraggableHtmlPanel from './DraggableHtmlPanel';
 
 // ============================================================
 // CHAPITRE 6: SOURCES DE LUMIÈRE (ENRICHI)
@@ -25,9 +26,8 @@ export function Chap6SourcesLumiere() {
 
     return (
         <group>
-            <Html position={[5, 2, 0]} center>
-                <div className="bg-black/90 p-5 rounded-2xl text-white border border-yellow-500/30 w-[300px]">
-                    <h3 className="text-yellow-400 font-bold text-xl mb-4">💡 Sources de Lumière</h3>
+            <Html>
+                <DraggableHtmlPanel title="💡 Sources de Lumière" showCloseButton={false} defaultPosition="bottom-center" className="w-[300px] border-yellow-500/30 text-white">
 
                     <button onClick={() => setLightsOn(!lightsOn)} className={`w-full py-4 mb-4 rounded-xl font-bold text-xl transition-all ${lightsOn ? 'bg-yellow-500 text-black shadow-[0_0_20px_rgba(234,179,8,0.5)]' : 'bg-gray-800 text-gray-400'}`}>
                         {lightsOn ? 'LUMIÈRE ALLUMÉE ☀️' : 'NOIR TOTAL 🌑'}
@@ -43,7 +43,7 @@ export function Chap6SourcesLumiere() {
                             <p className="text-xs text-gray-300">Diffuse la lumière reçue (Invisible dans le noir !).</p>
                         </div>
                     </div>
-                </div>
+                </DraggableHtmlPanel>
             </Html>
 
             {/* Ambiance */}
@@ -117,9 +117,8 @@ export function Chap7PropagationLumiere() {
 
     return (
         <group>
-            <Html position={[5, 2, 0]} center>
-                <div className="bg-black/90 p-5 rounded-2xl text-white border border-white/30 w-[300px]">
-                    <h3 className="text-white font-bold text-xl mb-4">🌑 Ombres & Propagation</h3>
+            <Html>
+                <DraggableHtmlPanel title="🌑 Ombres & Propagation" showCloseButton={false} defaultPosition="bottom-center" className="w-[300px] border-white/30 text-white">
 
                     <div className="mb-4">
                         <label className="text-xs text-gray-400">Distance de l'écran</label>
@@ -143,7 +142,7 @@ export function Chap7PropagationLumiere() {
                         <input type="checkbox" checked={showRays} onChange={() => setShowRays(!showRays)} />
                         <span className="text-sm">Voir rayons extrêmes</span>
                     </div>
-                </div>
+                </DraggableHtmlPanel>
             </Html>
 
             {/* Source Ponctuelle */}
@@ -228,9 +227,8 @@ export function Chap8Refraction() {
 
     return (
         <group>
-            <Html position={[5, 2, 0]} center>
-                <div className="bg-black/90 p-5 rounded-2xl text-white border border-cyan-500/30 w-[320px]">
-                    <h3 className="text-cyan-400 font-bold text-xl mb-4">🌈 Réfraction (Snell-Descartes)</h3>
+            <Html>
+                <DraggableHtmlPanel title="🌈 Réfraction (Snell-Descartes)" showCloseButton={false} defaultPosition="bottom-center" className="w-[320px] border-cyan-500/30 text-white">
 
                     <div className="grid grid-cols-2 gap-4 mb-4">
                         <div>
@@ -262,7 +260,7 @@ export function Chap8Refraction() {
                             <div className="text-green-400 font-mono text-xl text-center">i₂ = {angleRefractionDeg}°</div>
                         )}
                     </div>
-                </div>
+                </DraggableHtmlPanel>
             </Html>
 
             {/* Interface (Ligne horizontable y=0) */}

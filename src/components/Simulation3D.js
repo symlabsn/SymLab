@@ -646,8 +646,8 @@ function ElectricCircuit() {
     const [isClosed, setIsClosed] = useState(false);
     return (
         <group>
-            <Html position={[0, 3, 0]} center>
-                <div className="bg-black/90 p-4 rounded-xl text-white border border-white/20 min-w-[200px] backdrop-blur-md select-none">
+            <Html>
+                <DraggableHtmlPanel title="⚡ Circuit Électrique" showCloseButton={false} defaultPosition="bottom-center" className="min-w-[200px] text-white">
                     <button
                         onClick={() => setIsClosed(!isClosed)}
                         className={`w-full py-2 rounded-lg font-bold transition-all ${isClosed ? 'bg-green-600 hover:bg-green-500 shadow-[0_0_20px_rgba(34,197,94,0.5)]' : 'bg-red-600 hover:bg-red-500'}`}
@@ -657,7 +657,7 @@ function ElectricCircuit() {
                     <div className="mt-2 text-center text-xs text-gray-400">
                         {isClosed ? "Le courant circule ! ⚡" : "Circuit ouvert, pas de courant."}
                     </div>
-                </div>
+                </DraggableHtmlPanel>
             </Html>
 
             <Text position={[0, 3.5, 0]} fontSize={0.5} color="white">CIRCUIT ÉLECTRIQUE</Text>
@@ -1672,8 +1672,8 @@ function EnergyConservation() {
     return (
         <group>
             {/* Panneau de Contrôle */}
-            <Html position={[3, 1, 0]} center>
-                <div className="bg-black/90 p-4 rounded-xl text-white border border-white/20 min-w-[260px] backdrop-blur-md select-none">
+            <Html>
+                <DraggableHtmlPanel title="⚡ Conservation de l'Énergie" showCloseButton={false} defaultPosition="bottom-center" className="min-w-[260px] text-white">
                     <h3 className="text-[#FCD34D] font-bold mb-3 text-center">⚡ Conservation de l'Énergie</h3>
 
                     <div className="space-y-3">
@@ -1737,7 +1737,7 @@ function EnergyConservation() {
                             <span className="text-[#00F5D4]">Ep + Ec = Constante ✓</span>
                         </div>
                     </div>
-                </div>
+                </DraggableHtmlPanel>
             </Html>
 
             <Text position={[0, 3.5, 0]} fontSize={0.5} color="white">PENDULE SIMPLE</Text>
@@ -2118,70 +2118,72 @@ function ForcePhysics() {
     return (
         <>
             {/* Panneau de Contrôle - Draggable - Rendu Portal */}
-            <DraggableHtmlPanel title="⚡ Forces et Mouvement" className="min-w-[300px]">
-                <div className="text-white space-y-3">
-                    {/* Le reste du contenu sera inséré par le contexte, mais je dois m'assurer d'inclure tout le contenu du div original */}
-                    <div>
-                        <label className="block text-xs mb-1">Masse : {mass} kg</label>
-                        <input
-                            type="range"
-                            min="1"
-                            max="20"
-                            value={mass}
-                            onChange={(e) => setMass(parseInt(e.target.value))}
-                            className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-[#3B82F6]"
-                        />
-                    </div>
+            <Html>
+                <DraggableHtmlPanel title="⚡ Forces et Mouvement" showCloseButton={false} defaultPosition="bottom-center" className="min-w-[300px]">
+                    <div className="text-white space-y-3">
+                        {/* Le reste du contenu sera inséré par le contexte, mais je dois m'assurer d'inclure tout le contenu du div original */}
+                        <div>
+                            <label className="block text-xs mb-1">Masse : {mass} kg</label>
+                            <input
+                                type="range"
+                                min="1"
+                                max="20"
+                                value={mass}
+                                onChange={(e) => setMass(parseInt(e.target.value))}
+                                className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-[#3B82F6]"
+                            />
+                        </div>
 
-                    <div>
-                        <label className="block text-xs mb-1">Force Appliquée : {appliedForce} N</label>
-                        <input
-                            type="range"
-                            min="0"
-                            max="100"
-                            value={appliedForce}
-                            onChange={(e) => setAppliedForce(parseInt(e.target.value))}
-                            className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-[#EF4444]"
-                        />
-                    </div>
+                        <div>
+                            <label className="block text-xs mb-1">Force Appliquée : {appliedForce} N</label>
+                            <input
+                                type="range"
+                                min="0"
+                                max="100"
+                                value={appliedForce}
+                                onChange={(e) => setAppliedForce(parseInt(e.target.value))}
+                                className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-[#EF4444]"
+                            />
+                        </div>
 
-                    <div>
-                        <label className="block text-xs mb-1">Coefficient de Friction : {friction.toFixed(2)}</label>
-                        <input
-                            type="range"
-                            min="0"
-                            max="1"
-                            step="0.05"
-                            value={friction}
-                            onChange={(e) => setFriction(parseFloat(e.target.value))}
-                            className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-[#F59E0B]"
-                        />
-                    </div>
+                        <div>
+                            <label className="block text-xs mb-1">Coefficient de Friction : {friction.toFixed(2)}</label>
+                            <input
+                                type="range"
+                                min="0"
+                                max="1"
+                                step="0.05"
+                                value={friction}
+                                onChange={(e) => setFriction(parseFloat(e.target.value))}
+                                className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-[#F59E0B]"
+                            />
+                        </div>
 
-                    <button
-                        onMouseDown={() => setIsApplying(true)}
-                        onMouseUp={() => setIsApplying(false)}
-                        onMouseLeave={() => setIsApplying(false)}
-                        className={`w-full py-3 rounded-lg font-bold transition-colors ${isApplying
-                            ? 'bg-red-600 scale-95'
-                            : 'bg-green-600 hover:bg-green-500'
-                            }`}
-                    >
-                        {isApplying ? '↠ POUSSÉE EN COURS...' : '👆 Maintenir pour Pousser'}
-                    </button>
+                        <button
+                            onMouseDown={() => setIsApplying(true)}
+                            onMouseUp={() => setIsApplying(false)}
+                            onMouseLeave={() => setIsApplying(false)}
+                            className={`w-full py-3 rounded-lg font-bold transition-colors ${isApplying
+                                ? 'bg-red-600 scale-95'
+                                : 'bg-green-600 hover:bg-green-500'
+                                }`}
+                        >
+                            {isApplying ? '↠ POUSSÉE EN COURS...' : '👆 Maintenir pour Pousser'}
+                        </button>
 
-                    <div className="grid grid-cols-2 gap-2 text-xs font-mono bg-black/50 p-2 rounded-lg">
-                        <div>Poids (P) : <span className="text-green-400">{weight.toFixed(1)} N</span></div>
-                        <div>Friction : <span className="text-yellow-400">{frictionForce.toFixed(1)} N</span></div>
-                        <div>Force Nette : <span className={netForce > 0 ? 'text-blue-400' : 'text-red-400'}>{netForce.toFixed(1)} N</span></div>
-                        <div>Accélération : <span className="text-purple-400">{acceleration.toFixed(2)} m/s²</span></div>
-                    </div>
+                        <div className="grid grid-cols-2 gap-2 text-xs font-mono bg-black/50 p-2 rounded-lg">
+                            <div>Poids (P) : <span className="text-green-400">{weight.toFixed(1)} N</span></div>
+                            <div>Friction : <span className="text-yellow-400">{frictionForce.toFixed(1)} N</span></div>
+                            <div>Force Nette : <span className={netForce > 0 ? 'text-blue-400' : 'text-red-400'}>{netForce.toFixed(1)} N</span></div>
+                            <div>Accélération : <span className="text-purple-400">{acceleration.toFixed(2)} m/s²</span></div>
+                        </div>
 
-                    <div className={`text-center font-bold ${netForce > 0 ? 'text-green-400' : 'text-yellow-400'}`}>
-                        {status}
+                        <div className={`text-center font-bold ${netForce > 0 ? 'text-green-400' : 'text-yellow-400'}`}>
+                            {status}
+                        </div>
                     </div>
-                </div>
-            </DraggableHtmlPanel>
+                </DraggableHtmlPanel>
+            </Html>
 
             <group>
 

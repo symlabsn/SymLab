@@ -2,6 +2,7 @@ import { Text, Html } from '@react-three/drei';
 import { useRef, useState, useMemo } from 'react';
 import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
+import DraggableHtmlPanel from './DraggableHtmlPanel';
 
 export function LightSpectrum() {
     const [lightType, setLightType] = useState('white');
@@ -35,72 +36,72 @@ export function LightSpectrum() {
     return (
         <group>
             {/* Panneau de contrôle */}
-            <Html position={[-4.5, 1, 0]} center>
-                <div className="bg-black/95 p-4 rounded-xl text-white border border-white/20 min-w-[280px] backdrop-blur-md select-none">
-                    <h3 className="text-[#FCD34D] font-bold mb-3 text-center">🌈 Spectres Lumineux</h3>
-
-                    <div className="space-y-3">
-                        {/* Type de lumière */}
-                        <div>
-                            <label className="block text-xs text-gray-400 mb-1">Type de lumière</label>
-                            <select
-                                value={lightType}
-                                onChange={(e) => setLightType(e.target.value)}
-                                className="w-full p-2 bg-gray-800 rounded text-sm"
-                            >
-                                <option value="white">Lumière blanche (Polychromatique)</option>
-                                <option value="red">Laser rouge (Monochromatique)</option>
-                                <option value="green">Laser vert (Monochromatique)</option>
-                            </select>
-                        </div>
-
-                        {/* Angle du prisme */}
-                        <div>
-                            <label className="block text-xs text-gray-400">
-                                Angle du prisme: {prismAngle}°
-                            </label>
-                            <input
-                                type="range"
-                                min="30"
-                                max="80"
-                                value={prismAngle}
-                                onChange={(e) => setPrismAngle(parseInt(e.target.value))}
-                                className="w-full"
-                            />
-                        </div>
-
-                        {/* Légende des couleurs */}
-                        <div className="p-2 bg-gray-900/50 rounded">
-                            <div className="text-xs text-gray-400 mb-2">Spectre visible:</div>
-                            <div className="flex justify-between">
-                                {COLORS.map((c, i) => (
-                                    <div key={i} className="text-center">
-                                        <div
-                                            className="w-4 h-4 rounded-full mx-auto mb-1"
-                                            style={{ backgroundColor: c.color }}
-                                        />
-                                        <div className="text-[8px] text-gray-400">{c.wavelength}</div>
-                                    </div>
-                                ))}
+            <Html fullscreen style={{ pointerEvents: 'none' }}>
+                <div style={{ pointerEvents: 'auto' }}>
+                    <DraggableHtmlPanel title="🌈 Spectres Lumineux" showCloseButton={false} defaultPosition="bottom-center" className="min-w-[280px] text-white">
+                        <div className="space-y-3">
+                            {/* Type de lumière */}
+                            <div>
+                                <label className="block text-xs text-gray-400 mb-1">Type de lumière</label>
+                                <select
+                                    value={lightType}
+                                    onChange={(e) => setLightType(e.target.value)}
+                                    className="w-full p-2 bg-gray-800 rounded text-sm"
+                                >
+                                    <option value="white">Lumière blanche (Polychromatique)</option>
+                                    <option value="red">Laser rouge (Monochromatique)</option>
+                                    <option value="green">Laser vert (Monochromatique)</option>
+                                </select>
                             </div>
-                        </div>
 
-                        <div className="p-2 bg-purple-900/30 rounded text-center text-xs">
-                            <span className="text-purple-300">
-                                λ rouge &gt; λ violet<br />
-                                Déviation rouge &lt; Déviation violet
-                            </span>
-                        </div>
+                            {/* Angle du prisme */}
+                            <div>
+                                <label className="block text-xs text-gray-400">
+                                    Angle du prisme: {prismAngle}°
+                                </label>
+                                <input
+                                    type="range"
+                                    min="30"
+                                    max="80"
+                                    value={prismAngle}
+                                    onChange={(e) => setPrismAngle(parseInt(e.target.value))}
+                                    className="w-full"
+                                />
+                            </div>
 
-                        <label className="flex items-center gap-2 text-sm">
-                            <input
-                                type="checkbox"
-                                checked={showLabels}
-                                onChange={(e) => setShowLabels(e.target.checked)}
-                            />
-                            Afficher les étiquettes
-                        </label>
-                    </div>
+                            {/* Légende des couleurs */}
+                            <div className="p-2 bg-gray-900/50 rounded">
+                                <div className="text-xs text-gray-400 mb-2">Spectre visible:</div>
+                                <div className="flex justify-between">
+                                    {COLORS.map((c, i) => (
+                                        <div key={i} className="text-center">
+                                            <div
+                                                className="w-4 h-4 rounded-full mx-auto mb-1"
+                                                style={{ backgroundColor: c.color }}
+                                            />
+                                            <div className="text-[8px] text-gray-400">{c.wavelength}</div>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+
+                            <div className="p-2 bg-purple-900/30 rounded text-center text-xs">
+                                <span className="text-purple-300">
+                                    λ rouge &gt; λ violet<br />
+                                    Déviation rouge &lt; Déviation violet
+                                </span>
+                            </div>
+
+                            <label className="flex items-center gap-2 text-sm">
+                                <input
+                                    type="checkbox"
+                                    checked={showLabels}
+                                    onChange={(e) => setShowLabels(e.target.checked)}
+                                />
+                                Afficher les étiquettes
+                            </label>
+                        </div>
+                    </DraggableHtmlPanel>
                 </div>
             </Html>
 

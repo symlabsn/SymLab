@@ -2,6 +2,7 @@
 import { useState, useRef, useEffect, useMemo } from 'react';
 import { useFrame } from '@react-three/fiber';
 import { Text, Html, useGLTF, Float, Sphere, Box, Cylinder, Torus } from '@react-three/drei';
+import DraggableHtmlPanel from './DraggableHtmlPanel';
 import * as THREE from 'three';
 
 // Images et icônes
@@ -72,12 +73,9 @@ export function Chap1ScienceIntro() {
 
     return (
         <group ref={groupRef}>
-            <Html position={[5, 2, 0]} center>
-                <div className="bg-black/90 p-5 rounded-2xl text-white border border-white/10 w-[350px] shadow-2xl backdrop-blur-md">
-                    <div className="flex justify-between items-center mb-4 border-b border-white/10 pb-2">
-                        <h3 className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-400">
-                            🔬 Démarche Scientifique
-                        </h3>
+            <Html>
+                <DraggableHtmlPanel title="🔬 Démarche Scientifique" showCloseButton={false} defaultPosition="bottom-center" className="w-[350px] border-white/10 text-white">
+                    <div className="flex justify-end mb-4 border-b border-white/10 pb-2">
                         <button onClick={reset} className="text-xs px-2 py-1 bg-white/10 rounded hover:bg-white/20">🔄 Reset</button>
                     </div>
 
@@ -126,7 +124,7 @@ export function Chap1ScienceIntro() {
                             </div>
                         )}
                     </div>
-                </div>
+                </DraggableHtmlPanel>
             </Html>
 
             <Text position={[0, 3.5, 0]} fontSize={0.5} anchorX="center" color="white" outlineWidth={0.02} outlineColor="black">
@@ -311,11 +309,8 @@ export function Chap2Mesures() {
 
     return (
         <group>
-            <Html position={[5, 2, 0]} center>
-                <div className="bg-black/90 p-5 rounded-2xl text-white border border-cyan-500/30 w-[320px] backdrop-blur-md">
-                    <h3 className="text-cyan-400 font-bold text-xl mb-4 flex items-center gap-2">
-                        📏 Laboratoire de Mesure
-                    </h3>
+            <Html>
+                <DraggableHtmlPanel title="📏 Laboratoire de Mesure" showCloseButton={false} defaultPosition="bottom-center" className="w-[320px] border-cyan-500/30 text-white">
 
                     {/* Choix Objet */}
                     <div className="mb-4">
@@ -364,7 +359,7 @@ export function Chap2Mesures() {
                             </div>
                         </div>
                     )}
-                </div>
+                </DraggableHtmlPanel>
             </Html>
 
             <Text position={[0, 4, 0]} fontSize={0.6} color="#22D3EE" anchorX="center">MESURES & INCERTITUDES</Text>
@@ -450,9 +445,8 @@ export function Chap3Densite() {
 
     return (
         <group>
-            <Html position={[5, 2, 0]} center>
-                <div className="bg-black/90 p-5 rounded-2xl text-white border border-blue-500/30 w-[320px]">
-                    <h3 className="text-blue-400 font-bold text-xl mb-4">⚖️ Densité & Flottaison</h3>
+            <Html>
+                <DraggableHtmlPanel title="⚖️ Densité & Flottaison" showCloseButton={false} defaultPosition="bottom-center" className="w-[320px] border-blue-500/30 text-white">
 
                     <div className="space-y-4">
                         <div>
@@ -492,7 +486,7 @@ export function Chap3Densite() {
                             </div>
                         </div>
                     </div>
-                </div>
+                </DraggableHtmlPanel>
             </Html>
 
             {/* Aquarium */}
@@ -557,9 +551,8 @@ export function Chap4PoidsMasse() {
 
     return (
         <group>
-            <Html position={[5, 2, 0]} center>
-                <div className="bg-black/90 p-5 rounded-2xl text-white border border-purple-500/30 w-[350px] max-h-[80vh] overflow-y-auto">
-                    <h3 className="text-purple-400 font-bold text-xl mb-4">⚖️ Poids (N) vs Masse (kg)</h3>
+            <Html>
+                <DraggableHtmlPanel title="⚖️ Poids (N) vs Masse (kg)" showCloseButton={false} defaultPosition="bottom-center" className="w-[350px] border-purple-500/30 text-white max-h-[80vh] overflow-y-auto">
 
                     <div className="mb-6">
                         <label className="block text-sm text-gray-400 mb-2">Choisir un astre :</label>
@@ -593,7 +586,7 @@ export function Chap4PoidsMasse() {
                             <span className="text-2xl font-bold text-purple-400">{weight.toFixed(1)} N</span>
                         </div>
                     </div>
-                </div>
+                </DraggableHtmlPanel>
             </Html>
 
             {/* Sol de la planète */}
@@ -665,9 +658,8 @@ export function Chap5Electricite() {
 
     return (
         <group>
-            <Html position={[5, 2, 0]} center>
-                <div className="bg-black/90 p-5 rounded-2xl text-white border border-yellow-500/30 w-[350px]">
-                    <h3 className="text-yellow-400 font-bold text-xl mb-4">⚡ Atelier Électrique</h3>
+            <Html>
+                <DraggableHtmlPanel title="⚡ Atelier Électrique" showCloseButton={false} defaultPosition="bottom-center" className="w-[350px] border-yellow-500/30 text-white">
 
                     <div className="mb-4">
                         <label className="block text-xs uppercase text-gray-400 mb-2">État du circuit</label>
@@ -699,7 +691,7 @@ export function Chap5Electricite() {
                             <div className="text-xl font-mono text-cyan-400">{current.toFixed(2)} A</div>
                         </div>
                     </div>
-                </div>
+                </DraggableHtmlPanel>
             </Html>
 
             {/* CIRCUIT 3D */}
