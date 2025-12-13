@@ -1,4 +1,4 @@
-import { Text, Html } from '@react-three/drei';
+import { Text } from '@react-three/drei';
 import DraggableHtmlPanel from './DraggableHtmlPanel';
 import { useRef, useState, useMemo } from 'react';
 import { useFrame } from '@react-three/fiber';
@@ -42,85 +42,83 @@ export function RefractionLight() {
 
     return (
         <group>
-            {/* Panneau de contrôle */}
-            <Html position={[-4.5, 1, 0]} center>
-                <DraggableHtmlPanel title="🔦 Réfraction de la Lumière" className="min-w-[280px] border-white/20 text-white">
+            {/* Panneau de contrôle - Rendu via portail */}
+            <DraggableHtmlPanel title="🔦 Réfraction de la Lumière" className="min-w-[280px] border-white/20 text-white">
 
-                    <div className="space-y-3">
-                        {/* Milieu 1 */}
-                        <div>
-                            <label className="block text-xs text-gray-400 mb-1">Milieu incident (n₁)</label>
-                            <select
-                                value={medium1}
-                                onChange={(e) => setMedium1(e.target.value)}
-                                className="w-full p-2 bg-gray-800 rounded text-sm"
-                            >
-                                {Object.entries(MEDIA).map(([key, val]) => (
-                                    <option key={key} value={key}>{val.name} (n={val.n})</option>
-                                ))}
-                            </select>
-                        </div>
-
-                        {/* Milieu 2 */}
-                        <div>
-                            <label className="block text-xs text-gray-400 mb-1">Milieu réfringent (n₂)</label>
-                            <select
-                                value={medium2}
-                                onChange={(e) => setMedium2(e.target.value)}
-                                className="w-full p-2 bg-gray-800 rounded text-sm"
-                            >
-                                {Object.entries(MEDIA).map(([key, val]) => (
-                                    <option key={key} value={key}>{val.name} (n={val.n})</option>
-                                ))}
-                            </select>
-                        </div>
-
-                        {/* Angle incident */}
-                        <div>
-                            <label className="block text-xs text-gray-400">
-                                Angle d'incidence: {incidentAngle}°
-                            </label>
-                            <input
-                                type="range"
-                                min="0"
-                                max="85"
-                                value={incidentAngle}
-                                onChange={(e) => setIncidentAngle(parseInt(e.target.value))}
-                                className="w-full"
-                            />
-                        </div>
-
-                        {/* Résultat */}
-                        <div className="p-3 bg-gradient-to-r from-cyan-900/50 to-purple-900/50 rounded">
-                            {refractedAngle !== null ? (
-                                <>
-                                    <div className="text-center mb-2">
-                                        <span className="text-xs text-gray-400">Angle de réfraction:</span>
-                                        <div className="text-2xl font-bold text-cyan-400">{refractedAngle.toFixed(1)}°</div>
-                                    </div>
-                                    <div className="text-xs text-center text-gray-400 font-mono">
-                                        n₁·sin(i₁) = n₂·sin(i₂)
-                                    </div>
-                                </>
-                            ) : (
-                                <div className="text-center text-red-400 font-bold">
-                                    ⚠️ RÉFLEXION TOTALE
-                                    <div className="text-xs text-gray-400">L'angle critique est dépassé</div>
-                                </div>
-                            )}
-                        </div>
-
-                        <label className="flex items-center gap-2 text-sm">
-                            <input
-                                type="checkbox"
-                                checked={showNormal}
-                                onChange={(e) => setShowNormal(e.target.checked)}
-                            />
-                            Afficher la normale
-                        </label>
+                <div className="space-y-3">
+                    {/* Milieu 1 */}
+                    <div>
+                        <label className="block text-xs text-gray-400 mb-1">Milieu incident (n₁)</label>
+                        <select
+                            value={medium1}
+                            onChange={(e) => setMedium1(e.target.value)}
+                            className="w-full p-2 bg-gray-800 rounded text-sm"
+                        >
+                            {Object.entries(MEDIA).map(([key, val]) => (
+                                <option key={key} value={key}>{val.name} (n={val.n})</option>
+                            ))}
+                        </select>
                     </div>
-                </DraggableHtmlPanel>
-            </Html>
+
+                    {/* Milieu 2 */}
+                    <div>
+                        <label className="block text-xs text-gray-400 mb-1">Milieu réfringent (n₂)</label>
+                        <select
+                            value={medium2}
+                            onChange={(e) => setMedium2(e.target.value)}
+                            className="w-full p-2 bg-gray-800 rounded text-sm"
+                        >
+                            {Object.entries(MEDIA).map(([key, val]) => (
+                                <option key={key} value={key}>{val.name} (n={val.n})</option>
+                            ))}
+                        </select>
+                    </div>
+
+                    {/* Angle incident */}
+                    <div>
+                        <label className="block text-xs text-gray-400">
+                            Angle d'incidence: {incidentAngle}°
+                        </label>
+                        <input
+                            type="range"
+                            min="0"
+                            max="85"
+                            value={incidentAngle}
+                            onChange={(e) => setIncidentAngle(parseInt(e.target.value))}
+                            className="w-full"
+                        />
+                    </div>
+
+                    {/* Résultat */}
+                    <div className="p-3 bg-gradient-to-r from-cyan-900/50 to-purple-900/50 rounded">
+                        {refractedAngle !== null ? (
+                            <>
+                                <div className="text-center mb-2">
+                                    <span className="text-xs text-gray-400">Angle de réfraction:</span>
+                                    <div className="text-2xl font-bold text-cyan-400">{refractedAngle.toFixed(1)}°</div>
+                                </div>
+                                <div className="text-xs text-center text-gray-400 font-mono">
+                                    n₁·sin(i₁) = n₂·sin(i₂)
+                                </div>
+                            </>
+                        ) : (
+                            <div className="text-center text-red-400 font-bold">
+                                ⚠️ RÉFLEXION TOTALE
+                                <div className="text-xs text-gray-400">L'angle critique est dépassé</div>
+                            </div>
+                        )}
+                    </div>
+
+                    <label className="flex items-center gap-2 text-sm">
+                        <input
+                            type="checkbox"
+                            checked={showNormal}
+                            onChange={(e) => setShowNormal(e.target.checked)}
+                        />
+                        Afficher la normale
+                    </label>
+                </div>
+            </DraggableHtmlPanel>
 
             <Text position={[1.5, 3.5, 0]} fontSize={0.4} color="white">
                 LOI DE SNELL-DESCARTES
