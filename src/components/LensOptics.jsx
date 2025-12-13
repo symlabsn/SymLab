@@ -19,7 +19,7 @@ export function LensOptics() {
     const isRealImage = lensType === 'convergent' && objectDistance > focalLength;
 
     return (
-        <group>
+        <>
             {/* Panneau de Contrôle - Rendu via portail directement dans le body */}
             <DraggableHtmlPanel title="🔍 Lentilles et Optique" className="min-w-[300px] border-white/20 text-white">
 
@@ -106,119 +106,122 @@ export function LensOptics() {
                 </div>
             </DraggableHtmlPanel>
 
-            <Text position={[0, 3, 0]} fontSize={0.5} color="white">
-                LENTILLE {lensType === 'convergent' ? 'CONVERGENTE' : 'DIVERGENTE'}
-            </Text>
-
-            {/* Axe optique */}
-            <mesh rotation={[0, 0, Math.PI / 2]}>
-                <cylinderGeometry args={[0.02, 0.02, 12, 8]} />
-                <meshStandardMaterial color="#4B5563" />
-            </mesh>
-
-            {/* Lentille au centre */}
             <group>
-                {lensType === 'convergent' ? (
-                    // Lentille biconvexe (convergente)
-                    <>
-                        <mesh>
-                            <torusGeometry args={[1, 0.1, 16, 32, Math.PI]} />
-                            <meshStandardMaterial color="#60A5FA" transparent opacity={0.6} />
-                        </mesh>
-                        <mesh rotation={[0, 0, Math.PI]}>
-                            <torusGeometry args={[1, 0.1, 16, 32, Math.PI]} />
-                            <meshStandardMaterial color="#60A5FA" transparent opacity={0.6} />
-                        </mesh>
-                    </>
-                ) : (
-                    // Lentille biconcave (divergente)
-                    <>
-                        <mesh rotation={[0, 0, Math.PI / 2]}>
-                            <torusGeometry args={[1, 0.1, 16, 32, Math.PI]} />
-                            <meshStandardMaterial color="#FCA5A5" transparent opacity={0.6} />
-                        </mesh>
-                        <mesh rotation={[0, 0, -Math.PI / 2]}>
-                            <torusGeometry args={[1, 0.1, 16, 32, Math.PI]} />
-                            <meshStandardMaterial color="#FCA5A5" transparent opacity={0.6} />
-                        </mesh>
-                    </>
-                )}
-            </group>
 
-            {/* Foyers */}
-            <mesh position={[focalLength, 0, 0]}>
-                <sphereGeometry args={[0.12, 16, 16]} />
-                <meshStandardMaterial color="#EF4444" emissive="#EF4444" emissiveIntensity={0.8} />
-            </mesh>
-            <Text position={[focalLength, -0.4, 0]} fontSize={0.25} color="#EF4444">F</Text>
+                <Text position={[0, 3, 0]} fontSize={0.5} color="white">
+                    LENTILLE {lensType === 'convergent' ? 'CONVERGENTE' : 'DIVERGENTE'}
+                </Text>
 
-            <mesh position={[-focalLength, 0, 0]}>
-                <sphereGeometry args={[0.12, 16, 16]} />
-                <meshStandardMaterial color="#EF4444" emissive="#EF4444" emissiveIntensity={0.8} />
-            </mesh>
-            <Text position={[-focalLength, -0.4, 0]} fontSize={0.25} color="#EF4444">F'</Text>
-
-            {/* Objet (Flèche) */}
-            <group position={[-objectDistance, 0, 0]}>
-                <mesh position={[0, 0.5, 0]}>
-                    <cylinderGeometry args={[0.05, 0.05, 1, 8]} />
-                    <meshStandardMaterial color="#10B981" />
+                {/* Axe optique */}
+                <mesh rotation={[0, 0, Math.PI / 2]}>
+                    <cylinderGeometry args={[0.02, 0.02, 12, 8]} />
+                    <meshStandardMaterial color="#4B5563" />
                 </mesh>
-                <mesh position={[0, 1, 0]} rotation={[0, 0, Math.PI]}>
-                    <coneGeometry args={[0.15, 0.3, 8]} />
-                    <meshStandardMaterial color="#10B981" />
+
+                {/* Lentille au centre */}
+                <group>
+                    {lensType === 'convergent' ? (
+                        // Lentille biconvexe (convergente)
+                        <>
+                            <mesh>
+                                <torusGeometry args={[1, 0.1, 16, 32, Math.PI]} />
+                                <meshStandardMaterial color="#60A5FA" transparent opacity={0.6} />
+                            </mesh>
+                            <mesh rotation={[0, 0, Math.PI]}>
+                                <torusGeometry args={[1, 0.1, 16, 32, Math.PI]} />
+                                <meshStandardMaterial color="#60A5FA" transparent opacity={0.6} />
+                            </mesh>
+                        </>
+                    ) : (
+                        // Lentille biconcave (divergente)
+                        <>
+                            <mesh rotation={[0, 0, Math.PI / 2]}>
+                                <torusGeometry args={[1, 0.1, 16, 32, Math.PI]} />
+                                <meshStandardMaterial color="#FCA5A5" transparent opacity={0.6} />
+                            </mesh>
+                            <mesh rotation={[0, 0, -Math.PI / 2]}>
+                                <torusGeometry args={[1, 0.1, 16, 32, Math.PI]} />
+                                <meshStandardMaterial color="#FCA5A5" transparent opacity={0.6} />
+                            </mesh>
+                        </>
+                    )}
+                </group>
+
+                {/* Foyers */}
+                <mesh position={[focalLength, 0, 0]}>
+                    <sphereGeometry args={[0.12, 16, 16]} />
+                    <meshStandardMaterial color="#EF4444" emissive="#EF4444" emissiveIntensity={0.8} />
                 </mesh>
-                <Text position={[0, -0.5, 0]} fontSize={0.2} color="#10B981">Objet</Text>
+                <Text position={[focalLength, -0.4, 0]} fontSize={0.25} color="#EF4444">F</Text>
+
+                <mesh position={[-focalLength, 0, 0]}>
+                    <sphereGeometry args={[0.12, 16, 16]} />
+                    <meshStandardMaterial color="#EF4444" emissive="#EF4444" emissiveIntensity={0.8} />
+                </mesh>
+                <Text position={[-focalLength, -0.4, 0]} fontSize={0.25} color="#EF4444">F'</Text>
+
+                {/* Objet (Flèche) */}
+                <group position={[-objectDistance, 0, 0]}>
+                    <mesh position={[0, 0.5, 0]}>
+                        <cylinderGeometry args={[0.05, 0.05, 1, 8]} />
+                        <meshStandardMaterial color="#10B981" />
+                    </mesh>
+                    <mesh position={[0, 1, 0]} rotation={[0, 0, Math.PI]}>
+                        <coneGeometry args={[0.15, 0.3, 8]} />
+                        <meshStandardMaterial color="#10B981" />
+                    </mesh>
+                    <Text position={[0, -0.5, 0]} fontSize={0.2} color="#10B981">Objet</Text>
+                </group>
+
+                {/* Image */}
+                {
+                    isRealImage ? (
+                        <group position={[Math.abs(imageDistance), 0, 0]}>
+                            <mesh position={[0, Math.abs(magnification) * 0.5, 0]}>
+                                <cylinderGeometry args={[0.05, 0.05, Math.abs(magnification), 8]} />
+                                <meshStandardMaterial color="#8B5CF6" />
+                            </mesh>
+                            <mesh position={[0, 0, 0]} rotation={[0, 0, 0]}>
+                                <coneGeometry args={[0.12, 0.25, 8]} />
+                                <meshStandardMaterial color="#8B5CF6" />
+                            </mesh>
+                            <Text position={[0, -0.5, 0]} fontSize={0.2} color="#8B5CF6">Image (Réelle)</Text>
+                        </group>
+                    ) : (
+                        <group position={[-Math.abs(imageDistance || 2), 0, 0]}>
+                            <mesh position={[0, Math.abs(magnification || 0.5) * 0.5, 0]}>
+                                <cylinderGeometry args={[0.04, 0.04, Math.abs(magnification || 0.5), 8]} />
+                                <meshStandardMaterial color="#A78BFA" transparent opacity={0.5} />
+                            </mesh>
+                            <Text position={[0, -0.5, 0]} fontSize={0.2} color="#A78BFA">Image (Virtuelle)</Text>
+                        </group>
+                    )
+                }
+
+                {/* Rayons lumineux */}
+                {
+                    showRays && (
+                        <group>
+                            {/* Rayon passant par le centre (non dévié) */}
+                            <mesh position={[-objectDistance / 2, 0.5, 0]} rotation={[0, 0, Math.atan(1 / objectDistance) + Math.PI / 2]}>
+                                <cylinderGeometry args={[0.02, 0.02, objectDistance * 1.5, 8]} />
+                                <meshStandardMaterial color="#FCD34D" />
+                            </mesh>
+
+                            {/* Rayon parallèle à l'axe → passe par F */}
+                            <mesh position={[-objectDistance / 2, 1, 0]} rotation={[0, 0, Math.PI / 2]}>
+                                <cylinderGeometry args={[0.02, 0.02, objectDistance, 8]} />
+                                <meshStandardMaterial color="#FCD34D" />
+                            </mesh>
+                        </group>
+                    )
+                }
+
+                {/* Légende */}
+                <Text position={[0, -2.5, 0]} fontSize={0.25} color="white">
+                    {lensType === 'convergent' ? 'Corrige l\'Hypermétropie' : 'Corrige la Myopie'}
+                </Text>
             </group>
-
-            {/* Image */}
-            {
-                isRealImage ? (
-                    <group position={[Math.abs(imageDistance), 0, 0]}>
-                        <mesh position={[0, Math.abs(magnification) * 0.5, 0]}>
-                            <cylinderGeometry args={[0.05, 0.05, Math.abs(magnification), 8]} />
-                            <meshStandardMaterial color="#8B5CF6" />
-                        </mesh>
-                        <mesh position={[0, 0, 0]} rotation={[0, 0, 0]}>
-                            <coneGeometry args={[0.12, 0.25, 8]} />
-                            <meshStandardMaterial color="#8B5CF6" />
-                        </mesh>
-                        <Text position={[0, -0.5, 0]} fontSize={0.2} color="#8B5CF6">Image (Réelle)</Text>
-                    </group>
-                ) : (
-                    <group position={[-Math.abs(imageDistance || 2), 0, 0]}>
-                        <mesh position={[0, Math.abs(magnification || 0.5) * 0.5, 0]}>
-                            <cylinderGeometry args={[0.04, 0.04, Math.abs(magnification || 0.5), 8]} />
-                            <meshStandardMaterial color="#A78BFA" transparent opacity={0.5} />
-                        </mesh>
-                        <Text position={[0, -0.5, 0]} fontSize={0.2} color="#A78BFA">Image (Virtuelle)</Text>
-                    </group>
-                )
-            }
-
-            {/* Rayons lumineux */}
-            {
-                showRays && (
-                    <group>
-                        {/* Rayon passant par le centre (non dévié) */}
-                        <mesh position={[-objectDistance / 2, 0.5, 0]} rotation={[0, 0, Math.atan(1 / objectDistance) + Math.PI / 2]}>
-                            <cylinderGeometry args={[0.02, 0.02, objectDistance * 1.5, 8]} />
-                            <meshStandardMaterial color="#FCD34D" />
-                        </mesh>
-
-                        {/* Rayon parallèle à l'axe → passe par F */}
-                        <mesh position={[-objectDistance / 2, 1, 0]} rotation={[0, 0, Math.PI / 2]}>
-                            <cylinderGeometry args={[0.02, 0.02, objectDistance, 8]} />
-                            <meshStandardMaterial color="#FCD34D" />
-                        </mesh>
-                    </group>
-                )
-            }
-
-            {/* Légende */}
-            <Text position={[0, -2.5, 0]} fontSize={0.25} color="white">
-                {lensType === 'convergent' ? 'Corrige l\'Hypermétropie' : 'Corrige la Myopie'}
-            </Text>
-        </group >
+        </>
     );
 }

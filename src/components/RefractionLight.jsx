@@ -41,7 +41,7 @@ export function RefractionLight() {
     });
 
     return (
-        <group>
+        <>
             {/* Panneau de contrôle - Rendu via portail */}
             <DraggableHtmlPanel title="🔦 Réfraction de la Lumière" className="min-w-[280px] border-white/20 text-white">
 
@@ -120,105 +120,50 @@ export function RefractionLight() {
                 </div>
             </DraggableHtmlPanel>
 
-            <Text position={[1.5, 3.5, 0]} fontSize={0.4} color="white">
-                LOI DE SNELL-DESCARTES
-            </Text>
+            <group>
 
-            {/* Milieu 1 (haut) */}
-            <mesh position={[1.5, 1.5, 0]}>
-                <boxGeometry args={[6, 3, 0.5]} />
-                <meshStandardMaterial color={MEDIA[medium1].color} transparent opacity={0.3} />
-            </mesh>
-            <Text position={[4, 2.5, 0.3]} fontSize={0.25} color="white">
-                {MEDIA[medium1].name} (n={MEDIA[medium1].n})
-            </Text>
+                <Text position={[1.5, 3.5, 0]} fontSize={0.4} color="white">
+                    LOI DE SNELL-DESCARTES
+                </Text>
 
-            {/* Milieu 2 (bas) */}
-            <mesh position={[1.5, -1.5, 0]}>
-                <boxGeometry args={[6, 3, 0.5]} />
-                <meshStandardMaterial color={MEDIA[medium2].color} transparent opacity={0.5} />
-            </mesh>
-            <Text position={[4, -2.5, 0.3]} fontSize={0.25} color="white">
-                {MEDIA[medium2].name} (n={MEDIA[medium2].n})
-            </Text>
-
-            {/* Interface (surface de séparation) */}
-            <mesh position={[1.5, 0, 0.26]}>
-                <planeGeometry args={[6, 0.05]} />
-                <meshStandardMaterial color="white" />
-            </mesh>
-
-            {/* Normale (pointillés) */}
-            {showNormal && (
-                <mesh position={[1.5, 0, 0.27]}>
-                    <planeGeometry args={[0.02, 5]} />
-                    <meshStandardMaterial color="#9CA3AF" />
+                {/* Milieu 1 (haut) */}
+                <mesh position={[1.5, 1.5, 0]}>
+                    <boxGeometry args={[6, 3, 0.5]} />
+                    <meshStandardMaterial color={MEDIA[medium1].color} transparent opacity={0.3} />
                 </mesh>
-            )}
+                <Text position={[4, 2.5, 0.3]} fontSize={0.25} color="white">
+                    {MEDIA[medium1].name} (n={MEDIA[medium1].n})
+                </Text>
 
-            {/* Rayon incident */}
-            <group position={[1.5, 0, 0.3]}>
-                <mesh
-                    ref={rayRef}
-                    position={[
-                        -Math.sin((incidentAngle * Math.PI) / 180) * 1.5,
-                        Math.cos((incidentAngle * Math.PI) / 180) * 1.5,
-                        0
-                    ]}
-                    rotation={[0, 0, -(incidentAngle * Math.PI) / 180]}
-                >
-                    <boxGeometry args={[0.08, 3, 0.02]} />
-                    <meshStandardMaterial
-                        color="#FBBF24"
-                        emissive="#FBBF24"
-                        emissiveIntensity={1}
-                        transparent
-                    />
+                {/* Milieu 2 (bas) */}
+                <mesh position={[1.5, -1.5, 0]}>
+                    <boxGeometry args={[6, 3, 0.5]} />
+                    <meshStandardMaterial color={MEDIA[medium2].color} transparent opacity={0.5} />
+                </mesh>
+                <Text position={[4, -2.5, 0.3]} fontSize={0.25} color="white">
+                    {MEDIA[medium2].name} (n={MEDIA[medium2].n})
+                </Text>
+
+                {/* Interface (surface de séparation) */}
+                <mesh position={[1.5, 0, 0.26]}>
+                    <planeGeometry args={[6, 0.05]} />
+                    <meshStandardMaterial color="white" />
                 </mesh>
 
-                {/* Flèche incidente */}
-                <mesh
-                    position={[
-                        -Math.sin((incidentAngle * Math.PI) / 180) * 0.3,
-                        Math.cos((incidentAngle * Math.PI) / 180) * 0.3,
-                        0
-                    ]}
-                    rotation={[0, 0, Math.PI - (incidentAngle * Math.PI) / 180]}
-                >
-                    <coneGeometry args={[0.1, 0.2, 8]} />
-                    <meshStandardMaterial color="#FBBF24" emissive="#FBBF24" emissiveIntensity={0.8} />
-                </mesh>
-            </group>
-
-            {/* Rayon réfracté */}
-            {refractedAngle !== null && (
-                <group position={[1.5, 0, 0.3]}>
-                    <mesh
-                        position={[
-                            Math.sin((refractedAngle * Math.PI) / 180) * 1.5,
-                            -Math.cos((refractedAngle * Math.PI) / 180) * 1.5,
-                            0
-                        ]}
-                        rotation={[0, 0, (refractedAngle * Math.PI) / 180]}
-                    >
-                        <boxGeometry args={[0.08, 3, 0.02]} />
-                        <meshStandardMaterial
-                            color="#3B82F6"
-                            emissive="#3B82F6"
-                            emissiveIntensity={0.8}
-                            transparent
-                            opacity={0.9}
-                        />
+                {/* Normale (pointillés) */}
+                {showNormal && (
+                    <mesh position={[1.5, 0, 0.27]}>
+                        <planeGeometry args={[0.02, 5]} />
+                        <meshStandardMaterial color="#9CA3AF" />
                     </mesh>
-                </group>
-            )}
+                )}
 
-            {/* Rayon réfléchi (si réflexion totale) */}
-            {refractedAngle === null && (
+                {/* Rayon incident */}
                 <group position={[1.5, 0, 0.3]}>
                     <mesh
+                        ref={rayRef}
                         position={[
-                            Math.sin((incidentAngle * Math.PI) / 180) * 1.5,
+                            -Math.sin((incidentAngle * Math.PI) / 180) * 1.5,
                             Math.cos((incidentAngle * Math.PI) / 180) * 1.5,
                             0
                         ]}
@@ -226,23 +171,81 @@ export function RefractionLight() {
                     >
                         <boxGeometry args={[0.08, 3, 0.02]} />
                         <meshStandardMaterial
-                            color="#EF4444"
-                            emissive="#EF4444"
-                            emissiveIntensity={0.8}
+                            color="#FBBF24"
+                            emissive="#FBBF24"
+                            emissiveIntensity={1}
+                            transparent
                         />
                     </mesh>
-                </group>
-            )}
 
-            {/* Indicateurs d'angles */}
-            <Text position={[0.5, 1.2, 0.5]} fontSize={0.2} color="#FBBF24">
-                i₁ = {incidentAngle}°
-            </Text>
-            {refractedAngle !== null && (
-                <Text position={[2.5, -1.2, 0.5]} fontSize={0.2} color="#3B82F6">
-                    i₂ = {refractedAngle.toFixed(1)}°
+                    {/* Flèche incidente */}
+                    <mesh
+                        position={[
+                            -Math.sin((incidentAngle * Math.PI) / 180) * 0.3,
+                            Math.cos((incidentAngle * Math.PI) / 180) * 0.3,
+                            0
+                        ]}
+                        rotation={[0, 0, Math.PI - (incidentAngle * Math.PI) / 180]}
+                    >
+                        <coneGeometry args={[0.1, 0.2, 8]} />
+                        <meshStandardMaterial color="#FBBF24" emissive="#FBBF24" emissiveIntensity={0.8} />
+                    </mesh>
+                </group>
+
+                {/* Rayon réfracté */}
+                {refractedAngle !== null && (
+                    <group position={[1.5, 0, 0.3]}>
+                        <mesh
+                            position={[
+                                Math.sin((refractedAngle * Math.PI) / 180) * 1.5,
+                                -Math.cos((refractedAngle * Math.PI) / 180) * 1.5,
+                                0
+                            ]}
+                            rotation={[0, 0, (refractedAngle * Math.PI) / 180]}
+                        >
+                            <boxGeometry args={[0.08, 3, 0.02]} />
+                            <meshStandardMaterial
+                                color="#3B82F6"
+                                emissive="#3B82F6"
+                                emissiveIntensity={0.8}
+                                transparent
+                                opacity={0.9}
+                            />
+                        </mesh>
+                    </group>
+                )}
+
+                {/* Rayon réfléchi (si réflexion totale) */}
+                {refractedAngle === null && (
+                    <group position={[1.5, 0, 0.3]}>
+                        <mesh
+                            position={[
+                                Math.sin((incidentAngle * Math.PI) / 180) * 1.5,
+                                Math.cos((incidentAngle * Math.PI) / 180) * 1.5,
+                                0
+                            ]}
+                            rotation={[0, 0, -(incidentAngle * Math.PI) / 180]}
+                        >
+                            <boxGeometry args={[0.08, 3, 0.02]} />
+                            <meshStandardMaterial
+                                color="#EF4444"
+                                emissive="#EF4444"
+                                emissiveIntensity={0.8}
+                            />
+                        </mesh>
+                    </group>
+                )}
+
+                {/* Indicateurs d'angles */}
+                <Text position={[0.5, 1.2, 0.5]} fontSize={0.2} color="#FBBF24">
+                    i₁ = {incidentAngle}°
                 </Text>
-            )}
-        </group>
+                {refractedAngle !== null && (
+                    <Text position={[2.5, -1.2, 0.5]} fontSize={0.2} color="#3B82F6">
+                        i₂ = {refractedAngle.toFixed(1)}°
+                    </Text>
+                )}
+            </group>
+        </>
     );
 }
