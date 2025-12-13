@@ -4,28 +4,30 @@ import { createPortal } from 'react-dom';
 
 // Composant Panneau Draggable COMPLÈTEMENT DÉTACHÉ de la scène 3D
 // Utilise un portail React pour être rendu en dehors du Canvas Three.js
-const DraggableHtmlPanel = ({ children, title, className = "", initialPos = null }) => {
+const DraggableHtmlPanel = ({ children, title, className = "", initialPos = null, onClose }) => {
     const [mounted, setMounted] = useState(false);
-    const [position, setPosition] = useState(() => {
-        if (initialPos) return initialPos;
-        // Par défaut en bas à droite de l'écran
-        if (typeof window !== 'undefined') {
-            const x = window.innerWidth > 768 ? window.innerWidth - 380 : 10;
-            const y = window.innerHeight > 600 ? 100 : 60;
-            return { x, y };
-        }
-        return { x: 20, y: 100 };
-    });
+    const [portalContainer, setPortalContainer] = useState(null);
+    const [position, setPosition] = useState({ x: 20, y: 100 });
     const [isDragging, setIsDragging] = useState(false);
     const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
     const [isMinimized, setIsMinimized] = useState(false);
     const [isClosed, setIsClosed] = useState(false);
     const panelRef = useRef(null);
 
-    // Monter le composant côté client uniquement
+    // Monter le composant et définir la position initiale côté client uniquement
     useEffect(() => {
         setMounted(true);
-    }, []);
+        setPortalContainer(document.body);
+
+        // Définir la position initiale côté client
+        if (initialPos) {
+            setPosition(initialPos);
+        } else {
+            const x = window.innerWidth > 768 ? window.innerWidth - 380 : 10;
+            const y = window.innerHeight > 600 ? 100 : 60;
+            setPosition({ x, y });
+        }
+    }, [initialPos]);
 
     const handleMouseDown = (e) => {
         if (e.target.closest('.no-drag')) return;
@@ -74,6 +76,11 @@ const DraggableHtmlPanel = ({ children, title, className = "", initialPos = null
         setPosition({ x: newX, y: newY });
     };
 
+    const handleClose = () => {
+        setIsClosed(true);
+        if (onClose) onClose();
+    };
+
     useEffect(() => {
         if (isDragging) {
             // Utiliser l'option passive: false pour permettre preventDefault
@@ -89,10 +96,10 @@ const DraggableHtmlPanel = ({ children, title, className = "", initialPos = null
             window.removeEventListener('touchmove', handleTouchMove);
             window.removeEventListener('touchend', handleMouseUp);
         };
-    }, [isDragging, dragStart]);
+    }, [isDragging, dragStart, position]);
 
     // Ne pas rendre tant que le client n'est pas monté ou si fermé
-    if (!mounted || isClosed) return null;
+    if (!mounted || !portalContainer || isClosed) return null;
 
     const panelContent = (
         <div
@@ -107,6 +114,7 @@ const DraggableHtmlPanel = ({ children, title, className = "", initialPos = null
                 userSelect: isDragging ? 'none' : 'auto'
             }}
             onMouseDown={(e) => e.stopPropagation()}
+            onClick={(e) => e.stopPropagation()}
         >
             {/* Header draggable */}
             <div
@@ -129,7 +137,7 @@ const DraggableHtmlPanel = ({ children, title, className = "", initialPos = null
                     </button>
                     {/* Bouton Fermer */}
                     <button
-                        onClick={() => setIsClosed(true)}
+                        onClick={handleClose}
                         className="no-drag w-6 h-6 rounded bg-red-500/20 hover:bg-red-500/40 flex items-center justify-center text-xs text-red-400 transition-all"
                         title="Fermer"
                     >
@@ -154,7 +162,7 @@ const DraggableHtmlPanel = ({ children, title, className = "", initialPos = null
 
     // Utiliser un portail pour rendre le panneau directement dans le body
     // Cela le détache complètement du Canvas Three.js
-    return createPortal(panelContent, document.body);
+    return createPortal(panelContent, portalContainer);
 };
 
 export default DraggableHtmlPanel;
