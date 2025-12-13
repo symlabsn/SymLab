@@ -1,7 +1,106 @@
 import { Text } from '@react-three/drei';
 import DraggableHtmlPanel from './DraggableHtmlPanel';
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { useFrame } from '@react-three/fiber';
+import { createPortal } from 'react-dom';
+
+// Composant Panneau de Contrôle séparé pour éviter les conflits R3F
+function LensControlPanel({ lensType, setLensType, focalLength, setFocalLength, objectDistance, setObjectDistance, showRays, setShowRays, isRealImage, magnification }) {
+    const [mounted, setMounted] = useState(false);
+
+    useEffect(() => {
+        setMounted(true);
+    }, []);
+
+    if (!mounted) return null;
+
+    return createPortal(
+        <DraggableHtmlPanel title="🔍 Lentilles et Optique" className="min-w-[300px] border-white/20 text-white">
+            <div className="space-y-3">
+                <div>
+                    <label className="block text-xs mb-2">Type de Lentille</label>
+                    <div className="grid grid-cols-2 gap-2">
+                        <button
+                            onClick={() => setLensType('convergent')}
+                            className={`py-2 px-3 rounded-lg text-xs font-bold transition-colors ${lensType === 'convergent'
+                                ? 'bg-blue-600'
+                                : 'bg-gray-700 hover:bg-gray-600'
+                                }`}
+                        >
+                            🔮 Convergente
+                        </button>
+                        <button
+                            onClick={() => setLensType('divergent')}
+                            className={`py-2 px-3 rounded-lg text-xs font-bold transition-colors ${lensType === 'divergent'
+                                ? 'bg-red-600'
+                                : 'bg-gray-700 hover:bg-gray-600'
+                                }`}
+                        >
+                            🔻 Divergente
+                        </button>
+                    </div>
+                </div>
+
+                <div>
+                    <label className="block text-xs mb-1">Distance Focale f : {focalLength} cm</label>
+                    <input
+                        type="range"
+                        min="1"
+                        max="4"
+                        step="0.5"
+                        value={focalLength}
+                        onChange={(e) => setFocalLength(parseFloat(e.target.value))}
+                        className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-[#60A5FA]"
+                    />
+                </div>
+
+                <div>
+                    <label className="block text-xs mb-1">Distance Objet p : {objectDistance} cm</label>
+                    <input
+                        type="range"
+                        min="1"
+                        max="8"
+                        step="0.5"
+                        value={objectDistance}
+                        onChange={(e) => setObjectDistance(parseFloat(e.target.value))}
+                        className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-[#FCD34D]"
+                    />
+                </div>
+
+                <button
+                    onClick={() => setShowRays(!showRays)}
+                    className={`w-full py-2 rounded-lg font-bold text-sm transition-colors ${showRays ? 'bg-yellow-600' : 'bg-gray-700'
+                        }`}
+                >
+                    {showRays ? '💡 Masquer Rayons' : '💡 Afficher Rayons'}
+                </button>
+
+                {/* Info sur l'image */}
+                <div className="p-2 bg-white/10 rounded-lg text-xs font-mono">
+                    <div className="flex justify-between">
+                        <span className="text-gray-400">Image :</span>
+                        <span className={isRealImage ? 'text-green-400' : 'text-purple-400'}>
+                            {isRealImage ? 'Réelle' : 'Virtuelle'}
+                        </span>
+                    </div>
+                    <div className="flex justify-between">
+                        <span className="text-gray-400">Grandissement :</span>
+                        <span>{Math.abs(magnification).toFixed(2)}x</span>
+                    </div>
+                    <div className="flex justify-between">
+                        <span className="text-gray-400">Sens :</span>
+                        <span>{magnification < 0 ? 'Inversée' : 'Droite'}</span>
+                    </div>
+                </div>
+
+                <div className="text-xs text-center text-gray-400">
+                    1/f = 1/p' - 1/p
+                </div>
+            </div>
+        </DraggableHtmlPanel>,
+        document.body
+    );
+}
 
 // Composant Lentilles Optiques - INTERACTIF
 export function LensOptics() {
@@ -20,91 +119,19 @@ export function LensOptics() {
 
     return (
         <>
-            {/* Panneau de Contrôle - Rendu via portail directement dans le body */}
-            <DraggableHtmlPanel title="🔍 Lentilles et Optique" className="min-w-[300px] border-white/20 text-white">
-
-                <div className="space-y-3">
-                    <div>
-                        <label className="block text-xs mb-2">Type de Lentille</label>
-                        <div className="grid grid-cols-2 gap-2">
-                            <button
-                                onClick={() => setLensType('convergent')}
-                                className={`py-2 px-3 rounded-lg text-xs font-bold transition-colors ${lensType === 'convergent'
-                                    ? 'bg-blue-600'
-                                    : 'bg-gray-700 hover:bg-gray-600'
-                                    }`}
-                            >
-                                🔮 Convergente
-                            </button>
-                            <button
-                                onClick={() => setLensType('divergent')}
-                                className={`py-2 px-3 rounded-lg text-xs font-bold transition-colors ${lensType === 'divergent'
-                                    ? 'bg-red-600'
-                                    : 'bg-gray-700 hover:bg-gray-600'
-                                    }`}
-                            >
-                                🔻 Divergente
-                            </button>
-                        </div>
-                    </div>
-
-                    <div>
-                        <label className="block text-xs mb-1">Distance Focale f : {focalLength} cm</label>
-                        <input
-                            type="range"
-                            min="1"
-                            max="4"
-                            step="0.5"
-                            value={focalLength}
-                            onChange={(e) => setFocalLength(parseFloat(e.target.value))}
-                            className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-[#60A5FA]"
-                        />
-                    </div>
-
-                    <div>
-                        <label className="block text-xs mb-1">Distance Objet p : {objectDistance} cm</label>
-                        <input
-                            type="range"
-                            min="1"
-                            max="8"
-                            step="0.5"
-                            value={objectDistance}
-                            onChange={(e) => setObjectDistance(parseFloat(e.target.value))}
-                            className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-[#FCD34D]"
-                        />
-                    </div>
-
-                    <button
-                        onClick={() => setShowRays(!showRays)}
-                        className={`w-full py-2 rounded-lg font-bold text-sm transition-colors ${showRays ? 'bg-yellow-600' : 'bg-gray-700'
-                            }`}
-                    >
-                        {showRays ? '💡 Masquer Rayons' : '💡 Afficher Rayons'}
-                    </button>
-
-                    {/* Info sur l'image */}
-                    <div className="p-2 bg-white/10 rounded-lg text-xs font-mono">
-                        <div className="flex justify-between">
-                            <span className="text-gray-400">Image :</span>
-                            <span className={isRealImage ? 'text-green-400' : 'text-purple-400'}>
-                                {isRealImage ? 'Réelle' : 'Virtuelle'}
-                            </span>
-                        </div>
-                        <div className="flex justify-between">
-                            <span className="text-gray-400">Grandissement :</span>
-                            <span>{Math.abs(magnification).toFixed(2)}x</span>
-                        </div>
-                        <div className="flex justify-between">
-                            <span className="text-gray-400">Sens :</span>
-                            <span>{magnification < 0 ? 'Inversée' : 'Droite'}</span>
-                        </div>
-                    </div>
-
-                    <div className="text-xs text-center text-gray-400">
-                        1/f = 1/p' - 1/p
-                    </div>
-                </div>
-            </DraggableHtmlPanel>
+            {/* Panneau de Contrôle - Rendu via portail hors du contexte R3F */}
+            <LensControlPanel
+                lensType={lensType}
+                setLensType={setLensType}
+                focalLength={focalLength}
+                setFocalLength={setFocalLength}
+                objectDistance={objectDistance}
+                setObjectDistance={setObjectDistance}
+                showRays={showRays}
+                setShowRays={setShowRays}
+                isRealImage={isRealImage}
+                magnification={magnification}
+            />
 
             <group>
 
