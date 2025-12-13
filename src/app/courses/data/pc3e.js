@@ -9,6 +9,7 @@ export const pc3eData = {
             id: 'phys-3e-01',
             part: 'Partie 1 : Physique',
             title: '1. Lentilles minces',
+            image: '/simulations/pc3e/lens-optics-3e.png',
             simulation: {
                 id: 'lens-optics-3e',
                 title: 'Lentilles Convergentes et Divergentes',
@@ -72,6 +73,7 @@ Plus la distance focale est petite, plus la lentille est puissante !`
             id: 'phys-3e-02',
             part: 'Partie 1 : Physique',
             title: '2. Dispersion de la lumière',
+            image: '/simulations/pc3e/light-dispersion-3e.png',
             simulation: {
                 id: 'light-dispersion-3e',
                 title: 'Le Prisme et l\'Arc-en-ciel',
@@ -135,6 +137,7 @@ La lumière d'une seule couleur (laser rouge) ne peut pas être décomposée : e
             id: 'phys-3e-03',
             part: 'Partie 1 : Physique',
             title: '3. Forces',
+            image: '/simulations/pc3e/forces-vectors-3e.png',
             simulation: {
                 id: 'forces-vectors-3e',
                 title: 'Forces et Représentation Vectorielle',
@@ -206,6 +209,7 @@ Un sac de riz de 50 kg pèse : P = 50 × 10 = **500 N** !`
             id: 'phys-3e-04',
             part: 'Partie 1 : Physique',
             title: '4. Travail et Puissance',
+            image: '/simulations/pc3e/work-power-3e.png',
             simulation: {
                 id: 'work-power-3e',
                 title: 'Travail et Puissance Mécanique',
@@ -273,6 +277,7 @@ Mamadou est 5 fois plus puissant ! 💪`
             id: 'phys-3e-05',
             part: 'Partie 1 : Physique',
             title: '5. Électrisation par frottement',
+            image: '/simulations/pc3e/electrostatics-3e.png',
             simulation: {
                 id: 'electrostatics-3e',
                 title: 'Charges Électriques et Électrisation',
@@ -341,6 +346,7 @@ C'est dangereux près de l'essence ou du gaz.`
             id: 'phys-3e-06',
             part: 'Partie 1 : Physique',
             title: '6. Résistance électrique',
+            image: '/simulations/pc3e/resistance-ohm-3e.png',
             simulation: {
                 id: 'resistance-ohm-3e',
                 title: "Loi d'Ohm et Circuits",
@@ -413,6 +419,7 @@ Plus la résistance est grande, moins le courant passe !Comme pincer le tuyau : 
             id: 'phys-3e-07',
             part: 'Partie 1 : Physique',
             title: '7. Transformation d\'énergies',
+            image: '/simulations/pc3e/energy-transformations-3e.png',
             simulation: {
                 id: 'energy-transformations-3e',
                 title: 'Chaînes Énergétiques et Rendement',
@@ -491,6 +498,7 @@ Une ampoule LED a un rendement de 40% (bien mieux que 5% pour une incandescente 
             id: 'chim-3e-08',
             part: 'Partie 2 : Chimie',
             title: '8. Solutions aqueuses',
+            image: '/simulations/pc3e/aqueous-solutions-3e.png',
             simulation: {
                 id: 'aqueous-solutions-3e',
                 title: 'Dissolution et Concentration',
@@ -560,6 +568,7 @@ Il reste au fond ! La solution est **SATURÉE**.
             id: 'chim-3e-09',
             part: 'Partie 2 : Chimie',
             title: '9. Acides et Bases',
+            image: '/simulations/pc3e/acids-bases-ph-3e.png',
             simulation: {
                 id: 'acids-bases-ph-3e',
                 title: 'Échelle pH et Indicateurs Colorés',
@@ -631,6 +640,7 @@ Le pH se rapproche de 7 !`
             id: 'chim-3e-10',
             part: 'Partie 2 : Chimie',
             title: '10. Propriétés chimiques des métaux',
+            image: '/simulations/pc3e/metals-properties-3e.png',
             simulation: {
                 id: 'metals-properties-3e',
                 title: 'Réactions des Métaux',
@@ -701,6 +711,7 @@ Le gaz H₂ forme des bulles ! 💨
             id: 'chim-3e-11',
             part: 'Partie 2 : Chimie',
             title: '11. Hydrocarbures',
+            image: '/simulations/pc3e/hydrocarbons-3e.png',
             simulation: {
                 id: 'hydrocarbons-3e',
                 title: 'Pétrole et Combustion',
