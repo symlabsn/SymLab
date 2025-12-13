@@ -1,12 +1,23 @@
 'use client';
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { createPortal } from 'react-dom';
 
-// Composant Panneau Draggable COMPLÈTEMENT DÉTACHÉ de la scène 3D
-// Utilise un portail React pour être rendu en dehors du Canvas Three.js
+/**
+ * Composant Panneau Draggable COMPLÈTEMENT DÉTACHÉ de la scène 3D
+ * Utilise un portail React pour être rendu en dehors du Canvas Three.js
+ * 
+ * IMPORTANT: Ce composant est conçu pour être utilisé à l'intérieur de composants
+ * qui sont rendus dans le Canvas R3F. Il utilise un portail pour "s'échapper"
+ * du contexte Three.js et rendre son contenu HTML dans document.body.
+ * 
+ * Features:
+ * - Draggable (déplaçable avec souris et touch)
+ * - Minimisable (réductible)
+ * - Fermable
+ * - Position initiale intelligente (côté droit sur desktop, en haut sur mobile)
+ */
 const DraggableHtmlPanel = ({ children, title, className = "", initialPos = null, onClose }) => {
     const [mounted, setMounted] = useState(false);
-    const [portalContainer, setPortalContainer] = useState(null);
     const [position, setPosition] = useState({ x: 20, y: 100 });
     const [isDragging, setIsDragging] = useState(false);
     const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
@@ -14,22 +25,25 @@ const DraggableHtmlPanel = ({ children, title, className = "", initialPos = null
     const [isClosed, setIsClosed] = useState(false);
     const panelRef = useRef(null);
 
-    // Monter le composant et définir la position initiale côté client uniquement
+    // Monter le composant côté client uniquement
     useEffect(() => {
-        setMounted(true);
-        setPortalContainer(document.body);
+        // Utiliser un délai court pour s'assurer que le DOM est prêt
+        const timer = setTimeout(() => {
+            setMounted(true);
+            // Définir la position initiale côté client
+            if (initialPos) {
+                setPosition(initialPos);
+            } else if (typeof window !== 'undefined') {
+                const x = window.innerWidth > 768 ? window.innerWidth - 380 : 10;
+                const y = window.innerHeight > 600 ? 100 : 60;
+                setPosition({ x, y });
+            }
+        }, 50);
 
-        // Définir la position initiale côté client
-        if (initialPos) {
-            setPosition(initialPos);
-        } else {
-            const x = window.innerWidth > 768 ? window.innerWidth - 380 : 10;
-            const y = window.innerHeight > 600 ? 100 : 60;
-            setPosition({ x, y });
-        }
+        return () => clearTimeout(timer);
     }, [initialPos]);
 
-    const handleMouseDown = (e) => {
+    const handleMouseDown = useCallback((e) => {
         if (e.target.closest('.no-drag')) return;
         e.preventDefault();
         e.stopPropagation();
@@ -38,9 +52,9 @@ const DraggableHtmlPanel = ({ children, title, className = "", initialPos = null
             x: e.clientX - position.x,
             y: e.clientY - position.y
         });
-    };
+    }, [position]);
 
-    const handleMouseMove = (e) => {
+    const handleMouseMove = useCallback((e) => {
         if (!isDragging) return;
         e.preventDefault();
 
@@ -49,13 +63,13 @@ const DraggableHtmlPanel = ({ children, title, className = "", initialPos = null
         const newY = Math.max(0, Math.min(window.innerHeight - 50, e.clientY - dragStart.y));
 
         setPosition({ x: newX, y: newY });
-    };
+    }, [isDragging, dragStart]);
 
-    const handleMouseUp = () => {
+    const handleMouseUp = useCallback(() => {
         setIsDragging(false);
-    };
+    }, []);
 
-    const handleTouchStart = (e) => {
+    const handleTouchStart = useCallback((e) => {
         if (e.target.closest('.no-drag')) return;
         const touch = e.touches[0];
         setIsDragging(true);
@@ -63,9 +77,9 @@ const DraggableHtmlPanel = ({ children, title, className = "", initialPos = null
             x: touch.clientX - position.x,
             y: touch.clientY - position.y
         });
-    };
+    }, [position]);
 
-    const handleTouchMove = (e) => {
+    const handleTouchMove = useCallback((e) => {
         if (!isDragging) return;
         const touch = e.touches[0];
 
@@ -74,12 +88,12 @@ const DraggableHtmlPanel = ({ children, title, className = "", initialPos = null
         const newY = Math.max(0, Math.min(window.innerHeight - 50, touch.clientY - dragStart.y));
 
         setPosition({ x: newX, y: newY });
-    };
+    }, [isDragging, dragStart]);
 
-    const handleClose = () => {
+    const handleClose = useCallback(() => {
         setIsClosed(true);
         if (onClose) onClose();
-    };
+    }, [onClose]);
 
     useEffect(() => {
         if (isDragging) {
@@ -96,10 +110,14 @@ const DraggableHtmlPanel = ({ children, title, className = "", initialPos = null
             window.removeEventListener('touchmove', handleTouchMove);
             window.removeEventListener('touchend', handleMouseUp);
         };
-    }, [isDragging, dragStart, position]);
+    }, [isDragging, handleMouseMove, handleMouseUp, handleTouchMove]);
 
     // Ne pas rendre tant que le client n'est pas monté ou si fermé
-    if (!mounted || !portalContainer || isClosed) return null;
+    // IMPORTANT: Retourne null AVANT le montage pour éviter les erreurs R3F
+    if (!mounted || isClosed) return null;
+
+    // Ne pas essayer de créer le portail si document n'est pas disponible
+    if (typeof document === 'undefined') return null;
 
     const panelContent = (
         <div
@@ -133,7 +151,7 @@ const DraggableHtmlPanel = ({ children, title, className = "", initialPos = null
                         className="no-drag w-6 h-6 rounded bg-white/10 hover:bg-white/20 flex items-center justify-center text-xs transition-all"
                         title={isMinimized ? "Agrandir" : "Réduire"}
                     >
-                        {isMinimized ? '□' : '_'}
+                        {isMinimized ? '🔼' : '🔽'}
                     </button>
                     {/* Bouton Fermer */}
                     <button
@@ -162,7 +180,7 @@ const DraggableHtmlPanel = ({ children, title, className = "", initialPos = null
 
     // Utiliser un portail pour rendre le panneau directement dans le body
     // Cela le détache complètement du Canvas Three.js
-    return createPortal(panelContent, portalContainer);
+    return createPortal(panelContent, document.body);
 };
 
 export default DraggableHtmlPanel;
