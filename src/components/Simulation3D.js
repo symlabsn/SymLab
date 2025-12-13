@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 import { useRef, useMemo, useState, useEffect } from 'react';
 import * as THREE from 'three';
 
@@ -58,104 +58,105 @@ function WeightMass() {
     const [mass, setMass] = useState(10);
 
     return (
-        <group>
-            {/* Controls - Panneau Draggable */}
-            <Html position={[0, 4, 0]} center>
-                <DraggableHtmlPanel title="⚖️ Poids vs Masse">
-                    <div className="text-white">
-                        <label className="block text-sm font-bold mb-2 text-[#00F5D4]">Masse : {mass} kg</label>
-                        <input
-                            type="range"
-                            min="1"
-                            max="50"
-                            value={mass}
-                            onChange={(e) => setMass(parseInt(e.target.value))}
-                            className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-[#00F5D4]"
-                        />
-                        <div className="flex justify-between text-xs text-gray-400 mt-1">
-                            <span>1kg</span>
-                            <span>50kg</span>
+        <>
+            {/* Controls - Panneau Draggable - Rendu Portal */}
+            <DraggableHtmlPanel title="⚖️ Poids vs Masse">
+                <div className="text-white">
+                    <label className="block text-sm font-bold mb-2 text-[#00F5D4]">Masse : {mass} kg</label>
+                    <input
+                        type="range"
+                        min="1"
+                        max="50"
+                        value={mass}
+                        onChange={(e) => setMass(parseInt(e.target.value))}
+                        className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-[#00F5D4]"
+                    />
+                    <div className="flex justify-between text-xs text-gray-400 mt-1">
+                        <span>1kg</span>
+                        <span>50kg</span>
+                    </div>
+                    <div className="mt-3 pt-3 border-t border-white/10 grid grid-cols-2 gap-2 text-xs">
+                        <div className="p-2 rounded bg-blue-500/20">
+                            <div className="text-blue-400">🌍 Terre</div>
+                            <div className="font-bold">{(mass * 9.8).toFixed(1)} N</div>
                         </div>
-                        <div className="mt-3 pt-3 border-t border-white/10 grid grid-cols-2 gap-2 text-xs">
-                            <div className="p-2 rounded bg-blue-500/20">
-                                <div className="text-blue-400">🌍 Terre</div>
-                                <div className="font-bold">{(mass * 9.8).toFixed(1)} N</div>
-                            </div>
-                            <div className="p-2 rounded bg-gray-500/20">
-                                <div className="text-gray-400">🌙 Lune</div>
-                                <div className="font-bold">{(mass * 1.6).toFixed(1)} N</div>
-                            </div>
+                        <div className="p-2 rounded bg-gray-500/20">
+                            <div className="text-gray-400">🌙 Lune</div>
+                            <div className="font-bold">{(mass * 1.6).toFixed(1)} N</div>
                         </div>
                     </div>
-                </DraggableHtmlPanel>
-            </Html>
+                </div>
+            </DraggableHtmlPanel>
 
-            {/* Terre */}
-            <group position={[-3, 0, 0]}>
-                <mesh position={[0, -2.5, 0]}>
-                    <sphereGeometry args={[2, 32, 32]} />
-                    <meshStandardMaterial color="#3B82F6" emissive="#1D4ED8" emissiveIntensity={0.2} />
-                </mesh>
-                <Text position={[0, -4.8, 0]} fontSize={0.4} color="white">Terre (g = 9.8)</Text>
+            <group>
 
-                {/* Objet sur Terre */}
-                <mesh position={[0, 0, 0]} scale={[1 + mass / 100, 1 + mass / 100, 1 + mass / 100]}>
-                    <boxGeometry args={[0.8, 0.8, 0.8]} />
-                    <meshStandardMaterial color="#FCD34D" />
-                </mesh>
+                {/* Terre */}
+                <group position={[-3, 0, 0]}>
+                    <mesh position={[0, -2.5, 0]}>
+                        <sphereGeometry args={[2, 32, 32]} />
+                        <meshStandardMaterial color="#3B82F6" emissive="#1D4ED8" emissiveIntensity={0.2} />
+                    </mesh>
+                    <Text position={[0, -4.8, 0]} fontSize={0.4} color="white">Terre (g = 9.8)</Text>
 
-                {/* Vecteur Poids */}
-                <arrowHelper
-                    args={[
-                        new THREE.Vector3(0, -1, 0), // Dir
-                        new THREE.Vector3(0, -0.5, 0), // Origin
-                        1 + (mass * 9.8) / 100, // Length (scaled)
-                        0xEF4444, // Color
-                        0.3, // Head Length
-                        0.2 // Head Width
-                    ]}
-                />
+                    {/* Objet sur Terre */}
+                    <mesh position={[0, 0, 0]} scale={[1 + mass / 100, 1 + mass / 100, 1 + mass / 100]}>
+                        <boxGeometry args={[0.8, 0.8, 0.8]} />
+                        <meshStandardMaterial color="#FCD34D" />
+                    </mesh>
 
-                <Text position={[1.5, 0, 0]} fontSize={0.4} color="#EF4444">
-                    P = {(mass * 9.8).toFixed(1)} N
+                    {/* Vecteur Poids */}
+                    <arrowHelper
+                        args={[
+                            new THREE.Vector3(0, -1, 0), // Dir
+                            new THREE.Vector3(0, -0.5, 0), // Origin
+                            1 + (mass * 9.8) / 100, // Length (scaled)
+                            0xEF4444, // Color
+                            0.3, // Head Length
+                            0.2 // Head Width
+                        ]}
+                    />
+
+                    <Text position={[1.5, 0, 0]} fontSize={0.4} color="#EF4444">
+                        P = {(mass * 9.8).toFixed(1)} N
+                    </Text>
+                </group>
+
+                {/* Lune */}
+                <group position={[3, 0, 0]}>
+                    <mesh position={[0, -2.5, 0]}>
+                        <sphereGeometry args={[1.2, 32, 32]} />
+                        <meshStandardMaterial color="#9CA3AF" emissive="#4B5563" emissiveIntensity={0.2} />
+                    </mesh>
+                    <Text position={[0, -4.8, 0]} fontSize={0.4} color="white">Lune (g = 1.6)</Text>
+
+                    {/* Objet sur Lune */}
+                    <mesh position={[0, 0, 0]} scale={[1 + mass / 100, 1 + mass / 100, 1 + mass / 100]}>
+                        <boxGeometry args={[0.8, 0.8, 0.8]} />
+                        <meshStandardMaterial color="#FCD34D" />
+                    </mesh>
+
+                    {/* Vecteur Poids */}
+                    <arrowHelper
+                        args={[
+                            new THREE.Vector3(0, -1, 0),
+                            new THREE.Vector3(0, -0.5, 0),
+                            1 + (mass * 1.6) / 100,
+                            0xEF4444,
+                            0.3,
+                            0.2
+                        ]}
+                    />
+
+                    <Text position={[1.5, 0, 0]} fontSize={0.4} color="#EF4444">
+                        P = {(mass * 1.6).toFixed(1)} N
+                    </Text>
+                </group>
+
+                <Text position={[0, 2.5, 0]} fontSize={0.5} color="#00F5D4" anchorX="center" anchorY="middle">
+                    Masse constante, Poids variable
                 </Text>
             </group>
-
-            {/* Lune */}
-            <group position={[3, 0, 0]}>
-                <mesh position={[0, -2.5, 0]}>
-                    <sphereGeometry args={[1.2, 32, 32]} />
-                    <meshStandardMaterial color="#9CA3AF" emissive="#4B5563" emissiveIntensity={0.2} />
-                </mesh>
-                <Text position={[0, -4.8, 0]} fontSize={0.4} color="white">Lune (g = 1.6)</Text>
-
-                {/* Objet sur Lune */}
-                <mesh position={[0, 0, 0]} scale={[1 + mass / 100, 1 + mass / 100, 1 + mass / 100]}>
-                    <boxGeometry args={[0.8, 0.8, 0.8]} />
-                    <meshStandardMaterial color="#FCD34D" />
-                </mesh>
-
-                {/* Vecteur Poids */}
-                <arrowHelper
-                    args={[
-                        new THREE.Vector3(0, -1, 0),
-                        new THREE.Vector3(0, -0.5, 0),
-                        1 + (mass * 1.6) / 100,
-                        0xEF4444,
-                        0.3,
-                        0.2
-                    ]}
-                />
-
-                <Text position={[1.5, 0, 0]} fontSize={0.4} color="#EF4444">
-                    P = {(mass * 1.6).toFixed(1)} N
-                </Text>
-            </group>
-
-            <Text position={[0, 2.5, 0]} fontSize={0.5} color="#00F5D4" anchorX="center" anchorY="middle">
-                Masse constante, Poids variable
-            </Text>
-        </group>
+        </>
     );
 }
 
@@ -173,62 +174,63 @@ function ThalesTheorem() {
     const N = new THREE.Vector3().lerpVectors(A, C, ratio);
 
     return (
-        <group>
-            {/* Controls - Draggable */}
-            <Html position={[-3, 4, 0]} center>
-                <DraggableHtmlPanel title="📐 Théorème de Thalès">
-                    <div className="text-white">
-                        <label className="block text-sm mb-1">Position MN (Ratio : {ratio.toFixed(2)})</label>
-                        <input
-                            type="range"
-                            min="0.1"
-                            max="0.9"
-                            step="0.05"
-                            value={ratio}
-                            onChange={(e) => setRatio(parseFloat(e.target.value))}
-                            className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-[#EF4444]"
-                        />
-                        <div className="mt-3 text-xs space-y-1 font-mono text-gray-300">
-                            <div className="flex justify-between"><span>AM/AB =</span> <span className="text-[#EF4444]">{ratio.toFixed(2)}</span></div>
-                            <div className="flex justify-between"><span>AN/AC =</span> <span className="text-[#EF4444]">{ratio.toFixed(2)}</span></div>
-                            <div className="flex justify-between"><span>MN/BC =</span> <span className="text-[#EF4444]">{ratio.toFixed(2)}</span></div>
-                        </div>
+        <>
+            {/* Controls - Draggable - Rendu Portal */}
+            <DraggableHtmlPanel title="📐 Théorème de Thalès">
+                <div className="text-white">
+                    <label className="block text-sm mb-1">Position MN (Ratio : {ratio.toFixed(2)})</label>
+                    <input
+                        type="range"
+                        min="0.1"
+                        max="0.9"
+                        step="0.05"
+                        value={ratio}
+                        onChange={(e) => setRatio(parseFloat(e.target.value))}
+                        className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-[#EF4444]"
+                    />
+                    <div className="mt-3 text-xs space-y-1 font-mono text-gray-300">
+                        <div className="flex justify-between"><span>AM/AB =</span> <span className="text-[#EF4444]">{ratio.toFixed(2)}</span></div>
+                        <div className="flex justify-between"><span>AN/AC =</span> <span className="text-[#EF4444]">{ratio.toFixed(2)}</span></div>
+                        <div className="flex justify-between"><span>MN/BC =</span> <span className="text-[#EF4444]">{ratio.toFixed(2)}</span></div>
                     </div>
-                </DraggableHtmlPanel>
-            </Html>
+                </div>
+            </DraggableHtmlPanel>
 
-            {/* Sommet A */}
-            <mesh position={A}>
-                <sphereGeometry args={[0.15]} />
-                <meshStandardMaterial color="white" />
-            </mesh>
-            <Text position={[A.x, A.y + 0.3, A.z]} fontSize={0.4} color="white">A</Text>
+            <group>
 
-            {/* Triangle ABC (Lignes) */}
-            <Line points={[A, B]} color="#3B82F6" lineWidth={3} />
-            <Line points={[A, C]} color="#3B82F6" lineWidth={3} />
-            <Line points={[B, C]} color="#3B82F6" lineWidth={3} />
+                {/* Sommet A */}
+                <mesh position={A}>
+                    <sphereGeometry args={[0.15]} />
+                    <meshStandardMaterial color="white" />
+                </mesh>
+                <Text position={[A.x, A.y + 0.3, A.z]} fontSize={0.4} color="white">A</Text>
 
-            <Text position={[B.x - 0.3, B.y, B.z]} fontSize={0.4} color="white">B</Text>
-            <Text position={[C.x + 0.3, C.y, C.z]} fontSize={0.4} color="white">C</Text>
+                {/* Triangle ABC (Lignes) */}
+                <Line points={[A, B]} color="#3B82F6" lineWidth={3} />
+                <Line points={[A, C]} color="#3B82F6" lineWidth={3} />
+                <Line points={[B, C]} color="#3B82F6" lineWidth={3} />
 
-            {/* Ligne Parallèle MN (Thalès) */}
-            <Line points={[M, N]} color="#EF4444" lineWidth={4} />
+                <Text position={[B.x - 0.3, B.y, B.z]} fontSize={0.4} color="white">B</Text>
+                <Text position={[C.x + 0.3, C.y, C.z]} fontSize={0.4} color="white">C</Text>
 
-            <mesh position={M}>
-                <sphereGeometry args={[0.15]} />
-                <meshStandardMaterial color="#EF4444" />
-            </mesh>
-            <Text position={[M.x - 0.4, M.y, M.z]} fontSize={0.4} color="white">M</Text>
+                {/* Ligne Parallèle MN (Thalès) */}
+                <Line points={[M, N]} color="#EF4444" lineWidth={4} />
 
-            <mesh position={N}>
-                <sphereGeometry args={[0.15]} />
-                <meshStandardMaterial color="#EF4444" />
-            </mesh>
-            <Text position={[N.x + 0.4, N.y, N.z]} fontSize={0.4} color="white">N</Text>
+                <mesh position={M}>
+                    <sphereGeometry args={[0.15]} />
+                    <meshStandardMaterial color="#EF4444" />
+                </mesh>
+                <Text position={[M.x - 0.4, M.y, M.z]} fontSize={0.4} color="white">M</Text>
 
-            <Text position={[0, -2, 0]} fontSize={0.5} color="white">Les rapports restent égaux !</Text>
-        </group>
+                <mesh position={N}>
+                    <sphereGeometry args={[0.15]} />
+                    <meshStandardMaterial color="#EF4444" />
+                </mesh>
+                <Text position={[N.x + 0.4, N.y, N.z]} fontSize={0.4} color="white">N</Text>
+
+                <Text position={[0, -2, 0]} fontSize={0.5} color="white">Les rapports restent égaux !</Text>
+            </group>
+        </>
     );
 }
 
@@ -259,103 +261,104 @@ function TrigUnitCircle() {
     const planetPos = [2 * cosVal, 2 * sinVal, 0];
 
     return (
-        <group>
-            {/* Controls - Draggable */}
-            <Html position={[-3.5, 2, 0]} center>
-                <DraggableHtmlPanel title="⭕ Cercle Trigonométrique">
-                    <div className="text-white">
-                        <div className="flex items-center justify-between mb-4">
-                            <span className="text-xs text-gray-400">Animation</span>
-                            <button
-                                onClick={() => setAutoPlay(!autoPlay)}
-                                className={`px-3 py-1 rounded-lg text-xs font-bold ${autoPlay ? 'bg-red-500/20 text-red-400' : 'bg-green-500/20 text-green-400'}`}
-                            >
-                                {autoPlay ? 'Pause ⏸' : 'Play ▶'}
-                            </button>
+        <>
+            {/* Controls - Draggable - Rendu Portal */}
+            <DraggableHtmlPanel title="⭕ Cercle Trigonométrique">
+                <div className="text-white">
+                    <div className="flex items-center justify-between mb-4">
+                        <span className="text-xs text-gray-400">Animation</span>
+                        <button
+                            onClick={() => setAutoPlay(!autoPlay)}
+                            className={`px-3 py-1 rounded-lg text-xs font-bold ${autoPlay ? 'bg-red-500/20 text-red-400' : 'bg-green-500/20 text-green-400'}`}
+                        >
+                            {autoPlay ? 'Pause ⏸' : 'Play ▶'}
+                        </button>
+                    </div>
+
+                    {!autoPlay && (
+                        <div className="mb-4">
+                            <label className="block text-xs mb-1 text-gray-400">Angle (rad)</label>
+                            <input
+                                type="range"
+                                min="0"
+                                max={Math.PI * 2}
+                                step="0.01"
+                                value={angle}
+                                onChange={(e) => setAngle(parseFloat(e.target.value))}
+                                className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-[#00F5D4]"
+                            />
                         </div>
+                    )}
 
-                        {!autoPlay && (
-                            <div className="mb-4">
-                                <label className="block text-xs mb-1 text-gray-400">Angle (rad)</label>
-                                <input
-                                    type="range"
-                                    min="0"
-                                    max={Math.PI * 2}
-                                    step="0.01"
-                                    value={angle}
-                                    onChange={(e) => setAngle(parseFloat(e.target.value))}
-                                    className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-[#00F5D4]"
-                                />
-                            </div>
-                        )}
-
-                        <div className="space-y-2 text-xs font-mono border-t border-white/10 pt-2">
-                            <div className="flex justify-between">
-                                <span className="text-blue-400">Cos (x) :</span>
-                                <span>{cosVal.toFixed(2)}</span>
-                            </div>
-                            <div className="flex justify-between">
-                                <span className="text-red-400">Sin (y) :</span>
-                                <span>{sinVal.toFixed(2)}</span>
-                            </div>
-                            <div className="flex justify-between font-bold">
-                                <span className="text-gray-400">Angle :</span>
-                                <span>{((currentAngle * 180) / Math.PI).toFixed(0)}°</span>
-                            </div>
+                    <div className="space-y-2 text-xs font-mono border-t border-white/10 pt-2">
+                        <div className="flex justify-between">
+                            <span className="text-blue-400">Cos (x) :</span>
+                            <span>{cosVal.toFixed(2)}</span>
+                        </div>
+                        <div className="flex justify-between">
+                            <span className="text-red-400">Sin (y) :</span>
+                            <span>{sinVal.toFixed(2)}</span>
+                        </div>
+                        <div className="flex justify-between font-bold">
+                            <span className="text-gray-400">Angle :</span>
+                            <span>{((currentAngle * 180) / Math.PI).toFixed(0)}°</span>
                         </div>
                     </div>
-                </DraggableHtmlPanel>
-            </Html>
+                </div>
+            </DraggableHtmlPanel>
 
-            {/* Cercle Unité */}
-            <mesh rotation={[Math.PI / 2, 0, 0]}>
-                <torusGeometry args={[2, 0.05, 64, 100]} />
-                <meshStandardMaterial color="white" opacity={0.5} transparent />
-            </mesh>
-
-            {/* Axes */}
             <group>
-                <mesh rotation={[0, 0, Math.PI / 2]}> {/* Axe Y */}
-                    <cylinderGeometry args={[0.02, 0.02, 5, 8]} />
-                    <meshStandardMaterial color="gray" />
+
+                {/* Cercle Unité */}
+                <mesh rotation={[Math.PI / 2, 0, 0]}>
+                    <torusGeometry args={[2, 0.05, 64, 100]} />
+                    <meshStandardMaterial color="white" opacity={0.5} transparent />
                 </mesh>
-                <mesh rotation={[0, 0, 0]}> {/* Axe X */}
-                    <cylinderGeometry args={[0.02, 0.02, 5, 8]} rotation={[0, 0, Math.PI / 2]} />
-                    <meshStandardMaterial color="gray" />
-                </mesh>
+
+                {/* Axes */}
+                <group>
+                    <mesh rotation={[0, 0, Math.PI / 2]}> {/* Axe Y */}
+                        <cylinderGeometry args={[0.02, 0.02, 5, 8]} />
+                        <meshStandardMaterial color="gray" />
+                    </mesh>
+                    <mesh rotation={[0, 0, 0]}> {/* Axe X */}
+                        <cylinderGeometry args={[0.02, 0.02, 5, 8]} rotation={[0, 0, Math.PI / 2]} />
+                        <meshStandardMaterial color="gray" />
+                    </mesh>
+                </group>
+
+                {/* Point mobile */}
+                <group>
+                    <mesh position={planetPos}>
+                        <sphereGeometry args={[0.15]} />
+                        <meshStandardMaterial color="#FCD34D" emissive="#FCD34D" emissiveIntensity={0.5} />
+                    </mesh>
+
+                    {/* Lignes de projection */}
+                    {/* Sinus (Verticale) */}
+                    <mesh position={[2 * cosVal, sinVal, 0]} scale={[1, Math.abs(2 * sinVal), 1]}>
+                        <cylinderGeometry args={[0.02, 0.02, 1, 8]} />
+                        <meshStandardMaterial color="#EF4444" />
+                    </mesh>
+                    <Text position={[2.2, 1, 0]} fontSize={0.3} color="#EF4444">Sin</Text>
+
+                    {/* Cosinus (Horizontale) */}
+                    <mesh position={[cosVal, 0, 0]} rotation={[0, 0, Math.PI / 2]} scale={[1, Math.abs(2 * cosVal), 1]}>
+                        <cylinderGeometry args={[0.02, 0.02, 1, 8]} />
+                        <meshStandardMaterial color="#3B82F6" />
+                    </mesh>
+                    <Text position={[1, -0.3, 0]} fontSize={0.3} color="#3B82F6">Cos</Text>
+
+                    {/* Rayon */}
+                    <Line
+                        points={[[0, 0, 0], planetPos]}
+                        color="white"
+                        lineWidth={1}
+                        dashed
+                    />
+                </group>
             </group>
-
-            {/* Point mobile */}
-            <group>
-                <mesh position={planetPos}>
-                    <sphereGeometry args={[0.15]} />
-                    <meshStandardMaterial color="#FCD34D" emissive="#FCD34D" emissiveIntensity={0.5} />
-                </mesh>
-
-                {/* Lignes de projection */}
-                {/* Sinus (Verticale) */}
-                <mesh position={[2 * cosVal, sinVal, 0]} scale={[1, Math.abs(2 * sinVal), 1]}>
-                    <cylinderGeometry args={[0.02, 0.02, 1, 8]} />
-                    <meshStandardMaterial color="#EF4444" />
-                </mesh>
-                <Text position={[2.2, 1, 0]} fontSize={0.3} color="#EF4444">Sin</Text>
-
-                {/* Cosinus (Horizontale) */}
-                <mesh position={[cosVal, 0, 0]} rotation={[0, 0, Math.PI / 2]} scale={[1, Math.abs(2 * cosVal), 1]}>
-                    <cylinderGeometry args={[0.02, 0.02, 1, 8]} />
-                    <meshStandardMaterial color="#3B82F6" />
-                </mesh>
-                <Text position={[1, -0.3, 0]} fontSize={0.3} color="#3B82F6">Cos</Text>
-
-                {/* Rayon */}
-                <Line
-                    points={[[0, 0, 0], planetPos]}
-                    color="white"
-                    lineWidth={1}
-                    dashed
-                />
-            </group>
-        </group>
+        </>
     );
 }
 
@@ -2113,130 +2116,130 @@ function ForcePhysics() {
         : (isMoving ? '🛑 Décélération...' : '⏸️ Au repos');
 
     return (
-        <group>
-            {/* Panneau de Contrôle */}
-            {/* Panneau de Contrôle - Draggable */}
-            <Html position={[0, 4, 0]} center>
-                <DraggableHtmlPanel title="⚡ Forces et Mouvement" className="min-w-[300px]">
-                    <div className="text-white space-y-3">
-                        {/* Le reste du contenu sera inséré par le contexte, mais je dois m'assurer d'inclure tout le contenu du div original */}
-                        <div>
-                            <label className="block text-xs mb-1">Masse : {mass} kg</label>
-                            <input
-                                type="range"
-                                min="1"
-                                max="20"
-                                value={mass}
-                                onChange={(e) => setMass(parseInt(e.target.value))}
-                                className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-[#3B82F6]"
-                            />
-                        </div>
-
-                        <div>
-                            <label className="block text-xs mb-1">Force Appliquée : {appliedForce} N</label>
-                            <input
-                                type="range"
-                                min="0"
-                                max="100"
-                                value={appliedForce}
-                                onChange={(e) => setAppliedForce(parseInt(e.target.value))}
-                                className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-[#EF4444]"
-                            />
-                        </div>
-
-                        <div>
-                            <label className="block text-xs mb-1">Coefficient de Friction : {friction.toFixed(2)}</label>
-                            <input
-                                type="range"
-                                min="0"
-                                max="1"
-                                step="0.05"
-                                value={friction}
-                                onChange={(e) => setFriction(parseFloat(e.target.value))}
-                                className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-[#F59E0B]"
-                            />
-                        </div>
-
-                        <button
-                            onMouseDown={() => setIsApplying(true)}
-                            onMouseUp={() => setIsApplying(false)}
-                            onMouseLeave={() => setIsApplying(false)}
-                            className={`w-full py-3 rounded-lg font-bold transition-colors ${isApplying
-                                ? 'bg-red-600 scale-95'
-                                : 'bg-green-600 hover:bg-green-500'
-                                }`}
-                        >
-                            {isApplying ? '↠ POUSSÉE EN COURS...' : '👆 Maintenir pour Pousser'}
-                        </button>
-
-                        <div className="grid grid-cols-2 gap-2 text-xs font-mono bg-black/50 p-2 rounded-lg">
-                            <div>Poids (P) : <span className="text-green-400">{weight.toFixed(1)} N</span></div>
-                            <div>Friction : <span className="text-yellow-400">{frictionForce.toFixed(1)} N</span></div>
-                            <div>Force Nette : <span className={netForce > 0 ? 'text-blue-400' : 'text-red-400'}>{netForce.toFixed(1)} N</span></div>
-                            <div>Accélération : <span className="text-purple-400">{acceleration.toFixed(2)} m/s²</span></div>
-                        </div>
-
-                        <div className={`text-center font-bold ${netForce > 0 ? 'text-green-400' : 'text-yellow-400'}`}>
-                            {status}
-                        </div>
+        <>
+            {/* Panneau de Contrôle - Draggable - Rendu Portal */}
+            <DraggableHtmlPanel title="⚡ Forces et Mouvement" className="min-w-[300px]">
+                <div className="text-white space-y-3">
+                    {/* Le reste du contenu sera inséré par le contexte, mais je dois m'assurer d'inclure tout le contenu du div original */}
+                    <div>
+                        <label className="block text-xs mb-1">Masse : {mass} kg</label>
+                        <input
+                            type="range"
+                            min="1"
+                            max="20"
+                            value={mass}
+                            onChange={(e) => setMass(parseInt(e.target.value))}
+                            className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-[#3B82F6]"
+                        />
                     </div>
-                </DraggableHtmlPanel>
-            </Html>
 
-            <Text position={[0, 2.5, 0]} fontSize={0.5} color="white">LOIS DE NEWTON</Text>
+                    <div>
+                        <label className="block text-xs mb-1">Force Appliquée : {appliedForce} N</label>
+                        <input
+                            type="range"
+                            min="0"
+                            max="100"
+                            value={appliedForce}
+                            onChange={(e) => setAppliedForce(parseInt(e.target.value))}
+                            className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-[#EF4444]"
+                        />
+                    </div>
 
-            {/* Sol */}
-            <mesh position={[0, -1.5, 0]} rotation={[-Math.PI / 2, 0, 0]}>
-                <planeGeometry args={[10, 6]} />
-                <meshStandardMaterial color="#4B5563" />
-            </mesh>
+                    <div>
+                        <label className="block text-xs mb-1">Coefficient de Friction : {friction.toFixed(2)}</label>
+                        <input
+                            type="range"
+                            min="0"
+                            max="1"
+                            step="0.05"
+                            value={friction}
+                            onChange={(e) => setFriction(parseFloat(e.target.value))}
+                            className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-[#F59E0B]"
+                        />
+                    </div>
 
-            {/* Marqueurs de distance */}
-            {[-3, -2, -1, 0, 1, 2, 3].map((x) => (
-                <mesh key={x} position={[x, -1.48, 0]}>
-                    <boxGeometry args={[0.05, 0.02, 0.5]} />
-                    <meshStandardMaterial color="white" />
+                    <button
+                        onMouseDown={() => setIsApplying(true)}
+                        onMouseUp={() => setIsApplying(false)}
+                        onMouseLeave={() => setIsApplying(false)}
+                        className={`w-full py-3 rounded-lg font-bold transition-colors ${isApplying
+                            ? 'bg-red-600 scale-95'
+                            : 'bg-green-600 hover:bg-green-500'
+                            }`}
+                    >
+                        {isApplying ? '↠ POUSSÉE EN COURS...' : '👆 Maintenir pour Pousser'}
+                    </button>
+
+                    <div className="grid grid-cols-2 gap-2 text-xs font-mono bg-black/50 p-2 rounded-lg">
+                        <div>Poids (P) : <span className="text-green-400">{weight.toFixed(1)} N</span></div>
+                        <div>Friction : <span className="text-yellow-400">{frictionForce.toFixed(1)} N</span></div>
+                        <div>Force Nette : <span className={netForce > 0 ? 'text-blue-400' : 'text-red-400'}>{netForce.toFixed(1)} N</span></div>
+                        <div>Accélération : <span className="text-purple-400">{acceleration.toFixed(2)} m/s²</span></div>
+                    </div>
+
+                    <div className={`text-center font-bold ${netForce > 0 ? 'text-green-400' : 'text-yellow-400'}`}>
+                        {status}
+                    </div>
+                </div>
+            </DraggableHtmlPanel>
+
+            <group>
+
+                <Text position={[0, 2.5, 0]} fontSize={0.5} color="white">LOIS DE NEWTON</Text>
+
+                {/* Sol */}
+                <mesh position={[0, -1.5, 0]} rotation={[-Math.PI / 2, 0, 0]}>
+                    <planeGeometry args={[10, 6]} />
+                    <meshStandardMaterial color="#4B5563" />
                 </mesh>
-            ))}
 
-            {/* Objet en mouvement */}
-            <group ref={objectRef}>
-                <mesh position={[0, -0.5, 0]}>
-                    <boxGeometry args={[0.8 + mass / 20, 0.8 + mass / 20, 0.8 + mass / 20]} />
-                    <meshStandardMaterial
-                        color="#3B82F6"
-                        emissive={isApplying ? "#3B82F6" : "#000"}
-                        emissiveIntensity={isApplying ? 0.3 : 0}
-                    />
-                </mesh>
-                <Text position={[0, 0.3 + mass / 30, 0]} fontSize={0.25} color="white">
-                    m = {mass} kg
-                </Text>
+                {/* Marqueurs de distance */}
+                {[-3, -2, -1, 0, 1, 2, 3].map((x) => (
+                    <mesh key={x} position={[x, -1.48, 0]}>
+                        <boxGeometry args={[0.05, 0.02, 0.5]} />
+                        <meshStandardMaterial color="white" />
+                    </mesh>
+                ))}
 
-                {/* Force appliquée (vecteur rouge) */}
-                {isApplying && (
-                    <group position={[-(0.5 + mass / 30), -0.5, 0]}>
-                        <mesh rotation={[0, 0, Math.PI / 2]}>
-                            <cylinderGeometry args={[0.05, 0.05, appliedForce / 30]} />
-                            <meshStandardMaterial color="#EF4444" emissive="#EF4444" />
+                {/* Objet en mouvement */}
+                <group ref={objectRef}>
+                    <mesh position={[0, -0.5, 0]}>
+                        <boxGeometry args={[0.8 + mass / 20, 0.8 + mass / 20, 0.8 + mass / 20]} />
+                        <meshStandardMaterial
+                            color="#3B82F6"
+                            emissive={isApplying ? "#3B82F6" : "#000"}
+                            emissiveIntensity={isApplying ? 0.3 : 0}
+                        />
+                    </mesh>
+                    <Text position={[0, 0.3 + mass / 30, 0]} fontSize={0.25} color="white">
+                        m = {mass} kg
+                    </Text>
+
+                    {/* Force appliquée (vecteur rouge) */}
+                    {isApplying && (
+                        <group position={[-(0.5 + mass / 30), -0.5, 0]}>
+                            <mesh rotation={[0, 0, Math.PI / 2]}>
+                                <cylinderGeometry args={[0.05, 0.05, appliedForce / 30]} />
+                                <meshStandardMaterial color="#EF4444" emissive="#EF4444" />
+                            </mesh>
+                            <mesh position={[appliedForce / 60, 0, 0]} rotation={[0, 0, -Math.PI / 2]}>
+                                <coneGeometry args={[0.15, 0.3, 16]} />
+                                <meshStandardMaterial color="#EF4444" emissive="#EF4444" />
+                            </mesh>
+                        </group>
+                    )}
+
+                    {/* Poids (vecteur vert vers le bas) */}
+                    <group position={[0, -1, 0]}>
+                        <mesh>
+                            <cylinderGeometry args={[0.04, 0.04, weight / 50]} />
+                            <meshStandardMaterial color="#10B981" />
                         </mesh>
-                        <mesh position={[appliedForce / 60, 0, 0]} rotation={[0, 0, -Math.PI / 2]}>
-                            <coneGeometry args={[0.15, 0.3, 16]} />
-                            <meshStandardMaterial color="#EF4444" emissive="#EF4444" />
+                        <mesh position={[0, -weight / 100, 0]} rotation={[Math.PI, 0, 0]}>
+                            <coneGeometry args={[0.12, 0.25, 16]} />
+                            <meshStandardMaterial color="#10B981" />
                         </mesh>
                     </group>
-                )}
-
-                {/* Poids (vecteur vert vers le bas) */}
-                <group position={[0, -1, 0]}>
-                    <mesh>
-                        <cylinderGeometry args={[0.04, 0.04, weight / 50]} />
-                        <meshStandardMaterial color="#10B981" />
-                    </mesh>
-                    <mesh position={[0, -weight / 100, 0]} rotation={[Math.PI, 0, 0]}>
-                        <coneGeometry args={[0.12, 0.25, 16]} />
-                        <meshStandardMaterial color="#10B981" />
-                    </mesh>
                 </group>
             </group>
 
@@ -2244,7 +2247,8 @@ function ForcePhysics() {
             <Text position={[0, -2.5, 0]} fontSize={0.3} color="#FCD34D">
                 F = m × a | {appliedForce}N = {mass}kg × {(appliedForce / mass).toFixed(1)}m/s²
             </Text>
-        </group>
+
+        </>
     );
 }
 
@@ -2299,124 +2303,124 @@ function TectonicPlates() {
     });
 
     return (
-        <group>
-            {/* Panneau de Contrôle */}
-            {/* Panneau de Contrôle - Draggable */}
-            <Html position={[0, 3.5, 0]} center>
-                <DraggableHtmlPanel title="🌍 Tectonique des Plaques">
-                    <div className="bg-transparent text-white min-w-[280px]">
+        <>
+            {/* Panneau de Contrôle - Draggable - Rendu Portal */}
+            <DraggableHtmlPanel title="🌍 Tectonique des Plaques">
+                <div className="bg-transparent text-white min-w-[280px]">
 
-                        <div className="space-y-3">
-                            <div>
-                                <label className="block text-xs mb-2">Type de Mouvement</label>
-                                <div className="grid grid-cols-3 gap-1">
-                                    {Object.entries(movementTypes).map(([key, data]) => (
-                                        <button
-                                            key={key}
-                                            onClick={() => setMovementType(key)}
-                                            className={`py-2 px-1 rounded-lg text-xs font-bold transition-colors ${movementType === key
-                                                ? 'bg-orange-600'
-                                                : 'bg-gray-700 hover:bg-gray-600'
-                                                }`}
-                                        >
-                                            {data.icon}
-                                        </button>
-                                    ))}
-                                </div>
-                            </div>
-
-                            <div>
-                                <label className="block text-xs mb-1">Vitesse : {speed}x</label>
-                                <input
-                                    type="range"
-                                    min="0.1"
-                                    max="3"
-                                    step="0.1"
-                                    value={speed}
-                                    onChange={(e) => setSpeed(parseFloat(e.target.value))}
-                                    className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-[#FF4500]"
-                                />
-                            </div>
-
-                            <button
-                                onClick={() => setIsAnimating(!isAnimating)}
-                                className={`w-full py-2 rounded-lg font-bold transition-colors ${isAnimating ? 'bg-red-600' : 'bg-green-600'
-                                    }`}
-                            >
-                                {isAnimating ? '⏸️ Pause' : '▶️ Animer'}
-                            </button>
-
-                            <div className="p-2 bg-white/5 rounded-lg text-center">
-                                <div className="font-bold text-[#FF4500]">{movementTypes[movementType].name}</div>
-                                <div className="text-xs text-gray-300">{movementTypes[movementType].desc}</div>
+                    <div className="space-y-3">
+                        <div>
+                            <label className="block text-xs mb-2">Type de Mouvement</label>
+                            <div className="grid grid-cols-3 gap-1">
+                                {Object.entries(movementTypes).map(([key, data]) => (
+                                    <button
+                                        key={key}
+                                        onClick={() => setMovementType(key)}
+                                        className={`py-2 px-1 rounded-lg text-xs font-bold transition-colors ${movementType === key
+                                            ? 'bg-orange-600'
+                                            : 'bg-gray-700 hover:bg-gray-600'
+                                            }`}
+                                    >
+                                        {data.icon}
+                                    </button>
+                                ))}
                             </div>
                         </div>
+
+                        <div>
+                            <label className="block text-xs mb-1">Vitesse : {speed}x</label>
+                            <input
+                                type="range"
+                                min="0.1"
+                                max="3"
+                                step="0.1"
+                                value={speed}
+                                onChange={(e) => setSpeed(parseFloat(e.target.value))}
+                                className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-[#FF4500]"
+                            />
+                        </div>
+
+                        <button
+                            onClick={() => setIsAnimating(!isAnimating)}
+                            className={`w-full py-2 rounded-lg font-bold transition-colors ${isAnimating ? 'bg-red-600' : 'bg-green-600'
+                                }`}
+                        >
+                            {isAnimating ? '⏸️ Pause' : '▶️ Animer'}
+                        </button>
+
+                        <div className="p-2 bg-white/5 rounded-lg text-center">
+                            <div className="font-bold text-[#FF4500]">{movementTypes[movementType].name}</div>
+                            <div className="text-xs text-gray-300">{movementTypes[movementType].desc}</div>
+                        </div>
                     </div>
-                </DraggableHtmlPanel>
-            </Html>
+                </div>
+            </DraggableHtmlPanel>
 
-            <Text position={[0, 2.5, 0]} fontSize={0.5} color="white">TECTONIQUE DES PLAQUES</Text>
+            <group>
 
-            {/* Plaque 1 */}
-            <group ref={plate1Ref} position={[-1.5, 0, 0]}>
-                <mesh>
-                    <boxGeometry args={[3, 0.5, 3]} />
-                    <meshStandardMaterial color="#8B4513" />
-                </mesh>
-                <Text position={[0, 0.5, 0]} fontSize={0.25} color="white">Plaque A</Text>
-            </group>
+                <Text position={[0, 2.5, 0]} fontSize={0.5} color="white">TECTONIQUE DES PLAQUES</Text>
 
-            {/* Plaque 2 */}
-            <group ref={plate2Ref} position={[1.5, 0.2, 0]}>
-                <mesh>
-                    <boxGeometry args={[3, 0.5, 3]} />
-                    <meshStandardMaterial color="#A0522D" />
-                </mesh>
-                <Text position={[0, 0.5, 0]} fontSize={0.25} color="white">Plaque B</Text>
-            </group>
-
-            {/* Magma (sous les plaques) */}
-            <mesh position={[0, -1.2, 0]}>
-                <sphereGeometry args={[2.5, 32, 32]} />
-                <meshStandardMaterial
-                    color="#FF4500"
-                    emissive="#FF4500"
-                    emissiveIntensity={isAnimating ? 0.5 + Math.random() * 0.2 : 0.3}
-                />
-            </mesh>
-            <Text position={[0, -2.5, 0]} fontSize={0.25} color="#FF4500">Asthénosphère (Magma)</Text>
-
-            {/* Volcan (visible en mode convergent) */}
-            {movementType === 'convergent' && (
-                <group ref={volcanoRef} position={[0, 0.5, 0]}>
+                {/* Plaque 1 */}
+                <group ref={plate1Ref} position={[-1.5, 0, 0]}>
                     <mesh>
-                        <coneGeometry args={[0.6, 1.8, 32]} />
-                        <meshStandardMaterial color="#654321" />
+                        <boxGeometry args={[3, 0.5, 3]} />
+                        <meshStandardMaterial color="#8B4513" />
                     </mesh>
-                    <pointLight position={[0, 1, 0]} color="#FF4500" intensity={2} distance={3} />
-                    <Text position={[0, 1.2, 0]} fontSize={0.2} color="#FF4500">🌋 Volcan</Text>
+                    <Text position={[0, 0.5, 0]} fontSize={0.25} color="white">Plaque A</Text>
                 </group>
-            )}
 
-            {/* Rift central (visible en mode divergent) */}
-            {movementType === 'divergent' && (
-                <mesh position={[0, -0.5, 0]}>
-                    <boxGeometry args={[0.5, 0.3, 3]} />
-                    <meshStandardMaterial color="#FF4500" emissive="#FF4500" emissiveIntensity={0.5} />
+                {/* Plaque 2 */}
+                <group ref={plate2Ref} position={[1.5, 0.2, 0]}>
+                    <mesh>
+                        <boxGeometry args={[3, 0.5, 3]} />
+                        <meshStandardMaterial color="#A0522D" />
+                    </mesh>
+                    <Text position={[0, 0.5, 0]} fontSize={0.25} color="white">Plaque B</Text>
+                </group>
+
+                {/* Magma (sous les plaques) */}
+                <mesh position={[0, -1.2, 0]}>
+                    <sphereGeometry args={[2.5, 32, 32]} />
+                    <meshStandardMaterial
+                        color="#FF4500"
+                        emissive="#FF4500"
+                        emissiveIntensity={isAnimating ? 0.5 + Math.random() * 0.2 : 0.3}
+                    />
                 </mesh>
-            )}
+                <Text position={[0, -2.5, 0]} fontSize={0.25} color="#FF4500">Asthénosphère (Magma)</Text>
 
-            {/* Faille (visible en mode transform) */}
-            {movementType === 'transform' && (
-                <group>
-                    <mesh position={[0, 0.1, 0]} rotation={[0, 0, 0]}>
-                        <boxGeometry args={[0.1, 0.6, 3]} />
-                        <meshStandardMaterial color="#EF4444" />
+                {/* Volcan (visible en mode convergent) */}
+                {movementType === 'convergent' && (
+                    <group ref={volcanoRef} position={[0, 0.5, 0]}>
+                        <mesh>
+                            <coneGeometry args={[0.6, 1.8, 32]} />
+                            <meshStandardMaterial color="#654321" />
+                        </mesh>
+                        <pointLight position={[0, 1, 0]} color="#FF4500" intensity={2} distance={3} />
+                        <Text position={[0, 1.2, 0]} fontSize={0.2} color="#FF4500">🌋 Volcan</Text>
+                    </group>
+                )}
+
+                {/* Rift central (visible en mode divergent) */}
+                {movementType === 'divergent' && (
+                    <mesh position={[0, -0.5, 0]}>
+                        <boxGeometry args={[0.5, 0.3, 3]} />
+                        <meshStandardMaterial color="#FF4500" emissive="#FF4500" emissiveIntensity={0.5} />
                     </mesh>
-                    <Text position={[0, 0.7, 0]} fontSize={0.2} color="#EF4444">⚡ Faille</Text>
-                </group>
-            )}
-        </group>
+                )}
+
+                {/* Faille (visible en mode transform) */}
+                {movementType === 'transform' && (
+                    <group>
+                        <mesh position={[0, 0.1, 0]} rotation={[0, 0, 0]}>
+                            <boxGeometry args={[0.1, 0.6, 3]} />
+                            <meshStandardMaterial color="#EF4444" />
+                        </mesh>
+                        <Text position={[0, 0.7, 0]} fontSize={0.2} color="#EF4444">⚡ Faille</Text>
+                    </group>
+                )}
+            </group>
+        </>
     );
 }
 
@@ -2478,179 +2482,182 @@ function MixtureSeparation() {
     };
 
     return (
-        <group>
-            {/* Panneau de Contrôle */}
-            {/* Panneau de Contrôle - Draggable */}
-            <Html position={[0, 4, 0]} center>
-                <DraggableHtmlPanel title="🧪 Séparation des Mélanges">
-                    <div className="text-white min-w-[280px]">
-                        <div className="space-y-3">
-                            <div>
-                                <label className="block text-xs mb-2">Technique</label>
-                                <div className="grid grid-cols-2 gap-2">
-                                    <button
-                                        onClick={() => { setTechnique('decantation'); reset(); }}
-                                        className={`py-2 px-3 rounded-lg text-xs font-bold transition-colors ${technique === 'decantation'
-                                            ? 'bg-blue-600'
-                                            : 'bg-gray-700 hover:bg-gray-600'
-                                            }`}
-                                    >
-                                        🏺 Décantation
-                                    </button>
-                                    <button
-                                        onClick={() => { setTechnique('filtration'); reset(); }}
-                                        className={`py-2 px-3 rounded-lg text-xs font-bold transition-colors ${technique === 'filtration'
-                                            ? 'bg-green-600'
-                                            : 'bg-gray-700 hover:bg-gray-600'
-                                            }`}
-                                    >
-                                        📄 Filtration
-                                    </button>
-                                </div>
-                            </div>
-
-                            <button
-                                onClick={isAnimating ? reset : startAnimation}
-                                className={`w-full py-2 rounded-lg font-bold transition-colors ${isAnimating ? 'bg-red-600' : 'bg-blue-600 hover:bg-blue-500'
-                                    }`}
-                            >
-                                {isAnimating ? '🔄 Reset' : '▶️ Démarrer'}
-                            </button>
-
-                            {/* Barre de progression */}
-                            <div>
-                                <div className="flex justify-between text-xs mb-1">
-                                    <span className="text-gray-400">Séparation</span>
-                                    <span>{Math.round(progress)}%</span>
-                                </div>
-                                <div className="w-full bg-gray-700 rounded-full h-2">
-                                    <div
-                                        className={`h-2 rounded-full transition-all ${technique === 'decantation'
-                                            ? 'bg-gradient-to-r from-yellow-600 to-blue-400'
-                                            : 'bg-gradient-to-r from-gray-400 to-blue-400'
-                                            }`}
-                                        style={{ width: `${progress}%` }}
-                                    />
-                                </div>
-                            </div>
-
-                            <div className="text-xs text-center text-gray-400">
-                                {technique === 'decantation'
-                                    ? 'Les particules lourdes tombent au fond'
-                                    : 'L\'eau passe, les impuretés restent'}
+        <>
+            {/* Panneau de Contrôle - Draggable - Rendu Portal */}
+            <DraggableHtmlPanel title="🧪 Séparation des Mélanges">
+                <div className="text-white min-w-[280px]">
+                    <div className="space-y-3">
+                        <div>
+                            <label className="block text-xs mb-2">Technique</label>
+                            <div className="grid grid-cols-2 gap-2">
+                                <button
+                                    onClick={() => { setTechnique('decantation'); reset(); }}
+                                    className={`py-2 px-3 rounded-lg text-xs font-bold transition-colors ${technique === 'decantation'
+                                        ? 'bg-blue-600'
+                                        : 'bg-gray-700 hover:bg-gray-600'
+                                        }`}
+                                >
+                                    🏺 Décantation
+                                </button>
+                                <button
+                                    onClick={() => { setTechnique('filtration'); reset(); }}
+                                    className={`py-2 px-3 rounded-lg text-xs font-bold transition-colors ${technique === 'filtration'
+                                        ? 'bg-green-600'
+                                        : 'bg-gray-700 hover:bg-gray-600'
+                                        }`}
+                                >
+                                    📄 Filtration
+                                </button>
                             </div>
                         </div>
-                    </div>
-                </DraggableHtmlPanel>
-            </Html>
 
-            <Text position={[0, 3, 0]} fontSize={0.5} color="white">
-                {technique === 'decantation' ? 'DÉCANTATION' : 'FILTRATION'}
-            </Text>
-
-            {/* Décantation */}
-            {technique === 'decantation' && (
-                <group position={[0, 0, 0]}>
-                    {/* Becher */}
-                    <mesh position={[0, 0, 0]}>
-                        <cylinderGeometry args={[1, 1, 2.5, 32]} />
-                        <meshStandardMaterial color="white" transparent opacity={0.3} side={2} />
-                    </mesh>
-
-                    {/* Eau */}
-                    <mesh position={[0, 0.3, 0]}>
-                        <cylinderGeometry args={[0.95, 0.95, 1.5, 32]} />
-                        <meshStandardMaterial
-                            color={progress > 50 ? "#60A5FA" : "#94A3B8"}
-                            transparent
-                            opacity={0.6}
-                        />
-                    </mesh>
-
-                    {/* Particules de sable */}
-                    {Array.from({ length: 20 }).map((_, i) => (
-                        <mesh
-                            key={i}
-                            ref={el => particlesRef.current[i] = el}
-                            position={[
-                                (Math.random() - 0.5) * 1.5,
-                                isAnimating ? -0.8 : (Math.random() - 0.5) * 1,
-                                (Math.random() - 0.5) * 1.5
-                            ]}
+                        <button
+                            onClick={isAnimating ? reset : startAnimation}
+                            className={`w-full py-2 rounded-lg font-bold transition-colors ${isAnimating ? 'bg-red-600' : 'bg-blue-600 hover:bg-blue-500'
+                                }`}
                         >
-                            <sphereGeometry args={[0.06 + Math.random() * 0.04]} />
-                            <meshStandardMaterial color="#8B4513" />
-                        </mesh>
-                    ))}
+                            {isAnimating ? '🔄 Reset' : '▶️ Démarrer'}
+                        </button>
 
-                    {/* Sédiment au fond */}
-                    <mesh position={[0, -1, 0]}>
-                        <cylinderGeometry args={[0.95, 0.95, 0.3 + (progress / 200)]} />
-                        <meshStandardMaterial color="#8B4513" />
-                    </mesh>
+                        {/* Barre de progression */}
+                        <div>
+                            <div className="flex justify-between text-xs mb-1">
+                                <span className="text-gray-400">Séparation</span>
+                                <span>{Math.round(progress)}%</span>
+                            </div>
+                            <div className="w-full bg-gray-700 rounded-full h-2">
+                                <div
+                                    className={`h-2 rounded-full transition-all ${technique === 'decantation'
+                                        ? 'bg-gradient-to-r from-yellow-600 to-blue-400'
+                                        : 'bg-gradient-to-r from-gray-400 to-blue-400'
+                                        }`}
+                                    style={{ width: `${progress}%` }}
+                                />
+                            </div>
+                        </div>
 
-                    <Text position={[0, -2, 0]} fontSize={0.25} color="#8B4513">
-                        Sable déposé : {Math.round(progress)}%
-                    </Text>
-                </group>
-            )}
+                        <div className="text-xs text-center text-gray-400">
+                            {technique === 'decantation'
+                                ? 'Les particules lourdes tombent au fond'
+                                : 'L\'eau passe, les impuretés restent'}
+                        </div>
+                    </div>
+                </div>
+            </DraggableHtmlPanel>
+            <group>
 
-            {/* Filtration */}
-            {technique === 'filtration' && (
-                <group position={[0, 0, 0]}>
-                    {/* Entonnoir */}
-                    <mesh position={[0, 1.5, 0]}>
-                        <coneGeometry args={[1, 1.5, 32, 1, true]} />
-                        <meshStandardMaterial color="#9CA3AF" transparent opacity={0.5} side={2} />
-                    </mesh>
+                <Text position={[0, 3, 0]} fontSize={0.5} color="white">
+                    {technique === 'decantation' ? 'DÉCANTATION' : 'FILTRATION'}
+                </Text>
 
-                    {/* Tube */}
-                    <mesh position={[0, 0.5, 0]}>
-                        <cylinderGeometry args={[0.1, 0.1, 1.2, 16]} />
-                        <meshStandardMaterial color="#9CA3AF" transparent opacity={0.5} />
-                    </mesh>
+                {/* Décantation */}
+                {
+                    technique === 'decantation' && (
+                        <group position={[0, 0, 0]}>
+                            {/* Becher */}
+                            <mesh position={[0, 0, 0]}>
+                                <cylinderGeometry args={[1, 1, 2.5, 32]} />
+                                <meshStandardMaterial color="white" transparent opacity={0.3} side={2} />
+                            </mesh>
 
-                    {/* Filtre Papier */}
-                    <mesh position={[0, 1.5, 0]}>
-                        <coneGeometry args={[0.9, 1.2, 32, 1, true]} />
-                        <meshStandardMaterial color="#FFF8DC" side={2} />
-                    </mesh>
-                    <Text position={[1.2, 1.5, 0]} fontSize={0.2} color="white">Papier Filtre</Text>
+                            {/* Eau */}
+                            <mesh position={[0, 0.3, 0]}>
+                                <cylinderGeometry args={[0.95, 0.95, 1.5, 32]} />
+                                <meshStandardMaterial
+                                    color={progress > 50 ? "#60A5FA" : "#94A3B8"}
+                                    transparent
+                                    opacity={0.6}
+                                />
+                            </mesh>
 
-                    {/* Mélange sale sur le filtre */}
-                    {progress < 80 && (
-                        <mesh position={[0, 1.8, 0]}>
-                            <cylinderGeometry args={[0.6, 0.4, 0.3, 32]} />
-                            <meshStandardMaterial color="#94A3B8" transparent opacity={0.7} />
-                        </mesh>
-                    )}
+                            {/* Particules de sable */}
+                            {Array.from({ length: 20 }).map((_, i) => (
+                                <mesh
+                                    key={i}
+                                    ref={el => particlesRef.current[i] = el}
+                                    position={[
+                                        (Math.random() - 0.5) * 1.5,
+                                        isAnimating ? -0.8 : (Math.random() - 0.5) * 1,
+                                        (Math.random() - 0.5) * 1.5
+                                    ]}
+                                >
+                                    <sphereGeometry args={[0.06 + Math.random() * 0.04]} />
+                                    <meshStandardMaterial color="#8B4513" />
+                                </mesh>
+                            ))}
 
-                    {/* Becher de récupération */}
-                    <mesh position={[0, -1, 0]}>
-                        <cylinderGeometry args={[0.8, 0.8, 1.8, 32]} />
-                        <meshStandardMaterial color="white" transparent opacity={0.3} />
-                    </mesh>
+                            {/* Sédiment au fond */}
+                            <mesh position={[0, -1, 0]}>
+                                <cylinderGeometry args={[0.95, 0.95, 0.3 + (progress / 200)]} />
+                                <meshStandardMaterial color="#8B4513" />
+                            </mesh>
 
-                    {/* Eau filtrée */}
-                    <mesh position={[0, -1.3, 0]}>
-                        <cylinderGeometry args={[0.75, 0.75, progress / 100 * 1]} />
-                        <meshStandardMaterial color="#60A5FA" transparent opacity={0.8} />
-                    </mesh>
+                            <Text position={[0, -2, 0]} fontSize={0.25} color="#8B4513">
+                                Sable déposé : {Math.round(progress)}%
+                            </Text>
+                        </group>
+                    )
+                }
 
-                    {/* Goutte animée */}
-                    {isAnimating && (
-                        <mesh ref={dropRef} position={[0, -0.3, 0]}>
-                            <sphereGeometry args={[0.1]} />
-                            <meshStandardMaterial color="#60A5FA" />
-                        </mesh>
-                    )}
+                {/* Filtration */}
+                {
+                    technique === 'filtration' && (
+                        <group position={[0, 0, 0]}>
+                            {/* Entonnoir */}
+                            <mesh position={[0, 1.5, 0]}>
+                                <coneGeometry args={[1, 1.5, 32, 1, true]} />
+                                <meshStandardMaterial color="#9CA3AF" transparent opacity={0.5} side={2} />
+                            </mesh>
 
-                    <Text position={[0, -2.2, 0]} fontSize={0.25} color="#3B82F6">
-                        Eau limpide : {Math.round(progress)}%
-                    </Text>
-                </group>
-            )}
-        </group>
+                            {/* Tube */}
+                            <mesh position={[0, 0.5, 0]}>
+                                <cylinderGeometry args={[0.1, 0.1, 1.2, 16]} />
+                                <meshStandardMaterial color="#9CA3AF" transparent opacity={0.5} />
+                            </mesh>
+
+                            {/* Filtre Papier */}
+                            <mesh position={[0, 1.5, 0]}>
+                                <coneGeometry args={[0.9, 1.2, 32, 1, true]} />
+                                <meshStandardMaterial color="#FFF8DC" side={2} />
+                            </mesh>
+                            <Text position={[1.2, 1.5, 0]} fontSize={0.2} color="white">Papier Filtre</Text>
+
+                            {/* Mélange sale sur le filtre */}
+                            {progress < 80 && (
+                                <mesh position={[0, 1.8, 0]}>
+                                    <cylinderGeometry args={[0.6, 0.4, 0.3, 32]} />
+                                    <meshStandardMaterial color="#94A3B8" transparent opacity={0.7} />
+                                </mesh>
+                            )}
+
+                            {/* Becher de récupération */}
+                            <mesh position={[0, -1, 0]}>
+                                <cylinderGeometry args={[0.8, 0.8, 1.8, 32]} />
+                                <meshStandardMaterial color="white" transparent opacity={0.3} />
+                            </mesh>
+
+                            {/* Eau filtrée */}
+                            <mesh position={[0, -1.3, 0]}>
+                                <cylinderGeometry args={[0.75, 0.75, progress / 100 * 1]} />
+                                <meshStandardMaterial color="#60A5FA" transparent opacity={0.8} />
+                            </mesh>
+
+                            {/* Goutte animée */}
+                            {isAnimating && (
+                                <mesh ref={dropRef} position={[0, -0.3, 0]}>
+                                    <sphereGeometry args={[0.1]} />
+                                    <meshStandardMaterial color="#60A5FA" />
+                                </mesh>
+                            )}
+
+                            <Text position={[0, -2.2, 0]} fontSize={0.25} color="#3B82F6">
+                                Eau limpide : {Math.round(progress)}%
+                            </Text>
+                        </group>
+                    )
+                }
+            </group>
+        </>
     );
 }
 
@@ -4038,74 +4045,74 @@ function SimpleMachinesLever() {
     });
 
     return (
-        <group>
-            {/* Controls - Draggable */}
-            <Html position={[0, 4, 0]} center>
-                <DraggableHtmlPanel title="🔧 Le Levier">
-                    <div className="text-white min-w-[250px]">
-                        <label className="block text-sm mb-1">Longueur du Bras de Force : {forceDist} m</label>
-                        <input
-                            type="range"
-                            min="1"
-                            max="4"
-                            step="0.1"
-                            value={forceDist}
-                            onChange={(e) => setForceDist(parseFloat(e.target.value))}
-                            className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-[#3B82F6]"
-                        />
-                        <div className="mt-3 text-xs space-y-1 font-mono text-gray-300">
-                            <div className="flex justify-between">
-                                <span>Couple Charge (Rouge):</span>
-                                <span>{momentLoad.toFixed(0)} N.m</span>
-                            </div>
-                            <div className="flex justify-between">
-                                <span>Couple Force (Bleu):</span>
-                                <span className={netMoment > 0 ? "text-green-400" : "text-red-400"}>{momentForce.toFixed(0)} N.m</span>
-                            </div>
-                            <div className="text-center mt-2 font-bold text-[#F59E0B]">
-                                {netMoment > 0 ? "ÇA SOULÈVE ! 🚀" : "TROP LOURD... 😫"}
-                            </div>
+        <>
+            {/* Controls - Draggable - Rendu Portal */}
+            <DraggableHtmlPanel title="🔧 Le Levier">
+                <div className="text-white min-w-[250px]">
+                    <label className="block text-sm mb-1">Longueur du Bras de Force : {forceDist} m</label>
+                    <input
+                        type="range"
+                        min="1"
+                        max="4"
+                        step="0.1"
+                        value={forceDist}
+                        onChange={(e) => setForceDist(parseFloat(e.target.value))}
+                        className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-[#3B82F6]"
+                    />
+                    <div className="mt-3 text-xs space-y-1 font-mono text-gray-300">
+                        <div className="flex justify-between">
+                            <span>Couple Charge (Rouge):</span>
+                            <span>{momentLoad.toFixed(0)} N.m</span>
+                        </div>
+                        <div className="flex justify-between">
+                            <span>Couple Force (Bleu):</span>
+                            <span className={netMoment > 0 ? "text-green-400" : "text-red-400"}>{momentForce.toFixed(0)} N.m</span>
+                        </div>
+                        <div className="text-center mt-2 font-bold text-[#F59E0B]">
+                            {netMoment > 0 ? "ÇA SOULÈVE ! 🚀" : "TROP LOURD... 😫"}
                         </div>
                     </div>
-                </DraggableHtmlPanel>
-            </Html>
+                </div>
+            </DraggableHtmlPanel>
+            <group>
 
-            <group position={[0, -1, 0]}>
-                {/* Pivot (Fulcrum) */}
-                <mesh position={[0, 0, 0]}>
-                    <coneGeometry args={[0.5, 1, 3]} />
-                    <meshStandardMaterial color="#EF4444" />
-                </mesh>
-
-                {/* Barre Pivotante */}
-                <group ref={groupRef} position={[0, 0.5, 0]}>
-                    <mesh rotation={[0, 0, Math.PI / 2]}>
-                        <cylinderGeometry args={[0.1, 0.1, 8, 8]} />
-                        <meshStandardMaterial color="#D97706" />
+                <group position={[0, -1, 0]}>
+                    {/* Pivot (Fulcrum) */}
+                    <mesh position={[0, 0, 0]}>
+                        <coneGeometry args={[0.5, 1, 3]} />
+                        <meshStandardMaterial color="#EF4444" />
                     </mesh>
 
-                    {/* Charge (Gauche) */}
-                    <group position={[-loadDist, 0.6, 0]}>
-                        <mesh>
-                            <boxGeometry args={[1, 1, 1]} />
-                            <meshStandardMaterial color="#1F2937" />
+                    {/* Barre Pivotante */}
+                    <group ref={groupRef} position={[0, 0.5, 0]}>
+                        <mesh rotation={[0, 0, Math.PI / 2]}>
+                            <cylinderGeometry args={[0.1, 0.1, 8, 8]} />
+                            <meshStandardMaterial color="#D97706" />
                         </mesh>
-                        <Text position={[0, 1, 0]} fontSize={0.4} color="white">{loadMass} kg</Text>
-                        <arrowHelper args={[new THREE.Vector3(0, -1, 0), new THREE.Vector3(0, -0.5, 0), 1.5, 0xEF4444, 0.3, 0.2]} />
-                    </group>
 
-                    {/* Force (Droite - Mobile) */}
-                    <group position={[forceDist, 0.4, 0]}>
-                        <mesh>
-                            <boxGeometry args={[0.6, 0.6, 0.6]} />
-                            <meshStandardMaterial color="#3B82F6" />
-                        </mesh>
-                        <Text position={[0, 0.8, 0]} fontSize={0.4} color="#3B82F6">{forceMass} kg</Text>
-                        <arrowHelper args={[new THREE.Vector3(0, -1, 0), new THREE.Vector3(0, -0.3, 0), 1, 0x3B82F6, 0.3, 0.2]} />
+                        {/* Charge (Gauche) */}
+                        <group position={[-loadDist, 0.6, 0]}>
+                            <mesh>
+                                <boxGeometry args={[1, 1, 1]} />
+                                <meshStandardMaterial color="#1F2937" />
+                            </mesh>
+                            <Text position={[0, 1, 0]} fontSize={0.4} color="white">{loadMass} kg</Text>
+                            <arrowHelper args={[new THREE.Vector3(0, -1, 0), new THREE.Vector3(0, -0.5, 0), 1.5, 0xEF4444, 0.3, 0.2]} />
+                        </group>
+
+                        {/* Force (Droite - Mobile) */}
+                        <group position={[forceDist, 0.4, 0]}>
+                            <mesh>
+                                <boxGeometry args={[0.6, 0.6, 0.6]} />
+                                <meshStandardMaterial color="#3B82F6" />
+                            </mesh>
+                            <Text position={[0, 0.8, 0]} fontSize={0.4} color="#3B82F6">{forceMass} kg</Text>
+                            <arrowHelper args={[new THREE.Vector3(0, -1, 0), new THREE.Vector3(0, -0.3, 0), 1, 0x3B82F6, 0.3, 0.2]} />
+                        </group>
                     </group>
                 </group>
             </group>
-        </group>
+        </>
     );
 }
 
@@ -4151,59 +4158,60 @@ function VolcanoEruption() {
     });
 
     return (
-        <group>
-            {/* Controls - Draggable */}
-            <Html position={[3, 3, 0]} center>
-                <DraggableHtmlPanel title="🌋 Contrôle Volcan">
-                    <div className="text-white">
-                        <button
-                            onClick={() => setErupting(!erupting)}
-                            className={`w-full py-2 rounded-lg font-bold mb-3 transition-colors ${erupting ? 'bg-red-600 animate-pulse' : 'bg-green-600 hover:bg-green-500'}`}
-                        >
-                            {erupting ? "ARRÊTER !" : "DÉCLENCHER"}
-                        </button>
+        <>
+            {/* Controls - Draggable - Rendu Portal */}
+            <DraggableHtmlPanel title="🌋 Contrôle Volcan">
+                <div className="text-white">
+                    <button
+                        onClick={() => setErupting(!erupting)}
+                        className={`w-full py-2 rounded-lg font-bold mb-3 transition-colors ${erupting ? 'bg-red-600 animate-pulse' : 'bg-green-600 hover:bg-green-500'}`}
+                    >
+                        {erupting ? "ARRÊTER !" : "DÉCLENCHER"}
+                    </button>
 
-                        <label className="block text-sm mb-1">Pression Magmatique</label>
-                        <input
-                            type="range"
-                            min="1"
-                            max="10"
-                            value={pressure}
-                            onChange={(e) => setPressure(parseInt(e.target.value))}
-                            className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-[#EF4444]"
-                        />
-                    </div>
-                </DraggableHtmlPanel>
-            </Html>
+                    <label className="block text-sm mb-1">Pression Magmatique</label>
+                    <input
+                        type="range"
+                        min="1"
+                        max="10"
+                        value={pressure}
+                        onChange={(e) => setPressure(parseInt(e.target.value))}
+                        className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-[#EF4444]"
+                    />
+                </div>
+            </DraggableHtmlPanel>
 
-            <Text position={[0, 3.5, 0]} fontSize={0.5} color="#EF4444">ÉRUPTION VOLCANIQUE</Text>
+            <group>
 
-            {/* Montagne Volcan */}
-            <mesh position={[0, -1.5, 0]}>
-                <coneGeometry args={[3, 3, 32, 1, true]} />
-                <meshStandardMaterial color="#4B5563" />
-            </mesh>
+                <Text position={[0, 3.5, 0]} fontSize={0.5} color="#EF4444">ÉRUPTION VOLCANIQUE</Text>
 
-            {/* Chambre Magmatique */}
-            <mesh position={[0, -3, 0]}>
-                <sphereGeometry args={[1]} />
-                <meshStandardMaterial color="#EF4444" emissive="#EF4444" emissiveIntensity={erupting ? 2 : 0.5} />
-            </mesh>
-
-            {/* Cheminée */}
-            <mesh position={[0, -1, 0]}>
-                <cylinderGeometry args={[0.2, 0.5, 3]} />
-                <meshStandardMaterial color="#EF4444" emissive="#EF4444" emissiveIntensity={erupting ? 1 : 0.2} />
-            </mesh>
-
-            {/* Particules */}
-            {particles.map((data, i) => (
-                <mesh key={i} ref={el => particlesRef.current[i] = el} position={[0, -100, 0]}>
-                    <sphereGeometry args={[data.scale]} />
-                    <meshStandardMaterial color={i % 2 === 0 ? "#EF4444" : "#F59E0B"} emissive="#F59E0B" transparent opacity={0.8} />
+                {/* Montagne Volcan */}
+                <mesh position={[0, -1.5, 0]}>
+                    <coneGeometry args={[3, 3, 32, 1, true]} />
+                    <meshStandardMaterial color="#4B5563" />
                 </mesh>
-            ))}
-        </group>
+
+                {/* Chambre Magmatique */}
+                <mesh position={[0, -3, 0]}>
+                    <sphereGeometry args={[1]} />
+                    <meshStandardMaterial color="#EF4444" emissive="#EF4444" emissiveIntensity={erupting ? 2 : 0.5} />
+                </mesh>
+
+                {/* Cheminée */}
+                <mesh position={[0, -1, 0]}>
+                    <cylinderGeometry args={[0.2, 0.5, 3]} />
+                    <meshStandardMaterial color="#EF4444" emissive="#EF4444" emissiveIntensity={erupting ? 1 : 0.2} />
+                </mesh>
+
+                {/* Particules */}
+                {particles.map((data, i) => (
+                    <mesh key={i} ref={el => particlesRef.current[i] = el} position={[0, -100, 0]}>
+                        <sphereGeometry args={[data.scale]} />
+                        <meshStandardMaterial color={i % 2 === 0 ? "#EF4444" : "#F59E0B"} emissive="#F59E0B" transparent opacity={0.8} />
+                    </mesh>
+                ))}
+            </group>
+        </>
     );
 }
 
