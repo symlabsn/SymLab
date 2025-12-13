@@ -286,6 +286,7 @@ export const simulationsCurriculum = {
                                 difficulty: "moyen",
                                 duration: "30 min",
                                 icon: "🧠",
+                                image: "/simulations/svt4e/nervous-system.png",
                                 tags: ["cerveau", "neurones", "réflexes"]
                             },
                             {
@@ -295,6 +296,7 @@ export const simulationsCurriculum = {
                                 difficulty: "moyen",
                                 duration: "25 min",
                                 icon: "🌍",
+                                image: "/simulations/svt4e/plate-tectonics.png",
                                 tags: ["géologie", "séismes", "volcans"]
                             },
                             {
@@ -304,6 +306,7 @@ export const simulationsCurriculum = {
                                 difficulty: "moyen",
                                 duration: "20 min",
                                 icon: "🩸",
+                                image: "/simulations/svt4e/blood-groups.png",
                                 tags: ["sang", "santé", "hérédité"]
                             },
                             {
@@ -313,6 +316,7 @@ export const simulationsCurriculum = {
                                 difficulty: "moyen",
                                 duration: "30 min",
                                 icon: "👶",
+                                image: "/simulations/svt4e/human-reproduction.png",
                                 tags: ["anatomie", "vie", "biologie"]
                             }
                         ]
@@ -447,6 +451,7 @@ export const simulationsCurriculum = {
                                 difficulty: "moyen",
                                 duration: "25 min",
                                 icon: "📐",
+                                image: "/simulations/math4e/pythagoras-theorem.png",
                                 tags: ["géométrie", "triangle", "calcul"]
                             },
                             {
@@ -456,6 +461,7 @@ export const simulationsCurriculum = {
                                 difficulty: "moyen",
                                 duration: "30 min",
                                 icon: "📈",
+                                image: "/simulations/math4e/linear-equations.png",
                                 tags: ["algèbre", "courbes", "fonctions"]
                             }
                         ]
@@ -475,6 +481,7 @@ export const simulationsCurriculum = {
                                 difficulty: "difficile",
                                 duration: "35 min",
                                 icon: "🧬",
+                                image: "/simulations/svt3e/genetics-dna.png",
                                 tags: ["ADN", "génétique", "hérédité"]
                             },
                             {
@@ -484,6 +491,7 @@ export const simulationsCurriculum = {
                                 difficulty: "difficile",
                                 duration: "30 min",
                                 icon: "🦠",
+                                image: "/simulations/svt3e/immune-system.png",
                                 tags: ["immunité", "anticorps", "vaccins"]
                             },
                             {
@@ -633,6 +641,7 @@ export const simulationsCurriculum = {
                                 difficulty: "difficile",
                                 duration: "30 min",
                                 icon: "📐",
+                                image: "/simulations/math3e/thales-theorem.png",
                                 tags: ["géométrie", "proportion", "calcul"]
                             },
                             {
@@ -642,6 +651,7 @@ export const simulationsCurriculum = {
                                 difficulty: "difficile",
                                 duration: "35 min",
                                 icon: "⭕",
+                                image: "/simulations/math3e/trig-circle.png",
                                 tags: ["trigonométrie", "angles", "cercle"]
                             }
                         ]
