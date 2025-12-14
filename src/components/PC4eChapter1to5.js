@@ -857,207 +857,458 @@ export function Chap4PoidsMasse() {
 // ============================================================
 // CHAPITRE 5: ÉLECTRICITÉ (ENRICHI)
 // ============================================================
+// ============================================================
+// CHAPITRE 5: ÉLECTRICITÉ (ULTIMATE EDITION)
+// ============================================================
 export function Chap5Electricite() {
-    const [components, setComponents] = useState(['lamp']); // lamp, motor, buzzer
-    const [switchState, setSwitchState] = useState(false); // false = ouvert map, true = fermé
-    const [voltage, setVoltage] = useState(4.5);
+    const [topology, setTopology] = useState('series'); // 'series' | 'parallel'
+    const [slots, setSlots] = useState({}); // { 0: 'lamp', 1: 'wire', ... }
+    const [switchState, setSwitchState] = useState(false);
+    const [showMenu, setShowMenu] = useState(null); // Slot ID being edited
 
     // Mode Défi
-    const [mode, setMode] = useState('explore');
-    const [mission, setMission] = useState(null);
+    const [mode, setMode] = useState('explore'); // 'explore' | 'challenge'
+    const [challenge, setChallenge] = useState(null);
     const [score, setScore] = useState(0);
     const [showSuccess, setShowSuccess] = useState(false);
 
-    // Calcul courant
-    const totalResistance = components.length * 10; // Simplifié
-    const current = switchState ? voltage / totalResistance : 0;
-
-    // Ajout/Suppression composants
-    const addComponent = (type) => {
-        if (components.length < 3) setComponents([...components, type]);
-    };
-    const removeComponent = () => {
-        if (components.length > 1) setComponents(components.slice(0, -1));
-    };
-
-    const startMission = () => {
-        const missions = [
-            { id: 1, text: "Allume 2 lampes en série", check: (comps, curr) => comps.filter(c => c === 'lamp').length === 2 && curr > 0 },
-            { id: 2, text: "Fais tourner le moteur seul", check: (comps, curr) => comps.length === 1 && comps[0] === 'motor' && curr > 0 },
-            { id: 3, text: "Circuit bruyant (Buzzer + Moteur)", check: (comps, curr) => comps.includes('buzzer') && comps.includes('motor') && curr > 0 },
-            { id: 4, text: "Obtiens un courant de 0.45 A", check: (comps, curr) => Math.abs(curr - 0.45) < 0.01 } // 4.5V / 10ohm = 0.45A (1 comp)
-        ];
-        const m = missions[Math.floor(Math.random() * missions.length)];
-        setMission(m);
-        setMode('challenge');
-        setComponents(['lamp']); // Reset basic
-        setSwitchState(false);
-        setShowSuccess(false);
-    };
-
-    // Check mission status on every change
+    // Initialisation
     useEffect(() => {
-        if (mode === 'challenge' && mission) {
-            if (mission.check(components, current)) {
-                if (!showSuccess) {
-                    setScore(s => s + 50);
-                    setShowSuccess(true);
+        resetCircuit();
+    }, [topology]);
+
+    const resetCircuit = () => {
+        if (topology === 'series') {
+            setSlots({ 0: 'lamp', 1: 'wire', 2: 'wire' });
+        } else {
+            setSlots({ 0: 'lamp', 1: 'wire', 2: 'motor', 3: 'wire' });
+        }
+        setSwitchState(false);
+        setMode('explore');
+    };
+
+    // --- DATA COMPONENTS ---
+    // Resistors format: resistor_{value}
+    const standardComponents = [
+        { id: 'wire', name: 'Fil', icon: '➖', r: 0.1, type: 'basic' },
+        { id: 'lamp', name: 'Lampe', icon: '💡', r: 10, type: 'basic' },
+        { id: 'motor', name: 'Moteur', icon: '⚙️', r: 15, type: 'basic' },
+        { id: 'open', name: 'Vide', icon: '🚫', r: Infinity, type: 'basic' }
+    ];
+
+    const resistorsList = [
+        { val: 10, colors: ['🟤', '⚫', '⚫'] }, // Brown Black Black (10) - Correction norm: Brown(1) Black(0) Black(x1) = 10
+        { val: 100, colors: ['🟤', '⚫', '🟤'] }, // Brown(1) Black(0) Brown(x10) = 100
+        { val: 220, colors: ['🔴', '🔴', '🟤'] }, // Red(2) Red(2) Brown(x10) = 220
+        { val: 1000, colors: ['🟤', '⚫', '🔴'] }, // Brown(1) Black(0) Red(x100) = 1k
+    ];
+
+    const getCompInfo = (id) => {
+        if (!id) return standardComponents[3];
+        if (id.startsWith('resistor_')) {
+            const val = parseInt(id.split('_')[1]);
+            return { id, name: `R ${val}Ω`, icon: '▆', r: val, type: 'resistor' };
+        }
+        return standardComponents.find(c => c.id === id) || standardComponents[3];
+    };
+
+    // --- CIRCUIT ANALYSIS ---
+    const analysis = useMemo(() => {
+        if (!switchState) return { status: 'open', msg: 'Circuit ouvert', i: 0 };
+
+        let status = 'ok';
+        let msg = 'Valide';
+        let current = 0;
+
+        try {
+            if (topology === 'series') {
+                const rTotal = [0, 1, 2].reduce((acc, slotId) => acc + getCompInfo(slots[slotId]).r, 0);
+                if (rTotal < 1) throw 'short';
+                if (rTotal === Infinity) throw 'open';
+                current = 4.5 / rTotal;
+            } else {
+                const rB1 = getCompInfo(slots[0]).r + getCompInfo(slots[1]).r;
+                const rB2 = getCompInfo(slots[2]).r + getCompInfo(slots[3]).r;
+
+                if (rB1 < 1 || rB2 < 1) throw 'short';
+                if (rB1 === Infinity && rB2 === Infinity) throw 'open';
+
+                current = (rB1 !== Infinity ? 4.5 / rB1 : 0) + (rB2 !== Infinity ? 4.5 / rB2 : 0);
+            }
+        } catch (e) {
+            status = e;
+            msg = e === 'short' ? '⚠️ COURT-CIRCUIT !' : 'Circuit Ouvert';
+        }
+
+        // Check Challenge Success
+        if (mode === 'challenge' && challenge && !showSuccess) {
+            if (challenge.type === 'color_code') {
+                // Player must place the specific resistor
+                if (Object.values(slots).includes(`resistor_${challenge.targetVal}`)) {
+                    triggerSuccess();
+                }
+            }
+            if (challenge.type === 'target_current') {
+                // Tolerance 10%
+                if (status === 'ok' && Math.abs(current - challenge.targetI) < 0.01) {
+                    triggerSuccess();
                 }
             }
         }
-    }, [components, current, mode, mission, showSuccess]);
+
+        return { status, msg, current };
+    }, [topology, slots, switchState, mode, challenge]);
+
+    const triggerSuccess = () => {
+        setScore(s => s + 100);
+        setShowSuccess(true);
+    };
+
+    const nextChallenge = () => {
+        setShowSuccess(false);
+        const types = ['color_code', 'target_current'];
+        const type = types[Math.floor(Math.random() * types.length)];
+
+        if (type === 'color_code') {
+            const r = resistorsList[Math.floor(Math.random() * resistorsList.length)];
+            setChallenge({
+                type,
+                header: "Défi : Code Couleur",
+                text: `Insère la résistance : ${getResistorColorName(r.val)}`,
+                hint: `Cherche les bandes : ${r.colors.join(' ')}`,
+                targetVal: r.val
+            });
+        } else {
+            // Target Current
+            // Pick a random setup solvable with one resistor swap
+            // Keep it simple: Series, target 0.04A (approx 100 ohm) or 0.02A (220 ohm)
+            const targets = [
+                { i: 0.04, val: 100, txt: "~0.04 A" },
+                { i: 0.02, val: 220, txt: "~0.02 A" },
+                { i: 0.45, val: 0, txt: "Maximize (0.45 A)" } // No resistor
+            ];
+            const t = targets[Math.floor(Math.random() * targets.length)];
+            setSwitchState(true);
+            setTopology('series');
+            setSlots({ 0: 'lamp', 1: 'wire', 2: 'wire' }); // Reset
+            setChallenge({
+                type,
+                header: "Défi : Ingénieur",
+                text: `Règle l'intensité du circuit à ${t.txt}`,
+                hint: "Utilise la loi d'Ohm : I = U / R",
+                targetI: t.i
+            });
+        }
+    };
+
+    const startChallengeMode = () => {
+        setMode('challenge');
+        setScore(0);
+        nextChallenge();
+    };
+
+    const setSlotComponent = (id, type) => {
+        setSlots(prev => ({ ...prev, [id]: type }));
+        setShowMenu(null);
+    };
 
     return (
         <group>
             <Html>
-                <DraggableHtmlPanel title="⚡ Atelier Électrique" showCloseButton={false} defaultPosition="bottom-center" className="w-[350px] border-yellow-500/30 text-white">
+                <DraggableHtmlPanel title="⚡ Labo Élec & Résistances" showCloseButton={false} defaultPosition="bottom-center" className="w-[360px] border-yellow-500/30 text-white">
+                    {/* Header */}
                     <div className="flex justify-between items-center mb-4 border-b border-white/10 pb-2">
                         <div className="flex gap-2">
-                            <button onClick={() => setMode('explore')} className={`text-xs px-2 py-1 rounded ${mode === 'explore' ? 'bg-yellow-600' : 'bg-gray-700'}`}>Atelier</button>
-                            <button onClick={startMission} className={`text-xs px-2 py-1 rounded ${mode === 'challenge' ? 'bg-orange-600' : 'bg-gray-700'}`}>Mission 🛠️</button>
+                            <button onClick={() => { setMode('explore'); setChallenge(null); }} className={`text-xs px-2 py-1 rounded ${mode === 'explore' ? 'bg-yellow-600' : 'bg-gray-700'}`}>Labo Libre</button>
+                            <button onClick={startChallengeMode} className={`text-xs px-2 py-1 rounded ${mode === 'challenge' ? 'bg-purple-600' : 'bg-gray-700'}`}>Mode Défi 🏆</button>
                         </div>
                         {mode === 'challenge' && <div className="font-bold text-yellow-400">{score} XP</div>}
                     </div>
 
-                    {mode === 'challenge' && mission && (
-                        <div className={`mb-4 p-3 rounded-xl border-2 text-center transition-colors ${showSuccess ? 'border-green-500 bg-green-900/40' : 'border-orange-500 bg-gray-800'}`}>
-                            <div className="text-xs text-gray-400 uppercase">Mission</div>
-                            <div className="font-bold text-lg">{mission.text}</div>
-                            {showSuccess && <div className="text-sm text-green-400 font-bold mt-1">MISSION ACCOMPLIE !</div>}
+                    {/* Challenge Box */}
+                    {mode === 'challenge' && challenge && (
+                        <div className="mb-4 bg-purple-900/50 p-3 rounded-xl border border-purple-500 animate-in fade-in slide-in-from-top-4">
+                            <div className="text-xs text-purple-300 uppercase font-bold">{challenge.header}</div>
+                            <div className="font-bold text-lg">{challenge.text}</div>
+                            <div className="text-xs text-gray-400 mt-1 italic">Indices : {challenge.hint}</div>
                         </div>
                     )}
 
-                    <div className="mb-4">
-                        <label className="block text-xs uppercase text-gray-400 mb-2">État du circuit</label>
+                    {/* Controls */}
+                    <div className="space-y-2 mb-4">
+                        <div className="flex gap-2 p-1 bg-gray-900 rounded-lg">
+                            <button onClick={() => setTopology('series')} className={`flex-1 py-1 text-xs rounded ${topology === 'series' ? 'bg-blue-600' : 'bg-gray-800'}`}>SÉRIE</button>
+                            <button onClick={() => setTopology('parallel')} className={`flex-1 py-1 text-xs rounded ${topology === 'parallel' ? 'bg-blue-600' : 'bg-gray-800'}`}>DÉRIVATION</button>
+                        </div>
+
                         <button onClick={() => setSwitchState(!switchState)}
-                            className={`w-full py-4 rounded-xl font-bold text-lg shadow-lg transition-all ${switchState ? 'bg-green-600 hover:bg-green-500' : 'bg-red-600 hover:bg-red-500'}`}>
-                            {switchState ? 'INT. FERMÉ (ON)' : 'INT. OUVERT (OFF)'}
+                            className={`w-full py-3 rounded-xl font-bold text-lg shadow-lg ${switchState ? 'bg-green-600' : 'bg-red-600'}`}>
+                            {switchState ? 'ON (Fermé)' : 'OFF (Ouvert)'}
                         </button>
                     </div>
 
-                    <div className="mb-4">
-                        <label className="block text-xs uppercase text-gray-400 mb-2">Composants en série</label>
-                        <div className="flex gap-2">
-                            <button onClick={() => addComponent('lamp')} className="flex-1 p-2 bg-gray-800 rounded hover:bg-gray-700">💡 Lampe</button>
-                            <button onClick={() => addComponent('motor')} className="flex-1 p-2 bg-gray-800 rounded hover:bg-gray-700">⚙️ Moteur</button>
-                            <button onClick={() => addComponent('buzzer')} className="flex-1 p-2 bg-gray-800 rounded hover:bg-gray-700">🔊 Buzzer</button>
+                    {/* Status Feedback */}
+                    <div className="grid grid-cols-2 gap-2 bg-gray-800 p-3 rounded-xl border border-gray-600">
+                        <div>
+                            <div className="text-xs text-gray-400">État</div>
+                            <div className={`font-bold ${analysis.status === 'short' ? 'text-red-500 animate-pulse' : 'text-green-400'}`}>
+                                {analysis.msg}
+                            </div>
                         </div>
-                        <button onClick={removeComponent} className="w-full mt-2 py-1 text-xs text-red-400 bg-red-900/20 rounded hover:bg-red-900/40">
-                            🗑️ Retirer le dernier composant
-                        </button>
+                        <div>
+                            <div className="text-xs text-gray-400">Intensité</div>
+                            <div className="font-mono text-xl text-cyan-300">{analysis.current.toFixed(3)} A</div>
+                        </div>
                     </div>
 
-                    <div className="grid grid-cols-2 gap-4 mt-6 p-4 bg-gray-800 rounded-xl">
-                        <div>
-                            <div className="text-xs text-gray-400">Générateur</div>
-                            <div className="text-xl font-mono text-yellow-400">{voltage} V</div>
+                    {/* Context Menu for Component Selection */}
+                    {showMenu !== null && (
+                        <div className="absolute top-10 left-2 right-2 bg-gray-900 border border-white/20 p-3 rounded-xl shadow-2xl z-50 flex flex-col gap-3">
+                            <div className="text-xs text-gray-400 text-center uppercase font-bold">Composants de base</div>
+                            <div className="grid grid-cols-4 gap-2">
+                                {standardComponents.map(c => (
+                                    <button key={c.id} onClick={() => setSlotComponent(showMenu, c.id)} className="flex flex-col items-center bg-gray-800 p-2 rounded hover:bg-white/10">
+                                        <div className="text-xl">{c.icon}</div>
+                                        <div className="text-[9px]">{c.name}</div>
+                                    </button>
+                                ))}
+                            </div>
+
+                            <div className="text-xs text-gray-400 text-center uppercase font-bold border-t border-white/10 pt-2">Résistances (Code Couleur)</div>
+                            <div className="grid grid-cols-4 gap-2">
+                                {resistorsList.map(r => (
+                                    <button key={r.val} onClick={() => setSlotComponent(showMenu, `resistor_${r.val}`)} className="flex flex-col items-center bg-gray-800 p-2 rounded hover:bg-white/10">
+                                        {/* Mini representation of resistor color bands */}
+                                        <div className="flex gap-[1px] mb-1 h-3 w-8 bg-[#D2B48C] items-center justify-center border border-black/30">
+                                            {r.colors.map((c, i) => <div key={i} className="w-1 h-full" style={{ backgroundColor: colorEmojiToHex(c) }}></div>)}
+                                        </div>
+                                        <div className="text-[9px] font-mono">{r.val}Ω</div>
+                                    </button>
+                                ))}
+                            </div>
+                            <button onClick={() => setShowMenu(null)} className="w-full text-xs text-red-400 mt-1">Fermer</button>
                         </div>
-                        <div>
-                            <div className="text-xs text-gray-400">Courant (I)</div>
-                            <div className="text-xl font-mono text-cyan-400">{current.toFixed(2)} A</div>
-                        </div>
-                    </div>
+                    )}
                 </DraggableHtmlPanel>
             </Html>
 
-            <SuccessOverlay show={showSuccess} message="Circuit validé ! Tu es un chef électricien !" points={50} onNext={startMission} />
+            <SuccessOverlay show={showSuccess} message="C'est exact ! Excellent travail d'ingénieur !" points={100} onNext={nextChallenge} />
             <ConfettiExplosion active={showSuccess} />
 
-            {/* CIRCUIT 3D */}
+            {/* SCÈNE 3D DYNAMIQUE */}
             <group position={[0, 0, 0]}>
-                {/* Pile */}
+                {/* Générateur */}
                 <group position={[-3, 0, 0]}>
-                    <Box args={[1, 2, 1]} material-color="#333" />
-                    <Box args={[0.4, 0.2, 0.4]} position={[0, 1.1, 0]} material-color="#AAA" />
-                    <Text position={[0, 0.5, 0.6]} fontSize={0.5} color="red">+</Text>
-                    <Text position={[0, -0.5, 0.6]} fontSize={0.5} color="blue">-</Text>
+                    <Box args={[1, 1.5, 1]} material-color="#111" />
+                    <Box args={[0.9, 1.4, 0.9]} material-color="#333" />
+                    <Text position={[0, 0, 0.6]} fontSize={0.5} color="#EF4444">+</Text>
+                    <Text position={[0, 0, -0.6]} rotation={[0, Math.PI, 0]} fontSize={0.5} color="#3B82F6">-</Text>
                 </group>
 
-                {/* Fils et Composants en série */}
-                <group>
-                    {/* Fil départ */}
-                    <mesh position={[-2.5, 1, 0]} rotation={[0, 0, -Math.PI / 2]}>
-                        <cylinderGeometry args={[0.05, 0.05, 1]} />
-                        <meshStandardMaterial color="#B87333" />
-                    </mesh>
+                {topology === 'series' && (
+                    <group>
+                        <CircuitSegment p1={[-2.5, 0.5, 0]} p2={[-1.5, 0.5, 0]} active={analysis.status === 'ok'} />
+                        <Slot3D id={0} pos={[-1, 0.5, 0]} type={slots[0]} active={analysis.status === 'ok'} onClick={() => setShowMenu(0)} error={analysis.status === 'short'} />
+                        <CircuitSegment p1={[-0.5, 0.5, 0]} p2={[0.5, 0.5, 0]} active={analysis.status === 'ok'} />
+                        <Slot3D id={1} pos={[1, 0.5, 0]} type={slots[1]} active={analysis.status === 'ok'} onClick={() => setShowMenu(1)} error={analysis.status === 'short'} />
+                        <CircuitSegment p1={[1.5, 0.5, 0]} p2={[2.5, 0.5, 0]} active={analysis.status === 'ok'} />
+                        <Slot3D id={2} pos={[3, 0.5, 0]} type={slots[2]} active={analysis.status === 'ok'} onClick={() => setShowMenu(2)} error={analysis.status === 'short'} />
 
-                    {/* Composants dynamiques */}
-                    {components.map((comp, i) => {
-                        const xPos = -1.5 + (i * 2);
-                        return (
-                            <group key={i} position={[xPos, 0, 0]}>
-                                {/* Fil liaison */}
-                                <mesh position={[-1, 1, 0]} rotation={[0, 0, Math.PI / 2]}>
-                                    <cylinderGeometry args={[0.05, 0.05, 2]} />
-                                    <meshStandardMaterial color="#B87333" />
-                                </mesh>
-
-                                {/* Composant */}
-                                {comp === 'lamp' && <Lamp3D active={current > 0} intensity={current * 5} />}
-                                {comp === 'motor' && <Motor3D active={current > 0} speed={current * 10} />}
-                                {comp === 'buzzer' && <Buzzer3D active={current > 0} />}
-                            </group>
-                        );
-                    })}
-
-                    {/* Fil retour et Interrupteur */}
-                    <group position={[0, -1.5, 0]}>
-                        <mesh position={[0, 0, 0]} rotation={[0, 0, Math.PI / 2]}>
-                            <cylinderGeometry args={[0.05, 0.05, 10]} /> {/* Long fil retour */}
-                            <meshStandardMaterial color="#333" />
-                        </mesh>
-                        {/* Interrupteur visuel */}
-                        <group position={[2, 0, 0]} rotation={[0, 0, switchState ? 0 : 0.5]}>
-                            <Box args={[1, 0.1, 0.2]} material-color="red" position={[0.5, 0, 0]} />
+                        <group position={[0, -1, 0]}>
+                            <CircuitSegment p1={[3, 1, 0]} p2={[3, 0.5, 0]} vertical active={analysis.status === 'ok'} />
+                            <CircuitSegment p1={[3, 0, 0]} p2={[0, 0, 0]} active={analysis.status === 'ok'} />
+                            <Switch3D position={[0, 0, 0]} closed={switchState} />
+                            <CircuitSegment p1={[-0.5, 0, 0]} p2={[-3, 0, 0]} active={analysis.status === 'ok'} />
+                            <CircuitSegment p1={[-3, 0, 0]} p2={[-3, 0.5, 0]} vertical active={analysis.status === 'ok'} />
                         </group>
                     </group>
-                </group>
+                )}
+
+                {topology === 'parallel' && (
+                    <group>
+                        <CircuitSegment p1={[-2.5, 1, 0]} p2={[2, 1, 0]} active={analysis.status === 'ok'} />
+                        <CircuitSegment p1={[-1, 1, 0]} p2={[-1, 0.5, 0]} vertical active={analysis.status === 'ok'} />
+                        <Slot3D id={0} pos={[-1, 0, 0]} type={slots[0]} active={analysis.status === 'ok'} onClick={() => setShowMenu(0)} error={analysis.status === 'short'} />
+                        <Slot3D id={1} pos={[-1, -1, 0]} type={slots[1]} active={analysis.status === 'ok'} onClick={() => setShowMenu(1)} error={analysis.status === 'short'} />
+                        <CircuitSegment p1={[-1, -1.5, 0]} p2={[-1, -2, 0]} vertical active={analysis.status === 'ok'} />
+
+                        <CircuitSegment p1={[2, 1, 0]} p2={[2, 0.5, 0]} vertical active={analysis.status === 'ok'} />
+                        <Slot3D id={2} pos={[2, 0, 0]} type={slots[2]} active={analysis.status === 'ok'} onClick={() => setShowMenu(2)} error={analysis.status === 'short'} />
+                        <Slot3D id={3} pos={[2, -1, 0]} type={slots[3]} active={analysis.status === 'ok'} onClick={() => setShowMenu(3)} error={analysis.status === 'short'} />
+                        <CircuitSegment p1={[2, -1.5, 0]} p2={[2, -2, 0]} vertical active={analysis.status === 'ok'} />
+
+                        <CircuitSegment p1={[2, -2, 0]} p2={[-3, -2, 0]} active={analysis.status === 'ok'} />
+                        <Switch3D position={[-2, -2, 0]} closed={switchState} />
+                        <CircuitSegment p1={[-3, -2, 0]} p2={[-3, -0.75, 0]} vertical active={analysis.status === 'ok'} />
+                    </group>
+                )}
             </group>
         </group>
     );
 }
 
-function Lamp3D({ active, intensity }) {
+// --- HELPER FUNCTIONS ---
+function colorEmojiToHex(emoji) {
+    const map = { '🟤': '#8B4513', '⚫': '#000000', '🔴': '#FF0000', '🟠': '#FFA500', '🟡': '#FFFF00', '🟢': '#008000', '🔵': '#0000FF', '🟣': '#800080', '⚪': '#FFFFFF' };
+    return map[emoji] || '#888';
+}
+
+function getResistorColorName(val) {
+    if (val === 10) return "Marron-Noir-Noir";
+    if (val === 100) return "Marron-Noir-Marron";
+    if (val === 220) return "Rouge-Rouge-Marron";
+    if (val === 1000) return "Marron-Noir-Rouge";
+    return "";
+}
+
+// --- 3D COMPONENTS ---
+function Slot3D({ id, pos, type, active, onClick, error }) {
+    const isResistor = type && type.startsWith('resistor_');
+    const color = error ? '#EF4444' : (active ? '#FCD34D' : '#374151');
+
     return (
-        <group position={[0, 1, 0]}>
-            <Sphere args={[0.4]} material-color={active ? "yellow" : "gray"} material-emissive={active ? "yellow" : "black"} material-emissiveIntensity={intensity} />
-            <Cylinder args={[0.2, 0.2, 0.5]} position={[0, -0.4, 0]} material-color="silver" />
-            {active && <pointLight distance={3} intensity={intensity} color="orange" />}
+        <group position={pos} onClick={(e) => { e.stopPropagation(); onClick(); }}
+            onPointerOver={() => document.body.style.cursor = 'pointer'}
+            onPointerOut={() => document.body.style.cursor = 'auto'}>
+
+            {/* Socket Base */}
+            <mesh rotation={[Math.PI / 2, 0, 0]}>
+                <cylinderGeometry args={[0.35, 0.35, 0.1, 32]} />
+                <meshStandardMaterial color={error ? '#EF4444' : '#1F2937'} />
+            </mesh>
+            <mesh position={[0, 0.06, 0]} rotation={[Math.PI / 2, 0, 0]}>
+                <ringGeometry args={[0.35, 0.4, 32]} />
+                <meshBasicMaterial color={active ? '#FBBF24' : '#4B5563'} />
+            </mesh>
+
+            {/* Component Visualization */}
+            <group position={[0, 0.2, 0]}>
+                {!type || type === 'open' ? (
+                    <Text fontSize={0.3} color="#EF4444" position={[0, 0.1, 0]}>?</Text>
+                ) : type === 'wire' ? (
+                    <Box args={[0.6, 0.05, 0.05]} material-color="#B87333" />
+                ) : type === 'lamp' ? (
+                    <group>
+                        <mesh position={[0, 0.2, 0]}>
+                            <sphereGeometry args={[0.25]} />
+                            <meshStandardMaterial color={active ? '#FEF08A' : 'white'} emissive={active ? '#FEF08A' : 'black'} emissiveIntensity={active ? 2 : 0} transparent opacity={0.9} />
+                        </mesh>
+                        <Cylinder args={[0.1, 0.1, 0.2]} position={[0, 0, 0]} material-color="#9CA3AF" />
+                    </group>
+                ) : type === 'motor' ? (
+                    <group rotation={[0, 0, active ? Math.PI / 4 : 0]}>
+                        <Box args={[0.4, 0.4, 0.4]} material-color="#60A5FA" />
+                        <mesh position={[0, 0, 0.25]} rotation={[0, 0, active ? Date.now() / 100 : 0]}>
+                            <boxGeometry args={[0.05, 0.5, 0.05]} />
+                            <meshStandardMaterial color="black" />
+                        </mesh>
+                    </group>
+                ) : isResistor ? (
+                    <Resistor3D value={parseInt(type.split('_')[1])} />
+                ) : null}
+            </group>
+
+            {/* Label */}
+            <Text position={[0, -0.6, 0]} fontSize={0.12} color="gray">Slot {id + 1}</Text>
         </group>
     );
 }
 
-function Motor3D({ active, speed }) {
+function Resistor3D({ value }) {
+    // Decode value to colors (Simplified 3 bands logic for 3D)
+    // 10 -> Brown Black Black
+    // 100 -> Brown Black Brown
+    // 220 -> Red Red Brown
+    // 1000 -> Brown Black Red
+    let colors = [];
+    if (value === 10) colors = ['#8B4513', 'black', 'black'];
+    else if (value === 100) colors = ['#8B4513', 'black', '#8B4513'];
+    else if (value === 220) colors = ['red', 'red', '#8B4513'];
+    else if (value === 1000) colors = ['#8B4513', 'black', 'red'];
+    else colors = ['gray', 'gray', 'gray'];
+
+    return (
+        <group rotation={[0, 0, Math.PI / 2]}>
+            {/* Body */}
+            <mesh>
+                <cylinderGeometry args={[0.1, 0.1, 0.6, 16]} />
+                <meshStandardMaterial color="#D2B48C" /> {/* Beige */}
+            </mesh>
+            {/* Bands */}
+            {colors.map((c, i) => (
+                <mesh key={i} position={[0, 0.15 - (i * 0.15), 0]}>
+                    <cylinderGeometry args={[0.105, 0.105, 0.05, 16]} />
+                    <meshStandardMaterial color={c} />
+                </mesh>
+            ))}
+            {/* Leads */}
+            <mesh position={[0, 0.4, 0]}>
+                <cylinderGeometry args={[0.02, 0.02, 0.2]} />
+                <meshStandardMaterial color="silver" />
+            </mesh>
+            <mesh position={[0, -0.4, 0]}>
+                <cylinderGeometry args={[0.02, 0.02, 0.2]} />
+                <meshStandardMaterial color="silver" />
+            </mesh>
+        </group>
+    );
+}
+
+function CircuitSegment({ p1, p2, vertical, active }) {
+    const mid = [(p1[0] + p2[0]) / 2, (p1[1] + p2[1]) / 2, (p1[2] + p2[2]) / 2];
+    const len = Math.sqrt(Math.pow(p2[0] - p1[0], 2) + Math.pow(p2[1] - p1[1], 2));
+    const rot = vertical ? [0, 0, 0] : [0, 0, Math.PI / 2];
+    return (
+        <mesh position={mid} rotation={rot}>
+            <cylinderGeometry args={[0.03, 0.03, len]} />
+            <meshStandardMaterial color={active ? '#F59E0B' : '#4B5563'} />
+        </mesh>
+    );
+}
+
+function Switch3D({ position, closed }) {
+    return (
+        <group position={position}>
+            return (
+            <group position={[0, 1, 0]}>
+                <Sphere args={[0.4]} material-color={active ? "yellow" : "gray"} material-emissive={active ? "yellow" : "black"} material-emissiveIntensity={intensity} />
+                <Cylinder args={[0.2, 0.2, 0.5]} position={[0, -0.4, 0]} material-color="silver" />
+                {active && <pointLight distance={3} intensity={intensity} color="orange" />}
+            </group>
+            );
+}
+
+            function Motor3D({active, speed}) {
     const ref = useRef();
     useFrame(() => {
         if (active && ref.current) ref.current.rotation.z += speed * 0.1;
     });
-    return (
-        <group position={[0, 1, 0]}>
-            <Cylinder args={[0.4, 0.4, 0.8]} rotation={[Math.PI / 2, 0, 0]} material-color="gray" />
-            <group ref={ref} position={[0, 0, 0.5]}>
-                <Box args={[1, 0.1, 0.1]} material-color="blue" />
-                <Box args={[0.1, 1, 0.1]} material-color="blue" />
+            return (
+            <group position={[0, 1, 0]}>
+                <Cylinder args={[0.4, 0.4, 0.8]} rotation={[Math.PI / 2, 0, 0]} material-color="gray" />
+                <group ref={ref} position={[0, 0, 0.5]}>
+                    <Box args={[1, 0.1, 0.1]} material-color="blue" />
+                    <Box args={[0.1, 1, 0.1]} material-color="blue" />
+                </group>
             </group>
-        </group>
-    );
+            );
 }
 
-function Buzzer3D({ active }) {
+            function Buzzer3D({active}) {
     const [scale, setScale] = useState(1);
-    useFrame(({ clock }) => {
+            useFrame(({clock}) => {
         if (active) {
-            setScale(1 + Math.sin(clock.elapsedTime * 50) * 0.1);
+                setScale(1 + Math.sin(clock.elapsedTime * 50) * 0.1);
         } else {
-            setScale(1);
+                setScale(1);
         }
     });
-    return (
-        <group position={[0, 1, 0]} scale={scale}>
-            <Cylinder args={[0.4, 0.5, 0.3]} material-color="black" />
-            {active && (
-                <Text position={[0, 0.5, 0]} fontSize={0.3} color="red">♪♫♪</Text>
-            )}
-        </group>
-    );
+            return (
+            <group position={[0, 1, 0]} scale={scale}>
+                <Cylinder args={[0.4, 0.5, 0.3]} material-color="black" />
+                {active && (
+                    <Text position={[0, 0.5, 0]} fontSize={0.3} color="red">♪♫♪</Text>
+                )}
+            </group>
+            );
 }
