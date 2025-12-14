@@ -48,6 +48,7 @@ import { DensityExplorer, RefractionSimulator, CircuitSeriesParallel, MassConser
 
 import { Chap1ScienceIntro, Chap2Mesures, Chap3Densite, Chap4PoidsMasse, Chap5Electricite } from './PC4eChapter1to5';
 import { Chap6SourcesLumiere, Chap7PropagationLumiere, Chap8Refraction } from './PC4eChapter6to8';
+import { Chap1LentillesMCE, Chap2DispersionLumiere, Chap3ForcesVecteurs, Chap4TravailPuissance, Chap5Electrisation } from './PC3eChapter1to5';
 
 
 
@@ -4465,16 +4466,28 @@ export default function Simulation3D({ type = 'atom', config = {} }) {
                 return <MassConservation />;
 
             // === PC 3ÈME - SIMULATIONS PROGRAMME BFEM ===
+            case 'chap1-lentilles-3e':
+                return <Chap1LentillesMCE />;
+            case 'chap2-dispersion-3e':
+                return <Chap2DispersionLumiere />;
+            case 'chap3-forces-3e':
+                return <Chap3ForcesVecteurs />;
+            case 'chap4-travail-3e':
+                return <Chap4TravailPuissance />;
+            case 'chap5-electrisation-3e':
+                return <Chap5Electrisation />;
+
+            // Fallbacks pour anciens types
             case 'lens-optics':
-                return <LensOptics />;
+                return <Chap1LentillesMCE />;
             case 'light-dispersion':
-                return <LightSpectrum />;
+                return <Chap2DispersionLumiere />;
             case 'forces-vectors':
-                return <ForcePhysics />;
+                return <Chap3ForcesVecteurs />;
             case 'work-power':
-                return <EnergyConservation />;
+                return <Chap4TravailPuissance />;
             case 'electrostatics':
-                return <IonsFormation />;
+                return <Chap5Electrisation />;
             case 'ohm-law-circuit':
                 return <ElectricCircuit />;
             case 'energy-flow':
