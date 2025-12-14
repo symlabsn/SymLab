@@ -111,88 +111,86 @@ export function Chap1ScienceIntro() {
     return (
         <group ref={groupRef}>
 
-            <Html transform={false}>
-                <DraggableHtmlPanel title="🔬 Démarche Scientifique" showCloseButton={false} defaultPosition="bottom-center" className="w-[350px] border-white/10 text-white" usePortal={false}>
-                    {/* Header Controls */}
-                    <div className="flex justify-between items-center mb-4 border-b border-white/10 pb-2">
-                        <div className="flex gap-2">
-                            <button onClick={() => setMode('explore')} className={`text-xs px-2 py-1 rounded ${mode === 'explore' ? 'bg-blue-600' : 'bg-gray-700'}`}>Exploration</button>
-                            <button onClick={startChallenge} className={`text-xs px-2 py-1 rounded ${mode === 'challenge' ? 'bg-purple-600' : 'bg-gray-700'}`}>Quiz Défi 🏆</button>
-                        </div>
-                        {mode === 'explore' && <button onClick={reset} className="text-xs px-2 py-1 bg-white/10 rounded hover:bg-white/20">🔄 Reset</button>}
-                        {mode === 'challenge' && <div className="font-bold text-yellow-400">{score} XP</div>}
+            <DraggableHtmlPanel title="🔬 Démarche Scientifique" showCloseButton={false} defaultPosition="bottom-center" className="w-[350px] border-white/10 text-white" usePortal={true}>
+                {/* Header Controls */}
+                <div className="flex justify-between items-center mb-4 border-b border-white/10 pb-2">
+                    <div className="flex gap-2">
+                        <button onClick={() => setMode('explore')} className={`text-xs px-2 py-1 rounded ${mode === 'explore' ? 'bg-blue-600' : 'bg-gray-700'}`}>Exploration</button>
+                        <button onClick={startChallenge} className={`text-xs px-2 py-1 rounded ${mode === 'challenge' ? 'bg-purple-600' : 'bg-gray-700'}`}>Quiz Défi 🏆</button>
                     </div>
+                    {mode === 'explore' && <button onClick={reset} className="text-xs px-2 py-1 bg-white/10 rounded hover:bg-white/20">🔄 Reset</button>}
+                    {mode === 'challenge' && <div className="font-bold text-yellow-400">{score} XP</div>}
+                </div>
 
-                    {mode === 'explore' ? (
-                        <>
-                            {/* Choix du scénario */}
-                            <div className="grid grid-cols-3 gap-2 mb-6">
-                                {Object.entries(scenarios).map(([key, sc]) => (
-                                    <button key={key} onClick={() => { setScenario(key); reset(); }}
-                                        className={`p-2 rounded-lg text-xs font-bold transition-all ${scenario === key ? 'bg-blue-600 ring-2 ring-white' : 'bg-gray-800 hover:bg-gray-700'}`}>
-                                        {key === 'chimie' && '🧪 Chimie'}
-                                        {key === 'plante' && '🌿 SVT'}
-                                        {key === 'flotte' && '🥚 Densité'}
-                                    </button>
+                {mode === 'explore' ? (
+                    <>
+                        {/* Choix du scénario */}
+                        <div className="grid grid-cols-3 gap-2 mb-6">
+                            {Object.entries(scenarios).map(([key, sc]) => (
+                                <button key={key} onClick={() => { setScenario(key); reset(); }}
+                                    className={`p-2 rounded-lg text-xs font-bold transition-all ${scenario === key ? 'bg-blue-600 ring-2 ring-white' : 'bg-gray-800 hover:bg-gray-700'}`}>
+                                    {key === 'chimie' && '🧪 Chimie'}
+                                    {key === 'plante' && '🌿 SVT'}
+                                    {key === 'flotte' && '🥚 Densité'}
+                                </button>
+                            ))}
+                        </div>
+
+                        {/* Étapes de la démarche */}
+                        <div className="space-y-4">
+                            <div className="flex justify-between text-xs font-mono text-gray-400 mb-2">
+                                <span>ÉTAPE {step + 1}/4</span>
+                                <span>{currentScenario.steps[step].name.toUpperCase()}</span>
+                            </div>
+
+                            <div className="bg-gray-900/80 p-4 rounded-xl border border-white/5 min-h-[80px] flex items-center justify-center text-center">
+                                <p className="text-lg font-medium" style={{ color: currentScenario.steps[step].color }}>
+                                    {currentScenario.steps[step].text}
+                                </p>
+                            </div>
+
+                            {/* Barre de progression */}
+                            <div className="flex gap-1 h-2 mb-4">
+                                {[0, 1, 2, 3].map(i => (
+                                    <div key={i} className={`flex-1 rounded-full transition-colors duration-500 ${i <= step ? 'bg-blue-500' : 'bg-gray-800'}`} />
                                 ))}
                             </div>
 
-                            {/* Étapes de la démarche */}
-                            <div className="space-y-4">
-                                <div className="flex justify-between text-xs font-mono text-gray-400 mb-2">
-                                    <span>ÉTAPE {step + 1}/4</span>
-                                    <span>{currentScenario.steps[step].name.toUpperCase()}</span>
-                                </div>
-
-                                <div className="bg-gray-900/80 p-4 rounded-xl border border-white/5 min-h-[80px] flex items-center justify-center text-center">
-                                    <p className="text-lg font-medium" style={{ color: currentScenario.steps[step].color }}>
-                                        {currentScenario.steps[step].text}
-                                    </p>
-                                </div>
-
-                                {/* Barre de progression */}
-                                <div className="flex gap-1 h-2 mb-4">
-                                    {[0, 1, 2, 3].map(i => (
-                                        <div key={i} className={`flex-1 rounded-full transition-colors duration-500 ${i <= step ? 'bg-blue-500' : 'bg-gray-800'}`} />
-                                    ))}
-                                </div>
-
-                                {step < 3 ? (
-                                    <button onClick={handleNextStep}
-                                        className="w-full py-4 rounded-xl font-bold text-lg shadow-lg transform transition-all hover:scale-105 active:scale-95"
-                                        style={{ backgroundColor: currentScenario.steps[step].color, color: 'black' }}>
-                                        {step === 2 ? `🚀 ${currentScenario.steps[step].action}` : 'Suivant ➡️'}
-                                    </button>
-                                ) : (
-                                    <div className="p-3 bg-green-500/20 rounded-xl border border-green-500/50 text-center">
-                                        <div className="text-3xl mb-2">🎉</div>
-                                        <div className="font-bold text-green-400">Conclusion Validée !</div>
-                                    </div>
-                                )}
-                            </div>
-                        </>
-                    ) : (
-                        <div className="bg-gray-800 p-4 rounded-xl border border-purple-500/50">
-                            <h3 className="text-purple-300 font-bold mb-4 flex items-center gap-2">
-                                <span>🧠</span> Quiz Scientifique
-                            </h3>
-                            {challenge && (
-                                <div className="space-y-4">
-                                    <div className="text-sm font-medium">{challenge.q}</div>
-                                    <div className="space-y-2">
-                                        {challenge.options.map((opt, idx) => (
-                                            <button key={idx} onClick={() => checkAnswer(idx)}
-                                                className="w-full text-left p-3 rounded bg-gray-700 hover:bg-gray-600 transition-colors text-sm">
-                                                {['A', 'B', 'C'][idx]}. {opt}
-                                            </button>
-                                        ))}
-                                    </div>
+                            {step < 3 ? (
+                                <button onClick={handleNextStep}
+                                    className="w-full py-4 rounded-xl font-bold text-lg shadow-lg transform transition-all hover:scale-105 active:scale-95"
+                                    style={{ backgroundColor: currentScenario.steps[step].color, color: 'black' }}>
+                                    {step === 2 ? `🚀 ${currentScenario.steps[step].action}` : 'Suivant ➡️'}
+                                </button>
+                            ) : (
+                                <div className="p-3 bg-green-500/20 rounded-xl border border-green-500/50 text-center">
+                                    <div className="text-3xl mb-2">🎉</div>
+                                    <div className="font-bold text-green-400">Conclusion Validée !</div>
                                 </div>
                             )}
                         </div>
-                    )}
-                </DraggableHtmlPanel>
-            </Html>
+                    </>
+                ) : (
+                    <div className="bg-gray-800 p-4 rounded-xl border border-purple-500/50">
+                        <h3 className="text-purple-300 font-bold mb-4 flex items-center gap-2">
+                            <span>🧠</span> Quiz Scientifique
+                        </h3>
+                        {challenge && (
+                            <div className="space-y-4">
+                                <div className="text-sm font-medium">{challenge.q}</div>
+                                <div className="space-y-2">
+                                    {challenge.options.map((opt, idx) => (
+                                        <button key={idx} onClick={() => checkAnswer(idx)}
+                                            className="w-full text-left p-3 rounded bg-gray-700 hover:bg-gray-600 transition-colors text-sm">
+                                            {['A', 'B', 'C'][idx]}. {opt}
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
+                    </div>
+                )}
+            </DraggableHtmlPanel>
 
 
             <Text position={[0, 3.5, 0]} fontSize={0.5} anchorX="center" color="white" outlineWidth={0.02} outlineColor="black">
