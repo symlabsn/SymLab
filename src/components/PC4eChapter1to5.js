@@ -1182,29 +1182,19 @@ function Slot3D({ id, pos, type, active, onClick, error }) {
             </mesh>
 
             {/* Component Visualization */}
-            <group position={[0, 0.2, 0]}>
+            <group position={[0, 0, 0]}>
                 {!type || type === 'open' ? (
-                    <Text fontSize={0.3} color="#EF4444" position={[0, 0.1, 0]}>?</Text>
+                    <Text fontSize={0.3} color="#EF4444" position={[0, 0.3, 0]}>?</Text>
                 ) : type === 'wire' ? (
-                    <Box args={[0.6, 0.05, 0.05]} material-color="#B87333" />
+                    <Box args={[0.6, 0.05, 0.05]} position={[0, 0.1, 0]} material-color="#B87333" />
                 ) : type === 'lamp' ? (
-                    <group>
-                        <mesh position={[0, 0.2, 0]}>
-                            <sphereGeometry args={[0.25]} />
-                            <meshStandardMaterial color={active ? '#FEF08A' : 'white'} emissive={active ? '#FEF08A' : 'black'} emissiveIntensity={active ? 2 : 0} transparent opacity={0.9} />
-                        </mesh>
-                        <Cylinder args={[0.1, 0.1, 0.2]} position={[0, 0, 0]} material-color="#9CA3AF" />
-                    </group>
+                    <Lamp3D active={active} intensity={active ? 2 : 0} />
                 ) : type === 'motor' ? (
-                    <group rotation={[0, 0, active ? Math.PI / 4 : 0]}>
-                        <Box args={[0.4, 0.4, 0.4]} material-color="#60A5FA" />
-                        <mesh position={[0, 0, 0.25]} rotation={[0, 0, active ? Date.now() / 100 : 0]}>
-                            <boxGeometry args={[0.05, 0.5, 0.05]} />
-                            <meshStandardMaterial color="black" />
-                        </mesh>
-                    </group>
+                    <Motor3D active={active} speed={10} />
                 ) : isResistor ? (
-                    <Resistor3D value={parseInt(type.split('_')[1])} />
+                    <group position={[0, 0.2, 0]}>
+                        <Resistor3D value={parseInt(type.split('_')[1])} />
+                    </group>
                 ) : null}
             </group>
 
