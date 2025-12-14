@@ -111,86 +111,88 @@ export function Chap1ScienceIntro() {
     return (
         <group ref={groupRef}>
 
-            <DraggableHtmlPanel title="🔬 Démarche Scientifique" showCloseButton={false} defaultPosition="bottom-center" className="w-[350px] border-white/10 text-white">
-                {/* Header Controls */}
-                <div className="flex justify-between items-center mb-4 border-b border-white/10 pb-2">
-                    <div className="flex gap-2">
-                        <button onClick={() => setMode('explore')} className={`text-xs px-2 py-1 rounded ${mode === 'explore' ? 'bg-blue-600' : 'bg-gray-700'}`}>Exploration</button>
-                        <button onClick={startChallenge} className={`text-xs px-2 py-1 rounded ${mode === 'challenge' ? 'bg-purple-600' : 'bg-gray-700'}`}>Quiz Défi 🏆</button>
-                    </div>
-                    {mode === 'explore' && <button onClick={reset} className="text-xs px-2 py-1 bg-white/10 rounded hover:bg-white/20">🔄 Reset</button>}
-                    {mode === 'challenge' && <div className="font-bold text-yellow-400">{score} XP</div>}
-                </div>
-
-                {mode === 'explore' ? (
-                    <>
-                        {/* Choix du scénario */}
-                        <div className="grid grid-cols-3 gap-2 mb-6">
-                            {Object.entries(scenarios).map(([key, sc]) => (
-                                <button key={key} onClick={() => { setScenario(key); reset(); }}
-                                    className={`p-2 rounded-lg text-xs font-bold transition-all ${scenario === key ? 'bg-blue-600 ring-2 ring-white' : 'bg-gray-800 hover:bg-gray-700'}`}>
-                                    {key === 'chimie' && '🧪 Chimie'}
-                                    {key === 'plante' && '🌿 SVT'}
-                                    {key === 'flotte' && '🥚 Densité'}
-                                </button>
-                            ))}
+            <Html transform={false}>
+                <DraggableHtmlPanel title="🔬 Démarche Scientifique" showCloseButton={false} defaultPosition="bottom-center" className="w-[350px] border-white/10 text-white" usePortal={false}>
+                    {/* Header Controls */}
+                    <div className="flex justify-between items-center mb-4 border-b border-white/10 pb-2">
+                        <div className="flex gap-2">
+                            <button onClick={() => setMode('explore')} className={`text-xs px-2 py-1 rounded ${mode === 'explore' ? 'bg-blue-600' : 'bg-gray-700'}`}>Exploration</button>
+                            <button onClick={startChallenge} className={`text-xs px-2 py-1 rounded ${mode === 'challenge' ? 'bg-purple-600' : 'bg-gray-700'}`}>Quiz Défi 🏆</button>
                         </div>
+                        {mode === 'explore' && <button onClick={reset} className="text-xs px-2 py-1 bg-white/10 rounded hover:bg-white/20">🔄 Reset</button>}
+                        {mode === 'challenge' && <div className="font-bold text-yellow-400">{score} XP</div>}
+                    </div>
 
-                        {/* Étapes de la démarche */}
-                        <div className="space-y-4">
-                            <div className="flex justify-between text-xs font-mono text-gray-400 mb-2">
-                                <span>ÉTAPE {step + 1}/4</span>
-                                <span>{currentScenario.steps[step].name.toUpperCase()}</span>
-                            </div>
-
-                            <div className="bg-gray-900/80 p-4 rounded-xl border border-white/5 min-h-[80px] flex items-center justify-center text-center">
-                                <p className="text-lg font-medium" style={{ color: currentScenario.steps[step].color }}>
-                                    {currentScenario.steps[step].text}
-                                </p>
-                            </div>
-
-                            {/* Barre de progression */}
-                            <div className="flex gap-1 h-2 mb-4">
-                                {[0, 1, 2, 3].map(i => (
-                                    <div key={i} className={`flex-1 rounded-full transition-colors duration-500 ${i <= step ? 'bg-blue-500' : 'bg-gray-800'}`} />
+                    {mode === 'explore' ? (
+                        <>
+                            {/* Choix du scénario */}
+                            <div className="grid grid-cols-3 gap-2 mb-6">
+                                {Object.entries(scenarios).map(([key, sc]) => (
+                                    <button key={key} onClick={() => { setScenario(key); reset(); }}
+                                        className={`p-2 rounded-lg text-xs font-bold transition-all ${scenario === key ? 'bg-blue-600 ring-2 ring-white' : 'bg-gray-800 hover:bg-gray-700'}`}>
+                                        {key === 'chimie' && '🧪 Chimie'}
+                                        {key === 'plante' && '🌿 SVT'}
+                                        {key === 'flotte' && '🥚 Densité'}
+                                    </button>
                                 ))}
                             </div>
 
-                            {step < 3 ? (
-                                <button onClick={handleNextStep}
-                                    className="w-full py-4 rounded-xl font-bold text-lg shadow-lg transform transition-all hover:scale-105 active:scale-95"
-                                    style={{ backgroundColor: currentScenario.steps[step].color, color: 'black' }}>
-                                    {step === 2 ? `🚀 ${currentScenario.steps[step].action}` : 'Suivant ➡️'}
-                                </button>
-                            ) : (
-                                <div className="p-3 bg-green-500/20 rounded-xl border border-green-500/50 text-center">
-                                    <div className="text-3xl mb-2">🎉</div>
-                                    <div className="font-bold text-green-400">Conclusion Validée !</div>
+                            {/* Étapes de la démarche */}
+                            <div className="space-y-4">
+                                <div className="flex justify-between text-xs font-mono text-gray-400 mb-2">
+                                    <span>ÉTAPE {step + 1}/4</span>
+                                    <span>{currentScenario.steps[step].name.toUpperCase()}</span>
+                                </div>
+
+                                <div className="bg-gray-900/80 p-4 rounded-xl border border-white/5 min-h-[80px] flex items-center justify-center text-center">
+                                    <p className="text-lg font-medium" style={{ color: currentScenario.steps[step].color }}>
+                                        {currentScenario.steps[step].text}
+                                    </p>
+                                </div>
+
+                                {/* Barre de progression */}
+                                <div className="flex gap-1 h-2 mb-4">
+                                    {[0, 1, 2, 3].map(i => (
+                                        <div key={i} className={`flex-1 rounded-full transition-colors duration-500 ${i <= step ? 'bg-blue-500' : 'bg-gray-800'}`} />
+                                    ))}
+                                </div>
+
+                                {step < 3 ? (
+                                    <button onClick={handleNextStep}
+                                        className="w-full py-4 rounded-xl font-bold text-lg shadow-lg transform transition-all hover:scale-105 active:scale-95"
+                                        style={{ backgroundColor: currentScenario.steps[step].color, color: 'black' }}>
+                                        {step === 2 ? `🚀 ${currentScenario.steps[step].action}` : 'Suivant ➡️'}
+                                    </button>
+                                ) : (
+                                    <div className="p-3 bg-green-500/20 rounded-xl border border-green-500/50 text-center">
+                                        <div className="text-3xl mb-2">🎉</div>
+                                        <div className="font-bold text-green-400">Conclusion Validée !</div>
+                                    </div>
+                                )}
+                            </div>
+                        </>
+                    ) : (
+                        <div className="bg-gray-800 p-4 rounded-xl border border-purple-500/50">
+                            <h3 className="text-purple-300 font-bold mb-4 flex items-center gap-2">
+                                <span>🧠</span> Quiz Scientifique
+                            </h3>
+                            {challenge && (
+                                <div className="space-y-4">
+                                    <div className="text-sm font-medium">{challenge.q}</div>
+                                    <div className="space-y-2">
+                                        {challenge.options.map((opt, idx) => (
+                                            <button key={idx} onClick={() => checkAnswer(idx)}
+                                                className="w-full text-left p-3 rounded bg-gray-700 hover:bg-gray-600 transition-colors text-sm">
+                                                {['A', 'B', 'C'][idx]}. {opt}
+                                            </button>
+                                        ))}
+                                    </div>
                                 </div>
                             )}
                         </div>
-                    </>
-                ) : (
-                    <div className="bg-gray-800 p-4 rounded-xl border border-purple-500/50">
-                        <h3 className="text-purple-300 font-bold mb-4 flex items-center gap-2">
-                            <span>🧠</span> Quiz Scientifique
-                        </h3>
-                        {challenge && (
-                            <div className="space-y-4">
-                                <div className="text-sm font-medium">{challenge.q}</div>
-                                <div className="space-y-2">
-                                    {challenge.options.map((opt, idx) => (
-                                        <button key={idx} onClick={() => checkAnswer(idx)}
-                                            className="w-full text-left p-3 rounded bg-gray-700 hover:bg-gray-600 transition-colors text-sm">
-                                            {['A', 'B', 'C'][idx]}. {opt}
-                                        </button>
-                                    ))}
-                                </div>
-                            </div>
-                        )}
-                    </div>
-                )}
-            </DraggableHtmlPanel>
+                    )}
+                </DraggableHtmlPanel>
+            </Html>
 
 
             <Text position={[0, 3.5, 0]} fontSize={0.5} anchorX="center" color="white" outlineWidth={0.02} outlineColor="black">
@@ -414,56 +416,58 @@ export function Chap2Mesures() {
     return (
         <group>
 
-            <DraggableHtmlPanel title="📏 Laboratoire de Mesure" showCloseButton={false} defaultPosition="bottom-center" className="w-[320px] border-cyan-500/30 text-white">
+            <Html transform={false}>
+                <DraggableHtmlPanel title="📏 Laboratoire de Mesure" showCloseButton={false} defaultPosition="bottom-center" className="w-[320px] border-cyan-500/30 text-white" usePortal={false}>
 
-                {/* Choix Objet */}
-                <div className="mb-4">
-                    <label className="text-xs text-gray-400 uppercase font-bold">1. Choisir l'objet</label>
-                    <div className="grid grid-cols-2 gap-2 mt-1">
-                        {Object.entries(objects).map(([k, o]) => (
-                            <button key={k} onClick={() => { setObject(k); setMeasurement(null); }}
-                                className={`px-3 py-2 rounded-lg text-sm text-left ${object === k ? 'bg-cyan-600 text-white' : 'bg-gray-800 text-gray-400'}`}>
-                                {o.name}
-                            </button>
-                        ))}
-                    </div>
-                </div>
-
-                {/* Choix Outil */}
-                <div className="mb-4">
-                    <label className="text-xs text-gray-400 uppercase font-bold">2. Choisir l'instrument</label>
-                    <div className="flex gap-2 mt-1 overflow-x-auto pb-2">
-                        {Object.entries(tools).map(([k, t]) => (
-                            <button key={k} onClick={() => { setTool(k); setMeasurement(null); }}
-                                className={`flex-shrink-0 px-3 py-2 rounded-lg text-sm font-bold ${tool === k ? 'bg-white text-black' : 'bg-gray-800 text-gray-400'}`}
-                                style={{ borderBottom: tool === k ? `4px solid ${t.color}` : 'none' }}>
-                                {t.name}
-                            </button>
-                        ))}
-                    </div>
-                </div>
-
-                <div className="flex items-center gap-2 mb-4">
-                    <input type="checkbox" checked={precision} onChange={() => setPrecision(!precision)} className="w-4 h-4" />
-                    <span className="text-sm text-gray-300">Mode Précision (Instrument Pro)</span>
-                </div>
-
-                <button onClick={handleMeasure} className="w-full py-4 rounded-xl font-bold text-lg bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 shadow-lg transition-all">
-                    MESURER
-                </button>
-
-                {measurement && (
-                    <div className="mt-4 p-4 bg-white/10 rounded-xl border border-white/20 text-center animate-in zoom-in duration-300">
-                        <div className="text-xs text-gray-400 uppercase">Résultat</div>
-                        <div className="text-4xl font-mono font-bold text-cyan-300 my-2">
-                            {measurement} <span className="text-xl">{tools[tool].unit}</span>
-                        </div>
-                        <div className="text-xs text-red-300">
-                            Incertitude: ± {tools[tool].error} {tools[tool].unit}
+                    {/* Choix Objet */}
+                    <div className="mb-4">
+                        <label className="text-xs text-gray-400 uppercase font-bold">1. Choisir l'objet</label>
+                        <div className="grid grid-cols-2 gap-2 mt-1">
+                            {Object.entries(objects).map(([k, o]) => (
+                                <button key={k} onClick={() => { setObject(k); setMeasurement(null); }}
+                                    className={`px-3 py-2 rounded-lg text-sm text-left ${object === k ? 'bg-cyan-600 text-white' : 'bg-gray-800 text-gray-400'}`}>
+                                    {o.name}
+                                </button>
+                            ))}
                         </div>
                     </div>
-                )}
-            </DraggableHtmlPanel>
+
+                    {/* Choix Outil */}
+                    <div className="mb-4">
+                        <label className="text-xs text-gray-400 uppercase font-bold">2. Choisir l'instrument</label>
+                        <div className="flex gap-2 mt-1 overflow-x-auto pb-2">
+                            {Object.entries(tools).map(([k, t]) => (
+                                <button key={k} onClick={() => { setTool(k); setMeasurement(null); }}
+                                    className={`flex-shrink-0 px-3 py-2 rounded-lg text-sm font-bold ${tool === k ? 'bg-white text-black' : 'bg-gray-800 text-gray-400'}`}
+                                    style={{ borderBottom: tool === k ? `4px solid ${t.color}` : 'none' }}>
+                                    {t.name}
+                                </button>
+                            ))}
+                        </div>
+                    </div>
+
+                    <div className="flex items-center gap-2 mb-4">
+                        <input type="checkbox" checked={precision} onChange={() => setPrecision(!precision)} className="w-4 h-4" />
+                        <span className="text-sm text-gray-300">Mode Précision (Instrument Pro)</span>
+                    </div>
+
+                    <button onClick={handleMeasure} className="w-full py-4 rounded-xl font-bold text-lg bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 shadow-lg transition-all">
+                        MESURER
+                    </button>
+
+                    {measurement && (
+                        <div className="mt-4 p-4 bg-white/10 rounded-xl border border-white/20 text-center animate-in zoom-in duration-300">
+                            <div className="text-xs text-gray-400 uppercase">Résultat</div>
+                            <div className="text-4xl font-mono font-bold text-cyan-300 my-2">
+                                {measurement} <span className="text-xl">{tools[tool].unit}</span>
+                            </div>
+                            <div className="text-xs text-red-300">
+                                Incertitude: ± {tools[tool].error} {tools[tool].unit}
+                            </div>
+                        </div>
+                    )}
+                </DraggableHtmlPanel>
+            </Html>
 
 
             <Text position={[0, 4, 0]} fontSize={0.6} color="#22D3EE" anchorX="center">MESURES & INCERTITUDES</Text>
@@ -582,71 +586,73 @@ export function Chap3Densite() {
     return (
         <group>
 
-            <DraggableHtmlPanel title="⚖️ Densité & Archimède" showCloseButton={false} defaultPosition="bottom-center" className="w-[320px] border-blue-500/30 text-white">
+            <Html transform={false}>
+                <DraggableHtmlPanel title="⚖️ Densité & Archimède" showCloseButton={false} defaultPosition="bottom-center" className="w-[320px] border-blue-500/30 text-white" usePortal={false}>
 
-                <div className="flex justify-between items-center mb-4 border-b border-white/10 pb-2">
-                    <div className="flex gap-2">
-                        <button onClick={() => { setMode('explore'); setObject('wood'); }} className={`text-xs px-2 py-1 rounded ${mode === 'explore' ? 'bg-blue-600' : 'bg-gray-700'}`}>Labo</button>
-                        <button onClick={startDetective} className={`text-xs px-2 py-1 rounded ${mode === 'challenge' ? 'bg-orange-600' : 'bg-gray-700'}`}>Détective 🕵️</button>
-                    </div>
-                    {mode === 'challenge' && <div className="font-bold text-yellow-400">{score} XP</div>}
-                </div>
-
-                {mode === 'challenge' && (
-                    <div className="mb-4 bg-orange-900/40 p-3 rounded-xl border border-orange-500/50">
-                        <div className="text-xs text-orange-300 uppercase mb-2">Enquête</div>
-                        <div className="text-sm mb-2">Plonge le bloc mystère dans les liquides pour deviner sa matière !</div>
-                        <div className="grid grid-cols-2 gap-1">
-                            {Object.entries(objects).map(([k, o]) => (
-                                <button key={k} onClick={() => guessMaterial(k)} className="text-xs bg-gray-800 hover:bg-orange-700 p-1 rounded border border-gray-600">
-                                    C'est du {o.name} ?
-                                </button>
-                            ))}
+                    <div className="flex justify-between items-center mb-4 border-b border-white/10 pb-2">
+                        <div className="flex gap-2">
+                            <button onClick={() => { setMode('explore'); setObject('wood'); }} className={`text-xs px-2 py-1 rounded ${mode === 'explore' ? 'bg-blue-600' : 'bg-gray-700'}`}>Labo</button>
+                            <button onClick={startDetective} className={`text-xs px-2 py-1 rounded ${mode === 'challenge' ? 'bg-orange-600' : 'bg-gray-700'}`}>Détective 🕵️</button>
                         </div>
-                    </div>
-                )}
-
-                <div className="space-y-4">
-                    <div>
-                        <label className="block text-xs uppercase text-gray-400 mb-2">1. Liquide (Milieu)</label>
-                        <div className="grid grid-cols-2 gap-2">
-                            {Object.entries(liquids).map(([k, l]) => (
-                                <button key={k} onClick={() => setLiquid(k)}
-                                    className={`p-2 rounded-lg text-sm border ${liquid === k ? 'border-blue-400 bg-blue-900/30' : 'border-gray-700 bg-gray-800'}`}>
-                                    {l.name} (d={l.density})
-                                </button>
-                            ))}
-                        </div>
+                        {mode === 'challenge' && <div className="font-bold text-yellow-400">{score} XP</div>}
                     </div>
 
-                    {mode === 'explore' && (
-                        <div>
-                            <label className="block text-xs uppercase text-gray-400 mb-2">2. Objet</label>
-                            <div className="grid grid-cols-3 gap-2">
+                    {mode === 'challenge' && (
+                        <div className="mb-4 bg-orange-900/40 p-3 rounded-xl border border-orange-500/50">
+                            <div className="text-xs text-orange-300 uppercase mb-2">Enquête</div>
+                            <div className="text-sm mb-2">Plonge le bloc mystère dans les liquides pour deviner sa matière !</div>
+                            <div className="grid grid-cols-2 gap-1">
                                 {Object.entries(objects).map(([k, o]) => (
-                                    <button key={k} onClick={() => setObject(k)}
-                                        className={`p-2 rounded-lg text-sm border ${object === k ? 'border-white bg-white/10' : 'border-gray-700 bg-gray-800'}`}>
-                                        {o.name}
+                                    <button key={k} onClick={() => guessMaterial(k)} className="text-xs bg-gray-800 hover:bg-orange-700 p-1 rounded border border-gray-600">
+                                        C'est du {o.name} ?
                                     </button>
                                 ))}
                             </div>
                         </div>
                     )}
 
-                    <div className="flex items-center gap-2 p-3 bg-gray-800 rounded-lg">
-                        <input type="checkbox" checked={showForces} onChange={() => setShowForces(!showForces)} className="w-5 h-5" />
-                        <span className="text-sm font-bold">Voir les forces (Archimède)</span>
-                    </div>
+                    <div className="space-y-4">
+                        <div>
+                            <label className="block text-xs uppercase text-gray-400 mb-2">1. Liquide (Milieu)</label>
+                            <div className="grid grid-cols-2 gap-2">
+                                {Object.entries(liquids).map(([k, l]) => (
+                                    <button key={k} onClick={() => setLiquid(k)}
+                                        className={`p-2 rounded-lg text-sm border ${liquid === k ? 'border-blue-400 bg-blue-900/30' : 'border-gray-700 bg-gray-800'}`}>
+                                        {l.name} (d={l.density})
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
 
-                    <div className="bg-gray-900 p-3 rounded-lg text-center font-mono text-sm">
-                        <div>d(objet) = {mode === 'challenge' ? '???' : obj.density}</div>
-                        <div>d(liquide) = {liq.density}</div>
-                        <div className={`mt-2 font-bold text-lg ${densityRatio < 1 ? 'text-green-400' : 'text-red-400'}`}>
-                            {densityRatio < 1 ? 'FLOTTE 🚢' : 'COULE ⚓'}
+                        {mode === 'explore' && (
+                            <div>
+                                <label className="block text-xs uppercase text-gray-400 mb-2">2. Objet</label>
+                                <div className="grid grid-cols-3 gap-2">
+                                    {Object.entries(objects).map(([k, o]) => (
+                                        <button key={k} onClick={() => setObject(k)}
+                                            className={`p-2 rounded-lg text-sm border ${object === k ? 'border-white bg-white/10' : 'border-gray-700 bg-gray-800'}`}>
+                                            {o.name}
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
+
+                        <div className="flex items-center gap-2 p-3 bg-gray-800 rounded-lg">
+                            <input type="checkbox" checked={showForces} onChange={() => setShowForces(!showForces)} className="w-5 h-5" />
+                            <span className="text-sm font-bold">Voir les forces (Archimède)</span>
+                        </div>
+
+                        <div className="bg-gray-900 p-3 rounded-lg text-center font-mono text-sm">
+                            <div>d(objet) = {mode === 'challenge' ? '???' : obj.density}</div>
+                            <div>d(liquide) = {liq.density}</div>
+                            <div className={`mt-2 font-bold text-lg ${densityRatio < 1 ? 'text-green-400' : 'text-red-400'}`}>
+                                {densityRatio < 1 ? 'FLOTTE 🚢' : 'COULE ⚓'}
+                            </div>
                         </div>
                     </div>
-                </div>
-            </DraggableHtmlPanel>
+                </DraggableHtmlPanel>
+            </Html>
 
             <SuccessOverlay show={showSuccess} message={`Bravo ! C'était bien du ${objects[mysteryMaterial]?.name} !`} points={100} onNext={startDetective} />
             <ConfettiExplosion active={showSuccess} />
@@ -749,60 +755,62 @@ export function Chap4PoidsMasse() {
     return (
         <group>
 
-            <DraggableHtmlPanel title="⚖️ Poids (N) vs Masse (kg)" showCloseButton={false} defaultPosition="bottom-center" className="w-[350px] border-purple-500/30 text-white max-h-[80vh] overflow-y-auto">
+            <Html transform={false}>
+                <DraggableHtmlPanel title="⚖️ Poids (N) vs Masse (kg)" showCloseButton={false} defaultPosition="bottom-center" className="w-[350px] border-purple-500/30 text-white max-h-[80vh] overflow-y-auto" usePortal={false}>
 
-                <div className="flex justify-between items-center mb-4 border-b border-white/10 pb-2">
-                    <div className="flex gap-2">
-                        <button onClick={() => setMode('explore')} className={`text-xs px-2 py-1 rounded ${mode === 'explore' ? 'bg-purple-600' : 'bg-gray-700'}`}>Exploration</button>
-                        <button onClick={startMission} className={`text-xs px-2 py-1 rounded ${mode === 'challenge' ? 'bg-indigo-600' : 'bg-gray-700'}`}>Mission 🚀</button>
+                    <div className="flex justify-between items-center mb-4 border-b border-white/10 pb-2">
+                        <div className="flex gap-2">
+                            <button onClick={() => setMode('explore')} className={`text-xs px-2 py-1 rounded ${mode === 'explore' ? 'bg-purple-600' : 'bg-gray-700'}`}>Exploration</button>
+                            <button onClick={startMission} className={`text-xs px-2 py-1 rounded ${mode === 'challenge' ? 'bg-indigo-600' : 'bg-gray-700'}`}>Mission 🚀</button>
+                        </div>
+                        {mode === 'challenge' && <div className="font-bold text-yellow-400">{score} XP</div>}
                     </div>
-                    {mode === 'challenge' && <div className="font-bold text-yellow-400">{score} XP</div>}
-                </div>
 
-                {mode === 'challenge' && targetWeight && (
-                    <div className="mb-4 bg-indigo-900/50 p-3 rounded-xl border border-indigo-500/50 text-center animate-pulse">
-                        <div className="text-xs text-indigo-300 uppercase">Alerte Système</div>
-                        <div className="text-sm">Localise la planète où ta masse de</div>
-                        <div className="font-bold text-white">{mass} kg</div>
-                        <div className="text-sm">pèse exactement</div>
-                        <div className="font-bold text-xl text-yellow-400">{targetWeight.val} N</div>
-                    </div>
-                )}
+                    {mode === 'challenge' && targetWeight && (
+                        <div className="mb-4 bg-indigo-900/50 p-3 rounded-xl border border-indigo-500/50 text-center animate-pulse">
+                            <div className="text-xs text-indigo-300 uppercase">Alerte Système</div>
+                            <div className="text-sm">Localise la planète où ta masse de</div>
+                            <div className="font-bold text-white">{mass} kg</div>
+                            <div className="text-sm">pèse exactement</div>
+                            <div className="font-bold text-xl text-yellow-400">{targetWeight.val} N</div>
+                        </div>
+                    )}
 
-                <div className="mb-6">
-                    <label className="block text-sm text-gray-400 mb-2">Choisir un astre :</label>
-                    <div className="grid grid-cols-4 gap-2">
-                        {Object.entries(planets).map(([k, pl]) => (
-                            <button key={k} onClick={() => setPlanet(k)}
-                                title={pl.name}
-                                className={`aspect-square rounded-full border-2 flex items-center justify-center transition-all ${planet === k ? 'border-purple-500 scale-110' : 'border-transparent bg-gray-800'}`}
-                                style={{ backgroundColor: planet === k ? pl.color + '40' : '' }}>
-                                <div className="w-4 h-4 rounded-full" style={{ backgroundColor: pl.color }}></div>
-                            </button>
-                        ))}
+                    <div className="mb-6">
+                        <label className="block text-sm text-gray-400 mb-2">Choisir un astre :</label>
+                        <div className="grid grid-cols-4 gap-2">
+                            {Object.entries(planets).map(([k, pl]) => (
+                                <button key={k} onClick={() => setPlanet(k)}
+                                    title={pl.name}
+                                    className={`aspect-square rounded-full border-2 flex items-center justify-center transition-all ${planet === k ? 'border-purple-500 scale-110' : 'border-transparent bg-gray-800'}`}
+                                    style={{ backgroundColor: planet === k ? pl.color + '40' : '' }}>
+                                    <div className="w-4 h-4 rounded-full" style={{ backgroundColor: pl.color }}></div>
+                                </button>
+                            ))}
+                        </div>
+                        <div className="text-center mt-2 font-bold text-lg">{p.name}</div>
                     </div>
-                    <div className="text-center mt-2 font-bold text-lg">{p.name}</div>
-                </div>
 
-                <div className="mb-6 bg-gray-800 p-4 rounded-xl">
-                    <label className="block text-sm text-gray-400 mb-2">Masse de l'astronaute (kg)</label>
-                    <input type="range" min="30" max="150" value={mass} onChange={(e) => mode === 'explore' && setMass(Number(e.target.value))}
-                        disabled={mode === 'challenge'}
-                        className={`w-full h-3 bg-gray-700 rounded-lg accent-purple-500 appearance-none ${mode === 'challenge' ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}`} />
-                    <div className="text-right font-mono text-xl">{mass} kg</div>
-                </div>
+                    <div className="mb-6 bg-gray-800 p-4 rounded-xl">
+                        <label className="block text-sm text-gray-400 mb-2">Masse de l'astronaute (kg)</label>
+                        <input type="range" min="30" max="150" value={mass} onChange={(e) => mode === 'explore' && setMass(Number(e.target.value))}
+                            disabled={mode === 'challenge'}
+                            className={`w-full h-3 bg-gray-700 rounded-lg accent-purple-500 appearance-none ${mode === 'challenge' ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}`} />
+                        <div className="text-right font-mono text-xl">{mass} kg</div>
+                    </div>
 
-                <div className="space-y-3 font-mono">
-                    <div className="flex justify-between p-3 bg-white/5 rounded-lg">
-                        <span className="text-gray-400">Intensité g:</span>
-                        <span>{p.g} N/kg</span>
+                    <div className="space-y-3 font-mono">
+                        <div className="flex justify-between p-3 bg-white/5 rounded-lg">
+                            <span className="text-gray-400">Intensité g:</span>
+                            <span>{p.g} N/kg</span>
+                        </div>
+                        <div className="flex justify-between items-center p-4 bg-purple-900/30 border border-purple-500/50 rounded-xl">
+                            <span className="text-purple-300">Poids P = m × g</span>
+                            <span className="text-2xl font-bold text-purple-400">{weight.toFixed(1)} N</span>
+                        </div>
                     </div>
-                    <div className="flex justify-between items-center p-4 bg-purple-900/30 border border-purple-500/50 rounded-xl">
-                        <span className="text-purple-300">Poids P = m × g</span>
-                        <span className="text-2xl font-bold text-purple-400">{weight.toFixed(1)} N</span>
-                    </div>
-                </div>
-            </DraggableHtmlPanel>
+                </DraggableHtmlPanel>
+            </Html>
 
             <SuccessOverlay show={showSuccess} message={`Planète identifiée ! Bienvenue sur ${planets[targetWeight?.planetKey]?.name} !`} points={100} onNext={startMission} />
             <ConfettiExplosion active={showSuccess} />
@@ -1015,134 +1023,135 @@ export function Chap5Electricite() {
     return (
         <group>
 
-            <DraggableHtmlPanel title="⚡ Labo Élec & Résistances" showCloseButton={false} defaultPosition="bottom-center" className="w-[360px] border-yellow-500/30 text-white">
-                {/* Header */}
-                <div className="flex justify-between items-center mb-4 border-b border-white/10 pb-2">
-                    <div className="flex gap-2">
-                        <button onClick={() => { setMode('explore'); setChallenge(null); }} className={`text-xs px-2 py-1 rounded ${mode === 'explore' ? 'bg-yellow-600' : 'bg-gray-700'}`}>Labo Libre</button>
-                        <button onClick={startChallengeMode} className={`text-xs px-2 py-1 rounded ${mode === 'challenge' ? 'bg-purple-600' : 'bg-gray-700'}`}>Mode Défi 🏆</button>
-                    </div>
-                    {mode === 'challenge' && <div className="font-bold text-yellow-400">{score} XP</div>}
-                </div>
-
-                {/* Challenge Box */}
-                {mode === 'challenge' && challenge && (
-                    <div className="mb-4 bg-purple-900/50 p-3 rounded-xl border border-purple-500 animate-in fade-in slide-in-from-top-4">
-                        <div className="text-xs text-purple-300 uppercase font-bold">{challenge.header}</div>
-                        <div className="font-bold text-lg">{challenge.text}</div>
-                        <div className="text-xs text-gray-400 mt-1 italic">Indices : {challenge.hint}</div>
-                    </div>
-                )}
-
-                {/* Controls */}
-                <div className="space-y-2 mb-4">
-                    <div className="flex gap-2 p-1 bg-gray-900 rounded-lg">
-                        <button onClick={() => setTopology('series')} className={`flex-1 py-1 text-xs rounded ${topology === 'series' ? 'bg-blue-600' : 'bg-gray-800'}`}>SÉRIE</button>
-                        <button onClick={() => setTopology('parallel')} className={`flex-1 py-1 text-xs rounded ${topology === 'parallel' ? 'bg-blue-600' : 'bg-gray-800'}`}>DÉRIVATION</button>
-                    </div>
-
-                    <button onClick={() => setSwitchState(!switchState)}
-                        className={`w-full py-3 rounded-xl font-bold text-lg shadow-lg ${switchState ? 'bg-green-600' : 'bg-red-600'}`}>
-                        {switchState ? 'ON (Fermé)' : 'OFF (Ouvert)'}
-                    </button>
-                </div>
-
-                {/* Status Feedback */}
-                <div className="grid grid-cols-2 gap-2 bg-gray-800 p-3 rounded-xl border border-gray-600">
-                    <div>
-                        <div className="text-xs text-gray-400">État</div>
-                        <div className={`font-bold ${analysis.status === 'short' ? 'text-red-500 animate-pulse' : 'text-green-400'}`}>
-                            {analysis.msg}
+            <Html transform={false}>
+                <DraggableHtmlPanel title="⚡ Labo Élec & Résistances" showCloseButton={false} defaultPosition="bottom-center" className="w-[360px] border-yellow-500/30 text-white" usePortal={false}>
+                    {/* Header */}
+                    <div className="flex justify-between items-center mb-4 border-b border-white/10 pb-2">
+                        <div className="flex gap-2">
+                            <button onClick={() => { setMode('explore'); setChallenge(null); }} className={`text-xs px-2 py-1 rounded ${mode === 'explore' ? 'bg-yellow-600' : 'bg-gray-700'}`}>Labo Libre</button>
+                            <button onClick={startChallengeMode} className={`text-xs px-2 py-1 rounded ${mode === 'challenge' ? 'bg-purple-600' : 'bg-gray-700'}`}>Mode Défi 🏆</button>
                         </div>
+                        {mode === 'challenge' && <div className="font-bold text-yellow-400">{score} XP</div>}
                     </div>
-                    <div>
-                        <div className="text-xs text-gray-400">Intensité</div>
-                        <div className="font-mono text-xl text-cyan-300">{analysis.current.toFixed(3)} A</div>
-                    </div>
-                </div>
 
-                {/* Context Menu for Component Selection */}
-                {showMenu !== null && (
-                    <div className="absolute top-10 left-2 right-2 bg-gray-900 border border-white/20 p-3 rounded-xl shadow-2xl z-50 flex flex-col gap-3">
-                        <div className="text-xs text-gray-400 text-center uppercase font-bold">Composants de base</div>
-                        <div className="grid grid-cols-4 gap-2">
-                            {standardComponents.map(c => (
-                                <button key={c.id} onClick={() => setSlotComponent(showMenu, c.id)} className="flex flex-col items-center bg-gray-800 p-2 rounded hover:bg-white/10">
-                                    <div className="text-xl">{c.icon}</div>
-                                    <div className="text-[9px]">{c.name}</div>
-                                </button>
-                            ))}
+                    {/* Challenge Box */}
+                    {mode === 'challenge' && challenge && (
+                        <div className="mb-4 bg-purple-900/50 p-3 rounded-xl border border-purple-500 animate-in fade-in slide-in-from-top-4">
+                            <div className="text-xs text-purple-300 uppercase font-bold">{challenge.header}</div>
+                            <div className="font-bold text-lg">{challenge.text}</div>
+                            <div className="text-xs text-gray-400 mt-1 italic">Indices : {challenge.hint}</div>
+                        </div>
+                    )}
+
+                    {/* Controls */}
+                    <div className="space-y-2 mb-4">
+                        <div className="flex gap-2 p-1 bg-gray-900 rounded-lg">
+                            <button onClick={() => setTopology('series')} className={`flex-1 py-1 text-xs rounded ${topology === 'series' ? 'bg-blue-600' : 'bg-gray-800'}`}>SÉRIE</button>
+                            <button onClick={() => setTopology('parallel')} className={`flex-1 py-1 text-xs rounded ${topology === 'parallel' ? 'bg-blue-600' : 'bg-gray-800'}`}>DÉRIVATION</button>
                         </div>
 
-                        <div className="text-xs text-gray-400 text-center uppercase font-bold border-t border-white/10 pt-2">Résistances (Code Couleur)</div>
-                        <div className="grid grid-cols-4 gap-2">
-                            {resistorsList.map(r => (
-                                <button key={r.val} onClick={() => setSlotComponent(showMenu, `resistor_${r.val}`)} className="flex flex-col items-center bg-gray-800 p-2 rounded hover:bg-white/10">
-                                    {/* Mini representation of resistor color bands */}
-                                    <div className="flex gap-[1px] mb-1 h-3 w-8 bg-[#D2B48C] items-center justify-center border border-black/30">
-                                        {r.colors.map((c, i) => <div key={i} className="w-1 h-full" style={{ backgroundColor: colorEmojiToHex(c) }}></div>)}
-                                    </div>
-                                    <div className="text-[9px] font-mono">{r.val}Ω</div>
-                                </button>
-                            ))}
-                        </div>
-                        <button onClick={() => setShowMenu(null)} className="w-full text-xs text-red-400 mt-1">Fermer</button>
+                        <button onClick={() => setSwitchState(!switchState)}
+                            className={`w-full py-3 rounded-xl font-bold text-lg shadow-lg ${switchState ? 'bg-green-600' : 'bg-red-600'}`}>
+                            {switchState ? 'ON (Fermé)' : 'OFF (Ouvert)'}
+                        </button>
                     </div>
-                )}
-            </DraggableHtmlPanel>
+
+                    {/* Status Feedback */}
+                    <div className="grid grid-cols-2 gap-2 bg-gray-800 p-3 rounded-xl border border-gray-600">
+                        <div>
+                            <div className="text-xs text-gray-400">État</div>
+                            <div className={`font-bold ${analysis.status === 'short' ? 'text-red-500 animate-pulse' : 'text-green-400'}`}>
+                                {analysis.msg}
+                            </div>
+                        </div>
+                        <div>
+                            <div className="text-xs text-gray-400">Intensité</div>
+                            <div className="font-mono text-xl text-cyan-300">{analysis.current.toFixed(3)} A</div>
+                        </div>
+                    </div>
+
+                    {/* Context Menu for Component Selection */}
+                    {showMenu !== null && (
+                        <div className="absolute top-10 left-2 right-2 bg-gray-900 border border-white/20 p-3 rounded-xl shadow-2xl z-50 flex flex-col gap-3">
+                            <div className="text-xs text-gray-400 text-center uppercase font-bold">Composants de base</div>
+                            <div className="grid grid-cols-4 gap-2">
+                                {standardComponents.map(c => (
+                                    <button key={c.id} onClick={() => setSlotComponent(showMenu, c.id)} className="flex flex-col items-center bg-gray-800 p-2 rounded hover:bg-white/10">
+                                        <div className="text-xl">{c.icon}</div>
+                                        <div className="text-[9px]">{c.name}</div>
+                                    </button>
+                                ))}
+                            </div>
+
+                            <div className="text-xs text-gray-400 text-center uppercase font-bold border-t border-white/10 pt-2">Résistances (Code Couleur)</div>
+                            <div className="grid grid-cols-4 gap-2">
+                                {resistorsList.map(r => (
+                                    <button key={r.val} onClick={() => setSlotComponent(showMenu, `resistor_${r.val}`)} className="flex flex-col items-center bg-gray-800 p-2 rounded hover:bg-white/10">
+                                        {/* Mini representation of resistor color bands */}
+                                        <div className="flex gap-[1px] mb-1 h-3 w-8 bg-[#D2B48C] items-center justify-center border border-black/30">
+                                            {r.colors.map((c, i) => <div key={i} className="w-1 h-full" style={{ backgroundColor: colorEmojiToHex(c) }}></div>)}
+                                        </div>
+                                        <div className="text-[9px] font-mono">{r.val}Ω</div>
+                                    </button>
+                                ))}
+                            </div>
+                            <button onClick={() => setShowMenu(null)} className="w-full text-xs text-red-400 mt-1">Fermer</button>
+                        </div>
+                    )}
+                </DraggableHtmlPanel>
 
 
-            <SuccessOverlay show={showSuccess} message="C'est exact ! Excellent travail d'ingénieur !" points={100} onNext={nextChallenge} />
-            <ConfettiExplosion active={showSuccess} />
+                <SuccessOverlay show={showSuccess} message="C'est exact ! Excellent travail d'ingénieur !" points={100} onNext={nextChallenge} />
+                <ConfettiExplosion active={showSuccess} />
 
-            {/* SCÈNE 3D DYNAMIQUE */}
-            <group position={[0, 0, 0]}>
-                {/* Générateur */}
-                <group position={[-3, 0, 0]}>
-                    <Box args={[1, 1.5, 1]} material-color="#111" />
-                    <Box args={[0.9, 1.4, 0.9]} material-color="#333" />
-                    <Text position={[0, 0, 0.6]} fontSize={0.5} color="#EF4444">+</Text>
-                    <Text position={[0, 0, -0.6]} rotation={[0, Math.PI, 0]} fontSize={0.5} color="#3B82F6">-</Text>
-                </group>
+                {/* SCÈNE 3D DYNAMIQUE */}
+                <group position={[0, 0, 0]}>
+                    {/* Générateur */}
+                    <group position={[-3, 0, 0]}>
+                        <Box args={[1, 1.5, 1]} material-color="#111" />
+                        <Box args={[0.9, 1.4, 0.9]} material-color="#333" />
+                        <Text position={[0, 0, 0.6]} fontSize={0.5} color="#EF4444">+</Text>
+                        <Text position={[0, 0, -0.6]} rotation={[0, Math.PI, 0]} fontSize={0.5} color="#3B82F6">-</Text>
+                    </group>
 
-                {topology === 'series' && (
-                    <group>
-                        <CircuitSegment p1={[-2.5, 0.5, 0]} p2={[-1.5, 0.5, 0]} active={analysis.status === 'ok'} />
-                        <Slot3D id={0} pos={[-1, 0.5, 0]} type={slots[0]} active={analysis.status === 'ok'} onClick={() => setShowMenu(0)} error={analysis.status === 'short'} />
-                        <CircuitSegment p1={[-0.5, 0.5, 0]} p2={[0.5, 0.5, 0]} active={analysis.status === 'ok'} />
-                        <Slot3D id={1} pos={[1, 0.5, 0]} type={slots[1]} active={analysis.status === 'ok'} onClick={() => setShowMenu(1)} error={analysis.status === 'short'} />
-                        <CircuitSegment p1={[1.5, 0.5, 0]} p2={[2.5, 0.5, 0]} active={analysis.status === 'ok'} />
-                        <Slot3D id={2} pos={[3, 0.5, 0]} type={slots[2]} active={analysis.status === 'ok'} onClick={() => setShowMenu(2)} error={analysis.status === 'short'} />
+                    {topology === 'series' && (
+                        <group>
+                            <CircuitSegment p1={[-2.5, 0.5, 0]} p2={[-1.5, 0.5, 0]} active={analysis.status === 'ok'} />
+                            <Slot3D id={0} pos={[-1, 0.5, 0]} type={slots[0]} active={analysis.status === 'ok'} onClick={() => setShowMenu(0)} error={analysis.status === 'short'} />
+                            <CircuitSegment p1={[-0.5, 0.5, 0]} p2={[0.5, 0.5, 0]} active={analysis.status === 'ok'} />
+                            <Slot3D id={1} pos={[1, 0.5, 0]} type={slots[1]} active={analysis.status === 'ok'} onClick={() => setShowMenu(1)} error={analysis.status === 'short'} />
+                            <CircuitSegment p1={[1.5, 0.5, 0]} p2={[2.5, 0.5, 0]} active={analysis.status === 'ok'} />
+                            <Slot3D id={2} pos={[3, 0.5, 0]} type={slots[2]} active={analysis.status === 'ok'} onClick={() => setShowMenu(2)} error={analysis.status === 'short'} />
 
-                        <group position={[0, -1, 0]}>
-                            <CircuitSegment p1={[3, 1, 0]} p2={[3, 0.5, 0]} vertical active={analysis.status === 'ok'} />
-                            <CircuitSegment p1={[3, 0, 0]} p2={[0, 0, 0]} active={analysis.status === 'ok'} />
-                            <Switch3D position={[0, 0, 0]} closed={switchState} />
-                            <CircuitSegment p1={[-0.5, 0, 0]} p2={[-3, 0, 0]} active={analysis.status === 'ok'} />
-                            <CircuitSegment p1={[-3, 0, 0]} p2={[-3, 0.5, 0]} vertical active={analysis.status === 'ok'} />
+                            <group position={[0, -1, 0]}>
+                                <CircuitSegment p1={[3, 1, 0]} p2={[3, 0.5, 0]} vertical active={analysis.status === 'ok'} />
+                                <CircuitSegment p1={[3, 0, 0]} p2={[0, 0, 0]} active={analysis.status === 'ok'} />
+                                <Switch3D position={[0, 0, 0]} closed={switchState} />
+                                <CircuitSegment p1={[-0.5, 0, 0]} p2={[-3, 0, 0]} active={analysis.status === 'ok'} />
+                                <CircuitSegment p1={[-3, 0, 0]} p2={[-3, 0.5, 0]} vertical active={analysis.status === 'ok'} />
+                            </group>
                         </group>
-                    </group>
-                )}
+                    )}
 
-                {topology === 'parallel' && (
-                    <group>
-                        <CircuitSegment p1={[-2.5, 1, 0]} p2={[2, 1, 0]} active={analysis.status === 'ok'} />
-                        <CircuitSegment p1={[-1, 1, 0]} p2={[-1, 0.5, 0]} vertical active={analysis.status === 'ok'} />
-                        <Slot3D id={0} pos={[-1, 0, 0]} type={slots[0]} active={analysis.status === 'ok'} onClick={() => setShowMenu(0)} error={analysis.status === 'short'} />
-                        <Slot3D id={1} pos={[-1, -1, 0]} type={slots[1]} active={analysis.status === 'ok'} onClick={() => setShowMenu(1)} error={analysis.status === 'short'} />
-                        <CircuitSegment p1={[-1, -1.5, 0]} p2={[-1, -2, 0]} vertical active={analysis.status === 'ok'} />
+                    {topology === 'parallel' && (
+                        <group>
+                            <CircuitSegment p1={[-2.5, 1, 0]} p2={[2, 1, 0]} active={analysis.status === 'ok'} />
+                            <CircuitSegment p1={[-1, 1, 0]} p2={[-1, 0.5, 0]} vertical active={analysis.status === 'ok'} />
+                            <Slot3D id={0} pos={[-1, 0, 0]} type={slots[0]} active={analysis.status === 'ok'} onClick={() => setShowMenu(0)} error={analysis.status === 'short'} />
+                            <Slot3D id={1} pos={[-1, -1, 0]} type={slots[1]} active={analysis.status === 'ok'} onClick={() => setShowMenu(1)} error={analysis.status === 'short'} />
+                            <CircuitSegment p1={[-1, -1.5, 0]} p2={[-1, -2, 0]} vertical active={analysis.status === 'ok'} />
 
-                        <CircuitSegment p1={[2, 1, 0]} p2={[2, 0.5, 0]} vertical active={analysis.status === 'ok'} />
-                        <Slot3D id={2} pos={[2, 0, 0]} type={slots[2]} active={analysis.status === 'ok'} onClick={() => setShowMenu(2)} error={analysis.status === 'short'} />
-                        <Slot3D id={3} pos={[2, -1, 0]} type={slots[3]} active={analysis.status === 'ok'} onClick={() => setShowMenu(3)} error={analysis.status === 'short'} />
-                        <CircuitSegment p1={[2, -1.5, 0]} p2={[2, -2, 0]} vertical active={analysis.status === 'ok'} />
+                            <CircuitSegment p1={[2, 1, 0]} p2={[2, 0.5, 0]} vertical active={analysis.status === 'ok'} />
+                            <Slot3D id={2} pos={[2, 0, 0]} type={slots[2]} active={analysis.status === 'ok'} onClick={() => setShowMenu(2)} error={analysis.status === 'short'} />
+                            <Slot3D id={3} pos={[2, -1, 0]} type={slots[3]} active={analysis.status === 'ok'} onClick={() => setShowMenu(3)} error={analysis.status === 'short'} />
+                            <CircuitSegment p1={[2, -1.5, 0]} p2={[2, -2, 0]} vertical active={analysis.status === 'ok'} />
 
-                        <CircuitSegment p1={[2, -2, 0]} p2={[-3, -2, 0]} active={analysis.status === 'ok'} />
-                        <Switch3D position={[-2, -2, 0]} closed={switchState} />
-                        <CircuitSegment p1={[-3, -2, 0]} p2={[-3, -0.75, 0]} vertical active={analysis.status === 'ok'} />
-                    </group>
-                )}
-            </group>
+                            <CircuitSegment p1={[2, -2, 0]} p2={[-3, -2, 0]} active={analysis.status === 'ok'} />
+                            <Switch3D position={[-2, -2, 0]} closed={switchState} />
+                            <CircuitSegment p1={[-3, -2, 0]} p2={[-3, -0.75, 0]} vertical active={analysis.status === 'ok'} />
+                        </group>
+                    )}
+                </group>
         </group>
     );
 }
