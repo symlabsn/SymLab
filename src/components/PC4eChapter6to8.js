@@ -52,48 +52,48 @@ export function Chap6SourcesLumiere() {
 
     return (
         <group>
-            <Html>
-                <DraggableHtmlPanel title="💡 Sources de Lumière" showCloseButton={false} defaultPosition="bottom-center" className="w-[300px] border-yellow-500/30 text-white">
-                    <div className="flex justify-between items-center mb-4 border-b border-white/10 pb-2">
-                        <div className="flex gap-2">
-                            <button onClick={() => setMode('explore')} className={`text-xs px-2 py-1 rounded ${mode === 'explore' ? 'bg-yellow-600' : 'bg-gray-700'}`}>Obs.</button>
-                            <button onClick={() => { setMode('challenge'); setQuizIndex(0); setScore(0); }} className={`text-xs px-2 py-1 rounded ${mode === 'challenge' ? 'bg-indigo-600' : 'bg-gray-700'}`}>Quiz 🧠</button>
-                        </div>
-                        {mode === 'challenge' && <div className="font-bold text-yellow-400">{score} XP</div>}
+
+            <DraggableHtmlPanel title="💡 Sources de Lumière" showCloseButton={false} defaultPosition="bottom-center" className="w-[300px] border-yellow-500/30 text-white">
+                <div className="flex justify-between items-center mb-4 border-b border-white/10 pb-2">
+                    <div className="flex gap-2">
+                        <button onClick={() => setMode('explore')} className={`text-xs px-2 py-1 rounded ${mode === 'explore' ? 'bg-yellow-600' : 'bg-gray-700'}`}>Obs.</button>
+                        <button onClick={() => { setMode('challenge'); setQuizIndex(0); setScore(0); }} className={`text-xs px-2 py-1 rounded ${mode === 'challenge' ? 'bg-indigo-600' : 'bg-gray-700'}`}>Quiz 🧠</button>
                     </div>
+                    {mode === 'challenge' && <div className="font-bold text-yellow-400">{score} XP</div>}
+                </div>
 
-                    {mode === 'explore' ? (
-                        <>
-                            <button onClick={() => setLightsOn(!lightsOn)} className={`w-full py-4 mb-4 rounded-xl font-bold text-xl transition-all ${lightsOn ? 'bg-yellow-500 text-black shadow-[0_0_20px_rgba(234,179,8,0.5)]' : 'bg-gray-800 text-gray-400'}`}>
-                                {lightsOn ? 'LUMIÈRE ALLUMÉE ☀️' : 'NOIR TOTAL 🌑'}
-                            </button>
+                {mode === 'explore' ? (
+                    <>
+                        <button onClick={() => setLightsOn(!lightsOn)} className={`w-full py-4 mb-4 rounded-xl font-bold text-xl transition-all ${lightsOn ? 'bg-yellow-500 text-black shadow-[0_0_20px_rgba(234,179,8,0.5)]' : 'bg-gray-800 text-gray-400'}`}>
+                            {lightsOn ? 'LUMIÈRE ALLUMÉE ☀️' : 'NOIR TOTAL 🌑'}
+                        </button>
 
-                            <div className="space-y-2">
-                                <div className="p-3 bg-gray-800 rounded-lg">
-                                    <span className="text-yellow-400 font-bold">Source Primaire :</span>
-                                    <p className="text-xs text-gray-300">Produit sa propre lumière (Visible même dans le noir).</p>
-                                </div>
-                                <div className="p-3 bg-gray-800 rounded-lg">
-                                    <span className="text-blue-400 font-bold">Source Secondaire :</span>
-                                    <p className="text-xs text-gray-300">Diffuse la lumière reçue (Invisible dans le noir !).</p>
-                                </div>
+                        <div className="space-y-2">
+                            <div className="p-3 bg-gray-800 rounded-lg">
+                                <span className="text-yellow-400 font-bold">Source Primaire :</span>
+                                <p className="text-xs text-gray-300">Produit sa propre lumière (Visible même dans le noir).</p>
                             </div>
-                        </>
-                    ) : (
-                        <div className="bg-indigo-900/40 p-4 rounded-xl border border-indigo-500/50">
-                            <h3 className="text-indigo-300 text-xs uppercase font-bold mb-2">Question {quizIndex + 1}</h3>
-                            <div className="text-sm font-bold mb-4">{quizQuestions[quizIndex].q}</div>
-                            <div className="space-y-2">
-                                {quizQuestions[quizIndex].options.map(opt => (
-                                    <button key={opt} onClick={() => checkAnswer(opt)} className="w-full p-2 bg-gray-800 hover:bg-indigo-600 rounded text-sm transition-colors text-left">
-                                        {opt}
-                                    </button>
-                                ))}
+                            <div className="p-3 bg-gray-800 rounded-lg">
+                                <span className="text-blue-400 font-bold">Source Secondaire :</span>
+                                <p className="text-xs text-gray-300">Diffuse la lumière reçue (Invisible dans le noir !).</p>
                             </div>
                         </div>
-                    )}
-                </DraggableHtmlPanel>
-            </Html>
+                    </>
+                ) : (
+                    <div className="bg-indigo-900/40 p-4 rounded-xl border border-indigo-500/50">
+                        <h3 className="text-indigo-300 text-xs uppercase font-bold mb-2">Question {quizIndex + 1}</h3>
+                        <div className="text-sm font-bold mb-4">{quizQuestions[quizIndex].q}</div>
+                        <div className="space-y-2">
+                            {quizQuestions[quizIndex].options.map(opt => (
+                                <button key={opt} onClick={() => checkAnswer(opt)} className="w-full p-2 bg-gray-800 hover:bg-indigo-600 rounded text-sm transition-colors text-left">
+                                    {opt}
+                                </button>
+                            ))}
+                        </div>
+                    </div>
+                )}
+            </DraggableHtmlPanel>
+
 
             <SuccessOverlay show={showSuccess} message="Bonne réponse ! Tu connais tes sources !" points={30} onNext={nextQuestion} />
             <ConfettiExplosion active={showSuccess} />
@@ -193,47 +193,47 @@ export function Chap7PropagationLumiere() {
 
     return (
         <group>
-            <Html>
-                <DraggableHtmlPanel title="🌑 Ombres & Propagation" showCloseButton={false} defaultPosition="bottom-center" className="w-[300px] border-white/30 text-white">
-                    <div className="flex justify-between items-center mb-4 border-b border-white/10 pb-2">
-                        <div className="flex gap-2">
-                            <button onClick={() => setMode('explore')} className={`text-xs px-2 py-1 rounded ${mode === 'explore' ? 'bg-gray-600' : 'bg-gray-700'}`}>Labo</button>
-                            <button onClick={startChallenge} className={`text-xs px-2 py-1 rounded ${mode === 'challenge' ? 'bg-white text-black' : 'bg-gray-700'}`}>Défi Ombre 🎯</button>
-                        </div>
-                        {mode === 'challenge' && <div className="font-bold text-yellow-400">{score} XP</div>}
-                    </div>
 
-                    {mode === 'challenge' && targetShadow && (
-                        <div className="mb-4 bg-gray-900 p-3 rounded-lg border border-white/50 text-center">
-                            <div className="text-xs text-gray-400 uppercase">Mission</div>
-                            <div>Atteins une taille d'ombre de :</div>
-                            <div className="text-2xl font-bold">{targetShadow} m</div>
-                        </div>
-                    )}
-
-                    <div className="mb-4">
-                        <label className="text-xs text-gray-400">Distance de l'écran</label>
-                        <input type="range" min="1" max="5" step="0.1" value={screenDistance} onChange={(e) => setScreenDistance(Number(e.target.value))} className="w-full accent-white" />
+            <DraggableHtmlPanel title="🌑 Ombres & Propagation" showCloseButton={false} defaultPosition="bottom-center" className="w-[300px] border-white/30 text-white">
+                <div className="flex justify-between items-center mb-4 border-b border-white/10 pb-2">
+                    <div className="flex gap-2">
+                        <button onClick={() => setMode('explore')} className={`text-xs px-2 py-1 rounded ${mode === 'explore' ? 'bg-gray-600' : 'bg-gray-700'}`}>Labo</button>
+                        <button onClick={startChallenge} className={`text-xs px-2 py-1 rounded ${mode === 'challenge' ? 'bg-white text-black' : 'bg-gray-700'}`}>Défi Ombre 🎯</button>
                     </div>
+                    {mode === 'challenge' && <div className="font-bold text-yellow-400">{score} XP</div>}
+                </div>
 
-                    <div className="mb-4">
-                        <label className="text-xs text-gray-400">Taille de l'objet</label>
-                        <input type="range" min="0.2" max="1" step="0.1" value={objectSize} onChange={(e) => setObjectSize(Number(e.target.value))} className="w-full accent-red-500" />
+                {mode === 'challenge' && targetShadow && (
+                    <div className="mb-4 bg-gray-900 p-3 rounded-lg border border-white/50 text-center">
+                        <div className="text-xs text-gray-400 uppercase">Mission</div>
+                        <div>Atteins une taille d'ombre de :</div>
+                        <div className="text-2xl font-bold">{targetShadow} m</div>
                     </div>
+                )}
 
-                    <div className="bg-gray-800 p-3 rounded-lg text-sm">
-                        <div className="flex justify-between">
-                            <span>Taille Ombre :</span>
-                            <span className={`font-bold ${showSuccess ? 'text-green-400' : 'text-white'}`}>{shadowSize.toFixed(2)} m</span>
-                        </div>
-                    </div>
+                <div className="mb-4">
+                    <label className="text-xs text-gray-400">Distance de l'écran</label>
+                    <input type="range" min="1" max="5" step="0.1" value={screenDistance} onChange={(e) => setScreenDistance(Number(e.target.value))} className="w-full accent-white" />
+                </div>
 
-                    <div className="mt-2 flex items-center gap-2">
-                        <input type="checkbox" checked={showRays} onChange={() => setShowRays(!showRays)} />
-                        <span className="text-sm">Voir rayons extrêmes</span>
+                <div className="mb-4">
+                    <label className="text-xs text-gray-400">Taille de l'objet</label>
+                    <input type="range" min="0.2" max="1" step="0.1" value={objectSize} onChange={(e) => setObjectSize(Number(e.target.value))} className="w-full accent-red-500" />
+                </div>
+
+                <div className="bg-gray-800 p-3 rounded-lg text-sm">
+                    <div className="flex justify-between">
+                        <span>Taille Ombre :</span>
+                        <span className={`font-bold ${showSuccess ? 'text-green-400' : 'text-white'}`}>{shadowSize.toFixed(2)} m</span>
                     </div>
-                </DraggableHtmlPanel>
-            </Html>
+                </div>
+
+                <div className="mt-2 flex items-center gap-2">
+                    <input type="checkbox" checked={showRays} onChange={() => setShowRays(!showRays)} />
+                    <span className="text-sm">Voir rayons extrêmes</span>
+                </div>
+            </DraggableHtmlPanel>
+
 
             <SuccessOverlay show={showSuccess} message="Cible atteinte ! Maître des ombres !" points={50} onNext={startChallenge} />
             <ConfettiExplosion active={showSuccess} />
@@ -355,54 +355,54 @@ export function Chap8Refraction() {
 
     return (
         <group>
-            <Html>
-                <DraggableHtmlPanel title="🌈 Réfraction (Snell-Descartes)" showCloseButton={false} defaultPosition="bottom-center" className="w-[320px] border-cyan-500/30 text-white">
-                    <div className="flex justify-between items-center mb-4 border-b border-white/10 pb-2">
-                        <div className="flex gap-2">
-                            <button onClick={() => setMode('explore')} className={`text-xs px-2 py-1 rounded ${mode === 'explore' ? 'bg-cyan-600' : 'bg-gray-700'}`}>Labo</button>
-                            <button onClick={startChallenge} className={`text-xs px-2 py-1 rounded ${mode === 'challenge' ? 'bg-indigo-600' : 'bg-gray-700'}`}>Tir Laser 🎯</button>
-                        </div>
-                        {mode === 'challenge' && <div className="font-bold text-yellow-400">{score} XP</div>}
-                    </div>
 
-                    {mode === 'challenge' && (
-                        <div className="mb-4 text-center text-xs text-indigo-300">
-                            Ajuste l'angle pour toucher la cible !
-                        </div>
+            <DraggableHtmlPanel title="🌈 Réfraction (Snell-Descartes)" showCloseButton={false} defaultPosition="bottom-center" className="w-[320px] border-cyan-500/30 text-white">
+                <div className="flex justify-between items-center mb-4 border-b border-white/10 pb-2">
+                    <div className="flex gap-2">
+                        <button onClick={() => setMode('explore')} className={`text-xs px-2 py-1 rounded ${mode === 'explore' ? 'bg-cyan-600' : 'bg-gray-700'}`}>Labo</button>
+                        <button onClick={startChallenge} className={`text-xs px-2 py-1 rounded ${mode === 'challenge' ? 'bg-indigo-600' : 'bg-gray-700'}`}>Tir Laser 🎯</button>
+                    </div>
+                    {mode === 'challenge' && <div className="font-bold text-yellow-400">{score} XP</div>}
+                </div>
+
+                {mode === 'challenge' && (
+                    <div className="mb-4 text-center text-xs text-indigo-300">
+                        Ajuste l'angle pour toucher la cible !
+                    </div>
+                )}
+
+                <div className="grid grid-cols-2 gap-4 mb-4">
+                    <div>
+                        <label className="text-xs text-gray-400 block mb-1">Milieu 1 (Haut)</label>
+                        <select value={n1} onChange={(e) => setN1(Number(e.target.value))} className="bg-gray-800 rounded p-1 text-sm w-full">
+                            {Object.entries(materials).map(([n, name]) => <option key={n} value={n}>{name} (n={n})</option>)}
+                        </select>
+                    </div>
+                    <div>
+                        <label className="text-xs text-gray-400 block mb-1">Milieu 2 (Bas)</label>
+                        <select value={n2} onChange={(e) => setN2(Number(e.target.value))} className="bg-gray-800 rounded p-1 text-sm w-full">
+                            {Object.entries(materials).map(([n, name]) => <option key={n} value={n}>{name} (n={n})</option>)}
+                        </select>
+                    </div>
+                </div>
+
+                <div className="mb-4">
+                    <label className="text-xs text-gray-400">Angle d'incidence (i1): {angleIncidence}°</label>
+                    <input type="range" min="0" max="85" value={angleIncidence} onChange={(e) => setAngleIncidence(Number(e.target.value))} className="w-full accent-red-500" />
+                </div>
+
+                <div className="bg-gray-800 p-3 rounded-xl border border-white/20">
+                    <div className="flex justify-between items-center mb-2">
+                        <span className="text-gray-400 text-sm">n₁ × sin(i₁) = n₂ × sin(i₂)</span>
+                    </div>
+                    {reflection ? (
+                        <div className="text-red-400 font-bold text-center">RÉFLEXION TOTALE !</div>
+                    ) : (
+                        <div className="text-green-400 font-mono text-xl text-center">i₂ = {angleRefractionDeg}°</div>
                     )}
+                </div>
+            </DraggableHtmlPanel>
 
-                    <div className="grid grid-cols-2 gap-4 mb-4">
-                        <div>
-                            <label className="text-xs text-gray-400 block mb-1">Milieu 1 (Haut)</label>
-                            <select value={n1} onChange={(e) => setN1(Number(e.target.value))} className="bg-gray-800 rounded p-1 text-sm w-full">
-                                {Object.entries(materials).map(([n, name]) => <option key={n} value={n}>{name} (n={n})</option>)}
-                            </select>
-                        </div>
-                        <div>
-                            <label className="text-xs text-gray-400 block mb-1">Milieu 2 (Bas)</label>
-                            <select value={n2} onChange={(e) => setN2(Number(e.target.value))} className="bg-gray-800 rounded p-1 text-sm w-full">
-                                {Object.entries(materials).map(([n, name]) => <option key={n} value={n}>{name} (n={n})</option>)}
-                            </select>
-                        </div>
-                    </div>
-
-                    <div className="mb-4">
-                        <label className="text-xs text-gray-400">Angle d'incidence (i1): {angleIncidence}°</label>
-                        <input type="range" min="0" max="85" value={angleIncidence} onChange={(e) => setAngleIncidence(Number(e.target.value))} className="w-full accent-red-500" />
-                    </div>
-
-                    <div className="bg-gray-800 p-3 rounded-xl border border-white/20">
-                        <div className="flex justify-between items-center mb-2">
-                            <span className="text-gray-400 text-sm">n₁ × sin(i₁) = n₂ × sin(i₂)</span>
-                        </div>
-                        {reflection ? (
-                            <div className="text-red-400 font-bold text-center">RÉFLEXION TOTALE !</div>
-                        ) : (
-                            <div className="text-green-400 font-mono text-xl text-center">i₂ = {angleRefractionDeg}°</div>
-                        )}
-                    </div>
-                </DraggableHtmlPanel>
-            </Html>
 
             <SuccessOverlay show={showSuccess} message="Cible touchée ! Tireur d'élite !" points={50} onNext={startChallenge} />
             <ConfettiExplosion active={showSuccess} />
