@@ -922,7 +922,7 @@ export function Chap5Electricite() {
 
     // --- CIRCUIT ANALYSIS ---
     const analysis = useMemo(() => {
-        if (!switchState) return { status: 'open', msg: 'Circuit ouvert', i: 0 };
+        if (!switchState) return { status: 'open', msg: 'Circuit ouvert', current: 0 };
 
         let status = 'ok';
         let msg = 'Valide';
@@ -1066,7 +1066,7 @@ export function Chap5Electricite() {
                         </div>
                         <div>
                             <div className="text-xs text-gray-400">Intensité</div>
-                            <div className="font-mono text-xl text-cyan-300">{analysis.current.toFixed(3)} A</div>
+                            <div className="font-mono text-xl text-cyan-300">{(analysis.current ?? 0).toFixed(3)} A</div>
                         </div>
                     </div>
 
