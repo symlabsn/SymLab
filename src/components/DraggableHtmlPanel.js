@@ -120,11 +120,11 @@ const DraggableHtmlPanel = ({ children, title, className = "", initialPos = null
     }, [isDragging, handleMouseMove, handleMouseUp, handleTouchMove]);
 
     // Ne pas rendre tant que le client n'est pas monté ou si fermé
-    // IMPORTANT: Retourne null AVANT le montage pour éviter les erreurs R3F
-    if (!mounted || isClosed) return null;
+    // Retourne un fragment vide pour éviter les erreurs R3F avec les enfants
+    if (!mounted || isClosed) return <></>;
 
     // Ne pas essayer de créer le portail si document n'est pas disponible
-    if (typeof document === 'undefined') return null;
+    if (typeof document === 'undefined') return <></>;
 
     const panelContent = (
         <div
@@ -192,7 +192,7 @@ const DraggableHtmlPanel = ({ children, title, className = "", initialPos = null
     if (typeof document !== 'undefined') {
         return createPortal(panelContent, document.body);
     }
-    return null;
+    return <></>;
 };
 
 export default DraggableHtmlPanel;

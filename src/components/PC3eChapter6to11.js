@@ -2,7 +2,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { useFrame } from '@react-three/fiber';
 import { Text, Html, Sphere, Box, Cylinder, Line, Float } from '@react-three/drei';
-import DraggableHtmlPanel from './DraggableHtmlPanel';
+import DraggableHtmlPanel from './DraggableHtmlPanelWrapper';
 import { SuccessOverlay, ConfettiExplosion } from './PC4eSimulations';
 import * as THREE from 'three';
 
