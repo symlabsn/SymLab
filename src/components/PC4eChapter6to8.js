@@ -4,13 +4,19 @@ import * as THREE from 'three';
 import { useFrame } from '@react-three/fiber';
 import { Text, Html, Box, Sphere, Cylinder, Float, Line } from '@react-three/drei';
 import DraggableHtmlPanel from './DraggableHtmlPanel';
+import { SuccessOverlay, ConfettiExplosion } from './PC4eSimulations';
 
 // ============================================================
 // CHAPITRE 6: SOURCES DE LUMIÈRE (ENRICHI)
 // ============================================================
 export function Chap6SourcesLumiere() {
     const [lightsOn, setLightsOn] = useState(false);
-    const [showLaser, setShowLaser] = useState(false);
+
+    // Mode Défi
+    const [mode, setMode] = useState('explore');
+    const [quizIndex, setQuizIndex] = useState(0);
+    const [score, setScore] = useState(0);
+    const [showSuccess, setShowSuccess] = useState(false);
 
     // Objets dans la scène
     const objects = [
@@ -21,6 +27,26 @@ export function Chap6SourcesLumiere() {
         { name: 'Lune', type: 'secondaire', visible: true, pos: [2, 2, -2] }
     ];
 
+    const quizQuestions = [
+        { q: "Quelle source produit sa propre lumière ?", options: ["Miroir", "Lampe", "Livre"], correct: "Lampe" },
+        { q: "Quel objet diffuse la lumière reçue ?", options: ["Soleil", "Lampe", "Miroir"], correct: "Miroir" },
+        { q: "La Lune est-elle une source primaire ?", options: ["Oui", "Non", "Parfois"], correct: "Non" }
+    ];
+
+    const checkAnswer = (ans) => {
+        if (ans === quizQuestions[quizIndex].correct) {
+            setScore(s => s + 30);
+            setShowSuccess(true);
+        } else {
+            alert("Raté ! Essaie encore.");
+        }
+    };
+
+    const nextQuestion = () => {
+        setShowSuccess(false);
+        setQuizIndex(i => (i + 1) % quizQuestions.length);
+    };
+
     // Une source secondaire n'est visible que s'il y a de la lumière
     const isVisible = (type) => type === 'primaire' || lightsOn;
 
@@ -28,23 +54,49 @@ export function Chap6SourcesLumiere() {
         <group>
             <Html>
                 <DraggableHtmlPanel title="💡 Sources de Lumière" showCloseButton={false} defaultPosition="bottom-center" className="w-[300px] border-yellow-500/30 text-white">
-
-                    <button onClick={() => setLightsOn(!lightsOn)} className={`w-full py-4 mb-4 rounded-xl font-bold text-xl transition-all ${lightsOn ? 'bg-yellow-500 text-black shadow-[0_0_20px_rgba(234,179,8,0.5)]' : 'bg-gray-800 text-gray-400'}`}>
-                        {lightsOn ? 'LUMIÈRE ALLUMÉE ☀️' : 'NOIR TOTAL 🌑'}
-                    </button>
-
-                    <div className="space-y-2">
-                        <div className="p-3 bg-gray-800 rounded-lg">
-                            <span className="text-yellow-400 font-bold">Source Primaire :</span>
-                            <p className="text-xs text-gray-300">Produit sa propre lumière (Visible même dans le noir).</p>
+                    <div className="flex justify-between items-center mb-4 border-b border-white/10 pb-2">
+                        <div className="flex gap-2">
+                            <button onClick={() => setMode('explore')} className={`text-xs px-2 py-1 rounded ${mode === 'explore' ? 'bg-yellow-600' : 'bg-gray-700'}`}>Obs.</button>
+                            <button onClick={() => { setMode('challenge'); setQuizIndex(0); setScore(0); }} className={`text-xs px-2 py-1 rounded ${mode === 'challenge' ? 'bg-indigo-600' : 'bg-gray-700'}`}>Quiz 🧠</button>
                         </div>
-                        <div className="p-3 bg-gray-800 rounded-lg">
-                            <span className="text-blue-400 font-bold">Source Secondaire :</span>
-                            <p className="text-xs text-gray-300">Diffuse la lumière reçue (Invisible dans le noir !).</p>
-                        </div>
+                        {mode === 'challenge' && <div className="font-bold text-yellow-400">{score} XP</div>}
                     </div>
+
+                    {mode === 'explore' ? (
+                        <>
+                            <button onClick={() => setLightsOn(!lightsOn)} className={`w-full py-4 mb-4 rounded-xl font-bold text-xl transition-all ${lightsOn ? 'bg-yellow-500 text-black shadow-[0_0_20px_rgba(234,179,8,0.5)]' : 'bg-gray-800 text-gray-400'}`}>
+                                {lightsOn ? 'LUMIÈRE ALLUMÉE ☀️' : 'NOIR TOTAL 🌑'}
+                            </button>
+
+                            <div className="space-y-2">
+                                <div className="p-3 bg-gray-800 rounded-lg">
+                                    <span className="text-yellow-400 font-bold">Source Primaire :</span>
+                                    <p className="text-xs text-gray-300">Produit sa propre lumière (Visible même dans le noir).</p>
+                                </div>
+                                <div className="p-3 bg-gray-800 rounded-lg">
+                                    <span className="text-blue-400 font-bold">Source Secondaire :</span>
+                                    <p className="text-xs text-gray-300">Diffuse la lumière reçue (Invisible dans le noir !).</p>
+                                </div>
+                            </div>
+                        </>
+                    ) : (
+                        <div className="bg-indigo-900/40 p-4 rounded-xl border border-indigo-500/50">
+                            <h3 className="text-indigo-300 text-xs uppercase font-bold mb-2">Question {quizIndex + 1}</h3>
+                            <div className="text-sm font-bold mb-4">{quizQuestions[quizIndex].q}</div>
+                            <div className="space-y-2">
+                                {quizQuestions[quizIndex].options.map(opt => (
+                                    <button key={opt} onClick={() => checkAnswer(opt)} className="w-full p-2 bg-gray-800 hover:bg-indigo-600 rounded text-sm transition-colors text-left">
+                                        {opt}
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
+                    )}
                 </DraggableHtmlPanel>
             </Html>
+
+            <SuccessOverlay show={showSuccess} message="Bonne réponse ! Tu connais tes sources !" points={30} onNext={nextQuestion} />
+            <ConfettiExplosion active={showSuccess} />
 
             {/* Ambiance */}
             <ambientLight intensity={lightsOn ? 0.5 : 0} />
@@ -104,6 +156,12 @@ export function Chap7PropagationLumiere() {
     const [objectSize, setObjectSize] = useState(0.5);
     const [showRays, setShowRays] = useState(true);
 
+    // Mode Défi
+    const [mode, setMode] = useState('explore');
+    const [targetShadow, setTargetShadow] = useState(null); // Target size
+    const [score, setScore] = useState(0);
+    const [showSuccess, setShowSuccess] = useState(false);
+
     // Calculs géométriques pour l'ombre
     const sourcePos = new THREE.Vector3(-3, 0, 0);
     const objectPos = new THREE.Vector3(0, 0, 0);
@@ -115,10 +173,43 @@ export function Chap7PropagationLumiere() {
     const shadowScale = D_source_screen / D_source_obj;
     const shadowSize = objectSize * shadowScale;
 
+    const startChallenge = () => {
+        setTargetShadow((Math.random() * 1.5 + 0.5).toFixed(2)); // Random size 0.5 - 2.0
+        setMode('challenge');
+        setShowSuccess(false);
+    };
+
+    // Check challenge
+    useEffect(() => {
+        if (mode === 'challenge' && targetShadow) {
+            if (Math.abs(shadowSize - parseFloat(targetShadow)) < 0.1) {
+                if (!showSuccess) {
+                    setScore(s => s + 50);
+                    setShowSuccess(true);
+                }
+            }
+        }
+    }, [shadowSize, targetShadow, mode, showSuccess]);
+
     return (
         <group>
             <Html>
                 <DraggableHtmlPanel title="🌑 Ombres & Propagation" showCloseButton={false} defaultPosition="bottom-center" className="w-[300px] border-white/30 text-white">
+                    <div className="flex justify-between items-center mb-4 border-b border-white/10 pb-2">
+                        <div className="flex gap-2">
+                            <button onClick={() => setMode('explore')} className={`text-xs px-2 py-1 rounded ${mode === 'explore' ? 'bg-gray-600' : 'bg-gray-700'}`}>Labo</button>
+                            <button onClick={startChallenge} className={`text-xs px-2 py-1 rounded ${mode === 'challenge' ? 'bg-white text-black' : 'bg-gray-700'}`}>Défi Ombre 🎯</button>
+                        </div>
+                        {mode === 'challenge' && <div className="font-bold text-yellow-400">{score} XP</div>}
+                    </div>
+
+                    {mode === 'challenge' && targetShadow && (
+                        <div className="mb-4 bg-gray-900 p-3 rounded-lg border border-white/50 text-center">
+                            <div className="text-xs text-gray-400 uppercase">Mission</div>
+                            <div>Atteins une taille d'ombre de :</div>
+                            <div className="text-2xl font-bold">{targetShadow} m</div>
+                        </div>
+                    )}
 
                     <div className="mb-4">
                         <label className="text-xs text-gray-400">Distance de l'écran</label>
@@ -133,9 +224,8 @@ export function Chap7PropagationLumiere() {
                     <div className="bg-gray-800 p-3 rounded-lg text-sm">
                         <div className="flex justify-between">
                             <span>Taille Ombre :</span>
-                            <span className="font-bold">{shadowSize.toFixed(2)} m</span>
+                            <span className={`font-bold ${showSuccess ? 'text-green-400' : 'text-white'}`}>{shadowSize.toFixed(2)} m</span>
                         </div>
-                        <div className="text-xs text-gray-400 mt-1">La lumière se propage en ligne droite.</div>
                     </div>
 
                     <div className="mt-2 flex items-center gap-2">
@@ -144,6 +234,9 @@ export function Chap7PropagationLumiere() {
                     </div>
                 </DraggableHtmlPanel>
             </Html>
+
+            <SuccessOverlay show={showSuccess} message="Cible atteinte ! Maître des ombres !" points={50} onNext={startChallenge} />
+            <ConfettiExplosion active={showSuccess} />
 
             {/* Source Ponctuelle */}
             <group position={sourcePos}>
@@ -199,6 +292,12 @@ export function Chap8Refraction() {
     const [n1, setN1] = useState(1.0); // Air
     const [n2, setN2] = useState(1.33); // Eau
 
+    // Mode Défi
+    const [mode, setMode] = useState('explore');
+    const [targetPos, setTargetPos] = useState(null); // {x, y}
+    const [score, setScore] = useState(0);
+    const [showSuccess, setShowSuccess] = useState(false);
+
     // Conversion deg -> rad
     const i1 = angleIncidence * Math.PI / 180;
 
@@ -218,6 +317,35 @@ export function Chap8Refraction() {
 
     const angleRefractionDeg = (i2 * 180 / Math.PI).toFixed(1);
 
+    // Calcul target hit
+    const beamLength = 3;
+    const endX = Math.sin(i2) * beamLength;
+    const endY = -Math.cos(i2) * beamLength; // Downwards
+
+    const startChallenge = () => {
+        // Place target somewhere in the bottom
+        const randAngle = (Math.random() * 60 + 10) * Math.PI / 180; // 10 to 70 deg
+        const tX = Math.sin(randAngle) * beamLength; // Match length for easier hit detection
+        const tY = -Math.cos(randAngle) * beamLength;
+        setTargetPos({ x: tX, y: tY });
+        setMode('challenge');
+        setAngleIncidence(0); // Reset
+        setShowSuccess(false);
+    };
+
+    useEffect(() => {
+        if (mode === 'challenge' && targetPos && !reflection) {
+            // Check distance between beam end and target
+            const dist = Math.sqrt(Math.pow(endX - targetPos.x, 2) + Math.pow(endY - targetPos.y, 2));
+            if (dist < 0.3) {
+                if (!showSuccess) {
+                    setScore(s => s + 50);
+                    setShowSuccess(true);
+                }
+            }
+        }
+    }, [endX, endY, targetPos, mode, showSuccess, reflection]);
+
     const materials = {
         1.0: 'Air',
         1.33: 'Eau',
@@ -229,6 +357,19 @@ export function Chap8Refraction() {
         <group>
             <Html>
                 <DraggableHtmlPanel title="🌈 Réfraction (Snell-Descartes)" showCloseButton={false} defaultPosition="bottom-center" className="w-[320px] border-cyan-500/30 text-white">
+                    <div className="flex justify-between items-center mb-4 border-b border-white/10 pb-2">
+                        <div className="flex gap-2">
+                            <button onClick={() => setMode('explore')} className={`text-xs px-2 py-1 rounded ${mode === 'explore' ? 'bg-cyan-600' : 'bg-gray-700'}`}>Labo</button>
+                            <button onClick={startChallenge} className={`text-xs px-2 py-1 rounded ${mode === 'challenge' ? 'bg-indigo-600' : 'bg-gray-700'}`}>Tir Laser 🎯</button>
+                        </div>
+                        {mode === 'challenge' && <div className="font-bold text-yellow-400">{score} XP</div>}
+                    </div>
+
+                    {mode === 'challenge' && (
+                        <div className="mb-4 text-center text-xs text-indigo-300">
+                            Ajuste l'angle pour toucher la cible !
+                        </div>
+                    )}
 
                     <div className="grid grid-cols-2 gap-4 mb-4">
                         <div>
@@ -262,6 +403,19 @@ export function Chap8Refraction() {
                     </div>
                 </DraggableHtmlPanel>
             </Html>
+
+            <SuccessOverlay show={showSuccess} message="Cible touchée ! Tireur d'élite !" points={50} onNext={startChallenge} />
+            <ConfettiExplosion active={showSuccess} />
+
+            {/* Target Visual */}
+            {mode === 'challenge' && targetPos && (
+                <group position={[targetPos.x, targetPos.y, 0]}>
+                    <Sphere args={[0.2]}>
+                        <meshStandardMaterial color="#FBBF24" emissive="#FBBF24" emissiveIntensity={2} />
+                    </Sphere>
+                    <pointLight color="orange" distance={1} intensity={2} />
+                </group>
+            )}
 
             {/* Interface (Ligne horizontable y=0) */}
             <mesh position={[0, -2, 0]}>

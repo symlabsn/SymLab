@@ -1,9 +1,10 @@
 'use client';
 import { useState, useRef, useEffect, useMemo } from 'react';
 import { useFrame } from '@react-three/fiber';
-import { Text, Html, useGLTF, Float, Sphere, Box, Cylinder, Torus } from '@react-three/drei';
+import { Text, Html, useGLTF, Float, Sphere, Box, Cylinder, Torus, Line } from '@react-three/drei';
 import DraggableHtmlPanel from './DraggableHtmlPanel';
 import * as THREE from 'three';
+import { SuccessOverlay, ConfettiExplosion } from './PC4eSimulations';
 
 // Images et icônes
 const ICONS = {
@@ -66,6 +67,42 @@ export function Chap1ScienceIntro() {
         if (step === 1) setExperimentDone(true); // Lance l'anim au moment de l'expérience
     };
 
+    const [mode, setMode] = useState('explore'); // 'explore' | 'challenge'
+    const [challenge, setChallenge] = useState(null);
+    const [score, setScore] = useState(0);
+    const [showSuccess, setShowSuccess] = useState(false);
+
+    const challenges = [
+        { q: "Quelle est la 1ère étape de la démarche ?", options: ["Hypothèse", "Observation", "Conclusion"], ans: 1 },
+        { q: "L'hypothèse est...", options: ["Une certitude", "Une supposition", "Un fait"], ans: 1 },
+        { q: "Pour valider une idée, il faut...", options: ["Expérimenter", "Deviner", "Attendre"], ans: 0 },
+        { q: "Si l'expérience échoue, je...", options: ["Abandonne", "Change les faits", "Revois mon hypothèse"], ans: 2 }
+    ];
+
+    const startChallenge = () => {
+        setMode('challenge');
+        setScore(0);
+        nextQuestion();
+    };
+
+    const nextQuestion = () => {
+        const rand = Math.floor(Math.random() * challenges.length);
+        setChallenge({ ...challenges[rand], answered: false });
+        setShowSuccess(false);
+    };
+
+    const checkAnswer = (idx) => {
+        if (!challenge) return;
+        if (idx === challenge.ans) {
+            setScore(s => s + 20);
+            setShowSuccess(true);
+            // Auto next after delay handled by user clicking "Next" in success overlay or similar
+        } else {
+            // Wrong answer feedback?
+            alert("Ce n'est pas la bonne réponse, essaie encore !");
+        }
+    };
+
     const reset = () => {
         setStep(0);
         setExperimentDone(false);
@@ -75,55 +112,84 @@ export function Chap1ScienceIntro() {
         <group ref={groupRef}>
             <Html>
                 <DraggableHtmlPanel title="🔬 Démarche Scientifique" showCloseButton={false} defaultPosition="bottom-center" className="w-[350px] border-white/10 text-white">
-                    <div className="flex justify-end mb-4 border-b border-white/10 pb-2">
-                        <button onClick={reset} className="text-xs px-2 py-1 bg-white/10 rounded hover:bg-white/20">🔄 Reset</button>
+                    {/* Header Controls */}
+                    <div className="flex justify-between items-center mb-4 border-b border-white/10 pb-2">
+                        <div className="flex gap-2">
+                            <button onClick={() => setMode('explore')} className={`text-xs px-2 py-1 rounded ${mode === 'explore' ? 'bg-blue-600' : 'bg-gray-700'}`}>Exploration</button>
+                            <button onClick={startChallenge} className={`text-xs px-2 py-1 rounded ${mode === 'challenge' ? 'bg-purple-600' : 'bg-gray-700'}`}>Quiz Défi 🏆</button>
+                        </div>
+                        {mode === 'explore' && <button onClick={reset} className="text-xs px-2 py-1 bg-white/10 rounded hover:bg-white/20">🔄 Reset</button>}
+                        {mode === 'challenge' && <div className="font-bold text-yellow-400">{score} XP</div>}
                     </div>
 
-                    {/* Choix du scénario */}
-                    <div className="grid grid-cols-3 gap-2 mb-6">
-                        {Object.entries(scenarios).map(([key, sc]) => (
-                            <button key={key} onClick={() => { setScenario(key); reset(); }}
-                                className={`p-2 rounded-lg text-xs font-bold transition-all ${scenario === key ? 'bg-blue-600 ring-2 ring-white' : 'bg-gray-800 hover:bg-gray-700'}`}>
-                                {key === 'chimie' && '🧪 Chimie'}
-                                {key === 'plante' && '🌿 SVT'}
-                                {key === 'flotte' && '🥚 Densité'}
-                            </button>
-                        ))}
-                    </div>
-
-                    {/* Étapes de la démarche */}
-                    <div className="space-y-4">
-                        <div className="flex justify-between text-xs font-mono text-gray-400 mb-2">
-                            <span>ÉTAPE {step + 1}/4</span>
-                            <span>{currentScenario.steps[step].name.toUpperCase()}</span>
-                        </div>
-
-                        <div className="bg-gray-900/80 p-4 rounded-xl border border-white/5 min-h-[80px] flex items-center justify-center text-center">
-                            <p className="text-lg font-medium" style={{ color: currentScenario.steps[step].color }}>
-                                {currentScenario.steps[step].text}
-                            </p>
-                        </div>
-
-                        {/* Barre de progression */}
-                        <div className="flex gap-1 h-2 mb-4">
-                            {[0, 1, 2, 3].map(i => (
-                                <div key={i} className={`flex-1 rounded-full transition-colors duration-500 ${i <= step ? 'bg-blue-500' : 'bg-gray-800'}`} />
-                            ))}
-                        </div>
-
-                        {step < 3 ? (
-                            <button onClick={handleNextStep}
-                                className="w-full py-4 rounded-xl font-bold text-lg shadow-lg transform transition-all hover:scale-105 active:scale-95"
-                                style={{ backgroundColor: currentScenario.steps[step].color, color: 'black' }}>
-                                {step === 2 ? `🚀 ${currentScenario.steps[step].action}` : 'Suivant ➡️'}
-                            </button>
-                        ) : (
-                            <div className="p-3 bg-green-500/20 rounded-xl border border-green-500/50 text-center">
-                                <div className="text-3xl mb-2">🎉</div>
-                                <div className="font-bold text-green-400">Conclusion Validée !</div>
+                    {mode === 'explore' ? (
+                        <>
+                            {/* Choix du scénario */}
+                            <div className="grid grid-cols-3 gap-2 mb-6">
+                                {Object.entries(scenarios).map(([key, sc]) => (
+                                    <button key={key} onClick={() => { setScenario(key); reset(); }}
+                                        className={`p-2 rounded-lg text-xs font-bold transition-all ${scenario === key ? 'bg-blue-600 ring-2 ring-white' : 'bg-gray-800 hover:bg-gray-700'}`}>
+                                        {key === 'chimie' && '🧪 Chimie'}
+                                        {key === 'plante' && '🌿 SVT'}
+                                        {key === 'flotte' && '🥚 Densité'}
+                                    </button>
+                                ))}
                             </div>
-                        )}
-                    </div>
+
+                            {/* Étapes de la démarche */}
+                            <div className="space-y-4">
+                                <div className="flex justify-between text-xs font-mono text-gray-400 mb-2">
+                                    <span>ÉTAPE {step + 1}/4</span>
+                                    <span>{currentScenario.steps[step].name.toUpperCase()}</span>
+                                </div>
+
+                                <div className="bg-gray-900/80 p-4 rounded-xl border border-white/5 min-h-[80px] flex items-center justify-center text-center">
+                                    <p className="text-lg font-medium" style={{ color: currentScenario.steps[step].color }}>
+                                        {currentScenario.steps[step].text}
+                                    </p>
+                                </div>
+
+                                {/* Barre de progression */}
+                                <div className="flex gap-1 h-2 mb-4">
+                                    {[0, 1, 2, 3].map(i => (
+                                        <div key={i} className={`flex-1 rounded-full transition-colors duration-500 ${i <= step ? 'bg-blue-500' : 'bg-gray-800'}`} />
+                                    ))}
+                                </div>
+
+                                {step < 3 ? (
+                                    <button onClick={handleNextStep}
+                                        className="w-full py-4 rounded-xl font-bold text-lg shadow-lg transform transition-all hover:scale-105 active:scale-95"
+                                        style={{ backgroundColor: currentScenario.steps[step].color, color: 'black' }}>
+                                        {step === 2 ? `🚀 ${currentScenario.steps[step].action}` : 'Suivant ➡️'}
+                                    </button>
+                                ) : (
+                                    <div className="p-3 bg-green-500/20 rounded-xl border border-green-500/50 text-center">
+                                        <div className="text-3xl mb-2">🎉</div>
+                                        <div className="font-bold text-green-400">Conclusion Validée !</div>
+                                    </div>
+                                )}
+                            </div>
+                        </>
+                    ) : (
+                        <div className="bg-gray-800 p-4 rounded-xl border border-purple-500/50">
+                            <h3 className="text-purple-300 font-bold mb-4 flex items-center gap-2">
+                                <span>🧠</span> Quiz Scientifique
+                            </h3>
+                            {challenge && (
+                                <div className="space-y-4">
+                                    <div className="text-sm font-medium">{challenge.q}</div>
+                                    <div className="space-y-2">
+                                        {challenge.options.map((opt, idx) => (
+                                            <button key={idx} onClick={() => checkAnswer(idx)}
+                                                className="w-full text-left p-3 rounded bg-gray-700 hover:bg-gray-600 transition-colors text-sm">
+                                                {['A', 'B', 'C'][idx]}. {opt}
+                                            </button>
+                                        ))}
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+                    )}
                 </DraggableHtmlPanel>
             </Html>
 
@@ -137,6 +203,9 @@ export function Chap1ScienceIntro() {
                 {scenario === 'plante' && <PlanteScene active={experimentDone && step >= 2} step={step} />}
                 {scenario === 'flotte' && <FlotteScene active={experimentDone && step >= 2} />}
             </group>
+
+            <SuccessOverlay show={showSuccess} message="Bonne réponse ! Continue comme ça !" points={20} onNext={nextQuestion} />
+            <ConfettiExplosion active={showSuccess} />
         </group>
     );
 }
@@ -279,6 +348,12 @@ export function Chap2Mesures() {
     const [measurement, setMeasurement] = useState(null);
     const [precision, setPrecision] = useState(false); // Mode précision
 
+    // Mode Défi
+    const [mode, setMode] = useState('explore');
+    const [mission, setMission] = useState(null); // { target: X, unit: 'g', type: 'mass' }
+    const [score, setScore] = useState(0);
+    const [showSuccess, setShowSuccess] = useState(false);
+
     const tools = {
         ruler: { name: 'Règle', unit: 'cm', color: '#F59E0B', error: 0.1 },
         balance: { name: 'Balance', unit: 'g', color: '#3B82F6', error: 0.5 },
@@ -304,7 +379,36 @@ export function Chap2Mesures() {
         // Simulation d'erreur réaliste
         const errorMargin = precision ? tools[tool].error / 2 : tools[tool].error * 2;
         const randomError = (Math.random() - 0.5) * errorMargin;
-        setMeasurement((baseVal + randomError).toFixed(precision ? 2 : 1));
+        const val = parseFloat((baseVal + randomError).toFixed(precision ? 2 : 1));
+        setMeasurement(val);
+
+        if (mode === 'challenge' && mission) {
+            checkMission(val, obj, tools[tool].unit);
+        }
+    };
+
+    const startMission = () => {
+        const missions = [
+            { text: "Trouve un objet de ~150 g", target: 150, tolerance: 5, unit: 'g' },
+            { text: "Trouve un objet de ~12.5 cm", target: 12.5, tolerance: 0.5, unit: 'cm' },
+            { text: "Mesure 100 mL de liquide", target: 100, tolerance: 5, unit: 'mL' },
+        ];
+        const m = missions[Math.floor(Math.random() * missions.length)];
+        setMission(m);
+        setMode('challenge');
+        setShowSuccess(false);
+        setMeasurement(null);
+    };
+
+    const checkMission = (val, obj, unit) => {
+        if (!mission) return;
+        // Check unit matching
+        if (unit !== mission.unit) return; // Wrong tool
+
+        if (Math.abs(val - mission.target) <= mission.tolerance) {
+            setScore(s => s + 50);
+            setShowSuccess(true);
+        }
     };
 
     return (
@@ -410,6 +514,12 @@ export function Chap3Densite() {
     const [object, setObject] = useState('wood');
     const [showForces, setShowForces] = useState(false);
 
+    // Mode Défi
+    const [mode, setMode] = useState('explore'); // explore, challenge
+    const [mysteryMaterial, setMysteryMaterial] = useState(null); // 'gold', 'iron', etc.
+    const [score, setScore] = useState(0);
+    const [showSuccess, setShowSuccess] = useState(false);
+
     // Données physiques
     const liquids = {
         water: { name: 'Eau', density: 1.0, color: '#3B82F6' },
@@ -426,8 +536,34 @@ export function Chap3Densite() {
         gold: { name: 'Or', density: 19.3, color: '#FFD700' }
     };
 
+    // Mode Challenge Setup
+    const startDetective = () => {
+        const mats = Object.keys(objects);
+        const secret = mats[Math.floor(Math.random() * mats.length)];
+        setMysteryMaterial(secret); // The object is visually random or generic? No, visually generic but physically specific for now? 
+        // Actually let's use the 'mystery' object key
+        setObject('mystery');
+        setMode('challenge');
+        setShowSuccess(false);
+    };
+
+    // Use selected object OR mystery properties
+    const currentObjKey = object === 'mystery' ? mysteryMaterial : object;
+    const currentObjProps = object === 'mystery' ?
+        { name: 'Bloc Mystère', density: objects[mysteryMaterial]?.density, color: '#333' }
+        : objects[object];
+
     const liq = liquids[liquid];
-    const obj = objects[object];
+    const obj = currentObjProps;
+
+    const guessMaterial = (matKey) => {
+        if (matKey === mysteryMaterial) {
+            setScore(s => s + 100);
+            setShowSuccess(true);
+        } else {
+            alert("Ce n'est pas cette matière. Regarde si ça flotte !");
+        }
+    };
 
     // Calcul flottaison
     // Si d_obj < d_liq : Flotte (fraction immergée = d_obj / d_liq)
@@ -446,11 +582,33 @@ export function Chap3Densite() {
     return (
         <group>
             <Html>
-                <DraggableHtmlPanel title="⚖️ Densité & Flottaison" showCloseButton={false} defaultPosition="bottom-center" className="w-[320px] border-blue-500/30 text-white">
+                <DraggableHtmlPanel title="⚖️ Densité & Archimède" showCloseButton={false} defaultPosition="bottom-center" className="w-[320px] border-blue-500/30 text-white">
+
+                    <div className="flex justify-between items-center mb-4 border-b border-white/10 pb-2">
+                        <div className="flex gap-2">
+                            <button onClick={() => { setMode('explore'); setObject('wood'); }} className={`text-xs px-2 py-1 rounded ${mode === 'explore' ? 'bg-blue-600' : 'bg-gray-700'}`}>Labo</button>
+                            <button onClick={startDetective} className={`text-xs px-2 py-1 rounded ${mode === 'challenge' ? 'bg-orange-600' : 'bg-gray-700'}`}>Détective 🕵️</button>
+                        </div>
+                        {mode === 'challenge' && <div className="font-bold text-yellow-400">{score} XP</div>}
+                    </div>
+
+                    {mode === 'challenge' && (
+                        <div className="mb-4 bg-orange-900/40 p-3 rounded-xl border border-orange-500/50">
+                            <div className="text-xs text-orange-300 uppercase mb-2">Enquête</div>
+                            <div className="text-sm mb-2">Plonge le bloc mystère dans les liquides pour deviner sa matière !</div>
+                            <div className="grid grid-cols-2 gap-1">
+                                {Object.entries(objects).map(([k, o]) => (
+                                    <button key={k} onClick={() => guessMaterial(k)} className="text-xs bg-gray-800 hover:bg-orange-700 p-1 rounded border border-gray-600">
+                                        C'est du {o.name} ?
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
+                    )}
 
                     <div className="space-y-4">
                         <div>
-                            <label className="block text-xs uppercase text-gray-400 mb-2">1. Liquide</label>
+                            <label className="block text-xs uppercase text-gray-400 mb-2">1. Liquide (Milieu)</label>
                             <div className="grid grid-cols-2 gap-2">
                                 {Object.entries(liquids).map(([k, l]) => (
                                     <button key={k} onClick={() => setLiquid(k)}
@@ -461,17 +619,19 @@ export function Chap3Densite() {
                             </div>
                         </div>
 
-                        <div>
-                            <label className="block text-xs uppercase text-gray-400 mb-2">2. Objet</label>
-                            <div className="grid grid-cols-3 gap-2">
-                                {Object.entries(objects).map(([k, o]) => (
-                                    <button key={k} onClick={() => setObject(k)}
-                                        className={`p-2 rounded-lg text-sm border ${object === k ? 'border-white bg-white/10' : 'border-gray-700 bg-gray-800'}`}>
-                                        {o.name}
-                                    </button>
-                                ))}
+                        {mode === 'explore' && (
+                            <div>
+                                <label className="block text-xs uppercase text-gray-400 mb-2">2. Objet</label>
+                                <div className="grid grid-cols-3 gap-2">
+                                    {Object.entries(objects).map(([k, o]) => (
+                                        <button key={k} onClick={() => setObject(k)}
+                                            className={`p-2 rounded-lg text-sm border ${object === k ? 'border-white bg-white/10' : 'border-gray-700 bg-gray-800'}`}>
+                                            {o.name}
+                                        </button>
+                                    ))}
+                                </div>
                             </div>
-                        </div>
+                        )}
 
                         <div className="flex items-center gap-2 p-3 bg-gray-800 rounded-lg">
                             <input type="checkbox" checked={showForces} onChange={() => setShowForces(!showForces)} className="w-5 h-5" />
@@ -479,7 +639,7 @@ export function Chap3Densite() {
                         </div>
 
                         <div className="bg-gray-900 p-3 rounded-lg text-center font-mono text-sm">
-                            <div>d(objet) = {obj.density}</div>
+                            <div>d(objet) = {mode === 'challenge' ? '???' : obj.density}</div>
                             <div>d(liquide) = {liq.density}</div>
                             <div className={`mt-2 font-bold text-lg ${densityRatio < 1 ? 'text-green-400' : 'text-red-400'}`}>
                                 {densityRatio < 1 ? 'FLOTTE 🚢' : 'COULE ⚓'}
@@ -488,6 +648,8 @@ export function Chap3Densite() {
                     </div>
                 </DraggableHtmlPanel>
             </Html>
+            <SuccessOverlay show={showSuccess} message={`Bravo ! C'était bien du ${objects[mysteryMaterial]?.name} !`} points={100} onNext={startDetective} />
+            <ConfettiExplosion active={showSuccess} />
 
             {/* Aquarium */}
             <group position={[0, -1, 0]}>
@@ -535,6 +697,12 @@ export function Chap4PoidsMasse() {
     const [mass, setMass] = useState(50);
     const astronautRef = useRef();
 
+    // Mode Défi
+    const [mode, setMode] = useState('explore');
+    const [targetWeight, setTargetWeight] = useState(null);
+    const [score, setScore] = useState(0);
+    const [showSuccess, setShowSuccess] = useState(false);
+
     const planets = {
         mercury: { name: 'Mercure', g: 3.7, color: '#9CA3AF', size: 0.38 },
         venus: { name: 'Vénus', g: 8.87, color: '#FCD34D', size: 0.95 },
@@ -549,10 +717,57 @@ export function Chap4PoidsMasse() {
     const p = planets[planet];
     const weight = mass * p.g;
 
+    const startMission = () => {
+        // Find a planet other than current or earth to make it interesting
+        const keys = Object.keys(planets).filter(k => k !== 'void');
+        const targetPKey = keys[Math.floor(Math.random() * keys.length)];
+        const targetP = planets[targetPKey];
+        const randomMass = Math.floor(Math.random() * 50 + 50); // 50-100kg
+        const w = Math.round(randomMass * targetP.g);
+
+        setMass(randomMass);
+        setTargetWeight({ val: w, planetKey: targetPKey });
+        setMode('challenge');
+        setPlanet('earth'); // Reset pos
+        setShowSuccess(false);
+    };
+
+    useEffect(() => {
+        if (mode === 'challenge' && targetWeight) {
+            // Check if current weight is close to target (meaning we are on the right planet with right mass)
+            // Actually, mass is fixed in the mission description? 
+            // "Une masse de X kg pèse Y Newtons. Où sommes nous ?"
+            // So user changes Planet.
+            if (planet === targetWeight.planetKey) {
+                setScore(s => s + 50);
+                setShowSuccess(true);
+            }
+        }
+    }, [planet, mode, targetWeight]);
+
+
     return (
         <group>
             <Html>
                 <DraggableHtmlPanel title="⚖️ Poids (N) vs Masse (kg)" showCloseButton={false} defaultPosition="bottom-center" className="w-[350px] border-purple-500/30 text-white max-h-[80vh] overflow-y-auto">
+
+                    <div className="flex justify-between items-center mb-4 border-b border-white/10 pb-2">
+                        <div className="flex gap-2">
+                            <button onClick={() => setMode('explore')} className={`text-xs px-2 py-1 rounded ${mode === 'explore' ? 'bg-purple-600' : 'bg-gray-700'}`}>Exploration</button>
+                            <button onClick={startMission} className={`text-xs px-2 py-1 rounded ${mode === 'challenge' ? 'bg-indigo-600' : 'bg-gray-700'}`}>Mission 🚀</button>
+                        </div>
+                        {mode === 'challenge' && <div className="font-bold text-yellow-400">{score} XP</div>}
+                    </div>
+
+                    {mode === 'challenge' && targetWeight && (
+                        <div className="mb-4 bg-indigo-900/50 p-3 rounded-xl border border-indigo-500/50 text-center animate-pulse">
+                            <div className="text-xs text-indigo-300 uppercase">Alerte Système</div>
+                            <div className="text-sm">Localise la planète où ta masse de</div>
+                            <div className="font-bold text-white">{mass} kg</div>
+                            <div className="text-sm">pèse exactement</div>
+                            <div className="font-bold text-xl text-yellow-400">{targetWeight.val} N</div>
+                        </div>
+                    )}
 
                     <div className="mb-6">
                         <label className="block text-sm text-gray-400 mb-2">Choisir un astre :</label>
@@ -571,8 +786,9 @@ export function Chap4PoidsMasse() {
 
                     <div className="mb-6 bg-gray-800 p-4 rounded-xl">
                         <label className="block text-sm text-gray-400 mb-2">Masse de l'astronaute (kg)</label>
-                        <input type="range" min="30" max="150" value={mass} onChange={(e) => setMass(Number(e.target.value))}
-                            className="w-full h-3 bg-gray-700 rounded-lg accent-purple-500 appearance-none cursor-pointer" />
+                        <input type="range" min="30" max="150" value={mass} onChange={(e) => mode === 'explore' && setMass(Number(e.target.value))}
+                            disabled={mode === 'challenge'}
+                            className={`w-full h-3 bg-gray-700 rounded-lg accent-purple-500 appearance-none ${mode === 'challenge' ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}`} />
                         <div className="text-right font-mono text-xl">{mass} kg</div>
                     </div>
 
@@ -588,6 +804,8 @@ export function Chap4PoidsMasse() {
                     </div>
                 </DraggableHtmlPanel>
             </Html>
+            <SuccessOverlay show={showSuccess} message={`Planète identifiée ! Bienvenue sur ${planets[targetWeight?.planetKey]?.name} !`} points={100} onNext={startMission} />
+            <ConfettiExplosion active={showSuccess} />
 
             {/* Sol de la planète */}
             <mesh position={[0, -10, 0]} rotation={[-Math.PI / 2, 0, 0]}>
@@ -644,6 +862,12 @@ export function Chap5Electricite() {
     const [switchState, setSwitchState] = useState(false); // false = ouvert map, true = fermé
     const [voltage, setVoltage] = useState(4.5);
 
+    // Mode Défi
+    const [mode, setMode] = useState('explore');
+    const [mission, setMission] = useState(null);
+    const [score, setScore] = useState(0);
+    const [showSuccess, setShowSuccess] = useState(false);
+
     // Calcul courant
     const totalResistance = components.length * 10; // Simplifié
     const current = switchState ? voltage / totalResistance : 0;
@@ -656,10 +880,52 @@ export function Chap5Electricite() {
         if (components.length > 1) setComponents(components.slice(0, -1));
     };
 
+    const startMission = () => {
+        const missions = [
+            { id: 1, text: "Allume 2 lampes en série", check: (comps, curr) => comps.filter(c => c === 'lamp').length === 2 && curr > 0 },
+            { id: 2, text: "Fais tourner le moteur seul", check: (comps, curr) => comps.length === 1 && comps[0] === 'motor' && curr > 0 },
+            { id: 3, text: "Circuit bruyant (Buzzer + Moteur)", check: (comps, curr) => comps.includes('buzzer') && comps.includes('motor') && curr > 0 },
+            { id: 4, text: "Obtiens un courant de 0.45 A", check: (comps, curr) => Math.abs(curr - 0.45) < 0.01 } // 4.5V / 10ohm = 0.45A (1 comp)
+        ];
+        const m = missions[Math.floor(Math.random() * missions.length)];
+        setMission(m);
+        setMode('challenge');
+        setComponents(['lamp']); // Reset basic
+        setSwitchState(false);
+        setShowSuccess(false);
+    };
+
+    // Check mission status on every change
+    useEffect(() => {
+        if (mode === 'challenge' && mission) {
+            if (mission.check(components, current)) {
+                if (!showSuccess) {
+                    setScore(s => s + 50);
+                    setShowSuccess(true);
+                }
+            }
+        }
+    }, [components, current, mode, mission, showSuccess]);
+
     return (
         <group>
             <Html>
                 <DraggableHtmlPanel title="⚡ Atelier Électrique" showCloseButton={false} defaultPosition="bottom-center" className="w-[350px] border-yellow-500/30 text-white">
+                    <div className="flex justify-between items-center mb-4 border-b border-white/10 pb-2">
+                        <div className="flex gap-2">
+                            <button onClick={() => setMode('explore')} className={`text-xs px-2 py-1 rounded ${mode === 'explore' ? 'bg-yellow-600' : 'bg-gray-700'}`}>Atelier</button>
+                            <button onClick={startMission} className={`text-xs px-2 py-1 rounded ${mode === 'challenge' ? 'bg-orange-600' : 'bg-gray-700'}`}>Mission 🛠️</button>
+                        </div>
+                        {mode === 'challenge' && <div className="font-bold text-yellow-400">{score} XP</div>}
+                    </div>
+
+                    {mode === 'challenge' && mission && (
+                        <div className={`mb-4 p-3 rounded-xl border-2 text-center transition-colors ${showSuccess ? 'border-green-500 bg-green-900/40' : 'border-orange-500 bg-gray-800'}`}>
+                            <div className="text-xs text-gray-400 uppercase">Mission</div>
+                            <div className="font-bold text-lg">{mission.text}</div>
+                            {showSuccess && <div className="text-sm text-green-400 font-bold mt-1">MISSION ACCOMPLIE !</div>}
+                        </div>
+                    )}
 
                     <div className="mb-4">
                         <label className="block text-xs uppercase text-gray-400 mb-2">État du circuit</label>
@@ -693,6 +959,9 @@ export function Chap5Electricite() {
                     </div>
                 </DraggableHtmlPanel>
             </Html>
+
+            <SuccessOverlay show={showSuccess} message="Circuit validé ! Tu es un chef électricien !" points={50} onNext={startMission} />
+            <ConfettiExplosion active={showSuccess} />
 
             {/* CIRCUIT 3D */}
             <group position={[0, 0, 0]}>
