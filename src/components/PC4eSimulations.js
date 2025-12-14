@@ -963,6 +963,10 @@ export function ScientificMethod() {
     const [variable, setVariable] = useState(null); // water/light or length/mass
     const [result, setResult] = useState(null);
 
+    // Gamification
+    const [score, setScore] = useState(0);
+    const [showSuccess, setShowSuccess] = useState(false);
+
     const scenarios = {
         plant: {
             title: "🌱 Mystère de la Plante",
@@ -970,7 +974,7 @@ export function ScientificMethod() {
             hypotheses: [
                 { id: 'water', text: "Elle manque d'eau", correct: true },
                 { id: 'music', text: "Elle n'aime pas ma musique", correct: false },
-                { id: 'light', text: "Elle manque de lumière", correct: false } // Simplification check
+                { id: 'light', text: "Elle manque de lumière", correct: false }
             ],
             exp: "Testons ton hypothèse sur 3 jours...",
             conc: { true: "Bravo ! L'eau est vitale.", false: "Rien ne change... Essayons autre chose." }
@@ -998,6 +1002,10 @@ export function ScientificMethod() {
             const isCorrect = sc.hypotheses.find(h => h.id === hId).correct;
             setResult(isCorrect);
             setStep(3);
+            if (isCorrect) {
+                setScore(s => s + 50);
+                setShowSuccess(true);
+            }
         }, 3000);
     };
 
@@ -1005,13 +1013,20 @@ export function ScientificMethod() {
         setStep(0);
         setVariable(null);
         setResult(null);
+        setShowSuccess(false);
     };
 
     return (
         <>
+            <SuccessOverlay show={showSuccess} message={sc.conc[true]} points={50} onNext={reset} />
+
             <Html>
                 <DraggableHtmlPanel title="🔬 Démarche Scientifique" showCloseButton={false} defaultPosition="bottom-center" className="w-[380px] border-blue-500/30 text-white">
-                    <div className="flex justify-end mb-4">
+                    <div className="flex justify-between items-center mb-4">
+                        <div className="bg-gray-900 rounded-lg px-3 py-1 border border-blue-500/30">
+                            <span className="text-xs text-blue-400 font-bold">XP</span>
+                            <div className="font-mono text-xl">{score}</div>
+                        </div>
                         <button onClick={reset} className="text-xs bg-gray-700 px-2 py-1 rounded hover:bg-gray-600">🔄 Reset</button>
                     </div>
 
@@ -1065,16 +1080,24 @@ export function ScientificMethod() {
                                 <div className="font-bold text-lg mb-1">Conclusion</div>
                                 <p>{sc.conc[result]}</p>
                             </div>
-                            <button onClick={() => setStep(1)} className="w-full py-3 bg-gray-700 rounded-xl hover:bg-gray-600">
-                                Tester une autre hypothèse
-                            </button>
+                            {!result && (
+                                <button onClick={() => setStep(1)} className="w-full py-3 bg-gray-700 rounded-xl hover:bg-gray-600">
+                                    Tester une autre hypothèse
+                                </button>
+                            )}
+                            {result && (
+                                <button onClick={reset} className="w-full py-3 bg-green-600 rounded-xl hover:bg-green-500 font-bold">
+                                    Mission Accomplie ! 🚀
+                                </button>
+                            )}
                         </div>
                     )}
                 </DraggableHtmlPanel>
             </Html>
 
-            <group>
+            <ConfettiExplosion active={showSuccess} />
 
+            <group>
                 {/* SCÈNE 3D DYNAMIQUE */}
                 <group position={[0, -1, 0]}>
                     {scenario === 'plant' && <PlantSim state={step === 0 ? 'dead' : (step === 2 ? 'growing' : (result ? 'alive' : 'dead_dry'))} />}
@@ -1172,6 +1195,10 @@ export function DensityExplorer() {
     const [mysteryObj, setMysteryObj] = useState(null);
     const [success, setSuccess] = useState(null);
 
+    // Gamification
+    const [score, setScore] = useState(0);
+    const [showSuccessOverlay, setShowSuccessOverlay] = useState(false);
+
     const items = [
         { id: 'wood', name: 'Bois', dens: 0.6, color: '#A1887F' },
         { id: 'brick', name: 'Brique', dens: 2.0, color: '#EF5350' },
@@ -1196,12 +1223,17 @@ export function DensityExplorer() {
         setMode('challenge');
         setObjectsInWater([]);
         setSuccess(null);
+        setShowSuccessOverlay(false);
     };
 
     const verifyGuess = (guessId) => {
         if (!mysteryObj) return;
         if (guessId === mysteryObj.originalId || items.find(i => i.id === guessId).dens === mysteryObj.dens) {
             setSuccess(true);
+            if (!showSuccessOverlay) {
+                setScore(s => s + 50);
+                setShowSuccessOverlay(true);
+            }
         } else {
             setSuccess(false);
         }
@@ -1219,10 +1251,16 @@ export function DensityExplorer() {
 
     return (
         <>
+            <SuccessOverlay show={showSuccessOverlay} message={`Bravo ! C'était bien du ${mysteryObj?.originalId ? items.find(i => i.id === mysteryObj.originalId).name : '...'} !`} points={50} onNext={startChallenge} />
+
             <Html>
                 <DraggableHtmlPanel title="🌊 Laboratoire de Densité" showCloseButton={false} defaultPosition="bottom-center" className="w-[350px] border-cyan-500/30 text-white">
-                    <div className="flex justify-end mb-4">
-                        {mode !== 'challenge' && <button onClick={startChallenge} className="text-xs bg-cyan-700 px-2 py-1 rounded hover:bg-white hover:text-black transition-colors">Mode Défi 🏆</button>}
+                    <div className="flex justify-between items-center mb-4">
+                        <div className="bg-gray-900 rounded-lg px-3 py-1 border border-cyan-500/30">
+                            <span className="text-xs text-cyan-400 font-bold">XP</span>
+                            <div className="font-mono text-xl">{score}</div>
+                        </div>
+                        {mode !== 'challenge' && <button onClick={startChallenge} className="text-xs bg-cyan-700 px-2 py-1 rounded hover:bg-white hover:text-black transition-colors animate-pulse font-bold">Mode Défi 🏆</button>}
                         {mode === 'challenge' && <button onClick={() => setMode('sinkfloat')} className="text-xs bg-gray-700 px-2 py-1 rounded">Retour</button>}
                     </div>
 
@@ -1255,9 +1293,7 @@ export function DensityExplorer() {
                                     </button>
                                 ))}
                             </div>
-                            {success === true && <div className="mt-3 text-center text-green-400 font-bold animate-bounce">Correct ! C'était bien du {items.find(i => i.dens === mysteryObj.dens).name}.</div>}
                             {success === false && <div className="mt-3 text-center text-red-400 font-bold animate-pulse">Incorrect ! Observe bien où il flotte.</div>}
-                            {success === true && <button onClick={startChallenge} className="mt-2 w-full py-1 bg-green-800 rounded text-xs">Nouveau Défi</button>}
                         </div>
                     )}
 
@@ -1288,6 +1324,8 @@ export function DensityExplorer() {
                     )}
                 </DraggableHtmlPanel>
             </Html>
+
+            <ConfettiExplosion active={showSuccessOverlay} />
 
             <group>
 
@@ -1370,18 +1408,46 @@ export function MeasurementTools() {
     const [tool, setTool] = useState('ruler');
     const [target, setTarget] = useState(5.0); // True value
     const [userDist, setUserDist] = useState(0); // User measurement slider
-    const [score, setScore] = useState(null);
+    const [feedback, setFeedback] = useState(null);
+
+    // Gamification
+    const [score, setScore] = useState(0);
+    const [showSuccess, setShowSuccess] = useState(false);
 
     const checkMeasurement = () => {
         const diff = Math.abs(userDist - target);
         // Tolérance 0.1
-        setScore(diff < 0.2 ? 'perfect' : (diff < 0.5 ? 'good' : 'bad'));
+        const result = diff < 0.2 ? 'perfect' : (diff < 0.5 ? 'good' : 'bad');
+        setFeedback(result);
+
+        if (result === 'perfect' || result === 'good') {
+            const pts = result === 'perfect' ? 50 : 20;
+            if (!showSuccess) {
+                setScore(s => s + pts);
+                setShowSuccess(true);
+            }
+        }
+    };
+
+    const nextObject = () => {
+        setTarget((Math.random() * 3 + 3).toFixed(1));
+        setFeedback(null);
+        setShowSuccess(false);
     };
 
     return (
         <>
+            <SuccessOverlay show={showSuccess} message={feedback === 'perfect' ? "Mesure Parfaite ! 🎯" : "Bonne mesure ! 👍"} points={feedback === 'perfect' ? 50 : 20} onNext={nextObject} />
+
             <Html>
                 <DraggableHtmlPanel title="📏 Précision de Mesure" showCloseButton={false} defaultPosition="bottom-center" className="w-[350px] border-yellow-500/30 text-white">
+
+                    <div className="flex justify-between items-center mb-4">
+                        <div className="bg-gray-900 rounded-lg px-3 py-1 border border-yellow-500/30">
+                            <span className="text-xs text-yellow-400 font-bold">XP</span>
+                            <div className="font-mono text-xl">{score}</div>
+                        </div>
+                    </div>
 
                     <div className="mb-4 text-sm text-gray-300">
                         Objectif : Mesure la longueur de la barre verte le plus précisément possible !
@@ -1390,28 +1456,26 @@ export function MeasurementTools() {
                     <div className="bg-gray-800 p-4 rounded-xl mb-4">
                         <label className="block text-xs uppercase text-gray-500 mb-2">Ta lecture (cm)</label>
                         <div className="flex items-center gap-3">
-                            <input type="range" min="3" max="7" step="0.1" value={userDist} onChange={(e) => { setUserDist(parseFloat(e.target.value)); setScore(null); }}
+                            <input type="range" min="3" max="7" step="0.1" value={userDist} onChange={(e) => { setUserDist(parseFloat(e.target.value)); setFeedback(null); setShowSuccess(false); }}
                                 className="w-full accent-yellow-500" />
                             <span className="font-mono text-xl font-bold">{userDist.toFixed(1)}</span>
                         </div>
                     </div>
 
-                    <button onClick={checkMeasurement} className="w-full py-3 bg-yellow-600 font-bold rounded-xl hover:bg-yellow-500 shadow-lg text-black">
+                    <button onClick={checkMeasurement} disabled={showSuccess} className="w-full py-3 bg-yellow-600 font-bold rounded-xl hover:bg-yellow-500 shadow-lg text-black">
                         VÉRIFIER
                     </button>
 
-                    {score && (
-                        <div className={`mt-3 p-2 rounded text-center font-bold ${score === 'perfect' ? 'bg-green-500 text-black' : (score === 'good' ? 'bg-yellow-500 text-black' : 'bg-red-500 text-white')}`}>
-                            {score === 'perfect' ? 'PARFAIT ! 🎯' : (score === 'good' ? 'Pas mal ! 👍' : 'Essaie encore... 🧐')}
-                            <div className="text-xs font-normal mt-1">Vraie valeur : {target} cm</div>
+                    {feedback && !showSuccess && (
+                        <div className={`mt-3 p-2 rounded text-center font-bold bg-red-500 text-white`}>
+                            Essaie encore... 🧐
+                            <div className="text-xs font-normal mt-1">Regarde bien les graduations !</div>
                         </div>
                     )}
-
-                    <button onClick={() => { setTarget((Math.random() * 3 + 3).toFixed(1)); setScore(null); }} className="mt-2 text-xs text-gray-400 hover:text-white underline w-full text-center">
-                        Nouvel objet
-                    </button>
                 </DraggableHtmlPanel>
             </Html>
+
+            <ConfettiExplosion active={showSuccess} />
 
             <group>
 
@@ -1459,6 +1523,10 @@ export function RefractionSimulator() {
     const [targetX, setTargetX] = useState(1.5); // Target position
     const [hit, setHit] = useState(false);
 
+    // Gamification
+    const [score, setScore] = useState(0);
+    const [showSuccess, setShowSuccess] = useState(false);
+
     const materials = {
         water: { n: 1.33, name: 'Eau', color: '#4FC3F7' },
         glass: { n: 1.5, name: 'Verre', color: '#EEEEEE' },
@@ -1476,39 +1544,46 @@ export function RefractionSimulator() {
     const rDeg = rRad * 180 / Math.PI;
 
     // Calcul de l'impact
-    // Source à (0, 0), interface à y=0 (dans le repère local du rayon réfracté, non c'est plus compliqué en 3D absolue)
-    // Le rayon part de (0,0) (interface) avec angle rRad par rapport à la verticale (normale)
-    // Profondeur du bac = 2 unités (de 0 à -2)
-    // x = tan(r) * profondeur
-    // profondeur = 2
-    // x_hit = tan(rRad) * 2
     const hitX = Math.tan(rRad) * 2;
 
     const startChallenge = () => {
         setMode('challenge');
         setTargetX((Math.random() * 2 + 0.5) * (Math.random() > 0.5 ? 1 : -1)); // Random X between [-2.5, -0.5] U [0.5, 2.5]
         setHit(false);
+        setShowSuccess(false);
     };
 
     useEffect(() => {
         if (mode === 'challenge') {
             // Check hit with tolerance
             if (Math.abs(hitX - targetX) < 0.2) {
-                setHit(true);
+                if (!hit) {
+                    setHit(true);
+                    if (!showSuccess) {
+                        setScore(s => s + 50);
+                        setShowSuccess(true);
+                    }
+                }
             } else {
                 setHit(false);
             }
         }
-    }, [hitX, targetX, mode]);
+    }, [hitX, targetX, mode, hit, showSuccess]);
 
 
     return (
         <>
+            <SuccessOverlay show={showSuccess} message="Cible touchée ! Magnifique précision !" points={50} onNext={startChallenge} />
+
             <Html>
                 <DraggableHtmlPanel title="🔦 La Réfraction" showCloseButton={false} defaultPosition="bottom-center" className="w-[350px] border-red-500/30 text-white">
-                    <div className="flex justify-end mb-4">
+                    <div className="flex justify-between items-center mb-4">
+                        <div className="bg-gray-900 rounded-lg px-3 py-1 border border-red-500/30">
+                            <span className="text-xs text-red-400 font-bold">XP</span>
+                            <div className="font-mono text-xl">{score}</div>
+                        </div>
                         <button onClick={mode === 'explore' ? startChallenge : () => setMode('explore')}
-                            className={`text-xs px-2 py-1 rounded transition-colors ${mode === 'explore' ? 'bg-red-700 hover:bg-white hover:text-red-700' : 'bg-gray-700'}`}>
+                            className={`text-xs px-2 py-1 rounded transition-colors ${mode === 'explore' ? 'bg-red-700 hover:bg-white hover:text-red-700 font-bold animate-pulse' : 'bg-gray-700'}`}>
                             {mode === 'explore' ? 'Mode Cible 🎯' : 'Retour'}
                         </button>
                     </div>
@@ -1518,14 +1593,13 @@ export function RefractionSimulator() {
                             <div className="text-xs uppercase text-gray-400">Objectif</div>
                             <div className="text-sm">Touche la cible au fond !</div>
                             {hit && <div className="text-green-400 font-bold mt-1 animate-bounce">CIBLE TOUCHÉE ! BRAVO !</div>}
-                            {hit && <button onClick={startChallenge} className="mt-2 text-xs underline">Nouvelle Cible</button>}
                         </div>
                     )}
 
                     <div className="bg-gray-800 p-4 rounded-xl mb-4">
                         <label className="text-xs text-gray-400 uppercase">Angle d'incidence (i)</label>
                         <div className="flex items-center gap-3">
-                            <input type="range" min="-80" max="80" value={angle} onChange={(e) => setAngle(parseFloat(e.target.value))} className="w-full accent-red-500" />
+                            <input type="range" min="-80" max="80" value={angle} onChange={(e) => { setAngle(parseFloat(e.target.value)); }} className="w-full accent-red-500" />
                             <span className="font-mono text-xl">{Math.abs(angle)}°</span>
                         </div>
                     </div>
@@ -1544,6 +1618,8 @@ export function RefractionSimulator() {
                     </div>
                 </DraggableHtmlPanel>
             </Html>
+
+            <ConfettiExplosion active={showSuccess} />
 
             <group>
 
