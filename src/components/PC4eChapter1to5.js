@@ -1269,46 +1269,55 @@ function CircuitSegment({ p1, p2, vertical, active }) {
 function Switch3D({ position, closed }) {
     return (
         <group position={position}>
-            return (
-            <group position={[0, 1, 0]}>
-                <Sphere args={[0.4]} material-color={active ? "yellow" : "gray"} material-emissive={active ? "yellow" : "black"} material-emissiveIntensity={intensity} />
-                <Cylinder args={[0.2, 0.2, 0.5]} position={[0, -0.4, 0]} material-color="silver" />
-                {active && <pointLight distance={3} intensity={intensity} color="orange" />}
+            <Box args={[0.6, 0.1, 0.4]} material-color="#1F2937" />
+            <group position={[-0.25, 0.1, 0]} rotation={[0, 0, closed ? 0 : 0.6]}>
+                <Box args={[0.5, 0.05, 0.2]} position={[0.25, 0, 0]} material-color={closed ? "#10B981" : "#EF4444"} />
             </group>
-            );
+        </group>
+    );
 }
 
-            function Motor3D({active, speed}) {
+function Lamp3D({ active, intensity }) {
+    return (
+        <group position={[0, 1, 0]}>
+            <Sphere args={[0.4]} material-color={active ? "yellow" : "gray"} material-emissive={active ? "yellow" : "black"} material-emissiveIntensity={intensity} />
+            <Cylinder args={[0.2, 0.2, 0.5]} position={[0, -0.4, 0]} material-color="silver" />
+            {active && <pointLight distance={3} intensity={intensity} color="orange" />}
+        </group>
+    );
+}
+
+function Motor3D({ active, speed }) {
     const ref = useRef();
     useFrame(() => {
         if (active && ref.current) ref.current.rotation.z += speed * 0.1;
     });
-            return (
-            <group position={[0, 1, 0]}>
-                <Cylinder args={[0.4, 0.4, 0.8]} rotation={[Math.PI / 2, 0, 0]} material-color="gray" />
-                <group ref={ref} position={[0, 0, 0.5]}>
-                    <Box args={[1, 0.1, 0.1]} material-color="blue" />
-                    <Box args={[0.1, 1, 0.1]} material-color="blue" />
-                </group>
+    return (
+        <group position={[0, 1, 0]}>
+            <Cylinder args={[0.4, 0.4, 0.8]} rotation={[Math.PI / 2, 0, 0]} material-color="gray" />
+            <group ref={ref} position={[0, 0, 0.5]}>
+                <Box args={[1, 0.1, 0.1]} material-color="blue" />
+                <Box args={[0.1, 1, 0.1]} material-color="blue" />
             </group>
-            );
+        </group>
+    );
 }
 
-            function Buzzer3D({active}) {
+function Buzzer3D({ active }) {
     const [scale, setScale] = useState(1);
-            useFrame(({clock}) => {
+    useFrame(({ clock }) => {
         if (active) {
-                setScale(1 + Math.sin(clock.elapsedTime * 50) * 0.1);
+            setScale(1 + Math.sin(clock.elapsedTime * 50) * 0.1);
         } else {
-                setScale(1);
+            setScale(1);
         }
     });
-            return (
-            <group position={[0, 1, 0]} scale={scale}>
-                <Cylinder args={[0.4, 0.5, 0.3]} material-color="black" />
-                {active && (
-                    <Text position={[0, 0.5, 0]} fontSize={0.3} color="red">♪♫♪</Text>
-                )}
-            </group>
-            );
+    return (
+        <group position={[0, 1, 0]} scale={scale}>
+            <Cylinder args={[0.4, 0.5, 0.3]} material-color="black" />
+            {active && (
+                <Text position={[0, 0.5, 0]} fontSize={0.3} color="red">♪♫♪</Text>
+            )}
+        </group>
+    );
 }
