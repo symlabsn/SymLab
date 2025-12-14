@@ -465,6 +465,133 @@ export const simulationsCurriculum = {
                                 tags: ["algèbre", "courbes", "fonctions"]
                             }
                         ]
+                    },
+                    coursPC4e: {
+                        title: "📚 Cours PC 4ème - Programme Sénégal",
+                        simulations: [
+                            // ========== PHYSIQUE - Chapitres 1-8 ==========
+                            {
+                                id: "scientific-method-sim",
+                                title: "Chap 1: La Démarche Scientifique",
+                                description: "Observer, Hypothèse, Expérience, Conclusion - Mode Défi Quiz inclus !",
+                                difficulty: "facile",
+                                duration: "20 min",
+                                icon: "🔬",
+                                image: "/simulations/pc4e/chap1-science.png",
+                                tags: ["méthode", "observation", "science"]
+                            },
+                            {
+                                id: "measurement-tools-sim",
+                                title: "Chap 2: Grandeurs et Mesures",
+                                description: "Instruments de mesure et unités SI - Mode Défi Précision",
+                                difficulty: "facile",
+                                duration: "25 min",
+                                icon: "📏",
+                                image: "/simulations/pc4e/chap2-mesures.png",
+                                tags: ["mesures", "unités", "instruments"]
+                            },
+                            {
+                                id: "density-explorer",
+                                title: "Chap 3: Masse Volumique et Densité",
+                                description: "Flottaison et Archimède - Mode Défi Tri d'Objets",
+                                difficulty: "moyen",
+                                duration: "30 min",
+                                icon: "⛵",
+                                image: "/simulations/pc4e/chap3-densite.png",
+                                tags: ["densité", "flottaison", "matière"]
+                            },
+                            {
+                                id: "weight-mass-sim",
+                                title: "Chap 4: Poids et Masse",
+                                description: "Terre vs Lune, P = m × g - Mode Défi Calcul",
+                                difficulty: "moyen",
+                                duration: "25 min",
+                                icon: "⚖️",
+                                image: "/simulations/pc4e/chap4-poids-masse.png",
+                                tags: ["poids", "masse", "gravité"]
+                            },
+                            {
+                                id: "intro-electricity-sim",
+                                title: "Chap 5: Introduction Électricité",
+                                description: "Circuits, résistances, code couleur - Mode Défi Ingénieur",
+                                difficulty: "moyen",
+                                duration: "35 min",
+                                icon: "⚡",
+                                image: "/simulations/pc4e/chap5-electricite.png",
+                                tags: ["électricité", "circuit", "résistance"]
+                            },
+                            {
+                                id: "light-sources-sim",
+                                title: "Chap 6: Sources de Lumière",
+                                description: "Primaires vs Secondaires - Mode Quiz Interactif",
+                                difficulty: "facile",
+                                duration: "20 min",
+                                icon: "💡",
+                                image: "/simulations/pc4e/chap6-sources-lumiere.png",
+                                tags: ["lumière", "sources", "optique"]
+                            },
+                            {
+                                id: "light-propagation-pc4",
+                                title: "Chap 7: Propagation Rectiligne",
+                                description: "Ombres et rayons - Mode Défi Ombre Cible",
+                                difficulty: "moyen",
+                                duration: "25 min",
+                                icon: "☀️",
+                                image: "/simulations/pc4e/chap7-propagation.png",
+                                tags: ["lumière", "ombre", "rayon"]
+                            },
+                            {
+                                id: "refraction-simulator",
+                                title: "Chap 8: Réfraction de la Lumière",
+                                description: "Loi de Snell-Descartes - Mode Tir Laser",
+                                difficulty: "moyen",
+                                duration: "30 min",
+                                icon: "🌈",
+                                image: "/simulations/pc4e/chap8-refraction.png",
+                                tags: ["réfraction", "Snell", "optique"]
+                            },
+                            // ========== CHIMIE - Chapitres 9-12 ==========
+                            {
+                                id: "mixture-separation-sim",
+                                title: "Chap 9: Mélanges et Corps Purs",
+                                description: "Filtration, Décantation, Distillation",
+                                difficulty: "moyen",
+                                duration: "25 min",
+                                icon: "🧪",
+                                image: "/simulations/pc4e/chap9-melanges.png",
+                                tags: ["mélanges", "séparation", "chimie"]
+                            },
+                            {
+                                id: "atom-builder-sim",
+                                title: "Chap 10: Structure de la Matière",
+                                description: "Atomes et molécules - Construisez vos molécules",
+                                difficulty: "moyen",
+                                duration: "30 min",
+                                icon: "⚛️",
+                                image: "/simulations/pc4e/chap10-atomes.png",
+                                tags: ["atomes", "molécules", "matière"]
+                            },
+                            {
+                                id: "mole-concept-sim",
+                                title: "Chap 11: La Mole",
+                                description: "Nombre d'Avogadro et masse molaire",
+                                difficulty: "difficile",
+                                duration: "35 min",
+                                icon: "🔢",
+                                image: "/simulations/pc4e/chap11-mole.png",
+                                tags: ["mole", "Avogadro", "chimie"]
+                            },
+                            {
+                                id: "mass-conservation",
+                                title: "Chap 12: Réaction Chimique",
+                                description: "Loi de Lavoisier - Conservation de la Masse",
+                                difficulty: "moyen",
+                                duration: "30 min",
+                                icon: "⚖️",
+                                image: "/simulations/pc4e/chap12-conservation.png",
+                                tags: ["réaction", "Lavoisier", "chimie"]
+                            }
+                        ]
                     }
                 }
             },
