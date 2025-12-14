@@ -291,7 +291,7 @@ export function Chap2DispersionLumiere() {
 
     return (
         <group>
-            <DraggableHtmlPanel title="🌈 Dispersion de la Lumière" showCloseButton={false} defaultPosition="bottom-center" className="w-[360px] border-purple-500/30 text-white" >
+            <DraggableHtmlPanel title="🌈 Dispersion de la Lumière" showCloseButton={false} defaultPosition="bottom-center" className="w-[360px] border-purple-500/30 text-white">
                 <div className="flex justify-between items-center mb-4 border-b border-white/10 pb-2">
                     <div className="flex gap-2">
                         <button onClick={() => setMode('explore')} className={`text-xs px-2 py-1 rounded ${mode === 'explore' ? 'bg-purple-600' : 'bg-gray-700'}`}>Exploration</button>
@@ -490,7 +490,7 @@ export function Chap3ForcesVecteurs() {
 
     return (
         <group>
-            <DraggableHtmlPanel title="💪 Forces et Vecteurs" showCloseButton={false} defaultPosition="bottom-center" className="w-[360px] border-green-500/30 text-white" >
+            <DraggableHtmlPanel title="💪 Forces et Vecteurs" showCloseButton={false} defaultPosition="bottom-center" className="w-[360px] border-green-500/30 text-white">
                 <div className="flex justify-between items-center mb-4 border-b border-white/10 pb-2">
                     <div className="flex gap-2">
                         <button onClick={() => setMode('explore')} className={`text-xs px-2 py-1 rounded ${mode === 'explore' ? 'bg-green-600' : 'bg-gray-700'}`}>Exploration</button>
@@ -675,7 +675,7 @@ export function Chap4TravailPuissance() {
 
     return (
         <group>
-            <DraggableHtmlPanel title="⚡ Travail et Puissance" showCloseButton={false} defaultPosition="bottom-center" className="w-[360px] border-yellow-500/30 text-white" >
+            <DraggableHtmlPanel title="⚡ Travail et Puissance" showCloseButton={false} defaultPosition="bottom-center" className="w-[360px] border-yellow-500/30 text-white">
                 <div className="flex justify-between items-center mb-4 border-b border-white/10 pb-2">
                     <div className="flex gap-2">
                         <button onClick={() => setMode('explore')} className={`text-xs px-2 py-1 rounded ${mode === 'explore' ? 'bg-yellow-600' : 'bg-gray-700'}`}>Exploration</button>
@@ -867,7 +867,7 @@ export function Chap5Electrisation() {
 
     return (
         <group>
-            <DraggableHtmlPanel title="⚡ Électrisation" showCloseButton={false} defaultPosition="bottom-center" className="w-[360px] border-blue-500/30 text-white" >
+            <DraggableHtmlPanel title="⚡ Électrisation" showCloseButton={false} defaultPosition="bottom-center" className="w-[360px] border-blue-500/30 text-white">
                 <div className="flex justify-between items-center mb-4 border-b border-white/10 pb-2">
                     <div className="flex gap-2">
                         <button onClick={() => setMode('explore')} className={`text-xs px-2 py-1 rounded ${mode === 'explore' ? 'bg-blue-600' : 'bg-gray-700'}`}>Exploration</button>
