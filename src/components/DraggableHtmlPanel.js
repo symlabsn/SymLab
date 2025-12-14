@@ -187,12 +187,12 @@ const DraggableHtmlPanel = ({ children, title, className = "", initialPos = null
         </div>
     );
 
-    // Si usePortal est vrai, utiliser createPortal (par défaut pour détachement total)
-    // Sinon retourner le contenu directement (pour utilisation dans <Html> de Drei)
-    if (usePortal && typeof document !== 'undefined') {
+    // Toujours utiliser createPortal pour détacher du contexte R3F
+    // Le panneau doit être rendu dans document.body pour être visible au-dessus de la scène 3D
+    if (typeof document !== 'undefined') {
         return createPortal(panelContent, document.body);
     }
-    return panelContent;
+    return null;
 };
 
 export default DraggableHtmlPanel;
