@@ -81,80 +81,82 @@ export function MixtureSeparationPC4() {
         <>
             <SuccessOverlay show={showSuccess} message={`Bravo ! Tu as séparé : ${mixtures[challengeTarget || 'mud'].name}`} points={50 * level} onNext={startChallenge} />
 
-            <DraggableHtmlPanel title={`⚗️ Séparation - Niveaux ${level}`} showCloseButton={false} defaultPosition="bottom-center" className="w-[350px] border-orange-500/30 text-white">
-                <div className="flex justify-between items-center mb-4">
-                    <div className="bg-gray-900 rounded-lg px-3 py-1 border border-orange-500/30">
-                        <span className="text-xs text-orange-400 font-bold">SCORE</span>
-                        <div className="font-mono text-xl">{score}</div>
-                    </div>
-                    <button onClick={() => setMode(mode === 'explore' ? 'challenge' : 'explore')}
-                        className={`text-xs px-3 py-1 rounded font-bold transition-colors ${mode === 'explore' ? 'bg-gray-700 hover:bg-white hover:text-black' : 'bg-orange-600 text-white'}`}>
-                        {mode === 'explore' ? 'Aller au Défi 🏆' : 'Retour Exploration'}
-                    </button>
-                </div>
-
-                {mode === 'explore' ? (
-                    <div className="mb-4">
-                        <label className="text-xs text-gray-400 uppercase font-bold">1. Choisir le mélange</label>
-                        <div className="grid grid-cols-3 gap-2 mt-1">
-                            {Object.entries(mixtures).map(([k, m]) => (
-                                <button key={k} onClick={() => { setMixture(k); setMethod(null); setProgress(0); }}
-                                    className={`p-2 rounded-lg text-xs font-bold transition-all ${mixture === k ? 'bg-orange-600 scale-105' : 'bg-gray-800 hover:bg-gray-700'}`}>
-                                    {m.name}
-                                </button>
-                            ))}
+            <Html>
+                <DraggableHtmlPanel title={`⚗️ Séparation - Niveaux ${level}`} showCloseButton={false} defaultPosition="bottom-center" className="w-[350px] border-orange-500/30 text-white">
+                    <div className="flex justify-between items-center mb-4">
+                        <div className="bg-gray-900 rounded-lg px-3 py-1 border border-orange-500/30">
+                            <span className="text-xs text-orange-400 font-bold">SCORE</span>
+                            <div className="font-mono text-xl">{score}</div>
                         </div>
+                        <button onClick={() => setMode(mode === 'explore' ? 'challenge' : 'explore')}
+                            className={`text-xs px-3 py-1 rounded font-bold transition-colors ${mode === 'explore' ? 'bg-gray-700 hover:bg-white hover:text-black' : 'bg-orange-600 text-white'}`}>
+                            {mode === 'explore' ? 'Aller au Défi 🏆' : 'Retour Exploration'}
+                        </button>
                     </div>
-                ) : (
-                    <div className="mb-4 bg-gray-800 p-3 rounded-xl border border-orange-500 text-center relative overflow-hidden">
-                        {!challengeTarget ? (
-                            <button onClick={startChallenge} className="w-full py-2 bg-orange-600 font-bold rounded hover:bg-orange-500 animate-pulse">Lancer un Défi Aléatoire</button>
-                        ) : (
-                            <div>
-                                <div className="text-sm">Identifie et Sépare :</div>
-                                <div className="font-bold text-lg text-orange-200">Mélange Mystère</div>
-                                <div className="text-xs text-gray-400 mt-1">Utilise le microscope pour voir les composants !</div>
-                                <button onClick={() => setMicroscope(!microscope)} className={`mt-2 text-xs border border-white/20 px-2 py-1 rounded ${microscope ? 'bg-blue-600' : 'bg-gray-700'}`}>
-                                    {microscope ? 'Masquer Microscope 🔬' : 'Voir au Microscope 🔬'}
-                                </button>
 
-                                {progress === 1 && !isSuccess && <div className="mt-2 text-red-400 font-bold animate-shake">Technique inefficace ! Essaie encore.</div>}
+                    {mode === 'explore' ? (
+                        <div className="mb-4">
+                            <label className="text-xs text-gray-400 uppercase font-bold">1. Choisir le mélange</label>
+                            <div className="grid grid-cols-3 gap-2 mt-1">
+                                {Object.entries(mixtures).map(([k, m]) => (
+                                    <button key={k} onClick={() => { setMixture(k); setMethod(null); setProgress(0); }}
+                                        className={`p-2 rounded-lg text-xs font-bold transition-all ${mixture === k ? 'bg-orange-600 scale-105' : 'bg-gray-800 hover:bg-gray-700'}`}>
+                                        {m.name}
+                                    </button>
+                                ))}
                             </div>
-                        )}
-                    </div>
-                )}
+                        </div>
+                    ) : (
+                        <div className="mb-4 bg-gray-800 p-3 rounded-xl border border-orange-500 text-center relative overflow-hidden">
+                            {!challengeTarget ? (
+                                <button onClick={startChallenge} className="w-full py-2 bg-orange-600 font-bold rounded hover:bg-orange-500 animate-pulse">Lancer un Défi Aléatoire</button>
+                            ) : (
+                                <div>
+                                    <div className="text-sm">Identifie et Sépare :</div>
+                                    <div className="font-bold text-lg text-orange-200">Mélange Mystère</div>
+                                    <div className="text-xs text-gray-400 mt-1">Utilise le microscope pour voir les composants !</div>
+                                    <button onClick={() => setMicroscope(!microscope)} className={`mt-2 text-xs border border-white/20 px-2 py-1 rounded ${microscope ? 'bg-blue-600' : 'bg-gray-700'}`}>
+                                        {microscope ? 'Masquer Microscope 🔬' : 'Voir au Microscope 🔬'}
+                                    </button>
 
-                {(mode === 'explore' || challengeTarget) && (
-                    <div className="mb-4">
-                        <label className="text-xs text-gray-400 uppercase font-bold">2. Technique de séparation</label>
-                        <div className="grid grid-cols-1 gap-2 mt-1">
-                            {Object.entries(methods).map(([k, m]) => (
-                                <button key={k} onClick={() => startSeparation(k)}
-                                    className={`flex items-center gap-3 p-2 rounded-lg text-sm text-left transition-all ${method === k ? 'bg-orange-100 text-black border-l-4 border-orange-500' : 'bg-gray-800 hover:bg-gray-700'}`}>
-                                    <span className="text-xl">{m.icon}</span>
-                                    <div>
-                                        <div className="font-bold">{m.name}</div>
-                                        <div className="text-[10px] opacity-70 leading-tight">{m.desc}</div>
-                                    </div>
-                                </button>
-                            ))}
+                                    {progress === 1 && !isSuccess && <div className="mt-2 text-red-400 font-bold animate-shake">Technique inefficace ! Essaie encore.</div>}
+                                </div>
+                            )}
                         </div>
-                    </div>
-                )}
+                    )}
 
-                {/* Feedback visuel de progrès */}
-                {method && (
-                    <div className="relative pt-2">
-                        <div className="flex justify-between text-xs font-bold mb-1">
-                            <span>{methods[method].name} en cours...</span>
-                            <span>{Math.round(progress * 100)}%</span>
+                    {(mode === 'explore' || challengeTarget) && (
+                        <div className="mb-4">
+                            <label className="text-xs text-gray-400 uppercase font-bold">2. Technique de séparation</label>
+                            <div className="grid grid-cols-1 gap-2 mt-1">
+                                {Object.entries(methods).map(([k, m]) => (
+                                    <button key={k} onClick={() => startSeparation(k)}
+                                        className={`flex items-center gap-3 p-2 rounded-lg text-sm text-left transition-all ${method === k ? 'bg-orange-100 text-black border-l-4 border-orange-500' : 'bg-gray-800 hover:bg-gray-700'}`}>
+                                        <span className="text-xl">{m.icon}</span>
+                                        <div>
+                                            <div className="font-bold">{m.name}</div>
+                                            <div className="text-[10px] opacity-70 leading-tight">{m.desc}</div>
+                                        </div>
+                                    </button>
+                                ))}
+                            </div>
                         </div>
-                        <div className="h-2 bg-gray-700 rounded-full overflow-hidden">
-                            <div className="h-full bg-orange-500 transition-all duration-100" style={{ width: `${progress * 100}%` }}></div>
+                    )}
+
+                    {/* Feedback visuel de progrès */}
+                    {method && (
+                        <div className="relative pt-2">
+                            <div className="flex justify-between text-xs font-bold mb-1">
+                                <span>{methods[method].name} en cours...</span>
+                                <span>{Math.round(progress * 100)}%</span>
+                            </div>
+                            <div className="h-2 bg-gray-700 rounded-full overflow-hidden">
+                                <div className="h-full bg-orange-500 transition-all duration-100" style={{ width: `${progress * 100}%` }}></div>
+                            </div>
                         </div>
-                    </div>
-                )}
-            </DraggableHtmlPanel>
+                    )}
+                </DraggableHtmlPanel>
+            </Html>
 
             {/* Microscope Overlay - Must be outside Portal */}
             {microscope && (
@@ -322,63 +324,65 @@ export function AtomBuilderSim() {
         <>
             <SuccessOverlay show={success} message={`Atome Créé : ${mission?.name}`} points={mission?.points} onNext={startMission} />
 
-            <DraggableHtmlPanel title="⚛️ Constructeur Atomique" showCloseButton={false} defaultPosition="bottom-center" className="w-[350px] border-pink-500/30 text-white">
-                <div className="flex justify-between items-center mb-4">
-                    <div className="bg-gray-900 rounded-lg px-3 py-1 border border-pink-500/30">
-                        <span className="text-xs text-pink-400 font-bold">XP</span>
-                        <div className="font-mono text-xl">{score}</div>
+            <Html>
+                <DraggableHtmlPanel title="⚛️ Constructeur Atomique" showCloseButton={false} defaultPosition="bottom-center" className="w-[350px] border-pink-500/30 text-white">
+                    <div className="flex justify-between items-center mb-4">
+                        <div className="bg-gray-900 rounded-lg px-3 py-1 border border-pink-500/30">
+                            <span className="text-xs text-pink-400 font-bold">XP</span>
+                            <div className="font-mono text-xl">{score}</div>
+                        </div>
+                        <button onClick={startMission} className="text-xs bg-pink-700 px-3 py-1 rounded hover:bg-pink-600 animate-pulse font-bold shadow-lg shadow-pink-500/30">
+                            {mission ? 'Nouvelle Mission 🎯' : 'Lancer Mission 🎯'}
+                        </button>
                     </div>
-                    <button onClick={startMission} className="text-xs bg-pink-700 px-3 py-1 rounded hover:bg-pink-600 animate-pulse font-bold shadow-lg shadow-pink-500/30">
-                        {mission ? 'Nouvelle Mission 🎯' : 'Lancer Mission 🎯'}
-                    </button>
-                </div>
 
-                {mission && !success && (
-                    <div className="mb-4 p-3 rounded-xl border-dashed border-2 border-pink-500/50 bg-gray-800/80">
-                        <div className="text-xs text-gray-400 uppercase">Objectif :</div>
-                        <div className="font-bold text-lg">{mission.name}</div>
-                        <div className="text-xs text-pink-300">Construis cet atome neutre et stable !</div>
-                    </div>
-                )}
+                    {mission && !success && (
+                        <div className="mb-4 p-3 rounded-xl border-dashed border-2 border-pink-500/50 bg-gray-800/80">
+                            <div className="text-xs text-gray-400 uppercase">Objectif :</div>
+                            <div className="font-bold text-lg">{mission.name}</div>
+                            <div className="text-xs text-pink-300">Construis cet atome neutre et stable !</div>
+                        </div>
+                    )}
 
-                <div className="bg-gray-800 p-4 rounded-xl mb-4 flex items-center justify-between relative overflow-hidden">
-                    <div className="text-center z-10">
-                        <div className="text-xs text-gray-400">Z (Protons)</div>
-                        <div className="text-xl font-bold">{protons}</div>
+                    <div className="bg-gray-800 p-4 rounded-xl mb-4 flex items-center justify-between relative overflow-hidden">
+                        <div className="text-center z-10">
+                            <div className="text-xs text-gray-400">Z (Protons)</div>
+                            <div className="text-xl font-bold">{protons}</div>
+                        </div>
+                        <div className={`bg-white text-black w-14 h-14 flex items-center justify-center rounded-lg font-bold text-2xl border-4 ${isStable ? 'border-pink-500' : 'border-red-500 animate-bounce'} z-10 shadow-xl`}>
+                            {element.symbol}
+                        </div>
+                        <div className="text-center z-10">
+                            <div className="text-xs text-gray-400">A (Masse)</div>
+                            <div className="text-xl font-bold">{massNumber}</div>
+                        </div>
+                        {/* Radioactive visual if unstable */}
+                        {!isStable && <div className="absolute inset-0 bg-red-500/20 animate-pulse"></div>}
                     </div>
-                    <div className={`bg-white text-black w-14 h-14 flex items-center justify-center rounded-lg font-bold text-2xl border-4 ${isStable ? 'border-pink-500' : 'border-red-500 animate-bounce'} z-10 shadow-xl`}>
-                        {element.symbol}
-                    </div>
-                    <div className="text-center z-10">
-                        <div className="text-xs text-gray-400">A (Masse)</div>
-                        <div className="text-xl font-bold">{massNumber}</div>
-                    </div>
-                    {/* Radioactive visual if unstable */}
-                    {!isStable && <div className="absolute inset-0 bg-red-500/20 animate-pulse"></div>}
-                </div>
 
-                <div className="space-y-3">
-                    <ControlRow label="Protons (+)" color="text-red-400" value={protons} onChange={setProtons} min={1} max={6} />
-                    <ControlRow label="Neutrons (0)" color="text-gray-400" value={neutrons} onChange={setNeutrons} min={0} max={8} />
-                    <ControlRow label="Électrons (-)" color="text-blue-400" value={electrons} onChange={setElectrons} min={0} max={6} />
-                </div>
-
-                <div className="mt-4 p-3 bg-gray-900 rounded-lg flex justify-between items-center text-sm">
-                    <span>Charge : <strong className={charge > 0 ? 'text-red-400' : (charge < 0 ? 'text-blue-400' : 'text-green-400')}>{charge > 0 ? '+' : ''}{charge}</strong></span>
-                    <span>Stabilité : <strong className={isStable ? 'text-green-400' : 'text-red-400'}>{isStable ? 'Stable' : 'Instable ☢️'}</strong></span>
-                </div>
-
-                <div className="mt-4 border-t border-gray-700 pt-2">
-                    <div className="text-xs text-gray-400 uppercase mb-1">Collection</div>
-                    <div className="flex gap-1 overflow-x-auto pb-2">
-                        {['H', 'He', 'Li', 'Be', 'B', 'C'].map(sym => (
-                            <div key={sym} className={`w-8 h-8 rounded flex items-center justify-center text-xs font-bold ${collection.includes(sym) ? 'bg-pink-600 text-white' : 'bg-gray-800 text-gray-600'}`}>
-                                {sym}
-                            </div>
-                        ))}
+                    <div className="space-y-3">
+                        <ControlRow label="Protons (+)" color="text-red-400" value={protons} onChange={setProtons} min={1} max={6} />
+                        <ControlRow label="Neutrons (0)" color="text-gray-400" value={neutrons} onChange={setNeutrons} min={0} max={8} />
+                        <ControlRow label="Électrons (-)" color="text-blue-400" value={electrons} onChange={setElectrons} min={0} max={6} />
                     </div>
-                </div>
-            </DraggableHtmlPanel>
+
+                    <div className="mt-4 p-3 bg-gray-900 rounded-lg flex justify-between items-center text-sm">
+                        <span>Charge : <strong className={charge > 0 ? 'text-red-400' : (charge < 0 ? 'text-blue-400' : 'text-green-400')}>{charge > 0 ? '+' : ''}{charge}</strong></span>
+                        <span>Stabilité : <strong className={isStable ? 'text-green-400' : 'text-red-400'}>{isStable ? 'Stable' : 'Instable ☢️'}</strong></span>
+                    </div>
+
+                    <div className="mt-4 border-t border-gray-700 pt-2">
+                        <div className="text-xs text-gray-400 uppercase mb-1">Collection</div>
+                        <div className="flex gap-1 overflow-x-auto pb-2">
+                            {['H', 'He', 'Li', 'Be', 'B', 'C'].map(sym => (
+                                <div key={sym} className={`w-8 h-8 rounded flex items-center justify-center text-xs font-bold ${collection.includes(sym) ? 'bg-pink-600 text-white' : 'bg-gray-800 text-gray-600'}`}>
+                                    {sym}
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </DraggableHtmlPanel>
+            </Html>
 
             <ConfettiExplosion active={success} />
 
@@ -603,73 +607,75 @@ export function MoleConceptPC4() {
         <>
             <SuccessOverlay show={showSuccess} message={`Parfait ! ${mass.toFixed(1)}g de ${el.name}`} points={50} onNext={startChallenge} />
 
-            <DraggableHtmlPanel title="⚖️ La Mole - Laboratoire" showCloseButton={false} defaultPosition="bottom-center" className="w-[350px] border-green-500/30 text-white">
-                <div className="flex justify-between items-center mb-4">
-                    <div className="bg-gray-900 rounded-lg px-3 py-1 border border-green-500/30">
-                        <span className="text-xs text-green-400 font-bold">SCORE</span>
-                        <div className="font-mono text-xl">{score}</div>
-                    </div>
-                    <button onClick={() => { setMode(mode === 'explore' ? 'challenge' : 'explore'); if (mode === 'explore') startChallenge(); }}
-                        className={`text-xs px-3 py-1 rounded font-bold transition-colors ${mode === 'explore' ? 'bg-gray-700' : 'bg-green-600'}`}>
-                        {mode === 'explore' ? 'Mode Défi 🏆' : 'Mode Libre'}
-                    </button>
-                </div>
-
-                {mode === 'challenge' && (
-                    <div className={`mb-4 p-3 rounded-xl border-2 text-center transition-colors ${showSuccess ? 'border-green-500 bg-green-900/40' : 'border-gray-500 bg-gray-800'}`}>
-                        <div className="text-xs text-gray-400 uppercase">Objectif : Peser exactement</div>
-                        <div className="text-3xl font-bold font-mono">{targetMass} g</div>
-                        <div className="text-sm">de {el.name}</div>
-                        {/* Validator helper */}
-                        <div className="mt-2 text-xs text-gray-400">Ajuste la quantité (n) pour atteindre la masse cible.</div>
-                        <button onClick={checkChallenge} disabled={showSuccess} className="mt-2 w-full py-1 bg-green-700/50 hover:bg-green-600 rounded text-xs font-bold border border-green-500/50">
-                            VÉRIFIER MA PESÉE
+            <Html>
+                <DraggableHtmlPanel title="⚖️ La Mole - Laboratoire" showCloseButton={false} defaultPosition="bottom-center" className="w-[350px] border-green-500/30 text-white">
+                    <div className="flex justify-between items-center mb-4">
+                        <div className="bg-gray-900 rounded-lg px-3 py-1 border border-green-500/30">
+                            <span className="text-xs text-green-400 font-bold">SCORE</span>
+                            <div className="font-mono text-xl">{score}</div>
+                        </div>
+                        <button onClick={() => { setMode(mode === 'explore' ? 'challenge' : 'explore'); if (mode === 'explore') startChallenge(); }}
+                            className={`text-xs px-3 py-1 rounded font-bold transition-colors ${mode === 'explore' ? 'bg-gray-700' : 'bg-green-600'}`}>
+                            {mode === 'explore' ? 'Mode Défi 🏆' : 'Mode Libre'}
                         </button>
                     </div>
-                )}
 
-                {mode === 'explore' && (
-                    <div className="flex flex-wrap gap-2 mb-4">
-                        {Object.entries(elements).map(([k, e]) => (
-                            <button key={k} onClick={() => setElement(k)}
-                                className={`px-3 py-1 rounded-full text-sm font-bold border ${element === k ? 'bg-white text-black' : 'border-gray-600 text-gray-400'}`}>
-                                {e.name} ({k})
+                    {mode === 'challenge' && (
+                        <div className={`mb-4 p-3 rounded-xl border-2 text-center transition-colors ${showSuccess ? 'border-green-500 bg-green-900/40' : 'border-gray-500 bg-gray-800'}`}>
+                            <div className="text-xs text-gray-400 uppercase">Objectif : Peser exactement</div>
+                            <div className="text-3xl font-bold font-mono">{targetMass} g</div>
+                            <div className="text-sm">de {el.name}</div>
+                            {/* Validator helper */}
+                            <div className="mt-2 text-xs text-gray-400">Ajuste la quantité (n) pour atteindre la masse cible.</div>
+                            <button onClick={checkChallenge} disabled={showSuccess} className="mt-2 w-full py-1 bg-green-700/50 hover:bg-green-600 rounded text-xs font-bold border border-green-500/50">
+                                VÉRIFIER MA PESÉE
                             </button>
-                        ))}
-                    </div>
-                )}
-
-                <div className="mb-6 bg-gray-800 p-4 rounded-xl text-center shadow-inner relative overflow-hidden">
-                    <div className="text-xs text-gray-400 uppercase">Quantité de matière (n)</div>
-                    <div className="text-4xl font-bold my-2 text-green-300 font-mono">{moles} <span className="text-lg">mol</span></div>
-                    <input type="range" min="0" max="5" step="0.1" value={moles} onChange={(e) => setMoles(Number(e.target.value))}
-                        className="w-full accent-green-500 cursor-pointer" />
-
-                    {/* Analogy Toggle */}
-                    {mode === 'explore' && (
-                        <button onClick={() => setShowAnalogy(!showAnalogy)} className="absolute top-2 right-2 text-[10px] bg-white/10 px-2 py-1 rounded hover:bg-white/20">
-                            {showAnalogy ? 'Cacher Analogie' : 'Voir Analogie 🧠'}
-                        </button>
-                    )}
-                </div>
-
-                <div className="space-y-2 font-mono text-sm">
-                    <div className="flex justify-between text-gray-400">
-                        <span>Masse Molaire ({el.symbol}) :</span>
-                        <span>{el.M} g/mol</span>
-                    </div>
-                    <div className="flex justify-between bg-white/10 p-2 rounded items-center">
-                        <span>Masse (m) :</span>
-                        <span className={`font-bold text-lg ${showSuccess ? 'text-green-400' : 'text-white'}`}>{mass.toFixed(1)} g</span>
-                    </div>
-                    {mode === 'explore' && (
-                        <div className="flex justify-between text-gray-400">
-                            <span>Atomes (N) :</span>
-                            <span>{atoms} × 10²³</span>
                         </div>
                     )}
-                </div>
-            </DraggableHtmlPanel>
+
+                    {mode === 'explore' && (
+                        <div className="flex flex-wrap gap-2 mb-4">
+                            {Object.entries(elements).map(([k, e]) => (
+                                <button key={k} onClick={() => setElement(k)}
+                                    className={`px-3 py-1 rounded-full text-sm font-bold border ${element === k ? 'bg-white text-black' : 'border-gray-600 text-gray-400'}`}>
+                                    {e.name} ({k})
+                                </button>
+                            ))}
+                        </div>
+                    )}
+
+                    <div className="mb-6 bg-gray-800 p-4 rounded-xl text-center shadow-inner relative overflow-hidden">
+                        <div className="text-xs text-gray-400 uppercase">Quantité de matière (n)</div>
+                        <div className="text-4xl font-bold my-2 text-green-300 font-mono">{moles} <span className="text-lg">mol</span></div>
+                        <input type="range" min="0" max="5" step="0.1" value={moles} onChange={(e) => setMoles(Number(e.target.value))}
+                            className="w-full accent-green-500 cursor-pointer" />
+
+                        {/* Analogy Toggle */}
+                        {mode === 'explore' && (
+                            <button onClick={() => setShowAnalogy(!showAnalogy)} className="absolute top-2 right-2 text-[10px] bg-white/10 px-2 py-1 rounded hover:bg-white/20">
+                                {showAnalogy ? 'Cacher Analogie' : 'Voir Analogie 🧠'}
+                            </button>
+                        )}
+                    </div>
+
+                    <div className="space-y-2 font-mono text-sm">
+                        <div className="flex justify-between text-gray-400">
+                            <span>Masse Molaire ({el.symbol}) :</span>
+                            <span>{el.M} g/mol</span>
+                        </div>
+                        <div className="flex justify-between bg-white/10 p-2 rounded items-center">
+                            <span>Masse (m) :</span>
+                            <span className={`font-bold text-lg ${showSuccess ? 'text-green-400' : 'text-white'}`}>{mass.toFixed(1)} g</span>
+                        </div>
+                        {mode === 'explore' && (
+                            <div className="flex justify-between text-gray-400">
+                                <span>Atomes (N) :</span>
+                                <span>{atoms} × 10²³</span>
+                            </div>
+                        )}
+                    </div>
+                </DraggableHtmlPanel>
+            </Html>
 
             <ConfettiExplosion active={showSuccess} />
 
@@ -799,67 +805,69 @@ export function MassConservation() {
         <>
             <SuccessOverlay show={showSuccess} message={system === 'closed' ? "Masse conservée ! Bravo !" : "Masse perdue (gaz) ! Bien vu !"} points={50} onNext={reset} />
 
-            <DraggableHtmlPanel title="⚖️ Conservation de la Masse" showCloseButton={false} defaultPosition="bottom-center" className="w-[350px] border-red-500/30 text-white">
-                <div className="flex justify-between items-center mb-4">
-                    <div className="bg-gray-900 rounded-lg px-3 py-1 border border-red-500/30">
-                        <span className="text-xs text-red-400 font-bold">XP</span>
-                        <div className="font-mono text-xl">{score}</div>
+            <Html>
+                <DraggableHtmlPanel title="⚖️ Conservation de la Masse" showCloseButton={false} defaultPosition="bottom-center" className="w-[350px] border-red-500/30 text-white">
+                    <div className="flex justify-between items-center mb-4">
+                        <div className="bg-gray-900 rounded-lg px-3 py-1 border border-red-500/30">
+                            <span className="text-xs text-red-400 font-bold">XP</span>
+                            <div className="font-mono text-xl">{score}</div>
+                        </div>
                     </div>
-                </div>
 
-                <div className="mb-4 bg-gray-800 p-3 rounded-xl border border-gray-600">
-                    <div className="text-xs text-gray-400 mb-2 uppercase font-bold">1. Configure l'expérience</div>
-                    <div className="flex gap-2">
-                        <button onClick={() => !step && setSystem('open')} disabled={step === 1}
-                            className={`flex-1 py-2 rounded font-bold transition-all ${system === 'open' ? 'bg-red-600 ring-2 ring-white' : 'bg-gray-700 opacity-50'}`}>
-                            Ouvert 🔓
-                        </button>
-                        <button onClick={() => !step && setSystem('closed')} disabled={step === 1}
-                            className={`flex-1 py-2 rounded font-bold transition-all ${system === 'closed' ? 'bg-green-600 ring-2 ring-white' : 'bg-gray-700 opacity-50'}`}>
-                            Fermé 🔒
-                        </button>
-                    </div>
-                </div>
-
-                {step === 0 && (
-                    <div className="mb-4 p-3 bg-gray-900/80 rounded-xl border border-yellow-500/30">
-                        <div className="text-xs text-yellow-400 mb-2 uppercase font-bold">2. Fais ta prédiction</div>
-                        <div className="text-sm mb-2 text-center">La masse va-t-elle changer ?</div>
+                    <div className="mb-4 bg-gray-800 p-3 rounded-xl border border-gray-600">
+                        <div className="text-xs text-gray-400 mb-2 uppercase font-bold">1. Configure l'expérience</div>
                         <div className="flex gap-2">
-                            <button onClick={() => setPrediction('less')} className={`flex-1 p-2 rounded border ${prediction === 'less' ? 'bg-yellow-600 border-yellow-400' : 'border-gray-600 hover:bg-gray-700'}`}>
-                                Diminuer 📉
+                            <button onClick={() => !step && setSystem('open')} disabled={step === 1}
+                                className={`flex-1 py-2 rounded font-bold transition-all ${system === 'open' ? 'bg-red-600 ring-2 ring-white' : 'bg-gray-700 opacity-50'}`}>
+                                Ouvert 🔓
                             </button>
-                            <button onClick={() => setPrediction('same')} className={`flex-1 p-2 rounded border ${prediction === 'same' ? 'bg-yellow-600 border-yellow-400' : 'border-gray-600 hover:bg-gray-700'}`}>
-                                Rester Pareil ⚖️
+                            <button onClick={() => !step && setSystem('closed')} disabled={step === 1}
+                                className={`flex-1 py-2 rounded font-bold transition-all ${system === 'closed' ? 'bg-green-600 ring-2 ring-white' : 'bg-gray-700 opacity-50'}`}>
+                                Fermé 🔒
                             </button>
                         </div>
                     </div>
-                )}
 
-                <div className="mb-4 p-3 border border-gray-600 rounded bg-black/50 text-center relative">
-                    <div className="text-gray-400 text-xs uppercase">Masse Totale</div>
-                    <div className={`text-3xl font-mono font-bold ${step === 1 && system === 'open' ? 'text-red-400 animate-pulse' : 'text-green-400'}`}>
-                        {balanceValue.toFixed(1)} g
+                    {step === 0 && (
+                        <div className="mb-4 p-3 bg-gray-900/80 rounded-xl border border-yellow-500/30">
+                            <div className="text-xs text-yellow-400 mb-2 uppercase font-bold">2. Fais ta prédiction</div>
+                            <div className="text-sm mb-2 text-center">La masse va-t-elle changer ?</div>
+                            <div className="flex gap-2">
+                                <button onClick={() => setPrediction('less')} className={`flex-1 p-2 rounded border ${prediction === 'less' ? 'bg-yellow-600 border-yellow-400' : 'border-gray-600 hover:bg-gray-700'}`}>
+                                    Diminuer 📉
+                                </button>
+                                <button onClick={() => setPrediction('same')} className={`flex-1 p-2 rounded border ${prediction === 'same' ? 'bg-yellow-600 border-yellow-400' : 'border-gray-600 hover:bg-gray-700'}`}>
+                                    Rester Pareil ⚖️
+                                </button>
+                            </div>
+                        </div>
+                    )}
+
+                    <div className="mb-4 p-3 border border-gray-600 rounded bg-black/50 text-center relative">
+                        <div className="text-gray-400 text-xs uppercase">Masse Totale</div>
+                        <div className={`text-3xl font-mono font-bold ${step === 1 && system === 'open' ? 'text-red-400 animate-pulse' : 'text-green-400'}`}>
+                            {balanceValue.toFixed(1)} g
+                        </div>
                     </div>
-                </div>
 
-                <button onClick={step === 0 ? startReaction : reset} disabled={step === 0 && !prediction}
-                    className={`w-full py-3 rounded-xl font-bold text-lg transition-transform hover:scale-105 ${step === 0 ? (prediction ? 'bg-white text-black' : 'bg-gray-600 text-gray-400 cursor-not-allowed') : 'bg-gray-700 text-white'}`}>
-                    {step === 0 ? "Lancer la Réaction 💥" : "Réinitialiser 🔄"}
-                </button>
+                    <button onClick={step === 0 ? startReaction : reset} disabled={step === 0 && !prediction}
+                        className={`w-full py-3 rounded-xl font-bold text-lg transition-transform hover:scale-105 ${step === 0 ? (prediction ? 'bg-white text-black' : 'bg-gray-600 text-gray-400 cursor-not-allowed') : 'bg-gray-700 text-white'}`}>
+                        {step === 0 ? "Lancer la Réaction 💥" : "Réinitialiser 🔄"}
+                    </button>
 
-                {step === 1 && experimentDone && !showSuccess && (
-                    <div className="mt-3 text-sm text-center text-red-400 font-bold bg-red-900/20 p-2 rounded animate-shake">
-                        Mauvaise prédiction ! Regarde bien ce qu'il s'est passé.
-                    </div>
-                )}
+                    {step === 1 && experimentDone && !showSuccess && (
+                        <div className="mt-3 text-sm text-center text-red-400 font-bold bg-red-900/20 p-2 rounded animate-shake">
+                            Mauvaise prédiction ! Regarde bien ce qu'il s'est passé.
+                        </div>
+                    )}
 
-                {step === 1 && experimentDone && (
-                    <div className="mt-2 text-xs text-center text-gray-400">
-                        {system === 'open' ? "Le gaz s'est échappé..." : "Le bouchon a tout retenu !"}
-                    </div>
-                )}
-            </DraggableHtmlPanel>
+                    {step === 1 && experimentDone && (
+                        <div className="mt-2 text-xs text-center text-gray-400">
+                            {system === 'open' ? "Le gaz s'est échappé..." : "Le bouchon a tout retenu !"}
+                        </div>
+                    )}
+                </DraggableHtmlPanel>
+            </Html>
 
             <ConfettiExplosion active={showSuccess} />
 
