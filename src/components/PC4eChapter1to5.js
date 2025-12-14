@@ -1099,59 +1099,60 @@ export function Chap5Electricite() {
                         </div>
                     )}
                 </DraggableHtmlPanel>
+            </Html>
 
 
-                <SuccessOverlay show={showSuccess} message="C'est exact ! Excellent travail d'ingénieur !" points={100} onNext={nextChallenge} />
-                <ConfettiExplosion active={showSuccess} />
+            <SuccessOverlay show={showSuccess} message="C'est exact ! Excellent travail d'ingénieur !" points={100} onNext={nextChallenge} />
+            <ConfettiExplosion active={showSuccess} />
 
-                {/* SCÈNE 3D DYNAMIQUE */}
-                <group position={[0, 0, 0]}>
-                    {/* Générateur */}
-                    <group position={[-3, 0, 0]}>
-                        <Box args={[1, 1.5, 1]} material-color="#111" />
-                        <Box args={[0.9, 1.4, 0.9]} material-color="#333" />
-                        <Text position={[0, 0, 0.6]} fontSize={0.5} color="#EF4444">+</Text>
-                        <Text position={[0, 0, -0.6]} rotation={[0, Math.PI, 0]} fontSize={0.5} color="#3B82F6">-</Text>
-                    </group>
-
-                    {topology === 'series' && (
-                        <group>
-                            <CircuitSegment p1={[-2.5, 0.5, 0]} p2={[-1.5, 0.5, 0]} active={analysis.status === 'ok'} />
-                            <Slot3D id={0} pos={[-1, 0.5, 0]} type={slots[0]} active={analysis.status === 'ok'} onClick={() => setShowMenu(0)} error={analysis.status === 'short'} />
-                            <CircuitSegment p1={[-0.5, 0.5, 0]} p2={[0.5, 0.5, 0]} active={analysis.status === 'ok'} />
-                            <Slot3D id={1} pos={[1, 0.5, 0]} type={slots[1]} active={analysis.status === 'ok'} onClick={() => setShowMenu(1)} error={analysis.status === 'short'} />
-                            <CircuitSegment p1={[1.5, 0.5, 0]} p2={[2.5, 0.5, 0]} active={analysis.status === 'ok'} />
-                            <Slot3D id={2} pos={[3, 0.5, 0]} type={slots[2]} active={analysis.status === 'ok'} onClick={() => setShowMenu(2)} error={analysis.status === 'short'} />
-
-                            <group position={[0, -1, 0]}>
-                                <CircuitSegment p1={[3, 1, 0]} p2={[3, 0.5, 0]} vertical active={analysis.status === 'ok'} />
-                                <CircuitSegment p1={[3, 0, 0]} p2={[0, 0, 0]} active={analysis.status === 'ok'} />
-                                <Switch3D position={[0, 0, 0]} closed={switchState} />
-                                <CircuitSegment p1={[-0.5, 0, 0]} p2={[-3, 0, 0]} active={analysis.status === 'ok'} />
-                                <CircuitSegment p1={[-3, 0, 0]} p2={[-3, 0.5, 0]} vertical active={analysis.status === 'ok'} />
-                            </group>
-                        </group>
-                    )}
-
-                    {topology === 'parallel' && (
-                        <group>
-                            <CircuitSegment p1={[-2.5, 1, 0]} p2={[2, 1, 0]} active={analysis.status === 'ok'} />
-                            <CircuitSegment p1={[-1, 1, 0]} p2={[-1, 0.5, 0]} vertical active={analysis.status === 'ok'} />
-                            <Slot3D id={0} pos={[-1, 0, 0]} type={slots[0]} active={analysis.status === 'ok'} onClick={() => setShowMenu(0)} error={analysis.status === 'short'} />
-                            <Slot3D id={1} pos={[-1, -1, 0]} type={slots[1]} active={analysis.status === 'ok'} onClick={() => setShowMenu(1)} error={analysis.status === 'short'} />
-                            <CircuitSegment p1={[-1, -1.5, 0]} p2={[-1, -2, 0]} vertical active={analysis.status === 'ok'} />
-
-                            <CircuitSegment p1={[2, 1, 0]} p2={[2, 0.5, 0]} vertical active={analysis.status === 'ok'} />
-                            <Slot3D id={2} pos={[2, 0, 0]} type={slots[2]} active={analysis.status === 'ok'} onClick={() => setShowMenu(2)} error={analysis.status === 'short'} />
-                            <Slot3D id={3} pos={[2, -1, 0]} type={slots[3]} active={analysis.status === 'ok'} onClick={() => setShowMenu(3)} error={analysis.status === 'short'} />
-                            <CircuitSegment p1={[2, -1.5, 0]} p2={[2, -2, 0]} vertical active={analysis.status === 'ok'} />
-
-                            <CircuitSegment p1={[2, -2, 0]} p2={[-3, -2, 0]} active={analysis.status === 'ok'} />
-                            <Switch3D position={[-2, -2, 0]} closed={switchState} />
-                            <CircuitSegment p1={[-3, -2, 0]} p2={[-3, -0.75, 0]} vertical active={analysis.status === 'ok'} />
-                        </group>
-                    )}
+            {/* SCÈNE 3D DYNAMIQUE */}
+            <group position={[0, 0, 0]}>
+                {/* Générateur */}
+                <group position={[-3, 0, 0]}>
+                    <Box args={[1, 1.5, 1]} material-color="#111" />
+                    <Box args={[0.9, 1.4, 0.9]} material-color="#333" />
+                    <Text position={[0, 0, 0.6]} fontSize={0.5} color="#EF4444">+</Text>
+                    <Text position={[0, 0, -0.6]} rotation={[0, Math.PI, 0]} fontSize={0.5} color="#3B82F6">-</Text>
                 </group>
+
+                {topology === 'series' && (
+                    <group>
+                        <CircuitSegment p1={[-2.5, 0.5, 0]} p2={[-1.5, 0.5, 0]} active={analysis.status === 'ok'} />
+                        <Slot3D id={0} pos={[-1, 0.5, 0]} type={slots[0]} active={analysis.status === 'ok'} onClick={() => setShowMenu(0)} error={analysis.status === 'short'} />
+                        <CircuitSegment p1={[-0.5, 0.5, 0]} p2={[0.5, 0.5, 0]} active={analysis.status === 'ok'} />
+                        <Slot3D id={1} pos={[1, 0.5, 0]} type={slots[1]} active={analysis.status === 'ok'} onClick={() => setShowMenu(1)} error={analysis.status === 'short'} />
+                        <CircuitSegment p1={[1.5, 0.5, 0]} p2={[2.5, 0.5, 0]} active={analysis.status === 'ok'} />
+                        <Slot3D id={2} pos={[3, 0.5, 0]} type={slots[2]} active={analysis.status === 'ok'} onClick={() => setShowMenu(2)} error={analysis.status === 'short'} />
+
+                        <group position={[0, -1, 0]}>
+                            <CircuitSegment p1={[3, 1, 0]} p2={[3, 0.5, 0]} vertical active={analysis.status === 'ok'} />
+                            <CircuitSegment p1={[3, 0, 0]} p2={[0, 0, 0]} active={analysis.status === 'ok'} />
+                            <Switch3D position={[0, 0, 0]} closed={switchState} />
+                            <CircuitSegment p1={[-0.5, 0, 0]} p2={[-3, 0, 0]} active={analysis.status === 'ok'} />
+                            <CircuitSegment p1={[-3, 0, 0]} p2={[-3, 0.5, 0]} vertical active={analysis.status === 'ok'} />
+                        </group>
+                    </group>
+                )}
+
+                {topology === 'parallel' && (
+                    <group>
+                        <CircuitSegment p1={[-2.5, 1, 0]} p2={[2, 1, 0]} active={analysis.status === 'ok'} />
+                        <CircuitSegment p1={[-1, 1, 0]} p2={[-1, 0.5, 0]} vertical active={analysis.status === 'ok'} />
+                        <Slot3D id={0} pos={[-1, 0, 0]} type={slots[0]} active={analysis.status === 'ok'} onClick={() => setShowMenu(0)} error={analysis.status === 'short'} />
+                        <Slot3D id={1} pos={[-1, -1, 0]} type={slots[1]} active={analysis.status === 'ok'} onClick={() => setShowMenu(1)} error={analysis.status === 'short'} />
+                        <CircuitSegment p1={[-1, -1.5, 0]} p2={[-1, -2, 0]} vertical active={analysis.status === 'ok'} />
+
+                        <CircuitSegment p1={[2, 1, 0]} p2={[2, 0.5, 0]} vertical active={analysis.status === 'ok'} />
+                        <Slot3D id={2} pos={[2, 0, 0]} type={slots[2]} active={analysis.status === 'ok'} onClick={() => setShowMenu(2)} error={analysis.status === 'short'} />
+                        <Slot3D id={3} pos={[2, -1, 0]} type={slots[3]} active={analysis.status === 'ok'} onClick={() => setShowMenu(3)} error={analysis.status === 'short'} />
+                        <CircuitSegment p1={[2, -1.5, 0]} p2={[2, -2, 0]} vertical active={analysis.status === 'ok'} />
+
+                        <CircuitSegment p1={[2, -2, 0]} p2={[-3, -2, 0]} active={analysis.status === 'ok'} />
+                        <Switch3D position={[-2, -2, 0]} closed={switchState} />
+                        <CircuitSegment p1={[-3, -2, 0]} p2={[-3, -0.75, 0]} vertical active={analysis.status === 'ok'} />
+                    </group>
+                )}
+            </group>
         </group>
     );
 }
