@@ -895,7 +895,7 @@ export default function SimulationDetailPage({ params }) {
     const [quizResults, setQuizResults] = useState({ score: 0, total: 0 });
 
     // Panneau de contrôle draggable
-    const [showControlPanel, setShowControlPanel] = useState(true);
+    const [showControlPanel, setShowControlPanel] = useState(false);
 
     // Ref pour le conteneur de simulation
     const simulationContainerRef = useRef(null);
