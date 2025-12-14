@@ -49,55 +49,57 @@ export function Chap6LoiOhm() {
 
     return (
         <group>
-            <DraggableHtmlPanel title="⚡ Loi d'Ohm" showCloseButton={false} defaultPosition="bottom-center" className="w-[340px] text-white">
-                <div className="flex justify-between items-center mb-3 border-b border-white/10 pb-2">
-                    <div className="flex gap-2">
-                        <button onClick={() => setMode('explore')} className={`text-xs px-2 py-1 rounded ${mode === 'explore' ? 'bg-yellow-600' : 'bg-gray-700'}`}>Labo</button>
-                        <button onClick={startChallenge} className={`text-xs px-2 py-1 rounded ${mode === 'challenge' ? 'bg-purple-600' : 'bg-gray-700'}`}>Quiz 🏆</button>
+            <Html transform={false}>
+                <DraggableHtmlPanel title="⚡ Loi d'Ohm" showCloseButton={false} defaultPosition="bottom-center" className="w-[340px] text-white" usePortal={false}>
+                    <div className="flex justify-between items-center mb-3 border-b border-white/10 pb-2">
+                        <div className="flex gap-2">
+                            <button onClick={() => setMode('explore')} className={`text-xs px-2 py-1 rounded ${mode === 'explore' ? 'bg-yellow-600' : 'bg-gray-700'}`}>Labo</button>
+                            <button onClick={startChallenge} className={`text-xs px-2 py-1 rounded ${mode === 'challenge' ? 'bg-purple-600' : 'bg-gray-700'}`}>Quiz 🏆</button>
+                        </div>
+                        {mode === 'challenge' && <div className="font-bold text-yellow-400">{score} XP</div>}
                     </div>
-                    {mode === 'challenge' && <div className="font-bold text-yellow-400">{score} XP</div>}
-                </div>
 
-                {mode === 'explore' ? (
-                    <>
-                        <div className="grid grid-cols-2 gap-2 mb-3">
-                            {Object.entries(scenarios).map(([k, sc]) => (
-                                <button key={k} onClick={() => applyScenario(k)} className="p-2 bg-gray-800 rounded text-xs hover:bg-gray-700">
-                                    <div className="font-bold">{sc.name}</div>
-                                </button>
-                            ))}
-                        </div>
-                        <div className="space-y-3">
-                            <div>
-                                <div className="flex justify-between text-xs"><span>Tension U</span><span className="text-yellow-400">{voltage} V</span></div>
-                                <input type="range" min={1} max={24} value={voltage} onChange={(e) => setVoltage(parseInt(e.target.value))} className="w-full accent-yellow-500" />
-                            </div>
-                            <div>
-                                <div className="flex justify-between text-xs"><span>Résistance R</span><span className="text-orange-400">{resistance} Ω</span></div>
-                                <input type="range" min={1} max={100} value={resistance} onChange={(e) => setResistance(parseInt(e.target.value))} className="w-full accent-orange-500" />
-                            </div>
-                        </div>
-                        <div className="mt-4 p-3 bg-gray-900 rounded-lg text-center">
-                            <div className="text-gray-400 text-xs">I = U / R</div>
-                            <div className="text-3xl font-bold text-green-400">{current.toFixed(2)} A</div>
-                        </div>
-                    </>
-                ) : (
-                    <div className="bg-gray-800 p-3 rounded-xl">
-                        {challenge && (
-                            <div className="space-y-3">
-                                <div className="text-sm">{challenge.q}</div>
-                                {challenge.options.map((opt, idx) => (
-                                    <button key={idx} onClick={() => checkAnswer(idx)} className="w-full text-left p-2 rounded bg-gray-700 hover:bg-gray-600 text-sm">
-                                        {['A', 'B', 'C'][idx]}. {opt}
+                    {mode === 'explore' ? (
+                        <>
+                            <div className="grid grid-cols-2 gap-2 mb-3">
+                                {Object.entries(scenarios).map(([k, sc]) => (
+                                    <button key={k} onClick={() => applyScenario(k)} className="p-2 bg-gray-800 rounded text-xs hover:bg-gray-700">
+                                        <div className="font-bold">{sc.name}</div>
                                     </button>
                                 ))}
-                                {challenge.answered && <button onClick={nextQuestion} className="w-full py-2 bg-purple-600 rounded font-bold">Suivant →</button>}
                             </div>
-                        )}
-                    </div>
-                )}
-            </DraggableHtmlPanel>
+                            <div className="space-y-3">
+                                <div>
+                                    <div className="flex justify-between text-xs"><span>Tension U</span><span className="text-yellow-400">{voltage} V</span></div>
+                                    <input type="range" min={1} max={24} value={voltage} onChange={(e) => setVoltage(parseInt(e.target.value))} className="w-full accent-yellow-500" />
+                                </div>
+                                <div>
+                                    <div className="flex justify-between text-xs"><span>Résistance R</span><span className="text-orange-400">{resistance} Ω</span></div>
+                                    <input type="range" min={1} max={100} value={resistance} onChange={(e) => setResistance(parseInt(e.target.value))} className="w-full accent-orange-500" />
+                                </div>
+                            </div>
+                            <div className="mt-4 p-3 bg-gray-900 rounded-lg text-center">
+                                <div className="text-gray-400 text-xs">I = U / R</div>
+                                <div className="text-3xl font-bold text-green-400">{current.toFixed(2)} A</div>
+                            </div>
+                        </>
+                    ) : (
+                        <div className="bg-gray-800 p-3 rounded-xl">
+                            {challenge && (
+                                <div className="space-y-3">
+                                    <div className="text-sm">{challenge.q}</div>
+                                    {challenge.options.map((opt, idx) => (
+                                        <button key={idx} onClick={() => checkAnswer(idx)} className="w-full text-left p-2 rounded bg-gray-700 hover:bg-gray-600 text-sm">
+                                            {['A', 'B', 'C'][idx]}. {opt}
+                                        </button>
+                                    ))}
+                                    {challenge.answered && <button onClick={nextQuestion} className="w-full py-2 bg-purple-600 rounded font-bold">Suivant →</button>}
+                                </div>
+                            )}
+                        </div>
+                    )}
+                </DraggableHtmlPanel>
+            </Html>
             <Box args={[2, 0.3, 0.5]} position={[0, 0, 0]}><meshStandardMaterial color="#ff6600" /></Box>
             <Text position={[0, 0.5, 0]} fontSize={0.3} color="white">R = {resistance} Ω</Text>
             <Line points={[[-3, 0, 0], [-1, 0, 0]]} color="red" lineWidth={3} />
@@ -147,58 +149,60 @@ export function Chap7TransformationsEnergie() {
 
     return (
         <group>
-            <DraggableHtmlPanel title="🔄 Transformations d'Énergie" showCloseButton={false} defaultPosition="bottom-center" className="w-[340px] text-white">
-                <div className="flex justify-between items-center mb-3 border-b border-white/10 pb-2">
-                    <div className="flex gap-2">
-                        <button onClick={() => setMode('explore')} className={`text-xs px-2 py-1 rounded ${mode === 'explore' ? 'bg-green-600' : 'bg-gray-700'}`}>Explorer</button>
-                        <button onClick={startChallenge} className={`text-xs px-2 py-1 rounded ${mode === 'challenge' ? 'bg-purple-600' : 'bg-gray-700'}`}>Quiz 🏆</button>
+            <Html transform={false}>
+                <DraggableHtmlPanel title="🔄 Transformations d'Énergie" showCloseButton={false} defaultPosition="bottom-center" className="w-[340px] text-white" usePortal={false}>
+                    <div className="flex justify-between items-center mb-3 border-b border-white/10 pb-2">
+                        <div className="flex gap-2">
+                            <button onClick={() => setMode('explore')} className={`text-xs px-2 py-1 rounded ${mode === 'explore' ? 'bg-green-600' : 'bg-gray-700'}`}>Explorer</button>
+                            <button onClick={startChallenge} className={`text-xs px-2 py-1 rounded ${mode === 'challenge' ? 'bg-purple-600' : 'bg-gray-700'}`}>Quiz 🏆</button>
+                        </div>
+                        {mode === 'challenge' && <div className="font-bold text-yellow-400">{score} XP</div>}
                     </div>
-                    {mode === 'challenge' && <div className="font-bold text-yellow-400">{score} XP</div>}
-                </div>
 
-                {mode === 'explore' ? (
-                    <>
-                        <div className="grid grid-cols-2 gap-2 mb-3">
-                            {Object.entries(devices).map(([k, d]) => (
-                                <button key={k} onClick={() => setDevice(k)} className={`p-2 rounded text-xs ${device === k ? 'bg-green-600' : 'bg-gray-800'}`}>
-                                    {d.name}
-                                </button>
-                            ))}
-                        </div>
-                        <div className="p-3 bg-gray-900 rounded-lg">
-                            <div className="text-center mb-2">
-                                <span className="text-cyan-400">{dev.input}</span> → <span className="text-yellow-400">{dev.outputs.join(' + ')}</span>
-                            </div>
-                            <div className="flex justify-between text-sm">
-                                <span>Rendement</span>
-                                <span className="text-green-400 font-bold">{(dev.efficiency * 100).toFixed(0)}%</span>
-                            </div>
-                            <div className="mt-2 h-4 bg-gray-700 rounded overflow-hidden flex">
-                                <div className="bg-green-500" style={{ width: `${dev.efficiency * 100}%` }} />
-                                <div className="bg-red-500" style={{ width: `${(1 - dev.efficiency) * 100}%` }} />
-                            </div>
-                            <div className="flex justify-between text-xs mt-1">
-                                <span className="text-green-400">Utile: {usefulEnergy.toFixed(0)} J</span>
-                                <span className="text-red-400">Perdue: {wastedEnergy.toFixed(0)} J</span>
-                            </div>
-                        </div>
-                    </>
-                ) : (
-                    <div className="bg-gray-800 p-3 rounded-xl">
-                        {challenge && (
-                            <div className="space-y-3">
-                                <div className="text-sm">{challenge.q}</div>
-                                {challenge.options.map((opt, idx) => (
-                                    <button key={idx} onClick={() => checkAnswer(idx)} className="w-full text-left p-2 rounded bg-gray-700 hover:bg-gray-600 text-sm">
-                                        {['A', 'B', 'C'][idx]}. {opt}
+                    {mode === 'explore' ? (
+                        <>
+                            <div className="grid grid-cols-2 gap-2 mb-3">
+                                {Object.entries(devices).map(([k, d]) => (
+                                    <button key={k} onClick={() => setDevice(k)} className={`p-2 rounded text-xs ${device === k ? 'bg-green-600' : 'bg-gray-800'}`}>
+                                        {d.name}
                                     </button>
                                 ))}
-                                {challenge.answered && <button onClick={nextQuestion} className="w-full py-2 bg-purple-600 rounded font-bold">Suivant →</button>}
                             </div>
-                        )}
-                    </div>
-                )}
-            </DraggableHtmlPanel>
+                            <div className="p-3 bg-gray-900 rounded-lg">
+                                <div className="text-center mb-2">
+                                    <span className="text-cyan-400">{dev.input}</span> → <span className="text-yellow-400">{dev.outputs.join(' + ')}</span>
+                                </div>
+                                <div className="flex justify-between text-sm">
+                                    <span>Rendement</span>
+                                    <span className="text-green-400 font-bold">{(dev.efficiency * 100).toFixed(0)}%</span>
+                                </div>
+                                <div className="mt-2 h-4 bg-gray-700 rounded overflow-hidden flex">
+                                    <div className="bg-green-500" style={{ width: `${dev.efficiency * 100}%` }} />
+                                    <div className="bg-red-500" style={{ width: `${(1 - dev.efficiency) * 100}%` }} />
+                                </div>
+                                <div className="flex justify-between text-xs mt-1">
+                                    <span className="text-green-400">Utile: {usefulEnergy.toFixed(0)} J</span>
+                                    <span className="text-red-400">Perdue: {wastedEnergy.toFixed(0)} J</span>
+                                </div>
+                            </div>
+                        </>
+                    ) : (
+                        <div className="bg-gray-800 p-3 rounded-xl">
+                            {challenge && (
+                                <div className="space-y-3">
+                                    <div className="text-sm">{challenge.q}</div>
+                                    {challenge.options.map((opt, idx) => (
+                                        <button key={idx} onClick={() => checkAnswer(idx)} className="w-full text-left p-2 rounded bg-gray-700 hover:bg-gray-600 text-sm">
+                                            {['A', 'B', 'C'][idx]}. {opt}
+                                        </button>
+                                    ))}
+                                    {challenge.answered && <button onClick={nextQuestion} className="w-full py-2 bg-purple-600 rounded font-bold">Suivant →</button>}
+                                </div>
+                            )}
+                        </div>
+                    )}
+                </DraggableHtmlPanel>
+            </Html>
             <Sphere args={[1]} position={[0, 0, 0]}><meshStandardMaterial color="#ffaa00" emissive="#ffaa00" emissiveIntensity={0.5} /></Sphere>
             <Text position={[0, 1.8, 0]} fontSize={0.3} color="white">{dev.name}</Text>
             <SuccessOverlay show={showSuccess} message="Correct !" points={25} onNext={nextQuestion} />
@@ -245,56 +249,58 @@ export function Chap8SolutionsAqueuses() {
 
     return (
         <group>
-            <DraggableHtmlPanel title="🧪 Solutions Aqueuses" showCloseButton={false} defaultPosition="bottom-center" className="w-[340px] text-white">
-                <div className="flex justify-between items-center mb-3 border-b border-white/10 pb-2">
-                    <div className="flex gap-2">
-                        <button onClick={() => setMode('explore')} className={`text-xs px-2 py-1 rounded ${mode === 'explore' ? 'bg-cyan-600' : 'bg-gray-700'}`}>Labo</button>
-                        <button onClick={startChallenge} className={`text-xs px-2 py-1 rounded ${mode === 'challenge' ? 'bg-purple-600' : 'bg-gray-700'}`}>Quiz 🏆</button>
+            <Html transform={false}>
+                <DraggableHtmlPanel title="🧪 Solutions Aqueuses" showCloseButton={false} defaultPosition="bottom-center" className="w-[340px] text-white" usePortal={false}>
+                    <div className="flex justify-between items-center mb-3 border-b border-white/10 pb-2">
+                        <div className="flex gap-2">
+                            <button onClick={() => setMode('explore')} className={`text-xs px-2 py-1 rounded ${mode === 'explore' ? 'bg-cyan-600' : 'bg-gray-700'}`}>Labo</button>
+                            <button onClick={startChallenge} className={`text-xs px-2 py-1 rounded ${mode === 'challenge' ? 'bg-purple-600' : 'bg-gray-700'}`}>Quiz 🏆</button>
+                        </div>
+                        {mode === 'challenge' && <div className="font-bold text-yellow-400">{score} XP</div>}
                     </div>
-                    {mode === 'challenge' && <div className="font-bold text-yellow-400">{score} XP</div>}
-                </div>
 
-                {mode === 'explore' ? (
-                    <>
-                        <div className="grid grid-cols-2 gap-2 mb-3">
-                            {Object.entries(scenarios).map(([k, sc]) => (
-                                <button key={k} onClick={() => applyScenario(k)} className="p-2 bg-gray-800 rounded text-xs hover:bg-gray-700">
-                                    <div className="font-bold">{sc.name}</div>
-                                    <div className="text-gray-400 text-[10px]">{sc.desc}</div>
-                                </button>
-                            ))}
-                        </div>
-                        <div className="space-y-3">
-                            <div>
-                                <div className="flex justify-between text-xs"><span>Masse soluté m</span><span className="text-cyan-400">{mass} g</span></div>
-                                <input type="range" min={1} max={200} value={mass} onChange={(e) => setMass(parseInt(e.target.value))} className="w-full accent-cyan-500" />
-                            </div>
-                            <div>
-                                <div className="flex justify-between text-xs"><span>Volume V</span><span className="text-blue-400">{volume} mL</span></div>
-                                <input type="range" min={100} max={2000} step={50} value={volume} onChange={(e) => setVolume(parseInt(e.target.value))} className="w-full accent-blue-500" />
-                            </div>
-                        </div>
-                        <div className="mt-4 p-3 bg-gray-900 rounded-lg text-center">
-                            <div className="text-gray-400 text-xs">C = m / V</div>
-                            <div className="text-3xl font-bold text-cyan-400">{concentration.toFixed(1)} g/L</div>
-                        </div>
-                    </>
-                ) : (
-                    <div className="bg-gray-800 p-3 rounded-xl">
-                        {challenge && (
-                            <div className="space-y-3">
-                                <div className="text-sm">{challenge.q}</div>
-                                {challenge.options.map((opt, idx) => (
-                                    <button key={idx} onClick={() => checkAnswer(idx)} className="w-full text-left p-2 rounded bg-gray-700 hover:bg-gray-600 text-sm">
-                                        {['A', 'B', 'C'][idx]}. {opt}
+                    {mode === 'explore' ? (
+                        <>
+                            <div className="grid grid-cols-2 gap-2 mb-3">
+                                {Object.entries(scenarios).map(([k, sc]) => (
+                                    <button key={k} onClick={() => applyScenario(k)} className="p-2 bg-gray-800 rounded text-xs hover:bg-gray-700">
+                                        <div className="font-bold">{sc.name}</div>
+                                        <div className="text-gray-400 text-[10px]">{sc.desc}</div>
                                     </button>
                                 ))}
-                                {challenge.answered && <button onClick={nextQuestion} className="w-full py-2 bg-purple-600 rounded font-bold">Suivant →</button>}
                             </div>
-                        )}
-                    </div>
-                )}
-            </DraggableHtmlPanel>
+                            <div className="space-y-3">
+                                <div>
+                                    <div className="flex justify-between text-xs"><span>Masse soluté m</span><span className="text-cyan-400">{mass} g</span></div>
+                                    <input type="range" min={1} max={200} value={mass} onChange={(e) => setMass(parseInt(e.target.value))} className="w-full accent-cyan-500" />
+                                </div>
+                                <div>
+                                    <div className="flex justify-between text-xs"><span>Volume V</span><span className="text-blue-400">{volume} mL</span></div>
+                                    <input type="range" min={100} max={2000} step={50} value={volume} onChange={(e) => setVolume(parseInt(e.target.value))} className="w-full accent-blue-500" />
+                                </div>
+                            </div>
+                            <div className="mt-4 p-3 bg-gray-900 rounded-lg text-center">
+                                <div className="text-gray-400 text-xs">C = m / V</div>
+                                <div className="text-3xl font-bold text-cyan-400">{concentration.toFixed(1)} g/L</div>
+                            </div>
+                        </>
+                    ) : (
+                        <div className="bg-gray-800 p-3 rounded-xl">
+                            {challenge && (
+                                <div className="space-y-3">
+                                    <div className="text-sm">{challenge.q}</div>
+                                    {challenge.options.map((opt, idx) => (
+                                        <button key={idx} onClick={() => checkAnswer(idx)} className="w-full text-left p-2 rounded bg-gray-700 hover:bg-gray-600 text-sm">
+                                            {['A', 'B', 'C'][idx]}. {opt}
+                                        </button>
+                                    ))}
+                                    {challenge.answered && <button onClick={nextQuestion} className="w-full py-2 bg-purple-600 rounded font-bold">Suivant →</button>}
+                                </div>
+                            )}
+                        </div>
+                    )}
+                </DraggableHtmlPanel>
+            </Html>
             <Cylinder args={[0.8, 0.8, 2, 32]} position={[0, 0, 0]}><meshStandardMaterial color="#4488ff" transparent opacity={0.6} /></Cylinder>
             <SuccessOverlay show={showSuccess} message="Super !" points={25} onNext={nextQuestion} />
             <ConfettiExplosion active={showSuccess} />
@@ -338,49 +344,51 @@ export function Chap9AcidesBasesPH() {
 
     return (
         <group>
-            <DraggableHtmlPanel title="🧪 Acides, Bases et pH" showCloseButton={false} defaultPosition="bottom-center" className="w-[340px] text-white">
-                <div className="flex justify-between items-center mb-3 border-b border-white/10 pb-2">
-                    <div className="flex gap-2">
-                        <button onClick={() => setMode('explore')} className={`text-xs px-2 py-1 rounded ${mode === 'explore' ? 'bg-green-600' : 'bg-gray-700'}`}>Explorer</button>
-                        <button onClick={startChallenge} className={`text-xs px-2 py-1 rounded ${mode === 'challenge' ? 'bg-purple-600' : 'bg-gray-700'}`}>Quiz 🏆</button>
+            <Html transform={false}>
+                <DraggableHtmlPanel title="🧪 Acides, Bases et pH" showCloseButton={false} defaultPosition="bottom-center" className="w-[340px] text-white" usePortal={false}>
+                    <div className="flex justify-between items-center mb-3 border-b border-white/10 pb-2">
+                        <div className="flex gap-2">
+                            <button onClick={() => setMode('explore')} className={`text-xs px-2 py-1 rounded ${mode === 'explore' ? 'bg-green-600' : 'bg-gray-700'}`}>Explorer</button>
+                            <button onClick={startChallenge} className={`text-xs px-2 py-1 rounded ${mode === 'challenge' ? 'bg-purple-600' : 'bg-gray-700'}`}>Quiz 🏆</button>
+                        </div>
+                        {mode === 'challenge' && <div className="font-bold text-yellow-400">{score} XP</div>}
                     </div>
-                    {mode === 'challenge' && <div className="font-bold text-yellow-400">{score} XP</div>}
-                </div>
 
-                {mode === 'explore' ? (
-                    <>
-                        <div className="flex flex-wrap gap-1 mb-3">
-                            {Object.entries(solutions).map(([k, s]) => (
-                                <button key={k} onClick={() => setPh(s.ph)} className={`px-2 py-1 rounded text-xs ${ph === s.ph ? 'ring-2 ring-white' : 'bg-gray-800'}`}>
-                                    {s.name}
-                                </button>
-                            ))}
-                        </div>
-                        <div className="text-center mb-3">
-                            <div className="text-5xl font-bold" style={{ color: getColor(ph) }}>{ph}</div>
-                            <div className="text-lg">{getType(ph)}</div>
-                        </div>
-                        <div className="h-6 rounded-full flex overflow-hidden">
-                            {[...Array(15)].map((_, i) => <div key={i} className="flex-1" style={{ backgroundColor: getColor(i) }} />)}
-                        </div>
-                        <input type="range" min={0} max={14} value={ph} onChange={(e) => setPh(parseInt(e.target.value))} className="w-full mt-2" />
-                    </>
-                ) : (
-                    <div className="bg-gray-800 p-3 rounded-xl">
-                        {challenge && (
-                            <div className="space-y-3">
-                                <div className="text-sm">{challenge.q}</div>
-                                {challenge.options.map((opt, idx) => (
-                                    <button key={idx} onClick={() => checkAnswer(idx)} className="w-full text-left p-2 rounded bg-gray-700 hover:bg-gray-600 text-sm">
-                                        {['A', 'B', 'C'][idx]}. {opt}
+                    {mode === 'explore' ? (
+                        <>
+                            <div className="flex flex-wrap gap-1 mb-3">
+                                {Object.entries(solutions).map(([k, s]) => (
+                                    <button key={k} onClick={() => setPh(s.ph)} className={`px-2 py-1 rounded text-xs ${ph === s.ph ? 'ring-2 ring-white' : 'bg-gray-800'}`}>
+                                        {s.name}
                                     </button>
                                 ))}
-                                {challenge.answered && <button onClick={nextQuestion} className="w-full py-2 bg-purple-600 rounded font-bold">Suivant →</button>}
                             </div>
-                        )}
-                    </div>
-                )}
-            </DraggableHtmlPanel>
+                            <div className="text-center mb-3">
+                                <div className="text-5xl font-bold" style={{ color: getColor(ph) }}>{ph}</div>
+                                <div className="text-lg">{getType(ph)}</div>
+                            </div>
+                            <div className="h-6 rounded-full flex overflow-hidden">
+                                {[...Array(15)].map((_, i) => <div key={i} className="flex-1" style={{ backgroundColor: getColor(i) }} />)}
+                            </div>
+                            <input type="range" min={0} max={14} value={ph} onChange={(e) => setPh(parseInt(e.target.value))} className="w-full mt-2" />
+                        </>
+                    ) : (
+                        <div className="bg-gray-800 p-3 rounded-xl">
+                            {challenge && (
+                                <div className="space-y-3">
+                                    <div className="text-sm">{challenge.q}</div>
+                                    {challenge.options.map((opt, idx) => (
+                                        <button key={idx} onClick={() => checkAnswer(idx)} className="w-full text-left p-2 rounded bg-gray-700 hover:bg-gray-600 text-sm">
+                                            {['A', 'B', 'C'][idx]}. {opt}
+                                        </button>
+                                    ))}
+                                    {challenge.answered && <button onClick={nextQuestion} className="w-full py-2 bg-purple-600 rounded font-bold">Suivant →</button>}
+                                </div>
+                            )}
+                        </div>
+                    )}
+                </DraggableHtmlPanel>
+            </Html>
             <Cylinder args={[0.5, 0.5, 1.5, 32]} position={[0, 0, 0]}><meshStandardMaterial color={getColor(ph)} transparent opacity={0.7} /></Cylinder>
             <SuccessOverlay show={showSuccess} message="Exact !" points={25} onNext={nextQuestion} />
             <ConfettiExplosion active={showSuccess} />
@@ -425,46 +433,48 @@ export function Chap10Metaux() {
 
     return (
         <group>
-            <DraggableHtmlPanel title="⚙️ Propriétés des Métaux" showCloseButton={false} defaultPosition="bottom-center" className="w-[340px] text-white">
-                <div className="flex justify-between items-center mb-3 border-b border-white/10 pb-2">
-                    <div className="flex gap-2">
-                        <button onClick={() => setMode('explore')} className={`text-xs px-2 py-1 rounded ${mode === 'explore' ? 'bg-gray-600' : 'bg-gray-700'}`}>Labo</button>
-                        <button onClick={startChallenge} className={`text-xs px-2 py-1 rounded ${mode === 'challenge' ? 'bg-purple-600' : 'bg-gray-700'}`}>Quiz 🏆</button>
-                    </div>
-                    {mode === 'challenge' && <div className="font-bold text-yellow-400">{score} XP</div>}
-                </div>
-
-                {mode === 'explore' ? (
-                    <>
-                        <div className="grid grid-cols-2 gap-2 mb-3">
-                            {Object.entries(metals).map(([k, m]) => (
-                                <button key={k} onClick={() => setMetal(k)} className={`p-2 rounded text-xs ${metal === k ? 'ring-2 ring-white' : 'bg-gray-800'}`}>
-                                    {m.name} {!m.reactive && '(noble)'}
-                                </button>
-                            ))}
+            <Html transform={false}>
+                <DraggableHtmlPanel title="⚙️ Propriétés des Métaux" showCloseButton={false} defaultPosition="bottom-center" className="w-[340px] text-white" usePortal={false}>
+                    <div className="flex justify-between items-center mb-3 border-b border-white/10 pb-2">
+                        <div className="flex gap-2">
+                            <button onClick={() => setMode('explore')} className={`text-xs px-2 py-1 rounded ${mode === 'explore' ? 'bg-gray-600' : 'bg-gray-700'}`}>Labo</button>
+                            <button onClick={startChallenge} className={`text-xs px-2 py-1 rounded ${mode === 'challenge' ? 'bg-purple-600' : 'bg-gray-700'}`}>Quiz 🏆</button>
                         </div>
-                        <button onClick={doReaction} disabled={!metals[metal].reactive || reacting}
-                            className={`w-full py-3 rounded-lg font-bold ${metals[metal].reactive ? 'bg-red-600 hover:bg-red-500' : 'bg-gray-600 cursor-not-allowed'}`}>
-                            {reacting ? '💨 Réaction en cours...' : metals[metal].reactive ? '🧪 Ajouter Acide' : '❌ Métal noble - pas de réaction'}
-                        </button>
-                        {reacting && <div className="mt-2 p-2 bg-yellow-500/20 rounded text-center animate-pulse">H₂ ↑ Bulles de dihydrogène !</div>}
-                    </>
-                ) : (
-                    <div className="bg-gray-800 p-3 rounded-xl">
-                        {challenge && (
-                            <div className="space-y-3">
-                                <div className="text-sm">{challenge.q}</div>
-                                {challenge.options.map((opt, idx) => (
-                                    <button key={idx} onClick={() => checkAnswer(idx)} className="w-full text-left p-2 rounded bg-gray-700 hover:bg-gray-600 text-sm">
-                                        {['A', 'B', 'C'][idx]}. {opt}
+                        {mode === 'challenge' && <div className="font-bold text-yellow-400">{score} XP</div>}
+                    </div>
+
+                    {mode === 'explore' ? (
+                        <>
+                            <div className="grid grid-cols-2 gap-2 mb-3">
+                                {Object.entries(metals).map(([k, m]) => (
+                                    <button key={k} onClick={() => setMetal(k)} className={`p-2 rounded text-xs ${metal === k ? 'ring-2 ring-white' : 'bg-gray-800'}`}>
+                                        {m.name} {!m.reactive && '(noble)'}
                                     </button>
                                 ))}
-                                {challenge.answered && <button onClick={nextQuestion} className="w-full py-2 bg-purple-600 rounded font-bold">Suivant →</button>}
                             </div>
-                        )}
-                    </div>
-                )}
-            </DraggableHtmlPanel>
+                            <button onClick={doReaction} disabled={!metals[metal].reactive || reacting}
+                                className={`w-full py-3 rounded-lg font-bold ${metals[metal].reactive ? 'bg-red-600 hover:bg-red-500' : 'bg-gray-600 cursor-not-allowed'}`}>
+                                {reacting ? '💨 Réaction en cours...' : metals[metal].reactive ? '🧪 Ajouter Acide' : '❌ Métal noble - pas de réaction'}
+                            </button>
+                            {reacting && <div className="mt-2 p-2 bg-yellow-500/20 rounded text-center animate-pulse">H₂ ↑ Bulles de dihydrogène !</div>}
+                        </>
+                    ) : (
+                        <div className="bg-gray-800 p-3 rounded-xl">
+                            {challenge && (
+                                <div className="space-y-3">
+                                    <div className="text-sm">{challenge.q}</div>
+                                    {challenge.options.map((opt, idx) => (
+                                        <button key={idx} onClick={() => checkAnswer(idx)} className="w-full text-left p-2 rounded bg-gray-700 hover:bg-gray-600 text-sm">
+                                            {['A', 'B', 'C'][idx]}. {opt}
+                                        </button>
+                                    ))}
+                                    {challenge.answered && <button onClick={nextQuestion} className="w-full py-2 bg-purple-600 rounded font-bold">Suivant →</button>}
+                                </div>
+                            )}
+                        </div>
+                    )}
+                </DraggableHtmlPanel>
+            </Html>
             <Box args={[1, 1, 1]} position={[0, 0, 0]}><meshStandardMaterial color={metals[metal].color} metalness={0.8} roughness={0.2} /></Box>
             {reacting && [...Array(10)].map((_, i) => (
                 <Float key={i} speed={5} floatIntensity={2}><Sphere args={[0.1]} position={[Math.random() - 0.5, 0.5 + i * 0.2, Math.random() - 0.5]}><meshStandardMaterial color="white" transparent opacity={0.5} /></Sphere></Float>
@@ -510,49 +520,51 @@ export function Chap11Combustion() {
 
     return (
         <group>
-            <DraggableHtmlPanel title="🔥 Hydrocarbures" showCloseButton={false} defaultPosition="bottom-center" className="w-[340px] text-white">
-                <div className="flex justify-between items-center mb-3 border-b border-white/10 pb-2">
-                    <div className="flex gap-2">
-                        <button onClick={() => setMode('explore')} className={`text-xs px-2 py-1 rounded ${mode === 'explore' ? 'bg-orange-600' : 'bg-gray-700'}`}>Labo</button>
-                        <button onClick={startChallenge} className={`text-xs px-2 py-1 rounded ${mode === 'challenge' ? 'bg-purple-600' : 'bg-gray-700'}`}>Quiz 🏆</button>
+            <Html transform={false}>
+                <DraggableHtmlPanel title="🔥 Hydrocarbures" showCloseButton={false} defaultPosition="bottom-center" className="w-[340px] text-white" usePortal={false}>
+                    <div className="flex justify-between items-center mb-3 border-b border-white/10 pb-2">
+                        <div className="flex gap-2">
+                            <button onClick={() => setMode('explore')} className={`text-xs px-2 py-1 rounded ${mode === 'explore' ? 'bg-orange-600' : 'bg-gray-700'}`}>Labo</button>
+                            <button onClick={startChallenge} className={`text-xs px-2 py-1 rounded ${mode === 'challenge' ? 'bg-purple-600' : 'bg-gray-700'}`}>Quiz 🏆</button>
+                        </div>
+                        {mode === 'challenge' && <div className="font-bold text-yellow-400">{score} XP</div>}
                     </div>
-                    {mode === 'challenge' && <div className="font-bold text-yellow-400">{score} XP</div>}
-                </div>
 
-                {mode === 'explore' ? (
-                    <>
-                        <div className="space-y-2 mb-3">
-                            {Object.entries(fuels).map(([k, f]) => (
-                                <button key={k} onClick={() => setFuel(k)} className={`w-full p-2 rounded text-left text-sm ${fuel === k ? 'bg-orange-600' : 'bg-gray-800'}`}>
-                                    {f.name}
-                                </button>
-                            ))}
-                        </div>
-                        <button onClick={startBurn} disabled={burning}
-                            className={`w-full py-3 rounded-lg font-bold ${burning ? 'bg-red-500 animate-pulse' : 'bg-orange-600 hover:bg-orange-500'}`}>
-                            {burning ? '🔥 COMBUSTION EN COURS' : '🔥 Allumer'}
-                        </button>
-                        <div className="mt-3 p-2 bg-gray-900 rounded text-xs font-mono text-center">
-                            {fuels[fuel].formula}
-                        </div>
-                        {burning && <div className="mt-2 text-center text-sm">→ CO₂ + H₂O + Énergie 🔥</div>}
-                    </>
-                ) : (
-                    <div className="bg-gray-800 p-3 rounded-xl">
-                        {challenge && (
-                            <div className="space-y-3">
-                                <div className="text-sm">{challenge.q}</div>
-                                {challenge.options.map((opt, idx) => (
-                                    <button key={idx} onClick={() => checkAnswer(idx)} className="w-full text-left p-2 rounded bg-gray-700 hover:bg-gray-600 text-sm">
-                                        {['A', 'B', 'C'][idx]}. {opt}
+                    {mode === 'explore' ? (
+                        <>
+                            <div className="space-y-2 mb-3">
+                                {Object.entries(fuels).map(([k, f]) => (
+                                    <button key={k} onClick={() => setFuel(k)} className={`w-full p-2 rounded text-left text-sm ${fuel === k ? 'bg-orange-600' : 'bg-gray-800'}`}>
+                                        {f.name}
                                     </button>
                                 ))}
-                                {challenge.answered && <button onClick={nextQuestion} className="w-full py-2 bg-purple-600 rounded font-bold">Suivant →</button>}
                             </div>
-                        )}
-                    </div>
-                )}
-            </DraggableHtmlPanel>
+                            <button onClick={startBurn} disabled={burning}
+                                className={`w-full py-3 rounded-lg font-bold ${burning ? 'bg-red-500 animate-pulse' : 'bg-orange-600 hover:bg-orange-500'}`}>
+                                {burning ? '🔥 COMBUSTION EN COURS' : '🔥 Allumer'}
+                            </button>
+                            <div className="mt-3 p-2 bg-gray-900 rounded text-xs font-mono text-center">
+                                {fuels[fuel].formula}
+                            </div>
+                            {burning && <div className="mt-2 text-center text-sm">→ CO₂ + H₂O + Énergie 🔥</div>}
+                        </>
+                    ) : (
+                        <div className="bg-gray-800 p-3 rounded-xl">
+                            {challenge && (
+                                <div className="space-y-3">
+                                    <div className="text-sm">{challenge.q}</div>
+                                    {challenge.options.map((opt, idx) => (
+                                        <button key={idx} onClick={() => checkAnswer(idx)} className="w-full text-left p-2 rounded bg-gray-700 hover:bg-gray-600 text-sm">
+                                            {['A', 'B', 'C'][idx]}. {opt}
+                                        </button>
+                                    ))}
+                                    {challenge.answered && <button onClick={nextQuestion} className="w-full py-2 bg-purple-600 rounded font-bold">Suivant →</button>}
+                                </div>
+                            )}
+                        </div>
+                    )}
+                </DraggableHtmlPanel>
+            </Html>
             <Cylinder args={[0.3, 0.3, 1, 32]} position={[0, -0.5, 0]}><meshStandardMaterial color="#333" /></Cylinder>
             {burning && (
                 <group position={[0, 0.3, 0]}>
