@@ -49,6 +49,7 @@ import { DensityExplorer, RefractionSimulator, CircuitSeriesParallel, MassConser
 import { Chap1ScienceIntro, Chap2Mesures, Chap3Densite, Chap4PoidsMasse, Chap5Electricite } from './PC4eChapter1to5';
 import { Chap6SourcesLumiere, Chap7PropagationLumiere, Chap8Refraction } from './PC4eChapter6to8';
 import { Chap1LentillesMCE, Chap2DispersionLumiere, Chap3ForcesVecteurs, Chap4TravailPuissance, Chap5Electrisation } from './PC3eChapter1to5';
+import { Chap6LoiOhm, Chap7TransformationsEnergie, Chap8SolutionsAqueuses, Chap9AcidesBasesPH, Chap10Metaux, Chap11Combustion } from './PC3eChapter6to11';
 
 
 
@@ -4489,17 +4490,17 @@ export default function Simulation3D({ type = 'atom', config = {} }) {
             case 'electrostatics':
                 return <Chap5Electrisation />;
             case 'ohm-law-circuit':
-                return <ElectricCircuit />;
+                return <Chap6LoiOhm />;
             case 'energy-flow':
-                return <EnergyConservation />;
+                return <Chap7TransformationsEnergie />;
             case 'solution-mixing':
-                return <SolutionsSolubility />;
+                return <Chap8SolutionsAqueuses />;
             case 'ph-scale':
-                return <PHScale />;
+                return <Chap9AcidesBasesPH />;
             case 'metal-reactions':
-                return <ChemicalReaction />;
+                return <Chap10Metaux />;
             case 'combustion-3d':
-                return <CombustionReaction />;
+                return <Chap11Combustion />;
 
             default:
                 return <Atom {...config} />;
