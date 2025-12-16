@@ -85,7 +85,11 @@ Où $k = 9 \\times 10^9$ N·m²/C² (constante de Coulomb)
                     explanation: "D'après la loi de Coulomb, deux charges de même signe (++ ou --) se repoussent."
                 }
             ],
-            simulation: 'electrisation-2nde'
+            simulation: {
+                id: 'electrisation-2nde',
+                title: 'Phénomènes d\'Électrisation',
+                type: 'electrisation-2nde'
+            }
         },
 
         {
@@ -175,7 +179,11 @@ Un circuit électrique est constitué de :
                     explanation: "Par convention, le courant va de la borne positive (+) vers la borne négative (-) à l'extérieur du générateur."
                 }
             ],
-            simulation: 'circuit-electrique-2nde'
+            simulation: {
+                id: 'circuit-electrique-2nde',
+                title: 'Circuit Électrique Interactif',
+                type: 'circuit-electrique-2nde'
+            }
         },
 
         {
@@ -277,7 +285,11 @@ $$I_1 = I_2 = I_3 = ... = I$$
                     explanation: "D'après la loi des nœuds : $I_{repartant} = 3 + 5 = 8A$"
                 }
             ],
-            simulation: 'circuit-electrique-2nde'
+            simulation: {
+                id: 'circuit-electrique-2nde',
+                title: 'Intensité et Loi des Nœuds',
+                type: 'circuit-electrique-2nde'
+            }
         },
 
         {
@@ -373,7 +385,11 @@ $$U_1 = U_2 = U_3 = ... = U_{générateur}$$
                     explanation: "En dérivation, la tension est la même aux bornes de toutes les branches : 6V."
                 }
             ],
-            simulation: 'circuit-electrique-2nde'
+            simulation: {
+                id: 'circuit-electrique-2nde',
+                title: 'Tension Électrique',
+                type: 'circuit-electrique-2nde'
+            }
         },
 
         {
@@ -490,7 +506,11 @@ $$E = P \\times t$$
                     explanation: "$P = R \\times I^2 = 5 \\times 16 = 80W$"
                 }
             ],
-            simulation: 'loi-ohm-2nde'
+            simulation: {
+                id: 'loi-ohm-2nde',
+                title: 'Loi d\'Ohm - Caractéristique U=f(I)',
+                type: 'loi-ohm-2nde'
+            }
         },
 
         {
@@ -566,7 +586,11 @@ $$\\eta = \\frac{P_{utile}}{P_{totale}} = \\frac{U \\times I}{E \\times I} = \\f
                     explanation: "Si $I=0$, alors $U = E - 0 = E$. C'est la tension maximale possible du générateur."
                 }
             ],
-            simulation: 'generateur-2nde'
+            simulation: {
+                id: 'generateur-2nde',
+                title: 'Générateurs et f.é.m',
+                type: 'generateur-2nde'
+            }
         },
 
         {
@@ -650,7 +674,11 @@ Sert à isoler deux parties d'un circuit (adaptation d'impédance).
                     explanation: "C'est la propriété fondamentale du régime linéaire (assuré par la contre-réaction négative)."
                 }
             ],
-            simulation: 'rc-circuit'
+            simulation: {
+                id: 'rc-circuit',
+                title: 'Amplificateur Opérationnel',
+                type: 'rc-circuit'
+            }
         },
 
         // ==========================================
@@ -717,7 +745,11 @@ Où $d$ est la distance parcourue (m) et $t$ la durée (s).
                     explanation: "Le vecteur vitesse est toujours tangent à la trajectoire, donc perpendiculaire au rayon."
                 }
             ],
-            simulation: 'mouvement-2nde'
+            simulation: {
+                id: 'mouvement-2nde',
+                title: 'Mouvement et Référentiel',
+                type: 'mouvement-2nde'
+            }
         },
 
         {
@@ -769,7 +801,11 @@ On mesure l'intensité d'une force avec un **Dynamomètre** (basé sur l'allonge
                     explanation: "Le poids est une force répartie, mais on modélise son action au centre de gravité (G)."
                 }
             ],
-            simulation: 'forces-poids-2nde'
+            simulation: {
+                id: 'forces-poids-2nde',
+                title: 'Forces et Poids',
+                type: 'forces-poids-2nde'
+            }
         },
 
         {
@@ -832,7 +868,11 @@ Où $\\vec{g}$ est le vecteur champ de pesanteur (Intensité de la pesanteur).
                     explanation: "$P = m \\times g = 10 \\times 9,8 = 98 N$."
                 }
             ],
-            simulation: 'forces-poids-2nde'
+            simulation: {
+                id: 'forces-poids-2nde',
+                title: 'Poids vs Masse',
+                type: 'forces-poids-2nde'
+            }
         },
 
         {
@@ -892,7 +932,11 @@ On résout ensuite le système d'équations.
                     explanation: "Si elles ne concourent pas au même point, elles créent un couple qui fait tourner le solide."
                 }
             ],
-            simulation: 'equilibre-3forces-2nde'
+            simulation: {
+                id: 'equilibre-3forces-2nde',
+                title: 'Équilibre à 3 Forces',
+                type: 'equilibre-3forces-2nde'
+            }
         },
 
         {
@@ -957,7 +1001,11 @@ Elles provoquent une rotation pure (comme tourner un volant ou un bouchon).
                     explanation: "Si la force passe par l'axe, le bras de levier $d = 0$. Donc $\\mathcal{M} = F \\times 0 = 0$. Elle ne peut pas faire tourner l'objet."
                 }
             ],
-            simulation: 'moment-force-2nde'
+            simulation: {
+                id: 'moment-force-2nde',
+                title: 'Moment d\'une Force',
+                type: 'moment-force-2nde'
+            }
         },
 
         // ==========================================
@@ -1026,7 +1074,11 @@ Si la source est étendue, une zone de transition apparaît : la **pénombre**.
                     explanation: "Si l'air n'est pas homogène (différences de température), la lumière se courbe (réfraction graduelle), créant des mirages."
                 }
             ],
-            simulation: 'propagation-lumiere-2nde'
+            simulation: {
+                id: 'propagation-lumiere-2nde',
+                title: 'Propagation de la Lumière',
+                type: 'propagation-lumiere-2nde'
+            }
         },
 
         {
@@ -1087,7 +1139,11 @@ L'image A' d'un objet A donnée par un miroir plan est :
                     explanation: "L'image est virtuelle (derrière le miroir) et de même taille, symétrique à l'objet."
                 }
             ],
-            simulation: 'reflexion-lumiere-2nde'
+            simulation: {
+                id: 'reflexion-lumiere-2nde',
+                title: 'Réflexion de la Lumière',
+                type: 'reflexion-lumiere-2nde'
+            }
         },
 
         {
@@ -1163,7 +1219,11 @@ Un **prisme** sépare ces couleurs : c'est la **dispersion**.
                     explanation: "Les gouttes d'eau agissent comme des prismes. Elles dispersent la lumière blanche en déviant différemment chaque couleur (longueur d'onde)."
                 }
             ],
-            simulation: 'refraction-dispersion-2nde'
+            simulation: {
+                id: 'refraction-dispersion-2nde',
+                title: 'Réfraction et Dispersion',
+                type: 'refraction-dispersion-2nde'
+            }
         }
     ]
 };
