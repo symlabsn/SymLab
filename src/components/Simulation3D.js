@@ -53,6 +53,9 @@ import { Chap6LoiOhm, Chap7TransformationsEnergie, Chap8SolutionsAqueuses, Chap9
 import { ForcesInertia, GasLaws, SoundWaves, AtomicStructureSeconde, DistillationSetup } from './SecondeSimulations';
 import { UniversalGravitationSeconde, RefractionSeconde, PrismDispersion, MoleScale, SolutionsSeconde } from './SecondeSimulationsPart2';
 import { MotionRelativity, ChromatographyExperiment, ChemicalIdentification, SonarEcholocation, PowerLifter } from './SecondeSimulationsPart3';
+import { ElectrisationSimulation, CircuitElectriqueSeconde, LoiOhmSeconde, GenerateurSeconde } from './Physique2ndeSimulations';
+import { MouvementSeconde, ForcesPoidsSeconde, Equilibre3ForcesSeconde, MomentForceSeconde } from './Physique2ndeSimulationsPart2';
+import { PropagationLumiereSeconde, ReflexionLumiereSeconde, RefractionDispersionSeconde } from './Physique2ndeSimulationsPart3';
 
 
 
@@ -4541,6 +4544,33 @@ export default function Simulation3D({ type = 'atom', config = {} }) {
                 return <AtomicStructureSeconde />;
             case 'extraction-distillation':
                 return <DistillationSetup />;
+
+            // === NOUVELLES SIMULATIONS PHYSIQUE 2NDE ===
+            // Électricité (P1-P7)
+            case 'electrisation-2nde':
+                return <ElectrisationSimulation />;
+            case 'circuit-electrique-2nde':
+                return <CircuitElectriqueSeconde />;
+            case 'loi-ohm-2nde':
+                return <LoiOhmSeconde />;
+            case 'generateur-2nde':
+                return <GenerateurSeconde />;
+            // Mécanique (P8-P12)
+            case 'mouvement-2nde':
+                return <MouvementSeconde />;
+            case 'forces-poids-2nde':
+                return <ForcesPoidsSeconde />;
+            case 'equilibre-3forces-2nde':
+                return <Equilibre3ForcesSeconde />;
+            case 'moment-force-2nde':
+                return <MomentForceSeconde />;
+            // Optique (P13-P15)
+            case 'propagation-lumiere-2nde':
+                return <PropagationLumiereSeconde />;
+            case 'reflexion-lumiere-2nde':
+                return <ReflexionLumiereSeconde />;
+            case 'refraction-dispersion-2nde':
+                return <RefractionDispersionSeconde />;
 
             default:
                 return <Atom {...config} />;
