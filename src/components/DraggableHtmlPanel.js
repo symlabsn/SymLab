@@ -119,12 +119,38 @@ const DraggableHtmlPanel = ({ children, title, className = "", initialPos = null
         };
     }, [isDragging, handleMouseMove, handleMouseUp, handleTouchMove]);
 
+    const [mountNode, setMountNode] = useState(null);
+
+    useEffect(() => {
+        if (typeof document === 'undefined') return;
+
+        // Initial set
+        setMountNode(document.fullscreenElement || document.body);
+
+        const handleFullscreenChange = () => {
+            setMountNode(document.fullscreenElement || document.body);
+        };
+
+        // Listen for fullscreen changes to re-parent the portal
+        document.addEventListener('fullscreenchange', handleFullscreenChange);
+        document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
+        document.addEventListener('mozfullscreenchange', handleFullscreenChange);
+        document.addEventListener('msfullscreenchange', handleFullscreenChange);
+
+        return () => {
+            document.removeEventListener('fullscreenchange', handleFullscreenChange);
+            document.removeEventListener('webkitfullscreenchange', handleFullscreenChange);
+            document.removeEventListener('mozfullscreenchange', handleFullscreenChange);
+            document.removeEventListener('msfullscreenchange', handleFullscreenChange);
+        };
+    }, []);
+
     // Ne pas rendre tant que le client n'est pas monté ou si fermé
     // Retourne un fragment vide pour éviter les erreurs R3F avec les enfants
     if (!mounted || isClosed) return <></>;
 
-    // Ne pas essayer de créer le portail si document n'est pas disponible
-    if (typeof document === 'undefined') return <></>;
+    // Ne pas essayer de créer le portail si mountNode n'est pas déterminé
+    if (!mountNode) return <></>;
 
     const panelContent = (
         <div
@@ -188,11 +214,7 @@ const DraggableHtmlPanel = ({ children, title, className = "", initialPos = null
     );
 
     // Toujours utiliser createPortal pour détacher du contexte R3F
-    // Le panneau doit être rendu dans document.body pour être visible au-dessus de la scène 3D
-    if (typeof document !== 'undefined') {
-        return createPortal(panelContent, document.body);
-    }
-    return <></>;
+    return createPortal(panelContent, mountNode);
 };
 
 export default DraggableHtmlPanel;

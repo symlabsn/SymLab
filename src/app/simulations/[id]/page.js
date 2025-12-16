@@ -1044,6 +1044,62 @@ export default function SimulationDetailPage({ params }) {
                                         <div className="absolute top-2 right-2 sm:top-4 sm:right-4 z-10">
                                             <FullscreenButton containerRef={simulationContainerRef} />
                                         </div>
+
+                                        {/* Bouton pour ouvrir le panneau de contrôle (si fermé) */}
+                                        {!showControlPanel && (
+                                            <button
+                                                onClick={() => setShowControlPanel(true)}
+                                                className="fixed bottom-20 right-4 z-40 p-3 rounded-xl bg-gradient-to-r from-[#00F5D4] to-purple-500 text-black font-bold shadow-2xl hover:scale-110 transition-all animate-pulse"
+                                                title="Ouvrir le panneau de contrôle"
+                                            >
+                                                🎛️
+                                            </button>
+                                        )}
+
+                                        {/* Panneau de contrôle Draggable (Desktop + Mobile) */}
+                                        <DraggableControlPanel
+                                            title="🎛️ Panneau de Contrôle"
+                                            initialPosition={{ x: 20, y: 120 }}
+                                            isVisible={showControlPanel}
+                                            setIsVisible={setShowControlPanel}
+                                        >
+                                            <div className="space-y-4">
+                                                <AdvancedControls
+                                                    autoRotate={autoRotate}
+                                                    setAutoRotate={setAutoRotate}
+                                                    speed={speed}
+                                                    setSpeed={setSpeed}
+                                                    showLabels={showLabels}
+                                                    setShowLabels={setShowLabels}
+                                                    showGrid={showGrid}
+                                                    setShowGrid={setShowGrid}
+                                                    zoom={zoom}
+                                                    setZoom={setZoom}
+                                                />
+                                                {/* Guide des interactions */}
+                                                <div className="bg-black/30 rounded-xl p-3">
+                                                    <h4 className="font-semibold text-xs text-gray-400 mb-2 uppercase tracking-wider">Interactions</h4>
+                                                    <div className="space-y-1.5 text-xs">
+                                                        <div className="flex items-center gap-2">
+                                                            <span>🖱️</span>
+                                                            <span className="text-gray-300">Rotation: Clic + Glisser</span>
+                                                        </div>
+                                                        <div className="flex items-center gap-2">
+                                                            <span>🔍</span>
+                                                            <span className="text-gray-300">Zoom: Molette</span>
+                                                        </div>
+                                                        <div className="flex items-center gap-2">
+                                                            <span>✋</span>
+                                                            <span className="text-gray-300">Déplacer: Clic droit</span>
+                                                        </div>
+                                                        <div className="flex items-center gap-2">
+                                                            <span>✊</span>
+                                                            <span className="text-gray-300">Déplacer ce panneau: Header</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </DraggableControlPanel>
                                     </div>
 
                                     {/* Panneau de contrôle repliable sur mobile */}
@@ -1076,61 +1132,7 @@ export default function SimulationDetailPage({ params }) {
                                         </div>
                                     </details>
 
-                                    {/* Bouton pour ouvrir le panneau de contrôle (si fermé) */}
-                                    {!showControlPanel && (
-                                        <button
-                                            onClick={() => setShowControlPanel(true)}
-                                            className="fixed bottom-20 right-4 z-40 p-3 rounded-xl bg-gradient-to-r from-[#00F5D4] to-purple-500 text-black font-bold shadow-2xl hover:scale-110 transition-all animate-pulse"
-                                            title="Ouvrir le panneau de contrôle"
-                                        >
-                                            🎛️
-                                        </button>
-                                    )}
 
-                                    {/* Panneau de contrôle Draggable (Desktop + Mobile) */}
-                                    <DraggableControlPanel
-                                        title="🎛️ Panneau de Contrôle"
-                                        initialPosition={{ x: 20, y: 120 }}
-                                        isVisible={showControlPanel}
-                                        setIsVisible={setShowControlPanel}
-                                    >
-                                        <div className="space-y-4">
-                                            <AdvancedControls
-                                                autoRotate={autoRotate}
-                                                setAutoRotate={setAutoRotate}
-                                                speed={speed}
-                                                setSpeed={setSpeed}
-                                                showLabels={showLabels}
-                                                setShowLabels={setShowLabels}
-                                                showGrid={showGrid}
-                                                setShowGrid={setShowGrid}
-                                                zoom={zoom}
-                                                setZoom={setZoom}
-                                            />
-                                            {/* Guide des interactions */}
-                                            <div className="bg-black/30 rounded-xl p-3">
-                                                <h4 className="font-semibold text-xs text-gray-400 mb-2 uppercase tracking-wider">Interactions</h4>
-                                                <div className="space-y-1.5 text-xs">
-                                                    <div className="flex items-center gap-2">
-                                                        <span>🖱️</span>
-                                                        <span className="text-gray-300">Rotation: Clic + Glisser</span>
-                                                    </div>
-                                                    <div className="flex items-center gap-2">
-                                                        <span>🔍</span>
-                                                        <span className="text-gray-300">Zoom: Molette</span>
-                                                    </div>
-                                                    <div className="flex items-center gap-2">
-                                                        <span>✋</span>
-                                                        <span className="text-gray-300">Déplacer: Clic droit</span>
-                                                    </div>
-                                                    <div className="flex items-center gap-2">
-                                                        <span>✊</span>
-                                                        <span className="text-gray-300">Déplacer ce panneau: Header</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </DraggableControlPanel>
 
                                     {/* Visualisation Interactive (Image backup) - Hidden on mobile */}
                                     <div className="hidden sm:block">
