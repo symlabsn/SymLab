@@ -84,7 +84,8 @@ Où $k = 9 \\times 10^9$ N·m²/C² (constante de Coulomb)
                     correctAnswer: 1,
                     explanation: "D'après la loi de Coulomb, deux charges de même signe (++ ou --) se repoussent."
                 }
-            ]
+            ],
+            simulation: 'chap5-electrisation-3e'
         },
 
         {
@@ -173,7 +174,8 @@ Un circuit électrique est constitué de :
                     correctAnswer: 1,
                     explanation: "Par convention, le courant va de la borne positive (+) vers la borne négative (-) à l'extérieur du générateur."
                 }
-            ]
+            ],
+            simulation: 'intro-electricity'
         },
 
         {
@@ -274,7 +276,8 @@ $$I_1 = I_2 = I_3 = ... = I$$
                     correctAnswer: 1,
                     explanation: "D'après la loi des nœuds : $I_{repartant} = 3 + 5 = 8A$"
                 }
-            ]
+            ],
+            simulation: 'chap5-electricite'
         },
 
         {
@@ -369,7 +372,8 @@ $$U_1 = U_2 = U_3 = ... = U_{générateur}$$
                     correctAnswer: 1,
                     explanation: "En dérivation, la tension est la même aux bornes de toutes les branches : 6V."
                 }
-            ]
+            ],
+            simulation: 'chap5-electricite'
         },
 
         {
@@ -485,7 +489,8 @@ $$E = P \\times t$$
                     correctAnswer: 2,
                     explanation: "$P = R \\times I^2 = 5 \\times 16 = 80W$"
                 }
-            ]
+            ],
+            simulation: 'chap6-loi-ohm'
         },
 
         {
@@ -560,7 +565,8 @@ $$\\eta = \\frac{P_{utile}}{P_{totale}} = \\frac{U \\times I}{E \\times I} = \\f
                     correctAnswer: 1,
                     explanation: "Si $I=0$, alors $U = E - 0 = E$. C'est la tension maximale possible du générateur."
                 }
-            ]
+            ],
+            simulation: 'chap5-electricite'
         },
 
         {
@@ -643,7 +649,8 @@ Sert à isoler deux parties d'un circuit (adaptation d'impédance).
                     correctAnswer: 2,
                     explanation: "C'est la propriété fondamentale du régime linéaire (assuré par la contre-réaction négative)."
                 }
-            ]
+            ],
+            simulation: 'rc-circuit'
         },
 
         // ==========================================
@@ -709,7 +716,8 @@ Où $d$ est la distance parcourue (m) et $t$ la durée (s).
                     correctAnswer: 1,
                     explanation: "Le vecteur vitesse est toujours tangent à la trajectoire, donc perpendiculaire au rayon."
                 }
-            ]
+            ],
+            simulation: 'rectilinear-motion'
         },
 
         {
@@ -760,7 +768,8 @@ On mesure l'intensité d'une force avec un **Dynamomètre** (basé sur l'allonge
                     correctAnswer: 1,
                     explanation: "Le poids est une force répartie, mais on modélise son action au centre de gravité (G)."
                 }
-            ]
+            ],
+            simulation: 'forces-inertia'
         },
 
         {
@@ -822,7 +831,8 @@ Où $\\vec{g}$ est le vecteur champ de pesanteur (Intensité de la pesanteur).
                     correctAnswer: 2,
                     explanation: "$P = m \\times g = 10 \\times 9,8 = 98 N$."
                 }
-            ]
+            ],
+            simulation: 'chap4-poids-masse'
         },
 
         {
@@ -881,7 +891,8 @@ On résout ensuite le système d'équations.
                     correctAnswer: 1,
                     explanation: "Si elles ne concourent pas au même point, elles créent un couple qui fait tourner le solide."
                 }
-            ]
+            ],
+            simulation: 'chap3-forces-3e'
         },
 
         {
@@ -945,7 +956,8 @@ Elles provoquent une rotation pure (comme tourner un volant ou un bouchon).
                     correctAnswer: 1,
                     explanation: "Si la force passe par l'axe, le bras de levier $d = 0$. Donc $\\mathcal{M} = F \\times 0 = 0$. Elle ne peut pas faire tourner l'objet."
                 }
-            ]
+            ],
+            simulation: 'power-energy'
         },
 
         // ==========================================
@@ -1013,7 +1025,8 @@ Si la source est étendue, une zone de transition apparaît : la **pénombre**.
                     correctAnswer: 3,
                     explanation: "Si l'air n'est pas homogène (différences de température), la lumière se courbe (réfraction graduelle), créant des mirages."
                 }
-            ]
+            ],
+            simulation: 'chap7-propagation-lumiere'
         },
 
         {
@@ -1073,7 +1086,8 @@ L'image A' d'un objet A donnée par un miroir plan est :
                     correctAnswer: 1,
                     explanation: "L'image est virtuelle (derrière le miroir) et de même taille, symétrique à l'objet."
                 }
-            ]
+            ],
+            simulation: 'light-reflection'
         },
 
         {
@@ -1148,7 +1162,8 @@ Un **prisme** sépare ces couleurs : c'est la **dispersion**.
                     correctAnswer: 2,
                     explanation: "Les gouttes d'eau agissent comme des prismes. Elles dispersent la lumière blanche en déviant différemment chaque couleur (longueur d'onde)."
                 }
-            ]
+            ],
+            simulation: 'refraction-light'
         }
     ]
 };

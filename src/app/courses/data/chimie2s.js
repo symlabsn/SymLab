@@ -48,7 +48,8 @@ Pour obtenir un corps pur à partir d'un mélange, on utilise des techniques phy
                     correctAnswer: 2,
                     explanation: "L'eau et l'alcool sont miscibles mais ont des températures d'ébullition différentes (100°C et 78°C). La distillation fractionnée permet de les séparer."
                 }
-            ]
+            ],
+            simulation: 'chromatography'
         },
         {
             id: 'chim-2s-02',
@@ -108,7 +109,8 @@ Les éléments sont classés par Z croissant.
                     correctAnswer: 1,
                     explanation: "La charge positive 2+ indique une perte de 2 électrons négatifs. C'est un cation."
                 }
-            ]
+            ],
+            simulation: 'atomic-structure-seconde'
         },
         {
             id: 'chim-2s-03',
@@ -159,7 +161,8 @@ Attraction électrostatique entre un cation et un anion (ex: $Na^+ + Cl^- \\righ
                     correctAnswer: 2,
                     explanation: "L'azote a 3 électrons célibataires. Pour satisfaire l'octet, deux atomes N partagent 3 paires d'électrons : liaison triple $N \\equiv N$."
                 }
-            ]
+            ],
+            simulation: 'molecular-geometry'
         },
         {
             id: 'chim-2s-04',
@@ -216,7 +219,8 @@ $$n = \\frac{V}{V_m}$$
                     correctAnswer: 0,
                     explanation: "$V = n \\times V_m = 0,5 \\times 22,4 = 11,2 \\text{ L}$."
                 }
-            ]
+            ],
+            simulation: 'mole-concept'
         },
         {
             id: 'chim-2s-05',
@@ -276,7 +280,8 @@ $$ \\frac{n(A)_{consommé}}{a} = \\frac{n(B)_{consommé}}{b} = \\frac{n(C)_{form
                     correctAnswer: 0,
                     explanation: "D'après les cœfficients (2 pour 1), il faut deux fois moins de dioxygène que de dihydrogène. $2/2 = 1$ mol."
                 }
-            ]
+            ],
+            simulation: 'mass-conservation'
         },
         {
             id: 'chim-2s-06',
@@ -335,7 +340,8 @@ $V_i$ est le volume à prélever de la solution mère.
                     correctAnswer: 1,
                     explanation: "On ajoute du solvant, donc il y a moins de soluté par unité de volume. La concentration diminue."
                 }
-            ]
+            ],
+            simulation: 'molar-concentration'
         },
         {
             id: 'chim-2s-07',
@@ -381,7 +387,8 @@ Dans l'eau, $H^+$ s'associe à $H_2O$ pour former l'ion **Hydronium $H_3O^+$**.
                     correctAnswer: 1,
                     explanation: "$HCl$ (Chlorure d'hydrogène) dissous dans l'eau donne l'acide chlorhydrique."
                 }
-            ]
+            ],
+            simulation: 'ph-scale'
         },
         {
             id: 'chim-2s-08',
@@ -427,7 +434,8 @@ Une **base** est une substance qui, en solution aqueuse, libère des ions hydrox
                     correctAnswer: 1,
                     explanation: "$NaOH \\rightarrow Na^+ + OH^-$."
                 }
-            ]
+            ],
+            simulation: 'ph-scale'
         },
         {
             id: 'chim-2s-09',
@@ -478,7 +486,8 @@ Ce sont des substances organiques dont la couleur change selon le pH du milieu (
                     correctAnswer: 2,
                     explanation: "Le Bleu de Bromothymol est bleu en milieu basique (pH > 7,6)."
                 }
-            ]
+            ],
+            simulation: 'ph-scale'
         },
         {
             id: 'chim-2s-10',
@@ -532,7 +541,8 @@ On ajoute de la Soude ($NaOH$).
                     correctAnswer: 2,
                     explanation: "Le précipité vert est l'hydroxyde de fer II ($Fe(OH)_2$)."
                 }
-            ]
+            ],
+            simulation: 'chemical-tests'
         }
     ]
 };
