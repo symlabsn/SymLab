@@ -3403,6 +3403,489 @@ Représentation :
         relatedSimulations: ['enzymes-properties', 'chemical-equilibrium']
     },
 
+    // ========== PHYSIQUE 2NDE - SIMULATIONS DÉDIÉES ==========
+
+    // --- ÉLECTRICITÉ (P1-P7) ---
+    'electrisation-2nde': {
+        title: 'P1. Phénomènes d\'Électrisation',
+        description: 'Frottement, charge électrique et loi de Coulomb',
+        type: 'electrisation-2nde',
+        config: {},
+        analogy: {
+            title: 'L\'Ambre Magique de Thalès',
+            content: `En frottant de l'ambre (elektron en grec) avec de la laine, Thalès a découvert l'électricité statique ! ⚡🧶
+
+Quand tu frottes une règle en plastique avec un chiffon :
+- La règle ARRACHE des électrons à la laine.
+- La règle devient NÉGATIVE (excès d'électrons).
+- La laine devient POSITIVE (manque d'électrons).
+
+C'est comme un vol à la tire : La règle vole les électrons à la laine !
+Ensuite, elle peut attirer des petits bouts de papier grâce à la force électrostatique.`
+        },
+        theory: `Électrisation par Frottement
+
+Trois modes d'électrisation :
+1. Par FROTTEMENT : Transfert d'électrons entre deux corps.
+2. Par CONTACT : Partage de charges.
+3. Par INFLUENCE : Redistribution sans contact.
+
+Charge élémentaire : e = 1,6 × 10⁻¹⁹ C
+
+Loi de Coulomb :
+F = k × |q₁ × q₂| / r²
+k = 9 × 10⁹ N·m²/C²
+
+Charges de même signe se repoussent.
+Charges de signes opposés s'attirent.`,
+        exercises: [
+            { question: 'Quand on frotte une règle en plastique avec de la laine, la règle devient négative car...', options: ['Elle perd des protons', 'Elle gagne des électrons', 'Elle perd des électrons', 'Elle gagne des protons'], correct: 1, explanation: 'La règle arrache des électrons (négatifs) à la laine, elle devient donc négative.' },
+            { question: 'Deux charges de même signe...', options: ['S\'attirent', 'Se repoussent', 'N\'interagissent pas', 'Se neutralisent'], correct: 1, explanation: 'D\'après Coulomb, les charges de même signe se repoussent.' }
+        ],
+        relatedSimulations: ['circuit-electrique-2nde', 'loi-ohm-2nde']
+    },
+    'circuit-electrique-2nde': {
+        title: 'P2-P4. Circuit Électrique',
+        description: 'Courant, tension, ampèremètre et voltmètre',
+        type: 'circuit-electrique-2nde',
+        config: {},
+        analogy: {
+            title: 'Le Circuit Hydraulique',
+            content: `Un circuit électrique, c'est comme un circuit d'eau fermé ! 💧🔌
+
+- Le GÉNÉRATEUR est la pompe : Il "pousse" les charges.
+- Les FILS sont les tuyaux : L'eau (courant) y circule.
+- La RÉSISTANCE est un robinet étroit : Elle freine le débit.
+- La LAMPE est une turbine : Elle utilise l'énergie pour briller.
+
+Le courant (débit d'eau) est le même partout dans un circuit en série.
+La tension (pression) se répartit entre les éléments.`
+        },
+        theory: `Courant et Tension Électrique
+
+COURANT (I) :
+- Déplacement ordonné de charges.
+- Unité : Ampère (A).
+- Mesuré avec un AMPÈREMÈTRE en SÉRIE.
+- Sens conventionnel : de (+) vers (-) à l'extérieur du générateur.
+
+TENSION (U) :
+- Différence de potentiel entre deux points.
+- Unité : Volt (V).
+- Mesurée avec un VOLTMÈTRE en PARALLÈLE.
+
+Loi des nœuds : ΣI_arrivant = ΣI_repartant
+Loi des mailles : ΣU = 0`,
+        exercises: [
+            { question: 'L\'ampèremètre se branche...', options: ['En parallèle', 'En série', 'N\'importe comment', 'Aux bornes du générateur'], correct: 1, explanation: 'L\'ampèremètre doit être traversé par le courant, donc en série.' },
+            { question: 'Le sens conventionnel du courant va de...', options: ['(-) vers (+)', '(+) vers (-)', 'Du fil vers la lampe', 'Il n\'y a pas de sens'], correct: 1, explanation: 'Par convention, le courant va de (+) vers (-) à l\'extérieur du générateur.' }
+        ],
+        relatedSimulations: ['loi-ohm-2nde', 'generateur-2nde']
+    },
+    'loi-ohm-2nde': {
+        title: 'P5. Loi d\'Ohm',
+        description: 'Relation tension-intensité et résistance',
+        type: 'loi-ohm-2nde',
+        config: {},
+        analogy: {
+            title: 'Le Robinet et la Pression',
+            content: `La résistance, c'est comme un robinet à moitié fermé ! 🚰
+
+- Plus tu POUSSES fort (tension U), plus l'eau passe vite (courant I).
+- Plus le robinet est FERMÉ (résistance R), moins l'eau passe.
+
+Formule : U = R × I
+
+Si tu veux le même débit avec un robinet plus fermé,
+il faut pousser plus fort (augmenter la tension).
+
+La pente de la droite U = f(I) donne la résistance R.`
+        },
+        theory: `Loi d'Ohm pour un Conducteur Ohmique
+
+U = R × I
+
+- U : Tension aux bornes (V)
+- R : Résistance (Ω)
+- I : Intensité (A)
+
+Caractéristique :
+Pour un conducteur ohmique, la courbe U = f(I) est une droite passant par l'origine.
+La pente de cette droite = R.
+
+Associations :
+- Série : R_eq = R₁ + R₂ + ...
+- Parallèle : 1/R_eq = 1/R₁ + 1/R₂ + ...
+
+Puissance dissipée (effet Joule) :
+P = U × I = R × I² = U²/R`,
+        exercises: [
+            { question: 'Une résistance de 100Ω sous 20V. Intensité ?', options: ['0,2 A', '2 A', '5 A', '2000 A'], correct: 0, explanation: 'I = U/R = 20/100 = 0,2 A.' },
+            { question: 'Deux résistances de 10Ω et 20Ω en série donnent...', options: ['6,67 Ω', '15 Ω', '30 Ω', '200 Ω'], correct: 2, explanation: 'En série : R_eq = 10 + 20 = 30 Ω.' }
+        ],
+        relatedSimulations: ['circuit-electrique-2nde', 'generateur-2nde']
+    },
+    'generateur-2nde': {
+        title: 'P6. Dipôles Actifs',
+        description: 'f.é.m, résistance interne et bilan énergétique',
+        type: 'generateur-2nde',
+        config: {},
+        analogy: {
+            title: 'La Pompe à Eau',
+            content: `Le générateur est comme une pompe hydraulique ! 🔋
+
+La f.é.m (E) = la pression maximale que la pompe peut fournir.
+La résistance interne (r) = les frottements dans la pompe elle-même.
+
+Quand l'eau coule fort (grand I), la pompe fatigue :
+La pression de sortie (U) est plus faible que la pression max (E).
+
+U = E - r × I
+
+Plus tu tires de courant, plus tu perds en tension aux bornes.
+À vide (I=0), U = E (pas de pertes internes).`
+        },
+        theory: `Loi d'Ohm pour un Générateur
+
+U = E - r × I
+
+- E : Force électromotrice (f.é.m) en V
+- r : Résistance interne en Ω
+- I : Intensité débitée en A
+- U : Tension aux bornes en V
+
+Courant de court-circuit : I_cc = E/r (dangereux !)
+
+Bilan de puissance :
+E × I = U × I + r × I²
+P_totale = P_utile + P_perdue
+
+Rendement :
+η = P_utile / P_totale = U/E`,
+        exercises: [
+            { question: 'Une pile (E=4,5V, r=1Ω) débite 0,5A. Tension aux bornes ?', options: ['4,5 V', '4,0 V', '5,0 V', '0,5 V'], correct: 1, explanation: 'U = E - rI = 4,5 - 1×0,5 = 4,0 V.' },
+            { question: 'La f.é.m correspond à la tension...', options: ['Quand I est maximal', 'À vide (I=0)', 'De court-circuit', 'Aux bornes de la résistance'], correct: 1, explanation: 'Si I=0, alors U = E - 0 = E.' }
+        ],
+        relatedSimulations: ['loi-ohm-2nde', 'circuit-electrique-2nde']
+    },
+
+    // --- MÉCANIQUE (P8-P12) ---
+    'mouvement-2nde': {
+        title: 'P8. Généralités sur le Mouvement',
+        description: 'Référentiel, trajectoire et vecteur vitesse',
+        type: 'mouvement-2nde',
+        config: {},
+        analogy: {
+            title: 'Le Passager du Train',
+            content: `Le mouvement dépend de ton point de vue ! 🚂👀
+
+Imagine : Tu es dans un TER Dakar-Thiès.
+- Par rapport au wagon, tu es IMMOBILE (assis sur ton siège).
+- Par rapport au sol, tu te déplaces à 100 km/h !
+
+C'est la même chose pour une balle lancée dans le train.
+Pour toi, elle va tout droit.
+Pour quelqu'un sur le quai, elle fait une courbe !
+
+Le référentiel, c'est le "caméra" que tu choisis pour filmer le mouvement.`
+        },
+        theory: `Généralités sur le Mouvement
+
+RÉFÉRENTIEL :
+Solide par rapport auquel on étudie le mouvement.
+Le mouvement est RELATIF au référentiel choisi.
+
+TRAJECTOIRE :
+Ensemble des positions successives du mobile.
+- Rectiligne (droite)
+- Circulaire
+- Curviligne
+
+VITESSE MOYENNE :
+V_m = d/t (m/s)
+
+VECTEUR VITESSE INSTANTANÉE :
+- Point d'application : le mobile
+- Direction : TANGENTE à la trajectoire
+- Sens : celui du mouvement
+- Norme : |v| (compteur de vitesse)`,
+        exercises: [
+            { question: 'Un bus roule à 72 km/h. Vitesse en m/s ?', options: ['72 m/s', '20 m/s', '200 m/s', '36 m/s'], correct: 1, explanation: 'Pour passer de km/h à m/s, on divise par 3,6. 72/3,6 = 20 m/s.' },
+            { question: 'Le vecteur vitesse est toujours...', options: ['Dirigé vers le centre', 'Tangent à la trajectoire', 'Constant', 'Nul'], correct: 1, explanation: 'Le vecteur vitesse est toujours tangent à la trajectoire.' }
+        ],
+        relatedSimulations: ['forces-poids-2nde', 'equilibre-3forces-2nde']
+    },
+    'forces-poids-2nde': {
+        title: 'P9-P10. Forces et Poids',
+        description: 'Masse, poids, g et plan incliné',
+        type: 'forces-poids-2nde',
+        config: {},
+        analogy: {
+            title: 'L\'Haltère Spatiale',
+            content: `Masse et Poids, ce n'est PAS pareil ! 🏋️🌙
+
+Une haltère de 100 kg :
+- Sur TERRE : super lourde (P = 100 × 9,8 ≈ 980 N).
+- Sur la LUNE : légère (P = 100 × 1,6 = 160 N).
+- Dans l'ESPACE : elle ne pèse RIEN (P = 0 N).
+
+Mais dans les 3 cas, si elle te percute, ça fait TOUT AUSSI MAL !
+Car sa MASSE (100 kg) ne change jamais.
+
+La masse, c'est la quantité de matière.
+Le poids, c'est la force d'attraction de la planète.`
+        },
+        theory: `Poids et Masse
+
+MASSE (m) :
+- Quantité de matière
+- Unité : kg
+- INVARIABLE (même sur la Lune)
+- Mesure : Balance
+
+POIDS (P) :
+- Force d'attraction gravitationnelle
+- Unité : Newton (N)
+- VARIABLE selon le lieu
+- Mesure : Dynamomètre
+
+RELATION :
+P = m × g
+
+g = Intensité de pesanteur :
+- Terre : g ≈ 9,8 N/kg
+- Lune : g ≈ 1,6 N/kg
+- Mars : g ≈ 3,7 N/kg`,
+        exercises: [
+            { question: 'Un astronaute de 80 kg sur la Lune. Sa masse ?', options: ['13,3 kg', '80 kg', '0 kg', '480 kg'], correct: 1, explanation: 'La masse est INVARIABLE ! Elle ne change pas.' },
+            { question: 'Poids sur Terre d\'un objet de 10 kg (g=9,8) ?', options: ['10 N', '0,98 N', '98 N', '98 kg'], correct: 2, explanation: 'P = m × g = 10 × 9,8 = 98 N.' }
+        ],
+        relatedSimulations: ['mouvement-2nde', 'equilibre-3forces-2nde']
+    },
+    'equilibre-3forces-2nde': {
+        title: 'P11. Équilibre à 3 Forces',
+        description: 'Forces concourantes et triangle des forces',
+        type: 'equilibre-3forces-2nde',
+        config: {},
+        analogy: {
+            title: 'Le Hamac Équilibré',
+            content: `Comment tient un hamac ? Par l'équilibre de 3 forces ! 🏝️⚖️
+
+Imagine-toi allongé dans un hamac entre deux cocotiers.
+Trois forces agissent sur toi :
+1. Ton POIDS (vers le bas)
+2. La TENSION du côté gauche (tire en haut à gauche)
+3. La TENSION du côté droit (tire en haut à droite)
+
+Pour rester immobile, ces 3 forces doivent :
+- Passer par le même point (concourantes)
+- Former un triangle fermé (bout à bout)
+
+Si tu mets tout ça bout à bout, tu reviens au départ !`
+        },
+        theory: `Équilibre d'un Solide soumis à 3 Forces
+
+CONDITIONS D'ÉQUILIBRE :
+1. COPLANARITÉ : Les 3 forces sont dans le même plan.
+2. CONCOURANCE : Les lignes d'action se coupent en un point.
+3. SOMME NULLE : F₁ + F₂ + F₃ = 0
+
+TRIANGLE DES FORCES :
+Si on place les vecteurs bout à bout, on forme un triangle FERMÉ.
+
+MÉTHODES DE RÉSOLUTION :
+1. Géométrique : Trigonométrie sur le triangle.
+2. Analytique : Projection sur deux axes :
+   ΣF_x = 0
+   ΣF_y = 0`,
+        exercises: [
+            { question: 'Si 3 forces s\'équilibrent, leur triangle est...', options: ['Ouvert', 'Plat', 'Fermé', 'Nul'], correct: 2, explanation: 'Si F₁+F₂+F₃=0, les vecteurs bout à bout forment un triangle fermé.' },
+            { question: 'Si les droites d\'action ne sont pas concourantes...', options: ['Le solide est en translation', 'Le solide tourne', 'Rien de spécial', 'Il reste immobile'], correct: 1, explanation: 'Sans concurrence, il se crée un couple qui fait tourner le solide.' }
+        ],
+        relatedSimulations: ['moment-force-2nde', 'forces-poids-2nde']
+    },
+    'moment-force-2nde': {
+        title: 'P12. Moment d\'une Force',
+        description: 'Effet de levier et théorème des moments',
+        type: 'moment-force-2nde',
+        config: {},
+        analogy: {
+            title: 'La Porte et la Poignée',
+            content: `Pourquoi les poignées sont-elles loin des gonds ? 🚪💪
+
+Essaie de pousser une porte PRÈS des charnières : c'est TRÈS DUR !
+Pousse PRÈS de la poignée : c'est FACILE !
+
+La même force crée un effet de rotation plus grand si elle est loin de l'axe.
+C'est le principe du LEVIER d'Archimède !
+
+M = F × d
+Plus le bras de levier (d) est grand, plus le moment est fort.
+
+"Donnez-moi un point d'appui et je soulèverai le monde" - Archimède`
+        },
+        theory: `Moment d'une Force
+
+MOMENT par rapport à un axe Δ :
+M_Δ(F) = ± F × d
+
+- F : Intensité de la force (N)
+- d : Bras de levier (distance perpendiculaire) en m
+- ± : Signe selon le sens de rotation
+
+Unité : Newton-mètre (N·m)
+
+THÉORÈME DES MOMENTS :
+À l'équilibre : Σ Moments = 0
+Somme des moments moteurs = Somme des moments résistants.
+
+COUPLE DE FORCES :
+Deux forces parallèles, opposées, de même intensité.
+Moment du couple : M = F × D (D = écartement)`,
+        exercises: [
+            { question: 'Pour dévisser un écrou bloqué, mieux vaut une clé...', options: ['Très courte', 'Très longue', 'Moyenne', 'Avec les doigts'], correct: 1, explanation: 'Clé longue = grand bras de levier = grand moment avec la même force.' },
+            { question: 'Si la force passe par l\'axe, le moment est...', options: ['Maximum', 'Nul', 'Égal à F', 'Infini'], correct: 1, explanation: 'Si la force passe par l\'axe, d=0, donc M = F×0 = 0.' }
+        ],
+        relatedSimulations: ['equilibre-3forces-2nde', 'forces-poids-2nde']
+    },
+
+    // --- OPTIQUE (P13-P15) ---
+    'propagation-lumiere-2nde': {
+        title: 'P13. Propagation de la Lumière',
+        description: 'Rayons lumineux, ombre et pénombre',
+        type: 'propagation-lumiere-2nde',
+        config: {},
+        analogy: {
+            title: 'L\'Éclipse',
+            content: `Pourquoi l'ombre existe ? Parce que la lumière va TOUT DROIT ! 🌑
+
+Quand la Lune passe entre la Terre et le Soleil, elle bloque la lumière.
+Sur Terre, on voit une zone d'OMBRE totale et une zone de PÉNOMBRE.
+
+Source ponctuelle (petite) → Ombre nette, pas de pénombre.
+Source étendue (grande) → Ombre + pénombre (zone de transition).
+
+C'est aussi pourquoi tu ne peux pas voir à travers un mur :
+La lumière ne peut pas contourner les obstacles !`
+        },
+        theory: `Propagation Rectiligne de la Lumière
+
+PRINCIPE :
+Dans un milieu homogène et transparent, la lumière se propage en LIGNE DROITE.
+
+VITESSE : c ≈ 3 × 10⁸ m/s (dans le vide)
+
+SOURCES DE LUMIÈRE :
+- Primaires : Produisent leur lumière (Soleil, lampe)
+- Secondaires : Diffusent la lumière reçue (Lune, mur)
+
+MILIEUX :
+- Transparent : Laisse passer (verre, air)
+- Translucide : Diffuse (verre dépoli)
+- Opaque : Bloque (mur)
+
+OMBRE ET PÉNOMBRE :
+- Ombre propre : Partie non éclairée de l'objet.
+- Ombre portée : Zone sombre sur l'écran.
+- Pénombre : Zone de transition (source étendue).`,
+        exercises: [
+            { question: 'La Lune est une source de lumière...', options: ['Primaire', 'Secondaire', 'Artificielle', 'Nulle'], correct: 1, explanation: 'La Lune ne produit pas de lumière, elle réfléchit celle du Soleil.' },
+            { question: 'Dans quel milieu la lumière ne va PAS en ligne droite ?', options: ['Vide', 'Air calme', 'Eau pure', 'Air chaud (mirage)'], correct: 3, explanation: 'Si l\'air n\'est pas homogène (température variable), la lumière se courbe.' }
+        ],
+        relatedSimulations: ['reflexion-lumiere-2nde', 'refraction-dispersion-2nde']
+    },
+    'reflexion-lumiere-2nde': {
+        title: 'P14. Réflexion de la Lumière',
+        description: 'Miroir plan, lois de Snell-Descartes',
+        type: 'reflexion-lumiere-2nde',
+        config: {},
+        analogy: {
+            title: 'Le Billard Lumineux',
+            content: `La lumière sur un miroir, c'est comme une boule de billard sur la bande ! 🎱✨
+
+Quand tu lances une boule contre le bord de la table,
+elle rebondit avec LE MÊME ANGLE de l'autre côté.
+
+C'est exactement pareil pour la lumière :
+L'angle d'arrivée (incidence) = L'angle de départ (réflexion).
+i = r
+
+C'est pour ça que tu te vois dans un miroir :
+Les rayons reviennent vers toi comme ils sont venus !`
+        },
+        theory: `Réflexion de la Lumière
+
+DÉFINITION :
+Retour de la lumière dans son milieu d'origine après avoir rencontré une surface.
+
+LOIS DE SNELL-DESCARTES (Réflexion) :
+1. Le rayon réfléchi est dans le plan d'incidence.
+2. L'angle de réflexion égale l'angle d'incidence :
+   i = r
+
+TYPES DE RÉFLEXION :
+- Spéculaire : Surface lisse (miroir) → Image nette.
+- Diffuse : Surface rugueuse (mur) → Pas d'image.
+
+IMAGE PAR UN MIROIR PLAN :
+- Virtuelle (derrière le miroir)
+- Symétrique par rapport au miroir
+- Même taille que l'objet`,
+        exercises: [
+            { question: 'Un rayon perpendiculaire au miroir. Angle de réflexion ?', options: ['90°', '0°', '45°', '180°'], correct: 1, explanation: 'Si le rayon est perpendiculaire, i=0°, donc r=0° (il repart sur lui-même).' },
+            { question: 'L\'image dans un miroir plan est...', options: ['Réelle et renversée', 'Virtuelle et symétrique', 'Plus petite', 'Plus grande'], correct: 1, explanation: 'L\'image est virtuelle, symétrique et de même taille.' }
+        ],
+        relatedSimulations: ['propagation-lumiere-2nde', 'refraction-dispersion-2nde']
+    },
+    'refraction-dispersion-2nde': {
+        title: 'P15. Réfraction et Dispersion',
+        description: 'Loi de Snell-Descartes, prisme et arc-en-ciel',
+        type: 'refraction-dispersion-2nde',
+        config: {},
+        analogy: {
+            title: 'La Voiture dans la Boue',
+            content: `Pourquoi la paille semble cassée dans un verre d'eau ? 🥤
+
+Imagine une voiture arrivant de biais sur une route boueuse.
+La roue DROITE touche la boue en premier et RALENTIT.
+La roue GAUCHE continue vite sur le bitume.
+Résultat : La voiture PIVOTE et change de direction !
+
+C'est pareil pour la lumière qui passe de l'air à l'eau :
+Elle ralentit et se rapproche de la normale.
+
+Et pour l'arc-en-ciel ? Les gouttes d'eau séparent les couleurs
+car le bleu ralentit plus que le rouge !`
+        },
+        theory: `Réfraction et Dispersion
+
+RÉFRACTION :
+Déviation de la lumière au passage entre deux milieux différents.
+
+INDICE DE RÉFRACTION :
+n = c/v (toujours ≥ 1)
+Air ≈ 1, Eau ≈ 1,33, Verre ≈ 1,5
+
+LOI DE SNELL-DESCARTES :
+n₁ × sin(i₁) = n₂ × sin(i₂)
+
+- Si n₂ > n₁ : Le rayon se rapproche de la normale.
+- Si n₁ > n₂ : Le rayon s'écarte de la normale.
+
+RÉFLEXION TOTALE :
+Si n₁ > n₂ et i₁ > angle limite → Pas de réfraction !
+Application : Fibres optiques.
+
+DISPERSION :
+L'indice n dépend de la couleur (longueur d'onde).
+Le bleu est plus dévié que le rouge → Arc-en-ciel, prisme.`,
+        exercises: [
+            { question: 'Un rayon passe de l\'air (n=1) vers l\'eau (n=1,33). Il...', options: ['S\'écarte de la normale', 'Se rapproche de la normale', 'Ne change pas', 'Disparaît'], correct: 1, explanation: 'Comme n₂>n₁, l\'angle de réfraction est plus petit : il se rapproche de la normale.' },
+            { question: 'L\'arc-en-ciel existe grâce à...', options: ['La réflexion', 'L\'eau colorée', 'La dispersion', 'Une illusion'], correct: 2, explanation: 'Les gouttes dispersent la lumière en séparant les couleurs.' }
+        ],
+        relatedSimulations: ['reflexion-lumiere-2nde', 'propagation-lumiere-2nde']
+    },
+
 };
 
 export default lyceeSimulationsData;
