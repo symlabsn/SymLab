@@ -50,6 +50,9 @@ import { Chap1ScienceIntro, Chap2Mesures, Chap3Densite, Chap4PoidsMasse, Chap5El
 import { Chap6SourcesLumiere, Chap7PropagationLumiere, Chap8Refraction } from './PC4eChapter6to8';
 import { Chap1LentillesMCE, Chap2DispersionLumiere, Chap3ForcesVecteurs, Chap4TravailPuissance, Chap5Electrisation } from './PC3eChapter1to5';
 import { Chap6LoiOhm, Chap7TransformationsEnergie, Chap8SolutionsAqueuses, Chap9AcidesBasesPH, Chap10Metaux, Chap11Combustion } from './PC3eChapter6to11';
+import { ForcesInertia, GasLaws, SoundWaves, AtomicStructureSeconde, DistillationSetup } from './SecondeSimulations';
+import { UniversalGravitationSeconde, RefractionSeconde, PrismDispersion, MoleScale, SolutionsSeconde } from './SecondeSimulationsPart2';
+import { MotionRelativity, ChromatographyExperiment, ChemicalIdentification, SonarEcholocation, PowerLifter } from './SecondeSimulationsPart3';
 
 
 
@@ -4497,10 +4500,47 @@ export default function Simulation3D({ type = 'atom', config = {} }) {
                 return <Chap8SolutionsAqueuses />;
             case 'ph-scale':
                 return <Chap9AcidesBasesPH />;
+
+            // === SIMULATIONS SECONDE (PART 2 - REPLACEMENT/ENHANCEMENT) ===
+            case 'universal-gravitation':
+                return <UniversalGravitationSeconde />;
+            case 'refraction-light':
+                return <RefractionSeconde />;
+            case 'light-spectrum':
+                return <PrismDispersion />;
+            case 'mole-concept':
+                return <MoleScale />;
+            case 'molar-concentration':
+                return <SolutionsSeconde />;
+
+            // === SIMULATIONS SECONDE (PART 3 - NEW ENTRIES) ===
+            case 'rectilinear-motion': // Enhanced
+                return <MotionRelativity />;
+            case 'chromatography':
+                return <ChromatographyExperiment />;
+            case 'chemical-tests':
+                return <ChemicalIdentification />;
+            case 'sonar-echolocation':
+                return <SonarEcholocation />;
+            case 'power-energy':
+                return <PowerLifter />;
+
             case 'metal-reactions':
                 return <Chap10Metaux />;
             case 'combustion-3d':
                 return <Chap11Combustion />;
+
+            // === SIMULATIONS SECONDE (LYCÉE) ===
+            case 'forces-inertia':
+                return <ForcesInertia />;
+            case 'sound-waves':
+                return <SoundWaves />;
+            case 'gas-laws':
+                return <GasLaws />;
+            case 'atomic-structure-seconde':
+                return <AtomicStructureSeconde />;
+            case 'extraction-distillation':
+                return <DistillationSetup />;
 
             default:
                 return <Atom {...config} />;

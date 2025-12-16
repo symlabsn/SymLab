@@ -585,11 +585,28 @@ export function Chap3Densite() {
         immersionLevel = -1.5;
     }
 
+    // --- DATA LOGGING & GRAPH ---
+    const [history, setHistory] = useState([]);
+
+    const logMeasurement = () => {
+        // Prevent duplicate logs for same state
+        const last = history[history.length - 1];
+        if (last && last.obj === obj.name && last.liq === liq.name) return;
+
+        setHistory(prev => [...prev.slice(-4), { // Keep last 5
+            obj: obj.name,
+            liq: liq.name,
+            dObj: obj.density,
+            dLiq: liq.density,
+            floats: obj.density < liq.density
+        }]);
+    };
+
     return (
         <group>
 
             <Html transform={false}>
-                <DraggableHtmlPanel title="⚖️ Densité & Archimède" showCloseButton={false} defaultPosition="bottom-center" className="w-[320px] border-blue-500/30 text-white" usePortal={false}>
+                <DraggableHtmlPanel title="⚖️ Densité & Archimède PRO" showCloseButton={false} defaultPosition="bottom-center" className="w-[380px] border-blue-500/30 text-white max-h-[85vh] overflow-y-auto custom-scrollbar" usePortal={false}>
 
                     <div className="flex justify-between items-center mb-4 border-b border-white/10 pb-2">
                         <div className="flex gap-2">
@@ -614,25 +631,25 @@ export function Chap3Densite() {
                     )}
 
                     <div className="space-y-4">
-                        <div>
+                        <div className="bg-gray-800/50 p-2 rounded-lg">
                             <label className="block text-xs uppercase text-gray-400 mb-2">1. Liquide (Milieu)</label>
                             <div className="grid grid-cols-2 gap-2">
                                 {Object.entries(liquids).map(([k, l]) => (
                                     <button key={k} onClick={() => setLiquid(k)}
-                                        className={`p-2 rounded-lg text-sm border ${liquid === k ? 'border-blue-400 bg-blue-900/30' : 'border-gray-700 bg-gray-800'}`}>
-                                        {l.name} (d={l.density})
+                                        className={`p-2 rounded-lg text-sm border transition-all ${liquid === k ? 'border-blue-400 bg-blue-900/50 shadow-[0_0_10px_rgba(59,130,246,0.5)]' : 'border-gray-700 bg-gray-800'}`}>
+                                        {l.name} <span className="text-xs text-gray-400 block">d={l.density}</span>
                                     </button>
                                 ))}
                             </div>
                         </div>
 
                         {mode === 'explore' && (
-                            <div>
+                            <div className="bg-gray-800/50 p-2 rounded-lg">
                                 <label className="block text-xs uppercase text-gray-400 mb-2">2. Objet</label>
                                 <div className="grid grid-cols-3 gap-2">
                                     {Object.entries(objects).map(([k, o]) => (
                                         <button key={k} onClick={() => setObject(k)}
-                                            className={`p-2 rounded-lg text-sm border ${object === k ? 'border-white bg-white/10' : 'border-gray-700 bg-gray-800'}`}>
+                                            className={`p-2 rounded-lg text-sm border transition-all ${object === k ? 'border-white bg-white/20' : 'border-gray-700 bg-gray-800'}`}>
                                             {o.name}
                                         </button>
                                     ))}
@@ -640,18 +657,60 @@ export function Chap3Densite() {
                             </div>
                         )}
 
-                        <div className="flex items-center gap-2 p-3 bg-gray-800 rounded-lg">
-                            <input type="checkbox" checked={showForces} onChange={() => setShowForces(!showForces)} className="w-5 h-5" />
-                            <span className="text-sm font-bold">Voir les forces (Archimède)</span>
+                        <div className="flex gap-2">
+                            <button onClick={() => setShowForces(!showForces)} className={`flex-1 py-2 rounded-lg text-xs font-bold transition-colors ${showForces ? 'bg-purple-600 text-white' : 'bg-gray-700 text-gray-400'}`}>
+                                {showForces ? '👁️ Forces Visibles' : 'Forces Cachées'}
+                            </button>
+                            <button onClick={logMeasurement} className="flex-1 py-2 rounded-lg text-xs font-bold bg-green-600/20 text-green-400 hover:bg-green-600/40 border border-green-600/30">
+                                📝 Noter Observation
+                            </button>
                         </div>
 
-                        <div className="bg-gray-900 p-3 rounded-lg text-center font-mono text-sm">
-                            <div>d(objet) = {mode === 'challenge' ? '???' : obj.density}</div>
-                            <div>d(liquide) = {liq.density}</div>
-                            <div className={`mt-2 font-bold text-lg ${densityRatio < 1 ? 'text-green-400' : 'text-red-400'}`}>
-                                {densityRatio < 1 ? 'FLOTTE 🚢' : 'COULE ⚓'}
+                        {/* DATA DISPLAY */}
+                        <div className="bg-black/40 p-3 rounded-lg font-mono text-sm border-l-4 border-blue-500">
+                            <div className="flex justify-between">
+                                <span>Densité Objet:</span>
+                                <span className={mode === 'challenge' ? 'blur-sm' : ''}>{obj.density}</span>
+                            </div>
+                            <div className="flex justify-between">
+                                <span>Densité Liquide:</span>
+                                <span>{liq.density}</span>
+                            </div>
+                            <div className={`mt-2 font-bold text-center p-1 rounded ${densityRatio < 1 ? 'bg-green-500/20 text-green-400' : 'bg-red-500/20 text-red-400'}`}>
+                                {densityRatio < 1 ? 'FLOTTAISON' : 'COULE'}
                             </div>
                         </div>
+
+                        {/* HISTORY LOG & GRAPH */}
+                        {history.length > 0 && (
+                            <div className="mt-4 border-t border-white/10 pt-4">
+                                <div className="text-xs font-bold text-gray-400 mb-2">HISTORIQUE & COMPARAISON</div>
+                                <div className="space-y-1 max-h-[100px] overflow-y-auto text-[10px] bg-black/20 p-2 rounded mb-2">
+                                    {history.map((h, i) => (
+                                        <div key={i} className="flex justify-between items-center border-b border-white/5 pb-1">
+                                            <span>{h.obj} dans {h.liq}</span>
+                                            <span className={h.floats ? "text-green-400" : "text-red-400"}>{h.floats ? "Flotte" : "Coule"}</span>
+                                        </div>
+                                    ))}
+                                </div>
+                                {/* Mini Bar Chart */}
+                                <div className="h-24 flex items-end gap-2 bg-black/20 p-2 rounded relative">
+                                    <div className="absolute top-0 left-0 text-[8px] text-gray-500 w-full text-center border-b border-white/10 border-dashed" style={{ top: '50%' }}>d=1.0 (Eau)</div>
+                                    {history.slice(-5).map((h, i) => (
+                                        <div key={i} className="flex-1 flex flex-col items-center group relative">
+                                            <div className="w-full bg-blue-500/50 hover:bg-blue-400 transition-all rounded-t"
+                                                style={{ height: `${Math.min(100, (h.dObj / 20) * 100)}%`, backgroundColor: h.dObj < h.dLiq ? '#4ADE80' : '#EF4444' }}>
+                                            </div>
+                                            <div className="text-[8px] mt-1 truncate w-full text-center">{h.obj.slice(0, 3)}</div>
+                                            {/* Tooltip */}
+                                            <div className="absolute bottom-full mb-1 hidden group-hover:block bg-black text-white text-xs p-1 rounded z-10 whitespace-nowrap">
+                                                d={h.dObj}
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
                     </div>
                 </DraggableHtmlPanel>
             </Html>
@@ -676,18 +735,22 @@ export function Chap3Densite() {
                         <meshStandardMaterial color={obj.color} />
                     </mesh>
 
-                    {/* Vecteurs Forces */}
+                    {/* Vecteurs Forces améliorés */}
                     {showForces && (
                         <group position={[0, immersionLevel, 0]}>
-                            {/* Poids (vers le bas) */}
+                            {/* Poids */}
                             <group position={[0, 0, 0]}>
                                 <arrowHelper args={[new THREE.Vector3(0, -1, 0), new THREE.Vector3(0, 0, 0), 1.5 + obj.density / 10, 0xFF0000]} />
-                                <Text position={[0.5, -1.5, 0]} fontSize={0.2} color="red">P</Text>
+                                <Html position={[0.5, -1, 0]} center>
+                                    <div className="text-red-500 font-bold text-xs bg-black/50 px-1 rounded">Poids</div>
+                                </Html>
                             </group>
-                            {/* Poussée Archimède (vers le haut) */}
+                            {/* Poussée Archimède */}
                             <group position={[0, 0, 0]}>
                                 <arrowHelper args={[new THREE.Vector3(0, 1, 0), new THREE.Vector3(0, 0, 0), 1.5 + (densityRatio < 1 ? obj.density : liq.density) / 10, 0x00FF00]} />
-                                <Text position={[0.5, 1.5, 0]} fontSize={0.2} color="#00FF00">Fa</Text>
+                                <Html position={[0.5, 1, 0]} center>
+                                    <div className="text-green-400 font-bold text-xs bg-black/50 px-1 rounded">Archimède</div>
+                                </Html>
                             </group>
                         </group>
                     )}
@@ -722,8 +785,7 @@ export function Chap4PoidsMasse() {
         void: { name: 'Espace', g: 0, color: '#111827', size: 0 }
     };
 
-    const p = planets[planet];
-    const weight = mass * p.g;
+
 
     const startMission = () => {
         // Find a planet other than current or earth to make it interesting
@@ -754,11 +816,22 @@ export function Chap4PoidsMasse() {
     }, [planet, mode, targetWeight]);
 
 
+    // Custom planet mode
+    const [useCustomG, setUseCustomG] = useState(false);
+    const [customG, setCustomG] = useState(9.8);
+
+    // Effective G
+    const g = useCustomG ? customG : planets[planet].g;
+    const weight = mass * g;
+
+    // Data for Graph used below
+    const graphMaxWeight = 150 * 25; // approx max weight (Jupiter)
+
     return (
         <group>
 
             <Html transform={false}>
-                <DraggableHtmlPanel title="⚖️ Poids (N) vs Masse (kg)" showCloseButton={false} defaultPosition="bottom-center" className="w-[350px] border-purple-500/30 text-white max-h-[80vh] overflow-y-auto" usePortal={false}>
+                <DraggableHtmlPanel title="⚖️ Poids (N) vs Masse (kg) PRO" showCloseButton={false} defaultPosition="bottom-center" className="w-[380px] border-purple-500/30 text-white max-h-[85vh] overflow-y-auto custom-scrollbar" usePortal={false}>
 
                     <div className="flex justify-between items-center mb-4 border-b border-white/10 pb-2">
                         <div className="flex gap-2">
@@ -779,18 +852,35 @@ export function Chap4PoidsMasse() {
                     )}
 
                     <div className="mb-6">
-                        <label className="block text-sm text-gray-400 mb-2">Choisir un astre :</label>
-                        <div className="grid grid-cols-4 gap-2">
-                            {Object.entries(planets).map(([k, pl]) => (
-                                <button key={k} onClick={() => setPlanet(k)}
-                                    title={pl.name}
-                                    className={`aspect-square rounded-full border-2 flex items-center justify-center transition-all ${planet === k ? 'border-purple-500 scale-110' : 'border-transparent bg-gray-800'}`}
-                                    style={{ backgroundColor: planet === k ? pl.color + '40' : '' }}>
-                                    <div className="w-4 h-4 rounded-full" style={{ backgroundColor: pl.color }}></div>
-                                </button>
-                            ))}
+                        <div className="flex justify-between items-center mb-2">
+                            <label className="block text-sm text-gray-400">Choisir un astre :</label>
+                            <div className="flex items-center gap-2">
+                                <label className="text-xs text-purple-300">Mode Créateur</label>
+                                <input type="checkbox" checked={useCustomG} onChange={() => setUseCustomG(!useCustomG)} className="w-4 h-4 accent-purple-500" />
+                            </div>
                         </div>
-                        <div className="text-center mt-2 font-bold text-lg">{p.name}</div>
+
+                        {!useCustomG ? (
+                            <>
+                                <div className="grid grid-cols-4 gap-2">
+                                    {Object.entries(planets).map(([k, pl]) => (
+                                        <button key={k} onClick={() => setPlanet(k)}
+                                            title={pl.name}
+                                            className={`aspect-square rounded-full border-2 flex items-center justify-center transition-all ${planet === k ? 'border-purple-500 scale-110' : 'border-transparent bg-gray-800'}`}
+                                            style={{ backgroundColor: planet === k ? pl.color + '40' : '' }}>
+                                            <div className="w-4 h-4 rounded-full" style={{ backgroundColor: pl.color }}></div>
+                                        </button>
+                                    ))}
+                                </div>
+                                <div className="text-center mt-2 font-bold text-lg">{planets[planet].name}</div>
+                            </>
+                        ) : (
+                            <div className="bg-purple-900/20 p-3 rounded-xl border border-purple-500/30">
+                                <label className="block text-xs mb-1">Gravité Personnalisée (g)</label>
+                                <input type="range" min="0" max="30" step="0.1" value={customG} onChange={(e) => setCustomG(parseFloat(e.target.value))} className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-purple-500" />
+                                <div className="text-center font-bold font-mono mt-1 text-purple-300">{customG} N/kg</div>
+                            </div>
+                        )}
                     </div>
 
                     <div className="mb-6 bg-gray-800 p-4 rounded-xl">
@@ -804,11 +894,32 @@ export function Chap4PoidsMasse() {
                     <div className="space-y-3 font-mono">
                         <div className="flex justify-between p-3 bg-white/5 rounded-lg">
                             <span className="text-gray-400">Intensité g:</span>
-                            <span>{p.g} N/kg</span>
+                            <span>{g.toFixed(2)} N/kg</span>
                         </div>
-                        <div className="flex justify-between items-center p-4 bg-purple-900/30 border border-purple-500/50 rounded-xl">
-                            <span className="text-purple-300">Poids P = m × g</span>
-                            <span className="text-2xl font-bold text-purple-400">{weight.toFixed(1)} N</span>
+                        <div className="flex justify-between items-center p-4 bg-purple-900/30 border border-purple-500/50 rounded-xl relative overflow-hidden">
+                            {/* Live mini-graph background */}
+                            <div className="absolute left-0 bottom-0 h-1 bg-purple-500/30 transition-all duration-300" style={{ width: `${(weight / graphMaxWeight) * 100}%` }}></div>
+
+                            <span className="text-purple-300 z-10">Poids P = m × g</span>
+                            <span className="text-2xl font-bold text-purple-400 z-10">{weight.toFixed(1)} N</span>
+                        </div>
+                        {/* Interactive Graph Box */}
+                        <div className="h-24 bg-black/40 rounded-lg relative flex items-end p-2 gap-1 border border-white/10">
+                            <div className="absolute top-2 left-2 text-[8px] text-gray-500">Poids (y) vs Masse (x)</div>
+                            {/* Simple visualization of slope */}
+                            {Array.from({ length: 10 }).map((_, i) => {
+                                const m = (i + 1) * 15; // 15 to 150
+                                const w = m * g;
+                                const isActive = Math.abs(m - mass) < 8; // Highlight bar close to current mass
+                                return (
+                                    <div key={i} className="flex-1 flex flex-col items-center justify-end h-full">
+                                        <div
+                                            className={`w-full rounded-t transition-all duration-300 ${isActive ? 'bg-purple-500' : 'bg-purple-900/50'}`}
+                                            style={{ height: `${Math.min(100, (w / graphMaxWeight) * 100)}%` }}>
+                                        </div>
+                                    </div>
+                                );
+                            })}
                         </div>
                     </div>
                 </DraggableHtmlPanel>

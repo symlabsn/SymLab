@@ -104,6 +104,19 @@ Si d > 1 : l'objet coule`,
                 options: ["Elle est plus visqueuse", "Sa densité est inférieure à 1", "Elle est plus lourde", "C'est magique"],
                 correct: 1,
                 explanation: "Tout corps avec une densité inférieure à celle de l'eau (d < 1) flotte."
+            },
+            {
+                question: "Coche les objets qui FLOTTENT sur l'eau (d=1) :",
+                type: 'multi-select',
+                options: ["Bois (d=0.7)", "Fer (d=7.8)", "Glace (d=0.9)", "Or (d=19.3)"],
+                correct: [0, 2],
+                explanation: "Seuls le bois (0.7) et la glace (0.9) ont une densité < 1. Ils flottent !"
+            },
+            {
+                question: "Si je coupe un morceau de bois en deux, sa densité :",
+                options: ["Diminue de moitié", "Reste la même", "Double", "Devient nulle"],
+                correct: 1,
+                explanation: "La densité est une propriété INTRINSÈQUE. Elle ne change pas, peu importe la taille du morceau !"
             }
         ]
     },
@@ -140,6 +153,24 @@ Sur la Lune : g ≈ 1,6 N/kg`,
                 options: ["60 N", "96 N", "600 N", "37,5 kg"],
                 correct: 1,
                 explanation: "P = 60 × 1,6 = 96 N. Le poids est en Newtons, pas en kg !"
+            },
+            {
+                question: "Sélectionne les affirmations VRAIES :",
+                type: 'multi-select',
+                options: [
+                    "La masse change selon la planète",
+                    "Le poids change selon la planète",
+                    "Le poids se mesure en Newtons",
+                    "La masse se mesure en Newtons"
+                ],
+                correct: [1, 2],
+                explanation: "La masse est constante (kg). Le poids est une force (N) qui change avec la gravité (g)."
+            },
+            {
+                question: "Si tu vas sur Jupiter (g=24.8), ton poids sera :",
+                options: ["2.5 fois plus grand", "2.5 fois plus petit", "Identique", "Nul"],
+                correct: 0,
+                explanation: "g(Jupiter) ≈ 2.5 × g(Terre). Donc ton poids sera multiplié par 2.5 !"
             }
         ]
     },
@@ -177,6 +208,13 @@ Isolants : plastique, bois, verre`,
                 options: ["L'ampoule brille plus fort", "Le courant continue", "Le circuit est coupé", "La pile explose"],
                 correct: 2,
                 explanation: "Un interrupteur ouvert coupe le circuit. Le courant ne peut plus circuler."
+            },
+            {
+                question: "Sélectionne les matériaux CONDUCTEURS :",
+                type: 'multi-select',
+                options: ["Plastique", "Cuivre", "Eau salée", "Bois sec"],
+                correct: [1, 2],
+                explanation: "Le cuivre (métal) et l'eau salée conduisent l'électricité. Le plastique et le bois sont des isolants."
             }
         ]
     },

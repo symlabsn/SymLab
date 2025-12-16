@@ -502,16 +502,24 @@ export const simulationHotspots = {
 // Ajout des images pour le lycée
 Object.assign(simulationImages, {
     // Seconde
+    'forces-inertia': '/images/simulations/seconde/forces_inertia.png',
+    'gas-laws': '/images/simulations/seconde/gas_laws.png',
+    'sound-waves': '/images/simulations/seconde/sound_waves.png',
+    'atomic-structure-seconde': '/images/simulations/seconde/atomic_structure.png',
+    'extraction-distillation': '/images/simulations/seconde/distillation_setup.png',
+    'light-spectrum': '/images/simulations/seconde/light_spectrum.png',
+    'chromatography': '/images/simulations/seconde/chromatography.png',
+    'chemical-tests': '/images/simulations/seconde/chemical_tests.png',
+    'sonar-echolocation': '/images/simulations/seconde/sonar_echolocation.png',
+    'power-energy': '/images/simulations/seconde/power_energy.png',
     'meiosis-diversity': '/images/dna_helix_realistic_1765402108086.png',
     'cell-division': '/images/cell_biology_visual_1765400155186.png',
-    'rectilinear-motion': '/images/physics_atoms_visual_1765400173472.png',
-    'refraction-light': '/images/physics_atoms_visual_1765400173472.png',
+    'rectilinear-motion': '/images/simulations/seconde/rectilinear_motion.png',
+    'refraction-light': '/images/simulations/seconde/refraction_light.png',
     'periodic-table': '/images/physics_atoms_visual_1765400173472.png',
-    'mole-concept': '/images/chemistry_reactions_visual_1765400190665.png',
-    'molar-concentration': '/images/chemistry_reactions_visual_1765400190665.png',
-
-    // Première
-    'gravitation-universal': '/images/solar_system_realistic_1765402725659.png',
+    'mole-concept': '/images/simulations/seconde/mole_concept.png',
+    'molar-concentration': '/images/simulations/seconde/molar_concentration.png',
+    'gravitation-universal': '/images/simulations/seconde/universal_gravitation.png',
     'kinetic-potential-energy': '/images/physics_atoms_visual_1765400173472.png',
     'thermal-transfer': '/images/physics_atoms_visual_1765400173472.png',
     'redox-reactions': '/images/chemistry_reactions_visual_1765400190665.png',

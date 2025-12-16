@@ -615,6 +615,296 @@ Pour répondre au besoin accru en O₂ et nutriments des muscles :
         relatedSimulations: ['respiration-human', 'blood-circulation']
     },
 
+    // ========================================
+    // NOUVELLES SIMULATIONS SECONDE (PHYSIQUE/CHIMIE)
+    // ========================================
+
+    'forces-inertia': {
+        title: 'Principe d\'Inertie',
+        description: 'Pourquoi les objets s\'arrêtent-ils (ou pas) ?',
+        type: 'forces-inertia',
+        config: {},
+        analogy: {
+            title: 'Le Glissement sur le Carrelage',
+            content: `Imagine que tu glisses en chaussettes ! 🧦
+- Sur du carrelage mouillé (pas de frottement) : Tu glisses à l'infini sans t'arrêter ! (C'est l'INERTIE).
+- Sur du sable (frotterment fort) : Tu t'arrêtes tout de suite.
+
+Galilée et Newton l'ont dit : "Si on ne touche à rien (pas de force), ça continue tout droit à la même vitesse POUR TOUJOURS."
+C'est dur à croire sur Terre car il y a toujours des frottements (air, sol) qui nous freinent.`
+        },
+        theory: `Principe d'Inertie (1ère Loi de Newton)
+Tout corps persévère dans son état de repos ou de mouvement rectiligne uniforme si les forces qui s'exercent sur lui se compensent (ou s'il n'y a aucune force).
+
+ΣF = 0  ⟺  v = constante (vecteur)
+
+Contre-intuitif :
+On pense souvent qu'il faut une force pour *maintenir* le mouvement. C'est FAUX ! Il faut une force pour *changer* le mouvement (accélérer ou freiner).`,
+        exercises: [
+            { question: 'Si la somme des forces est nulle, l\'objet...', options: ['S\'arrête forcément', 'Accélère', 'Voit sa vitesse changer', 'Conserve sa vitesse (immobile ou MRU)'], correct: 3, explanation: 'C\'est le principe d\'inertie : vecteur vitesse constant.' },
+            { question: 'Pourquoi une voiture finit-elle par s\'arrêter au point mort ?', options: ['Parce qu\'elle n\'a plus de moteur', 'À cause des frottements', 'Parce que l\'inertie disparaît', 'Car la Terre tourne'], correct: 1, explanation: 'Les frottements (air, route) sont des forces qui s\'opposent au mouvement.' }
+        ],
+        relatedSimulations: ['rectilinear-motion', 'forces-motion']
+    },
+
+    'sound-waves': {
+        title: 'Le Son et les Signaux',
+        description: 'Fréquence, Période et Oscilloscope',
+        type: 'sound-waves',
+        config: {},
+        analogy: {
+            title: 'Le Tam-Tam qui Vibre',
+            content: `Le son, c'est de l'air qui tremble ! 🥁
+- La Hauteur (Grave/Aigu) c'est la Vitesse de vibration (Fréquence).
+  Un moustique bat des ailes très vite (Aigu). Un lion rugit lentement (Grave).
+- Le Volume (Fort/Faible) c'est la taille des vibrations (Amplitude).
+
+L'oscilloscope dessine ces vagues.
+- Vagues serrées = Aigu.
+- Vagues hautes = Fort.`
+        },
+        theory: `Signal Périodique
+Un phénomène qui se répète identique à lui-même.
+
+1. Période (T) : Durée d'un motif (en secondes, s).
+2. Fréquence (f) : Nombre de motifs par seconde (en Hertz, Hz).
+   f = 1 / T
+
+3. Vitesse du son (dans l'air) : v ≈ 340 m/s.
+   Dans l'eau c'est plus vite (1500 m/s) !
+
+Ondes Audibles : 20 Hz à 20 000 Hz.`,
+        exercises: [
+            { question: 'Si la fréquence augmente, le son devient...', options: ['Plus fort', 'Plus grave', 'Plus aigu', 'Plus rapide'], correct: 2, explanation: 'Fréquence élevée = Son aigu.' },
+            { question: 'La relation entre f et T est...', options: ['f = T', 'f = 1/T', 'f = T²', 'f = 10T'], correct: 1, explanation: 'Elles sont inverses.' }
+        ],
+        relatedSimulations: ['diffraction-light', 'rectilinear-motion']
+    },
+
+    'gas-laws': {
+        title: 'Lois des Gaz (Boyle-Mariotte)',
+        description: 'Pression et Volume',
+        type: 'gas-laws',
+        config: {},
+        analogy: {
+            title: 'La Pompe à Vélo',
+            content: `Prends une seringue et bouche le bout. 💉
+Si tu appuies sur le piston (tu diminues le Volume), c'est super dur ! (La Pression augmente).
+Si tu tires (tu augmentes le Volume), ça aspire ! (La Pression diminue).
+
+Les molécules de gaz sont comme des enfants excités dans une pièce. Si tu rétrécis la pièce, ils cognent beaucoup plus fort contre les murs !`
+        },
+        theory: `Modèle du Gaz Parfait
+À température constante :
+
+Loi de Boyle-Mariotte :
+P × V = constante
+
+- Si le Volume est divisé par 2, la Pression double !
+- P : Pascal (Pa)
+- V : Mètre cube (m³)
+
+Note : 1 bar = 100 000 Pa.` ,
+        exercises: [
+            { question: 'Si je comprime un gaz (Volume diminue), sa pression...', options: ['Diminue', 'Augmente', 'Ne change pas', 'Devient nulle'], correct: 1, explanation: 'Les molécules sont plus serrées et cognent plus fort -> Pression monte.' },
+            { question: 'La loi de Boyle-Mariotte s\'écrit...', options: ['P = V', 'P + V = 0', 'P × V = cte', 'P / V = cte'], correct: 2, explanation: 'Le produit P.V est constant à température constante.' }
+        ],
+        relatedSimulations: ['states-of-matter', 'mole-concept']
+    },
+
+    'extraction-distillation': {
+        title: 'Hydrodistillation',
+        description: 'Extraction d\'huiles essentielles',
+        type: 'extraction-distillation',
+        config: {},
+        analogy: {
+            title: 'Le Sauna des Plantes',
+            content: `Pour récupérer l'odeur de la menthe, on lui fait prendre un sauna ! 🧖‍♀️🌿
+La vapeur d'eau chaude traverse les feuilles et emporte les petites gouttes d'huile (l'essece).
+Ensuite, on refroidit cette vapeur (dans le réfrigérant) pour qu'elle redevienne liquide.
+À la fin, l'huile flotte sur l'eau (car elle est moins dense) et on peut la récupérer !`
+        },
+        theory: `Extraction par Hydrodistillation
+Technique pour extraire des composés volatils non miscibles à l'eau.
+
+1. Ébullition : L'eau bout et la vapeur entraîne les composés organiques (azéotrope).
+2. Condensation : Le réfrigérant liquéfie les vapeurs.
+3. Décantation : On sépare les deux phases (aqueuse et organique) selon leur densité.
+
+Miscibilité :
+L'huile essentielle n'est généralement pas miscible à l'eau (formation de 2 phases).`,
+        exercises: [
+            { question: 'Quel est le rôle du réfrigérant ?', options: ['Chauffer', 'Mélanger', 'Liquéfier les vapeurs', 'Filtrer'], correct: 2, explanation: 'Il refroidit les gaz pour qu\'ils redeviennent liquides.' },
+            { question: 'Pourquoi récupère-t-on l\'huile essentielle au-dessus de l\'eau ?', options: ['Elle est plus dense', 'Elle est moins dense', 'Elle est miscible', 'Elle est gazeuse'], correct: 1, explanation: 'Généralement d < 1, donc elle flotte.' }
+        ],
+        relatedSimulations: ['states-of-matter', 'molar-concentration']
+    },
+
+    'atomic-structure-seconde': {
+        title: 'Cortège Électronique',
+        description: 'Couches K, L, M et règles de stabilité',
+        type: 'atomic-structure-seconde',
+        config: {},
+        analogy: {
+            title: 'Le Bus Tata et ses Sièges',
+            content: `Les électrons remplissent les couches autour du noyau comme des passagers dans un Bus Tata ! 🚌
+1ère rangée (K) : 2 places seulement. (Trop petit !)
+2ème rangée (L) : 8 places.
+3ème rangée (M) : 8 places.
+
+Règle d'or : On remplit toujours les rangées du fond (proches du chauffeur/noyau) d'abord.
+Quand une rangée est pleine, on passe à la suivante.
+Les électrons de la dernière rangée (periphérique) sont les plus importants : c'est eux qui font la chimie !`
+        },
+        theory: `Structure Électronique
+Répartition des électrons en couches (n=1, 2, 3...).
+
+Règles de remplissage :
+1. Couche K (n=1) : max 2 électrons.
+2. Couche L (n=2) : max 8 électrons.
+3. Couche M (n=3) : max 8 électrons (simplifié Lycée).
+
+Électrons de Valence :
+Ceux de la dernière couche occupée. Ils déterminent les propriétés chimiques et la famille dans le tableau périodique.
+
+Stabilité (Octet/Duet) :
+Les atomes veulent avoir leur couche externe PLEINE (2 ou 8 e⁻) pour ressembler aux Gaz Nobles.`,
+        exercises: [
+            { question: 'Combien d\'électrons max sur la couche L ?', options: ['2', '8', '18', '32'], correct: 1, explanation: 'La couche L sature à 8 électrons.' },
+            { question: 'Le Carbone (Z=6) a pour structure...', options: ['(K)2 (L)4', '(K)4 (L)2', '(K)6', '(L)6'], correct: 0, explanation: '6 électrons total : 2 sur K (plein), reste 4 sur L.' }
+        ],
+        relatedSimulations: ['periodic-table', 'mole-concept']
+    },
+
+    'chromatography': {
+        title: 'Chromatographie (CCM)',
+        description: 'Séparation des espèces chimiques',
+        type: 'chromatography',
+        config: {},
+        analogy: {
+            title: 'La Course des Colorants',
+            content: `C'est comme une course à pied dans le sable ! 🏃‍♂️🏖️
+Les colorants sont les coureurs. L'éluant (le liquide) les pousse.
+Certains coureurs sont très lourds ou collent au sable (phase fixe) : ils n'avancent pas vite.
+D'autres sont légers et glissent bien : ils montent très haut !
+
+À la fin, tout le monde est séparé selon sa vitesse. On peut voir de quoi est fait le mélange.`
+        },
+        theory: `Chromatographie sur Couche Mince (CCM)
+Technique de séparation et d'identification.
+
+Principe :
+Migration différentielle des espèces d'un mélange entraînés par un éluant (phase mobile) sur un support (phase fixe).
+
+Rapport Frontal (Rf) :
+Rf = h (espèce) / H (éluant)
+Chaque espèce a un Rf caractéristique pour un éluant donné.
+Si on voit 2 taches verticalement = C'est un mélange !`,
+        exercises: [
+            { question: 'Si un dépôt se sépare en 3 taches, c\'est...', options: ['Un corps pur', 'Un mélange', 'De l\'eau', 'Impossible'], correct: 1, explanation: 'Plusieurs taches = Plusieurs composants différents.' },
+            { question: 'Le rapport frontal Rf est toujours...', options: ['Supérieur à 1', 'Inférieur à 1', 'Égal à 0', 'Infini'], correct: 1, explanation: 'Rf = petit h / grand H. Donc toujours < 1.' }
+        ],
+        relatedSimulations: ['extraction-distillation', 'chemical-tests']
+    },
+
+    'chemical-tests': {
+        title: 'Tests d\'Identification',
+        description: 'Identifier les ions en solution',
+        type: 'chemical-tests',
+        config: {},
+        analogy: {
+            title: 'Le Chimiste Détective',
+            content: `Comment savoir ce qu'il y a dans l'eau transparente ? On utilise des "mouchards" ! 🕵️‍♂️
+Chaque ion a un ennemi juré (le réactif). Quand ils se rencontrent, ils se battent et forment un nuage coloré (le précipité) !
+
+- Cuivre + Soude = Nuage BLEU 🔵
+- Fer II + Soude = Nuage VERT 🟢
+- Chlorure + Argent = Nuage BLANC ⚪`
+        },
+        theory: `Tests de Reconnaissance des Ions
+Méthode par précipitation.
+
+1. Ions Métalliques (avec Soude NaOH) :
+- Cu²⁺ : Précipité Bleu (Hydroxyde de cuivre)
+- Fe²⁺ : Précipité Vert (Hydroxyde de fer II)
+- Fe³⁺ : Précipité Rouille (Hydroxyde de fer III)
+- Zn²⁺ : Précipité Blanc
+
+2. Ion Chlorure (avec Nitrate d'Argent AgNO3) :
+- Cl⁻ : Précipité Blanc qui noircit à la lumière.`,
+        exercises: [
+            { question: 'Quel réactif détecte les ions Cuivre II ?', options: ['Nitrate d\'argent', 'Soude (NaOH)', 'Acide', 'Eau'], correct: 1, explanation: 'La Soude forme un précipité bleu caractéristiques avec le Cuivre.' },
+            { question: 'Un précipité blanc avec le nitrate d\'argent indique...', options: ['Des ions Chlorure', 'Des ions Fer', 'Du sel', 'Du sucre'], correct: 0, explanation: 'C\'est la signature des ions Cl-.' }
+        ],
+        relatedSimulations: ['solutions-solubility', 'chromatography']
+    },
+
+    'sonar-echolocation': {
+        title: 'Sonar et Écholocation',
+        description: 'Mesurer des distances avec le son',
+        type: 'sonar-echolocation',
+        config: {},
+        analogy: {
+            title: 'La Chauve-Souris et le Bateau',
+            content: `Comment voir dans le noir ? En criant ! 🦇🔊
+La chauve-souris (ou le bateau) envoie un "BIP".
+Le son rebondit sur l'obstacle et revient : "BIP... (écho) ...BIP".
+Si l'écho met longtemps à revenir, c'est que l'obstacle est loin !
+
+C'est simple : Vitesse = Distance / Temps.
+Attention, le son fait l'aller-retour (2 fois la distance) !`
+        },
+        theory: `Principe du Sonar
+Utilisation de la réflexion des ondes sonores (ultrasons).
+
+Formule :
+v = 2d / t  =>  d = (v × t) / 2
+
+- v : Vitesse du son (ex: 1500 m/s dans l'eau)
+- t : Temps aller-retour (écho)
+- d : Distance de la cible
+
+Applications : Cartographie des fonds marins, échographie médicale, radars de recul.` ,
+        exercises: [
+            { question: 'Pourquoi divise-t-on par 2 pour trouver la profondeur ?', options: ['Car le son va deux fois moins vite', 'Car le son fait l\'aller-retour', 'Pour faire la moyenne', 'C\'est une constante'], correct: 1, explanation: 'Le temps mesuré est pour descendre ET remonter.' },
+            { question: 'Si l\'écho revient en 1s (v=1500m/s), la profondeur est...', options: ['1500m', '750m', '3000m', '150m'], correct: 1, explanation: 'd = 1500 x 1 / 2 = 750 m.' }
+        ],
+        relatedSimulations: ['sound-waves', 'rectilinear-motion']
+    },
+
+    'power-energy': {
+        title: 'Puissance et Énergie',
+        description: 'La grue et l\'haltérophile',
+        type: 'power-energy',
+        config: {},
+        analogy: {
+            title: 'Le Sprinteur vs le Marcheur',
+            content: `Deux personnes montent au 5ème étage. Ils font le même TRAVAIL (monter 70kg).
+Mais le sprinteur le fait en 10 secondes, le marcheur en 2 minutes.
+
+Le sprinteur est plus PUISSANT ! 💪⚡
+La Puissance, c'est la vitesse à laquelle on dépense l'énergie.
+Grosse Puissance = Travail fait très vite.`
+        },
+        theory: `Puissance Mécanique (P)
+Capacité à effectuer un travail rapidement.
+
+P = W / t  = E / t
+
+- P : Puissance en Watt (W)
+- W/E : Énergie ou Travail en Joule (J)
+- t : Temps en seconde (s)
+
+Exemple : Soulever une masse m d'une hauteur h.
+E = m · g · h
+P = (m · g · h) / t`,
+        exercises: [
+            { question: 'Si je fais le même travail en deux fois moins de temps, ma puissance...', options: ['Diminue', 'Reste pareille', 'Double', 'Est nulle'], correct: 2, explanation: 'P = E/t. Si t est divisé par 2, P est multiplié par 2.' },
+            { question: 'Quelle est l\'unité de la Puissance ?', options: ['Joule', 'Newton', 'Watt', 'Volt'], correct: 2, explanation: 'Le Watt (W).' }
+        ],
+        relatedSimulations: ['kinetic-potential-energy', 'rectilinear-motion']
+    },
+
     // ========== PREMIÈRE ==========
     'kinetic-potential-energy': {
         title: 'Énergie Cinétique et Potentielle',

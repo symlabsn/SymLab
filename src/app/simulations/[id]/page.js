@@ -1175,7 +1175,8 @@ export default function SimulationDetailPage({ params }) {
                                         </div>
                                     </div>
                                 </div>
-                                <QuickChallenges simulation={simulation} onComplete={handleChallengeComplete} />
+
+                                <EnhancedQuiz simulation={simulation} onComplete={handleChallengeComplete} />
                             </div>
                         )}
 
@@ -1263,6 +1264,6 @@ export default function SimulationDetailPage({ params }) {
                 score={quizResults.score}
                 total={quizResults.total}
             />
-        </main>
+        </main >
     );
 }
