@@ -53,7 +53,7 @@ import { Chap6LoiOhm, Chap7TransformationsEnergie, Chap8SolutionsAqueuses, Chap9
 import { ForcesInertia, GasLaws, SoundWaves, AtomicStructureSeconde, DistillationSetup } from './SecondeSimulations';
 import { UniversalGravitationSeconde, RefractionSeconde, PrismDispersion, MoleScale, SolutionsSeconde } from './SecondeSimulationsPart2';
 import { MotionRelativity, ChromatographyExperiment, ChemicalIdentification, SonarEcholocation, PowerLifter } from './SecondeSimulationsPart3';
-import { ElectrisationSimulation, CircuitElectriqueSeconde, LoiOhmSeconde, GenerateurSeconde } from './Physique2ndeSimulations';
+import { ElectrisationSimulation, CircuitElectriqueSeconde, LoiOhmSeconde, GenerateurSeconde, AOPSimulation } from './Physique2ndeSimulations';
 import { MouvementSeconde, ForcesPoidsSeconde, Equilibre3ForcesSeconde, MomentForceSeconde } from './Physique2ndeSimulationsPart2';
 import { PropagationLumiereSeconde, ReflexionLumiereSeconde, RefractionDispersionSeconde } from './Physique2ndeSimulationsPart3';
 import { DilutionSimulation, TitrageAcideBase, DissolutionSimulation, EquationBalancer, LewisStructure, ChemicalTestsGamified } from './Chimie2SSimulations';
@@ -4560,6 +4560,8 @@ export default function Simulation3D({ type = 'atom', config = {} }) {
                 return <LoiOhmSeconde />;
             case 'generateur-2nde':
                 return <GenerateurSeconde />;
+            case 'aop-simulation':
+                return <AOPSimulation />;
             // Mécanique (P8-P12)
             case 'mouvement-2nde':
                 return <MouvementSeconde />;

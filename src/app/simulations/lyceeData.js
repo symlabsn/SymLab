@@ -4298,6 +4298,187 @@ Veq = (Ca × Va) / Cb`,
         exercises: [],
         relatedSimulations: ['ph-indicateurs-advanced', 'dilution-advanced']
     },
+
+    // ========================================
+    // CHIMIE 2NDE S - SIMULATIONS AVANCÉES
+    // ========================================
+
+    'separation-lab': {
+        title: '🔬 Labo de Séparation (Avancé)',
+        description: 'Filtration, Décantation, Distillation, Chromatographie',
+        type: 'separation-lab',
+        config: {},
+        analogy: {
+            title: 'Le Tri Sélectif de la Matière',
+            content: `Séparer les mélanges, c'est comme faire le tri ! 🗑️♻️
+
+- Filtration : Comme une passoire à pâtes. Le solide (pâtes) reste, le liquide (eau) passe.
+- Décantation : Comme l'huile et le vinaigre. On attend que ça se calme, le plus lourd coule, le plus léger flotte.
+- Distillation : Comme faire bouillir de l'eau salée pour récupérer l'eau pure (la vapeur).
+- Chromatographie : La course des couleurs ! Les plus rapides gagnent.`
+        },
+        theory: `Techniques de Séparation
+
+1. Filtration :
+Sépare un solide d'un liquide hétérogène grâce à un filtre poreux.
+
+2. Décantation :
+Sépare deux liquides non miscibles de densités différentes (ex: Huile/Eau) ou un solide lourd.
+
+3. Distillation :
+Sépare les constituants d'un mélange homogène liquide selon leur température d'ébullition (Teb).
+Le composé le plus volatil (Teb la plus basse) s'évapore en premier.
+
+4. Chromatographie (CCM) :
+Sépare les espèces chimiques par migration différentielle sur un support.`,
+        exercises: [],
+        relatedSimulations: ['states-of-matter', 'molar-concentration']
+    },
+
+    'lewis-structure-advanced': {
+        title: '🔬 Structure de Lewis (Avancé)',
+        description: 'Construis des molécules et visualise les doublets',
+        type: 'lewis-structure-advanced',
+        config: {},
+        analogy: {
+            title: 'Le Mariage des Atomes',
+            content: `Les atomes sont célibataires et cherchent l'âme sœur pour être stables (avoir 8 électrons autour d'eux, règle de l'Octet). 💍
+
+- Ils se tiennent la main (Doublet liant).
+- Ils gardent leurs valises (Doublets non-liants).
+
+Le carbone a 4 mains (4 liaisons).
+L'oxygène a 2 mains et 2 valises.`
+        },
+        theory: `Représentation de Lewis
+
+Permet de visualiser la structure externe des atomes dans une molécule.
+- Doublet liant (Trait) : Mise en commun de 2 électrons entre 2 atomes.
+- Doublet non-liant (Baquet) : Paire d'électrons appartenant à un seul atome.
+
+Règles de stabilité :
+- Règle du Duet (pour H) : 2 électrons.
+- Règle de l'Octet (C, N, O, F...) : 8 électrons autour de l'atome central.`,
+        exercises: [],
+        relatedSimulations: ['atomic-structure-seconde', 'molecular-geometry']
+    },
+
+    'mole-scale-advanced': {
+        title: '⚖️ La Mole (Avancé)',
+        description: 'Visualise le nombre d\'Avogadro et la masse molaire',
+        type: 'mole-scale-advanced',
+        config: {},
+        analogy: {
+            title: 'Le Paquet Géant',
+            content: `Une Mole, c'est juste un paquet de 602 000 milliards de milliards d'atomes ! 📦
+C'est l'unité de base du chimiste pour passer du microscopique (atome) au macroscopique (gramme).`
+        },
+        theory: `La Mole et Masse Molaire
+
+Nombre d'Avogadro : NA = 6.02 × 10²³ mol⁻¹
+
+Masses molaires atomiques (M) :
+- H : 1 g/mol
+- C : 12 g/mol
+- O : 16 g/mol
+
+Relation fondamentale :
+n = m / M
+(quantité en mol = masse en g / masse molaire en g/mol)`,
+        exercises: [],
+        relatedSimulations: ['atomic-structure-seconde', 'dilution-advanced']
+    },
+
+    'equation-balancer-advanced': {
+        title: '⚖️ Équilibreur d\'Équations (Avancé)',
+        description: 'Jeu pour apprendre à équilibrer les réactions chimiques',
+        type: 'equation-balancer-advanced',
+        config: {},
+        analogy: {
+            title: 'La Cuisine Chimique',
+            content: `Une réaction chimique, c'est comme une recette ! 🍳
+Rien ne se perd, rien ne se crée.
+Si tu mets 2 œufs et 500g de farine au début...
+Tu dois retrouver l'équivalent de 2 œufs et 500g de farine dans le gâteau à la fin !
+
+Il faut juste trouver les bonnes proportions (coefficients stœchiométriques).`
+        },
+        theory: `Équilibrage d'Équations Chimiques
+
+Loi de Lavoisier : "Rien ne se perd, rien ne se crée, tout se transforme."
+
+Conservation des éléments :
+Le nombre d'atomes de chaque élément doit être identique dans les Réactifs (gauche) et les Produits (droite).
+
+Méthode :
+Ajuster les coéfficients stœchiométriques (les chiffres DEVANT les formules) sans jamais changer les indices (les petits chiffres EN BAS).`,
+        exercises: [],
+        relatedSimulations: ['mole-scale-advanced', 'chemical-reactions']
+    },
+
+    'dilution-advanced': {
+        title: '🧪 Dilution (Avancé)',
+        description: 'Prépare des solutions par dilution (CiVi = CfVf)',
+        type: 'dilution-advanced',
+        config: {},
+        analogy: {
+            title: 'Allonger la Sauce',
+            content: `Diluer, c'est rajouter de l'eau ! 💧
+Tu as un sirop très fort (Concentré).
+Tu rajoutes de l'eau.
+Le mélange devient moins fort (Dilué).
+
+Mais attention : La quantité de sucre dans le verre n'a pas changé ! Elle est juste noyée dans plus d'eau.`
+        },
+        theory: `Principe de la Dilution
+
+Lors d'une dilution, la quantité de matière de soluté se conserve :
+n_initiale = n_finale
+
+Or, n = C × V
+
+Donc la formule magique est :
+Ci × Vi = Cf × Vf
+
+- Ci : Concentration mère (initiale)
+- Vi : Volume mère à prélever (initial)
+- Cf : Concentration fille (finale, plus petite)
+- Vf : Volume fille total (final, plus grand)`,
+        exercises: [],
+        relatedSimulations: ['molar-concentration', 'titrage-advanced']
+    },
+
+    'titrage-advanced': {
+        title: '⚗️ Titrage Acide-Base (Avancé)',
+        description: 'Dosage colorimétrique et suivi pH-métrique',
+        type: 'titrage-advanced',
+        config: {},
+        analogy: {
+            title: 'Le Duel Chimique',
+            content: `Un titrage, c'est une bataille précise entre un Acide et une Base ! ⚔️
+Tu verses la Base goutte à goutte sur l'Acide (ou l'inverse).
+Ils s'annulent mutuellement.
+
+À l'ÉQUIVALENCE : Il y a exactement autant de soldats Bases que de soldats Acides. Tout le monde est neutralisé !
+L'indicateur change de couleur pour signaler la fin du combat.`
+        },
+        theory: `Titrage Acide-Base
+
+Technique pour déterminer la concentration inconnue d'une solution.
+
+Réaction support :
+H₃O⁺ (acide) + OH⁻ (base) → 2H₂O
+(Réaction totale, rapide et unique).
+
+À l'équivalence :
+Les réactifs ont été introduits dans les proportions stœchiométriques.
+n(acide)initial = n(base)versé
+
+Soit : Ca × Va = Cb × Veq`,
+        exercises: [],
+        relatedSimulations: ['dilution-advanced', 'ph-indicateurs-advanced']
+    },
+
     'ph-indicateurs-advanced': {
         title: '📊 pH et Indicateurs (Avancé)',
         description: 'Échelle de pH et indicateurs colorés interactifs',

@@ -7,9 +7,13 @@ import { useFrame } from '@react-three/fiber';
 import { Html, Sphere, Box, Cylinder, Line, Text, Cone } from '@react-three/drei';
 import * as THREE from 'three';
 import DraggableHtmlPanel from './DraggableHtmlPanel';
+import { SuccessOverlay, ConfettiExplosion } from './PC4eSimulations';
 
 // ============================================================
 // P8. GÉNÉRALITÉS SUR LE MOUVEMENT - Référentiel et Trajectoire
+// ============================================================
+// ============================================================
+// P8. GÉNÉRALITÉS SUR LE MOUVEMENT - Référentiel et Trajectoire (ENRICHI)
 // ============================================================
 export function MouvementSeconde() {
     const [isPlaying, setIsPlaying] = useState(false);
@@ -20,19 +24,38 @@ export function MouvementSeconde() {
     const mobileRef = useRef();
     const trainRef = useRef();
 
+    // Gamification
+    const [mode, setMode] = useState('explore'); // explore, challenge
+    const [targetDistance, setTargetDistance] = useState(null);
+    const [targetTime, setTargetTime] = useState(null);
+    const [score, setScore] = useState(0);
+    const [showSuccess, setShowSuccess] = useState(false);
+
     useFrame((state, delta) => {
         if (isPlaying) {
-            setTime(prev => prev + delta);
+            const dt = delta;
+            setTime(prev => Math.min(prev + dt, 10)); // Max 10s
 
-            // Mobile movement
+            // Mobile movement logic
             if (mobileRef.current) {
-                const position = (time * vitesse) % 8 - 4;
+                // x(t) = -4 + v * t
+                const position = -4 + (time * vitesse);
                 mobileRef.current.position.x = position;
             }
 
-            // Train movement
-            if (trainRef.current && referentiel === 'sol') {
-                trainRef.current.position.x = Math.sin(time * 0.5) * 2;
+            // Train movement logic (Visual only if ref is sol)
+            if (trainRef.current) {
+                if (referentiel === 'sol') {
+                    // Train moves back and forth slightly to look like it's moving
+                    trainRef.current.position.x = (time * 1.5) % 10 - 5;
+                } else {
+                    trainRef.current.position.x = 0;
+                }
+            }
+
+            if (mode === 'challenge' && time >= targetTime) {
+                setIsPlaying(false);
+                checkChallenge();
             }
         }
     });
@@ -41,222 +64,178 @@ export function MouvementSeconde() {
         setTime(0);
         setIsPlaying(false);
         if (mobileRef.current) mobileRef.current.position.x = -4;
-        if (trainRef.current) trainRef.current.position.x = 0;
+        if (trainRef.current) trainRef.current.position.x = (referentiel === 'sol' ? -5 : 0);
     };
 
-    // Generate trajectory points
+    const startChallenge = () => {
+        setMode('challenge');
+        // Goal: Reach distance D in time T. Find V.
+        // D = V * T => V = D / T
+        const t = Math.floor(Math.random() * 3 + 2); // 2-5s
+        const vTarget = Math.floor(Math.random() * 4 + 1); // 1-5 m/s
+        const d = vTarget * t;
+
+        setTargetTime(t);
+        setTargetDistance(d);
+        setVitesse(1); // Reset slider
+        setScore(0);
+        setShowSuccess(false);
+        handleReset();
+    };
+
+    const checkChallenge = () => {
+        const dReal = vitesse * targetTime;
+        if (Math.abs(dReal - targetDistance) < 0.5) {
+            setShowSuccess(true);
+            setScore(s => s + 100);
+        }
+    };
+
+    // Correct trajectory points based on V
     const trajectoryPoints = useMemo(() => {
         const points = [];
         for (let i = 0; i <= 20; i++) {
-            points.push(new THREE.Vector3(-4 + i * 0.4, 0, 0));
+            points.push(new THREE.Vector3(-4 + i * 0.5, 0.5, 0));
         }
         return points;
     }, []);
 
     return (
         <group>
+            <SuccessOverlay show={showSuccess} message={`Bravo ! Vitesse parfaite.`} points={100} onNext={startChallenge} />
+            <ConfettiExplosion active={showSuccess} />
+
             {/* Ground/Reference */}
-            <Box args={[12, 0.2, 4]} position={[0, -1.5, 0]} receiveShadow>
-                <meshStandardMaterial color="#4a4a4a" />
+            <Box args={[20, 0.2, 4]} position={[0, -1.5, 0]} receiveShadow>
+                <meshStandardMaterial color={referentiel === 'sol' ? "#2e7d32" : "#4a4a4a"} />
             </Box>
+
+            {/* Scenery to show motion when camera is fixed on train */}
+            {referentiel === 'train' && [-8, -4, 0, 4, 8].map(x => (
+                <group key={x} position={[x - (time * 1.5) % 20, -1, -2]}>
+                    <Cylinder args={[0.2, 0.2, 2]} material-color="#5d4037" />
+                    <Cone args={[1, 2, 8]} position={[0, 1.5, 0]} material-color="#388e3c" />
+                </group>
+            ))}
 
             {/* Rails */}
-            <Box args={[10, 0.05, 0.2]} position={[0, -1.35, 0.5]}>
+            <Box args={[20, 0.05, 0.2]} position={[0, -1.35, 0.5]}>
                 <meshStandardMaterial color="#666" metalness={0.8} />
             </Box>
-            <Box args={[10, 0.05, 0.2]} position={[0, -1.35, -0.5]}>
+            <Box args={[20, 0.05, 0.2]} position={[0, -1.35, -0.5]}>
                 <meshStandardMaterial color="#666" metalness={0.8} />
             </Box>
 
-            {/* Train (Reference frame) */}
+            {/* Train Visuals */}
             <group ref={trainRef} position={[0, 0, 0]}>
-                <Box args={[6, 2, 2]} position={[0, 0, 0]} castShadow>
-                    <meshStandardMaterial color="#1565c0" />
-                </Box>
-                {/* Windows */}
-                {[-2, -1, 0, 1, 2].map((x) => (
-                    <Box key={x} args={[0.6, 0.6, 0.1]} position={[x, 0.3, 1.05]}>
-                        <meshStandardMaterial color="#b3e5fc" transparent opacity={0.7} />
-                    </Box>
-                ))}
+                <Box args={[8, 2, 2]} position={[0, 0, 0]} material-color="#1565c0" transparent opacity={0.5} />
+                <Text position={[0, 1.2, 0]} fontSize={0.3} color="white">WAGON</Text>
                 {/* Wheels */}
-                {[-2, -0.5, 1, 2.5].map((x) => (
-                    <Cylinder key={x} args={[0.3, 0.3, 0.2, 16]} position={[x, -0.85, 0.9]} rotation={[Math.PI / 2, 0, 0]}>
-                        <meshStandardMaterial color="#333" />
-                    </Cylinder>
+                {[-3, 3].map(x => (
+                    <Cylinder key={x} args={[0.5, 0.5, 2.2, 16]} rotation={[Math.PI / 2, 0, 0]} position={[x, -1, 0]} material-color="#333" />
                 ))}
-                <Text position={[0, 1.2, 0]} fontSize={0.25} color="#fff">
-                    TRAIN
-                </Text>
             </group>
 
-            {/* Mobile (ball being thrown) */}
+            {/* Mobile (ball) */}
             <Sphere ref={mobileRef} args={[0.25, 16, 16]} position={[-4, 0.5, 0]} castShadow>
-                <meshStandardMaterial color="#f44336" emissive="#ff5722" emissiveIntensity={0.3} />
+                <meshStandardMaterial color="#f44336" emissive="#ff5722" emissiveIntensity={0.5} />
             </Sphere>
 
             {/* Trajectory visualization */}
-            {showTrajectory && (
+            {showTrajectory && referentiel === 'sol' && (
                 <Line
                     points={trajectoryPoints}
                     color="#ffeb3b"
                     lineWidth={2}
                     dashed
-                    dashSize={0.2}
-                    dashScale={10}
                 />
             )}
 
             {/* Velocity vector */}
             <group position={[mobileRef.current?.position.x || -4, 0.5, 0]}>
                 <Line
-                    points={[[0, 0, 0], [vitesse * 0.3, 0, 0]]}
+                    points={[[0, 0, 0], [vitesse * 0.5, 0, 0]]} // Scaled for visibility
                     color="#4caf50"
                     lineWidth={4}
                 />
-                <Cone args={[0.1, 0.2, 8]} position={[vitesse * 0.3 + 0.1, 0, 0]} rotation={[0, 0, -Math.PI / 2]}>
+                <Cone args={[0.1, 0.2, 8]} position={[vitesse * 0.5 + 0.1, 0, 0]} rotation={[0, 0, -Math.PI / 2]}>
                     <meshStandardMaterial color="#4caf50" />
                 </Cone>
-                <Text position={[vitesse * 0.15, 0.3, 0]} fontSize={0.15} color="#4caf50">
+                <Text position={[0, 0.4, 0]} fontSize={0.2} color="#4caf50">
                     v = {vitesse} m/s
                 </Text>
             </group>
 
-            {/* Position markers */}
-            {[-4, -2, 0, 2, 4].map((x) => (
-                <group key={x} position={[x, -1.3, 1.5]}>
-                    <Box args={[0.1, 0.3, 0.1]}>
-                        <meshStandardMaterial color="#fff" />
-                    </Box>
-                    <Text position={[0, 0.4, 0]} fontSize={0.15} color="#fff">
-                        {x}m
-                    </Text>
+            {/* Target Marker for Challenge */}
+            {mode === 'challenge' && (
+                <group position={[-4 + targetDistance, 0, 0]}>
+                    <Cylinder args={[0.8, 0.8, 0.05, 32]} rotation={[Math.PI / 2, 0, 0]} material-color="#e91e63" />
+                    <Text position={[0, 0.5, 0]} fontSize={0.3} color="#e91e63">CIBLE</Text>
+                    <Text position={[0, -0.5, 0]} fontSize={0.2} color="white">{targetDistance} m</Text>
                 </group>
-            ))}
+            )}
 
             {/* Control Panel */}
             <Html position={[7, 2, 0]} transform={false}>
-                <DraggableHtmlPanel title="🚂 Mouvement & Référentiel" usePortal={false}>
-                    <div style={{ padding: '15px', minWidth: '280px' }}>
-                        <div style={{ marginBottom: '15px' }}>
-                            <label style={{ color: '#fff', display: 'block', marginBottom: '5px' }}>
-                                Vitesse: {vitesse} m/s
-                            </label>
-                            <input
-                                type="range"
-                                min="0.5"
-                                max="5"
-                                step="0.5"
-                                value={vitesse}
-                                onChange={(e) => setVitesse(parseFloat(e.target.value))}
-                                style={{ width: '100%' }}
-                            />
+                <DraggableHtmlPanel title="🚂 Labo Mouvement" usePortal={false} className="w-[320px] text-white">
+                    <div className="flex justify-between items-center mb-4">
+                        <div className="flex gap-2">
+                            <button onClick={() => setMode('explore')} className={`text-xs px-2 py-1 rounded ${mode === 'explore' ? 'bg-cyan-600' : 'bg-gray-700'}`}>Labo</button>
+                            <button onClick={startChallenge} className={`text-xs px-2 py-1 rounded ${mode === 'challenge' ? 'bg-pink-600' : 'bg-gray-700'}`}>Défi Vitesse 🏆</button>
                         </div>
+                    </div>
 
-                        <div style={{ display: 'flex', gap: '10px', marginBottom: '15px' }}>
-                            <button
-                                onClick={() => setIsPlaying(!isPlaying)}
-                                style={{
-                                    flex: 1,
-                                    padding: '12px',
-                                    background: isPlaying ? '#f44336' : '#4caf50',
-                                    border: 'none',
-                                    borderRadius: '8px',
-                                    color: '#fff',
-                                    cursor: 'pointer'
-                                }}
-                            >
-                                {isPlaying ? '⏸️ Pause' : '▶️ Lancer'}
-                            </button>
-                            <button
-                                onClick={handleReset}
-                                style={{
-                                    flex: 1,
-                                    padding: '12px',
-                                    background: '#607d8b',
-                                    border: 'none',
-                                    borderRadius: '8px',
-                                    color: '#fff',
-                                    cursor: 'pointer'
-                                }}
-                            >
-                                🔄 Reset
-                            </button>
+                    {mode === 'challenge' && (
+                        <div className="bg-pink-900/40 p-2 rounded mb-4 border border-pink-500/30 text-sm animate-pulse">
+                            <div className="font-bold text-pink-300">MISSION:</div>
+                            Atteindre la cible ({targetDistance}m) en exactement {targetTime} secondes.
+                            <br />Règle ta vitesse !
                         </div>
+                    )}
 
-                        <div style={{ marginBottom: '15px' }}>
-                            <label style={{ color: '#fff', display: 'block', marginBottom: '8px' }}>
-                                Référentiel:
-                            </label>
-                            <div style={{ display: 'flex', gap: '10px' }}>
-                                <button
-                                    onClick={() => setReferentiel('sol')}
-                                    style={{
-                                        flex: 1,
-                                        padding: '10px',
-                                        background: referentiel === 'sol' ? '#9c27b0' : '#444',
-                                        border: 'none',
-                                        borderRadius: '8px',
-                                        color: '#fff',
-                                        cursor: 'pointer'
-                                    }}
-                                >
-                                    🌍 Sol
-                                </button>
-                                <button
-                                    onClick={() => setReferentiel('train')}
-                                    style={{
-                                        flex: 1,
-                                        padding: '10px',
-                                        background: referentiel === 'train' ? '#9c27b0' : '#444',
-                                        border: 'none',
-                                        borderRadius: '8px',
-                                        color: '#fff',
-                                        cursor: 'pointer'
-                                    }}
-                                >
-                                    🚃 Train
-                                </button>
+                    <div className="mb-4">
+                        <label className="block text-sm mb-1 text-gray-300">
+                            Vitesse: <span className="text-cyan-400 font-bold">{vitesse} m/s</span>
+                        </label>
+                        <input
+                            type="range"
+                            min="0.5"
+                            max="10"
+                            step="0.5"
+                            value={vitesse}
+                            onChange={(e) => setVitesse(parseFloat(e.target.value))}
+                            className="w-full accent-cyan-500"
+                        />
+                    </div>
+
+                    <div className="flex gap-2 mb-4">
+                        <button
+                            onClick={() => setIsPlaying(!isPlaying)}
+                            className={`flex-1 py-2 rounded font-bold ${isPlaying ? 'bg-red-500 hover:bg-red-600' : 'bg-green-500 hover:bg-green-600'}`}
+                        >
+                            {isPlaying ? '⏸️ Stop' : '▶️ Go'}
+                        </button>
+                        <button
+                            onClick={handleReset}
+                            className="flex-1 py-2 bg-gray-600 hover:bg-gray-500 rounded font-bold"
+                        >
+                            🔄 Reset
+                        </button>
+                    </div>
+
+                    {!mode === 'challenge' && (
+                        <div className="mb-4">
+                            <label className="block text-sm mb-1 text-gray-300">Référentiel:</label>
+                            <div className="flex gap-2">
+                                <button onClick={() => setReferentiel('sol')} className={`flex-1 py-1 rounded text-xs ${referentiel === 'sol' ? 'bg-purple-600' : 'bg-gray-700'}`}>Sol</button>
+                                <button onClick={() => setReferentiel('train')} className={`flex-1 py-1 rounded text-xs ${referentiel === 'train' ? 'bg-purple-600' : 'bg-gray-700'}`}>Train</button>
                             </div>
                         </div>
+                    )}
 
-                        <label style={{ color: '#fff', display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '15px' }}>
-                            <input
-                                type="checkbox"
-                                checked={showTrajectory}
-                                onChange={(e) => setShowTrajectory(e.target.checked)}
-                            />
-                            Afficher la trajectoire
-                        </label>
-
-                        <div style={{
-                            background: 'rgba(76,175,80,0.2)',
-                            padding: '12px',
-                            borderRadius: '8px',
-                            marginBottom: '10px'
-                        }}>
-                            <p style={{ color: '#81c784', margin: '0 0 8px 0', fontWeight: 'bold' }}>
-                                📊 Mesures:
-                            </p>
-                            <p style={{ color: '#fff', margin: '3px 0', fontSize: '12px' }}>
-                                Temps: <strong>{time.toFixed(2)} s</strong>
-                            </p>
-                            <p style={{ color: '#fff', margin: '3px 0', fontSize: '12px' }}>
-                                Distance: <strong>{(time * vitesse).toFixed(2)} m</strong>
-                            </p>
-                        </div>
-
-                        <div style={{
-                            background: 'rgba(33,150,243,0.2)',
-                            padding: '10px',
-                            borderRadius: '8px',
-                            fontSize: '11px',
-                            color: '#90caf9'
-                        }}>
-                            <strong>📚 Mouvement relatif:</strong><br />
-                            Le mouvement dépend du référentiel choisi.
-                            Le vecteur vitesse est tangent à la trajectoire.
-                        </div>
+                    <div className="bg-green-900/20 p-3 rounded border border-green-500/20 font-mono text-xs">
+                        <div className="flex justify-between"><span>Temps:</span> <strong>{time.toFixed(2)} s</strong></div>
+                        <div className="flex justify-between"><span>Dist:</span> <strong>{(vitesse * time).toFixed(2)} m</strong></div>
                     </div>
                 </DraggableHtmlPanel>
             </Html>
@@ -267,12 +246,22 @@ export function MouvementSeconde() {
 // ============================================================
 // P9-P10. FORCES ET POIDS - Représentation vectorielle
 // ============================================================
+// ============================================================
+// P9-P10. FORCES ET POIDS - Représentation vectorielle (ENRICHI)
+// ============================================================
 export function ForcesPoidsSeconde() {
     const [masse, setMasse] = useState(5);
     const [gValue, setGValue] = useState(9.8);
     const [planete, setPlanete] = useState('terre');
     const [showComponents, setShowComponents] = useState(false);
     const [inclinaison, setInclinaison] = useState(0);
+
+    // Gamification
+    const [mode, setMode] = useState('explore'); // explore, challenge
+    const [targetPoids, setTargetPoids] = useState(null);
+    const [targetMasse, setTargetMasse] = useState(null);
+    const [score, setScore] = useState(0);
+    const [showSuccess, setShowSuccess] = useState(false);
 
     const poids = masse * gValue;
 
@@ -291,8 +280,35 @@ export function ForcesPoidsSeconde() {
     const poidsParallele = poids * Math.sin(inclinaisonRad);
     const poidsPerpendiculaire = poids * Math.cos(inclinaisonRad);
 
+    const startChallenge = () => {
+        setMode('challenge');
+        // Pick random planet and target mass
+        const keys = Object.keys(planetes);
+        const randPlanet = keys[Math.floor(Math.random() * keys.length)];
+        const randMass = Math.floor(Math.random() * 15 + 5); // 5-20kg
+        const targetP = randMass * planetes[randPlanet].g;
+
+        setPlanete(randPlanet);
+        setTargetMasse(randMass);
+        setTargetPoids(targetP);
+        setMasse(1); // Reset user mass
+        setScore(0);
+        setShowSuccess(false);
+    };
+
+    const checkChallenge = () => {
+        if (!targetMasse) return;
+        if (Math.abs(masse - targetMasse) < 0.5) {
+            setShowSuccess(true);
+            setScore(s => s + 100);
+        }
+    };
+
     return (
         <group>
+            <SuccessOverlay show={showSuccess} message={`Excellent ! Masse trouvée.`} points={100} onNext={startChallenge} />
+            <ConfettiExplosion active={showSuccess} />
+
             {/* Planet indicator */}
             <Sphere args={[0.8, 32, 32]} position={[-4, 2, 0]}>
                 <meshStandardMaterial color={planetes[planete].color} />
@@ -370,27 +386,50 @@ export function ForcesPoidsSeconde() {
                 </Text>
             )}
 
+            {/* Challenge Target Indicator */}
+            {mode === 'challenge' && (
+                <game-overlay>
+                    <Text position={[3, 3, 0]} fontSize={0.3} color="#e91e63">
+                        Cible: {targetPoids.toFixed(1)} N
+                    </Text>
+                </game-overlay>
+            )}
+
             {/* Control Panel */}
             <Html position={[5, 2, 0]} transform={false}>
-                <DraggableHtmlPanel title="⚖️ Poids et Masse" usePortal={false}>
-                    <div style={{ padding: '15px', minWidth: '300px' }}>
-                        <div style={{ marginBottom: '15px' }}>
-                            <label style={{ color: '#fff', display: 'block', marginBottom: '5px' }}>
-                                Masse: {masse} kg
-                            </label>
-                            <input
-                                type="range"
-                                min="1"
-                                max="20"
-                                step="1"
-                                value={masse}
-                                onChange={(e) => setMasse(parseFloat(e.target.value))}
-                                style={{ width: '100%' }}
-                            />
+                <DraggableHtmlPanel title="⚖️ Poids & Masse" usePortal={false} className="w-[300px] text-white">
+                    <div className="flex justify-between items-center mb-4">
+                        <div className="flex gap-2">
+                            <button onClick={() => setMode('explore')} className={`text-xs px-2 py-1 rounded ${mode === 'explore' ? 'bg-cyan-600' : 'bg-gray-700'}`}>Labo</button>
+                            <button onClick={startChallenge} className={`text-xs px-2 py-1 rounded ${mode === 'challenge' ? 'bg-pink-600' : 'bg-gray-700'}`}>Défi Masse 🏆</button>
                         </div>
+                    </div>
 
-                        <div style={{ marginBottom: '15px' }}>
-                            <label style={{ color: '#fff', display: 'block', marginBottom: '5px' }}>
+                    {mode === 'challenge' && (
+                        <div className="bg-pink-900/40 p-2 rounded mb-4 border border-pink-500/30 text-sm animate-pulse">
+                            <div className="font-bold text-pink-300">MISSION:</div>
+                            Trouve la masse pour obtenir un Poids de {targetPoids.toFixed(1)} N sur {planetes[planete].name}.
+                        </div>
+                    )}
+
+                    <div className="mb-4">
+                        <label className="block text-sm mb-1 text-gray-300">
+                            Masse: <span className="text-cyan-400 font-bold">{masse} kg</span>
+                        </label>
+                        <input
+                            type="range"
+                            min="1"
+                            max="20"
+                            step="1"
+                            value={masse}
+                            onChange={(e) => setMasse(parseFloat(e.target.value))}
+                            className="w-full accent-cyan-500"
+                        />
+                    </div>
+
+                    {!mode === 'challenge' && (
+                        <div className="mb-4">
+                            <label className="block text-sm mb-1 text-gray-300">
                                 Inclinaison: {inclinaison}°
                             </label>
                             <input
@@ -400,80 +439,44 @@ export function ForcesPoidsSeconde() {
                                 step="5"
                                 value={inclinaison}
                                 onChange={(e) => setInclinaison(parseFloat(e.target.value))}
-                                style={{ width: '100%' }}
+                                className="w-full accent-gray-500"
                             />
                         </div>
+                    )}
 
-                        <div style={{ marginBottom: '15px' }}>
-                            <label style={{ color: '#fff', display: 'block', marginBottom: '8px' }}>
-                                Planète:
-                            </label>
-                            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px' }}>
-                                {Object.entries(planetes).map(([key, val]) => (
-                                    <button
-                                        key={key}
-                                        onClick={() => setPlanete(key)}
-                                        style={{
-                                            padding: '8px',
-                                            background: planete === key ? val.color : '#444',
-                                            border: 'none',
-                                            borderRadius: '8px',
-                                            color: '#fff',
-                                            cursor: 'pointer',
-                                            fontSize: '12px'
-                                        }}
-                                    >
-                                        {val.name}
-                                    </button>
-                                ))}
+                    <div className="mb-4">
+                        {!mode === 'challenge' ? (
+                            <>
+                                <label className="block text-sm mb-1 text-gray-300">Planète:</label>
+                                <div className="grid grid-cols-2 gap-2">
+                                    {Object.entries(planetes).map(([key, val]) => (
+                                        <button
+                                            key={key}
+                                            onClick={() => setPlanete(key)}
+                                            className={`py-1 rounded text-xs ${planete === key ? 'bg-purple-600' : 'bg-gray-700'}`}
+                                        >
+                                            {val.name}
+                                        </button>
+                                    ))}
+                                </div>
+                            </>
+                        ) : (
+                            <div className="bg-purple-900/50 p-2 rounded text-center">
+                                Planète imposée: <span className="font-bold text-purple-300">{planetes[planete].name}</span>
                             </div>
-                        </div>
-
-                        {inclinaison > 0 && (
-                            <label style={{ color: '#fff', display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '15px' }}>
-                                <input
-                                    type="checkbox"
-                                    checked={showComponents}
-                                    onChange={(e) => setShowComponents(e.target.checked)}
-                                />
-                                Afficher les composantes
-                            </label>
                         )}
+                    </div>
 
-                        <div style={{
-                            background: 'rgba(244,67,54,0.2)',
-                            padding: '12px',
-                            borderRadius: '8px',
-                            marginBottom: '10px'
-                        }}>
-                            <p style={{ color: '#ef9a9a', margin: '0 0 8px 0', fontWeight: 'bold' }}>
-                                📊 Calculs:
-                            </p>
-                            <p style={{ color: '#fff', margin: '3px 0', fontSize: '13px' }}>
-                                P = m × g = {masse} × {gValue} = <strong style={{ color: '#f44336' }}>{poids.toFixed(1)} N</strong>
-                            </p>
-                            {inclinaison > 0 && showComponents && (
-                                <>
-                                    <p style={{ color: '#fff', margin: '3px 0', fontSize: '12px' }}>
-                                        P// = P × sin(α) = <strong style={{ color: '#4caf50' }}>{poidsParallele.toFixed(1)} N</strong>
-                                    </p>
-                                    <p style={{ color: '#fff', margin: '3px 0', fontSize: '12px' }}>
-                                        P⊥ = P × cos(α) = <strong style={{ color: '#2196f3' }}>{poidsPerpendiculaire.toFixed(1)} N</strong>
-                                    </p>
-                                </>
-                            )}
-                        </div>
+                    {mode === 'challenge' && (
+                        <button onClick={checkChallenge} className="w-full py-2 bg-pink-600 hover:bg-pink-500 rounded font-bold text-sm mb-3">
+                            Vérifier Masse
+                        </button>
+                    )}
 
-                        <div style={{
-                            background: 'rgba(33,150,243,0.2)',
-                            padding: '10px',
-                            borderRadius: '8px',
-                            fontSize: '11px',
-                            color: '#90caf9'
-                        }}>
-                            <strong>⚡ À retenir:</strong><br />
-                            La masse (kg) est invariable.<br />
-                            Le poids (N) dépend de g (donc du lieu).
+                    <div className="bg-red-900/20 p-3 rounded border border-red-500/20 font-mono text-xs">
+                        <div className="flex justify-between items-center">
+                            <span>Pords Calculé:</span>
+                            <strong className="text-red-400 text-sm">{poids.toFixed(1)} N</strong>
                         </div>
                     </div>
                 </DraggableHtmlPanel>
@@ -485,6 +488,9 @@ export function ForcesPoidsSeconde() {
 // ============================================================
 // P11. ÉQUILIBRE SOUMIS À 3 FORCES
 // ============================================================
+// ============================================================
+// P11. ÉQUILIBRE SOUMIS À 3 FORCES (ENRICHI)
+// ============================================================
 export function Equilibre3ForcesSeconde() {
     const [force1, setForce1] = useState(50);
     const [force2, setForce2] = useState(50);
@@ -492,26 +498,65 @@ export function Equilibre3ForcesSeconde() {
     const [angle2, setAngle2] = useState(240);
     const [showResultante, setShowResultante] = useState(false);
 
-    // Calculate force 3 for equilibrium
+    // Gamification
+    const [mode, setMode] = useState('explore'); // explore, challenge
+    const [targetEquilibrium, setTargetEquilibrium] = useState(false);
+    const [score, setScore] = useState(0);
+    const [showSuccess, setShowSuccess] = useState(false);
+
+    // Calculate forces components
     const rad1 = (angle1 * Math.PI) / 180;
     const rad2 = (angle2 * Math.PI) / 180;
-
     const f1x = force1 * Math.cos(rad1);
     const f1y = force1 * Math.sin(rad1);
     const f2x = force2 * Math.cos(rad2);
     const f2y = force2 * Math.sin(rad2);
 
-    const f3x = -(f1x + f2x);
-    const f3y = -(f1y + f2y);
-    const force3 = Math.sqrt(f3x * f3x + f3y * f3y);
-    const angle3 = (Math.atan2(f3y, f3x) * 180) / Math.PI;
+    const [userForce, setUserForce] = useState(50);
+    const [userAngle, setUserAngle] = useState(0);
 
-    const isEquilibrium = Math.abs(f1x + f2x + f3x) < 0.1 && Math.abs(f1y + f2y + f3y) < 0.1;
+    const activeF3 = mode === 'challenge' ? userForce : Math.sqrt(Math.pow(-(f1x + f2x), 2) + Math.pow(-(f1y + f2y), 2));
+    const activeAngle3 = mode === 'challenge' ? userAngle : (Math.atan2(-(f1y + f2y), -(f1x + f2x)) * 180) / Math.PI;
+
+    const rad3 = (activeAngle3 * Math.PI) / 180;
+    const f3x = activeF3 * Math.cos(rad3);
+    const f3y = activeF3 * Math.sin(rad3);
+
+    const sumX = f1x + f2x + f3x;
+    const sumY = f1y + f2y + f3y;
+    const residual = Math.sqrt(sumX * sumX + sumY * sumY);
+    const isEquilibrium = residual < 5; // Tolerance
+
+    const startChallenge = () => {
+        setMode('challenge');
+        // Randomize F1 and F2
+        setForce1(Math.floor(Math.random() * 50 + 30));
+        setAngle1(Math.floor(Math.random() * 360));
+
+        setForce2(Math.floor(Math.random() * 50 + 30));
+        setAngle2(Math.floor(Math.random() * 360));
+
+        // Reset user guess
+        setUserForce(50);
+        setUserAngle(0);
+        setScore(0);
+        setShowSuccess(false);
+    };
+
+    const checkChallenge = () => {
+        if (isEquilibrium) {
+            setShowSuccess(true);
+            setScore(s => s + 100);
+        }
+    };
 
     const scale = 0.02;
 
     return (
         <group>
+            <SuccessOverlay show={showSuccess} message={`Équilibre atteint !`} points={100} onNext={startChallenge} />
+            <ConfettiExplosion active={showSuccess} />
+
             {/* Central point */}
             <Sphere args={[0.2, 16, 16]} position={[0, 0, 0]}>
                 <meshStandardMaterial color="#fff" />
@@ -519,173 +564,104 @@ export function Equilibre3ForcesSeconde() {
 
             {/* Force 1 */}
             <group>
-                <Line
-                    points={[[0, 0, 0], [f1x * scale, f1y * scale, 0]]}
-                    color="#f44336"
-                    lineWidth={4}
-                />
-                <Cone
-                    args={[0.1, 0.2, 8]}
-                    position={[f1x * scale, f1y * scale, 0]}
-                    rotation={[0, 0, rad1 - Math.PI / 2]}
-                >
+                <Line points={[[0, 0, 0], [f1x * scale, f1y * scale, 0]]} color="#f44336" lineWidth={4} />
+                <Cone args={[0.1, 0.2, 8]} position={[f1x * scale, f1y * scale, 0]} rotation={[0, 0, rad1 - Math.PI / 2]}>
                     <meshStandardMaterial color="#f44336" />
                 </Cone>
-                <Text position={[f1x * scale * 0.6, f1y * scale * 0.6 + 0.3, 0]} fontSize={0.2} color="#f44336">
-                    F₁ = {force1}N
-                </Text>
+                <Text position={[f1x * scale * 0.6, f1y * scale * 0.6 + 0.3, 0]} fontSize={0.2} color="#f44336">F₁</Text>
             </group>
 
             {/* Force 2 */}
             <group>
-                <Line
-                    points={[[0, 0, 0], [f2x * scale, f2y * scale, 0]]}
-                    color="#4caf50"
-                    lineWidth={4}
-                />
-                <Cone
-                    args={[0.1, 0.2, 8]}
-                    position={[f2x * scale, f2y * scale, 0]}
-                    rotation={[0, 0, rad2 - Math.PI / 2]}
-                >
+                <Line points={[[0, 0, 0], [f2x * scale, f2y * scale, 0]]} color="#4caf50" lineWidth={4} />
+                <Cone args={[0.1, 0.2, 8]} position={[f2x * scale, f2y * scale, 0]} rotation={[0, 0, rad2 - Math.PI / 2]}>
                     <meshStandardMaterial color="#4caf50" />
                 </Cone>
-                <Text position={[f2x * scale * 0.6, f2y * scale * 0.6 + 0.3, 0]} fontSize={0.2} color="#4caf50">
-                    F₂ = {force2}N
-                </Text>
+                <Text position={[f2x * scale * 0.6, f2y * scale * 0.6 + 0.3, 0]} fontSize={0.2} color="#4caf50">F₂</Text>
             </group>
 
-            {/* Force 3 (equilibrium) */}
+            {/* Force 3 (User or Auto) */}
             <group>
-                <Line
-                    points={[[0, 0, 0], [f3x * scale, f3y * scale, 0]]}
-                    color="#2196f3"
-                    lineWidth={4}
-                />
-                <Cone
-                    args={[0.1, 0.2, 8]}
-                    position={[f3x * scale, f3y * scale, 0]}
-                    rotation={[0, 0, (angle3 * Math.PI / 180) - Math.PI / 2]}
-                >
+                <Line points={[[0, 0, 0], [f3x * scale, f3y * scale, 0]]} color="#2196f3" lineWidth={4} />
+                <Cone args={[0.1, 0.2, 8]} position={[f3x * scale, f3y * scale, 0]} rotation={[0, 0, rad3 - Math.PI / 2]}>
                     <meshStandardMaterial color="#2196f3" />
                 </Cone>
-                <Text position={[f3x * scale * 0.6, f3y * scale * 0.6 + 0.3, 0]} fontSize={0.2} color="#2196f3">
-                    F₃ = {force3.toFixed(1)}N
-                </Text>
+                <Text position={[f3x * scale * 0.6, f3y * scale * 0.6 + 0.3, 0]} fontSize={0.2} color="#2196f3">F₃</Text>
             </group>
 
-            {/* Resultante (should be zero) */}
-            {showResultante && (
-                <Text position={[0, -2, 0]} fontSize={0.25} color={isEquilibrium ? '#4caf50' : '#f44336'}>
-                    {isEquilibrium ? '✓ Équilibre' : '✗ Non équilibré'}
-                </Text>
+            {/* Resultant Text */}
+            <Text position={[0, -2.5, 0]} fontSize={0.25} color={isEquilibrium ? '#4caf50' : '#f44336'}>
+                {isEquilibrium ? '✓ ÉQUILIBRE' : `⚠ Résiduel: ${residual.toFixed(1)} N`}
+            </Text>
+
+            {/* Triangle des forces (Optional visualization) */}
+            {mode === 'explore' && (
+                <group position={[3, 0, -2]}>
+                    <Text position={[0, 2, 0]} fontSize={0.2} color="#fff">Triangle des forces</Text>
+                    <Line points={[[0, 0, 0], [f1x * scale, f1y * scale, 0]]} color="#f44336" lineWidth={2} />
+                    <Line points={[[f1x * scale, f1y * scale, 0], [f1x * scale + f2x * scale, f1y * scale + f2y * scale, 0]]} color="#4caf50" lineWidth={2} />
+                    <Line points={[[f1x * scale + f2x * scale, f1y * scale + f2y * scale, 0], [0, 0, 0]]} color="#2196f3" lineWidth={2} />
+                </group>
             )}
-
-            {/* Triangle des forces (construction) */}
-            <group position={[3, 0, -2]}>
-                <Text position={[0, 2, 0]} fontSize={0.2} color="#fff">Triangle des forces</Text>
-                <Line
-                    points={[[0, 0, 0], [f1x * scale, f1y * scale, 0]]}
-                    color="#f44336"
-                    lineWidth={2}
-                />
-                <Line
-                    points={[[f1x * scale, f1y * scale, 0], [f1x * scale + f2x * scale, f1y * scale + f2y * scale, 0]]}
-                    color="#4caf50"
-                    lineWidth={2}
-                />
-                <Line
-                    points={[[f1x * scale + f2x * scale, f1y * scale + f2y * scale, 0], [0, 0, 0]]}
-                    color="#2196f3"
-                    lineWidth={2}
-                />
-            </group>
 
             {/* Control Panel */}
             <Html position={[6, 2, 0]} transform={false}>
-                <DraggableHtmlPanel title="⚖️ Équilibre 3 Forces" usePortal={false}>
-                    <div style={{ padding: '15px', minWidth: '280px' }}>
-                        <div style={{ marginBottom: '15px' }}>
-                            <label style={{ color: '#f44336', display: 'block', marginBottom: '5px' }}>
-                                Force F₁: {force1} N à {angle1}°
-                            </label>
-                            <input
-                                type="range"
-                                min="10"
-                                max="100"
-                                value={force1}
-                                onChange={(e) => setForce1(parseFloat(e.target.value))}
-                                style={{ width: '100%', marginBottom: '5px' }}
-                            />
-                            <input
-                                type="range"
-                                min="0"
-                                max="360"
-                                value={angle1}
-                                onChange={(e) => setAngle1(parseFloat(e.target.value))}
-                                style={{ width: '100%' }}
-                            />
+                <DraggableHtmlPanel title="⚖️ Équilibre 3 Forces" usePortal={false} className="w-[300px] text-white">
+                    <div className="flex justify-between items-center mb-4">
+                        <div className="flex gap-2">
+                            <button onClick={() => setMode('explore')} className={`text-xs px-2 py-1 rounded ${mode === 'explore' ? 'bg-cyan-600' : 'bg-gray-700'}`}>Labo</button>
+                            <button onClick={startChallenge} className={`text-xs px-2 py-1 rounded ${mode === 'challenge' ? 'bg-pink-600' : 'bg-gray-700'}`}>Défi Équilibre 🏆</button>
                         </div>
+                    </div>
 
-                        <div style={{ marginBottom: '15px' }}>
-                            <label style={{ color: '#4caf50', display: 'block', marginBottom: '5px' }}>
-                                Force F₂: {force2} N à {angle2}°
-                            </label>
-                            <input
-                                type="range"
-                                min="10"
-                                max="100"
-                                value={force2}
-                                onChange={(e) => setForce2(parseFloat(e.target.value))}
-                                style={{ width: '100%', marginBottom: '5px' }}
-                            />
-                            <input
-                                type="range"
-                                min="0"
-                                max="360"
-                                value={angle2}
-                                onChange={(e) => setAngle2(parseFloat(e.target.value))}
-                                style={{ width: '100%' }}
-                            />
+                    {mode === 'challenge' && (
+                        <div className="bg-pink-900/40 p-2 rounded mb-4 border border-pink-500/30 text-sm animate-pulse">
+                            <div className="font-bold text-pink-300">MISSION:</div>
+                            Ajuste F₃ (Force et Angle) pour annuler F₁ et F₂.
                         </div>
+                    )}
 
-                        <div style={{
-                            background: 'rgba(33,150,243,0.2)',
-                            padding: '12px',
-                            borderRadius: '8px',
-                            marginBottom: '10px'
-                        }}>
-                            <p style={{ color: '#90caf9', margin: '0 0 8px 0', fontWeight: 'bold' }}>
-                                📊 Force F₃ (calculée):
-                            </p>
-                            <p style={{ color: '#fff', margin: '3px 0', fontSize: '13px' }}>
-                                Intensité: <strong style={{ color: '#2196f3' }}>{force3.toFixed(1)} N</strong>
-                            </p>
-                            <p style={{ color: '#fff', margin: '3px 0', fontSize: '13px' }}>
-                                Direction: <strong>{angle3.toFixed(1)}°</strong>
-                            </p>
-                        </div>
+                    {/* F1 Controls */}
+                    <div className="mb-2 p-2 rounded border border-red-500/30 bg-red-900/10">
+                        <label className="text-xs text-red-400 block">F₁: {force1}N à {angle1}°</label>
+                        {mode === 'explore' && (
+                            <>
+                                <input type="range" min="10" max="100" value={force1} onChange={e => setForce1(Number(e.target.value))} className="w-full h-1 accent-red-500" />
+                                <input type="range" min="0" max="360" value={angle1} onChange={e => setAngle1(Number(e.target.value))} className="w-full h-1 accent-red-500" />
+                            </>
+                        )}
+                    </div>
 
-                        <label style={{ color: '#fff', display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '15px' }}>
-                            <input
-                                type="checkbox"
-                                checked={showResultante}
-                                onChange={(e) => setShowResultante(e.target.checked)}
-                            />
-                            Vérifier l'équilibre
-                        </label>
+                    {/* F2 Controls */}
+                    <div className="mb-2 p-2 rounded border border-green-500/30 bg-green-900/10">
+                        <label className="text-xs text-green-400 block">F₂: {force2}N à {angle2}°</label>
+                        {mode === 'explore' && (
+                            <>
+                                <input type="range" min="10" max="100" value={force2} onChange={e => setForce2(Number(e.target.value))} className="w-full h-1 accent-green-500" />
+                                <input type="range" min="0" max="360" value={angle2} onChange={e => setAngle2(Number(e.target.value))} className="w-full h-1 accent-green-500" />
+                            </>
+                        )}
+                    </div>
 
-                        <div style={{
-                            background: 'rgba(156,39,176,0.2)',
-                            padding: '10px',
-                            borderRadius: '8px',
-                            fontSize: '11px',
-                            color: '#ce93d8'
-                        }}>
-                            <strong>📐 Condition d'équilibre:</strong><br />
-                            ΣF = 0 ⟺ F₁ + F₂ + F₃ = 0<br />
-                            Le triangle des forces doit être fermé.
-                        </div>
+                    {/* F3 Controls (Always editable in Challenge, computed in Explore) */}
+                    <div className="mb-2 p-2 rounded border border-blue-500/30 bg-blue-900/10">
+                        <label className="text-xs text-blue-400 block">F₃ {mode === 'explore' ? '(Calculée)' : '(Ajustable)'}: {activeF3.toFixed(1)}N à {activeAngle3.toFixed(0)}°</label>
+                        {mode === 'challenge' && (
+                            <>
+                                <input type="range" min="10" max="150" value={userForce} onChange={e => setUserForce(Number(e.target.value))} className="w-full h-1 accent-blue-500" />
+                                <input type="range" min="-180" max="180" value={userAngle} onChange={e => setUserAngle(Number(e.target.value))} className="w-full h-1 accent-blue-500" />
+                            </>
+                        )}
+                    </div>
+
+                    {mode === 'challenge' && (
+                        <button onClick={checkChallenge} className="w-full py-2 bg-pink-600 hover:bg-pink-500 rounded font-bold text-sm mb-3">
+                            Vérifier
+                        </button>
+                    )}
+
+                    <div className="bg-purple-900/20 p-2 rounded text-xs text-purple-300">
+                        ΣFx = {sumX.toFixed(1)}, ΣFy = {sumY.toFixed(1)}
                     </div>
                 </DraggableHtmlPanel>
             </Html>

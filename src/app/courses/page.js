@@ -40,7 +40,7 @@ import rehypeKatex from 'rehype-katex';
 import rehypeRaw from 'rehype-raw';
 
 
-import { useSearchParams } from 'next/navigation';
+import { useSearchParams, useRouter } from 'next/navigation';
 import { Suspense } from 'react';
 
 // Helper to strip indentation from template literals to avoid Markdown code block detection
@@ -125,6 +125,7 @@ function CoursesContent() {
     const [activeSubject, setActiveSubject] = useState('Tous');
     const [selectedCourse, setSelectedCourse] = useState(null);
     const searchParams = useSearchParams();
+    const router = useRouter();
 
     // ... (rest of state)
 
@@ -465,16 +466,7 @@ function CoursesContent() {
     });
 
     const handleCourseSelect = (course) => {
-        setSelectedCourse(course);
-        // If structured data exists, select first chapter by default
-        if (structuredCourses[course.id]) {
-            setActiveChapter(structuredCourses[course.id].chapters[0]);
-            setShowExercises(false);
-            setQuizAnswers({});
-            setQuizResults({});
-        } else {
-            setActiveChapter(null);
-        }
+        router.push(`/courses?course=${course.id}`);
     };
 
     const handleQuizSubmit = (chapterId, exerciseId, optionIndex) => {
@@ -536,8 +528,13 @@ function CoursesContent() {
                 setActiveLevel(course.level);
                 setActiveSubject(course.subject);
             }
+        } else if (!chapterId) {
+            // No params - clear selection (Back/Home)
+            if (selectedCourse) {
+                setSelectedCourse(null);
+            }
         }
-    }, [searchParams, selectedCourse]);
+    }, [searchParams]);
 
     // Handle hash-based navigation (e.g., /courses#ml-intro)
     useEffect(() => {
@@ -742,7 +739,7 @@ function CoursesContent() {
                             {/* Header dynamique */}
                             <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4 mb-6">
                                 <button
-                                    onClick={() => setSelectedCourse(null)}
+                                    onClick={() => router.push('/courses')}
                                     className="p-2 rounded-lg bg-white/5 hover:bg-white/10 text-white transition-colors"
                                 >
                                     <ArrowLeft size={20} />

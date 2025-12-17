@@ -675,9 +675,9 @@ Sert à isoler deux parties d'un circuit (adaptation d'impédance).
                 }
             ],
             simulation: {
-                id: 'rc-circuit',
+                id: 'aop-simulation',
                 title: 'Amplificateur Opérationnel',
-                type: 'rc-circuit'
+                type: 'aop-simulation'
             }
         },
 

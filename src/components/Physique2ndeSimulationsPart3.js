@@ -8,6 +8,8 @@ import { Html, Sphere, Box, Cylinder, Line, Text, Plane } from '@react-three/dre
 import * as THREE from 'three';
 import DraggableHtmlPanel from './DraggableHtmlPanel';
 
+import { SuccessOverlay, ConfettiExplosion } from './PC4eSimulations';
+
 // ============================================================
 // P13. PROPAGATION RECTILIGNE DE LA LUMIÈRE
 // ============================================================
@@ -18,6 +20,7 @@ export function PropagationLumiereSeconde() {
     const [obstaclePosition, setObstaclePosition] = useState(0);
     const lightRef = useRef();
 
+
     useFrame((state) => {
         if (lightRef.current) {
             lightRef.current.intensity = 1 + Math.sin(state.clock.elapsedTime * 3) * 0.2;
@@ -25,12 +28,56 @@ export function PropagationLumiereSeconde() {
     });
 
     // Calculate shadow geometry
-    const shadowWidth = sourceType === 'ponctuelle' ? 1.5 : 2.5;
-    const penumbraWidth = sourceType === 'etendue' ? 0.8 : 0;
+    // Thales: h_obstacle / d_source_obstacle = h_shadow / d_source_screen
+    // Source is at x=-4. Obstacle at x=obstaclePosition. Screen at x=4.
+    const h_obstacle = 0.4; // Cylinder radius (approx width/2) x 2 ?? No radius is 0.4 so diameter 0.8?
+    // Let's assume diameter = 0.8
+    const d_source_screen = 8;
+    const d_source_obstacle = obstaclePosition - (-4); // obstaclePosition + 4
+
+    // Avoid division by zero if obstacle touches source
+    const safe_d_so = Math.max(0.1, d_source_obstacle);
+
+    // Shadow Size Calculation (Simplification for visualisation)
+    // h_shadow = h_obstacle * (d_screen / d_obstacle)
+    const shadowScale = d_source_screen / safe_d_so;
+    const shadowWidth = 0.8 * shadowScale;
+
+    const penumbraWidth = sourceType === 'etendue' ? 0.3 * shadowScale : 0;
+
+    // Gamification
+    const [mode, setMode] = useState('explore');
+    const [targetNotchWidth, setTargetNotchWidth] = useState(null);
+    const [score, setScore] = useState(0);
+    const [showSuccess, setShowSuccess] = useState(false);
+
+    const startChallenge = () => {
+        setMode('challenge');
+        // Random target width
+        const target = Math.random() * 2 + 1; // 1m to 3m
+        setTargetNotchWidth(target);
+        setObstaclePosition(0); // Reset
+        setScore(0);
+        setShowSuccess(false);
+    };
+
+    const checkChallenge = () => {
+        if (!targetNotchWidth) return;
+        // Check if shadowWidth matches targetNotchWidth within 10%
+        if (Math.abs(shadowWidth - targetNotchWidth) / targetNotchWidth < 0.1) {
+            setShowSuccess(true);
+            setScore(s => s + 100);
+        }
+    };
+
 
     return (
         <group>
+            <SuccessOverlay show={showSuccess} message={mode === 'challenge' ? `Bravo ! Ombre de ${shadowWidth.toFixed(2)}m obtenue.` : "Défi réussi !"} points={100} onNext={startChallenge} />
+            <ConfettiExplosion active={showSuccess} />
+
             {/* Light source */}
+
             <group position={[-4, 0, 0]}>
                 {sourceType === 'ponctuelle' ? (
                     <Sphere args={[0.3, 16, 16]}>
@@ -141,114 +188,119 @@ export function PropagationLumiereSeconde() {
                 />
             )}
 
+            {/* Challenge Target Visuals */}
+            {mode === 'challenge' && (
+                <group position={[4, 0, 0]}>
+                    <Plane args={[0.1, targetNotchWidth]} rotation={[0, -Math.PI / 2, 0]}>
+                        <meshBasicMaterial color="#e91e63" transparent opacity={0.3} side={THREE.DoubleSide} />
+                    </Plane>
+                    <Text position={[0.2, targetNotchWidth / 2 + 0.2, 0]} fontSize={0.15} color="#e91e63" rotation={[0, -Math.PI / 2, 0]}>
+                        Cible
+                    </Text>
+                    <Text position={[0.2, -targetNotchWidth / 2 - 0.2, 0]} fontSize={0.15} color="#e91e63" rotation={[0, -Math.PI / 2, 0]}>
+                        Cible
+                    </Text>
+                </group>
+            )}
+
             {/* Control Panel */}
             <Html position={[6, 2, 0]} transform={false}>
                 <DraggableHtmlPanel title="💡 Propagation de la Lumière" usePortal={false}>
-                    <div style={{ padding: '15px', minWidth: '280px' }}>
-                        <div style={{ marginBottom: '15px' }}>
-                            <label style={{ color: '#fff', display: 'block', marginBottom: '8px' }}>
+                    <div className="p-4 w-[300px] text-white">
+                        <div className="flex justify-between items-center mb-4">
+                            <div className="flex gap-2">
+                                <button onClick={() => setMode('explore')} className={`text-xs px-2 py-1 rounded ${mode === 'explore' ? 'bg-amber-600' : 'bg-gray-700'}`}>Labo</button>
+                                <button onClick={startChallenge} className={`text-xs px-2 py-1 rounded ${mode === 'challenge' ? 'bg-pink-600' : 'bg-gray-700'}`}>Défi Ombre 🏆</button>
+                            </div>
+                            {mode === 'challenge' && <div className="font-bold text-pink-400 text-xs">Score: {score}</div>}
+                        </div>
+
+                        {mode === 'challenge' && (
+                            <div className="bg-pink-900/40 p-2 rounded mb-4 border border-pink-500/30 text-sm animate-pulse">
+                                <div className="font-bold text-pink-300">MISSION:</div>
+                                Ajuste l'obstacle pour obtenir une ombre de taille exacte (zone rose).
+                            </div>
+                        )}
+
+                        <div className="mb-4">
+                            <label className="block text-sm mb-2 text-gray-300">
                                 Type de source:
                             </label>
-                            <div style={{ display: 'flex', gap: '10px' }}>
+                            <div className="flex gap-2">
                                 <button
                                     onClick={() => setSourceType('ponctuelle')}
-                                    style={{
-                                        flex: 1,
-                                        padding: '10px',
-                                        background: sourceType === 'ponctuelle' ? '#ff9800' : '#444',
-                                        border: 'none',
-                                        borderRadius: '8px',
-                                        color: '#fff',
-                                        cursor: 'pointer'
-                                    }}
+                                    className={`flex-1 py-2 rounded text-xs ${sourceType === 'ponctuelle' ? 'bg-amber-600' : 'bg-gray-700'}`}
                                 >
                                     ⚪ Ponctuelle
                                 </button>
                                 <button
                                     onClick={() => setSourceType('etendue')}
-                                    style={{
-                                        flex: 1,
-                                        padding: '10px',
-                                        background: sourceType === 'etendue' ? '#ff9800' : '#444',
-                                        border: 'none',
-                                        borderRadius: '8px',
-                                        color: '#fff',
-                                        cursor: 'pointer'
-                                    }}
+                                    className={`flex-1 py-2 rounded text-xs ${sourceType === 'etendue' ? 'bg-amber-600' : 'bg-gray-700'}`}
                                 >
                                     📏 Étendue
                                 </button>
                             </div>
                         </div>
 
-                        <div style={{ marginBottom: '15px' }}>
-                            <label style={{ color: '#fff', display: 'block', marginBottom: '5px' }}>
-                                Position obstacle: {obstaclePosition.toFixed(1)}
+                        <div className="mb-4">
+                            <label className="block text-sm mb-1 text-gray-300">
+                                Position obstacle: {obstaclePosition.toFixed(2)}
                             </label>
                             <input
                                 type="range"
                                 min="-2"
                                 max="2"
-                                step="0.1"
+                                step="0.05"
                                 value={obstaclePosition}
                                 onChange={(e) => setObstaclePosition(parseFloat(e.target.value))}
-                                style={{ width: '100%' }}
+                                className="w-full h-1 accent-amber-500"
                             />
                         </div>
 
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: '15px' }}>
-                            <label style={{ color: '#fff', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                                <input
-                                    type="checkbox"
-                                    checked={showRays}
-                                    onChange={(e) => setShowRays(e.target.checked)}
-                                />
-                                Afficher les rayons
-                            </label>
-                            <label style={{ color: '#fff', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                                <input
-                                    type="checkbox"
-                                    checked={showShadow}
-                                    onChange={(e) => setShowShadow(e.target.checked)}
-                                />
-                                Afficher l'ombre
-                            </label>
-                        </div>
+                        {mode === 'challenge' ? (
+                            <button onClick={checkChallenge} className="w-full py-2 bg-pink-600 hover:bg-pink-500 rounded font-bold text-sm mb-3">
+                                Vérifier l'Ombre
+                            </button>
+                        ) : (
+                            <div className="space-y-2 mb-4">
+                                <label className="flex items-center gap-2 text-sm text-gray-300">
+                                    <input
+                                        type="checkbox"
+                                        checked={showRays}
+                                        onChange={(e) => setShowRays(e.target.checked)}
+                                        className="accent-amber-500"
+                                    />
+                                    Afficher les rayons
+                                </label>
+                                <label className="flex items-center gap-2 text-sm text-gray-300">
+                                    <input
+                                        type="checkbox"
+                                        checked={showShadow}
+                                        onChange={(e) => setShowShadow(e.target.checked)}
+                                        className="accent-amber-500"
+                                    />
+                                    Afficher l'ombre
+                                </label>
+                            </div>
+                        )}
 
-                        <div style={{
-                            background: 'rgba(255,235,59,0.2)',
-                            padding: '12px',
-                            borderRadius: '8px',
-                            marginBottom: '10px'
-                        }}>
-                            <p style={{ color: '#fff176', margin: '0 0 8px 0', fontWeight: 'bold' }}>
-                                📊 Observations:
+                        <div className="bg-amber-800/30 p-2 rounded border border-amber-500/20">
+                            <p className="text-xs text-amber-200 font-bold mb-1">
+                                📊 Résultat:
                             </p>
-                            <p style={{ color: '#fff', margin: '3px 0', fontSize: '12px' }}>
-                                Source: <strong>{sourceType === 'ponctuelle' ? 'Ponctuelle' : 'Étendue'}</strong>
+                            <p className="text-xs text-gray-300">
+                                Largeur Ombre: <strong>{shadowWidth.toFixed(2)} m</strong>
                             </p>
-                            <p style={{ color: '#fff', margin: '3px 0', fontSize: '12px' }}>
-                                Ombre: <strong>{sourceType === 'ponctuelle' ? 'Propre uniquement' : 'Propre + Pénombre'}</strong>
-                            </p>
-                            <p style={{ color: '#fff', margin: '3px 0', fontSize: '12px' }}>
-                                Vitesse lumière: <strong>c = 3×10⁸ m/s</strong>
-                            </p>
-                        </div>
-
-                        <div style={{
-                            background: 'rgba(33,150,243,0.2)',
-                            padding: '10px',
-                            borderRadius: '8px',
-                            fontSize: '11px',
-                            color: '#90caf9'
-                        }}>
-                            <strong>📐 Principe:</strong><br />
-                            Dans un milieu homogène et transparent,<br />
-                            la lumière se propage en ligne droite.
+                            {sourceType === 'etendue' && (
+                                <p className="text-xs text-gray-300">
+                                    Largeur Pénombre: <strong>{penumbraWidth.toFixed(2)} m</strong>
+                                </p>
+                            )}
                         </div>
                     </div>
                 </DraggableHtmlPanel>
             </Html>
+
         </group>
     );
 }
@@ -265,6 +317,40 @@ export function ReflexionLumiereSeconde() {
     const rad = (angleIncidence * Math.PI) / 180;
     const angleReflexion = angleIncidence; // i = r
 
+    // Gamification
+    const [mode, setMode] = useState('explore');
+    const [targetAngle, setTargetAngle] = useState(null);
+    const [score, setScore] = useState(0);
+    const [showSuccess, setShowSuccess] = useState(false);
+    const [hitTarget, setHitTarget] = useState(false);
+
+    const startChallenge = () => {
+        setMode('challenge');
+        // Random target angle (reflected ray direction)
+        // Ray source is fixed. Mirror is flat. We vary Incidence angle.
+        // Wait, if source is fixed, changing mirror orientation changes incidence angle.
+        // In this sim, we change "Angle Incidence".
+        // Let's assume the source moves to maintain incidence... OR the mirror rotates?
+        // Sim simplifies: user sets 'i'. So 'r' = 'i'.
+        // Target should be positioned at some angle R. User must match 'i' to that R.
+        const target = Math.floor(Math.random() * 60 + 10); // 10 to 70 deg
+        setTargetAngle(target);
+        setAngleIncidence(45); // reset
+        setHitTarget(false);
+        setScore(0);
+        setShowSuccess(false);
+    };
+
+    const checkChallenge = () => {
+        if (!targetAngle) return;
+        if (Math.abs(angleReflexion - targetAngle) < 3) {
+            setHitTarget(true);
+            setShowSuccess(true);
+            setScore(s => s + 100);
+        }
+    };
+
+
     // Calculate ray positions
     const rayLength = 3;
     const incidentEnd = [-rayLength * Math.sin(rad), rayLength * Math.cos(rad), 0];
@@ -272,7 +358,11 @@ export function ReflexionLumiereSeconde() {
 
     return (
         <group>
+            <SuccessOverlay show={showSuccess} message="Cible touchée ! Excellent tir." points={100} onNext={startChallenge} />
+            <ConfettiExplosion active={showSuccess} />
+
             {/* Mirror surface */}
+
             <group rotation={[0, 0, 0]}>
                 {mirrorType === 'plan' ? (
                     <Box args={[6, 0.1, 2]} position={[0, 0, 0]}>
@@ -364,7 +454,7 @@ export function ReflexionLumiereSeconde() {
             </Text>
 
             {/* Virtual image indicator (for plane mirror) */}
-            {mirrorType === 'plan' && (
+            {mirrorType === 'plan' && mode === 'explore' && (
                 <group position={[0, -2.5, 0]}>
                     <Sphere args={[0.15, 16, 16]} position={incidentEnd}>
                         <meshStandardMaterial color="#ffeb3b" transparent opacity={0.4} />
@@ -381,13 +471,43 @@ export function ReflexionLumiereSeconde() {
                 </group>
             )}
 
+            {/* Target for Challenge */}
+            {mode === 'challenge' && targetAngle && (
+                <group>
+                    {/* The Target Position - needs to be hit by reflected ray */}
+                    {/* Reflected ray angle is 'r'. We need target to be at angle 'targetAngle' */}
+                    <group rotation={[0, 0, -targetAngle * Math.PI / 180]}>
+                        <mesh position={[0, 2.5, 0]}>
+                            <circleGeometry args={[0.3, 32]} />
+                            <meshBasicMaterial color={hitTarget ? "#4caf50" : "#e91e63"} transparent opacity={0.5} />
+                        </mesh>
+                        <Text position={[0, 2.5, 0.1]} fontSize={0.1} color="white">CIBLE</Text>
+                    </group>
+                </group>
+            )}
+
             {/* Control Panel */}
             <Html position={[5, 3, 0]} transform={false}>
                 <DraggableHtmlPanel title="🪞 Réflexion de la Lumière" usePortal={false}>
-                    <div style={{ padding: '15px', minWidth: '280px' }}>
-                        <div style={{ marginBottom: '15px' }}>
-                            <label style={{ color: '#fff', display: 'block', marginBottom: '5px' }}>
-                                Angle d'incidence: {angleIncidence}°
+                    <div className="p-4 w-[300px] text-white">
+                        <div className="flex justify-between items-center mb-4">
+                            <div className="flex gap-2">
+                                <button onClick={() => setMode('explore')} className={`text-xs px-2 py-1 rounded ${mode === 'explore' ? 'bg-cyan-600' : 'bg-gray-700'}`}>Labo</button>
+                                <button onClick={startChallenge} className={`text-xs px-2 py-1 rounded ${mode === 'challenge' ? 'bg-pink-600' : 'bg-gray-700'}`}>Défi Tir 🏆</button>
+                            </div>
+                            {mode === 'challenge' && <div className="font-bold text-pink-400 text-xs">{score} pts</div>}
+                        </div>
+
+                        {mode === 'challenge' && (
+                            <div className="bg-pink-900/40 p-2 rounded mb-4 border border-pink-500/30 text-sm animate-pulse">
+                                <div className="font-bold text-pink-300">MISSION:</div>
+                                Oriente le miroir (angle i) pour que le rayon réfléchi touche la cible !
+                            </div>
+                        )}
+
+                        <div className="mb-4">
+                            <label className="block text-sm mb-1 text-gray-300">
+                                Angle d'incidence (i): <span className="text-yellow-400 font-bold">{angleIncidence}°</span>
                             </label>
                             <input
                                 type="range"
@@ -395,99 +515,55 @@ export function ReflexionLumiereSeconde() {
                                 max="80"
                                 value={angleIncidence}
                                 onChange={(e) => setAngleIncidence(parseFloat(e.target.value))}
-                                style={{ width: '100%' }}
+                                className="w-full accent-yellow-400"
                             />
                         </div>
 
-                        <div style={{ marginBottom: '15px' }}>
-                            <label style={{ color: '#fff', display: 'block', marginBottom: '8px' }}>
-                                Type de miroir:
-                            </label>
-                            <div style={{ display: 'flex', gap: '10px' }}>
-                                <button
-                                    onClick={() => setMirrorType('plan')}
-                                    style={{
-                                        flex: 1,
-                                        padding: '10px',
-                                        background: mirrorType === 'plan' ? '#2196f3' : '#444',
-                                        border: 'none',
-                                        borderRadius: '8px',
-                                        color: '#fff',
-                                        cursor: 'pointer'
-                                    }}
-                                >
-                                    📏 Plan
-                                </button>
-                                <button
-                                    onClick={() => setMirrorType('courbe')}
-                                    style={{
-                                        flex: 1,
-                                        padding: '10px',
-                                        background: mirrorType === 'courbe' ? '#2196f3' : '#444',
-                                        border: 'none',
-                                        borderRadius: '8px',
-                                        color: '#fff',
-                                        cursor: 'pointer'
-                                    }}
-                                >
-                                    🔵 Courbe
-                                </button>
+                        {mode === 'explore' && (
+                            <>
+                                <div className="mb-4">
+                                    <label className="block text-sm mb-2 text-gray-300">Type de miroir:</label>
+                                    <div className="flex gap-2">
+                                        <button onClick={() => setMirrorType('plan')} className={`flex-1 py-2 rounded text-xs ${mirrorType === 'plan' ? 'bg-blue-600' : 'bg-gray-700'}`}>📏 Plan</button>
+                                        <button onClick={() => setMirrorType('courbe')} className={`flex-1 py-2 rounded text-xs ${mirrorType === 'courbe' ? 'bg-blue-600' : 'bg-gray-700'}`}>🔵 Courbe</button>
+                                    </div>
+                                </div>
+                                <div className="space-y-2 mb-4">
+                                    <label className="flex items-center gap-2 text-sm text-gray-300">
+                                        <input type="checkbox" checked={showNormal} onChange={(e) => setShowNormal(e.target.checked)} className="accent-blue-500" />
+                                        Afficher la normale
+                                    </label>
+                                    <label className="flex items-center gap-2 text-sm text-gray-300">
+                                        <input type="checkbox" checked={showAngles} onChange={(e) => setShowAngles(e.target.checked)} className="accent-blue-500" />
+                                        Afficher les angles
+                                    </label>
+                                </div>
+                            </>
+                        )}
+
+                        {mode === 'challenge' && (
+                            <button onClick={checkChallenge} disabled={hitTarget} className={`w-full py-2 rounded font-bold text-sm mb-3 ${hitTarget ? 'bg-green-600' : 'bg-pink-600 hover:bg-pink-500'}`}>
+                                {hitTarget ? 'CIBLE TOUCHÉE !' : 'Tirer / Vérifier'}
+                            </button>
+                        )}
+
+                        <div className="bg-blue-900/20 p-2 rounded border border-blue-500/20">
+                            <p className="text-xs text-blue-200 font-bold mb-1">
+                                ⚖️ Loi de la Réflexion:
+                            </p>
+                            <div className="flex justify-between text-xs text-gray-300">
+                                <span>Incidence (i):</span>
+                                <strong className="text-yellow-400">{angleIncidence}°</strong>
                             </div>
-                        </div>
-
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: '15px' }}>
-                            <label style={{ color: '#fff', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                                <input
-                                    type="checkbox"
-                                    checked={showNormal}
-                                    onChange={(e) => setShowNormal(e.target.checked)}
-                                />
-                                Afficher la normale
-                            </label>
-                            <label style={{ color: '#fff', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                                <input
-                                    type="checkbox"
-                                    checked={showAngles}
-                                    onChange={(e) => setShowAngles(e.target.checked)}
-                                />
-                                Afficher les angles
-                            </label>
-                        </div>
-
-                        <div style={{
-                            background: 'rgba(76,175,80,0.2)',
-                            padding: '12px',
-                            borderRadius: '8px',
-                            marginBottom: '10px'
-                        }}>
-                            <p style={{ color: '#81c784', margin: '0 0 8px 0', fontWeight: 'bold' }}>
-                                ⚖️ Vérification:
-                            </p>
-                            <p style={{ color: '#fff', margin: '3px 0', fontSize: '13px' }}>
-                                Angle d'incidence (i): <strong style={{ color: '#ffeb3b' }}>{angleIncidence}°</strong>
-                            </p>
-                            <p style={{ color: '#fff', margin: '3px 0', fontSize: '13px' }}>
-                                Angle de réflexion (r): <strong style={{ color: '#4caf50' }}>{angleReflexion}°</strong>
-                            </p>
-                            <p style={{ color: '#81c784', margin: '8px 0 0 0', fontWeight: 'bold' }}>
-                                ✓ i = r (Loi de la réflexion)
-                            </p>
-                        </div>
-
-                        <div style={{
-                            background: 'rgba(156,39,176,0.2)',
-                            padding: '10px',
-                            borderRadius: '8px',
-                            fontSize: '11px',
-                            color: '#ce93d8'
-                        }}>
-                            <strong>📐 Lois de Snell-Descartes (Réflexion):</strong><br />
-                            1. Le rayon réfléchi est dans le plan d'incidence<br />
-                            2. L'angle de réflexion égale l'angle d'incidence: <strong>i = r</strong>
+                            <div className="flex justify-between text-xs text-gray-300">
+                                <span>Réflexion (r):</span>
+                                <strong className="text-green-400">{angleReflexion}°</strong>
+                            </div>
                         </div>
                     </div>
                 </DraggableHtmlPanel>
             </Html>
+
         </group>
     );
 }
@@ -502,11 +578,38 @@ export function RefractionDispersionSeconde() {
     const [showNormal, setShowNormal] = useState(true);
     const [showDispersion, setShowDispersion] = useState(false);
 
+    // Gamification
+    const [mode, setMode] = useState('explore');
+    const [mysteryIndex, setMysteryIndex] = useState(null);
+    const [guessIndex, setGuessIndex] = useState(1.5);
+    const [score, setScore] = useState(0);
+    const [showSuccess, setShowSuccess] = useState(false);
+
     const indices = {
         air: { n: 1.0, color: '#e3f2fd', name: 'Air' },
         eau: { n: 1.33, color: '#81d4fa', name: 'Eau' },
         verre: { n: 1.5, color: '#b2dfdb', name: 'Verre' },
-        diamant: { n: 2.4, color: '#e1bee7', name: 'Diamant' }
+        diamant: { n: 2.4, color: '#e1bee7', name: 'Diamant' },
+        mystery: { n: mysteryIndex || 1.6, color: '#9e9e9e', name: 'Mystère ???' }
+    };
+
+    const startChallenge = () => {
+        setMode('challenge');
+        // Random mystery index between 1.3 and 2.5
+        const secret = Number((Math.random() * 1.2 + 1.3).toFixed(2));
+        setMysteryIndex(secret);
+        setMilieu1('air');
+        setMilieu2('mystery');
+        setScore(0);
+        setShowSuccess(false);
+    };
+
+    const checkChallenge = () => {
+        if (!mysteryIndex) return;
+        if (Math.abs(guessIndex - mysteryIndex) < 0.05) {
+            setShowSuccess(true);
+            setScore(s => s + 100);
+        }
     };
 
     const n1 = indices[milieu1].n;
@@ -644,6 +747,11 @@ export function RefractionDispersionSeconde() {
                 </group>
             )}
 
+            {/* Success Overlay integrated for Refraction */}
+            <SuccessOverlay show={showSuccess} message={`Bravo ! Indice n = ${mysteryIndex}`} points={100} onNext={startChallenge} />
+            <ConfettiExplosion active={showSuccess} />
+
+
             {/* Angle indicators */}
             <Text position={[-0.8, 0.8, 0]} fontSize={0.15} color="#ffeb3b">
                 i₁ = {angleIncidence}°
@@ -717,6 +825,36 @@ export function RefractionDispersionSeconde() {
                             </div>
                         </div>
 
+                        {/* Challenge Mode UI */}
+                        {mode === 'challenge' ? (
+                            <div className="bg-purple-900/40 p-3 rounded mb-4 border border-purple-500/30">
+                                <p className="text-xs text-purple-300 font-bold mb-2">🔎 Trouve l'indice n du milieu Mystère !</p>
+                                <p className="text-[10px] text-gray-300 mb-2">Indice: Utilise la loi calculée ci-dessous.</p>
+
+                                <label className="block text-xs text-gray-300 mb-1">Ton estimation de n:</label>
+                                <div className="flex gap-2">
+                                    <input
+                                        type="number"
+                                        step="0.01"
+                                        value={guessIndex}
+                                        onChange={e => setGuessIndex(Number(e.target.value))}
+                                        className="w-20 bg-gray-800 border border-purple-500 rounded px-1 text-sm"
+                                    />
+                                    <button onClick={checkChallenge} className="flex-1 bg-purple-600 hover:bg-purple-500 rounded font-bold text-xs">
+                                        Valider
+                                    </button>
+                                </div>
+                            </div>
+                        ) : null}
+
+                        {/* Mode Switcher */}
+                        <div className="flex gap-2 mb-4">
+                            <button onClick={() => setMode('explore')} className={`flex-1 py-1 rounded text-xs ${mode === 'explore' ? 'bg-cyan-600' : 'bg-gray-700'}`}>Labo</button>
+                            <button onClick={startChallenge} className={`flex-1 py-1 rounded text-xs ${mode === 'challenge' ? 'bg-purple-600' : 'bg-gray-700'}`}>Défi Mystère 🕵️</button>
+                        </div>
+
+
+
                         <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: '15px' }}>
                             <label style={{ color: '#fff', display: 'flex', alignItems: 'center', gap: '8px' }}>
                                 <input
@@ -779,13 +917,13 @@ export function RefractionDispersionSeconde() {
                         }}>
                             <strong>📐 Loi de Snell-Descartes:</strong><br />
                             n₁ × sin(i₁) = n₂ × sin(i₂)<br />
-                            Si n₂ {'>'} n₁: le rayon se rapproche de la normale.<br />
-                            Si n₁ {'>'} n₂: risque de réflexion totale.
+                            Utile pour trouver un indice inconnu !
                         </div>
                     </div>
                 </DraggableHtmlPanel>
-            </Html>
-        </group>
+            </Html >
+
+        </group >
     );
 }
 

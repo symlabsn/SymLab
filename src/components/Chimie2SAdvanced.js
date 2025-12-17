@@ -67,8 +67,11 @@ function Confetti({ active }) {
 // =========================================================
 // C2. STRUCTURE ATOMIQUE - AMÉLIORÉE
 // =========================================================
+// =========================================================
+// C2. STRUCTURE ATOMIQUE - AMÉLIORÉE (30 PREMIERS ÉLÉMENTS)
+// =========================================================
 export function AtomicStructureAdvanced() {
-    const [element, setElement] = useState('C');
+    const [elementSymbol, setElementSymbol] = useState('C');
     const [showElectrons, setShowElectrons] = useState(true);
     const [showLabels, setShowLabels] = useState(true);
     const [challengeMode, setChallengeMode] = useState(false);
@@ -76,45 +79,96 @@ export function AtomicStructureAdvanced() {
     const [score, setScore] = useState(0);
     const [showSuccess, setShowSuccess] = useState(false);
 
-    const elements = {
-        H: { name: 'Hydrogène', Z: 1, A: 1, electrons: [1], color: '#FFFFFF', nucleusColor: '#EF4444' },
-        He: { name: 'Hélium', Z: 2, A: 4, electrons: [2], color: '#D1FAE5', nucleusColor: '#FBBF24' },
-        Li: { name: 'Lithium', Z: 3, A: 7, electrons: [2, 1], color: '#FDE68A', nucleusColor: '#8B5CF6' },
-        C: { name: 'Carbone', Z: 6, A: 12, electrons: [2, 4], color: '#374151', nucleusColor: '#3B82F6' },
-        N: { name: 'Azote', Z: 7, A: 14, electrons: [2, 5], color: '#60A5FA', nucleusColor: '#10B981' },
-        O: { name: 'Oxygène', Z: 8, A: 16, electrons: [2, 6], color: '#EF4444', nucleusColor: '#F59E0B' },
-        Na: { name: 'Sodium', Z: 11, A: 23, electrons: [2, 8, 1], color: '#A78BFA', nucleusColor: '#EC4899' },
-        Cl: { name: 'Chlore', Z: 17, A: 35, electrons: [2, 8, 7], color: '#22C55E', nucleusColor: '#06B6D4' },
-        Ca: { name: 'Calcium', Z: 20, A: 40, electrons: [2, 8, 8, 2], color: '#F5F5F4', nucleusColor: '#84CC16' },
-    };
+    // Données complètes pour les 30 premiers éléments
+    const elementsData = useMemo(() => [
+        { symbol: 'H', name: 'Hydrogène', Z: 1, A: 1, family: 'Non-métaux', config: [1], color: '#FFFFFF' },
+        { symbol: 'He', name: 'Hélium', Z: 2, A: 4, family: 'Gaz Nobles', config: [2], color: '#D1FAE5' },
+        { symbol: 'Li', name: 'Lithium', Z: 3, A: 7, family: 'Alcalins', config: [2, 1], color: '#FDE68A' },
+        { symbol: 'Be', name: 'Béryllium', Z: 4, A: 9, family: 'Alcalino-terreux', config: [2, 2], color: '#A3E635' },
+        { symbol: 'B', name: 'Bore', Z: 5, A: 11, family: 'Métalloïdes', config: [2, 3], color: '#FCD34D' },
+        { symbol: 'C', name: 'Carbone', Z: 6, A: 12, family: 'Non-métaux', config: [2, 4], color: '#374151' },
+        { symbol: 'N', name: 'Azote', Z: 7, A: 14, family: 'Non-métaux', config: [2, 5], color: '#60A5FA' },
+        { symbol: 'O', name: 'Oxygène', Z: 8, A: 16, family: 'Non-métaux', config: [2, 6], color: '#EF4444' },
+        { symbol: 'F', name: 'Fluor', Z: 9, A: 19, family: 'Halogènes', config: [2, 7], color: '#22C55E' },
+        { symbol: 'Ne', name: 'Néon', Z: 10, A: 20, family: 'Gaz Nobles', config: [2, 8], color: '#D1FAE5' },
+        { symbol: 'Na', name: 'Sodium', Z: 11, A: 23, family: 'Alcalins', config: [2, 8, 1], color: '#A78BFA' },
+        { symbol: 'Mg', name: 'Magnésium', Z: 12, A: 24, family: 'Alcalino-terreux', config: [2, 8, 2], color: '#F5F5F4' },
+        { symbol: 'Al', name: 'Aluminium', Z: 13, A: 27, family: 'Métaux pauvres', config: [2, 8, 3], color: '#D1D5DB' },
+        { symbol: 'Si', name: 'Silicium', Z: 14, A: 28, family: 'Métalloïdes', config: [2, 8, 4], color: '#FCD34D' },
+        { symbol: 'P', name: 'Phosphore', Z: 15, A: 31, family: 'Non-métaux', config: [2, 8, 5], color: '#F97316' },
+        { symbol: 'S', name: 'Soufre', Z: 16, A: 32, family: 'Non-métaux', config: [2, 8, 6], color: '#FACC15' },
+        { symbol: 'Cl', name: 'Chlore', Z: 17, A: 35, family: 'Halogènes', config: [2, 8, 7], color: '#22C55E' },
+        { symbol: 'Ar', name: 'Argon', Z: 18, A: 40, family: 'Gaz Nobles', config: [2, 8, 8], color: '#D1FAE5' },
+        { symbol: 'K', name: 'Potassium', Z: 19, A: 39, family: 'Alcalins', config: [2, 8, 8, 1], color: '#A78BFA' },
+        { symbol: 'Ca', name: 'Calcium', Z: 20, A: 40, family: 'Alcalino-terreux', config: [2, 8, 8, 2], color: '#F5F5F4' },
+        { symbol: 'Sc', name: 'Scandium', Z: 21, A: 45, family: 'Métaux de transition', config: [2, 8, 9, 2], color: '#9CA3AF' },
+        { symbol: 'Ti', name: 'Titane', Z: 22, A: 48, family: 'Métaux de transition', config: [2, 8, 10, 2], color: '#9CA3AF' },
+        { symbol: 'V', name: 'Vanadium', Z: 23, A: 51, family: 'Métaux de transition', config: [2, 8, 11, 2], color: '#9CA3AF' },
+        { symbol: 'Cr', name: 'Chrome', Z: 24, A: 52, family: 'Métaux de transition', config: [2, 8, 13, 1], color: '#9CA3AF' },
+        { symbol: 'Mn', name: 'Manganèse', Z: 25, A: 55, family: 'Métaux de transition', config: [2, 8, 13, 2], color: '#9CA3AF' },
+        { symbol: 'Fe', name: 'Fer', Z: 26, A: 56, family: 'Métaux de transition', config: [2, 8, 14, 2], color: '#9CA3AF' },
+        { symbol: 'Co', name: 'Cobalt', Z: 27, A: 59, family: 'Métaux de transition', config: [2, 8, 15, 2], color: '#9CA3AF' },
+        { symbol: 'Ni', name: 'Nickel', Z: 28, A: 59, family: 'Métaux de transition', config: [2, 8, 16, 2], color: '#9CA3AF' },
+        { symbol: 'Cu', name: 'Cuivre', Z: 29, A: 64, family: 'Métaux de transition', config: [2, 8, 18, 1], color: '#F59E0B' },
+        { symbol: 'Zn', name: 'Zinc', Z: 30, A: 65, family: 'Métaux de transition', config: [2, 8, 18, 2], color: '#9CA3AF' }
+    ], []);
 
-    const challenges = [
-        { question: "Combien de protons dans le Carbone ?", answer: 6, element: 'C' },
-        { question: "Combien de neutrons dans l'Oxygène-16 ?", answer: 8, element: 'O' },
-        { question: "Combien d'électrons de valence pour le Chlore ?", answer: 7, element: 'Cl' },
-        { question: "Combien de couches électroniques pour le Sodium ?", answer: 3, element: 'Na' },
-        { question: "Le numéro atomique de l'Azote est ?", answer: 7, element: 'N' },
-    ];
-
-    const el = elements[element];
+    const el = elementsData.find(e => e.symbol === elementSymbol) || elementsData[0];
     const neutrons = el.A - el.Z;
     const groupRef = useRef();
 
     useFrame((state, delta) => {
         if (groupRef.current) {
-            groupRef.current.rotation.y += delta * 0.2;
+            groupRef.current.rotation.y += delta * 0.1;
         }
     });
 
     const startChallenge = () => {
         setChallengeMode(true);
-        const challenge = challenges[Math.floor(Math.random() * challenges.length)];
-        setCurrentChallenge(challenge);
-        setElement(challenge.element);
+        // Générer un défi aléatoire
+        const types = ['protons', 'neutrons', 'electrons_valence', 'couches', 'famille'];
+        const type = types[Math.floor(Math.random() * types.length)];
+        const targetEl = elementsData[Math.floor(Math.random() * elementsData.length)];
+
+        let question, answer, options;
+
+        switch (type) {
+            case 'protons':
+                question = `Combien de protons (Z) possède l'atome de ${targetEl.name} ?`;
+                answer = targetEl.Z;
+                break;
+            case 'neutrons':
+                question = `Combien de neutrons possède l'atome de ${targetEl.name} (${targetEl.symbol}, A=${targetEl.A}) ?`;
+                answer = targetEl.A - targetEl.Z;
+                break;
+            case 'electrons_valence':
+                const valence = targetEl.config[targetEl.config.length - 1];
+                question = `Combien d'électrons de valence pour ${targetEl.name} ?`;
+                answer = valence;
+                break;
+            case 'couches':
+                question = `Combien de couches électroniques occupées pour ${targetEl.name} ?`;
+                answer = targetEl.config.length;
+                break;
+            case 'famille':
+                question = `À quelle famille appartient l'élément ${targetEl.name} ?`;
+                answer = targetEl.family;
+                break;
+            default:
+                question = `Quel est le numéro atomique du ${targetEl.name} ?`;
+                answer = targetEl.Z;
+        }
+
+        setCurrentChallenge({ question, answer, type, element: targetEl });
+        setElementSymbol(targetEl.symbol);
     };
 
-    const checkAnswer = (answer) => {
-        if (currentChallenge && answer === currentChallenge.answer) {
+    const checkAnswer = (userAns) => {
+        if (!currentChallenge) return;
+
+        const isCorrect = userAns === currentChallenge.answer;
+
+        if (isCorrect) {
             setScore(prev => prev + 50);
             setShowSuccess(true);
             setTimeout(() => {
@@ -124,72 +178,95 @@ export function AtomicStructureAdvanced() {
         }
     };
 
+    // Helper pour générer des choix multiples pour le défi
+    const generateOptions = () => {
+        if (!currentChallenge) return [];
+        if (currentChallenge.type === 'famille') {
+            const families = [...new Set(elementsData.map(e => e.family))];
+            // Mélanger et prendre 4
+            return families.sort(() => 0.5 - Math.random()).slice(0, 4);
+        }
+        // Pour les nombres, générer des proches
+        const correct = currentChallenge.answer;
+        const opts = new Set([correct]);
+        while (opts.size < 4) {
+            const offset = Math.floor(Math.random() * 5) - 2;
+            const val = correct + offset;
+            if (val >= 0) opts.add(val);
+        }
+        return Array.from(opts).sort((a, b) => a - b);
+    };
+
+    const options = useMemo(() => generateOptions(), [currentChallenge]);
+
     return (
         <group>
             <ambientLight intensity={0.5} />
             <pointLight position={[5, 5, 5]} intensity={1} />
-
             <Confetti active={showSuccess} />
 
-            <Text position={[0, 3.5, 0]} fontSize={0.35} color="#60A5FA" anchorX="center">
-                🔬 STRUCTURE DE L'ATOME
+            <Text position={[0, 4, 0]} fontSize={0.3} color="#60A5FA" anchorX="center">
+                🔬 STRUCTURE DE L'ATOME (1-30)
             </Text>
-            <Text position={[0, 3, 0]} fontSize={0.25} color="white" anchorX="center">
-                {el.name} ({element}) - Z={el.Z}, A={el.A}
+            <Text position={[0, 3.5, 0]} fontSize={0.2} color="white" anchorX="center">
+                {el.name} ({el.symbol}) - Z={el.Z}, A={el.A}
+            </Text>
+            <Text position={[0, 3.2, 0]} fontSize={0.15} color={el.color} anchorX="center">
+                Famille : {el.family}
             </Text>
 
-            <group ref={groupRef}>
+            <group ref={groupRef} position={[0, 0, 0]}>
                 {/* Noyau */}
                 <mesh position={[0, 0, 0]}>
-                    <sphereGeometry args={[0.5, 32, 32]} />
-                    <meshStandardMaterial color={el.nucleusColor} emissive={el.nucleusColor} emissiveIntensity={0.3} />
+                    <sphereGeometry args={[0.4, 32, 32]} />
+                    <meshStandardMaterial color="#EF4444" emissive="#7F1D1D" emissiveIntensity={0.5} />
                 </mesh>
 
-                {/* Protons et Neutrons dans le noyau */}
-                {Array(Math.min(el.Z, 8)).fill(0).map((_, i) => {
-                    const angle = (i / Math.min(el.Z, 8)) * Math.PI * 2;
-                    const r = 0.2;
+                {/* Protons et Neutrons (Symboliques) */}
+                {/* On ne dessine pas tout pour éviter la surcharge, juste un nuage représentatif */}
+                {Array(Math.min(el.Z, 15)).fill(0).map((_, i) => {
+                    const r = 0.25;
+                    const theta = Math.random() * Math.PI * 2;
+                    const phi = Math.random() * Math.PI;
+                    const x = r * Math.sin(phi) * Math.cos(theta);
+                    const y = r * Math.sin(phi) * Math.sin(theta);
+                    const z = r * Math.cos(phi);
                     return (
-                        <mesh key={`p${i}`} position={[Math.cos(angle) * r, Math.sin(angle) * r * 0.5, Math.sin(angle) * r]}>
-                            <sphereGeometry args={[0.1, 16, 16]} />
-                            <meshStandardMaterial color="#EF4444" />
+                        <mesh key={`nuc-${i}`} position={[x, y, z]}>
+                            <sphereGeometry args={[0.08, 8, 8]} />
+                            <meshStandardMaterial color={i % 2 === 0 ? "#EF4444" : "#F59E0B"} />
                         </mesh>
-                    );
+                    )
                 })}
 
-                {showLabels && (
-                    <Text position={[0, 0, 0.6]} fontSize={0.15} color="white">
-                        {el.Z}p+ {neutrons}n
-                    </Text>
-                )}
-
-                {/* Couches électroniques */}
-                {showElectrons && el.electrons.map((count, layerIndex) => {
-                    const radius = 1 + layerIndex * 0.8;
+                {/* Couches électroniques (K, L, M, N) */}
+                {showElectrons && el.config.map((count, layerIndex) => {
+                    const radius = 1.2 + layerIndex * 0.8;
+                    const layerName = ['K', 'L', 'M', 'N'][layerIndex];
                     return (
-                        <group key={layerIndex}>
+                        <group key={layerName}>
                             {/* Orbite */}
                             <mesh rotation={[Math.PI / 2, 0, 0]}>
-                                <torusGeometry args={[radius, 0.02, 8, 64]} />
-                                <meshBasicMaterial color="#4B5563" transparent opacity={0.5} />
+                                <torusGeometry args={[radius, 0.015, 16, 100]} />
+                                <meshBasicMaterial color="#4B5563" transparent opacity={0.3} />
                             </mesh>
 
                             {/* Électrons */}
                             {Array(count).fill(0).map((_, eIndex) => {
-                                const angle = (eIndex / count) * Math.PI * 2;
+                                const angle = (eIndex / count) * Math.PI * 2 + (layerIndex * Math.PI / 4);
+                                const x = Math.cos(angle) * radius;
+                                const z = Math.sin(angle) * radius;
                                 return (
-                                    <group key={eIndex}>
-                                        <mesh position={[Math.cos(angle) * radius, 0, Math.sin(angle) * radius]}>
-                                            <sphereGeometry args={[0.08, 16, 16]} />
-                                            <meshStandardMaterial color="#3B82F6" emissive="#3B82F6" emissiveIntensity={0.5} />
-                                        </mesh>
-                                    </group>
+                                    <mesh key={`e-${layerIndex}-${eIndex}`} position={[x, 0, z]}>
+                                        <sphereGeometry args={[0.08, 16, 16]} />
+                                        <meshStandardMaterial color="#3B82F6" emissive="#3B82F6" emissiveIntensity={0.8} />
+                                    </mesh>
                                 );
                             })}
 
                             {showLabels && (
-                                <Text position={[radius + 0.3, 0.3, 0]} fontSize={0.12} color="#9CA3AF">
-                                    {['K', 'L', 'M', 'N'][layerIndex]} ({count}e⁻)
+                                <Text position={[radius + 0.2, 0, 0]} fontSize={0.15} color="#9CA3AF" rotation={[-Math.PI / 2, 0, 0]}>
+                                    {layerName}
                                 </Text>
                             )}
                         </group>
@@ -198,129 +275,120 @@ export function AtomicStructureAdvanced() {
             </group>
 
             <Html transform={false}>
-                <DraggableHtmlPanel title="⚛️ Structure Atomique" className="w-[340px]" defaultPosition="bottom-right">
-                    <div className="space-y-3 text-white">
+                <DraggableHtmlPanel title="⚛️ Tableau Périodique 3D" className="w-[400px]" defaultPosition="bottom-right">
+                    <div className="space-y-3 text-white max-h-[80vh] overflow-y-auto custom-scrollbar">
                         {/* Score */}
-                        <div className="flex justify-between items-center bg-yellow-900/30 p-2 rounded-lg border border-yellow-500/30">
-                            <span className="text-gray-400">Score</span>
-                            <span className="text-xl font-bold text-yellow-400">⭐ {score}</span>
-                        </div>
-
-                        {/* Mode Défi */}
-                        {challengeMode && currentChallenge && (
-                            <div className="bg-purple-900/40 border border-purple-500/50 p-3 rounded-xl">
-                                <div className="text-xs text-purple-400 mb-1">🎯 DÉFI</div>
-                                <div className="font-bold mb-2">{currentChallenge.question}</div>
-                                <div className="grid grid-cols-4 gap-2">
-                                    {[1, 2, 3, 4, 5, 6, 7, 8].map(n => (
-                                        <button
-                                            key={n}
-                                            onClick={() => checkAnswer(n)}
-                                            className="py-2 bg-gray-700 hover:bg-gray-600 rounded font-bold"
-                                        >
-                                            {n}
-                                        </button>
-                                    ))}
-                                </div>
-                            </div>
-                        )}
-
-                        {/* Sélection élément */}
-                        {!challengeMode && (
+                        <div className="flex justify-between items-center bg-gray-900/50 p-2 rounded border border-gray-700">
                             <div>
-                                <div className="text-xs text-gray-400 mb-2">Élément :</div>
-                                <div className="grid grid-cols-5 gap-1">
-                                    {Object.keys(elements).map(key => (
+                                <span className="text-gray-400 text-xs">Score</span>
+                                <div className="text-xl font-bold text-yellow-500">{score} 🏆</div>
+                            </div>
+                            {challengeMode && (
+                                <div className="text-right">
+                                    <div className="text-xs text-purple-400">Mode Défi Actif</div>
+                                    <div className="text-xs text-white animate-pulse">Réponds à la question !</div>
+                                </div>
+                            )}
+                        </div>
+
+                        {/* Zone de Question (Challenge Mode) */}
+                        {challengeMode && currentChallenge && (
+                            <div className="bg-purple-900/40 border border-purple-500/50 p-3 rounded-lg space-y-3">
+                                <div className="font-bold text-center text-sm">{currentChallenge.question}</div>
+                                <div className="grid grid-cols-2 gap-2">
+                                    {options.map((opt) => (
                                         <button
-                                            key={key}
-                                            onClick={() => setElement(key)}
-                                            className={`py-2 rounded text-xs font-bold transition-all ${element === key
-                                                ? 'bg-blue-600 border border-blue-400'
-                                                : 'bg-gray-800 hover:bg-gray-700'
-                                                }`}
+                                            key={opt}
+                                            onClick={() => checkAnswer(opt)}
+                                            className="px-3 py-2 bg-purple-700 hover:bg-purple-600 rounded text-sm font-bold transition-colors"
                                         >
-                                            {key}
+                                            {opt}
                                         </button>
                                     ))}
                                 </div>
                             </div>
                         )}
 
-                        {/* Infos */}
+                        {/* Sélecteur d'éléments (Mode Explore) */}
                         {!challengeMode && (
-                            <div className="bg-gray-900/50 p-3 rounded-lg space-y-1 text-sm">
-                                <div className="flex justify-between">
-                                    <span className="text-gray-400">Protons (Z)</span>
-                                    <span className="font-bold text-red-400">{el.Z}</span>
-                                </div>
-                                <div className="flex justify-between">
-                                    <span className="text-gray-400">Neutrons (N)</span>
-                                    <span className="font-bold text-gray-300">{neutrons}</span>
-                                </div>
-                                <div className="flex justify-between">
-                                    <span className="text-gray-400">Électrons</span>
-                                    <span className="font-bold text-blue-400">{el.Z}</span>
-                                </div>
-                                <div className="flex justify-between">
-                                    <span className="text-gray-400">Configuration</span>
-                                    <span className="font-bold">{el.electrons.join(', ')}</span>
+                            <div className="bg-gray-800/50 p-2 rounded">
+                                <div className="text-xs text-gray-400 mb-2">Sélectionner un élément (Z=1 à 30) :</div>
+                                <div className="grid grid-cols-6 gap-1">
+                                    {elementsData.map(e => (
+                                        <button
+                                            key={e.symbol}
+                                            onClick={() => setElementSymbol(e.symbol)}
+                                            className={`p-1 text-[10px] font-bold rounded border transition-all ${elementSymbol === e.symbol
+                                                    ? 'bg-blue-600 border-blue-400 text-white scale-110 z-10'
+                                                    : 'bg-gray-700 border-gray-600 text-gray-300 hover:bg-gray-600'
+                                                }`}
+                                            title={e.name}
+                                        >
+                                            {e.symbol}
+                                        </button>
+                                    ))}
                                 </div>
                             </div>
                         )}
 
-                        {/* Options */}
-                        <div className="flex gap-2">
-                            <label className="flex items-center gap-2 text-sm">
-                                <input
-                                    type="checkbox"
-                                    checked={showElectrons}
-                                    onChange={e => setShowElectrons(e.target.checked)}
-                                    className="rounded"
-                                />
-                                Électrons
+                        {/* Détails de l'élément */}
+                        {!challengeMode && (
+                            <div className="space-y-2 text-sm bg-gray-900/30 p-2 rounded">
+                                <div className="grid grid-cols-2 gap-2">
+                                    <div className="bg-gray-800 p-2 rounded">
+                                        <div className="text-xs text-gray-500">Numéro Atomique</div>
+                                        <div className="text-lg font-bold text-red-400">Z = {el.Z}</div>
+                                    </div>
+                                    <div className="bg-gray-800 p-2 rounded">
+                                        <div className="text-xs text-gray-500">Masse Atomique</div>
+                                        <div className="text-lg font-bold text-yellow-400">A = {el.A}</div>
+                                    </div>
+                                </div>
+                                <div className="bg-gray-800 p-2 rounded flex justify-between items-center">
+                                    <span className="text-gray-400 text-xs">Configuration élec.</span>
+                                    <span className="font-mono text-blue-300 font-bold">
+                                        {el.config.map((n, i) => `${['K', 'L', 'M', 'N'][i]}(${n})`).join(' ')}
+                                    </span>
+                                </div>
+                                <div className="bg-gray-800 p-2 rounded">
+                                    <div className="text-xs text-gray-500">Famille Chimique</div>
+                                    <div className="font-bold" style={{ color: el.color }}>{el.family}</div>
+                                </div>
+                            </div>
+                        )}
+
+                        {/* Contrôles d'affichage */}
+                        <div className="flex gap-4 text-xs">
+                            <label className="flex items-center gap-1 cursor-pointer">
+                                <input type="checkbox" checked={showElectrons} onChange={e => setShowElectrons(e.target.checked)} />
+                                Voir Électrons
                             </label>
-                            <label className="flex items-center gap-2 text-sm">
-                                <input
-                                    type="checkbox"
-                                    checked={showLabels}
-                                    onChange={e => setShowLabels(e.target.checked)}
-                                    className="rounded"
-                                />
-                                Labels
+                            <label className="flex items-center gap-1 cursor-pointer">
+                                <input type="checkbox" checked={showLabels} onChange={e => setShowLabels(e.target.checked)} />
+                                Voir Couches
                             </label>
                         </div>
 
-                        {/* Actions */}
-                        <div className="grid grid-cols-2 gap-2">
+                        {/* Boutons Actions */}
+                        <div className="grid grid-cols-2 gap-2 mt-2">
                             <button
                                 onClick={startChallenge}
-                                className="py-3 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 rounded-xl font-bold"
+                                className="py-2 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 rounded font-bold text-sm shadow-lg"
                             >
-                                🎯 Mode Défi
+                                🎯 Démarrer Défi
                             </button>
-                            <button
-                                onClick={() => { setChallengeMode(false); setCurrentChallenge(null); }}
-                                className="py-3 bg-gray-700 hover:bg-gray-600 rounded-xl font-bold"
-                            >
-                                📚 Explorer
-                            </button>
+                            {challengeMode && (
+                                <button
+                                    onClick={() => { setChallengeMode(false); setCurrentChallenge(null); }}
+                                    className="py-2 bg-gray-600 hover:bg-gray-500 rounded font-bold text-sm"
+                                >
+                                    Fermer Défi
+                                </button>
+                            )}
                         </div>
                     </div>
                 </DraggableHtmlPanel>
             </Html>
-
-            {/* Success Overlay */}
-            {showSuccess && (
-                <Html fullscreen>
-                    <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50">
-                        <div className="bg-gradient-to-br from-green-900 to-emerald-800 p-6 rounded-2xl border-2 border-green-400 text-center">
-                            <div className="text-5xl mb-2">🎉</div>
-                            <div className="text-2xl font-bold text-green-400">Correct !</div>
-                            <div className="text-yellow-400 text-lg">+50 pts</div>
-                        </div>
-                    </div>
-                </Html>
-            )}
         </group>
     );
 }
