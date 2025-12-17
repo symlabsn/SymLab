@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 import { useRef, useMemo, useState, useEffect } from 'react';
 import * as THREE from 'three';
 
@@ -61,7 +61,7 @@ import { VirtualChemLab } from './VirtualChemLab';
 import { SeparationLab } from './Chimie2SImmersive';
 import { AtomicStructureAdvanced, MoleScaleAdvanced, LewisStructureAdvanced, EquationBalancerAdvanced } from './Chimie2SAdvanced';
 import { DilutionAdvanced, TitrageAdvanced, PHIndicateursAdvanced, TestsIonsAdvanced } from './Chimie2SAdvancedPart2';
-import { TravailPuissanceSim, EnergieCinetiqueSim, EnergieMecaniqueSim, ElectrostatiqueSim, OptiqueLentilleSim, OndesSim, ElectroniqueSim } from './Physique1ereSimulations';
+import { TravailPuissanceSim, EnergieCinetiqueSim, EnergieMecaniqueSim, EnergiePotentielleSim, ElectrostatiqueSim, OptiqueLentilleSim, OndesSim, ElectroniqueSim } from './Physique1ereSimulations';
 import { ChimieOrgaGeneralSim, AlcanesSim, AlcenesSim, BenzeneSim, ComposesOxygenesSim, RedoxGammaSim, ElectrolyseSim, VoieSecheSimulation } from './Chimie1ereSimulations';
 
 
@@ -4656,6 +4656,8 @@ export default function Simulation3D({ type = 'atom', config = {} }) {
                 return <EnergieCinetiqueSim />;
             case 'p1s-mecanique': // P3
                 return <EnergieMecaniqueSim />;
+            case 'p1s-potentielle': // P4
+                return <EnergiePotentielleSim />;
             case 'p1s-electro': // P5-P6
                 return <ElectrostatiqueSim />;
             case 'p1s-ondes': // P10

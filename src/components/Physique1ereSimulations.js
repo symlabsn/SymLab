@@ -36,6 +36,7 @@ export function TravailPuissanceSim() {
     const [force, setForce] = useState(50);
     const [angle, setAngle] = useState(30);
     const [distance, setDistance] = useState(5);
+    const [incline, setIncline] = useState(0); // Inclinaison plan
     const [mode, setMode] = useState('explore');
     const [challenge, setChallenge] = useState(null);
     const [showSuccess, setShowSuccess] = useState(false);
@@ -44,8 +45,9 @@ export function TravailPuissanceSim() {
     const [animPos, setAnimPos] = useState(-3);
     const [isAnimating, setIsAnimating] = useState(false);
 
-    const travail = force * distance * Math.cos(angle * Math.PI / 180);
-    const puissance = travail / 10;
+    const travailF = force * distance * Math.cos(angle * Math.PI / 180);
+    const travailP = -10 * 9.81 * distance * Math.sin(incline * Math.PI / 180); // m=10kg
+    const puissance = travailF / 5; // Suppose t=5s pour simplifier
 
     const startChallenge = () => {
         const targetW = Math.round(Math.random() * 300 + 100);
@@ -54,7 +56,7 @@ export function TravailPuissanceSim() {
     };
 
     const checkAnswer = () => {
-        if (challenge && Math.abs(travail - challenge.targetW) < 20) {
+        if (challenge && Math.abs(travailF - challenge.targetW) < 20) {
             triggerSuccess();
             setScore(s => s + 10);
             setShowSuccess(true);
@@ -79,57 +81,99 @@ export function TravailPuissanceSim() {
         setIsAnimating(true);
     };
 
+    const inclineRad = incline * Math.PI / 180;
+    const forceAngleRad = angle * Math.PI / 180;
+
     return (
         <group>
             <OrbitControls />
             <Grid />
-            <mesh rotation={[0, 0, -angle * Math.PI / 180]} position={[0, 0.5, 0]}>
-                <boxGeometry args={[10, 0.3, 3]} />
-                <meshStandardMaterial color="#444" />
-            </mesh>
-            <group ref={chariotRef} position={[animPos, 1.2 + Math.tan(angle * Math.PI / 180) * (animPos + 3), 0]}>
-                <Box args={[1.2, 0.6, 1]}><meshStandardMaterial color="#FF6B35" /></Box>
-                <Cylinder args={[0.18, 0.18, 0.12]} position={[-0.35, -0.4, 0.5]} rotation={[Math.PI / 2, 0, 0]}><meshStandardMaterial color="#222" /></Cylinder>
-                <Cylinder args={[0.18, 0.18, 0.12]} position={[0.35, -0.4, 0.5]} rotation={[Math.PI / 2, 0, 0]}><meshStandardMaterial color="#222" /></Cylinder>
-                <Cylinder args={[0.18, 0.18, 0.12]} position={[-0.35, -0.4, -0.5]} rotation={[Math.PI / 2, 0, 0]}><meshStandardMaterial color="#222" /></Cylinder>
-                <Cylinder args={[0.18, 0.18, 0.12]} position={[0.35, -0.4, -0.5]} rotation={[Math.PI / 2, 0, 0]}><meshStandardMaterial color="#222" /></Cylinder>
-            </group>
-            <Line points={[[animPos, 1.5 + Math.tan(angle * Math.PI / 180) * (animPos + 3), 0], [animPos + force / 25, 1.5 + Math.tan(angle * Math.PI / 180) * (animPos + 3), 0]]} color="yellow" lineWidth={5} />
-            <Text position={[animPos + force / 50, 2.2 + Math.tan(angle * Math.PI / 180) * (animPos + 3), 0]} fontSize={0.35} color="yellow">F = {force} N</Text>
 
-            <Html position={[7, 4, 0]}>
-                <DraggableHtmlPanel title="🔧 Travail & Puissance" >
-                    <div className="p-4 w-80 text-white">
-                        <div className="flex gap-2 mb-4">
-                            <button onClick={() => setMode('explore')} className={`flex-1 py-2 rounded-lg font-bold transition-all ${mode === 'explore' ? 'bg-blue-500' : 'bg-gray-700'}`}>📚 Explorer</button>
-                            <button onClick={startChallenge} className={`flex-1 py-2 rounded-lg font-bold transition-all ${mode === 'challenge' ? 'bg-orange-500' : 'bg-gray-700'}`}>🎯 Défi</button>
-                        </div>
-                        {mode === 'challenge' && challenge && (
-                            <div className="mb-4 p-3 bg-orange-900/40 rounded-lg border border-orange-500">
-                                <p className="text-sm">🎯 Objectif: W ≈ <span className="text-xl font-bold text-orange-400">{challenge.targetW} J</span></p>
-                                <p className="text-xs text-gray-400">Essais: {challenge.tries}</p>
-                            </div>
-                        )}
-                        <div className="space-y-3">
-                            <div><label className="text-xs font-bold text-yellow-400">Force F: {force} N</label><input type="range" min="10" max="120" value={force} onChange={e => setForce(Number(e.target.value))} className="w-full accent-yellow-500" /></div>
-                            <div><label className="text-xs font-bold text-cyan-400">Angle α: {angle}°</label><input type="range" min="0" max="60" value={angle} onChange={e => setAngle(Number(e.target.value))} className="w-full accent-cyan-500" /></div>
-                            <div><label className="text-xs font-bold text-green-400">Distance d: {distance} m</label><input type="range" min="1" max="10" value={distance} onChange={e => setDistance(Number(e.target.value))} className="w-full accent-green-500" /></div>
-                        </div>
-                        <div className="mt-4 p-3 bg-gradient-to-br from-black/60 to-black/40 rounded-lg border border-white/20">
-                            <p className="text-xs text-gray-400 mb-1">W = F × d × cos(α)</p>
-                            <p className="text-2xl font-bold text-[#00F5D4]">W = {travail.toFixed(1)} J</p>
-                            <p className="text-sm text-yellow-400 mt-2">P = W/t = {puissance.toFixed(1)} W</p>
-                        </div>
-                        <div className="flex gap-2 mt-4">
-                            <button onClick={startAnimation} className="flex-1 py-2 bg-green-600 rounded-lg font-bold hover:bg-green-500">▶️ Animer</button>
-                            {mode === 'challenge' && <button onClick={checkAnswer} className="flex-1 py-2 bg-orange-600 rounded-lg font-bold hover:bg-orange-500">Vérifier</button>}
-                        </div>
-                        {score > 0 && <div className="mt-3 text-center text-sm text-[#00F5D4]">🏆 Score: {score} pts</div>}
+            {/* Plan Inclinable */}
+            <group rotation={[0, 0, inclineRad]}>
+                <mesh position={[0, -0.15, 0]}>
+                    <boxGeometry args={[15, 0.3, 4]} />
+                    <meshStandardMaterial color="#444" />
+                </mesh>
+
+                {/* Repères distance */}
+                {/* Ligne départ */}
+                <Line points={[[-3, 0.02, 1.5], [-3, 0.02, -1.5]]} color="white" lineWidth={2} />
+                <Text position={[-3, 0.2, 2]} fontSize={0.3} color="white">0m</Text>
+
+                {/* Ligne arrivée */}
+                <Line points={[[-3 + distance, 0.02, 1.5], [-3 + distance, 0.02, -1.5]]} color="#00F5D4" lineWidth={2} dashed />
+                <Text position={[-3 + distance, 0.2, 2]} fontSize={0.3} color="#00F5D4">{distance}m</Text>
+
+                {/* Chariot */}
+                <group ref={chariotRef} position={[animPos, 0.6, 0]}>
+                    <Box args={[1.2, 0.6, 1]}><meshStandardMaterial color="#FF6B35" /></Box>
+                    <Cylinder args={[0.18, 0.18, 0.12]} position={[-0.35, -0.4, 0.5]} rotation={[Math.PI / 2, 0, 0]}><meshStandardMaterial color="#222" /></Cylinder>
+                    <Cylinder args={[0.18, 0.18, 0.12]} position={[0.35, -0.4, 0.5]} rotation={[Math.PI / 2, 0, 0]}><meshStandardMaterial color="#222" /></Cylinder>
+                    <Cylinder args={[0.18, 0.18, 0.12]} position={[-0.35, -0.4, -0.5]} rotation={[Math.PI / 2, 0, 0]}><meshStandardMaterial color="#222" /></Cylinder>
+                    <Cylinder args={[0.18, 0.18, 0.12]} position={[0.35, -0.4, -0.5]} rotation={[Math.PI / 2, 0, 0]}><meshStandardMaterial color="#222" /></Cylinder>
+
+                    {/* Vecteur Poids (Vertical toujours) - Rotation inverse pour rester vertical */}
+                    <group rotation={[0, 0, -inclineRad]}>
+                        <arrowHelper args={[new THREE.Vector3(0, -1, 0), new THREE.Vector3(0, 0, 0), 1.5, 0x00AACC, 0.4, 0.2]} />
+                        <Text position={[0.5, -1, 0]} fontSize={0.3} color="#00AACC">P</Text>
+                    </group>
+
+                    {/* Vecteur Force */}
+                    <arrowHelper args={[new THREE.Vector3(Math.cos(forceAngleRad), Math.sin(forceAngleRad), 0), new THREE.Vector3(0, 0.3, 0), 2, 0xFFFF00, 0.4, 0.2]} />
+                </group>
+
+                {/* Corde Force */}
+                <Line
+                    points={[
+                        [animPos, 0.9, 0],
+                        [animPos + Math.cos(forceAngleRad) * 2, 0.9 + Math.sin(forceAngleRad) * 2, 0]
+                    ]}
+                    color="yellow"
+                    lineWidth={2}
+                />
+            </group>
+
+
+            <DraggableHtmlPanel title="🔧 Travail & Puissance">
+                <div className="p-4 w-80 text-white">
+                    <div className="flex gap-2 mb-4">
+                        <button onClick={() => setMode('explore')} className={`flex-1 py-2 rounded-lg font-bold transition-all ${mode === 'explore' ? 'bg-blue-500' : 'bg-gray-700'}`}>📚 Explorer</button>
+                        <button onClick={startChallenge} className={`flex-1 py-2 rounded-lg font-bold transition-all ${mode === 'challenge' ? 'bg-orange-500' : 'bg-gray-700'}`}>🎯 Défi</button>
                     </div>
-                </DraggableHtmlPanel>
-            </Html>
-            {showSuccess && <SuccessOverlay show={showSuccess} message="Tu as trouvé le travail correct !" onClose={() => setShowSuccess(false)} />}
-        </group>
+                    {mode === 'challenge' && challenge && (
+                        <div className="mb-4 p-3 bg-orange-900/40 rounded-lg border border-orange-500 animate-pulse">
+                            <p className="text-sm">🎯 Objectif: W(F) ≈ <span className="text-xl font-bold text-orange-400">{challenge.targetW} J</span></p>
+                        </div>
+                    )}
+                    <div className="space-y-3">
+                        <div><label className="text-xs font-bold text-yellow-400">Force F: {force} N</label><input type="range" min="10" max="150" value={force} onChange={e => setForce(Number(e.target.value))} className="w-full accent-yellow-500" /></div>
+                        <div><label className="text-xs font-bold text-cyan-400">Angle α: {angle}°</label><input type="range" min="0" max="60" value={angle} onChange={e => setAngle(Number(e.target.value))} className="w-full accent-cyan-500" /></div>
+                        <div><label className="text-xs font-bold text-green-400">Distance d: {distance} m</label><input type="range" min="1" max="10" value={distance} onChange={e => setDistance(Number(e.target.value))} className="w-full accent-green-500" /></div>
+                        <div><label className="text-xs font-bold text-gray-400">Inclinaison: {incline}°</label><input type="range" min="-30" max="30" value={incline} onChange={e => setIncline(Number(e.target.value))} className="w-full accent-gray-500" /></div>
+                    </div>
+                    <div className="mt-4 p-3 bg-gradient-to-br from-black/60 to-black/40 rounded-lg border border-white/20">
+                        <div className="flex justify-between items-center mb-1">
+                            <span className="text-xs text-yellow-500">W(F) = F·d·cos(α)</span>
+                            <span className="text-xl font-bold text-[#00F5D4]">{travailF.toFixed(0)} J</span>
+                        </div>
+                        <div className="flex justify-between items-center mb-1">
+                            <span className="text-xs text-blue-400">W(P) = -mg·d·sin(i)</span>
+                            <span className="text-md font-bold text-blue-300">{travailP.toFixed(0)} J</span>
+                        </div>
+                        <div className="flex justify-between items-center mt-2 border-t border-white/10 pt-1">
+                            <span className="text-xs text-gray-400">Puissance P</span>
+                            <span className="text-sm font-bold text-white">{puissance.toFixed(0)} W</span>
+                        </div>
+                    </div>
+                    <div className="flex gap-2 mt-4">
+                        <button onClick={startAnimation} className="flex-1 py-2 bg-green-600 rounded-lg font-bold hover:bg-green-500">▶️ GO</button>
+                        {mode === 'challenge' && <button onClick={checkAnswer} className="flex-1 py-2 bg-orange-600 rounded-lg font-bold hover:bg-orange-500">Vérifier</button>}
+                    </div>
+                </div>
+            </DraggableHtmlPanel>
+            {showSuccess && <SuccessOverlay show={showSuccess} message="Excellent ! Tu maîtrises le Travail !" onClose={() => setShowSuccess(false)} />}
+        </group >
     );
 }
 
@@ -140,59 +184,96 @@ export function EnergieCinetiqueSim() {
     const [mass, setMass] = useState(1000);
     const [velocity, setVelocity] = useState(20);
     const [brakeForce, setBrakeForce] = useState(5000);
-    const [mode, setMode] = useState('explore');
-    const [carPos, setCarPos] = useState(-6);
+    const [carPos, setCarPos] = useState(-10);
     const [isMoving, setIsMoving] = useState(false);
+    const [crashed, setCrashed] = useState(false);
+    const cameraRef = useRef();
 
     const ec = 0.5 * mass * velocity * velocity;
     const distanceFreinage = ec / brakeForce;
+    const WALL_POS = 15;
+    const START_POS = -10;
+
+    // Si la distance d'arrêt dépasse la distance au mur (25m), CRASH !
+    const willCrash = (START_POS + distanceFreinage) > WALL_POS;
+    const finalPos = willCrash ? WALL_POS : START_POS + distanceFreinage;
 
     useFrame((state, delta) => {
         if (isMoving) {
             setCarPos(p => {
-                if (p < distanceFreinage - 6) return p + delta * velocity / 5;
-                setIsMoving(false);
+                const step = velocity * delta * 0.8; // Vitesse animation proportionnelle
+                if (p < finalPos) {
+                    const next = p + step;
+                    if (next >= finalPos) {
+                        setIsMoving(false);
+                        if (willCrash) {
+                            setCrashed(true);
+                            triggerSuccess(); // Boom confetti
+                        }
+                        return finalPos;
+                    }
+                    return next;
+                }
                 return p;
             });
         }
     });
 
+    const reset = () => {
+        setCarPos(START_POS);
+        setCrashed(false);
+        setIsMoving(false);
+    };
+
     return (
         <group>
             <OrbitControls />
             <Grid />
-            <Plane args={[25, 5]} rotation={[-Math.PI / 2, 0, 0]} position={[0, -1.95, 0]}><meshStandardMaterial color="#333" /></Plane>
-            <Line points={[[-6, -1.9, 2.2], [distanceFreinage - 6, -1.9, 2.2]]} color="red" lineWidth={4} />
-            <Text position={[(distanceFreinage - 6) / 2 - 3, -1.5, 2.2]} fontSize={0.4} color="red">d = {distanceFreinage.toFixed(1)} m</Text>
-            <group position={[carPos, -1.2, 0]}>
+            <Plane args={[40, 5]} rotation={[-Math.PI / 2, 0, 0]} position={[0, -1.95, 0]}><meshStandardMaterial color="#333" /></Plane>
+
+            {/* Ligne départ */}
+            <Line points={[[START_POS, -1.9, 2.5], [START_POS, -1.9, -2.5]]} color="white" lineWidth={2} />
+            <Text position={[START_POS, -1.5, 3]} fontSize={0.5} color="white">Départ</Text>
+
+            {/* Mur */}
+            <Box args={[1, 4, 6]} position={[WALL_POS + 0.5, 0, 0]}><meshStandardMaterial color="#555" map={null} /></Box>
+            <Text position={[WALL_POS, 2.5, 0]} fontSize={0.8} color="red" rotation={[0, -Math.PI / 2, 0]}>MUR</Text>
+
+            {/* Distance théorique */}
+            <Line points={[[START_POS, -1.8, 2.2], [START_POS + distanceFreinage, -1.8, 2.2]]} color={willCrash ? "red" : "green"} lineWidth={4} />
+            <Text position={[START_POS + distanceFreinage / 2, -1.4, 2.2]} fontSize={0.4} color={willCrash ? "red" : "green"}>d = {distanceFreinage.toFixed(1)} m</Text>
+
+            <group position={[carPos, -1.2, 0]} rotation={[0, 0, crashed ? 0.2 : 0]}>
                 <Box args={[2.2, 0.6, 1.2]}><meshStandardMaterial color="#E63946" /></Box>
                 <Box args={[1, 0.5, 1.1]} position={[0.4, 0.5, 0]}><meshStandardMaterial color="#1D3557" /></Box>
                 <Cylinder args={[0.28, 0.28, 0.18]} position={[-0.7, -0.35, 0.6]} rotation={[Math.PI / 2, 0, 0]}><meshStandardMaterial color="#111" /></Cylinder>
                 <Cylinder args={[0.28, 0.28, 0.18]} position={[0.7, -0.35, 0.6]} rotation={[Math.PI / 2, 0, 0]}><meshStandardMaterial color="#111" /></Cylinder>
                 <Cylinder args={[0.28, 0.28, 0.18]} position={[-0.7, -0.35, -0.6]} rotation={[Math.PI / 2, 0, 0]}><meshStandardMaterial color="#111" /></Cylinder>
                 <Cylinder args={[0.28, 0.28, 0.18]} position={[0.7, -0.35, -0.6]} rotation={[Math.PI / 2, 0, 0]}><meshStandardMaterial color="#111" /></Cylinder>
+                {crashed && <Text position={[0, 1.5, 0]} fontSize={1} color="yellow">BOOM!</Text>}
             </group>
 
-            <Html position={[8, 4, 0]}>
-                <DraggableHtmlPanel title="🚗 Énergie Cinétique" >
-                    <div className="p-4 w-80 text-white">
-                        <div className="space-y-3">
-                            <div><label className="text-xs font-bold text-blue-400">Masse: {mass} kg</label><input type="range" min="500" max="2500" step="100" value={mass} onChange={e => setMass(Number(e.target.value))} className="w-full accent-blue-500" /></div>
-                            <div><label className="text-xs font-bold text-green-400">Vitesse: {velocity} m/s ({(velocity * 3.6).toFixed(0)} km/h)</label><input type="range" min="5" max="50" value={velocity} onChange={e => setVelocity(Number(e.target.value))} className="w-full accent-green-500" /></div>
-                            <div><label className="text-xs font-bold text-red-400">Force freinage: {brakeForce} N</label><input type="range" min="1000" max="12000" step="500" value={brakeForce} onChange={e => setBrakeForce(Number(e.target.value))} className="w-full accent-red-500" /></div>
-                        </div>
-                        <div className="mt-4 p-3 bg-gradient-to-br from-green-900/30 to-black/50 rounded-lg border border-green-500/30">
-                            <p className="text-xs text-gray-400">Ec = ½mv²</p>
-                            <p className="text-2xl font-bold text-green-400">Ec = {(ec / 1000).toFixed(1)} kJ</p>
-                        </div>
-                        <div className="mt-2 p-3 bg-gradient-to-br from-red-900/30 to-black/50 rounded-lg border border-red-500/30">
-                            <p className="text-xs text-gray-400">TEC: ΔEc = W(F) → d = Ec/F</p>
-                            <p className="text-xl font-bold text-red-400">Distance: {distanceFreinage.toFixed(1)} m</p>
-                        </div>
-                        <button onClick={() => { setCarPos(-6); setIsMoving(true); }} className="w-full mt-4 py-2 bg-green-600 rounded-lg font-bold hover:bg-green-500">▶️ Simuler freinage</button>
+            <DraggableHtmlPanel title="🚗 Énergie Cinétique">
+                <div className="p-4 w-80 text-white">
+                    <div className="space-y-3">
+                        <div><label className="text-xs font-bold text-blue-400">Masse: {mass} kg</label><input type="range" min="500" max="2500" step="100" value={mass} onChange={e => { setMass(Number(e.target.value)); reset(); }} className="w-full accent-blue-500" /></div>
+                        <div><label className="text-xs font-bold text-green-400">Vitesse: {velocity} m/s ({(velocity * 3.6).toFixed(0)} km/h)</label><input type="range" min="5" max="50" value={velocity} onChange={e => { setVelocity(Number(e.target.value)); reset(); }} className="w-full accent-green-500" /></div>
+                        <div><label className="text-xs font-bold text-red-400">Force freinage: {brakeForce} N</label><input type="range" min="1000" max="15000" step="500" value={brakeForce} onChange={e => { setBrakeForce(Number(e.target.value)); reset(); }} className="w-full accent-red-500" /></div>
                     </div>
-                </DraggableHtmlPanel>
-            </Html>
+                    <div className="mt-4 p-3 bg-gradient-to-br from-green-900/30 to-black/50 rounded-lg border border-green-500/30">
+                        <p className="text-xs text-gray-400">Ec = ½mv²</p>
+                        <p className="text-2xl font-bold text-green-400">Ec = {(ec / 1000).toFixed(1)} kJ</p>
+                    </div>
+                    <div className={`mt-2 p-3 bg-gradient-to-br ${willCrash ? 'from-red-900/50 border-red-500' : 'from-blue-900/30 border-blue-500/30'} rounded-lg border`}>
+                        <p className="text-xs text-gray-400">Distance d'arrêt requis:</p>
+                        <p className={`text-xl font-bold ${willCrash ? 'text-red-500' : 'text-blue-400'}`}>{distanceFreinage.toFixed(1)} m</p>
+                        <p className="text-xs text-gray-500 mt-1">Distance au mur: {(WALL_POS - START_POS).toFixed(0)} m</p>
+                    </div>
+                    <button onClick={() => { reset(); setTimeout(() => setIsMoving(true), 100); }} className={`w-full mt-4 py-2 ${willCrash ? 'bg-red-600 hover:bg-red-500' : 'bg-green-600 hover:bg-green-500'} rounded-lg font-bold`}>
+                        {willCrash ? '⚠️ TESTER LE CRASH' : '▶️ TESTER FREINAGE'}
+                    </button>
+                </div>
+            </DraggableHtmlPanel>
         </group>
     );
 }
@@ -236,30 +317,82 @@ export function EnergieMecaniqueSim() {
             <Line points={[[-4, 4.5 - L, 0], [4, 4.5 - L, 0]]} color="cyan" lineWidth={2} />
             <Text position={[4.5, 4.5 - L, 0]} fontSize={0.25} color="cyan">Ep = 0</Text>
 
-            <Html position={[6, 4, 0]}>
-                <DraggableHtmlPanel title="🎢 Énergie Mécanique" >
-                    <div className="p-4 w-80 text-white">
-                        <div className="mb-4"><label className="text-xs font-bold">Angle initial: {angleInit}°</label><input type="range" min="15" max="80" value={angleInit} onChange={e => { setAngleInit(Number(e.target.value)); reset(); }} className="w-full" disabled={isPlaying} /></div>
-                        <div className="flex gap-2 mb-4">
-                            <button onClick={() => setIsPlaying(!isPlaying)} className={`flex-1 py-2 rounded-lg font-bold ${isPlaying ? 'bg-red-500' : 'bg-green-500'}`}>{isPlaying ? '⏸ Pause' : '▶️ Lâcher'}</button>
-                            <button onClick={reset} className="px-4 bg-gray-600 rounded-lg font-bold">↺ Reset</button>
-                        </div>
-                        <div className="grid grid-cols-3 gap-2 text-center">
-                            <div className="bg-green-900/50 p-3 rounded-lg border border-green-500/30"><div className="text-green-400 text-xs font-bold">Ec</div><div className="text-lg font-bold">{ec.toFixed(1)} J</div></div>
-                            <div className="bg-blue-900/50 p-3 rounded-lg border border-blue-500/30"><div className="text-blue-400 text-xs font-bold">Ep</div><div className="text-lg font-bold">{ep.toFixed(1)} J</div></div>
-                            <div className="bg-yellow-900/50 p-3 rounded-lg border border-yellow-500/30"><div className="text-yellow-400 text-xs font-bold">Em</div><div className="text-lg font-bold">{(ec + ep).toFixed(1)} J</div></div>
-                        </div>
-                        <div className="mt-4 text-xs text-gray-400 text-center">Em = Ec + Ep = constante (sans frottements)</div>
+            <DraggableHtmlPanel title="🎢 Énergie Mécanique">
+                <div className="p-4 w-80 text-white">
+                    <div className="mb-4"><label className="text-xs font-bold">Angle initial: {angleInit}°</label><input type="range" min="15" max="80" value={angleInit} onChange={e => { setAngleInit(Number(e.target.value)); reset(); }} className="w-full" disabled={isPlaying} /></div>
+                    <div className="flex gap-2 mb-4">
+                        <button onClick={() => setIsPlaying(!isPlaying)} className={`flex-1 py-2 rounded-lg font-bold ${isPlaying ? 'bg-red-500' : 'bg-green-500'}`}>{isPlaying ? '⏸ Pause' : '▶️ Lâcher'}</button>
+                        <button onClick={reset} className="px-4 bg-gray-600 rounded-lg font-bold">↺ Reset</button>
                     </div>
-                </DraggableHtmlPanel>
-            </Html>
+                    <div className="grid grid-cols-3 gap-2 text-center">
+                        <div className="bg-green-900/50 p-3 rounded-lg border border-green-500/30"><div className="text-green-400 text-xs font-bold">Ec</div><div className="text-lg font-bold">{ec.toFixed(1)} J</div></div>
+                        <div className="bg-blue-900/50 p-3 rounded-lg border border-blue-500/30"><div className="text-blue-400 text-xs font-bold">Ep</div><div className="text-lg font-bold">{ep.toFixed(1)} J</div></div>
+                        <div className="bg-yellow-900/50 p-3 rounded-lg border border-yellow-500/30"><div className="text-yellow-400 text-xs font-bold">Em</div><div className="text-lg font-bold">{(ec + ep).toFixed(1)} J</div></div>
+                    </div>
+                    <div className="mt-4 text-xs text-gray-400 text-center">Em = Ec + Ep = constante (sans frottements)</div>
+                </div>
+            </DraggableHtmlPanel>
         </group>
     );
 }
 
 // ==========================================
-// P5-P6: ÉLECTROSTATIQUE
+// P4: ÉNERGIE POTENTIELLE DE PESANTEUR
 // ==========================================
+export function EnergiePotentielleSim() {
+    const [mass, setMass] = useState(10);
+    const [height, setHeight] = useState(2); // Hauteur
+    const [gravity, setGravity] = useState(9.81); // Terre par défaut
+
+    const epp = mass * gravity * height;
+
+    return (
+        <group>
+            <OrbitControls />
+            <Grid />
+            {/* Sol */}
+            <Plane args={[10, 10]} rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.01, 0]}><meshStandardMaterial color="#222" /></Plane>
+
+            {/* Objet suspendu/posé */}
+            <group position={[0, height + 0.5, 0]}>
+                <Box args={[1, 1, 1]}><meshStandardMaterial color="#FFD700" /></Box>
+                <Text position={[0, 0.6, 0.6]} fontSize={0.3} color="white">{mass} kg</Text>
+            </group>
+
+            {/* Ligne de référence */}
+            <Line points={[[-5, 0, 0], [5, 0, 0]]} color="blue" lineWidth={2} transparent opacity={0.5} />
+            <Text position={[5.2, 0, 0]} fontSize={0.3} color="blue">z=0</Text>
+
+            {/* Ligne hauteur actuelle */}
+            <Line points={[[0, 0, 0], [0, height, 0]]} color="white" lineWidth={1} dashed />
+            <Text position={[0.6, height / 2, 0]} fontSize={0.3} color="white">h={height}m</Text>
+
+            <DraggableHtmlPanel title="🏗️ Énergie Potentielle">
+                <div className="p-4 w-72 text-white">
+                    <div className="space-y-3">
+                        <div><label className="text-xs font-bold text-yellow-400">Masse m: {mass} kg</label><input type="range" min="1" max="50" value={mass} onChange={e => setMass(Number(e.target.value))} className="w-full" /></div>
+                        <div><label className="text-xs font-bold text-blue-400">Hauteur h: {height} m</label><input type="range" min="0" max="10" step="0.5" value={height} onChange={e => setHeight(Number(e.target.value))} className="w-full" /></div>
+                        <div>
+                            <label className="text-xs font-bold text-gray-400">Astre (g):</label>
+                            <select value={gravity} onChange={e => setGravity(Number(e.target.value))} className="w-full bg-gray-800 rounded p-1 text-sm border border-gray-600">
+                                <option value="9.81">Terre (9.81 N/kg)</option>
+                                <option value="1.62">Lune (1.62 N/kg)</option>
+                                <option value="3.71">Mars (3.71 N/kg)</option>
+                                <option value="24.79">Jupiter (24.79 N/kg)</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div className="mt-4 p-3 bg-gradient-to-br from-yellow-900/30 to-black/50 rounded-lg border border-yellow-500/30">
+                        <p className="text-xs text-gray-400">Epp = m × g × z</p>
+                        <p className="text-2xl font-bold text-yellow-400">Epp = {epp.toFixed(1)} J</p>
+                    </div>
+                </div>
+            </DraggableHtmlPanel>
+        </group>
+    );
+}
+
+
 export function ElectrostatiqueSim() {
     const [charges, setCharges] = useState([{ x: 2, y: 0, q: 5 }, { x: -2, y: 0, q: -5 }]);
     const [showFieldLines, setShowFieldLines] = useState(true);
@@ -293,8 +426,7 @@ export function ElectrostatiqueSim() {
             <Grid />
             {charges.map((c, i) => (<group key={i} position={[c.x, c.y, 0]}><Sphere args={[0.35]}><meshStandardMaterial color={c.q > 0 ? "#FF4444" : "#4444FF"} /></Sphere><Text fontSize={0.3} color="white">{c.q > 0 ? '+' : '-'}</Text></group>))}
             {showFieldLines && fieldLines.map((pts, i) => (<Line key={i} points={pts} color="#00F5D4" lineWidth={1.5} transparent opacity={0.7} />))}
-            <Html position={[6, 4, 0]}>
-                <DraggableHtmlPanel title="⚡ Champ Électrique" >
+            <DraggableHtmlPanel title="⚡ Champ Électrique" >
                     <div className="p-4 w-72 text-white">
                         <div className="flex gap-2 mb-4">
                             <button onClick={() => addCharge(5)} className="flex-1 bg-red-600 py-2 rounded-lg font-bold hover:bg-red-500">+ Positive</button>
@@ -308,7 +440,6 @@ export function ElectrostatiqueSim() {
                         </div>
                     </div>
                 </DraggableHtmlPanel>
-            </Html>
         </group>
     );
 }
@@ -347,8 +478,7 @@ export function ElectroniqueSim() {
             <Cylinder args={[0.35, 0.35, 0.7]} position={[1.8, -1.1, 2]} rotation={[Math.PI / 2, 0, 0]}><meshStandardMaterial color="#1a1a1a" /></Cylinder>
             <Text position={[1.8, -0.4, 2]} fontSize={0.25} color="#333">C={(C * 1000).toFixed(0)}mF</Text>
 
-            <Html position={[8, 4, 0]}>
-                <DraggableHtmlPanel title="📺 Circuit RC" >
+            <DraggableHtmlPanel title="📺 Circuit RC" >
                     <div className="p-4 w-72 text-white">
                         <div className="flex gap-2 mb-4">
                             <button onClick={() => setMode('charge')} className={`flex-1 py-2 rounded-lg font-bold ${mode === 'charge' ? 'bg-green-500' : 'bg-gray-700'}`}>⬆️ Charge</button>
@@ -367,7 +497,6 @@ export function ElectroniqueSim() {
                         </div>
                     </div>
                 </DraggableHtmlPanel>
-            </Html>
         </group>
     );
 }
@@ -398,8 +527,7 @@ export function OndesSim() {
             <OrbitControls />
             <mesh rotation={[-Math.PI / 2, 0, 0]}><planeGeometry args={[12, 12]} /><shaderMaterial ref={materialRef} args={[WaveShader]} transparent /></mesh>
             <Text position={[0, 0.5, -6.5]} fontSize={0.5} color="#00AACC">Interférences - Cuve à Ondes</Text>
-            <Html position={[7, 3, 0]}>
-                <DraggableHtmlPanel title="🌊 Ondes Mécaniques" >
+            <DraggableHtmlPanel title="🌊 Ondes Mécaniques" >
                     <div className="p-4 w-64 text-white">
                         <div><label className="text-xs font-bold">Fréquence f = {freq} Hz</label><input type="range" min="0.5" max="5" step="0.1" value={freq} onChange={e => setFreq(Number(e.target.value))} className="w-full accent-cyan-500" /></div>
                         <div className="mt-4 p-3 bg-black/50 rounded-lg text-sm">
@@ -409,7 +537,6 @@ export function OndesSim() {
                         </div>
                     </div>
                 </DraggableHtmlPanel>
-            </Html>
         </group>
     );
 }
@@ -446,8 +573,7 @@ export function OptiqueLentilleSim() {
             <Line points={[[objPos, 1.9, 0], [0, 1.9, 0], [oaP, 1.9 * gamma, 0]]} color="yellow" lineWidth={2} />
             <Line points={[[objPos, 1.9, 0], [0, 0, 0], [oaP, 1.9 * gamma, 0]]} color="cyan" lineWidth={2} />
 
-            <Html position={[8, 4, 0]}>
-                <DraggableHtmlPanel title="🔭 Lentilles Minces" >
+            <DraggableHtmlPanel title="🔭 Lentilles Minces" >
                     <div className="p-4 w-80 text-white">
                         <div className="space-y-3">
                             <div><label className="text-xs font-bold">Position objet OA = {objPos.toFixed(1)} cm</label><input type="range" min="-12" max="-1.5" step="0.2" value={objPos} onChange={e => setObjPos(Number(e.target.value))} className="w-full" /></div>
@@ -460,7 +586,6 @@ export function OptiqueLentilleSim() {
                         </div>
                     </div>
                 </DraggableHtmlPanel>
-            </Html>
         </group>
     );
 }

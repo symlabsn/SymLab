@@ -4652,6 +4652,36 @@ Avec frottements : Em diminue (dissipation)`,
         ],
         relatedSimulations: ['p1s-travail', 'p1s-cinetique']
     },
+    'p1s-potentielle': {
+        title: '🏗️ Énergie Potentielle',
+        description: 'Gravité, hauteur et Epp = mgh',
+        type: 'p1s-potentielle',
+        config: {},
+        analogy: {
+            title: 'Monter des Briques',
+            content: `Imagine un maçon qui monte des briques au 3ème étage. 🏗️
+            
+Plus la brique est haute, plus elle a d'énergie "en réserve".
+Si elle tombe du 3ème étage, elle fera plus de dégâts que si elle tombe du 1er !
+
+C'est l'Énergie Potentielle de Pesanteur.`
+        },
+        theory: `Énergie Potentielle de Pesanteur (Epp)
+
+DÉFINITION :
+Epp = m × g × z
+- Epp en Joules (J)
+- m en kg
+- g = 9.81 N/kg (sur Terre)
+- z : altitude en mètres (m)
+
+RÉFÉRENCE :
+L'altitude z se mesure par rapport à un niveau de référence (z=0) arbitraire (souvent le sol).`,
+        exercises: [
+            { question: 'Si je double la hauteur, l\'énergie potentielle...', options: ['Double', 'Quadruple', 'Reste la même', 'Diminue'], correct: 0, explanation: 'Epp est proportionnelle à h (Epp = mgh).' }
+        ],
+        relatedSimulations: ['p1s-mecanique', 'p1s-travail']
+    },
     'p1s-electro': {
         title: '⚡ Champ Électrique',
         description: 'Charges et lignes de champ E',
