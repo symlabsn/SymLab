@@ -11,7 +11,7 @@ export const phys1sData = {
             id: 'p1s-01',
             part: 'Énergie - Champs',
             title: 'P1. Travail et puissance',
-            simulation: { id: 'p1s-mecanique', title: '🎢 Montagnes Russes (Énergie)' },
+            simulation: { id: 'p1s-travail', title: '🔧 Travail & Puissance' },
             image: '/images/courses/p1s_travail_puissance.png',
             story: "Pour déplacer un objet, il faut de l'énergie. Mais l'efficacité dépend de la vitesse : c'est la puissance.",
             content: `
@@ -48,7 +48,7 @@ Puissance instantanée : $P(t) = \\vec{F} \\cdot \\vec{v}$.
             id: 'p1s-02',
             part: 'Énergie - Champs',
             title: 'P2. Énergie cinétique',
-            simulation: { id: 'p1s-mecanique', title: '🎢 Montagnes Russes (Énergie)' },
+            simulation: { id: 'p1s-cinetique', title: '🚗 Énergie Cinétique' },
             image: '/images/courses/p1s_energie_cinetique.png',
             story: "Un objet en mouvement possède une énergie liée à sa vitesse. C'est l'énergie du mouvement.",
             content: `
@@ -81,7 +81,7 @@ $$ \\Delta E_c = E_{cB} - E_{cA} = \\sum W_{AB}(\\vec{F}_{ext}) $$
             id: 'p1s-03',
             part: 'Énergie - Champs',
             title: 'P3. Énergie potentielle. Énergie mécanique',
-            simulation: { id: 'p1s-mecanique', title: '🎢 Montagnes Russes (Énergie)' },
+            simulation: { id: 'p1s-mecanique', title: '🎢 Pendule & Conservation' },
             image: '/images/courses/p1s_energie_potentielle.png',
             story: "L'énergie peut être stockée (potentielle) et transformée en mouvement. La conservation de l'énergie est un principe clé.",
             content: `

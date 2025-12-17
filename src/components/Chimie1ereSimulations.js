@@ -1,302 +1,73 @@
-import React, { useState, useRef, useEffect, useMemo } from 'react';
-import { Canvas, useFrame } from '@react-three/fiber';
-import { Html, OrbitControls, Text, Sphere, Cylinder, Box, Line } from '@react-three/drei';
+import React, { useState, useRef, useMemo } from 'react';
+import { useFrame } from '@react-three/fiber';
+import { Html, OrbitControls, Text, Sphere, Box, Cylinder, Line, Plane } from '@react-three/drei';
 import * as THREE from 'three';
 import { DraggableHtmlPanel } from './DraggableHtmlPanel';
+import confetti from 'canvas-confetti';
 
 // ==========================================
-// SHARED UTILS (ATOMS COLORS)
+// ATOM COLORS & RADII
 // ==========================================
-const ATOM_COLORS = {
-    C: '#333333', // Black/Grey
-    H: '#FFFFFF', // White
-    O: '#FF0000', // Red
-    N: '#0000FF', // Blue
-    Cl: '#00FF00', // Green
+const ATOM = {
+    C: { color: '#333', r: 0.4 },
+    H: { color: '#FFF', r: 0.25 },
+    O: { color: '#F00', r: 0.38 },
+    N: { color: '#00F', r: 0.38 },
+    Cl: { color: '#0F0', r: 0.45 },
 };
 
-const ATOM_RADII = {
-    C: 0.4,
-    H: 0.25,
-    O: 0.38,
-    N: 0.38,
-    Cl: 0.45,
-};
+function triggerSuccess() {
+    confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
+}
 
 // ==========================================
-// C1-C5: CHIMIE ORGANIQUE (MOLECULE VIEWER & QUIZ)
+// C1: GÉNÉRALITÉS CHIMIE ORGANIQUE (Tétravalence du C)
 // ==========================================
-const MOLECULES_DB = [
-    {
-        name: "Méthane",
-        formula: "CH4",
-        family: "Alcane",
-        atoms: [
-            { elem: 'C', x: 0, y: 0, z: 0 },
-            { elem: 'H', x: 0.6, y: 0.6, z: 0.6 },
-            { elem: 'H', x: -0.6, y: -0.6, z: 0.6 },
-            { elem: 'H', x: -0.6, y: 0.6, z: -0.6 },
-            { elem: 'H', x: 0.6, y: -0.6, z: -0.6 },
-        ]
-    },
-    {
-        name: "Éthanol",
-        formula: "C2H6O",
-        family: "Alcool",
-        atoms: [
-            { elem: 'C', x: -0.8, y: 0, z: 0 },
-            { elem: 'H', x: -0.8, y: 0.8, z: 0 }, // H on C1
-            { elem: 'H', x: -1.4, y: -0.4, z: 0.5 }, // H on C1
-            { elem: 'H', x: -1.4, y: -0.4, z: -0.5 }, // H on C1
-            { elem: 'C', x: 0.7, y: 0, z: 0 },
-            { elem: 'H', x: 0.7, y: 0.8, z: 0 }, // H on C2
-            { elem: 'H', x: 0.7, y: -0.8, z: 0 }, // H on C2
-            { elem: 'O', x: 1.8, y: 0, z: 0 },
-            { elem: 'H', x: 2.2, y: 0.6, z: 0 }, // H of OH
-        ]
-    },
-    {
-        name: "Éthène",
-        formula: "C2H4",
-        family: "Alcène",
-        atoms: [
-            { elem: 'C', x: -0.7, y: 0, z: 0 },
-            { elem: 'C', x: 0.7, y: 0, z: 0 },
-            { elem: 'H', x: -1.3, y: 0.9, z: 0 },
-            { elem: 'H', x: -1.3, y: -0.9, z: 0 },
-            { elem: 'H', x: 1.3, y: 0.9, z: 0 },
-            { elem: 'H', x: 1.3, y: -0.9, z: 0 },
-        ],
-        extraBonds: [ // Double bond visualization manually
-            { start: [-0.7, 0.1, 0], end: [0.7, 0.1, 0] },
-            { start: [-0.7, -0.1, 0], end: [0.7, -0.1, 0] },
-        ]
-    },
-    {
-        name: "Benzène",
-        formula: "C6H6",
-        family: "Aromatique",
-        atoms: [ // Hexagon approx radius 1.4
-            { elem: 'C', x: 1.4, y: 0, z: 0 },
-            { elem: 'C', x: 0.7, y: 1.2, z: 0 },
-            { elem: 'C', x: -0.7, y: 1.2, z: 0 },
-            { elem: 'C', x: -1.4, y: 0, z: 0 },
-            { elem: 'C', x: -0.7, y: -1.2, z: 0 },
-            { elem: 'C', x: 0.7, y: -1.2, z: 0 },
-            // Hydrogens radial
-            { elem: 'H', x: 2.4, y: 0, z: 0 },
-            { elem: 'H', x: 1.2, y: 2.1, z: 0 },
-            { elem: 'H', x: -1.2, y: 2.1, z: 0 },
-            { elem: 'H', x: -2.4, y: 0, z: 0 },
-            { elem: 'H', x: -1.2, y: -2.1, z: 0 },
-            { elem: 'H', x: 1.2, y: -2.1, z: 0 },
-        ],
-        extraBonds: [ // Delocalized circle approx
-            { circle: true, radius: 0.8 }
-        ]
-    },
-    {
-        name: "Acide Éthanoïque",
-        formula: "C2H4O2",
-        family: "Acide Carboxylique",
-        atoms: [
-            { elem: 'C', x: -1, y: 0, z: 0 },
-            { elem: 'H', x: -1, y: 1, z: 0 },
-            { elem: 'H', x: -1.8, y: -0.5, z: 0.5 },
-            { elem: 'H', x: -1.8, y: -0.5, z: -0.5 },
-            { elem: 'C', x: 0.5, y: 0, z: 0 },
-            { elem: 'O', x: 0.5, y: 1.2, z: 0 }, // Double bond O
-            { elem: 'O', x: 1.5, y: -0.8, z: 0 }, // OH
-            { elem: 'H', x: 2.2, y: -0.4, z: 0 }, // H of OH
-        ],
-        extraBonds: [
-            { start: [0.5, 0.1, 0], end: [0.5, 1.2, 0.1] }, // approx double
-            { start: [0.5, -0.1, 0], end: [0.5, 1.2, -0.1] },
-        ]
-    }
-];
+export function ChimieOrgaGeneralSim() {
+    const [showLabels, setShowLabels] = useState(true);
+    const groupRef = useRef();
 
-export function ChimieOrganiqueSim() {
-    const [currentMolIndex, setCurrentMolIndex] = useState(0);
-    const [mode, setMode] = useState('explore'); // 'explore', 'quiz'
-    const [quizQuestion, setQuizQuestion] = useState(null);
-    const [score, setScore] = useState(0);
-    const [showAnswer, setShowAnswer] = useState(false);
-    const [feedback, setFeedback] = useState("");
+    useFrame((state) => {
+        if (groupRef.current) groupRef.current.rotation.y += 0.005;
+    });
 
-    const mol = MOLECULES_DB[currentMolIndex];
-
-    // Bonds generation: naive distance-based
-    const bonds = useMemo(() => {
-        const b = [];
-        const atoms = mol.atoms;
-        for (let i = 0; i < atoms.length; i++) {
-            for (let j = i + 1; j < atoms.length; j++) {
-                const dist = Math.hypot(atoms[i].x - atoms[j].x, atoms[i].y - atoms[j].y, atoms[i].z - atoms[j].z);
-                // Max bond length approx 1.6
-                if (dist < 1.6) {
-                    b.push({ start: [atoms[i].x, atoms[i].y, atoms[i].z], end: [atoms[j].x, atoms[j].y, atoms[j].z] });
-                }
-            }
-        }
-        return b;
-    }, [mol]);
-
-    // Quiz logic
-    const startQuiz = () => {
-        setMode('quiz');
-        setScore(0);
-        nextQuestion();
-    };
-
-    const nextQuestion = () => {
-        // Pick random molecule
-        const idx = Math.floor(Math.random() * MOLECULES_DB.length);
-        setCurrentMolIndex(idx);
-
-        // Pick question type
-        // 0: What family?
-        // 1: What is the name?
-        const qType = Math.random() > 0.5 ? 0 : 1;
-        setQuizQuestion({
-            type: qType,
-            correct: qType === 0 ? MOLECULES_DB[idx].family : MOLECULES_DB[idx].name,
-            options: generateOptions(qType, idx)
-        });
-        setShowAnswer(false);
-        setFeedback("");
-    };
-
-    const generateOptions = (type, currentIdx) => {
-        const correct = type === 0 ? MOLECULES_DB[currentIdx].family : MOLECULES_DB[currentIdx].name;
-        const allOptions = MOLECULES_DB.map(m => type === 0 ? m.family : m.name).filter(o => o !== correct);
-        const uniqueOptions = [...new Set(allOptions)]; // Dedup
-        // Shuffle and pick 3
-        const shuffled = uniqueOptions.sort(() => 0.5 - Math.random()).slice(0, 3);
-        shuffled.push(correct);
-        return shuffled.sort(() => 0.5 - Math.random());
-    };
-
-    const checkAnswer = (ans) => {
-        if (ans === quizQuestion.correct) {
-            setScore(score + 10);
-            setFeedback("Correct ! 🎉");
-        } else {
-            setFeedback(`Incorrect. La réponse était: ${quizQuestion.correct}`);
-        }
-        setShowAnswer(true);
-        setTimeout(() => {
-            if (mode === 'quiz') nextQuestion();
-        }, 2000);
-    };
+    // Méthane CH4 - Tétraèdre parfait
+    const hPos = [
+        [0.6, 0.6, 0.6], [-0.6, -0.6, 0.6], [-0.6, 0.6, -0.6], [0.6, -0.6, -0.6]
+    ];
 
     return (
         <group>
-            <ambientLight intensity={0.5} />
-            <pointLight position={[10, 10, 10]} intensity={1} />
-            <OrbitControls makeDefault autoRotate={mode === 'explore'} autoRotateSpeed={1} />
+            <OrbitControls />
+            <group ref={groupRef} scale={2}>
+                {/* Carbone central */}
+                <Sphere args={[ATOM.C.r]}><meshStandardMaterial color={ATOM.C.color} /></Sphere>
+                {showLabels && <Text position={[0, 0.6, 0]} fontSize={0.3} color="cyan">C</Text>}
 
-            {/* Molecule Visualization */}
-            <group scale={1.5}>
-                {mol.atoms.map((atom, i) => (
-                    <mesh key={i} position={[atom.x, atom.y, atom.z]}>
-                        <sphereGeometry args={[ATOM_RADII[atom.elem] || 0.3, 32, 32]} />
-                        <meshStandardMaterial color={ATOM_COLORS[atom.elem] || 'pink'} metalness={0.2} roughness={0.3} />
-                    </mesh>
+                {/* 4 Hydrogènes */}
+                {hPos.map((p, i) => (
+                    <group key={i}>
+                        <Sphere args={[ATOM.H.r]} position={p}><meshStandardMaterial color={ATOM.H.color} /></Sphere>
+                        <Line points={[[0, 0, 0], p]} color="#888" lineWidth={2} />
+                        {showLabels && <Text position={[p[0] * 1.3, p[1] * 1.3, p[2] * 1.3]} fontSize={0.2} color="gray">H</Text>}
+                    </group>
                 ))}
-
-                {/* Standard Bonds */}
-                {bonds.map((bond, i) => (
-                    <mesh key={`bond-${i}`} position={[
-                        (bond.start[0] + bond.end[0]) / 2,
-                        (bond.start[1] + bond.end[1]) / 2,
-                        (bond.start[2] + bond.end[2]) / 2
-                    ]}
-                        rotation={new THREE.Euler().setFromQuaternion(
-                            new THREE.Quaternion().setFromUnitVectors(
-                                new THREE.Vector3(0, 1, 0),
-                                new THREE.Vector3(bond.end[0] - bond.start[0], bond.end[1] - bond.start[1], bond.end[2] - bond.start[2]).normalize()
-                            ))}
-                    >
-                        <cylinderGeometry args={[0.08, 0.08, Math.hypot(bond.end[0] - bond.start[0], bond.end[1] - bond.start[1], bond.end[2] - bond.start[2]), 8]} />
-                        <meshStandardMaterial color="#888" />
-                    </mesh>
-                ))}
-
-                {/* Extra Special Bonds (Double, Rings) */}
-                {mol.extraBonds && mol.extraBonds.map((eb, i) => {
-                    if (eb.circle) {
-                        return (
-                            <mesh key={`eb-${i}`} rotation={[Math.PI / 2, 0, 0]}>
-                                <torusGeometry args={[eb.radius, 0.05, 16, 32]} />
-                                <meshStandardMaterial color="#888" border />
-                            </mesh>
-                        )
-                    }
-                    // Else custom line
-                    return (
-                        <mesh key={`eb-${i}`} position={[
-                            (eb.start[0] + eb.end[0]) / 2,
-                            (eb.start[1] + eb.end[1]) / 2,
-                            (eb.start[2] + eb.end[2]) / 2
-                        ]}
-                            rotation={new THREE.Euler().setFromQuaternion(
-                                new THREE.Quaternion().setFromUnitVectors(
-                                    new THREE.Vector3(0, 1, 0),
-                                    new THREE.Vector3(eb.end[0] - eb.start[0], eb.end[1] - eb.start[1], eb.end[2] - eb.start[2]).normalize()
-                                ))}>
-                            <cylinderGeometry args={[0.05, 0.05, Math.hypot(eb.end[0] - eb.start[0], eb.end[1] - eb.start[1], eb.end[2] - eb.start[2]), 8]} />
-                            <meshStandardMaterial color="#888" />
-                        </mesh>
-                    );
-                })}
             </group>
 
-            {/* UI Overlay */}
-            <Html position={[6, 3, 0]}>
-                <DraggableHtmlPanel title={mode === 'explore' ? "🧪 Galerie Moléculaire" : "❓ Quiz Organique"}>
-                    <div className="p-4 w-72 text-white">
-                        {mode === 'explore' ? (
-                            <>
-                                <p className="text-sm mb-4 font-bold text-center text-[#00F5D4]">{mol.name}</p>
-                                <div className="space-y-2 mb-4">
-                                    <p className="text-xs text-gray-300">Formule: <span className="text-white font-mono">{mol.formula}</span></p>
-                                    <p className="text-xs text-gray-300">Famille: <span className="text-white">{mol.family}</span></p>
-                                </div>
-                                <div className="flex justify-between gap-2">
-                                    <button onClick={() => setCurrentMolIndex((prev) => (prev - 1 + MOLECULES_DB.length) % MOLECULES_DB.length)} className="bg-gray-700 px-3 py-1 rounded">Préc.</button>
-                                    <button onClick={() => setCurrentMolIndex((prev) => (prev + 1) % MOLECULES_DB.length)} className="bg-gray-700 px-3 py-1 rounded">Suiv.</button>
-                                </div>
-                                <button onClick={startQuiz} className="w-full mt-4 bg-gradient-to-r from-blue-600 to-purple-600 py-2 rounded font-bold hover:scale-105 transition">
-                                    Lancer le Défi Quiz 🎮
-                                </button>
-                            </>
-                        ) : (
-                            <>
-                                <p className="text-center font-bold text-yellow-400 mb-2">Score: {score}</p>
-                                {showAnswer ? (
-                                    <div className={`text-center font-bold mb-4 ${feedback.includes('Correct') ? 'text-green-400' : 'text-red-400'}`}>
-                                        {feedback}
-                                    </div>
-                                ) : (
-                                    <>
-                                        <p className="text-xs mb-3 text-center">
-                                            {quizQuestion.type === 0 ? "Quelle est la famille de cette molécule ?" : "Quel est le nom de cette molécule ?"}
-                                        </p>
-                                        <div className="grid grid-cols-1 gap-2">
-                                            {quizQuestion.options.map((opt, i) => (
-                                                <button key={i} onClick={() => checkAnswer(opt)} className="bg-gray-700 hover:bg-[#00F5D4] hover:text-black py-2 rounded text-sm transition">
-                                                    {opt}
-                                                </button>
-                                            ))}
-                                        </div>
-                                    </>
-                                )}
-                                <button onClick={() => setMode('explore')} className="mt-4 text-xs text-gray-400 hover:text-white block mx-auto underline">
-                                    Retour à la galerie
-                                </button>
-                            </>
-                        )}
+            <Text position={[0, -3, 0]} fontSize={0.4} color="#00F5D4">Méthane CH₄ - Tétravalence du Carbone</Text>
+
+            <Html position={[5, 3, 0]}>
+                <DraggableHtmlPanel title="🧪 Tétravalence du C">
+                    <div className="p-4 w-64 text-white">
+                        <p className="text-sm mb-4">Le carbone forme toujours <span className="text-[#00F5D4] font-bold">4 liaisons</span> covalentes.</p>
+                        <label className="flex items-center gap-2 text-xs">
+                            <input type="checkbox" checked={showLabels} onChange={e => setShowLabels(e.target.checked)} />
+                            Afficher les labels
+                        </label>
+                        <div className="mt-4 text-xs bg-black/30 p-2 rounded">
+                            <p>Angles de liaison: 109.5°</p>
+                            <p>Géométrie: Tétraédrique</p>
+                        </div>
                     </div>
                 </DraggableHtmlPanel>
             </Html>
@@ -305,226 +76,443 @@ export function ChimieOrganiqueSim() {
 }
 
 // ==========================================
-// C6-C11: ÉLECTROCHIMIE (REDOX & ELECTROLYSIS)
+// C2: ALCANES (Nomenclature + Combustion)
 // ==========================================
-export function RedoxElectrolyseSim() {
-    // Mode: 'pile' (Spontaneous) or 'electrolysis' (Forced)
-    const [mode, setMode] = useState('pile');
-    const [metal1, setMetal1] = useState('Zn'); // Solid
-    const [solution1, setSolution1] = useState('CuSO4'); // Ion Cu2+
-    // In simple dragging sim: we dip Metal 1 into Solution 1
+export function AlcanesSim() {
+    const [n, setN] = useState(3); // Nombre de carbones
+    const names = ['', 'Méthane', 'Éthane', 'Propane', 'Butane', 'Pentane', 'Hexane', 'Heptane', 'Octane'];
 
-    // Potentials E0 (Volts)
-    const E0 = {
-        'Ag+/Ag': 0.80,
-        'Cu2+/Cu': 0.34,
-        'H+/H2': 0.00,
-        'Fe2+/Fe': -0.44,
-        'Zn2+/Zn': -0.76,
-        'Al3+/Al': -1.66
-    };
-
-    // Reactivity Check
-    // Gamma Rule: Ox(strongest) reacts with Red(strongest)
-    // Here we dip a METAL (Red) into an ION solution (Ox).
-    // Reaction occurs if E0(Ion/Metal_Ion) > E0(Metal_Dip_Ion/Metal_Dip)
-    // Ex: Dip Zn (E0=-0.76) into Cu2+ (E0=+0.34). 0.34 > -0.76 => Reaction ! (Cu2+ becomes Cu, Zn becomes Zn2+)
-
-    const reactionInfo = useMemo(() => {
-        // Map selection to couples
-        // Soluton contains Ox. Metal is Red.
-        let oxE0 = 0;
-        let redE0 = 0;
-        let oxName = "";
-        let redName = metal1;
-
-        if (solution1 === 'CuSO4') { oxE0 = E0['Cu2+/Cu']; oxName = 'Cu2+'; }
-        if (solution1 === 'ZnSO4') { oxE0 = E0['Zn2+/Zn']; oxName = 'Zn2+'; }
-        if (solution1 === 'AgNO3') { oxE0 = E0['Ag+/Ag']; oxName = 'Ag+'; }
-        if (solution1 === 'FeSO4') { oxE0 = E0['Fe2+/Fe']; oxName = 'Fe2+'; }
-
-        // Find E0 of the metal strip
-        if (metal1 === 'Cu') redE0 = E0['Cu2+/Cu'];
-        if (metal1 === 'Zn') redE0 = E0['Zn2+/Zn'];
-        if (metal1 === 'Fe') redE0 = E0['Fe2+/Fe'];
-        if (metal1 === 'Ag') redE0 = E0['Ag+/Ag'];
-
-        const occurs = oxE0 > redE0;
-
-        return { occurs, oxName, redName, oxE0, redE0, diff: oxE0 - redE0 };
-    }, [metal1, solution1]);
-
-    // Electrolysis Params
-    const [current, setCurrent] = useState(1.0); // Amperes
-    const [time, setTime] = useState(60); // Seconds
-    const [isRunning, setIsRunning] = useState(false);
-
-    // Calculate mass deposited Faraday
-    // m = (I * t * M) / (n * F)
-    // Let's assume Copper Deposition on cathode: Cu2+ + 2e- -> Cu
-    // n=2, M=63.5, F=96500
-    const massDeposited = useMemo(() => {
-        if (!isRunning && time === 0) return 0;
-        const M = 63.5;
-        const n = 2;
-        const F = 96500;
-        return (current * time * M) / (n * F);
-    }, [current, time]);
+    const formula = `C${n}H${2 * n + 2}`;
 
     return (
         <group>
-            <ambientLight intensity={0.5} />
-            <pointLight position={[5, 5, 5]} />
-            <OrbitControls makeDefault />
+            <OrbitControls />
 
-            {/* Table */}
-            <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -2, 0]}>
-                <planeGeometry args={[10, 10]} />
-                <meshStandardMaterial color="#444" />
-            </mesh>
+            {/* Chaîne carbonée */}
+            <group position={[-(n - 1) * 0.6, 0, 0]}>
+                {Array.from({ length: n }).map((_, i) => (
+                    <group key={i} position={[i * 1.2, 0, 0]}>
+                        <Sphere args={[0.35]}><meshStandardMaterial color="#333" /></Sphere>
+                        {i < n - 1 && <Line points={[[0.35, 0, 0], [0.85, 0, 0]]} color="#888" lineWidth={3} />}
+                        {/* H en haut et en bas */}
+                        <Sphere args={[0.2]} position={[0, 0.6, 0]}><meshStandardMaterial color="#FFF" /></Sphere>
+                        <Sphere args={[0.2]} position={[0, -0.6, 0]}><meshStandardMaterial color="#FFF" /></Sphere>
+                        <Line points={[[0, 0.35, 0], [0, 0.55, 0]]} color="#888" />
+                        <Line points={[[0, -0.35, 0], [0, -0.55, 0]]} color="#888" />
+                    </group>
+                ))}
+            </group>
 
-            {mode === 'pile' ? (
-                <group>
-                    {/* Beaker */}
-                    <mesh position={[0, -0.5, 0]}>
-                        <cylinderGeometry args={[1.5, 1.5, 3, 32, 1, true]} />
-                        <meshStandardMaterial color="#AAA" transparent opacity={0.3} side={THREE.DoubleSide} />
-                    </mesh>
-                    {/* Liquid */}
-                    <mesh position={[0, -1, 0]}>
-                        <cylinderGeometry args={[1.4, 1.4, 1.8, 32]} />
-                        <meshStandardMaterial
-                            color={
-                                solution1.includes('Cu') ? '#00FFFF' :
-                                    solution1.includes('Fe') ? '#99FF99' :
-                                        '#EEEEFF'
-                            }
-                            transparent opacity={0.6}
-                        />
-                    </mesh>
+            <Text position={[0, -2, 0]} fontSize={0.5} color="#00F5D4">{names[n]} ({formula})</Text>
 
-                    {/* Metal Strip Dipping */}
-                    <mesh position={[0, 0.5, 0]}>
-                        <boxGeometry args={[0.5, 2.5, 0.1]} />
-                        <meshStandardMaterial color={
-                            metal1 === 'Cu' ? '#B87333' :
-                                metal1 === 'Zn' ? '#AFAFAF' :
-                                    metal1 === 'Fe' ? '#555555' :
-                                        '#E0E0E0' // Ag
-                        } />
-                    </mesh>
+            <Html position={[6, 3, 0]}>
+                <DraggableHtmlPanel title="⛽ Les Alcanes">
+                    <div className="p-4 w-64 text-white">
+                        <label className="text-xs font-bold">Nombre de carbones: {n}</label>
+                        <input type="range" min="1" max="8" value={n} onChange={e => setN(Number(e.target.value))} className="w-full mb-4" />
 
-                    {/* Deposit Visual if reaction */}
-                    {reactionInfo.occurs && (
-                        <mesh position={[0, -0.5, 0.06]}>
-                            <boxGeometry args={[0.52, 1.5, 0.05]} />
-                            <meshStandardMaterial color="black" roughness={1} /> {/* Dirty deposit */}
-                            <Text position={[0.6, 0, 0]} fontSize={0.2} color="white">Dépôt !</Text>
-                        </mesh>
-                    )}
+                        <div className="bg-black/30 p-2 rounded text-xs space-y-1">
+                            <p>Formule générale: <span className="font-mono text-green-400">CₙH₂ₙ₊₂</span></p>
+                            <p>Nom: <span className="text-[#00F5D4]">{names[n]}</span></p>
+                            <p>Formule: <span className="font-mono">{formula}</span></p>
+                        </div>
 
-                    <Html position={[5, 3, 0]}>
-                        <DraggableHtmlPanel title="⚗️ Expérience Redox">
-                            <div className="p-4 w-64 text-white">
-                                <div className="mb-4">
-                                    <label className="block text-xs font-bold mb-1">Lame de Métal (Réducteur):</label>
-                                    <select value={metal1} onChange={e => setMetal1(e.target.value)} className="w-full bg-gray-700 rounded p-1">
-                                        <option value="Cu">Cuivre (Cu)</option>
-                                        <option value="Zn">Zinc (Zn)</option>
-                                        <option value="Fe">Fer (Fe)</option>
-                                        <option value="Ag">Argent (Ag)</option>
-                                    </select>
-                                </div>
-                                <div className="mb-4">
-                                    <label className="block text-xs font-bold mb-1">Solution (Oxydant):</label>
-                                    <select value={solution1} onChange={e => setSolution1(e.target.value)} className="w-full bg-gray-700 rounded p-1">
-                                        <option value="CuSO4">Sulfate de Cuivre (Cu²⁺)</option>
-                                        <option value="ZnSO4">Sulfate de Zinc (Zn²⁺)</option>
-                                        <option value="FeSO4">Sulfate de Fer (Fe²⁺)</option>
-                                        <option value="AgNO3">Nitrate d'Argent (Ag⁺)</option>
-                                    </select>
-                                </div>
-                                <div className={`p-2 rounded text-xs border ${reactionInfo.occurs ? 'bg-green-900/50 border-green-500' : 'bg-red-900/50 border-red-500'}`}>
-                                    <p className="font-bold mb-1">{reactionInfo.occurs ? "RÉACTION SPONTANÉE ✅" : "RIEN NE SE PASSE ❌"}</p>
-                                    <p>Gammas: ΔE = {reactionInfo.diff.toFixed(2)} V</p>
-                                    {reactionInfo.occurs && (
-                                        <p className="mt-1 italic">{metal1} est rongé, {reactionInfo.oxName} devient métal.</p>
-                                    )}
-                                </div>
-                            </div>
-                        </DraggableHtmlPanel>
-                    </Html>
-                </group>
-            ) : (
-                <group>
-                    {/* Electrolysis Mode */}
-                    <mesh position={[0, -0.5, 0]}>
-                        <cylinderGeometry args={[1.5, 1.5, 3, 32, 1, true]} />
-                        <meshStandardMaterial color="#AAA" transparent opacity={0.3} side={THREE.DoubleSide} />
-                    </mesh>
-                    <mesh position={[0, -1, 0]}>
-                        <cylinderGeometry args={[1.4, 1.4, 1.8, 32]} />
-                        <meshStandardMaterial color="#00FFFF" transparent opacity={0.6} />
-                    </mesh>
-
-                    {/* Electrodes */}
-                    <mesh position={[-0.5, 0.5, 0]}>
-                        <cylinderGeometry args={[0.1, 0.1, 2.5]} />
-                        <meshStandardMaterial color="#333" />
-                    </mesh>
-                    <Text position={[-0.5, 1.8, 0]} fontSize={0.2} color="red">Anode (+)</Text>
-
-                    <mesh position={[0.5, 0.5, 0]}>
-                        <cylinderGeometry args={[0.1, 0.1, 2.5]} />
-                        <meshStandardMaterial color="#333" />
-                    </mesh>
-                    <Text position={[0.5, 1.8, 0]} fontSize={0.2} color="blue">Cathode (-)</Text>
-
-                    {/* Bubbles / Deposit simulation */}
-                    {current > 0 && (
-                        <group position={[0.5, -1, 0]}>
-                            {/* Cathode Deposit */}
-                            <mesh>
-                                <cylinderGeometry args={[0.12, 0.12, 1.5]} />
-                                <meshStandardMaterial color="#B87333" />
-                            </mesh>
-                        </group>
-                    )}
-
-                    <Html position={[5, 3, 0]}>
-                        <DraggableHtmlPanel title="⚡ Électrolyse (Cu)">
-                            <div className="p-4 w-64 text-white">
-                                <label className="block text-xs mb-1">Intensité I: {current} A</label>
-                                <input type="range" min="0" max="5" step="0.1" value={current} onChange={e => setCurrent(Number(e.target.value))} className="w-full mb-2" />
-
-                                <label className="block text-xs mb-1">Durée t: {time} s</label>
-                                <input type="range" min="0" max="3600" step="60" value={time} onChange={e => setTime(Number(e.target.value))} className="w-full mb-2" />
-
-                                <div className="bg-black/30 p-2 rounded text-xs mt-2">
-                                    <p className="font-bold underline mb-1">Loi de Faraday:</p>
-                                    <p>m = (I × t × M) / (n × F)</p>
-                                    <p className="text-yellow-400 font-bold text-sm mt-1">
-                                        Masse déposée : {(massDeposited * 1000).toFixed(1)} mg
-                                    </p>
-                                </div>
-                            </div>
-                        </DraggableHtmlPanel>
-                    </Html>
-                </group>
-            )}
-
-            {/* Mode Switcher */}
-            <Html position={[-6, 4, 0]}>
-                <div className="flex flex-col gap-2">
-                    <button onClick={() => setMode('pile')} className={`px-4 py-2 rounded font-bold ${mode === 'pile' ? 'bg-[#00F5D4] text-black' : 'bg-gray-800 text-white'}`}>
-                        🧪 Piles & Gamma
-                    </button>
-                    <button onClick={() => setMode('electrolysis')} className={`px-4 py-2 rounded font-bold ${mode === 'electrolysis' ? 'bg-[#00F5D4] text-black' : 'bg-gray-800 text-white'}`}>
-                        ⚡ Électrolyse
-                    </button>
-                </div>
+                        <div className="mt-4 text-xs text-gray-400">
+                            <p className="font-bold text-orange-400">Combustion:</p>
+                            <p>CₙH₂ₙ₊₂ + O₂ → CO₂ + H₂O</p>
+                        </div>
+                    </div>
+                </DraggableHtmlPanel>
             </Html>
-
         </group>
     );
 }
+
+// ==========================================
+// C3: ALCÈNES (Double liaison)
+// ==========================================
+export function AlcenesSim() {
+    const groupRef = useRef();
+    useFrame(() => { if (groupRef.current) groupRef.current.rotation.y += 0.005; });
+
+    return (
+        <group>
+            <OrbitControls />
+            <group ref={groupRef} scale={1.5}>
+                {/* Éthène C2H4 */}
+                <Sphere args={[0.35]} position={[-0.6, 0, 0]}><meshStandardMaterial color="#333" /></Sphere>
+                <Sphere args={[0.35]} position={[0.6, 0, 0]}><meshStandardMaterial color="#333" /></Sphere>
+
+                {/* Double liaison */}
+                <Line points={[[-0.25, 0.1, 0], [0.25, 0.1, 0]]} color="#00FF00" lineWidth={4} />
+                <Line points={[[-0.25, -0.1, 0], [0.25, -0.1, 0]]} color="#00FF00" lineWidth={4} />
+
+                {/* Hydrogènes */}
+                <Sphere args={[0.2]} position={[-1.1, 0.5, 0]}><meshStandardMaterial color="#FFF" /></Sphere>
+                <Sphere args={[0.2]} position={[-1.1, -0.5, 0]}><meshStandardMaterial color="#FFF" /></Sphere>
+                <Sphere args={[0.2]} position={[1.1, 0.5, 0]}><meshStandardMaterial color="#FFF" /></Sphere>
+                <Sphere args={[0.2]} position={[1.1, -0.5, 0]}><meshStandardMaterial color="#FFF" /></Sphere>
+
+                <Line points={[[-0.6, 0, 0], [-1.1, 0.5, 0]]} color="#888" />
+                <Line points={[[-0.6, 0, 0], [-1.1, -0.5, 0]]} color="#888" />
+                <Line points={[[0.6, 0, 0], [1.1, 0.5, 0]]} color="#888" />
+                <Line points={[[0.6, 0, 0], [1.1, -0.5, 0]]} color="#888" />
+            </group>
+
+            <Text position={[0, -2.5, 0]} fontSize={0.4} color="#00FF00">Éthène C₂H₄ - Double Liaison C=C</Text>
+
+            <Html position={[5, 3, 0]}>
+                <DraggableHtmlPanel title="🧬 Alcènes">
+                    <div className="p-4 w-64 text-white">
+                        <p className="text-sm mb-2">Formule: <span className="font-mono text-green-400">CₙH₂ₙ</span></p>
+                        <div className="bg-green-900/30 border border-green-500 p-2 rounded text-xs mb-4">
+                            <p className="font-bold">Double liaison C=C</p>
+                            <p>Site de réactivité intense</p>
+                        </div>
+                        <div className="text-xs text-gray-400">
+                            <p className="font-bold text-yellow-400">Réactions d'addition:</p>
+                            <p>• Hydrogénation: + H₂</p>
+                            <p>• Halogénation: + Br₂</p>
+                            <p>• Hydratation: + H₂O</p>
+                        </div>
+                    </div>
+                </DraggableHtmlPanel>
+            </Html>
+        </group>
+    );
+}
+
+// ==========================================
+// C4: BENZÈNE (Cycle aromatique)
+// ==========================================
+export function BenzeneSim() {
+    const groupRef = useRef();
+    useFrame(() => { if (groupRef.current) groupRef.current.rotation.y += 0.003; });
+
+    const angle = (i) => (i * Math.PI * 2) / 6;
+    const r = 1.2;
+
+    return (
+        <group>
+            <OrbitControls />
+            <group ref={groupRef}>
+                {/* 6 Carbones en hexagone */}
+                {Array.from({ length: 6 }).map((_, i) => (
+                    <group key={i}>
+                        <Sphere args={[0.3]} position={[r * Math.cos(angle(i)), r * Math.sin(angle(i)), 0]}>
+                            <meshStandardMaterial color="#333" />
+                        </Sphere>
+                        {/* Liaison vers le suivant */}
+                        <Line points={[
+                            [r * Math.cos(angle(i)), r * Math.sin(angle(i)), 0],
+                            [r * Math.cos(angle(i + 1)), r * Math.sin(angle(i + 1)), 0]
+                        ]} color="#888" lineWidth={2} />
+                        {/* H vers l'extérieur */}
+                        <Sphere args={[0.15]} position={[1.8 * Math.cos(angle(i)), 1.8 * Math.sin(angle(i)), 0]}>
+                            <meshStandardMaterial color="#FFF" />
+                        </Sphere>
+                        <Line points={[
+                            [r * Math.cos(angle(i)), r * Math.sin(angle(i)), 0],
+                            [1.7 * Math.cos(angle(i)), 1.7 * Math.sin(angle(i)), 0]
+                        ]} color="#888" />
+                    </group>
+                ))}
+                {/* Cercle central (délocalisation) */}
+                <mesh rotation={[Math.PI / 2, 0, 0]}>
+                    <torusGeometry args={[0.6, 0.05, 16, 32]} />
+                    <meshStandardMaterial color="#FF00FF" />
+                </mesh>
+            </group>
+
+            <Text position={[0, -2.5, 0]} fontSize={0.4} color="#FF00FF">Benzène C₆H₆ - Aromatique</Text>
+
+            <Html position={[5, 3, 0]}>
+                <DraggableHtmlPanel title="💎 Benzène">
+                    <div className="p-4 w-64 text-white">
+                        <p className="text-sm mb-2">Formule: <span className="font-mono text-pink-400">C₆H₆</span></p>
+                        <div className="bg-pink-900/30 border border-pink-500 p-2 rounded text-xs mb-4">
+                            <p className="font-bold">Électrons π délocalisés</p>
+                            <p>Stabilité aromatique exceptionnelle</p>
+                        </div>
+                        <div className="text-xs text-gray-400">
+                            <p className="font-bold text-yellow-400">Réactions de substitution:</p>
+                            <p>• Nitration: → Nitrobenzène</p>
+                            <p>• Halogénation (catalysée)</p>
+                        </div>
+                    </div>
+                </DraggableHtmlPanel>
+            </Html>
+        </group>
+    );
+}
+
+// ==========================================
+// C5: COMPOSÉS OXYGÉNÉS (Alcools, Aldéhydes, Cétones)
+// ==========================================
+export function ComposesOxygenesSim() {
+    const [type, setType] = useState('alcool');
+    const groupRef = useRef();
+    useFrame(() => { if (groupRef.current) groupRef.current.rotation.y += 0.005; });
+
+    return (
+        <group>
+            <OrbitControls />
+            <group ref={groupRef} scale={1.3}>
+                {type === 'alcool' && (
+                    <>
+                        {/* Éthanol: CH3-CH2-OH */}
+                        <Sphere args={[0.3]} position={[-1, 0, 0]}><meshStandardMaterial color="#333" /></Sphere>
+                        <Sphere args={[0.3]} position={[0, 0, 0]}><meshStandardMaterial color="#333" /></Sphere>
+                        <Sphere args={[0.3]} position={[1, 0, 0]}><meshStandardMaterial color="#F00" /></Sphere>
+                        <Sphere args={[0.2]} position={[1.6, 0.4, 0]}><meshStandardMaterial color="#FFF" /></Sphere>
+                        <Line points={[[-1, 0, 0], [0, 0, 0]]} color="#888" lineWidth={2} />
+                        <Line points={[[0, 0, 0], [1, 0, 0]]} color="#888" lineWidth={2} />
+                        <Line points={[[1, 0, 0], [1.6, 0.4, 0]]} color="#888" lineWidth={2} />
+                        <Text position={[1, -0.6, 0]} fontSize={0.3} color="#F00">-OH</Text>
+                    </>
+                )}
+                {type === 'aldehyde' && (
+                    <>
+                        <Sphere args={[0.3]} position={[-0.6, 0, 0]}><meshStandardMaterial color="#333" /></Sphere>
+                        <Sphere args={[0.3]} position={[0.6, 0, 0]}><meshStandardMaterial color="#333" /></Sphere>
+                        <Sphere args={[0.25]} position={[0.6, 0.8, 0]}><meshStandardMaterial color="#F00" /></Sphere>
+                        <Line points={[[0.6, 0.3, 0], [0.6, 0.55, 0]]} color="#F00" lineWidth={3} />
+                        <Line points={[[0.5, 0.35, 0], [0.5, 0.5, 0]]} color="#F00" lineWidth={3} />
+                        <Sphere args={[0.15]} position={[1.2, -0.3, 0]}><meshStandardMaterial color="#FFF" /></Sphere>
+                        <Text position={[0.6, -0.6, 0]} fontSize={0.3} color="#F00">-CHO</Text>
+                    </>
+                )}
+                {type === 'cetone' && (
+                    <>
+                        <Sphere args={[0.3]} position={[-1, 0, 0]}><meshStandardMaterial color="#333" /></Sphere>
+                        <Sphere args={[0.3]} position={[0, 0, 0]}><meshStandardMaterial color="#333" /></Sphere>
+                        <Sphere args={[0.3]} position={[1, 0, 0]}><meshStandardMaterial color="#333" /></Sphere>
+                        <Sphere args={[0.25]} position={[0, 0.8, 0]}><meshStandardMaterial color="#F00" /></Sphere>
+                        <Line points={[[0, 0.3, 0], [0, 0.55, 0]]} color="#F00" lineWidth={3} />
+                        <Line points={[[-0.1, 0.35, 0], [-0.1, 0.5, 0]]} color="#F00" lineWidth={3} />
+                        <Text position={[0, -0.6, 0]} fontSize={0.3} color="#F00">C=O</Text>
+                    </>
+                )}
+            </group>
+
+            <Html position={[5, 3, 0]}>
+                <DraggableHtmlPanel title="🧪 Composés Oxygénés">
+                    <div className="p-4 w-64 text-white">
+                        <div className="flex gap-1 mb-4">
+                            <button onClick={() => setType('alcool')} className={`flex-1 py-1 rounded text-xs ${type === 'alcool' ? 'bg-red-500' : 'bg-gray-700'}`}>Alcool</button>
+                            <button onClick={() => setType('aldehyde')} className={`flex-1 py-1 rounded text-xs ${type === 'aldehyde' ? 'bg-red-500' : 'bg-gray-700'}`}>Aldéhyde</button>
+                            <button onClick={() => setType('cetone')} className={`flex-1 py-1 rounded text-xs ${type === 'cetone' ? 'bg-red-500' : 'bg-gray-700'}`}>Cétone</button>
+                        </div>
+                        <div className="text-xs bg-black/30 p-2 rounded">
+                            {type === 'alcool' && <><p className="font-bold text-red-400">Groupe hydroxyle -OH</p><p>Oxydation → Aldéhyde ou Cétone</p></>}
+                            {type === 'aldehyde' && <><p className="font-bold text-red-400">Groupe -CHO</p><p>Test Fehling: Précipité rouge</p></>}
+                            {type === 'cetone' && <><p className="font-bold text-red-400">Groupe C=O (interne)</p><p>Test DNPH: Précipité jaune</p></>}
+                        </div>
+                    </div>
+                </DraggableHtmlPanel>
+            </Html>
+        </group>
+    );
+}
+
+// ==========================================
+// C6-C9: REDOX (Règle du Gamma)
+// ==========================================
+export function RedoxGammaSim() {
+    const [metal, setMetal] = useState('Zn');
+    const [solution, setSolution] = useState('CuSO4');
+
+    const E0 = { 'Ag': 0.80, 'Cu': 0.34, 'Fe': -0.44, 'Zn': -0.76 };
+    const ionE0 = { 'AgNO3': 0.80, 'CuSO4': 0.34, 'FeSO4': -0.44, 'ZnSO4': -0.76 };
+
+    const metalE = E0[metal];
+    const solE = ionE0[solution];
+    const reaction = solE > metalE;
+
+    return (
+        <group>
+            <OrbitControls />
+
+            {/* Bécher */}
+            <mesh position={[0, -0.5, 0]}>
+                <cylinderGeometry args={[1.5, 1.5, 3, 32, 1, true]} />
+                <meshStandardMaterial color="#AAA" transparent opacity={0.3} side={THREE.DoubleSide} />
+            </mesh>
+            <mesh position={[0, -1, 0]}>
+                <cylinderGeometry args={[1.4, 1.4, 1.8, 32]} />
+                <meshStandardMaterial color={solution.includes('Cu') ? '#00AACC' : solution.includes('Fe') ? '#99DD99' : '#EEEEFF'} transparent opacity={0.6} />
+            </mesh>
+
+            {/* Lame métallique */}
+            <Box args={[0.4, 2.5, 0.1]} position={[0, 0.5, 0]}>
+                <meshStandardMaterial color={metal === 'Cu' ? '#B87333' : metal === 'Zn' ? '#AFAFAF' : '#555'} />
+            </Box>
+
+            {/* Dépôt si réaction */}
+            {reaction && (
+                <Box args={[0.42, 1.2, 0.12]} position={[0, -0.3, 0.02]}>
+                    <meshStandardMaterial color="#222" />
+                </Box>
+            )}
+
+            <Html position={[5, 3, 0]}>
+                <DraggableHtmlPanel title="⚗️ Règle du Gamma">
+                    <div className="p-4 w-64 text-white">
+                        <div className="mb-3">
+                            <label className="text-xs font-bold">Lame métallique:</label>
+                            <select value={metal} onChange={e => setMetal(e.target.value)} className="w-full bg-gray-700 rounded p-1 text-sm">
+                                <option value="Cu">Cuivre (E°=+0.34V)</option>
+                                <option value="Zn">Zinc (E°=-0.76V)</option>
+                                <option value="Fe">Fer (E°=-0.44V)</option>
+                            </select>
+                        </div>
+                        <div className="mb-4">
+                            <label className="text-xs font-bold">Solution:</label>
+                            <select value={solution} onChange={e => setSolution(e.target.value)} className="w-full bg-gray-700 rounded p-1 text-sm">
+                                <option value="CuSO4">Sulfate de Cuivre (Cu²⁺)</option>
+                                <option value="ZnSO4">Sulfate de Zinc (Zn²⁺)</option>
+                                <option value="FeSO4">Sulfate de Fer (Fe²⁺)</option>
+                            </select>
+                        </div>
+                        <div className={`p-2 rounded text-xs border ${reaction ? 'bg-green-900/50 border-green-500' : 'bg-red-900/50 border-red-500'}`}>
+                            <p className="font-bold">{reaction ? '✅ RÉACTION SPONTANÉE' : '❌ PAS DE RÉACTION'}</p>
+                            <p className="mt-1">ΔE° = {(solE - metalE).toFixed(2)} V</p>
+                            {reaction && <p className="italic mt-1">L'oxydant le plus fort réagit avec le réducteur le plus fort.</p>}
+                        </div>
+                    </div>
+                </DraggableHtmlPanel>
+            </Html>
+        </group>
+    );
+}
+
+// ==========================================
+// C10: ÉLECTROLYSE (Loi de Faraday)
+// ==========================================
+export function ElectrolyseSim() {
+    const [current, setCurrent] = useState(2);
+    const [time, setTime] = useState(600);
+
+    const M = 63.5; const n = 2; const F = 96500;
+    const mass = (current * time * M) / (n * F);
+
+    return (
+        <group>
+            <OrbitControls />
+
+            {/* Cuve */}
+            <mesh position={[0, -0.5, 0]}>
+                <cylinderGeometry args={[1.5, 1.5, 3, 32, 1, true]} />
+                <meshStandardMaterial color="#AAA" transparent opacity={0.3} side={THREE.DoubleSide} />
+            </mesh>
+            <mesh position={[0, -1, 0]}>
+                <cylinderGeometry args={[1.4, 1.4, 1.8, 32]} />
+                <meshStandardMaterial color="#00AACC" transparent opacity={0.6} />
+            </mesh>
+
+            {/* Électrodes */}
+            <Cylinder args={[0.1, 0.1, 2.5]} position={[-0.6, 0.3, 0]}><meshStandardMaterial color="#333" /></Cylinder>
+            <Text position={[-0.6, 1.8, 0]} fontSize={0.2} color="red">Anode (+)</Text>
+
+            <Cylinder args={[0.1, 0.1, 2.5]} position={[0.6, 0.3, 0]}><meshStandardMaterial color="#333" /></Cylinder>
+            <Text position={[0.6, 1.8, 0]} fontSize={0.2} color="blue">Cathode (-)</Text>
+
+            {/* Dépôt de cuivre */}
+            <Cylinder args={[0.12, 0.12, Math.min(mass * 2, 1.5)]} position={[0.6, -0.5, 0]}>
+                <meshStandardMaterial color="#B87333" />
+            </Cylinder>
+
+            <Html position={[5, 3, 0]}>
+                <DraggableHtmlPanel title="⚡ Électrolyse">
+                    <div className="p-4 w-64 text-white">
+                        <div className="mb-3">
+                            <label className="text-xs">Intensité I: {current} A</label>
+                            <input type="range" min="0.5" max="5" step="0.1" value={current} onChange={e => setCurrent(Number(e.target.value))} className="w-full" />
+                        </div>
+                        <div className="mb-4">
+                            <label className="text-xs">Durée t: {time} s ({(time / 60).toFixed(0)} min)</label>
+                            <input type="range" min="60" max="3600" step="60" value={time} onChange={e => setTime(Number(e.target.value))} className="w-full" />
+                        </div>
+                        <div className="bg-black/40 p-2 rounded text-xs">
+                            <p className="font-bold text-gray-400">Loi de Faraday:</p>
+                            <p>m = (I × t × M) / (n × F)</p>
+                            <p className="text-xl font-bold text-[#00F5D4] mt-2">{(mass * 1000).toFixed(1)} mg</p>
+                            <p className="text-gray-400">de cuivre déposé</p>
+                        </div>
+                    </div>
+                </DraggableHtmlPanel>
+            </Html>
+        </group>
+    );
+}
+
+// ==========================================
+// C11: VOIE SÈCHE (Aluminothermie)
+// ==========================================
+export function VoieSecheSimulation() {
+    const [isReacting, setIsReacting] = useState(false);
+    const flameRef = useRef();
+
+    useFrame((state) => {
+        if (flameRef.current && isReacting) {
+            flameRef.current.scale.y = 1 + Math.sin(state.clock.elapsedTime * 10) * 0.3;
+        }
+    });
+
+    return (
+        <group>
+            <OrbitControls />
+
+            {/* Creuset */}
+            <mesh position={[0, -1, 0]}>
+                <cylinderGeometry args={[1, 0.8, 1.5, 32]} />
+                <meshStandardMaterial color="#666" />
+            </mesh>
+
+            {/* Mélange réactif */}
+            <mesh position={[0, -0.3, 0]}>
+                <cylinderGeometry args={[0.7, 0.7, 0.4, 32]} />
+                <meshStandardMaterial color={isReacting ? "#FF4400" : "#AA6633"} emissive={isReacting ? "#FF2200" : "#000"} emissiveIntensity={isReacting ? 0.5 : 0} />
+            </mesh>
+
+            {/* Flamme */}
+            {isReacting && (
+                <group ref={flameRef} position={[0, 0.5, 0]}>
+                    <mesh>
+                        <coneGeometry args={[0.3, 1.5, 16]} />
+                        <meshStandardMaterial color="#FF6600" emissive="#FF4400" transparent opacity={0.8} />
+                    </mesh>
+                    <pointLight color="#FF6600" intensity={2} distance={5} />
+                </group>
+            )}
+
+            <Text position={[0, -2.5, 0]} fontSize={0.3} color="#FF6600">
+                {isReacting ? "Fe₂O₃ + 2Al → 2Fe + Al₂O₃" : "Aluminothermie"}
+            </Text>
+
+            <Html position={[5, 3, 0]}>
+                <DraggableHtmlPanel title="🔥 Voie Sèche">
+                    <div className="p-4 w-64 text-white">
+                        <p className="text-sm mb-4">Réduction par l'aluminium à haute température.</p>
+                        <button
+                            onClick={() => { setIsReacting(true); setTimeout(() => setIsReacting(false), 5000); }}
+                            className="w-full py-2 bg-orange-600 hover:bg-orange-500 rounded font-bold"
+                            disabled={isReacting}
+                        >
+                            {isReacting ? '🔥 Réaction en cours...' : 'Déclencher la réaction'}
+                        </button>
+                        <div className="mt-4 text-xs bg-black/30 p-2 rounded">
+                            <p className="font-bold text-orange-400">Aluminothermie:</p>
+                            <p>Fe₂O₃ + 2Al → 2Fe + Al₂O₃</p>
+                            <p className="mt-2 text-gray-400">T° ≈ 2500°C</p>
+                        </div>
+                    </div>
+                </DraggableHtmlPanel>
+            </Html>
+        </group>
+    );
+}
+
+// Keep old exports for compatibility
+export { ChimieOrgaGeneralSim as ChimieOrganiqueSim };
+export { RedoxGammaSim as RedoxElectrolyseSim };

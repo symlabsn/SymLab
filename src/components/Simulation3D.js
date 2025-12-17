@@ -61,8 +61,8 @@ import { VirtualChemLab } from './VirtualChemLab';
 import { SeparationLab } from './Chimie2SImmersive';
 import { AtomicStructureAdvanced, MoleScaleAdvanced, LewisStructureAdvanced, EquationBalancerAdvanced } from './Chimie2SAdvanced';
 import { DilutionAdvanced, TitrageAdvanced, PHIndicateursAdvanced, TestsIonsAdvanced } from './Chimie2SAdvancedPart2';
-import { EnergieMecaniqueSim, ElectrostatiqueSim, OptiqueLentilleSim, OndesSim, ElectroniqueSim } from './Physique1ereSimulations';
-import { ChimieOrganiqueSim, RedoxElectrolyseSim } from './Chimie1ereSimulations';
+import { TravailPuissanceSim, EnergieCinetiqueSim, EnergieMecaniqueSim, ElectrostatiqueSim, OptiqueLentilleSim, OndesSim, ElectroniqueSim } from './Physique1ereSimulations';
+import { ChimieOrgaGeneralSim, AlcanesSim, AlcenesSim, BenzeneSim, ComposesOxygenesSim, RedoxGammaSim, ElectrolyseSim, VoieSecheSimulation } from './Chimie1ereSimulations';
 
 
 
@@ -4650,7 +4650,11 @@ export default function Simulation3D({ type = 'atom', config = {} }) {
                 return <VirtualChemLab scenario="C10" />;
 
             // === PHYSIQUE 1ERE S - SIMULATIONS ===
-            case 'p1s-mecanique': // P1-P3
+            case 'p1s-travail': // P1
+                return <TravailPuissanceSim />;
+            case 'p1s-cinetique': // P2
+                return <EnergieCinetiqueSim />;
+            case 'p1s-mecanique': // P3
                 return <EnergieMecaniqueSim />;
             case 'p1s-electro': // P5-P6
                 return <ElectrostatiqueSim />;
@@ -4662,10 +4666,22 @@ export default function Simulation3D({ type = 'atom', config = {} }) {
                 return <ElectroniqueSim />;
 
             // === CHIMIE 1ERE S - SIMULATIONS ===
-            case 'c1s-orga':
-                return <ChimieOrganiqueSim />;
-            case 'c1s-redox':
-                return <RedoxElectrolyseSim />;
+            case 'c1s-general': // C1
+                return <ChimieOrgaGeneralSim />;
+            case 'c1s-alcanes': // C2
+                return <AlcanesSim />;
+            case 'c1s-alcenes': // C3
+                return <AlcenesSim />;
+            case 'c1s-benzene': // C4
+                return <BenzeneSim />;
+            case 'c1s-oxygenes': // C5
+                return <ComposesOxygenesSim />;
+            case 'c1s-redox': // C6-C9
+                return <RedoxGammaSim />;
+            case 'c1s-electrolyse': // C10
+                return <ElectrolyseSim />;
+            case 'c1s-voieseche': // C11
+                return <VoieSecheSimulation />;
 
             default:
                 return <Atom {...config} />;

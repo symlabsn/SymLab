@@ -11,7 +11,7 @@ export const chimie1sData = {
             id: 'c1s-01',
             part: 'Chimie Organique',
             title: 'C1. Généralités sur la chimie organique',
-            simulation: { id: 'c1s-orga', title: '🧪 Galerie Moléculaire' },
+            simulation: { id: 'c1s-general', title: '🧪 Tétravalence du Carbone' },
             image: '/images/courses/c1s_chimie_organique.png',
             story: "La chimie du carbone est celle de la vie. Du plastique à l'ADN, le carbone est l'architecte des molécules complexes.",
             content: `
@@ -45,7 +45,7 @@ Des isomères ont la même formule brute mais des formules développées différ
             id: 'c1s-02',
             part: 'Chimie Organique',
             title: 'C2. Les Alcanes',
-            simulation: { id: 'c1s-orga', title: '🧪 Galerie Moléculaire' },
+            simulation: { id: 'c1s-alcanes', title: '⛽ Les Alcanes' },
             image: '/images/courses/c1s_alcanes.png',
             story: "Les hydrocarbures les plus simples. Le gaz naturel et l'essence en sont constitués.",
             content: `
@@ -80,7 +80,7 @@ $$ C_n H_{2n+2} $$
             id: 'c1s-03',
             part: 'Chimie Organique',
             title: 'C3. Alcènes et Alcynes',
-            simulation: { id: 'c1s-orga', title: '🧪 Galerie Moléculaire' },
+            simulation: { id: 'c1s-alcenes', title: '🧬 Alcènes & Double Liaison' },
             image: '/images/courses/c1s_alcenes_alcynes.png',
             story: "L'insaturation change tout. La double ou triple liaison est un site de réactivité intense.",
             content: `
@@ -111,7 +111,7 @@ L'acétylène ($C_2H_2$) est utilisé pour la soudure (flamme très chaude).
             id: 'c1s-04',
             part: 'Chimie Organique',
             title: 'C4. Le Benzène',
-            simulation: { id: 'c1s-orga', title: '🧪 Galerie Moléculaire' },
+            simulation: { id: 'c1s-benzene', title: '💎 Benzène Aromatique' },
             image: '/images/courses/c1s_benzene.png',
             story: "Un cycle parfait, une stabilité exceptionnelle. Le benzène inaugure la famille des aromatiques.",
             content: `
@@ -143,7 +143,7 @@ Contrairement aux alcènes, le benzène préfère la **substitution** à l'addit
             id: 'c1s-05',
             part: 'Chimie Organique',
             title: 'C5. Les composés oxygénés',
-            simulation: { id: 'c1s-orga', title: '🧪 Galerie Moléculaire' },
+            simulation: { id: 'c1s-oxygenes', title: '🧪 Composés Oxygénés' },
             image: '/images/courses/c1s_composes_oxygenes.png',
             story: "Ajoutons un atome d'oxygène. L'alcool, le parfum des fruits, l'odeur du formol... tout change.",
             content: `
@@ -273,7 +273,7 @@ Utiliser une réaction d'oxydoréduction rapide et totale pour titrer une espèc
             id: 'c1s-10',
             part: 'Électrochimie',
             title: 'C10. Électrolyse',
-            simulation: { id: 'c1s-redox', title: '⚡ Électrolyse' },
+            simulation: { id: 'c1s-electrolyse', title: '⚡ Électrolyse' },
             image: '/images/courses/c1s_electrolyse.png',
             story: "Forcer la nature. Avec de l'énergie électrique, on peut inverser le sens spontané des réactions chimiques.",
             content: `
@@ -304,7 +304,7 @@ Nombre de moles d'électrons : $n(e^-) = \\frac{Q}{F}$ avec $F \\approx 96500 C/
             id: 'c1s-11',
             part: 'Électrochimie',
             title: 'C11. Oxydoréduction par voie sèche',
-            story: "La métallurgie. Extraire le fer de son minerai dans un haut fourneau, c'est de la chimie sèche (sans eau).",
+            simulation: { id: 'c1s-voieseche', title: '🔥 Voie Sèche' },
             image: '/images/courses/c1s_voie_seche.png',
             content: `
 ### 1. Réduction des oxydes métalliques
