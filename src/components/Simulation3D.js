@@ -61,6 +61,8 @@ import { VirtualChemLab } from './VirtualChemLab';
 import { SeparationLab } from './Chimie2SImmersive';
 import { AtomicStructureAdvanced, MoleScaleAdvanced, LewisStructureAdvanced, EquationBalancerAdvanced } from './Chimie2SAdvanced';
 import { DilutionAdvanced, TitrageAdvanced, PHIndicateursAdvanced, TestsIonsAdvanced } from './Chimie2SAdvancedPart2';
+import { EnergieMecaniqueSim, ElectrostatiqueSim, OptiqueLentilleSim, OndesSim, ElectroniqueSim } from './Physique1ereSimulations';
+import { ChimieOrganiqueSim, RedoxElectrolyseSim } from './Chimie1ereSimulations';
 
 
 
@@ -4646,6 +4648,24 @@ export default function Simulation3D({ type = 'atom', config = {} }) {
                 return <VirtualChemLab scenario="C9" />;
             case 'virtual-lab-c10':
                 return <VirtualChemLab scenario="C10" />;
+
+            // === PHYSIQUE 1ERE S - SIMULATIONS ===
+            case 'p1s-mecanique': // P1-P3
+                return <EnergieMecaniqueSim />;
+            case 'p1s-electro': // P5-P6
+                return <ElectrostatiqueSim />;
+            case 'p1s-ondes': // P10
+                return <OndesSim />;
+            case 'p1s-optique': // P11
+                return <OptiqueLentilleSim />;
+            case 'p1s-electronique': // P7-P9
+                return <ElectroniqueSim />;
+
+            // === CHIMIE 1ERE S - SIMULATIONS ===
+            case 'c1s-orga':
+                return <ChimieOrganiqueSim />;
+            case 'c1s-redox':
+                return <RedoxElectrolyseSim />;
 
             default:
                 return <Atom {...config} />;

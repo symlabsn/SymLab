@@ -46,6 +46,7 @@ Puissance instantanée : $P(t) = \\vec{F} \\cdot \\vec{v}$.
             id: 'p1s-02',
             part: 'Énergie - Champs',
             title: 'P2. Énergie cinétique',
+            simulation: { id: 'p1s-mecanique', title: '🎢 Montagnes Russes (Énergie)' },
             story: "Un objet en mouvement possède une énergie liée à sa vitesse. C'est l'énergie du mouvement.",
             content: `
 ### 1. Définition
@@ -77,6 +78,7 @@ $$ \\Delta E_c = E_{cB} - E_{cA} = \\sum W_{AB}(\\vec{F}_{ext}) $$
             id: 'p1s-03',
             part: 'Énergie - Champs',
             title: 'P3. Énergie potentielle. Énergie mécanique',
+            simulation: { id: 'p1s-mecanique', title: '🎢 Montagnes Russes (Énergie)' },
             story: "L'énergie peut être stockée (potentielle) et transformée en mouvement. La conservation de l'énergie est un principe clé.",
             content: `
 ### 1. Énergie Potentielle de Pesanteur ($E_{pp}$)
@@ -143,6 +145,7 @@ $L$ : Chaleur latente de changement d'état.
             id: 'p1s-05',
             part: 'Énergie - Champs',
             title: 'P5. Force et champ électrostatiques',
+            simulation: { id: 'p1s-electro', title: '⚡ Champ Électrique' },
             story: "L'électricité statique n'est pas de la magie. C'est l'action à distance entre charges électriques.",
             content: `
 ### 1. Loi de Coulomb
@@ -204,6 +207,7 @@ L'énergie mécanique d'une particule chargée se conserve dans un champ électr
             id: 'p1s-07',
             part: 'Énergie - Champs',
             title: 'P7. Énergie dans un circuit électrique',
+            simulation: { id: 'p1s-electronique', title: '⚡ Labo Électronique' },
             story: "Générateurs et récepteurs échangent de l'énergie. Bilan de puissance.",
             content: `
 ### 1. Effet Joule
@@ -232,6 +236,7 @@ $$ W_J = R I^2 \\Delta t $$
             id: 'p1s-08',
             part: 'Énergie - Champs',
             title: 'P8. Condensateurs',
+            simulation: { id: 'p1s-electronique', title: '⚡ Labo Électronique' },
             story: "Stocker des charges pour les libérer brutalement : c'est le rôle du condensateur (flash d'appareil photo).",
             content: `
 ### 1. Capacité
@@ -266,6 +271,7 @@ $$ E = \\frac{1}{2} C U^2 = \\frac{1}{2} \\frac{q^2}{C} $$
             id: 'p1s-09',
             part: 'Électronique',
             title: 'P9. Amplificateur Opérationnel',
+            simulation: { id: 'p1s-electronique', title: '⚡ Labo Électronique' },
             story: "L'A.O. est le couteau suisse de l'électronique analogique. Il peut additionner, intégrer ou dériver des signaux.",
             content: `
 ### 1. L'A.O. Idéal (Régime Linéaire)
@@ -300,6 +306,7 @@ Courants d'entrée nuls : $i_+ = i_- = 0$.
             id: 'p1s-10',
             part: 'Phénomènes Vibratoires',
             title: 'P10. Propagation et Ondes',
+            simulation: { id: 'p1s-ondes', title: '🌊 Cuve à Ondes' },
             story: "Le son, la lumière, les vagues, les séismes... Tout est onde.",
             content: `
 ### 1. Onde Progressive
@@ -335,6 +342,7 @@ Superposition de deux ondes synchrones. Création de franges d'amplitude maximal
             id: 'p1s-11',
             part: 'Optique',
             title: 'P11. Lentilles minces',
+            simulation: { id: 'p1s-optique', title: '👁️ Banc Optique' },
             story: "Les lunettes, les microscopes, les télescopes reposent tous sur les lentilles.",
             content: `
 ### 1. Types de Lentilles

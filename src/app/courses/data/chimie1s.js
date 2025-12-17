@@ -11,6 +11,7 @@ export const chimie1sData = {
             id: 'c1s-01',
             part: 'Chimie Organique',
             title: 'C1. Généralités sur la chimie organique',
+            simulation: { id: 'c1s-orga', title: '🧪 Galerie Moléculaire' },
             story: "La chimie du carbone est celle de la vie. Du plastique à l'ADN, le carbone est l'architecte des molécules complexes.",
             content: `
 ### 1. L'élément Carbone
@@ -43,6 +44,7 @@ Des isomères ont la même formule brute mais des formules développées différ
             id: 'c1s-02',
             part: 'Chimie Organique',
             title: 'C2. Les Alcanes',
+            simulation: { id: 'c1s-orga', title: '🧪 Galerie Moléculaire' },
             story: "Les hydrocarbures les plus simples. Le gaz naturel et l'essence en sont constitués.",
             content: `
 ### 1. Formule Générale
@@ -135,6 +137,7 @@ Contrairement aux alcènes, le benzène préfère la **substitution** à l'addit
             id: 'c1s-05',
             part: 'Chimie Organique',
             title: 'C5. Les composés oxygénés',
+            simulation: { id: 'c1s-orga', title: '🧪 Galerie Moléculaire' },
             story: "Ajoutons un atome d'oxygène. L'alcool, le parfum des fruits, l'odeur du formol... tout change.",
             content: `
 ### 1. Les Alcools ($R-OH$)
@@ -201,6 +204,7 @@ $$ Ox_1 + Red_2 \\rightarrow Red_1 + Ox_2 $$
             id: 'c1s-07',
             part: 'Électrochimie',
             title: 'C7-C8. Classification des couples Ion/Métal',
+            simulation: { id: 'c1s-redox', title: '⚗️ Expérience Redox' },
             story: "Qui est le plus fort ? Le fer rouille, l'or résiste. Il existe une hiérarchie dans la force des oxydants.",
             content: `
 ### 1. Classification Qualitative
@@ -257,6 +261,7 @@ Utiliser une réaction d'oxydoréduction rapide et totale pour titrer une espèc
             id: 'c1s-10',
             part: 'Électrochimie',
             title: 'C10. Électrolyse',
+            simulation: { id: 'c1s-redox', title: '⚡ Électrolyse' },
             story: "Forcer la nature. Avec de l'énergie électrique, on peut inverser le sens spontané des réactions chimiques.",
             content: `
 ### 1. Principe
