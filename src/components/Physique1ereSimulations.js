@@ -427,19 +427,19 @@ export function ElectrostatiqueSim() {
             {charges.map((c, i) => (<group key={i} position={[c.x, c.y, 0]}><Sphere args={[0.35]}><meshStandardMaterial color={c.q > 0 ? "#FF4444" : "#4444FF"} /></Sphere><Text fontSize={0.3} color="white">{c.q > 0 ? '+' : '-'}</Text></group>))}
             {showFieldLines && fieldLines.map((pts, i) => (<Line key={i} points={pts} color="#00F5D4" lineWidth={1.5} transparent opacity={0.7} />))}
             <DraggableHtmlPanel title="⚡ Champ Électrique" >
-                    <div className="p-4 w-72 text-white">
-                        <div className="flex gap-2 mb-4">
-                            <button onClick={() => addCharge(5)} className="flex-1 bg-red-600 py-2 rounded-lg font-bold hover:bg-red-500">+ Positive</button>
-                            <button onClick={() => addCharge(-5)} className="flex-1 bg-blue-600 py-2 rounded-lg font-bold hover:bg-blue-500">- Négative</button>
-                        </div>
-                        <button onClick={() => setCharges([])} className="w-full mb-4 py-2 bg-gray-700 rounded-lg">🗑️ Effacer tout</button>
-                        <label className="flex items-center gap-2 text-sm"><input type="checkbox" checked={showFieldLines} onChange={e => setShowFieldLines(e.target.checked)} className="w-4 h-4" /> Lignes de champ</label>
-                        <div className="mt-4 p-3 bg-black/50 rounded-lg text-xs text-gray-400">
-                            <p className="mb-1">Loi de Coulomb: F = k·q₁·q₂/r²</p>
-                            <p>Champ: E = F/q (V/m)</p>
-                        </div>
+                <div className="p-4 w-72 text-white">
+                    <div className="flex gap-2 mb-4">
+                        <button onClick={() => addCharge(5)} className="flex-1 bg-red-600 py-2 rounded-lg font-bold hover:bg-red-500">+ Positive</button>
+                        <button onClick={() => addCharge(-5)} className="flex-1 bg-blue-600 py-2 rounded-lg font-bold hover:bg-blue-500">- Négative</button>
                     </div>
-                </DraggableHtmlPanel>
+                    <button onClick={() => setCharges([])} className="w-full mb-4 py-2 bg-gray-700 rounded-lg">🗑️ Effacer tout</button>
+                    <label className="flex items-center gap-2 text-sm"><input type="checkbox" checked={showFieldLines} onChange={e => setShowFieldLines(e.target.checked)} className="w-4 h-4" /> Lignes de champ</label>
+                    <div className="mt-4 p-3 bg-black/50 rounded-lg text-xs text-gray-400">
+                        <p className="mb-1">Loi de Coulomb: F = k·q₁·q₂/r²</p>
+                        <p>Champ: E = F/q (V/m)</p>
+                    </div>
+                </div>
+            </DraggableHtmlPanel>
         </group>
     );
 }
@@ -451,52 +451,119 @@ export function ElectroniqueSim() {
     const [mode, setMode] = useState('charge');
     const [R, setR] = useState(1000);
     const [C, setC] = useState(0.001);
-    const tau = R * C;
+    const [time, setTime] = useState(0);
+    const [running, setRunning] = useState(false);
+    const electronsRef = useRef([]);
 
-    const graphPoints = useMemo(() => {
-        const pts = [];
-        for (let x = 0; x < 10; x += 0.1) {
-            const t = x * tau * 0.5;
-            const u = mode === 'charge' ? 5 * (1 - Math.exp(-t / tau)) : 5 * Math.exp(-t / tau);
-            pts.push(new THREE.Vector3(x - 5, u - 2.5, 0));
+    const tau = R * C;
+    const E = 5; // Tension générateur
+
+    // Calculs temps réel
+    const uC = mode === 'charge' ? E * (1 - Math.exp(-time / tau)) : E * Math.exp(-time / tau);
+    const i = mode === 'charge' ? (E / R) * Math.exp(-time / tau) : -(E / R) * Math.exp(-time / tau);
+    const q = C * uC; // Charge condensateur
+
+    useFrame((state, delta) => {
+        if (running) {
+            setTime(t => t + delta);
         }
-        return pts;
-    }, [R, C, mode, tau]);
+
+        // Animation électrons (vitesse proportionnelle au courant i)
+        // Courant max = E/R = 5/1000 = 0.005 A. On multiplie pour l'effet visuel.
+        const speed = Math.abs(i) * 500;
+        const direction = i > 0 ? 1 : -1;
+
+        electronsRef.current.forEach((el, idx) => {
+            if (el) {
+                // Circuit rectangulaire simple autour de [0, 2, -2] (Generateur) et [0, -1.5, 2] (Composants)
+                // C'est un peu complexe à animer parfaitement sur un path.
+                // On fait tourner simple : angle += speed
+                el.rotation.z += speed * direction * 0.1;
+            }
+        });
+    });
+
+    const reset = () => { setTime(0); setRunning(true); };
 
     return (
         <group>
             <OrbitControls />
             <Grid />
-            <Box args={[12, 8, 1]} position={[0, 2, -2]}><meshStandardMaterial color="#0a0a0a" /></Box>
-            <group position={[0, 2.5, -1.4]}>
-                <gridHelper args={[10, 10, '#333', '#222']} rotation={[Math.PI / 2, 0, 0]} />
-                <Line points={graphPoints} color="#00FF00" lineWidth={4} />
-            </group>
-            <Box args={[7, 0.4, 3.5]} position={[0, -1.5, 2]}><meshStandardMaterial color="#d4d4d4" /></Box>
-            <Box args={[1.2, 0.5, 0.5]} position={[-1.8, -1.1, 2]}><meshStandardMaterial color="#b5651d" /></Box>
-            <Text position={[-1.8, -0.4, 2]} fontSize={0.25} color="#333">R={R}Ω</Text>
-            <Cylinder args={[0.35, 0.35, 0.7]} position={[1.8, -1.1, 2]} rotation={[Math.PI / 2, 0, 0]}><meshStandardMaterial color="#1a1a1a" /></Cylinder>
-            <Text position={[1.8, -0.4, 2]} fontSize={0.25} color="#333">C={(C * 1000).toFixed(0)}mF</Text>
 
-            <DraggableHtmlPanel title="📺 Circuit RC" >
-                    <div className="p-4 w-72 text-white">
-                        <div className="flex gap-2 mb-4">
-                            <button onClick={() => setMode('charge')} className={`flex-1 py-2 rounded-lg font-bold ${mode === 'charge' ? 'bg-green-500' : 'bg-gray-700'}`}>⬆️ Charge</button>
-                            <button onClick={() => setMode('discharge')} className={`flex-1 py-2 rounded-lg font-bold ${mode === 'discharge' ? 'bg-red-500' : 'bg-gray-700'}`}>⬇️ Décharge</button>
+            {/* Circuit Visuel - Fil Rectangulaire */}
+            <group rotation={[Math.PI / 2, 0, 0]}>
+                <mesh>
+                    <torusGeometry args={[4, 0.1, 16, 100]} />
+                    <meshStandardMaterial color="gold" />
+                </mesh>
+
+                {/* Electrons sur l'anneau */}
+                <group ref={g => { electronsRef.current[0] = g }}>
+                    {Array.from({ length: 12 }).map((_, k) => (
+                        <mesh key={k} position={[4 * Math.cos(k * Math.PI / 6), 4 * Math.sin(k * Math.PI / 6), 0]}>
+                            <sphereGeometry args={[0.15]} />
+                            <meshStandardMaterial color="yellow" emissive="yellow" emissiveIntensity={0.5} />
+                        </mesh>
+                    ))}
+                </group>
+            </group>
+
+            {/* Générateur (Haut) */}
+            <group position={[0, 4, 0]}>
+                <Box args={[2, 1, 1]}><meshStandardMaterial color="#333" /></Box>
+                <Text position={[0, 0, 0.6]} fontSize={0.5} color="red">{mode === 'charge' ? 'GÉNÉRATEUR' : 'COURT-CIRCUIT'}</Text>
+                {mode === 'charge' && <Text position={[0, 0.8, 0]} fontSize={0.4} color="yellow">E = 5V</Text>}
+            </group>
+
+            {/* Condensateur (Bas-Droite) */}
+            <group position={[3, -2, 0]}>
+                <Cylinder args={[0.5, 0.5, 1]} rotation={[0, 0, Math.PI / 2]}><meshStandardMaterial color="#1a1a1a" /></Cylinder>
+                <Text position={[0, -0.8, 0]} fontSize={0.4} color="cyan">C</Text>
+                {/* Charge accumulée Visualisation */}
+                <Text position={[-0.8, 0.8, 0]} fontSize={0.3} color="red" visible={q > 0}>+{q.toFixed(4)}C</Text>
+                <Text position={[0.8, 0.8, 0]} fontSize={0.3} color="blue" visible={q > 0}>-{q.toFixed(4)}C</Text>
+            </group>
+
+            {/* Résistance (Bas-Gauche) */}
+            <group position={[-3, -2, 0]}>
+                <Box args={[1.5, 0.6, 0.6]}><meshStandardMaterial color="#b5651d" /></Box>
+                <Text position={[0, -0.8, 0]} fontSize={0.4} color="orange">R</Text>
+            </group>
+
+            <Line points={[[-4, 0, 0], [-4, 4, 0], [4, 4, 0], [4, 0, 0]]} color="gold" lineWidth={2} /> {/* Haut */}
+            <Line points={[[-4, 0, 0], [-4, -2, 0], [4, -2, 0], [4, 0, 0]]} color="gold" lineWidth={2} /> {/* Bas */}
+
+            <DraggableHtmlPanel title="📺 Circuit RC">
+                <div className="p-4 w-80 text-white">
+                    <div className="flex gap-2 mb-4">
+                        <button onClick={() => { setMode('charge'); reset(); }} className={`flex-1 py-2 rounded-lg font-bold transition-all ${mode === 'charge' ? 'bg-green-500 scale-105' : 'bg-gray-700'}`}>⬆️ Charger</button>
+                        <button onClick={() => { setMode('discharge'); reset(); }} className={`flex-1 py-2 rounded-lg font-bold transition-all ${mode === 'discharge' ? 'bg-red-500 scale-105' : 'bg-gray-700'}`}>⬇️ Décharger</button>
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-4 mb-4 text-center">
+                        <div className="bg-cyan-900/40 p-2 rounded border border-cyan-500/30">
+                            <div className="text-xs text-cyan-400">Tension uC</div>
+                            <div className="text-xl font-bold">{uC.toFixed(2)} V</div>
+                            <div className="w-full bg-gray-700 h-1 mt-1 rounded"><div className="bg-cyan-400 h-1 rounded transition-all" style={{ width: `${(uC / 5) * 100}%` }}></div></div>
                         </div>
-                        <div className="space-y-3">
-                            <div><label className="text-xs font-bold">R = {R} Ω</label><input type="range" min="100" max="2500" step="100" value={R} onChange={e => setR(Number(e.target.value))} className="w-full" /></div>
-                            <div><label className="text-xs font-bold">C = {(C * 1000).toFixed(1)} mF</label><input type="range" min="0.1" max="3" step="0.1" value={C * 1000} onChange={e => setC(Number(e.target.value) / 1000)} className="w-full" /></div>
-                        </div>
-                        <div className="mt-4 p-3 bg-gradient-to-br from-cyan-900/30 to-black/50 rounded-lg border border-cyan-500/30 text-center">
-                            <span className="text-gray-400">τ = RC = </span><span className="text-2xl font-bold text-[#00F5D4]">{tau.toFixed(2)} s</span>
-                        </div>
-                        <div className="mt-3 text-xs text-gray-400">
-                            <p>Charge: Uc = E(1 - e^(-t/τ))</p>
-                            <p>Décharge: Uc = E × e^(-t/τ)</p>
+                        <div className="bg-yellow-900/40 p-2 rounded border border-yellow-500/30">
+                            <div className="text-xs text-yellow-400">Courant i</div>
+                            <div className="text-xl font-bold">{(i * 1000).toFixed(2)} mA</div>
+                            <div className="text-xs text-gray-400">Flux d'électrons</div>
                         </div>
                     </div>
-                </DraggableHtmlPanel>
+
+                    <div className="space-y-3 bg-black/30 p-3 rounded-lg">
+                        <div><label className="text-xs font-bold text-orange-400">R = {R} Ω</label><input type="range" min="100" max="5000" step="100" value={R} onChange={e => { setR(Number(e.target.value)); reset(); }} className="w-full accent-orange-500" /></div>
+                        <div><label className="text-xs font-bold text-cyan-400">C = {(C * 1000).toFixed(1)} mF</label><input type="range" min="0.1" max="5" step="0.1" value={C * 1000} onChange={e => { setC(Number(e.target.value) / 1000); reset(); }} className="w-full accent-cyan-500" /></div>
+                    </div>
+
+                    <div className="mt-3 text-center">
+                        <span className="text-gray-400 text-sm">Constante de temps τ = RC = </span><span className="text-xl font-bold text-[#00F5D4]">{tau.toFixed(2)} s</span>
+                        <div className="text-xs text-gray-500 mt-1">Le condensateur est chargé à 63% à t=τ</div>
+                    </div>
+                </div>
+            </DraggableHtmlPanel>
         </group>
     );
 }
@@ -506,37 +573,113 @@ export function ElectroniqueSim() {
 // ==========================================
 export function OndesSim() {
     const materialRef = useRef();
-    const [freq, setFreq] = useState(2);
-    const [lambda, setLambda] = useState(1);
+    const [freq, setFreq] = useState(3.0);
+    const [separation, setSeparation] = useState(0.4); // Distance entre sources relative (0 à 1)
+
+    // Shader amélioré pour interférences
+    const WaveShader = useMemo(() => ({
+        uniforms: { uTime: { value: 0 }, uFreq: { value: 3.0 }, uSep: { value: 0.4 } },
+        vertexShader: `
+            varying vec2 vUv; 
+            uniform float uTime;
+            uniform float uFreq;
+            uniform float uSep;
+            void main() { 
+                vUv = uv; 
+                vec3 pos = position;
+                
+                // Effet de vague sur le mesh (vertex displacement)
+                vec2 p = vUv * 2.0 - 1.0;
+                float d1 = distance(p, vec2(-uSep, 0.0));
+                float d2 = distance(p, vec2(uSep, 0.0));
+                float w = sin(d1 * 20.0 - uTime * uFreq * 5.0) + sin(d2 * 20.0 - uTime * uFreq * 5.0);
+                pos.z += w * 0.2; // Hauteur vague
+
+                gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0); 
+            }
+        `,
+        fragmentShader: `
+            uniform float uTime; 
+            uniform float uFreq; 
+            uniform float uSep;
+            varying vec2 vUv; 
+            
+            void main() { 
+                vec2 p = vUv * 2.0 - 1.0; 
+                float d1 = distance(p, vec2(-uSep, 0.0)); 
+                float d2 = distance(p, vec2(uSep, 0.0)); 
+                
+                // Onde
+                float w = sin(d1 * 20.0 - uTime * uFreq * 5.0) + sin(d2 * 20.0 - uTime * uFreq * 5.0);
+                
+                // Couleurs basées sur l'amplitude
+                float intensity = 0.5 + 0.25 * w;
+                vec3 color = mix(vec3(0.0, 0.2, 0.5), vec3(0.0, 0.8, 1.0), intensity);
+                
+                // Lignes de crête brillantes
+                if (w > 1.8) color = vec3(1.0); 
+
+                gl_FragColor = vec4(color, 0.9); 
+            }
+        `
+    }), []);
 
     useFrame(({ clock }) => {
         if (materialRef.current) {
             materialRef.current.uniforms.uTime.value = clock.getElapsedTime();
             materialRef.current.uniforms.uFreq.value = freq;
+            materialRef.current.uniforms.uSep.value = separation;
         }
     });
-
-    const WaveShader = {
-        uniforms: { uTime: { value: 0 }, uFreq: { value: 2.0 } },
-        vertexShader: `varying vec2 vUv; void main() { vUv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }`,
-        fragmentShader: `uniform float uTime; uniform float uFreq; varying vec2 vUv; void main() { vec2 p = vUv * 2.0 - 1.0; float d1 = distance(p, vec2(-0.3, 0.0)); float d2 = distance(p, vec2(0.3, 0.0)); float w = sin(d1 * 20.0 - uTime * uFreq * 5.0) + sin(d2 * 20.0 - uTime * uFreq * 5.0); float c = 0.5 + 0.25 * w; gl_FragColor = vec4(0.0, c, c * 1.2, 0.95); }`
-    };
 
     return (
         <group>
             <OrbitControls />
-            <mesh rotation={[-Math.PI / 2, 0, 0]}><planeGeometry args={[12, 12]} /><shaderMaterial ref={materialRef} args={[WaveShader]} transparent /></mesh>
-            <Text position={[0, 0.5, -6.5]} fontSize={0.5} color="#00AACC">Interférences - Cuve à Ondes</Text>
-            <DraggableHtmlPanel title="🌊 Ondes Mécaniques" >
-                    <div className="p-4 w-64 text-white">
-                        <div><label className="text-xs font-bold">Fréquence f = {freq} Hz</label><input type="range" min="0.5" max="5" step="0.1" value={freq} onChange={e => setFreq(Number(e.target.value))} className="w-full accent-cyan-500" /></div>
-                        <div className="mt-4 p-3 bg-black/50 rounded-lg text-sm">
-                            <p className="text-gray-400">λ = v / f</p>
-                            <p className="text-gray-400 mt-1">Interférence constructive: Δ = nλ</p>
-                            <p className="text-gray-400">Interférence destructive: Δ = (n+½)λ</p>
+            <Grid infiniteGrid fadeDistance={50} />
+
+            {/* Sources ponctuelles */}
+            <Sphere position={[-separation * 6, 0.5, 0]} args={[0.2]}><meshStandardMaterial color="white" emissive="white" /></Sphere>
+            <Sphere position={[separation * 6, 0.5, 0]} args={[0.2]}><meshStandardMaterial color="white" emissive="white" /></Sphere>
+
+            {/* Surface de l'eau */}
+            <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.5, 0]}>
+                <planeGeometry args={[12, 12, 128, 128]} /> {/* Haute résolution pour le displacement */}
+                <shaderMaterial ref={materialRef} args={[WaveShader]} transparent side={THREE.DoubleSide} />
+            </mesh>
+
+            <DraggableHtmlPanel title="🌊 Ondes : Interférences" >
+                <div className="p-4 w-72 text-white">
+                    <div className="space-y-4">
+                        <div>
+                            <label className="flex justify-between text-xs font-bold mb-1">
+                                <span>Fréquence f</span>
+                                <span className="text-cyan-400">{freq} Hz</span>
+                            </label>
+                            <input type="range" min="1" max="8" step="0.1" value={freq} onChange={e => setFreq(Number(e.target.value))} className="w-full accent-cyan-500" />
+                        </div>
+
+                        <div>
+                            <label className="flex justify-between text-xs font-bold mb-1">
+                                <span>Écartement S1-S2</span>
+                                <span className="text-yellow-400">{(separation * 2).toFixed(1)}</span>
+                            </label>
+                            <input type="range" min="0" max="0.8" step="0.05" value={separation} onChange={e => setSeparation(Number(e.target.value))} className="w-full accent-yellow-500" />
                         </div>
                     </div>
-                </DraggableHtmlPanel>
+
+                    <div className="mt-4 p-3 bg-black/50 rounded-lg text-sm border border-white/10">
+                        <p className="text-gray-300 font-semibold mb-2">Conditions d'interférence :</p>
+                        <div className="flex items-center gap-2 text-xs">
+                            <div className="w-3 h-3 bg-white rounded-full"></div>
+                            <span className="text-gray-400">Constructive (Max) : Δ = k·λ</span>
+                        </div>
+                        <div className="flex items-center gap-2 text-xs mt-1">
+                            <div className="w-3 h-3 bg-blue-900 rounded-full border border-blue-500"></div>
+                            <span className="text-gray-400">Destructive (Nul) : Δ = (k+½)·λ</span>
+                        </div>
+                    </div>
+                </div>
+            </DraggableHtmlPanel>
         </group>
     );
 }
@@ -545,47 +688,112 @@ export function OndesSim() {
 // P11: OPTIQUE (Lentilles)
 // ==========================================
 export function OptiqueLentilleSim() {
-    const [focal, setFocal] = useState(3);
+    const [focalAbs, setFocalAbs] = useState(3);
     const [objPos, setObjPos] = useState(-6);
-    const f = focal;
-    const oaP = 1 / ((1 / f) + (1 / objPos));
-    const gamma = oaP / objPos;
+    const [lensType, setLensType] = useState('converging'); // converging, diverging
+
+    const f = lensType === 'converging' ? focalAbs : -focalAbs;
+    const oa = objPos;
+
+    // Formule conjugaison : 1/oa' = 1/f + 1/oa
+    // oa' = (oa * f) / (oa + f)
+    const oaP = (oa * f) / (oa + f);
+    const gamma = oaP / oa;
+
+    const isVirtual = oaP < 0; // Image virtuelle si oa' < 0 (à gauche) pour objet réel
+
+    const hObj = 2; // Hauteur objet
+    const hImg = hObj * gamma;
 
     return (
         <group>
-            <OrbitControls />
-            <Grid />
-            <Line points={[[-12, 0, 0], [12, 0, 0]]} color="white" transparent opacity={0.3} />
-            <mesh rotation={[0, 0, Math.PI / 2]}><cylinderGeometry args={[2.5, 2.5, 0.2, 32]} /><meshPhysicalMaterial transmission={1} thickness={0.4} roughness={0} color="#88CCFF" /></mesh>
-            <Sphere args={[0.12]} position={[f, 0, 0]}><meshStandardMaterial color="red" /></Sphere>
-            <Text position={[f, -0.5, 0]} fontSize={0.3} color="red">F'</Text>
-            <Sphere args={[0.12]} position={[-f, 0, 0]}><meshStandardMaterial color="red" /></Sphere>
-            <Text position={[-f, -0.5, 0]} fontSize={0.3} color="red">F</Text>
-            <group position={[objPos, 0, 0]}>
-                <Cylinder args={[0.1, 0.1, 1.8]} position={[0, 0.9, 0]}><meshStandardMaterial color="white" /></Cylinder>
-                <Sphere args={[0.25]} position={[0, 1.9, 0]}><meshStandardMaterial color="orange" emissive="orange" emissiveIntensity={0.5} /></Sphere>
-                <pointLight position={[0, 1.9, 0]} color="orange" intensity={0.6} distance={4} />
+            <OrbitControls enableRotate={false} />
+            <Grid infiniteGrid fadeDistance={50} />
+
+            {/* Axe optique */}
+            <Line points={[[-15, 0, 0], [15, 0, 0]]} color="white" transparent opacity={0.3} lineWidth={1} />
+
+            {/* Lentille */}
+            <group rotation={[0, 0, Math.PI / 2]}>
+                {lensType === 'converging' ? (
+                    // Biconvexe
+                    <mesh><cylinderGeometry args={[3, 3, 0.2, 32]} /><meshPhysicalMaterial transmission={0.9} roughness={0} color="#88CCFF" /></mesh>
+                ) : (
+                    // Biconcave (simulé par cylindre + torus inverse ou juste symbole)
+                    <group>
+                        <mesh><cylinderGeometry args={[3, 3, 0.1, 32]} /><meshPhysicalMaterial transmission={0.9} roughness={0} color="#FFCC88" /></mesh>
+                        <Text position={[0, 3.2, 0]} fontSize={0.5} rotation={[0, 0, -Math.PI / 2]}>)(</Text>
+                    </group>
+                )}
+                {/* Symboles extrémité */}
+                <Text position={[0, 3.5, 0]} fontSize={1} color="white" rotation={[0, 0, -Math.PI / 2]}>{lensType === 'converging' ? '↑' : 'Y'}</Text>
+                <Text position={[0, -3.5, 0]} fontSize={1} color="white" rotation={[0, 0, -Math.PI / 2]}>{lensType === 'converging' ? '↓' : 'A'}</Text>
             </group>
-            <group position={[oaP, 0, 0]} scale={[1, Math.abs(gamma), 1]} rotation={[0, 0, gamma < 0 ? Math.PI : 0]}>
-                <Cylinder args={[0.1, 0.1, 1.8]} position={[0, 0.9, 0]}><meshStandardMaterial color="#00F5D4" transparent opacity={0.6} /></Cylinder>
-                <Sphere args={[0.25]} position={[0, 1.9, 0]}><meshStandardMaterial color="#00F5D4" transparent opacity={0.6} /></Sphere>
+
+            {/* Foyers */}
+            <Sphere args={[0.15]} position={[f, 0, 0]}><meshStandardMaterial color="red" /></Sphere>
+            <Text position={[f, -0.5, 0]} fontSize={0.4} color="red">F'</Text>
+
+            <Sphere args={[0.15]} position={[-f, 0, 0]}><meshStandardMaterial color="red" /></Sphere>
+            <Text position={[-f, -0.5, 0]} fontSize={0.4} color="red">F</Text>
+
+            {/* Objet (Bougie) */}
+            <group position={[oa, 0, 0]}>
+                <Cylinder args={[0.05, 0.05, hObj]} position={[0, hObj / 2, 0]}><meshStandardMaterial color="white" /></Cylinder>
+                <Sphere args={[0.2]} position={[0, hObj, 0]}><meshStandardMaterial color="orange" emissive="orange" emissiveIntensity={1} /></Sphere>
+                <Text position={[0, -0.5, 0]} fontSize={0.4} color="white">A</Text>
+                <Text position={[0, hObj + 0.3, 0]} fontSize={0.4} color="white">B</Text>
             </group>
-            <Line points={[[objPos, 1.9, 0], [0, 1.9, 0], [oaP, 1.9 * gamma, 0]]} color="yellow" lineWidth={2} />
-            <Line points={[[objPos, 1.9, 0], [0, 0, 0], [oaP, 1.9 * gamma, 0]]} color="cyan" lineWidth={2} />
+
+            {/* Image */}
+            <group position={[oaP, 0, 0]}>
+                <Cylinder args={[0.05, 0.05, Math.abs(hImg)]} position={[0, hImg / 2, 0]}><meshStandardMaterial color={isVirtual ? "#888" : "#00F5D4"} transparent opacity={isVirtual ? 0.5 : 1} /></Cylinder>
+                <Sphere args={[0.2]} position={[0, hImg, 0]}><meshStandardMaterial color={isVirtual ? "#888" : "#00F5D4"} transparent opacity={isVirtual ? 0.5 : 1} /></Sphere>
+                <Text position={[0, -0.5, 0]} fontSize={0.4} color={isVirtual ? "#888" : "#00F5D4"}>A'</Text>
+                <Text position={[0, hImg + (hImg > 0 ? 0.3 : -0.3), 0]} fontSize={0.4} color={isVirtual ? "#888" : "#00F5D4"}>B'</Text>
+            </group>
+
+            {/* Rayons de construction */}
+            {/* 1. Parallèle -> F' */}
+            <group>
+                <Line points={[[oa, hObj, 0], [0, hObj, 0]]} color="yellow" lineWidth={2} /> {/* Incident */}
+                <Line points={[[0, hObj, 0], [oaP, hImg, 0]]} color="yellow" lineWidth={2} /> {/* Emergent */}
+                {isVirtual && <Line points={[[0, hObj, 0], [oaP, hImg, 0]]} color="yellow" lineWidth={1} dashed dashSize={0.2} gapSize={0.1} />}
+                {/* Prolongement si divergent */}
+                {lensType === 'diverging' && <Line points={[[f, 0, 0], [0, hObj, 0]]} color="yellow" lineWidth={1} dashed />}
+            </group>
+
+            {/* 2. Centre optique */}
+            <Line points={[[oa, hObj, 0], [oaP, hImg, 0]]} color="cyan" lineWidth={2} />
 
             <DraggableHtmlPanel title="🔭 Lentilles Minces" >
-                    <div className="p-4 w-80 text-white">
-                        <div className="space-y-3">
-                            <div><label className="text-xs font-bold">Position objet OA = {objPos.toFixed(1)} cm</label><input type="range" min="-12" max="-1.5" step="0.2" value={objPos} onChange={e => setObjPos(Number(e.target.value))} className="w-full" /></div>
-                            <div><label className="text-xs font-bold">Distance focale f' = {focal} cm</label><input type="range" min="1" max="6" step="0.5" value={focal} onChange={e => setFocal(Number(e.target.value))} className="w-full" /></div>
+                <div className="p-4 w-80 text-white">
+                    <div className="flex gap-2 mb-4">
+                        <button onClick={() => setLensType('converging')} className={`flex-1 py-1 rounded text-sm ${lensType === 'converging' ? 'bg-blue-600' : 'bg-gray-700'}`}>Convergente</button>
+                        <button onClick={() => setLensType('diverging')} className={`flex-1 py-1 rounded text-sm ${lensType === 'diverging' ? 'bg-orange-600' : 'bg-gray-700'}`}>Divergente</button>
+                    </div>
+
+                    <div className="space-y-3">
+                        <div><label className="text-xs font-bold">Position Objet OA = {objPos.toFixed(1)} cm</label><input type="range" min="-10" max="-2" step="0.1" value={objPos} onChange={e => setObjPos(Number(e.target.value))} className="w-full" /></div>
+                        <div><label className="text-xs font-bold">Focale |f'| = {focalAbs} cm</label><input type="range" min="1" max="5" step="0.5" value={focalAbs} onChange={e => setFocalAbs(Number(e.target.value))} className="w-full" /></div>
+                    </div>
+
+                    <div className="mt-4 grid grid-cols-2 gap-2 text-center text-xs">
+                        <div className="bg-gray-800 p-2 rounded">
+                            <div className="text-gray-400">Grandissement γ</div>
+                            <div className="text-lg font-bold">{gamma.toFixed(2)}</div>
                         </div>
-                        <div className="mt-4 p-3 bg-gradient-to-br from-purple-900/30 to-black/50 rounded-lg border border-purple-500/30">
-                            <p className="text-xs text-gray-400 mb-2">1/OA' - 1/OA = 1/f'</p>
-                            <p className="text-sm">γ = OA'/OA = <span className="text-xl font-bold text-[#00F5D4]">{gamma.toFixed(2)}</span></p>
-                            <p className="text-sm mt-2 text-gray-300">Image: <span className={oaP > 0 ? 'text-green-400' : 'text-red-400'}>{oaP > 0 ? "Réelle" : "Virtuelle"}</span>, <span className={gamma < 0 ? 'text-yellow-400' : 'text-blue-400'}>{gamma < 0 ? "Renversée" : "Droite"}</span></p>
+                        <div className="bg-gray-800 p-2 rounded">
+                            <div className="text-gray-400">Position Image OA'</div>
+                            <div className={`text-lg font-bold ${oaP > 0 ? 'text-green-400' : 'text-red-400'}`}>{Math.abs(oaP) > 50 ? '∞' : oaP.toFixed(1) + ' cm'}</div>
                         </div>
                     </div>
-                </DraggableHtmlPanel>
+
+                    <div className="mt-2 text-xs text-center text-gray-500">
+                        {isVirtual ? "Image VIRTUELLE (ne peut être projetée)" : "Image RÉELLE (peut être projetée)"}
+                    </div>
+                </div>
+            </DraggableHtmlPanel>
         </group>
     );
 }
