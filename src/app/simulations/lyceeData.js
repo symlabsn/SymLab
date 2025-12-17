@@ -807,6 +807,146 @@ Si on voit 2 taches verticalement = C'est un mélange !`,
         relatedSimulations: ['extraction-distillation', 'chemical-tests']
     },
 
+    // === CHIMIE 2NDE S - SIMULATIONS IMMERSIVES ===
+    'separation-lab': {
+        title: 'Laboratoire de Séparation',
+        description: 'Filtration, décantation, distillation et chromatographie',
+        type: 'separation-lab',
+        config: {},
+        analogy: {
+            title: 'Le Trieur de Mélanges',
+            content: `Pour séparer des mélanges, il faut connaître leurs différences ! 🧪
+
+- **Filtration** : Sépare un solide d'un liquide. Comme passer le sable avec une passoire.
+- **Décantation** : Sépare deux liquides non miscibles. Comme l'huile et l'eau qui se séparent seules.
+- **Distillation** : Sépare deux liquides miscibles par leurs points d'ébullition différents.
+- **Chromatographie** : Les colorants font la course sur le papier !`
+        },
+        theory: `Techniques de Séparation des Mélanges
+
+1. **Filtration** : Séparation solide/liquide
+   - Le filtre retient le solide (résidu)
+   - Le liquide passe (filtrat)
+
+2. **Décantation** : Pour liquides non miscibles
+   - Les phases se séparent par différence de densité
+   - Ampoule à décanter
+
+3. **Distillation** : Pour liquides miscibles
+   - Exploitation des points d'ébullition différents
+   - Chauffage → Vaporisation → Condensation
+
+4. **Chromatographie** : Pour colorants et composés
+   - Migration différentielle sur support
+   - Rapport frontal Rf = h/H`,
+        exercises: [
+            { question: 'Pour séparer eau + sable, quelle technique ?', options: ['Distillation', 'Filtration', 'Chromatographie', 'Électrolyse'], correct: 1, explanation: 'Le sable est solide, l eau est liquide. La filtration les sépare.' },
+            { question: 'Pour séparer eau + huile, quelle technique ?', options: ['Filtration', 'Décantation', 'Distillation', 'Catalyse'], correct: 1, explanation: 'L huile et l eau ne se mélangent pas, elles se séparent par décantation.' }
+        ],
+        relatedSimulations: ['chromatography', 'chemical-tests', 'extraction-distillation']
+    },
+
+    'lewis-structure': {
+        title: 'Structure de Lewis',
+        description: 'Visualisation 3D des molécules et liaisons',
+        type: 'lewis-structure',
+        config: {},
+        analogy: {
+            title: 'Les Mariage des Atomes',
+            content: `Les atomes veulent être stables ! 💍
+            
+Un atome est heureux quand sa couche externe est pleine (2 ou 8 électrons).
+Pour y arriver, ils partagent des électrons. C'est le mariage covalent !
+
+- **H** a besoin de 1 électron (célibataire, 1 liaison)
+- **O** a besoin de 2 électrons (2 liaisons)
+- **N** a besoin de 3 électrons (3 liaisons)
+- **C** a besoin de 4 électrons (4 liaisons)`
+        },
+        theory: `Formule de Lewis
+
+Représentation des électrons de valence autour d'un atome.
+
+1. **Doublet liant** : Paire d'électrons partagée entre 2 atomes (liaison covalente)
+2. **Doublet non liant** : Paire d'électrons appartenant à un seul atome
+
+Règle de l'Octet : 
+- Pour Z > 4 : 8 électrons sur la couche externe (comme les gaz nobles)
+- Pour H : 2 électrons (règle du duet)
+
+Valences courantes :
+- H = 1, O = 2, N = 3, C = 4`,
+        exercises: [
+            { question: 'Combien de liaisons forme le carbone ?', options: ['1', '2', '3', '4'], correct: 3, explanation: 'Le carbone a 4 électrons de valence, il forme 4 liaisons.' },
+            { question: 'Dans H₂O, l oxygène a combien de doublets non liants ?', options: ['0', '1', '2', '4'], correct: 2, explanation: 'L oxygène fait 2 liaisons (avec les 2 H) et garde 2 doublets non liants.' }
+        ],
+        relatedSimulations: ['molecular-geometry', 'atomic-structure-seconde']
+    },
+
+    'mole-scale': {
+        title: 'La Mole (Balance)',
+        description: 'Pesée et calculs de quantité de matière',
+        type: 'mole-scale',
+        config: {},
+        analogy: {
+            title: 'Le Paquet d Atomes',
+            content: `La mole, c'est juste un GIGA paquet ! 📦
+
+Comme on ne peut pas compter les atomes un par un (trop petits !), on les compte par paquets.
+1 mole = 6,02 × 10²³ atomes (Nombre d'Avogadro)
+
+C'est comme compter des œufs par plateaux plutôt qu'un par un !`
+        },
+        theory: `Quantité de Matière
+
+n = m / M
+
+- n : quantité de matière (mol)
+- m : masse (g)
+- M : masse molaire (g/mol)
+
+Constante d'Avogadro : NA = 6,02 × 10²³ mol⁻¹
+
+Pour les gaz : n = V / Vm (Vm ≈ 22,4 L/mol à 0°C)`,
+        exercises: [
+            { question: '2 moles de carbone (M=12) pèsent...', options: ['6 g', '12 g', '24 g', '36 g'], correct: 2, explanation: 'm = n × M = 2 × 12 = 24 g.' },
+            { question: 'Combien de mol dans 36g d eau (M=18) ?', options: ['1 mol', '2 mol', '18 mol', '36 mol'], correct: 1, explanation: 'n = m/M = 36/18 = 2 mol.' }
+        ],
+        relatedSimulations: ['mole-concept', 'molar-concentration']
+    },
+
+    'equation-balancer': {
+        title: 'Équilibrage des Équations',
+        description: 'Conservation de la masse - Loi de Lavoisier',
+        type: 'equation-balancer',
+        config: {},
+        analogy: {
+            title: 'La Recette de Cuisine Équilibrée',
+            content: `Une réaction chimique c'est comme une recette ! 👨‍🍳
+
+Si tu mets 2 œufs et 100g de farine AVANT la cuisson,
+tu auras exactement les mêmes atomes APRÈS. Rien ne disparaît !
+
+Les atomes changent juste de partenaire. On doit avoir autant de chaque type d'atome à gauche qu'à droite.`
+        },
+        theory: `Conservation de la Masse (Lavoisier)
+
+"Rien ne se perd, rien ne se crée, tout se transforme"
+
+L'équation-bilan doit être équilibrée :
+- Même nombre de chaque atome à gauche et à droite
+- On ajuste avec des coefficients stœchiométriques
+
+Exemple : 2 H₂ + O₂ → 2 H₂O
+- Gauche : 4 H, 2 O
+- Droite : 4 H, 2 O ✓`,
+        exercises: [
+            { question: 'Pour équilibrer H₂ + O₂ → H₂O, il faut...', options: ['2 H₂ + O₂ → 2 H₂O', 'H₂ + O₂ → H₂O', 'H₂ + 2 O₂ → H₂O', '3 H₂ + O₂ → H₂O'], correct: 0, explanation: '2 H₂ + O₂ → 2 H₂O donne 4 H et 2 O des deux côtés.' },
+            { question: 'La conservation de la masse vient de...', options: ['Newton', 'Lavoisier', 'Einstein', 'Pasteur'], correct: 1, explanation: 'Lavoisier a énoncé la loi de conservation de la masse.' }
+        ],
+        relatedSimulations: ['mole-concept', 'chemical-reactions']
+    },
+
     'chemical-tests': {
         title: 'Tests d\'Identification',
         description: 'Identifier les ions en solution',
@@ -3886,6 +4026,351 @@ Le bleu est plus dévié que le rouge → Arc-en-ciel, prisme.`,
         relatedSimulations: ['reflexion-lumiere-2nde', 'propagation-lumiere-2nde']
     },
 
+    // ========== CHIMIE 2NDE S - SIMULATIONS AVANCÉES ==========
+    'separation-lab': {
+        title: '🔬 Laboratoire de Séparation',
+        description: 'Techniques de séparation des mélanges avec Mode Défi',
+        type: 'separation-lab',
+        config: {},
+        analogy: {
+            title: 'Le Laboratoire Virtuel',
+            content: `Bienvenue dans ton laboratoire virtuel ! 🧪
+
+Tu vas apprendre à séparer différents mélanges de la vie quotidienne :
+- L'eau de mer + sable → Filtration
+- L'huile + eau de friture → Décantation
+- L'eau salée → Distillation
+- Les colorants de l'encre → Chromatographie
+
+Mode Défi : Des scénarios chronométrés avec indices et score !`
+        },
+        theory: `Techniques de Séparation
+
+FILTRATION : Sépare un solide d'un liquide
+- Le filtre retient le solide
+- Le liquide passe au travers (filtrat)
+
+DÉCANTATION : Sépare deux liquides non miscibles
+- On laisse reposer
+- Le plus dense va en bas
+- On utilise une ampoule à décanter
+
+DISTILLATION : Sépare des liquides miscibles
+- On chauffe le mélange
+- Le plus volatil s'évapore en premier
+- On condense la vapeur
+
+CHROMATOGRAPHIE : Sépare les composants d'un mélange
+- Basée sur la différence de migration
+- Éluant + Phase stationnaire`,
+        exercises: [],
+        relatedSimulations: ['chromatography', 'dissolution-simulation']
+    },
+    'atomic-structure-advanced': {
+        title: '⚛️ Structure Atomique (Avancé)',
+        description: 'Modèle de Bohr avec Mode Défi interactif',
+        type: 'atomic-structure-advanced',
+        config: {},
+        analogy: {
+            title: 'Le Mini Système Solaire',
+            content: `L'atome est comme un minuscule système solaire ! ☀️
+
+Le noyau = Le Soleil (protons + neutrons)
+Les électrons = Les planètes en orbite
+
+Chaque couche (K, L, M, N...) peut contenir un nombre limité d'électrons :
+- K : 2 max
+- L : 8 max
+- M : 18 max
+
+Mode Défi : Réponds aux questions sur les atomes !`
+        },
+        theory: `Structure de l'Atome
+
+NOYAU :
+- Protons (+) : Numéro atomique Z
+- Neutrons (0) : N = A - Z
+- Nucléons = A (nombre de masse)
+
+ÉLECTRONS :
+- Même nombre que les protons (atome neutre)
+- Organisés en couches : K, L, M, N...
+- Électrons de valence = dernière couche
+
+NOTATION : ᴬ_Z X
+Exemple : ¹²_6 C = 6 protons, 6 neutrons, 6 électrons`,
+        exercises: [],
+        relatedSimulations: ['lewis-structure-advanced', 'periodic-table']
+    },
+    'lewis-structure-advanced': {
+        title: '🔬 Structure de Lewis (Avancé)',
+        description: 'Représentation des molécules avec Mode Défi',
+        type: 'lewis-structure-advanced',
+        config: {},
+        analogy: {
+            title: 'Les Mariages d\'Atomes',
+            content: `Les atomes veulent être stables comme les gaz nobles ! 💍
+
+Pour cela, ils "se marient" en partageant des électrons :
+- Doublet liant = Électrons partagés (le mariage)
+- Doublet non liant = Électrons qui restent seuls
+
+La règle de l'Octet : 8 électrons sur la couche externe = Stabilité !
+(Sauf pour H et He : 2 électrons = règle du Duet)
+
+Mode Défi : Compte les doublets !`
+        },
+        theory: `Structure de Lewis
+
+RÈGLE DE L'OCTET :
+Les atomes cherchent à avoir 8 électrons sur leur couche externe
+(2 pour H et He = règle du Duet)
+
+DOUBLET LIANT :
+Paire d'électrons partagée entre deux atomes
+Représenté par un trait : C-H
+
+DOUBLET NON LIANT :
+Paire d'électrons qui reste sur l'atome
+Représenté par deux points
+
+VALENCE :
+H = 1, O = 2, N = 3, C = 4
+
+GÉOMÉTRIE :
+Les doublets se repoussent → forme de la molécule
+H₂O : 104.5°, NH₃ : 107°, CH₄ : 109.5°`,
+        exercises: [],
+        relatedSimulations: ['atomic-structure-advanced', 'mole-scale-advanced']
+    },
+    'mole-scale-advanced': {
+        title: '⚖️ La Mole (Avancé)',
+        description: 'Quantité de matière avec Mode Défi calcul',
+        type: 'mole-scale-advanced',
+        config: {},
+        analogy: {
+            title: 'La Douzaine du Chimiste',
+            content: `La mole, c'est comme une "douzaine" mais en BEAUCOUP plus grand ! 📦
+
+Une mole = 6,02 × 10²³ entités (Nombre d'Avogadro)
+
+Imagine : Si tu comptes 1 entité par seconde, il te faudrait plus de 19 MILLIARDS d'années pour finir une mole !
+
+La formule magique : n = m / M
+- n = quantité de matière (mol)
+- m = masse (g)
+- M = masse molaire (g/mol)
+
+Mode Défi : Calcule les quantités !`
+        },
+        theory: `La Mole et Quantité de Matière
+
+DÉFINITION :
+1 mole = 6,02 × 10²³ entités (Nₐ)
+
+MASSE MOLAIRE (M) :
+Masse d'une mole de substance
+M(C) = 12 g/mol, M(H) = 1 g/mol, M(O) = 16 g/mol
+M(H₂O) = 2×1 + 16 = 18 g/mol
+
+FORMULE FONDAMENTALE :
+n = m / M
+où n en mol, m en g, M en g/mol
+
+VOLUME MOLAIRE DES GAZ :
+À 0°C et 1 atm : Vm = 22,4 L/mol
+n = V / Vm`,
+        exercises: [],
+        relatedSimulations: ['equation-balancer-advanced', 'dilution-simulation']
+    },
+    'equation-balancer-advanced': {
+        title: '⚖️ Équations-Bilan (Avancé)',
+        description: 'Équilibrage avec Mode Défi chronométré',
+        type: 'equation-balancer-advanced',
+        config: {},
+        analogy: {
+            title: 'La Loi de Lavoisier',
+            content: `"Rien ne se perd, rien ne se crée, tout se transforme" ⚖️
+
+Dans une réaction chimique :
+- Les atomes se réarrangent
+- Mais leur NOMBRE reste le même !
+
+C'est comme cuisiner : tu peux transformer tes ingrédients en plat, mais tu ne crées pas de matière !
+
+Règle d'or : Même nombre d'atomes à gauche et à droite
+
+Mode Défi : Équilibre le plus vite possible !`
+        },
+        theory: `Équation-Bilan
+
+LOI DE LAVOISIER :
+Conservation de la masse et des atomes
+
+MÉTHODE D'ÉQUILIBRAGE :
+1. Écrire l'équation non équilibrée
+2. Compter les atomes de chaque côté
+3. Ajouter des coefficients stœchiométriques
+4. Vérifier l'équilibre
+
+EXEMPLE :
+CH₄ + O₂ → CO₂ + H₂O (non équilibrée)
+CH₄ + 2O₂ → CO₂ + 2H₂O (équilibrée)
+
+RÈGLES :
+- Ne JAMAIS modifier les indices des formules
+- Uniquement ajouter des coefficients devant
+- Commencer par l'élément le plus complexe`,
+        exercises: [],
+        relatedSimulations: ['mole-scale-advanced', 'dissolution-simulation']
+    },
+    'dilution-advanced': {
+        title: '🧪 Dilution (Avancé)',
+        description: 'Concentration et dilution avec Mode Défi calcul',
+        type: 'dilution-advanced',
+        config: {},
+        analogy: {
+            title: 'Le Sirop du Sénégal',
+            content: `Tu connais le sirop de bissap ou de bouye ? 🍹
+
+Quand tu le dilues avec de l'eau :
+- La QUANTITÉ de sirop ne change pas
+- Mais la CONCENTRATION diminue !
+
+C'est exactement pareil en chimie avec la formule magique :
+Ci × Vi = Cf × Vf
+
+Mode Défi : Calcule les concentrations et volumes !`
+        },
+        theory: `Dilution et Concentration
+
+CONCENTRATION MOLAIRE :
+C = n / V (mol/L)
+
+CONCENTRATION MASSIQUE :
+Cm = m / V (g/L)
+
+Relation : Cm = C × M
+
+DILUTION :
+Conservation de la quantité de soluté :
+n(initial) = n(final)
+Ci × Vi = Cf × Vf
+
+Facteur de dilution F = Vf / Vi`,
+        exercises: [],
+        relatedSimulations: ['mole-scale-advanced', 'titrage-advanced']
+    },
+    'titrage-advanced': {
+        title: '⚗️ Titrage Acide-Base (Avancé)',
+        description: 'Dosage avec recherche du point d\'équivalence',
+        type: 'titrage-advanced',
+        config: {},
+        analogy: {
+            title: 'La Bataille Chimique',
+            content: `Imagine un combat entre l'Acide et la Base ! ⚔️
+
+L'Acide envoie ses soldats H₃O⁺
+La Base riposte avec ses soldats OH⁻
+
+Quand il y a autant de soldats des deux côtés :
+C'est l'ÉQUIVALENCE ! Le combat est terminé.
+La solution devient neutre (pH ≈ 7).
+
+Mode Défi : Trouve le volume d'équivalence !`
+        },
+        theory: `Titrage Acide-Base
+
+PRINCIPE :
+On verse une solution titrante (base) dans une solution à titrer (acide).
+
+ÉQUIVALENCE :
+n(acide) = n(base)
+Ca × Va = Cb × Vb
+
+À l'équivalence :
+- Tous les H₃O⁺ ont réagi avec les OH⁻
+- pH = 7 (pour acide fort + base forte)
+- L'indicateur coloré change de couleur
+
+FORMULE :
+Veq = (Ca × Va) / Cb`,
+        exercises: [],
+        relatedSimulations: ['ph-indicateurs-advanced', 'dilution-advanced']
+    },
+    'ph-indicateurs-advanced': {
+        title: '📊 pH et Indicateurs (Avancé)',
+        description: 'Échelle de pH et indicateurs colorés interactifs',
+        type: 'ph-indicateurs-advanced',
+        config: {},
+        analogy: {
+            title: 'Le Thermomètre de l\'Acidité',
+            content: `Le pH, c'est comme un thermomètre mais pour mesurer l'acidité ! 🌡️
+
+Échelle de 0 à 14 :
+- 0-6 : ACIDE (citron, vinaigre, cola)
+- 7 : NEUTRE (eau pure)
+- 8-14 : BASIQUE (savon, javel, soude)
+
+Plus le pH est bas, plus c'est acide.
+Plus le pH est haut, plus c'est basique.
+
+Les indicateurs colorés changent de couleur selon le pH !`
+        },
+        theory: `pH et Indicateurs Colorés
+
+DÉFINITION :
+pH = -log[H₃O⁺]
+[H₃O⁺] = 10^(-pH) mol/L
+
+ÉCHELLE (25°C) :
+pH < 7 : Acide ([H₃O⁺] > [OH⁻])
+pH = 7 : Neutre ([H₃O⁺] = [OH⁻])
+pH > 7 : Basique ([H₃O⁺] < [OH⁻])
+
+INDICATEURS :
+BBT : Jaune (acide) → Vert (neutre) → Bleu (basique)
+Phénolphtaléine : Incolore → Rose (basique)
+Hélianthine : Rouge → Orange → Jaune`,
+        exercises: [],
+        relatedSimulations: ['titrage-advanced', 'tests-ions-advanced']
+    },
+    'tests-ions-advanced': {
+        title: '🔬 Tests d\'Ions (Avancé)',
+        description: 'Identification des ions avec Mode Mystère',
+        type: 'tests-ions-advanced',
+        config: {},
+        analogy: {
+            title: 'Le Détective Chimiste',
+            content: `Deviens un détective de laboratoire ! 🔍
+
+Tu as une solution inconnue. Comment savoir ce qu'elle contient ?
+
+Chaque ion laisse une "empreinte" colorée quand tu utilises le bon réactif :
+- Cu²⁺ + Soude = Bleu 💙
+- Fe²⁺ + Soude = Vert 💚
+- Fe³⁺ + Soude = Rouille 🧡
+- Cl⁻ + Nitrate d'Argent = Blanc ⚪
+
+Mode Mystère : Identifie l'ion caché !`
+        },
+        theory: `Tests de Caractérisation des Ions
+
+CATIONS (avec Soude NaOH) :
+Cu²⁺ → Précipité BLEU (hydroxyde de cuivre)
+Fe²⁺ → Précipité VERT (hydroxyde de fer II)
+Fe³⁺ → Précipité ROUILLE (hydroxyde de fer III)
+Zn²⁺ → Précipité BLANC (se redissout en excès)
+Al³⁺ → Précipité BLANC
+
+ANIONS :
+Cl⁻ + AgNO₃ → Précipité BLANC (noircit à la lumière)
+SO₄²⁻ + BaCl₂ → Précipité BLANC`,
+        exercises: [],
+        relatedSimulations: ['ph-indicateurs-advanced', 'dissolution-simulation']
+    },
+
 };
 
 export default lyceeSimulationsData;
+

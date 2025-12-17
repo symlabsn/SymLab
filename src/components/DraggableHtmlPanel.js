@@ -16,7 +16,7 @@ import { createPortal } from 'react-dom';
  * - Fermable
  * - Position initiale intelligente (côté droit sur desktop, en haut sur mobile)
  */
-const DraggableHtmlPanel = ({ children, title, className = "", initialPos = null, onClose, usePortal = true, showCloseButton = true, defaultPosition = "top-right" }) => {
+const DraggableHtmlPanel = ({ children, title, className = "", initialPos = null, onClose, usePortal = true, showCloseButton = false, defaultPosition = "top-right" }) => {
     const [mounted, setMounted] = useState(false);
     const [position, setPosition] = useState({ x: 20, y: 100 });
     const [isDragging, setIsDragging] = useState(false);

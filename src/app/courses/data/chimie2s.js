@@ -49,7 +49,7 @@ Pour obtenir un corps pur à partir d'un mélange, on utilise des techniques phy
                     explanation: "L'eau et l'alcool sont miscibles mais ont des températures d'ébullition différentes (100°C et 78°C). La distillation fractionnée permet de les séparer."
                 }
             ],
-            simulation: 'chromatography'
+            simulation: { id: 'separation-lab', title: '🔬 Labo: Séparation des Mélanges' }
         },
         {
             id: 'chim-2s-02',
@@ -110,7 +110,7 @@ Les éléments sont classés par Z croissant.
                     explanation: "La charge positive 2+ indique une perte de 2 électrons négatifs. C'est un cation."
                 }
             ],
-            simulation: 'atomic-structure-seconde'
+            simulation: { id: 'atomic-structure-seconde', title: 'Structure Atomique' }
         },
         {
             id: 'chim-2s-03',
@@ -162,7 +162,7 @@ Attraction électrostatique entre un cation et un anion (ex: $Na^+ + Cl^- \\righ
                     explanation: "L'azote a 3 électrons célibataires. Pour satisfaire l'octet, deux atomes N partagent 3 paires d'électrons : liaison triple $N \\equiv N$."
                 }
             ],
-            simulation: 'molecular-geometry'
+            simulation: { id: 'lewis-structure-advanced', title: '🔬 Structure de Lewis (Mode Défi)' }
         },
         {
             id: 'chim-2s-04',
@@ -220,7 +220,7 @@ $$n = \\frac{V}{V_m}$$
                     explanation: "$V = n \\times V_m = 0,5 \\times 22,4 = 11,2 \\text{ L}$."
                 }
             ],
-            simulation: 'mole-concept'
+            simulation: { id: 'mole-scale-advanced', title: '⚖️ La Mole (Mode Défi)' }
         },
         {
             id: 'chim-2s-05',
@@ -281,7 +281,7 @@ $$ \\frac{n(A)_{consommé}}{a} = \\frac{n(B)_{consommé}}{b} = \\frac{n(C)_{form
                     explanation: "D'après les cœfficients (2 pour 1), il faut deux fois moins de dioxygène que de dihydrogène. $2/2 = 1$ mol."
                 }
             ],
-            simulation: 'mass-conservation'
+            simulation: { id: 'equation-balancer-advanced', title: '⚖️ Équations-Bilan (Mode Défi)' }
         },
         {
             id: 'chim-2s-06',
@@ -341,7 +341,7 @@ $V_i$ est le volume à prélever de la solution mère.
                     explanation: "On ajoute du solvant, donc il y a moins de soluté par unité de volume. La concentration diminue."
                 }
             ],
-            simulation: 'molar-concentration'
+            simulation: { id: 'dilution-advanced', title: '🧪 Dilution (Mode Défi)' }
         },
         {
             id: 'chim-2s-07',
@@ -388,7 +388,7 @@ Dans l'eau, $H^+$ s'associe à $H_2O$ pour former l'ion **Hydronium $H_3O^+$**.
                     explanation: "$HCl$ (Chlorure d'hydrogène) dissous dans l'eau donne l'acide chlorhydrique."
                 }
             ],
-            simulation: 'ph-scale'
+            simulation: { id: 'titrage-advanced', title: '⚗️ Titrage Acide-Base (Mode Défi)' }
         },
         {
             id: 'chim-2s-08',
@@ -435,7 +435,7 @@ Une **base** est une substance qui, en solution aqueuse, libère des ions hydrox
                     explanation: "$NaOH \\rightarrow Na^+ + OH^-$."
                 }
             ],
-            simulation: 'ph-scale'
+            simulation: { id: 'dissolution-simulation', title: '🧪 Dissolution (Ions)' }
         },
         {
             id: 'chim-2s-09',
@@ -487,7 +487,7 @@ Ce sont des substances organiques dont la couleur change selon le pH du milieu (
                     explanation: "Le Bleu de Bromothymol est bleu en milieu basique (pH > 7,6)."
                 }
             ],
-            simulation: 'ph-scale'
+            simulation: { id: 'ph-indicateurs-advanced', title: '📊 pH et Indicateurs (Mode Défi)' }
         },
         {
             id: 'chim-2s-10',
@@ -542,7 +542,7 @@ On ajoute de la Soude ($NaOH$).
                     explanation: "Le précipité vert est l'hydroxyde de fer II ($Fe(OH)_2$)."
                 }
             ],
-            simulation: 'chemical-tests'
+            simulation: { id: 'tests-ions-advanced', title: '🔬 Tests d\'ions (Mode Mystère)' }
         }
     ]
 };

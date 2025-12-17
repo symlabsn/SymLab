@@ -56,6 +56,11 @@ import { MotionRelativity, ChromatographyExperiment, ChemicalIdentification, Son
 import { ElectrisationSimulation, CircuitElectriqueSeconde, LoiOhmSeconde, GenerateurSeconde } from './Physique2ndeSimulations';
 import { MouvementSeconde, ForcesPoidsSeconde, Equilibre3ForcesSeconde, MomentForceSeconde } from './Physique2ndeSimulationsPart2';
 import { PropagationLumiereSeconde, ReflexionLumiereSeconde, RefractionDispersionSeconde } from './Physique2ndeSimulationsPart3';
+import { DilutionSimulation, TitrageAcideBase, DissolutionSimulation, EquationBalancer, LewisStructure, ChemicalTestsGamified } from './Chimie2SSimulations';
+import { VirtualChemLab } from './VirtualChemLab';
+import { SeparationLab } from './Chimie2SImmersive';
+import { AtomicStructureAdvanced, MoleScaleAdvanced, LewisStructureAdvanced, EquationBalancerAdvanced } from './Chimie2SAdvanced';
+import { DilutionAdvanced, TitrageAdvanced, PHIndicateursAdvanced, TestsIonsAdvanced } from './Chimie2SAdvancedPart2';
 
 
 
@@ -4571,6 +4576,74 @@ export default function Simulation3D({ type = 'atom', config = {} }) {
                 return <ReflexionLumiereSeconde />;
             case 'refraction-dispersion-2nde':
                 return <RefractionDispersionSeconde />;
+
+            // === CHIMIE 2NDE S - SIMULATIONS GAMIFIÉES ===
+            case 'separation-lab':
+                return <SeparationLab />;
+            case 'chromatography':
+                return <ChromatographyExperiment />;
+            case 'mole-scale':
+                return <MoleScale />;
+            case 'dilution-simulation':
+                return <DilutionSimulation />;
+            case 'titrage-acide-base':
+                return <TitrageAcideBase />;
+            case 'dissolution-simulation':
+                return <DissolutionSimulation />;
+            case 'equation-balancer':
+                return <EquationBalancer />;
+            case 'lewis-structure':
+                return <LewisStructure />;
+            case 'chemical-tests-gamified':
+                return <ChemicalTestsGamified />;
+
+            // === CHIMIE 2NDE S - SIMULATIONS AVANCÉES (Mode Défi) ===
+            case 'atomic-structure-seconde':
+            case 'atomic-structure-advanced':
+                return <AtomicStructureAdvanced />;
+            case 'mole-scale-advanced':
+                return <MoleScaleAdvanced />;
+            case 'lewis-structure-advanced':
+                return <LewisStructureAdvanced />;
+            case 'equation-balancer-advanced':
+                return <EquationBalancerAdvanced />;
+
+            // === CHIMIE 2NDE S - SIMULATIONS AVANCÉES C6-C10 ===
+            case 'dilution-advanced':
+            case 'dilution-simulation':
+                return <DilutionAdvanced />;
+            case 'titrage-advanced':
+            case 'titrage-acide-base':
+                return <TitrageAdvanced />;
+            case 'ph-indicateurs-advanced':
+            case 'chap9-acides-bases-ph':
+                return <PHIndicateursAdvanced />;
+            case 'tests-ions-advanced':
+            case 'chemical-tests-gamified':
+                return <TestsIonsAdvanced />;
+
+            // === LABORATOIRE VIRTUEL CHIMIE 2NDE S ===
+
+            case 'virtual-lab-c1':
+                return <VirtualChemLab scenario="C1" />;
+            case 'virtual-lab-c2':
+                return <VirtualChemLab scenario="C2" />;
+            case 'virtual-lab-c3':
+                return <VirtualChemLab scenario="C3" />;
+            case 'virtual-lab-c4':
+                return <VirtualChemLab scenario="C4" />;
+            case 'virtual-lab-c5':
+                return <VirtualChemLab scenario="C5" />;
+            case 'virtual-lab-c6':
+                return <VirtualChemLab scenario="C6" />;
+            case 'virtual-lab-c7':
+                return <VirtualChemLab scenario="C7" />;
+            case 'virtual-lab-c8':
+                return <VirtualChemLab scenario="C8" />;
+            case 'virtual-lab-c9':
+                return <VirtualChemLab scenario="C9" />;
+            case 'virtual-lab-c10':
+                return <VirtualChemLab scenario="C10" />;
 
             default:
                 return <Atom {...config} />;
