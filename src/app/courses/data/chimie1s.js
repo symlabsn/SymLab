@@ -12,6 +12,7 @@ export const chimie1sData = {
             part: 'Chimie Organique',
             title: 'C1. Généralités sur la chimie organique',
             simulation: { id: 'c1s-orga', title: '🧪 Galerie Moléculaire' },
+            image: '/images/courses/c1s_chimie_organique.png',
             story: "La chimie du carbone est celle de la vie. Du plastique à l'ADN, le carbone est l'architecte des molécules complexes.",
             content: `
 ### 1. L'élément Carbone
@@ -45,6 +46,7 @@ Des isomères ont la même formule brute mais des formules développées différ
             part: 'Chimie Organique',
             title: 'C2. Les Alcanes',
             simulation: { id: 'c1s-orga', title: '🧪 Galerie Moléculaire' },
+            image: '/images/courses/c1s_alcanes.png',
             story: "Les hydrocarbures les plus simples. Le gaz naturel et l'essence en sont constitués.",
             content: `
 ### 1. Formule Générale
@@ -79,6 +81,7 @@ $$ C_n H_{2n+2} $$
             part: 'Chimie Organique',
             title: 'C3. Alcènes et Alcynes',
             simulation: { id: 'c1s-orga', title: '🧪 Galerie Moléculaire' },
+            image: '/images/courses/c1s_alcenes_alcynes.png',
             story: "L'insaturation change tout. La double ou triple liaison est un site de réactivité intense.",
             content: `
 ### 1. Les Alcènes ($C=C$)
@@ -109,6 +112,7 @@ L'acétylène ($C_2H_2$) est utilisé pour la soudure (flamme très chaude).
             part: 'Chimie Organique',
             title: 'C4. Le Benzène',
             simulation: { id: 'c1s-orga', title: '🧪 Galerie Moléculaire' },
+            image: '/images/courses/c1s_benzene.png',
             story: "Un cycle parfait, une stabilité exceptionnelle. Le benzène inaugure la famille des aromatiques.",
             content: `
 ### 1. Structure du Benzène ($C_6H_6$)
@@ -140,6 +144,7 @@ Contrairement aux alcènes, le benzène préfère la **substitution** à l'addit
             part: 'Chimie Organique',
             title: 'C5. Les composés oxygénés',
             simulation: { id: 'c1s-orga', title: '🧪 Galerie Moléculaire' },
+            image: '/images/courses/c1s_composes_oxygenes.png',
             story: "Ajoutons un atome d'oxygène. L'alcool, le parfum des fruits, l'odeur du formol... tout change.",
             content: `
 ### 1. Les Alcools ($R-OH$)
@@ -177,6 +182,7 @@ Tests : DNPH (précipité jaune pour les deux), Liqueur de Fehling (rouge brique
             part: 'Électrochimie',
             title: 'C6. Notion de couple Oxydant-Réducteur',
             simulation: { id: 'c1s-redox', title: '⚗️ Expérience Redox' },
+            image: '/images/courses/c1s_couple_redox.png',
             story: "L'oxydoréduction est un échange d'électrons, comme l'acide-base est un échange de protons.",
             content: `
 ### 1. Définitions
@@ -208,6 +214,7 @@ $$ Ox_1 + Red_2 \\rightarrow Red_1 + Ox_2 $$
             part: 'Électrochimie',
             title: 'C7-C8. Classification des couples Ion/Métal',
             simulation: { id: 'c1s-redox', title: '⚗️ Expérience Redox' },
+            image: '/images/courses/c1s_classification_potentiels.png',
             story: "Qui est le plus fort ? Le fer rouille, l'or résiste. Il existe une hiérarchie dans la force des oxydants.",
             content: `
 ### 1. Classification Qualitative
@@ -237,6 +244,7 @@ On définit le Potentiel Standard d'oxydoréduction $E^0$ par rapport à l'élec
             part: 'Électrochimie',
             title: "C9. Généralisation en solution aqueuse",
             simulation: { id: 'c1s-redox', title: '⚗️ Expérience Redox' },
+            image: '/images/courses/c1s_dosage_redox.png',
             story: "Cela ne concerne pas que les métaux. Les ions permanganate, dichromate, ferreux... tout le monde joue.",
             content: `
 ### 1. Couples complexes
@@ -266,6 +274,7 @@ Utiliser une réaction d'oxydoréduction rapide et totale pour titrer une espèc
             part: 'Électrochimie',
             title: 'C10. Électrolyse',
             simulation: { id: 'c1s-redox', title: '⚡ Électrolyse' },
+            image: '/images/courses/c1s_electrolyse.png',
             story: "Forcer la nature. Avec de l'énergie électrique, on peut inverser le sens spontané des réactions chimiques.",
             content: `
 ### 1. Principe
@@ -296,6 +305,7 @@ Nombre de moles d'électrons : $n(e^-) = \\frac{Q}{F}$ avec $F \\approx 96500 C/
             part: 'Électrochimie',
             title: 'C11. Oxydoréduction par voie sèche',
             story: "La métallurgie. Extraire le fer de son minerai dans un haut fourneau, c'est de la chimie sèche (sans eau).",
+            image: '/images/courses/c1s_voie_seche.png',
             content: `
 ### 1. Réduction des oxydes métalliques
 On utilise des réducteurs puissants à haute température (Carbone CO, Aluminium Al, Hydrogène H2).
