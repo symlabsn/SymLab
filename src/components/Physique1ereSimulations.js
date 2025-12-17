@@ -2,7 +2,7 @@ import React, { useState, useRef, useMemo, useEffect } from 'react';
 import { useFrame } from '@react-three/fiber';
 import { Html, OrbitControls, Text, Sphere, Box, Cylinder, Line, Plane } from '@react-three/drei';
 import * as THREE from 'three';
-import { DraggableHtmlPanel } from './DraggableHtmlPanel';
+import DraggableHtmlPanel from './DraggableHtmlPanel';
 import confetti from 'canvas-confetti';
 
 // ==========================================
@@ -98,7 +98,7 @@ export function TravailPuissanceSim() {
             <Text position={[animPos + force / 50, 2.2 + Math.tan(angle * Math.PI / 180) * (animPos + 3), 0]} fontSize={0.35} color="yellow">F = {force} N</Text>
 
             <Html position={[7, 4, 0]}>
-                <DraggableHtmlPanel title="🔧 Travail & Puissance" usePortal={false}>
+                <DraggableHtmlPanel title="🔧 Travail & Puissance" >
                     <div className="p-4 w-80 text-white">
                         <div className="flex gap-2 mb-4">
                             <button onClick={() => setMode('explore')} className={`flex-1 py-2 rounded-lg font-bold transition-all ${mode === 'explore' ? 'bg-blue-500' : 'bg-gray-700'}`}>📚 Explorer</button>
@@ -174,7 +174,7 @@ export function EnergieCinetiqueSim() {
             </group>
 
             <Html position={[8, 4, 0]}>
-                <DraggableHtmlPanel title="🚗 Énergie Cinétique" usePortal={false}>
+                <DraggableHtmlPanel title="🚗 Énergie Cinétique" >
                     <div className="p-4 w-80 text-white">
                         <div className="space-y-3">
                             <div><label className="text-xs font-bold text-blue-400">Masse: {mass} kg</label><input type="range" min="500" max="2500" step="100" value={mass} onChange={e => setMass(Number(e.target.value))} className="w-full accent-blue-500" /></div>
@@ -237,7 +237,7 @@ export function EnergieMecaniqueSim() {
             <Text position={[4.5, 4.5 - L, 0]} fontSize={0.25} color="cyan">Ep = 0</Text>
 
             <Html position={[6, 4, 0]}>
-                <DraggableHtmlPanel title="🎢 Énergie Mécanique" usePortal={false}>
+                <DraggableHtmlPanel title="🎢 Énergie Mécanique" >
                     <div className="p-4 w-80 text-white">
                         <div className="mb-4"><label className="text-xs font-bold">Angle initial: {angleInit}°</label><input type="range" min="15" max="80" value={angleInit} onChange={e => { setAngleInit(Number(e.target.value)); reset(); }} className="w-full" disabled={isPlaying} /></div>
                         <div className="flex gap-2 mb-4">
@@ -294,7 +294,7 @@ export function ElectrostatiqueSim() {
             {charges.map((c, i) => (<group key={i} position={[c.x, c.y, 0]}><Sphere args={[0.35]}><meshStandardMaterial color={c.q > 0 ? "#FF4444" : "#4444FF"} /></Sphere><Text fontSize={0.3} color="white">{c.q > 0 ? '+' : '-'}</Text></group>))}
             {showFieldLines && fieldLines.map((pts, i) => (<Line key={i} points={pts} color="#00F5D4" lineWidth={1.5} transparent opacity={0.7} />))}
             <Html position={[6, 4, 0]}>
-                <DraggableHtmlPanel title="⚡ Champ Électrique" usePortal={false}>
+                <DraggableHtmlPanel title="⚡ Champ Électrique" >
                     <div className="p-4 w-72 text-white">
                         <div className="flex gap-2 mb-4">
                             <button onClick={() => addCharge(5)} className="flex-1 bg-red-600 py-2 rounded-lg font-bold hover:bg-red-500">+ Positive</button>
@@ -348,7 +348,7 @@ export function ElectroniqueSim() {
             <Text position={[1.8, -0.4, 2]} fontSize={0.25} color="#333">C={(C * 1000).toFixed(0)}mF</Text>
 
             <Html position={[8, 4, 0]}>
-                <DraggableHtmlPanel title="📺 Circuit RC" usePortal={false}>
+                <DraggableHtmlPanel title="📺 Circuit RC" >
                     <div className="p-4 w-72 text-white">
                         <div className="flex gap-2 mb-4">
                             <button onClick={() => setMode('charge')} className={`flex-1 py-2 rounded-lg font-bold ${mode === 'charge' ? 'bg-green-500' : 'bg-gray-700'}`}>⬆️ Charge</button>
@@ -399,7 +399,7 @@ export function OndesSim() {
             <mesh rotation={[-Math.PI / 2, 0, 0]}><planeGeometry args={[12, 12]} /><shaderMaterial ref={materialRef} args={[WaveShader]} transparent /></mesh>
             <Text position={[0, 0.5, -6.5]} fontSize={0.5} color="#00AACC">Interférences - Cuve à Ondes</Text>
             <Html position={[7, 3, 0]}>
-                <DraggableHtmlPanel title="🌊 Ondes Mécaniques" usePortal={false}>
+                <DraggableHtmlPanel title="🌊 Ondes Mécaniques" >
                     <div className="p-4 w-64 text-white">
                         <div><label className="text-xs font-bold">Fréquence f = {freq} Hz</label><input type="range" min="0.5" max="5" step="0.1" value={freq} onChange={e => setFreq(Number(e.target.value))} className="w-full accent-cyan-500" /></div>
                         <div className="mt-4 p-3 bg-black/50 rounded-lg text-sm">
@@ -447,7 +447,7 @@ export function OptiqueLentilleSim() {
             <Line points={[[objPos, 1.9, 0], [0, 0, 0], [oaP, 1.9 * gamma, 0]]} color="cyan" lineWidth={2} />
 
             <Html position={[8, 4, 0]}>
-                <DraggableHtmlPanel title="🔭 Lentilles Minces" usePortal={false}>
+                <DraggableHtmlPanel title="🔭 Lentilles Minces" >
                     <div className="p-4 w-80 text-white">
                         <div className="space-y-3">
                             <div><label className="text-xs font-bold">Position objet OA = {objPos.toFixed(1)} cm</label><input type="range" min="-12" max="-1.5" step="0.2" value={objPos} onChange={e => setObjPos(Number(e.target.value))} className="w-full" /></div>

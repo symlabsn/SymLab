@@ -2,7 +2,7 @@ import React, { useState, useRef, useMemo } from 'react';
 import { useFrame } from '@react-three/fiber';
 import { Html, OrbitControls, Text, Sphere, Box, Cylinder, Line, Plane } from '@react-three/drei';
 import * as THREE from 'three';
-import { DraggableHtmlPanel } from './DraggableHtmlPanel';
+import DraggableHtmlPanel from './DraggableHtmlPanel';
 import confetti from 'canvas-confetti';
 
 // ==========================================
