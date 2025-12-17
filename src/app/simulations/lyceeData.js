@@ -4548,8 +4548,444 @@ ANIONS :
 Cl⁻ + AgNO₃ → Précipité BLANC (noircit à la lumière)
 SO₄²⁻ + BaCl₂ → Précipité BLANC`,
         exercises: [],
-        relatedSimulations: ['ph-indicateurs-advanced', 'dissolution-simulation']
     },
+
+    // ========== PHYSIQUE 1ÈRE S ==========
+    'p1s-travail': {
+        title: '🔧 Travail et Puissance',
+        description: 'Chariot sur rampe avec force, angle et déplacement',
+        type: 'p1s-travail',
+        config: {},
+        analogy: {
+            title: 'Pousser un Chariot à Sandaga',
+            content: `Imagine tu dois pousser un chariot lourd au marché Sandaga ! 🛒
+
+Plus tu pousses dans le sens du mouvement, plus le travail est efficace.
+Si tu pousses en angle (30°), une partie de ta force est "gaspillée".
+
+W = F × d × cos(α)
+
+Le travail mesure vraiment combien tu as déplacé quelque chose avec ta force.`
+        },
+        theory: `Travail et Puissance
+
+TRAVAIL D'UNE FORCE :
+W = F × AB × cos(α)
+- W en Joules (J)
+- F en Newtons (N)
+- AB en mètres (m)
+- α : angle entre F et le déplacement
+
+PUISSANCE :
+P = W / t = F × v
+- P en Watts (W)
+- t en secondes (s)
+- v : vitesse en m/s`,
+        exercises: [
+            { question: 'Un chariot de 50 kg est poussé sur 10 m avec une force de 100 N parallèle au déplacement. Quel est le travail ?', options: ['500 J', '1000 J', '5000 J', '50 J'], correct: 1, explanation: 'W = F × d × cos(0°) = 100 × 10 × 1 = 1000 J' }
+        ],
+        relatedSimulations: ['p1s-cinetique', 'p1s-mecanique']
+    },
+    'p1s-cinetique': {
+        title: '🚗 Énergie Cinétique',
+        description: 'Voiture en mouvement et distance de freinage',
+        type: 'p1s-cinetique',
+        config: {},
+        analogy: {
+            title: 'Freiner sur la Corniche',
+            content: `Ta voiture roule sur la Corniche de Dakar 🚗
+
+Plus tu vas vite, plus tu as d'énergie cinétique.
+Et attention : si tu doubles ta vitesse, ton énergie est QUADRUPLÉE !
+
+Ec = ½ × m × v²
+
+C'est pour ça que la distance de freinage augmente énormément avec la vitesse.
+À 60 km/h tu freines en 18m. À 120 km/h ? 72m !`
+        },
+        theory: `Énergie Cinétique
+
+DÉFINITION :
+Ec = ½ × m × v²
+- Ec en Joules (J)
+- m en kg
+- v en m/s
+
+THÉORÈME DE L'ÉNERGIE CINÉTIQUE :
+W(forces) = ΔEc = Ecf - Ec0
+
+Plus la masse ou la vitesse augmente, plus l'énergie cinétique est grande.`,
+        exercises: [
+            { question: 'Une voiture de 1000 kg roule à 20 m/s. Quelle est son énergie cinétique ?', options: ['10 000 J', '200 000 J', '400 000 J', '20 000 J'], correct: 1, explanation: 'Ec = ½ × 1000 × 20² = ½ × 1000 × 400 = 200 000 J' }
+        ],
+        relatedSimulations: ['p1s-travail', 'p1s-mecanique']
+    },
+    'p1s-mecanique': {
+        title: '🎢 Énergie Mécanique',
+        description: 'Pendule avec conservation Ec + Ep',
+        type: 'p1s-mecanique',
+        config: {},
+        analogy: {
+            title: 'La Balançoire du Parc',
+            content: `Regarde une balançoire au parc de Hann ! 🎢
+
+En haut : Toute l'énergie est potentielle (Ep = mgh)
+En bas : Toute l'énergie est cinétique (Ec = ½mv²)
+
+L'énergie totale Em = Ep + Ec reste CONSTANTE (si pas de frottements).
+
+C'est la Conservation de l'Énergie Mécanique !`
+        },
+        theory: `Énergie Mécanique
+
+ÉNERGIE POTENTIELLE :
+Ep = m × g × h
+
+ÉNERGIE MÉCANIQUE :
+Em = Ec + Ep = ½mv² + mgh
+
+CONSERVATION :
+Sans frottements : Em = constante
+Avec frottements : Em diminue (dissipation)`,
+        exercises: [
+            { question: 'Un objet de 2 kg tombe de 5 m. Quelle est la variation d\'énergie potentielle ?', options: ['10 J', '50 J', '100 J', '1000 J'], correct: 2, explanation: 'ΔEp = m × g × Δh = 2 × 10 × 5 = 100 J' }
+        ],
+        relatedSimulations: ['p1s-travail', 'p1s-cinetique']
+    },
+    'p1s-electro': {
+        title: '⚡ Champ Électrique',
+        description: 'Charges et lignes de champ E',
+        type: 'p1s-electro',
+        config: {},
+        analogy: {
+            title: 'Les Charges comme des Aimants',
+            content: `Les charges électriques créent un champ invisible autour d'elles ! ⚡
+
++ attire - (comme les opposés)
++ repousse + (comme les semblables)
+
+Le champ électrique E montre la direction de la force sur une charge positive.
+Plus les lignes sont serrées, plus le champ est intense.`
+        },
+        theory: `Champ Électrique
+
+DÉFINITION :
+E = F / q
+- E en V/m
+- F en Newtons
+- q en Coulombs
+
+CHAMP UNIFORME :
+E = U / d
+Entre deux plaques parallèles.`,
+        exercises: [],
+        relatedSimulations: ['p1s-electronique']
+    },
+    'p1s-ondes': {
+        title: '🌊 Ondes Mécaniques',
+        description: 'Cuve à ondes et interférences',
+        type: 'p1s-ondes',
+        config: {},
+        analogy: {
+            title: 'Les Vagues de la Plage',
+            content: `Regarde les vagues à la plage de Ngor ! 🌊
+
+Quand deux vagues se rencontrent :
+- Si elles sont en phase : Elles s'additionnent (interférence constructive)
+- Si elles sont en opposition : Elles s'annulent (interférence destructive)
+
+La longueur d'onde λ = v / f`
+        },
+        theory: `Ondes Mécaniques
+
+CARACTÉRISTIQUES :
+- Période T (s)
+- Fréquence f = 1/T (Hz)
+- Longueur d'onde λ = v × T (m)
+- Célérité v (m/s)
+
+INTERFÉRENCES :
+Δφ = 0 → Constructive
+Δφ = π → Destructive`,
+        exercises: [],
+        relatedSimulations: ['p1s-optique']
+    },
+    'p1s-optique': {
+        title: '🔭 Optique Géométrique',
+        description: 'Banc optique avec lentilles convergentes',
+        type: 'p1s-optique',
+        config: {},
+        analogy: {
+            title: 'La Loupe et l\'Appareil Photo',
+            content: `Une lentille convergente, c'est comme une loupe ! 🔍
+
+Elle fait converger les rayons de lumière vers un point : le Foyer.
+
+L'appareil photo utilise ce principe pour former une image nette sur le capteur.
+
+1/OA' - 1/OA = 1/f (Relation de conjugaison)`
+        },
+        theory: `Optique - Lentilles
+
+LENTILLE CONVERGENTE :
+- Plus épaisse au centre
+- Vergence C = 1/f (dioptries)
+- Foyers F et F'
+
+IMAGE :
+Réelle si objet au-delà de F
+Virtuelle si objet entre O et F`,
+        exercises: [],
+        relatedSimulations: ['p1s-ondes', 'vision-eye']
+    },
+    'p1s-electronique': {
+        title: '📺 Électronique - Circuit RC',
+        description: 'Condensateur, résistance et oscilloscope',
+        type: 'p1s-electronique',
+        config: {},
+        analogy: {
+            title: 'Le Réservoir d\'Électricité',
+            content: `Le condensateur est comme un réservoir d'eau ⚡
+
+La charge : Remplir le réservoir
+La décharge : Vider le réservoir
+
+τ = R × C est le temps caractéristique.
+Après 5τ, le condensateur est chargé à 99%.`
+        },
+        theory: `Circuit RC
+
+CHARGE :
+Uc(t) = E(1 - e^(-t/τ))
+
+DÉCHARGE :
+Uc(t) = E × e^(-t/τ)
+
+CONSTANTE DE TEMPS :
+τ = R × C (secondes)`,
+        exercises: [],
+        relatedSimulations: ['p1s-electro']
+    },
+
+    // ========== CHIMIE 1ÈRE S ==========
+    'c1s-general': {
+        title: '🧪 Tétravalence du Carbone',
+        description: 'Structure du méthane CH4 en 3D',
+        type: 'c1s-general',
+        config: {},
+        analogy: {
+            title: 'Le Carbone a 4 Bras',
+            content: `Le carbone est comme un atome à 4 bras ! 🤲
+
+Il peut toujours tenir 4 autres atomes (ou groupes).
+C'est la TÉTRAVALENCE.
+
+Le méthane CH4 forme un tétraèdre parfait avec des angles de 109.5°.`
+        },
+        theory: `Chimie Organique - Généralités
+
+TÉTRAVALENCE DU CARBONE :
+Le carbone forme toujours 4 liaisons covalentes.
+
+GÉOMÉTRIE :
+- 4 liaisons simples → Tétraèdre (109.5°)
+- 1 double liaison → Plan (120°)
+- 1 triple liaison → Linéaire (180°)`,
+        exercises: [],
+        relatedSimulations: ['c1s-alcanes', 'c1s-alcenes']
+    },
+    'c1s-alcanes': {
+        title: '⛽ Les Alcanes',
+        description: 'Nomenclature et formule CnH2n+2',
+        type: 'c1s-alcanes',
+        config: {},
+        analogy: {
+            title: 'Le Gaz de Cuisine',
+            content: `Le butane dans ta bouteille de gaz, c'est un alcane ! ⛽
+
+Formule générale : CnH2n+2
+- Méthane CH4 (n=1)
+- Éthane C2H6 (n=2)
+- Propane C3H8 (n=3)
+- Butane C4H10 (n=4)`
+        },
+        theory: `Les Alcanes
+
+FORMULE GÉNÉRALE :
+CnH2n+2
+
+NOMENCLATURE :
+Racine (nb de C) + suffixe "-ane"
+
+COMBUSTION :
+CnH2n+2 + O2 → CO2 + H2O`,
+        exercises: [],
+        relatedSimulations: ['c1s-general', 'c1s-alcenes']
+    },
+    'c1s-alcenes': {
+        title: '🧬 Alcènes et Double Liaison',
+        description: 'Éthène C2H4 et réactions d\'addition',
+        type: 'c1s-alcenes',
+        config: {},
+        analogy: {
+            title: 'Les Plastiques sont des Alcènes',
+            content: `Le polyéthylène (sac plastique) vient de l'éthène ! 🧬
+
+La double liaison C=C est très réactive.
+Elle s'ouvre pour former des polymères.
+
+Formule générale : CnH2n`
+        },
+        theory: `Les Alcènes
+
+FORMULE GÉNÉRALE :
+CnH2n (une double liaison)
+
+RÉACTIONS D'ADDITION :
+- Hydrogénation : + H2
+- Halogénation : + Br2 (décoloration)
+- Hydratation : + H2O`,
+        exercises: [],
+        relatedSimulations: ['c1s-alcanes', 'c1s-benzene']
+    },
+    'c1s-benzene': {
+        title: '💎 Benzène Aromatique',
+        description: 'Cycle C6H6 avec électrons délocalisés',
+        type: 'c1s-benzene',
+        config: {},
+        analogy: {
+            title: 'Le Parfum et le Danger',
+            content: `Le benzène a une odeur douce (arôme) mais il est TOXIQUE ! 💎
+
+Son cycle à 6 carbones est exceptionnellement stable.
+Les électrons π sont délocalisés (le cercle au milieu).
+
+Il préfère la SUBSTITUTION à l'addition.`
+        },
+        theory: `Le Benzène
+
+FORMULE :
+C6H6
+
+STRUCTURE :
+Cycle plan hexagonal
+Liaisons délocalisées (stabilité aromatique)
+
+RÉACTIONS :
+Substitution électrophile (nitration, halogénation)`,
+        exercises: [],
+        relatedSimulations: ['c1s-alcenes', 'c1s-oxygenes']
+    },
+    'c1s-oxygenes': {
+        title: '🧪 Composés Oxygénés',
+        description: 'Alcools, Aldéhydes et Cétones',
+        type: 'c1s-oxygenes',
+        config: {},
+        analogy: {
+            title: 'L\'Éthanol et le Parfum',
+            content: `L'éthanol (alcool) est dans la bière et le parfum ! 🍺
+
+Groupe -OH = Alcool
+Groupe -CHO = Aldéhyde (odeur du formol)
+Groupe C=O = Cétone (acétone du dissolvant)
+
+L'oxydation transforme : Alcool → Aldéhyde → Acide`
+        },
+        theory: `Composés Oxygénés
+
+ALCOOLS (R-OH) :
+Oxydation ménagée possible
+
+ALDÉHYDES (R-CHO) :
+Test Fehling positif (rouge)
+
+CÉTONES (R-CO-R') :
+Test Fehling négatif`,
+        exercises: [],
+        relatedSimulations: ['c1s-benzene', 'c1s-redox']
+    },
+    'c1s-redox': {
+        title: '⚗️ Règle du Gamma',
+        description: 'Réactions redox et classification des couples',
+        type: 'c1s-redox',
+        config: {},
+        analogy: {
+            title: 'La Lame de Zinc dans le Cuivre',
+            content: `Plonge une lame de zinc dans du sulfate de cuivre 🔋
+
+Le zinc se dissout (oxydation)
+Le cuivre se dépose (réduction)
+
+Règle du Gamma : L'oxydant le plus fort réagit avec le réducteur le plus fort !`
+        },
+        theory: `Oxydoréduction
+
+COUPLE OX/RED :
+Cu²⁺/Cu, Zn²⁺/Zn, Fe³⁺/Fe²⁺
+
+RÈGLE DU GAMMA :
+L'oxydant le plus fort (en haut) réagit avec le réducteur le plus fort (en bas)
+
+POTENTIEL E° :
+Plus E° est élevé, plus l'oxydant est fort`,
+        exercises: [],
+        relatedSimulations: ['c1s-electrolyse', 'c1s-voieseche']
+    },
+    'c1s-electrolyse': {
+        title: '⚡ Électrolyse',
+        description: 'Loi de Faraday et dépôt métallique',
+        type: 'c1s-electrolyse',
+        config: {},
+        analogy: {
+            title: 'Forcer la Réaction',
+            content: `L'électrolyse, c'est forcer une réaction avec l'électricité ! ⚡
+
+Contrairement à la pile (spontanée), l'électrolyse consomme de l'énergie.
+
+Anode (+) : Oxydation
+Cathode (-) : Réduction
+
+Loi de Faraday : m = (I × t × M) / (n × F)`
+        },
+        theory: `Électrolyse
+
+LOI DE FARADAY :
+m = (I × t × M) / (n × F)
+F = 96500 C/mol
+
+ÉLECTRODES :
+Anode (+) : Oxydation
+Cathode (-) : Réduction`,
+        exercises: [],
+        relatedSimulations: ['c1s-redox', 'c1s-voieseche']
+    },
+    'c1s-voieseche': {
+        title: '🔥 Voie Sèche',
+        description: 'Aluminothermie et réduction des oxydes',
+        type: 'c1s-voieseche',
+        config: {},
+        analogy: {
+            title: 'Le Haut Fourneau',
+            content: `La sidérurgie extrait le fer de son minerai ! 🔥
+
+Fe2O3 + 2Al → 2Fe + Al2O3
+
+L'aluminium (réducteur puissant) arrache l'oxygène au fer.
+Température : ~2500°C
+
+C'est l'ALUMINOTHERMIE !`
+        },
+        theory: `Voie Sèche
+
+PRINCIPE :
+Réduction des oxydes métalliques sans eau
+
+ALUMINOTHERMIE :
+Fe2O3 + 2Al → 2Fe + Al2O3
+Réaction très exothermique`,
+        exercises: [],
+        relatedSimulations: ['c1s-redox', 'c1s-electrolyse']
+    }
 
 };
 
