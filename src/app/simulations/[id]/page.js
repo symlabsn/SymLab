@@ -726,29 +726,9 @@ const DraggableControlPanel = ({
     );
 };
 
-// Composant Barre d'outils flottante - Optimisé Mobile
-const FloatingToolbar = ({
-    onScreenshot,
-    onReset,
-    onHelp,
-    isPlaying,
-    setIsPlaying
-}) => (
+// Composant Barre d'outils flottante - Simplifiée (Aide uniquement)
+const FloatingToolbar = ({ onHelp }) => (
     <div className="absolute bottom-2 sm:bottom-4 left-1/2 transform -translate-x-1/2 flex gap-1 sm:gap-2 p-1.5 sm:p-2 rounded-xl sm:rounded-2xl bg-black/90 backdrop-blur-xl border border-white/20 z-10">
-        <button
-            onClick={() => setIsPlaying(!isPlaying)}
-            className={`w-8 h-8 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl flex items-center justify-center transition-all active:scale-95 ${isPlaying ? 'bg-red-500/20 text-red-400' : 'bg-green-500/20 text-green-400'}`}
-            title={isPlaying ? "Pause" : "Play"}
-        >
-            <span className="text-sm sm:text-base">{isPlaying ? '⏸️' : '▶️'}</span>
-        </button>
-        <button
-            onClick={onReset}
-            className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl bg-white/10 flex items-center justify-center active:scale-95 transition-all"
-            title="Réinitialiser"
-        >
-            <span className="text-sm sm:text-base">🔄</span>
-        </button>
         <button
             onClick={onHelp}
             className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl bg-white/10 flex items-center justify-center active:scale-95 transition-all"
@@ -1032,71 +1012,11 @@ export default function SimulationDetailPage({ params }) {
                                     <div ref={simulationContainerRef} className="relative rounded-xl sm:rounded-2xl overflow-hidden shadow-2xl border border-white/20 bg-black/50 h-[50vh] sm:h-[60vh] lg:h-[70vh]">
                                         <Simulation3D type={simulation.type} config={simulation.config} />
                                         <FloatingToolbar
-                                            onScreenshot={handleScreenshot}
-                                            onReset={handleReset}
                                             onHelp={() => setShowHelpModal(true)}
-                                            isPlaying={isPlaying}
-                                            setIsPlaying={setIsPlaying}
                                         />
                                         <div className="absolute top-2 right-2 sm:top-4 sm:right-4 z-10">
                                             <FullscreenButton containerRef={simulationContainerRef} />
                                         </div>
-
-                                        {/* Bouton pour ouvrir le panneau de contrôle (si fermé) */}
-                                        {!showControlPanel && (
-                                            <button
-                                                onClick={() => setShowControlPanel(true)}
-                                                className="fixed bottom-20 right-4 z-40 p-3 rounded-xl bg-gradient-to-r from-[#00F5D4] to-purple-500 text-black font-bold shadow-2xl hover:scale-110 transition-all animate-pulse"
-                                                title="Ouvrir le panneau de contrôle"
-                                            >
-                                                🎛️
-                                            </button>
-                                        )}
-
-                                        {/* Panneau de contrôle Draggable (Desktop + Mobile) */}
-                                        <DraggableControlPanel
-                                            title="🎛️ Panneau de Contrôle"
-                                            initialPosition={{ x: 20, y: 120 }}
-                                            isVisible={showControlPanel}
-                                            setIsVisible={setShowControlPanel}
-                                        >
-                                            <div className="space-y-4">
-                                                <AdvancedControls
-                                                    autoRotate={autoRotate}
-                                                    setAutoRotate={setAutoRotate}
-                                                    speed={speed}
-                                                    setSpeed={setSpeed}
-                                                    showLabels={showLabels}
-                                                    setShowLabels={setShowLabels}
-                                                    showGrid={showGrid}
-                                                    setShowGrid={setShowGrid}
-                                                    zoom={zoom}
-                                                    setZoom={setZoom}
-                                                />
-                                                {/* Guide des interactions */}
-                                                <div className="bg-black/30 rounded-xl p-3">
-                                                    <h4 className="font-semibold text-xs text-gray-400 mb-2 uppercase tracking-wider">Interactions</h4>
-                                                    <div className="space-y-1.5 text-xs">
-                                                        <div className="flex items-center gap-2">
-                                                            <span>🖱️</span>
-                                                            <span className="text-gray-300">Rotation: Clic + Glisser</span>
-                                                        </div>
-                                                        <div className="flex items-center gap-2">
-                                                            <span>🔍</span>
-                                                            <span className="text-gray-300">Zoom: Molette</span>
-                                                        </div>
-                                                        <div className="flex items-center gap-2">
-                                                            <span>✋</span>
-                                                            <span className="text-gray-300">Déplacer: Clic droit</span>
-                                                        </div>
-                                                        <div className="flex items-center gap-2">
-                                                            <span>✊</span>
-                                                            <span className="text-gray-300">Déplacer ce panneau: Header</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </DraggableControlPanel>
                                     </div>
 
                                     {/* Panneau de contrôle repliable sur mobile */}
