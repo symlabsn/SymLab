@@ -1002,11 +1002,8 @@ export default function SimulationDetailPage({ params }) {
                 {/* Tabs améliorés - Mobile First avec scroll horizontal */}
                 <div className="flex gap-1.5 sm:gap-3 mb-4 sm:mb-8 overflow-x-auto pb-2 -mx-3 px-3 sm:mx-0 sm:px-0 scrollbar-hide">
                     {[
-                        { id: 'analogy', label: 'Analogie', icon: '🌍', shortLabel: 'Analo.' },
-                        { id: 'theory', label: 'Théorie', icon: '📚', shortLabel: 'Théo.' },
-                        { id: 'challenges', label: 'Mode Défi', icon: '⚡', shortLabel: 'Défi' },
-                        { id: 'gallery', label: 'Galerie', icon: '🖼️', shortLabel: 'Gal.' },
                         { id: 'simulation', label: 'Simulation', icon: '🎮', shortLabel: 'Simu' },
+                        { id: 'analogy', label: 'Analogie', icon: '🌍', shortLabel: 'Analo.' },
                     ].map((tab) => (
                         <button
                             key={tab.id}
