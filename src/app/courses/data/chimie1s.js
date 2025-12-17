@@ -78,6 +78,7 @@ $$ C_n H_{2n+2} $$
             id: 'c1s-03',
             part: 'Chimie Organique',
             title: 'C3. Alcènes et Alcynes',
+            simulation: { id: 'c1s-orga', title: '🧪 Galerie Moléculaire' },
             story: "L'insaturation change tout. La double ou triple liaison est un site de réactivité intense.",
             content: `
 ### 1. Les Alcènes ($C=C$)
@@ -107,6 +108,7 @@ L'acétylène ($C_2H_2$) est utilisé pour la soudure (flamme très chaude).
             id: 'c1s-04',
             part: 'Chimie Organique',
             title: 'C4. Le Benzène',
+            simulation: { id: 'c1s-orga', title: '🧪 Galerie Moléculaire' },
             story: "Un cycle parfait, une stabilité exceptionnelle. Le benzène inaugure la famille des aromatiques.",
             content: `
 ### 1. Structure du Benzène ($C_6H_6$)
@@ -174,6 +176,7 @@ Tests : DNPH (précipité jaune pour les deux), Liqueur de Fehling (rouge brique
             id: 'c1s-06',
             part: 'Électrochimie',
             title: 'C6. Notion de couple Oxydant-Réducteur',
+            simulation: { id: 'c1s-redox', title: '⚗️ Expérience Redox' },
             story: "L'oxydoréduction est un échange d'électrons, comme l'acide-base est un échange de protons.",
             content: `
 ### 1. Définitions
@@ -233,6 +236,7 @@ On définit le Potentiel Standard d'oxydoréduction $E^0$ par rapport à l'élec
             id: 'c1s-09',
             part: 'Électrochimie',
             title: "C9. Généralisation en solution aqueuse",
+            simulation: { id: 'c1s-redox', title: '⚗️ Expérience Redox' },
             story: "Cela ne concerne pas que les métaux. Les ions permanganate, dichromate, ferreux... tout le monde joue.",
             content: `
 ### 1. Couples complexes

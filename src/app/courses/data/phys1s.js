@@ -11,6 +11,7 @@ export const phys1sData = {
             id: 'p1s-01',
             part: 'Énergie - Champs',
             title: 'P1. Travail et puissance',
+            simulation: { id: 'p1s-mecanique', title: '🎢 Montagnes Russes (Énergie)' },
             story: "Pour déplacer un objet, il faut de l'énergie. Mais l'efficacité dépend de la vitesse : c'est la puissance.",
             content: `
 ### 1. Travail d'une force constante
@@ -178,6 +179,7 @@ Le vecteur $\\vec{E}$ s'éloigne des charges positives et converge vers les char
             id: 'p1s-06',
             part: 'Énergie - Champs',
             title: 'P6. Travail et énergie électrostatique',
+            simulation: { id: 'p1s-electro', title: '⚡ Champ Électrique' },
             story: "Le mouvement des charges dans un champ électrique est à la base des accélérateurs de particules.",
             content: `
 ### 1. Travail de la force électrique
