@@ -59,7 +59,10 @@ export function ChimieOrgaGeneralSim() {
             <Html transform={false}>
                 <DraggableHtmlPanel usePortal={false} title="🧪 Tétravalence du C">
                     <div className="p-4 w-64 text-white">
-                        <p className="text-sm mb-4">Le carbone forme toujours <span className="text-[#00F5D4] font-bold">4 liaisons</span> covalentes.</p>
+                        <div className="mb-4">
+                            <p className="text-sm mb-1">Exemple: Méthane <span className="font-bold text-[#00F5D4] font-mono">CH<sub>4</sub></span></p>
+                            <p className="text-xs text-gray-300">Le carbone est tétravalent (4 liaisons).</p>
+                        </div>
                         <label className="flex items-center gap-2 text-xs">
                             <input type="checkbox" checked={showLabels} onChange={e => setShowLabels(e.target.checked)} />
                             Afficher les labels
@@ -79,47 +82,86 @@ export function ChimieOrgaGeneralSim() {
 // C2: ALCANES (Nomenclature + Combustion)
 // ==========================================
 export function AlcanesSim() {
-    const [n, setN] = useState(3); // Nombre de carbones
+    const [n, setN] = useState(3);
     const names = ['', 'Méthane', 'Éthane', 'Propane', 'Butane', 'Pentane', 'Hexane', 'Heptane', 'Octane'];
 
-    const formula = `C${n}H${2 * n + 2}`;
+    const structure = useMemo(() => {
+        const list = [];
+        const bondLen = 0.9;
+        const angle = 35 * Math.PI / 180;
+        const dx = bondLen * Math.cos(angle);
+        const dy = bondLen * Math.sin(angle);
+        const hRad = 0.7;
+
+        for (let i = 0; i < n; i++) {
+            const cx = i * dx - ((n - 1) * dx) / 2;
+            const cy = (i % 2 === 0) ? -dy / 2 : dy / 2;
+            const cPos = new THREE.Vector3(cx, cy, 0);
+            list.push({ type: 'C', pos: cPos, id: i });
+
+            const up = (i % 2 === 0) ? 1 : -1;
+
+            const h1 = new THREE.Vector3(cx, cy + up * hRad * 0.7, hRad * 0.8);
+            const h2 = new THREE.Vector3(cx, cy + up * hRad * 0.7, -hRad * 0.8);
+            list.push({ type: 'H', pos: h1, parent: cPos });
+            list.push({ type: 'H', pos: h2, parent: cPos });
+
+            if (i === 0) {
+                const hTerm = new THREE.Vector3(cx - hRad, cy - up * 0.3, 0);
+                list.push({ type: 'H', pos: hTerm, parent: cPos });
+            }
+            if (i === n - 1) {
+                const hTerm = new THREE.Vector3(cx + hRad, cy - up * 0.3, 0);
+                list.push({ type: 'H', pos: hTerm, parent: cPos });
+            }
+        }
+        return { atoms: list, carbonCount: n };
+    }, [n]);
 
     return (
         <group>
             <OrbitControls />
-
-            {/* Chaîne carbonée */}
-            <group position={[-(n - 1) * 0.6, 0, 0]}>
-                {Array.from({ length: n }).map((_, i) => (
-                    <group key={i} position={[i * 1.2, 0, 0]}>
-                        <Sphere args={[0.35]}><meshStandardMaterial color="#333" /></Sphere>
-                        {i < n - 1 && <Line points={[[0.35, 0, 0], [0.85, 0, 0]]} color="#888" lineWidth={3} />}
-                        {/* H en haut et en bas */}
-                        <Sphere args={[0.2]} position={[0, 0.6, 0]}><meshStandardMaterial color="#FFF" /></Sphere>
-                        <Sphere args={[0.2]} position={[0, -0.6, 0]}><meshStandardMaterial color="#FFF" /></Sphere>
-                        <Line points={[[0, 0.35, 0], [0, 0.55, 0]]} color="#888" />
-                        <Line points={[[0, -0.35, 0], [0, -0.55, 0]]} color="#888" />
+            <group scale={1.5}>
+                {structure.atoms.map((a, k) => (
+                    <group key={k}>
+                        <Sphere args={[a.type === 'C' ? ATOM.C.r : ATOM.H.r]} position={a.pos}>
+                            <meshStandardMaterial color={a.type === 'C' ? ATOM.C.color : ATOM.H.color} />
+                        </Sphere>
+                        {a.parent && <Line points={[a.parent, a.pos]} color="#888" lineWidth={2} />}
                     </group>
                 ))}
+
+                {Array.from({ length: n - 1 }).map((_, i) => {
+                    const carbons = structure.atoms.filter(a => a.type === 'C');
+                    return <Line key={'cc' + i} points={[carbons[i].pos, carbons[i + 1].pos]} color="#555" lineWidth={5} />;
+                })}
             </group>
 
-            <Text position={[0, -2, 0]} fontSize={0.5} color="#00F5D4">{names[n]} ({formula})</Text>
+            <Text position={[0, -2.5, 0]} fontSize={0.5} color="#00F5D4">{names[n]}</Text>
 
             <Html transform={false}>
                 <DraggableHtmlPanel usePortal={false} title="⛽ Les Alcanes">
-                    <div className="p-4 w-64 text-white">
-                        <label className="text-xs font-bold">Nombre de carbones: {n}</label>
-                        <input type="range" min="1" max="8" value={n} onChange={e => setN(Number(e.target.value))} className="w-full mb-4" />
+                    <div className="p-4 w-72 text-white">
+                        <label className="text-xs font-bold mb-2 block">Nombre de carbones: {n}</label>
+                        <input type="range" min="1" max="8" value={n} onChange={e => setN(Number(e.target.value))} className="w-full mb-4 accent-[#00F5D4]" />
 
-                        <div className="bg-black/30 p-2 rounded text-xs space-y-1">
-                            <p>Formule générale: <span className="font-mono text-green-400">CₙH₂ₙ₊₂</span></p>
-                            <p>Nom: <span className="text-[#00F5D4]">{names[n]}</span></p>
-                            <p>Formule: <span className="font-mono">{formula}</span></p>
+                        <div className="bg-black/30 p-3 rounded text-sm space-y-2">
+                            <div className="flex justify-between">
+                                <span className="text-gray-400">Nom :</span>
+                                <span className="font-bold text-[#00F5D4]">{names[n]}</span>
+                            </div>
+                            <div className="flex justify-between items-center">
+                                <span className="text-gray-400">Formule :</span>
+                                <span className="font-mono bg-gray-800 px-2 py-1 rounded">C<sub>{n}</sub>H<sub>{2 * n + 2}</sub></span>
+                            </div>
+                            <div className="text-xs text-gray-500 mt-1">Générale : C<sub>n</sub>H<sub>2n+2</sub></div>
                         </div>
 
-                        <div className="mt-4 text-xs text-gray-400">
-                            <p className="font-bold text-orange-400">Combustion:</p>
-                            <p>CₙH₂ₙ₊₂ + O₂ → CO₂ + H₂O</p>
+                        <div className="mt-4 text-xs text-gray-300">
+                            <p className="font-bold text-orange-400 mb-1">Combustion complète :</p>
+                            <div className="font-mono bg-orange-900/20 p-2 rounded text-[10px]">
+                                C<sub>{n}</sub>H<sub>{2 * n + 2}</sub> + {(3 * n + 1) / 2}O<sub>2</sub> → {n}CO<sub>2</sub> + {n + 1}H<sub>2</sub>O
+                            </div>
                         </div>
                     </div>
                 </DraggableHtmlPanel>
@@ -164,16 +206,16 @@ export function AlcenesSim() {
             <Html transform={false}>
                 <DraggableHtmlPanel usePortal={false} title="🧬 Alcènes">
                     <div className="p-4 w-64 text-white">
-                        <p className="text-sm mb-2">Formule: <span className="font-mono text-green-400">CₙH₂ₙ</span></p>
+                        <p className="text-sm mb-2">Formule: <span className="font-mono text-green-400">C<sub>n</sub>H<sub>2n</sub></span></p>
                         <div className="bg-green-900/30 border border-green-500 p-2 rounded text-xs mb-4">
                             <p className="font-bold">Double liaison C=C</p>
                             <p>Site de réactivité intense</p>
                         </div>
                         <div className="text-xs text-gray-400">
                             <p className="font-bold text-yellow-400">Réactions d'addition:</p>
-                            <p>• Hydrogénation: + H₂</p>
-                            <p>• Halogénation: + Br₂</p>
-                            <p>• Hydratation: + H₂O</p>
+                            <p>• Hydrogénation: + H<sub>2</sub></p>
+                            <p>• Halogénation: + Br<sub>2</sub></p>
+                            <p>• Hydratation: + H<sub>2</sub>O</p>
                         </div>
                     </div>
                 </DraggableHtmlPanel>
