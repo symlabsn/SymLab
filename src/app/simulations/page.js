@@ -119,14 +119,14 @@ export default function SimulationsPage() {
                 {/* Hero Content */}
                 <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
                     <div className="text-center space-y-6">
-                        <h1 className="text-5xl md:text-7xl font-black bg-clip-text text-transparent bg-gradient-to-r from-[#00F5D4] via-purple-500 to-pink-500 animate-gradient">
+                        <h1 className="text-3xl sm:text-5xl md:text-7xl font-black bg-clip-text text-transparent bg-gradient-to-r from-[#00F5D4] via-purple-500 to-pink-500 animate-gradient px-2">
                             Simulations 3D Immersives
                         </h1>
-                        <p className="text-xl md:text-2xl text-gray-300 max-w-3xl mx-auto">
+                        <p className="text-base sm:text-xl md:text-2xl text-gray-300 max-w-3xl mx-auto px-4">
                             Explorez les sciences comme jamais auparavant avec des simulations interactives
                             alignées sur le curriculum sénégalais 🇸🇳
                         </p>
-                        <div className="flex flex-wrap gap-4 justify-center items-center">
+                        <div className="flex flex-wrap gap-2 sm:gap-4 justify-center items-center px-2">
                             <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 border border-white/20">
                                 <span className="text-2xl">🎓</span>
                                 <span className="text-sm font-semibold">Collège → Lycée</span>
