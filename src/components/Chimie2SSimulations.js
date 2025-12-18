@@ -173,7 +173,7 @@ export function DilutionSimulation() {
             <arrowHelper args={[new THREE.Vector3(1, 0, 0), new THREE.Vector3(1, 0, 0), 1.5, 0xFFFFFF, 0.2, 0.15]} />
 
             <Html transform={false}>
-                <DraggableHtmlPanel title="💧 Dilution (Ci·Vi = Cf·Vf)" className="w-[340px]" defaultPosition="bottom-center">
+                <DraggableHtmlPanel usePortal={false} title="💧 Dilution (Ci·Vi = Cf·Vf)" className="w-[340px]" defaultPosition="bottom-center">
                     <div className="space-y-4 text-white">
                         {challengeMode && (
                             <div className="bg-yellow-900/50 border border-yellow-500 p-3 rounded-lg text-center">
@@ -357,7 +357,7 @@ export function TitrageAcideBase() {
             </group>
 
             <Html transform={false}>
-                <DraggableHtmlPanel title="⚗️ Titrage Acide-Base" className="w-[320px]" defaultPosition="bottom-right">
+                <DraggableHtmlPanel usePortal={false} title="⚗️ Titrage Acide-Base" className="w-[320px]" defaultPosition="bottom-right">
                     <div className="space-y-4 text-white">
                         <div className="flex items-center gap-4">
                             <button
@@ -517,7 +517,7 @@ export function DissolutionSimulation() {
             })}
 
             <Html transform={false}>
-                <DraggableHtmlPanel title="💠 Dissolution (Soluté → Ions)" className="w-[300px]" defaultPosition="bottom-left">
+                <DraggableHtmlPanel usePortal={false} title="💠 Dissolution (Soluté → Ions)" className="w-[300px]" defaultPosition="bottom-left">
                     <div className="space-y-4 text-white">
                         <div className="flex gap-2">
                             {Object.keys(solutes).map(key => (
@@ -563,33 +563,43 @@ export function DissolutionSimulation() {
 // =========================================================
 // 4. ÉQUILIBRAGE ÉQUATION-BILAN (Interactif)
 // =========================================================
+// =========================================================
+// 4. ÉQUILIBRAGE ÉQUATION-BILAN (Mission Lancement)
+// =========================================================
 export function EquationBalancer() {
     const [coefficients, setCoefficients] = useState([1, 1, 1, 1]);
     const [currentEquation, setCurrentEquation] = useState(0);
-    const [showSuccess, setShowSuccess] = useState(false);
+    const [rocketState, setRocketState] = useState('idle'); // idle, countdown, launch, crash
+    const [rocketHeight, setRocketHeight] = useState(0);
     const [confetti, setConfetti] = useState(false);
 
     const equations = [
         {
+            name: "Propulsion Hydrogène",
             reactants: [{ formula: 'H₂', atoms: { H: 2 } }, { formula: 'O₂', atoms: { O: 2 } }],
             products: [{ formula: 'H₂O', atoms: { H: 2, O: 1 } }],
-            solution: [2, 1, 2] // 2H2 + O2 -> 2H2O
+            solution: [2, 1, 2], // 2H2 + O2 -> 2H2O
+            color: "#3B82F6"
         },
         {
+            name: "Synthèse Ammoniac",
             reactants: [{ formula: 'N₂', atoms: { N: 2 } }, { formula: 'H₂', atoms: { H: 2 } }],
             products: [{ formula: 'NH₃', atoms: { N: 1, H: 3 } }],
-            solution: [1, 3, 2] // N2 + 3H2 -> 2NH3
+            solution: [1, 3, 2],
+            color: "#8B5CF6"
         },
         {
+            name: "Combustion Méthane",
             reactants: [{ formula: 'CH₄', atoms: { C: 1, H: 4 } }, { formula: 'O₂', atoms: { O: 2 } }],
             products: [{ formula: 'CO₂', atoms: { C: 1, O: 2 } }, { formula: 'H₂O', atoms: { H: 2, O: 1 } }],
-            solution: [1, 2, 1, 2] // CH4 + 2O2 -> CO2 + 2H2O
+            solution: [1, 2, 1, 2],
+            color: "#EF4444"
         }
     ];
 
     const eq = equations[currentEquation];
 
-    // Calculer les totaux d'atomes
+    // Calcul atomes
     const calcAtoms = (side, coeffs) => {
         const totals = {};
         side.forEach((mol, i) => {
@@ -603,135 +613,162 @@ export function EquationBalancer() {
 
     const leftAtoms = calcAtoms(eq.reactants, coefficients.slice(0, eq.reactants.length));
     const rightAtoms = calcAtoms(eq.products, coefficients.slice(eq.reactants.length));
-
     const isBalanced = JSON.stringify(leftAtoms) === JSON.stringify(rightAtoms);
 
     const updateCoef = (index, delta) => {
+        if (rocketState !== 'idle') return;
         const newCoeffs = [...coefficients];
         newCoeffs[index] = Math.max(1, Math.min(6, (newCoeffs[index] || 1) + delta));
         setCoefficients(newCoeffs);
     };
 
-    const checkAnswer = () => {
+    useFrame((state, delta) => {
+        if (rocketState === 'launch') {
+            setRocketHeight(h => h + delta * 5); // Décollage rapide
+        }
+    });
+
+    const launchRocket = () => {
         if (isBalanced) {
-            setConfetti(true);
-            setTimeout(() => setShowSuccess(true), 500);
+            setRocketState('countdown');
+            setTimeout(() => {
+                setRocketState('launch');
+                setConfetti(true);
+                triggerSuccess();
+            }, 1000);
+        } else {
+            setRocketState('crash');
+            setTimeout(() => setRocketState('idle'), 2000);
         }
     };
 
-    const nextEquation = () => {
+    const nextMission = () => {
         setCurrentEquation((currentEquation + 1) % equations.length);
         setCoefficients([1, 1, 1, 1]);
-        setShowSuccess(false);
+        setRocketState('idle');
+        setRocketHeight(0);
         setConfetti(false);
     };
 
     return (
         <group>
-            <ambientLight intensity={0.7} />
-
+            <ambientLight intensity={0.5} />
+            <pointLight position={[10, 10, 10]} intensity={1} />
             <ConfettiExplosion trigger={confetti} />
 
-            <Text position={[0, 3, 0]} fontSize={0.5} color="white">ÉQUILIBRER L'ÉQUATION</Text>
+            {/* Décors Pas de tir */}
+            <mesh position={[0, -2, 0]} rotation={[-Math.PI / 2, 0, 0]}>
+                <circleGeometry args={[8, 32]} />
+                <meshStandardMaterial color="#333" />
+            </mesh>
 
-            {/* Affichage équation visuelle */}
-            <group position={[0, 0, 0]}>
+            {/* Fusée */}
+            <group position={[3, -2 + rocketHeight, -2]}>
+                {/* Corps */}
+                <mesh position={[0, 1.5, 0]}>
+                    <cylinderGeometry args={[0.5, 0.5, 3, 32]} />
+                    <meshStandardMaterial color="white" metalness={0.5} roughness={0.2} />
+                </mesh>
+                {/* Coiffe */}
+                <mesh position={[0, 3.5, 0]}>
+                    <coneGeometry args={[0.5, 1, 32]} />
+                    <meshStandardMaterial color={eq.color} />
+                </mesh>
+                {/* Ailettes */}
+                {[0, Math.PI / 2, Math.PI, -Math.PI / 2].map((angle, i) => (
+                    <mesh key={i} position={[Math.sin(angle) * 0.4, 0.5, Math.cos(angle) * 0.4]} rotation={[0, angle, 0]}>
+                        <boxGeometry args={[0.1, 1, 0.5]} />
+                        <meshStandardMaterial color="red" />
+                    </mesh>
+                ))}
+                {/* Flammes */}
+                {(rocketState === 'launch' || rocketState === 'crash') && (
+                    <mesh position={[0, -0.5, 0]} rotation={[Math.PI, 0, 0]}>
+                        <coneGeometry args={[0.4, 1.5, 16]} />
+                        <meshBasicMaterial color="orange" />
+                    </mesh>
+                )}
+            </group>
+
+            {/* Fumée Crash */}
+            {rocketState === 'crash' && (
+                <group position={[3, 0, -2]}>
+                    {Array.from({ length: 10 }).map((_, i) => (
+                        <Sphere key={i} args={[0.3]} position={[(Math.random() - 0.5), Math.random() * 2, (Math.random() - 0.5)]}>
+                            <meshBasicMaterial color="#555" />
+                        </Sphere>
+                    ))}
+                    <Text position={[3, 2, -2]} fontSize={0.5} color="red">FAILURE!</Text>
+                </group>
+            )}
+
+            {/* Affichage Equations Flottantes */}
+            <group position={[-2, 1, 0]}>
+                <Text position={[0, 1.5, 0]} fontSize={0.4} color="white">CARBURANT REQUIS</Text>
+
                 {/* Réactifs */}
-                {eq.reactants.map((mol, i) => (
-                    <group key={`r${i}`} position={[-3 + i * 2, 0, 0]}>
-                        <mesh>
-                            <boxGeometry args={[1.5, 1, 0.5]} />
-                            <meshStandardMaterial color="#3B82F6" />
-                        </mesh>
-                        <Text position={[0, 0, 0.3]} fontSize={0.3} color="white">
+                <group position={[-2, 0, 0]}>
+                    {eq.reactants.map((mol, i) => (
+                        <Text key={i} position={[i * 2, 0, 0]} fontSize={0.6} color="#60A5FA">
                             {coefficients[i] > 1 ? coefficients[i] : ''}{mol.formula}
+                            {i < eq.reactants.length - 1 ? ' + ' : ''}
                         </Text>
-                        {i < eq.reactants.length - 1 && (
-                            <Text position={[1.2, 0, 0]} fontSize={0.4} color="white">+</Text>
-                        )}
-                    </group>
-                ))}
-
-                {/* Flèche */}
-                <arrowHelper args={[new THREE.Vector3(1, 0, 0), new THREE.Vector3(-0.5, 0, 0), 1, 0xFFFFFF, 0.2, 0.15]} />
-
+                    ))}
+                </group>
+                <Text position={[0, 0, 0]} fontSize={0.6} color="white"> → </Text>
                 {/* Produits */}
-                {eq.products.map((mol, i) => (
-                    <group key={`p${i}`} position={[2 + i * 2, 0, 0]}>
-                        <mesh>
-                            <boxGeometry args={[1.5, 1, 0.5]} />
-                            <meshStandardMaterial color="#22C55E" />
-                        </mesh>
-                        <Text position={[0, 0, 0.3]} fontSize={0.3} color="white">
+                <group position={[2, 0, 0]}>
+                    {eq.products.map((mol, i) => (
+                        <Text key={i} position={[i * 2.5, 0, 0]} fontSize={0.6} color="#4ADE80">
                             {coefficients[eq.reactants.length + i] > 1 ? coefficients[eq.reactants.length + i] : ''}{mol.formula}
+                            {i < eq.products.length - 1 ? ' + ' : ''}
                         </Text>
-                        {i < eq.products.length - 1 && (
-                            <Text position={[1.2, 0, 0]} fontSize={0.4} color="white">+</Text>
-                        )}
-                    </group>
-                ))}
+                    ))}
+                </group>
             </group>
 
             <Html transform={false}>
-                <DraggableHtmlPanel title="⚖️ Équilibrage (Conservation)" className="w-[360px]" defaultPosition="bottom-center">
-                    <div className="space-y-4 text-white">
-                        {/* Compteur d'atomes */}
-                        <div className="grid grid-cols-2 gap-2">
-                            <div className="bg-blue-900/50 p-2 rounded border border-blue-700">
-                                <div className="text-xs text-blue-400 mb-1">Réactifs</div>
-                                {Object.entries(leftAtoms).map(([atom, count]) => (
-                                    <span key={atom} className="mr-2">{atom}: <strong>{count}</strong></span>
-                                ))}
-                            </div>
-                            <div className="bg-green-900/50 p-2 rounded border border-green-700">
-                                <div className="text-xs text-green-400 mb-1">Produits</div>
-                                {Object.entries(rightAtoms).map(([atom, count]) => (
-                                    <span key={atom} className="mr-2">{atom}: <strong>{count}</strong></span>
-                                ))}
-                            </div>
+                <DraggableHtmlPanel usePortal={false} title="🚀 Centre de Contrôle" className="w-[360px]">
+                    <div className="p-4 text-white">
+                        <div className="bg-gray-800 p-2 rounded mb-4 text-center border-l-4 border-blue-500">
+                            <div className="text-xs text-gray-400">Mission:</div>
+                            <div className="font-bold text-lg">{eq.name}</div>
                         </div>
 
                         {/* Contrôles coefficients */}
-                        <div className="grid grid-cols-4 gap-2">
+                        <div className="grid grid-cols-4 gap-2 mb-6">
                             {[...eq.reactants, ...eq.products].map((mol, i) => (
-                                <div key={i} className="text-center">
-                                    <div className="text-xs text-gray-400 mb-1">{mol.formula}</div>
-                                    <div className="flex items-center justify-center gap-1">
-                                        <button onClick={() => updateCoef(i, -1)} className="w-6 h-6 bg-gray-700 rounded text-xs">-</button>
-                                        <span className="w-6 font-bold">{coefficients[i] || 1}</span>
-                                        <button onClick={() => updateCoef(i, 1)} className="w-6 h-6 bg-gray-700 rounded text-xs">+</button>
+                                <div key={i} className="text-center bg-gray-900/50 p-2 rounded">
+                                    <div className="text-xs text-blue-300 font-bold mb-2">{mol.formula}</div>
+                                    <div className="flex flex-col items-center gap-1">
+                                        <button onClick={() => updateCoef(i, 1)} className="w-full bg-gray-700 hover:bg-gray-600 rounded text-xs py-1">▲</button>
+                                        <span className="font-bold text-xl my-1">{coefficients[i] || 1}</span>
+                                        <button onClick={() => updateCoef(i, -1)} className="w-full bg-gray-700 hover:bg-gray-600 rounded text-xs py-1">▼</button>
                                     </div>
                                 </div>
                             ))}
                         </div>
 
-                        <div className="flex gap-2">
-                            <button
-                                onClick={checkAnswer}
-                                className={`flex-1 py-3 rounded-xl font-bold ${isBalanced ? 'bg-green-600 hover:bg-green-500' : 'bg-gray-700'}`}
-                            >
-                                {isBalanced ? '✓ Équilibrée !' : 'Vérifier'}
-                            </button>
-                            <button
-                                onClick={nextEquation}
-                                className="py-3 px-4 bg-blue-600 hover:bg-blue-500 rounded-xl"
-                            >
-                                Suivant →
-                            </button>
+                        <div className="space-y-2">
+                            {rocketState === 'idle' ? (
+                                <button onClick={launchRocket} className="w-full py-4 bg-red-600 hover:bg-red-500 rounded font-bold text-xl shadow-lg border-b-4 border-red-800 active:border-b-0 active:translate-y-1">
+                                    LANCEMENT 🚀
+                                </button>
+                            ) : rocketState === 'launch' ? (
+                                <button onClick={nextMission} className="w-full py-3 bg-green-600 hover:bg-green-500 rounded font-bold animate-pulse">
+                                    MISSION SUIVANTE →
+                                </button>
+                            ) : (
+                                <div className="text-center text-red-500 font-bold animate-bounce">ANNULATION...</div>
+                            )}
+                        </div>
+
+                        <div className="mt-4 text-[10px] text-gray-500 text-center">
+                            Ajustez les coefficients stœchiométriques pour respecter la conservation de la masse.
                         </div>
                     </div>
                 </DraggableHtmlPanel>
             </Html>
-
-            {showSuccess && (
-                <Html fullscreen>
-                    <SuccessOverlay
-                        show={showSuccess}
-                        message="Excellent ! Tu as correctement équilibré l'équation-bilan. La masse est conservée !"
-                        onClose={nextEquation}
-                    />
-                </Html>
-            )}
         </group>
     );
 }
@@ -874,7 +911,7 @@ export function LewisStructure() {
             </group>
 
             <Html transform={false}>
-                <DraggableHtmlPanel title="🔬 Formule de Lewis" className="w-[280px]" defaultPosition="bottom-right">
+                <DraggableHtmlPanel usePortal={false} title="🔬 Formule de Lewis" className="w-[280px]" defaultPosition="bottom-right">
                     <div className="space-y-4 text-white">
                         <div className="grid grid-cols-4 gap-1">
                             {Object.keys(molecules).map(key => (
@@ -1035,7 +1072,7 @@ export function ChemicalTestsGamified() {
             )}
 
             <Html transform={false}>
-                <DraggableHtmlPanel title="🔬 Tests Chimiques" className="w-[340px]" defaultPosition="bottom-center">
+                <DraggableHtmlPanel usePortal={false} title="🔬 Tests Chimiques" className="w-[340px]" defaultPosition="bottom-center">
                     <div className="space-y-4 text-white">
                         <div className="flex justify-between items-center">
                             <span className="text-gray-400">Score</span>

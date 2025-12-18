@@ -249,235 +249,167 @@ export function MouvementSeconde() {
 // ============================================================
 // P9-P10. FORCES ET POIDS - Représentation vectorielle (ENRICHI)
 // ============================================================
+// P9-P10. FORCES ET POIDS - Mission Cargaison Interstellaire
+// ============================================================
 export function ForcesPoidsSeconde() {
-    const [masse, setMasse] = useState(5);
-    const [gValue, setGValue] = useState(9.8);
+    const [masse, setMasse] = useState(10);
     const [planete, setPlanete] = useState('terre');
-    const [showComponents, setShowComponents] = useState(false);
-    const [inclinaison, setInclinaison] = useState(0);
+    const [mode, setMode] = useState('explore'); // 'explore', 'mission'
 
-    // Gamification
-    const [mode, setMode] = useState('explore'); // explore, challenge
+    // Mission State
     const [targetPoids, setTargetPoids] = useState(null);
-    const [targetMasse, setTargetMasse] = useState(null);
-    const [score, setScore] = useState(0);
-    const [showSuccess, setShowSuccess] = useState(false);
-
-    const poids = masse * gValue;
+    const [missionStatus, setMissionStatus] = useState('idle'); // idle, checking, success, fail
+    const [craneHeight, setCraneHeight] = useState(3);
 
     const planetes = {
-        terre: { g: 9.8, color: '#2196f3', name: 'Terre' },
-        lune: { g: 1.6, color: '#bdbdbd', name: 'Lune' },
-        mars: { g: 3.7, color: '#ff5722', name: 'Mars' },
-        jupiter: { g: 24.8, color: '#ff9800', name: 'Jupiter' }
+        terre: { g: 9.8, color: '#2196f3', name: 'Terre', sky: '#87CEEB', ground: '#4CAF50' },
+        lune: { g: 1.6, color: '#bdbdbd', name: 'Lune', sky: '#000000', ground: '#E0E0E0' },
+        mars: { g: 3.7, color: '#ff5722', name: 'Mars', sky: '#FFCCBC', ground: '#D84315' },
+        jupiter: { g: 24.8, color: '#ff9800', name: 'Jupiter', sky: '#FFE0B2', ground: '#795548' }
     };
 
-    useEffect(() => {
-        setGValue(planetes[planete].g);
-    }, [planete]);
+    const g = planetes[planete].g;
+    const poids = masse * g;
 
-    const inclinaisonRad = (inclinaison * Math.PI) / 180;
-    const poidsParallele = poids * Math.sin(inclinaisonRad);
-    const poidsPerpendiculaire = poids * Math.cos(inclinaisonRad);
-
-    const startChallenge = () => {
-        setMode('challenge');
-        // Pick random planet and target mass
-        const keys = Object.keys(planetes);
-        const randPlanet = keys[Math.floor(Math.random() * keys.length)];
-        const randMass = Math.floor(Math.random() * 15 + 5); // 5-20kg
-        const targetP = randMass * planetes[randPlanet].g;
-
-        setPlanete(randPlanet);
-        setTargetMasse(randMass);
-        setTargetPoids(targetP);
-        setMasse(1); // Reset user mass
-        setScore(0);
-        setShowSuccess(false);
-    };
-
-    const checkChallenge = () => {
-        if (!targetMasse) return;
-        if (Math.abs(masse - targetMasse) < 0.5) {
-            setShowSuccess(true);
-            setScore(s => s + 100);
+    // Animation Grue
+    useFrame((state, delta) => {
+        if (missionStatus === 'checking') {
+            // La grue descend
+            if (craneHeight > 1.5) setCraneHeight(h => h - delta);
+        } else if (missionStatus === 'success') {
+            // La grue remonte avec la caisse
+            if (craneHeight < 5) setCraneHeight(h => h + delta * 2);
+        } else {
+            if (craneHeight < 3) setCraneHeight(h => h + delta);
         }
+    });
+
+    const startMission = () => {
+        setMode('mission');
+        const keys = Object.keys(planetes);
+        const p = keys[Math.floor(Math.random() * keys.length)];
+        const m = Math.floor(Math.random() * 20 + 5); // 5-25kg
+        const tP = m * planetes[p].g;
+
+        setPlanete(p);
+        setTargetPoids(tP);
+        setMasse(1);
+        setMissionStatus('idle');
+    };
+
+    const checkMission = () => {
+        setMissionStatus('checking');
+        setTimeout(() => {
+            if (Math.abs(poids - targetPoids) < 1.0) {
+                setMissionStatus('success');
+                triggerSuccess();
+            } else {
+                setMissionStatus('fail');
+            }
+        }, 1500);
     };
 
     return (
         <group>
-            <SuccessOverlay show={showSuccess} message={`Excellent ! Masse trouvée.`} points={100} onNext={startChallenge} />
-            <ConfettiExplosion active={showSuccess} />
+            <OrbitControls />
 
-            {/* Planet indicator */}
-            <Sphere args={[0.8, 32, 32]} position={[-4, 2, 0]}>
-                <meshStandardMaterial color={planetes[planete].color} />
-            </Sphere>
-            <Text position={[-4, 3.2, 0]} fontSize={0.25} color="#fff">
-                {planetes[planete].name}
-            </Text>
-            <Text position={[-4, 2.8, 0]} fontSize={0.15} color="#aaa">
-                g = {gValue} N/kg
-            </Text>
+            {/* Environnement Dynamique */}
+            <mesh position={[0, -2, 0]} rotation={[-Math.PI / 2, 0, 0]}>
+                <planeGeometry args={[50, 50]} />
+                <meshStandardMaterial color={planetes[planete].ground} />
+            </mesh>
+            <mesh position={[0, 10, -10]}>
+                <sphereGeometry args={[2]} />
+                <meshStandardMaterial color={planetes[planete].color} emissive={planetes[planete].color} emissiveIntensity={0.2} />
+            </mesh>
+            <ambientLight intensity={0.5} color={planetes[planete].sky} />
 
-            {/* Inclined plane */}
-            <group rotation={[0, 0, -inclinaisonRad]}>
-                <Box args={[6, 0.2, 3]} position={[0, -0.5, 0]}>
-                    <meshStandardMaterial color="#795548" />
+            {/* Grue Spatiale */}
+            <group position={[2, 0, 0]}>
+                <Box args={[0.5, 6, 0.5]} position={[0, 3, 0]}><meshStandardMaterial color="#333" /></Box>
+                <Box args={[4, 0.3, 0.5]} position={[-1.5, 6, 0]}><meshStandardMaterial color="#333" /></Box>
+                {/* Câble */}
+                <Line points={[[-3, 6, 0], [-3, craneHeight, 0]]} color="black" lineWidth={2} />
+                {/* Crochet */}
+                <mesh position={[-3, craneHeight, 0]}>
+                    <cylinderGeometry args={[0.2, 0.2, 0.5]} />
+                    <meshStandardMaterial color="yellow" />
+                </mesh>
+            </group>
+
+            {/* Caisse (Objet) */}
+            <group position={[-1, missionStatus === 'success' ? craneHeight - 0.5 : 0.5, 0]}>
+                <Box args={[1, 1, 1]}>
+                    <meshStandardMaterial color={missionStatus === 'fail' ? '#FF5252' : missionStatus === 'success' ? '#69F0AE' : '#607D8B'} />
                 </Box>
-
-                {/* Object (mass) */}
-                <Box args={[0.8, 0.8, 0.8]} position={[0, 0.4, 0]} castShadow>
-                    <meshStandardMaterial color="#9c27b0" />
-                </Box>
-                <Text position={[0, 0.4, 0.5]} fontSize={0.15} color="#fff">
+                <Text position={[0, 0, 0.51]} fontSize={0.2} color="white">
                     {masse} kg
                 </Text>
+                {/* Vecteur Poids */}
+                <group position={[0, -0.6, 0]}>
+                    <Line points={[[0, 0, 0], [0, -poids / 50, 0]]} color="#FFD700" lineWidth={4} />
+                    <Cone args={[0.1, 0.2, 8]} position={[0, -poids / 50, 0]} rotation={[Math.PI, 0, 0]}><meshBasicMaterial color="#FFD700" /></Cone>
+                    <Text position={[0.5, -poids / 100, 0]} fontSize={0.2} color="#FFD700">P = {poids.toFixed(1)} N</Text>
+                </group>
             </group>
 
-            {/* Weight vector (always vertical) */}
-            <group position={[0, 0.4, 0]}>
-                <Line
-                    points={[[0, 0, 0], [0, -poids / 20, 0]]}
-                    color="#f44336"
-                    lineWidth={4}
-                />
-                <Cone args={[0.1, 0.2, 8]} position={[0, -poids / 20 - 0.1, 0]} rotation={[Math.PI, 0, 0]}>
-                    <meshStandardMaterial color="#f44336" />
-                </Cone>
-                <Text position={[0.5, -poids / 40, 0]} fontSize={0.2} color="#f44336">
-                    P = {poids.toFixed(1)} N
-                </Text>
-            </group>
-
-            {/* Component vectors (if inclined) */}
-            {showComponents && inclinaison > 0 && (
-                <>
-                    {/* Parallel component */}
-                    <group position={[0, 0.4, 0]}>
-                        <Line
-                            points={[[0, 0, 0], [poidsParallele / 20 * Math.cos(inclinaisonRad), -poidsParallele / 20 * Math.sin(inclinaisonRad), 0]]}
-                            color="#4caf50"
-                            lineWidth={3}
-                        />
-                        <Text position={[poidsParallele / 30, -0.3, 0]} fontSize={0.15} color="#4caf50">
-                            P// = {poidsParallele.toFixed(1)} N
-                        </Text>
-                    </group>
-
-                    {/* Perpendicular component */}
-                    <group position={[0, 0.4, 0]}>
-                        <Line
-                            points={[[0, 0, 0], [-poidsPerpendiculaire / 20 * Math.sin(inclinaisonRad), -poidsPerpendiculaire / 20 * Math.cos(inclinaisonRad), 0]]}
-                            color="#2196f3"
-                            lineWidth={3}
-                        />
-                        <Text position={[-0.8, -poidsPerpendiculaire / 30, 0]} fontSize={0.15} color="#2196f3">
-                            P⊥ = {poidsPerpendiculaire.toFixed(1)} N
-                        </Text>
-                    </group>
-                </>
-            )}
-
-            {/* Angle indicator */}
-            {inclinaison > 0 && (
-                <Text position={[2, -0.8, 0]} fontSize={0.2} color="#ffeb3b">
-                    α = {inclinaison}°
+            {/* Overlay Mission */}
+            {mode === 'mission' && (
+                <Text position={[0, 4, 0]} fontSize={0.4} color="white" outlineWidth={0.02} outlineColor="black">
+                    CIBLE CHARGE: {targetPoids.toFixed(1)} N
                 </Text>
             )}
 
-            {/* Challenge Target Indicator */}
-            {mode === 'challenge' && (
-                <game-overlay>
-                    <Text position={[3, 3, 0]} fontSize={0.3} color="#e91e63">
-                        Cible: {targetPoids.toFixed(1)} N
-                    </Text>
-                </game-overlay>
-            )}
-
-            {/* Control Panel */}
-            <Html position={[5, 2, 0]} transform={false}>
-                <DraggableHtmlPanel title="⚖️ Poids & Masse" usePortal={false} className="w-[300px] text-white">
-                    <div className="flex justify-between items-center mb-4">
-                        <div className="flex gap-2">
-                            <button onClick={() => setMode('explore')} className={`text-xs px-2 py-1 rounded ${mode === 'explore' ? 'bg-cyan-600' : 'bg-gray-700'}`}>Labo</button>
-                            <button onClick={startChallenge} className={`text-xs px-2 py-1 rounded ${mode === 'challenge' ? 'bg-pink-600' : 'bg-gray-700'}`}>Défi Masse 🏆</button>
+            <Html transform={false}>
+                <DraggableHtmlPanel usePortal={false} title={mode === 'explore' ? "⚖️ Poids & Masse" : "🚀 Mission Cargaison"}>
+                    <div className="p-4 w-72 text-white">
+                        <div className="flex gap-2 mb-4 border-b border-gray-600 pb-2">
+                            <button onClick={() => { setMode('explore'); setPlanete('terre'); }} className={`flex-1 py-1 rounded text-xs ${mode === 'explore' ? 'bg-blue-600' : 'bg-gray-700'}`}>Labo</button>
+                            <button onClick={startMission} className={`flex-1 py-1 rounded text-xs ${mode === 'mission' ? 'bg-orange-600' : 'bg-gray-700'}`}>Mission 🚀</button>
                         </div>
-                    </div>
 
-                    {mode === 'challenge' && (
-                        <div className="bg-pink-900/40 p-2 rounded mb-4 border border-pink-500/30 text-sm animate-pulse">
-                            <div className="font-bold text-pink-300">MISSION:</div>
-                            Trouve la masse pour obtenir un Poids de {targetPoids.toFixed(1)} N sur {planetes[planete].name}.
-                        </div>
-                    )}
-
-                    <div className="mb-4">
-                        <label className="block text-sm mb-1 text-gray-300">
-                            Masse: <span className="text-cyan-400 font-bold">{masse} kg</span>
-                        </label>
-                        <input
-                            type="range"
-                            min="1"
-                            max="20"
-                            step="1"
-                            value={masse}
-                            onChange={(e) => setMasse(parseFloat(e.target.value))}
-                            className="w-full accent-cyan-500"
-                        />
-                    </div>
-
-                    {!mode === 'challenge' && (
-                        <div className="mb-4">
-                            <label className="block text-sm mb-1 text-gray-300">
-                                Inclinaison: {inclinaison}°
-                            </label>
-                            <input
-                                type="range"
-                                min="0"
-                                max="60"
-                                step="5"
-                                value={inclinaison}
-                                onChange={(e) => setInclinaison(parseFloat(e.target.value))}
-                                className="w-full accent-gray-500"
-                            />
-                        </div>
-                    )}
-
-                    <div className="mb-4">
-                        {!mode === 'challenge' ? (
-                            <>
-                                <label className="block text-sm mb-1 text-gray-300">Planète:</label>
-                                <div className="grid grid-cols-2 gap-2">
-                                    {Object.entries(planetes).map(([key, val]) => (
-                                        <button
-                                            key={key}
-                                            onClick={() => setPlanete(key)}
-                                            className={`py-1 rounded text-xs ${planete === key ? 'bg-purple-600' : 'bg-gray-700'}`}
-                                        >
-                                            {val.name}
+                        {mode === 'explore' && (
+                            <div className="mb-4">
+                                <label className="text-xs">Planète:</label>
+                                <div className="grid grid-cols-2 gap-1 mt-1">
+                                    {Object.keys(planetes).map(p => (
+                                        <button key={p} onClick={() => setPlanete(p)} className={`text-xs p-1 rounded ${planete === p ? 'bg-gray-500 ring-1 ring-white' : 'bg-gray-800'}`}>
+                                            {planetes[p].name} (g={planetes[p].g})
                                         </button>
                                     ))}
                                 </div>
-                            </>
-                        ) : (
-                            <div className="bg-purple-900/50 p-2 rounded text-center">
-                                Planète imposée: <span className="font-bold text-purple-300">{planetes[planete].name}</span>
                             </div>
                         )}
-                    </div>
 
-                    {mode === 'challenge' && (
-                        <button onClick={checkChallenge} className="w-full py-2 bg-pink-600 hover:bg-pink-500 rounded font-bold text-sm mb-3">
-                            Vérifier Masse
-                        </button>
-                    )}
-
-                    <div className="bg-red-900/20 p-3 rounded border border-red-500/20 font-mono text-xs">
-                        <div className="flex justify-between items-center">
-                            <span>Pords Calculé:</span>
-                            <strong className="text-red-400 text-sm">{poids.toFixed(1)} N</strong>
+                        <div className="mb-4 bg-gray-800 p-3 rounded">
+                            <label className="text-xs">Masse de la cargaison:</label>
+                            <div className="flex items-center gap-2 mt-1">
+                                <input type="range" min="1" max="50" step="1" value={masse} onChange={e => setMasse(Number(e.target.value))} className="flex-1 accent-[#00F5D4]" disabled={missionStatus === 'checking' || missionStatus === 'success'} />
+                                <span className="font-bold text-[#00F5D4] w-12 text-right">{masse} kg</span>
+                            </div>
                         </div>
+
+                        <div className="text-center bg-black/40 p-2 rounded">
+                            <div className="text-xs text-gray-400">Poids (Force)</div>
+                            <div className="font-bold text-xl text-yellow-400">{poids.toFixed(1)} Newtons</div>
+                            <div className="text-[10px] text-gray-500">P = m × g</div>
+                        </div>
+
+                        {mode === 'mission' && (
+                            <div className="mt-4">
+                                {missionStatus === 'fail' && <div className="text-red-500 font-bold text-center mb-2 animate-bounce">CHARGE INCORRECTE !</div>}
+                                {missionStatus === 'success' && <div className="text-green-500 font-bold text-center mb-2 animate-bounce">DÉCOLLAGE AUTORISÉ ! 🚀</div>}
+
+                                <button onClick={checkMission} disabled={missionStatus !== 'idle' && missionStatus !== 'fail'} className="w-full py-2 bg-orange-600 hover:bg-orange-500 rounded font-bold">
+                                    VERIFIER CHARGEMENT
+                                </button>
+                                {missionStatus === 'success' && (
+                                    <button onClick={startMission} className="w-full mt-2 py-1 bg-gray-600 hover:bg-gray-500 rounded text-xs">
+                                        Nouvelle Mission
+                                    </button>
+                                )}
+                            </div>
+                        )}
                     </div>
                 </DraggableHtmlPanel>
             </Html>
