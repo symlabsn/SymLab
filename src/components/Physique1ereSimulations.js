@@ -137,7 +137,8 @@ export function TravailPuissanceSim() {
             </group>
 
 
-            <DraggableHtmlPanel title="🔧 Travail & Puissance">
+            <Html transform={false}>
+		<DraggableHtmlPanel usePortal={false} title="🔧 Travail & Puissance">
                 <div className="p-4 w-80 text-white">
                     <div className="flex gap-2 mb-4">
                         <button onClick={() => setMode('explore')} className={`flex-1 py-2 rounded-lg font-bold transition-all ${mode === 'explore' ? 'bg-blue-500' : 'bg-gray-700'}`}>📚 Explorer</button>
@@ -174,6 +175,7 @@ export function TravailPuissanceSim() {
                     </div>
                 </div>
             </DraggableHtmlPanel>
+		</Html>
             {showSuccess && <SuccessOverlay show={showSuccess} message="Excellent ! Tu maîtrises le Travail !" onClose={() => setShowSuccess(false)} />}
         </group >
     );
@@ -255,7 +257,8 @@ export function EnergieCinetiqueSim() {
                 {crashed && <Text position={[0, 1.5, 0]} fontSize={1} color="yellow">BOOM!</Text>}
             </group>
 
-            <DraggableHtmlPanel title="🚗 Énergie Cinétique">
+            <Html transform={false}>
+		<DraggableHtmlPanel usePortal={false} title="🚗 Énergie Cinétique">
                 <div className="p-4 w-80 text-white">
                     <div className="space-y-3">
                         <div><label className="text-xs font-bold text-blue-400">Masse: {mass} kg</label><input type="range" min="500" max="2500" step="100" value={mass} onChange={e => { setMass(Number(e.target.value)); reset(); }} className="w-full accent-blue-500" /></div>
@@ -276,6 +279,7 @@ export function EnergieCinetiqueSim() {
                     </button>
                 </div>
             </DraggableHtmlPanel>
+		</Html>
         </group>
     );
 }
@@ -319,7 +323,8 @@ export function EnergieMecaniqueSim() {
             <Line points={[[-4, 4.5 - L, 0], [4, 4.5 - L, 0]]} color="cyan" lineWidth={2} />
             <Text position={[4.5, 4.5 - L, 0]} fontSize={0.25} color="cyan">Ep = 0</Text>
 
-            <DraggableHtmlPanel title="🎢 Énergie Mécanique">
+            <Html transform={false}>
+		<DraggableHtmlPanel usePortal={false} title="🎢 Énergie Mécanique">
                 <div className="p-4 w-80 text-white">
                     <div className="mb-4"><label className="text-xs font-bold">Angle initial: {angleInit}°</label><input type="range" min="15" max="80" value={angleInit} onChange={e => { setAngleInit(Number(e.target.value)); reset(); }} className="w-full" disabled={isPlaying} /></div>
                     <div className="flex gap-2 mb-4">
@@ -334,6 +339,7 @@ export function EnergieMecaniqueSim() {
                     <div className="mt-4 text-xs text-gray-400 text-center">Em = Ec + Ep = constante (sans frottements)</div>
                 </div>
             </DraggableHtmlPanel>
+		</Html>
         </group>
     );
 }
@@ -369,7 +375,8 @@ export function EnergiePotentielleSim() {
             <Line points={[[0, 0, 0], [0, height, 0]]} color="white" lineWidth={1} dashed />
             <Text position={[0.6, height / 2, 0]} fontSize={0.3} color="white">h={height}m</Text>
 
-            <DraggableHtmlPanel title="🏗️ Énergie Potentielle">
+            <Html transform={false}>
+		<DraggableHtmlPanel usePortal={false} title="🏗️ Énergie Potentielle">
                 <div className="p-4 w-72 text-white">
                     <div className="space-y-3">
                         <div><label className="text-xs font-bold text-yellow-400">Masse m: {mass} kg</label><input type="range" min="1" max="50" value={mass} onChange={e => setMass(Number(e.target.value))} className="w-full" /></div>
@@ -390,6 +397,7 @@ export function EnergiePotentielleSim() {
                     </div>
                 </div>
             </DraggableHtmlPanel>
+		</Html>
         </group>
     );
 }
@@ -428,7 +436,8 @@ export function ElectrostatiqueSim() {
             <Grid />
             {charges.map((c, i) => (<group key={i} position={[c.x, c.y, 0]}><Sphere args={[0.35]}><meshStandardMaterial color={c.q > 0 ? "#FF4444" : "#4444FF"} /></Sphere><Text fontSize={0.3} color="white">{c.q > 0 ? '+' : '-'}</Text></group>))}
             {showFieldLines && fieldLines.map((pts, i) => (<Line key={i} points={pts} color="#00F5D4" lineWidth={1.5} transparent opacity={0.7} />))}
-            <DraggableHtmlPanel title="⚡ Champ Électrique" >
+            <Html transform={false}>
+		<DraggableHtmlPanel usePortal={false} title="⚡ Champ Électrique" >
                 <div className="p-4 w-72 text-white">
                     <div className="flex gap-2 mb-4">
                         <button onClick={() => addCharge(5)} className="flex-1 bg-red-600 py-2 rounded-lg font-bold hover:bg-red-500">+ Positive</button>
@@ -442,6 +451,7 @@ export function ElectrostatiqueSim() {
                     </div>
                 </div>
             </DraggableHtmlPanel>
+		</Html>
         </group>
     );
 }
@@ -535,7 +545,8 @@ export function ElectroniqueSim() {
             <Line points={[[-4, 0, 0], [-4, 4, 0], [4, 4, 0], [4, 0, 0]]} color="gold" lineWidth={2} /> {/* Haut */}
             <Line points={[[-4, 0, 0], [-4, -2, 0], [4, -2, 0], [4, 0, 0]]} color="gold" lineWidth={2} /> {/* Bas */}
 
-            <DraggableHtmlPanel title="📺 Circuit RC">
+            <Html transform={false}>
+		<DraggableHtmlPanel usePortal={false} title="📺 Circuit RC">
                 <div className="p-4 w-80 text-white">
                     <div className="flex gap-2 mb-4">
                         <button onClick={() => { setMode('charge'); reset(); }} className={`flex-1 py-2 rounded-lg font-bold transition-all ${mode === 'charge' ? 'bg-green-500 scale-105' : 'bg-gray-700'}`}>⬆️ Charger</button>
@@ -566,6 +577,7 @@ export function ElectroniqueSim() {
                     </div>
                 </div>
             </DraggableHtmlPanel>
+		</Html>
         </group>
     );
 }
@@ -649,7 +661,8 @@ export function OndesSim() {
                 <shaderMaterial ref={materialRef} args={[WaveShader]} transparent side={THREE.DoubleSide} />
             </mesh>
 
-            <DraggableHtmlPanel title="🌊 Ondes : Interférences" >
+            <Html transform={false}>
+		<DraggableHtmlPanel usePortal={false} title="🌊 Ondes : Interférences" >
                 <div className="p-4 w-72 text-white">
                     <div className="space-y-4">
                         <div>
@@ -682,6 +695,7 @@ export function OndesSim() {
                     </div>
                 </div>
             </DraggableHtmlPanel>
+		</Html>
         </group>
     );
 }
@@ -768,7 +782,8 @@ export function OptiqueLentilleSim() {
             {/* 2. Centre optique */}
             <Line points={[[oa, hObj, 0], [oaP, hImg, 0]]} color="cyan" lineWidth={2} />
 
-            <DraggableHtmlPanel title="🔭 Lentilles Minces" >
+            <Html transform={false}>
+		<DraggableHtmlPanel usePortal={false} title="🔭 Lentilles Minces" >
                 <div className="p-4 w-80 text-white">
                     <div className="flex gap-2 mb-4">
                         <button onClick={() => setLensType('converging')} className={`flex-1 py-1 rounded text-sm ${lensType === 'converging' ? 'bg-blue-600' : 'bg-gray-700'}`}>Convergente</button>
@@ -796,6 +811,7 @@ export function OptiqueLentilleSim() {
                     </div>
                 </div>
             </DraggableHtmlPanel>
+		</Html>
         </group>
     );
 }
