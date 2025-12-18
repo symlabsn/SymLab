@@ -5918,6 +5918,480 @@ La masse perdue devient énergie`,
             { question: 'Si la demi-vie est 10 ans, après 20 ans, il reste...', options: ['0%', '25%', '50%', '75%'], correct: 1, explanation: 'Après 10 ans : 50%. Après 20 ans : 25% (moitié de 50%).' }
         ],
         relatedSimulations: ['pts-niveaux-energie', 'radioactivity']
+    },
+
+    // ========================================
+    // CHIMIE TERMINALE S - SIMULATIONS
+    // ========================================
+
+    'cts-alcools': {
+        title: '🧪 Alcools et Oxydation',
+        description: 'Oxydation ménagée des alcools primaires, secondaires et tertiaires',
+        type: 'cts-alcools',
+        image: '/images/simulations/chimie-ts/alcools.png',
+        level: 'Terminale S',
+        subject: 'Chimie',
+        config: {},
+        analogy: {
+            title: 'Du Vin au Vinaigre',
+            content: `L'oxydation des alcools, c'est comme la transformation du vin en vinaigre ! 🍷→🫗
+
+Alcool Primaire (R-CH₂-OH) : Comme un couloir avec une issue.
+→ Aldéhyde → Acide carboxylique
+
+Alcool Secondaire (R-CHOH-R') : Comme une pièce avec deux portes.
+→ Cétone (et ça s'arrête là !)
+
+Alcool Tertiaire (R₃C-OH) : Comme une pièce fermée.
+→ PAS DE RÉACTION ! Trop encombré.
+
+Le KMnO₄ (violet) est l'oxydant qui "brûle" les alcools.`
+        },
+        theory: `Oxydation Ménagée des Alcools
+
+1. CLASSES D'ALCOOLS
+Le carbone porteur du groupe OH peut être lié à 1, 2 ou 3 autres carbones.
+
+- Primaire : R-CH₂-OH (1 C voisin)
+- Secondaire : R-CHOH-R' (2 C voisins)
+- Tertiaire : R₃C-OH (3 C voisins)
+
+2. OXYDATION
+Oxydant : KMnO₄ ou K₂Cr₂O₇ en milieu acide.
+
+Alcool I → Aldéhyde → Acide Carboxylique
+Alcool II → Cétone
+Alcool III → Pas de réaction
+
+3. TESTS
+- 2,4-DNPH : Positif pour Aldéhydes et Cétones
+- Liqueur de Fehling : Positif UNIQUEMENT pour Aldéhydes`,
+        exercises: [
+            { question: 'Que donne l\'oxydation d\'un alcool secondaire ?', options: ['Un aldéhyde', 'Une cétone', 'Un acide carboxylique', 'Pas de réaction'], correct: 1, explanation: 'L\'alcool secondaire donne une cétone car il n\'y a plus d\'hydrogène sur le carbone fonctionnel.' },
+            { question: 'Quel test distingue un aldéhyde d\'une cétone ?', options: ['2,4-DNPH', 'Liqueur de Fehling', 'Papier pH', 'Flamme'], correct: 1, explanation: 'La liqueur de Fehling donne un précipité rouge uniquement avec les aldéhydes.' }
+        ],
+        relatedSimulations: ['cts-acides-carbo', 'cts-amines']
+    },
+
+    'cts-amines': {
+        title: '🔬 Amines et Propriétés',
+        description: 'Structure et caractère basique des amines',
+        type: 'cts-amines',
+        image: '/images/simulations/chimie-ts/amines.png',
+        level: 'Terminale S',
+        subject: 'Chimie',
+        config: {},
+        analogy: {
+            title: 'L\'odeur du Poisson',
+            content: `Les amines sont responsables de l'odeur caractéristique du poisson ! 🐟
+
+Dérivées de l'ammoniac (NH₃), où des H sont remplacés par des groupes alkyles.
+
+- Primaire : R-NH₂ (1 remplacement)
+- Secondaire : R-NH-R' (2 remplacements)
+- Tertiaire : R₃N (3 remplacements)
+
+Le DOUBLET NON-LIANT sur l'azote est la clé :
+→ Caractère BASIQUE : Capte les H⁺
+→ Caractère NUCLÉOPHILE : Attaque les centres positifs
+
+Phénolphtaléine → ROSE dans une solution d'amine !`
+        },
+        theory: `Amines
+
+1. STRUCTURE
+Dérivés de NH₃ par remplacement des H par des groupes alkyles.
+
+- Primaire : R-NH₂
+- Secondaire : R-NH-R'
+- Tertiaire : R-N(R')(R'')
+
+2. PROPRIÉTÉS
+Le doublet libre de l'azote confère :
+
+Caractère basique :
+R-NH₂ + H₂O ⇌ R-NH₃⁺ + HO⁻
+
+Caractère nucléophile :
+Réaction avec les dérivés halogénés (Alkylation d'Hofmann).
+
+3. GÉOMÉTRIE
+Azote trigonal pyramidal (forme de parasol).
+Angle de liaison ≈ 107°`,
+        exercises: [
+            { question: 'Pourquoi les amines sont-elles basiques ?', options: ['À cause des liaisons C-H', 'À cause du doublet non liant de N', 'À cause de leur masse', 'À cause du carbone'], correct: 1, explanation: 'Le doublet non liant peut capter un proton H⁺.' },
+            { question: 'Quelle est la géométrie autour de l\'azote ?', options: ['Plane', 'Linéaire', 'Pyramidale', 'Tétraédrique'], correct: 2, explanation: 'Le doublet non liant repousse les liaisons, créant une forme pyramidale.' }
+        ],
+        relatedSimulations: ['cts-alcools', 'cts-acides-amines']
+    },
+
+    'cts-acides-carbo': {
+        title: '⚗️ Estérification',
+        description: 'Réaction acide carboxylique + alcool → ester + eau',
+        type: 'cts-acides-carbo',
+        image: '/images/simulations/chimie-ts/esterification.png',
+        level: 'Terminale S',
+        subject: 'Chimie',
+        config: {},
+        analogy: {
+            title: 'La Fabrique de Parfums',
+            content: `Les esters donnent les odeurs fruitées des parfums ! 🌸
+
+ACIDE + ALCOOL ⇌ ESTER + EAU
+
+C'est une réaction :
+- LENTE (peut durer des heures)
+- LIMITÉE (équilibre, rendement ≈ 67%)
+- ATHERMIQUE (pas de dégagement de chaleur)
+
+Pour accélérer : Catalyseur H₂SO₄ + Chauffage
+Pour rendre totale : Utiliser un chlorure d'acyle ou un anhydride !
+
+Nom des esters : "Alcanoate d'alkyle"
+Ex: Éthanoate d'éthyle (parfum de banane)`
+        },
+        theory: `Estérification et Hydrolyse
+
+1. RÉACTION D'ESTÉRIFICATION
+Acide carboxylique + Alcool ⇌ Ester + Eau
+
+Caractéristiques :
+- Lente
+- Limitée (équilibre)
+- Athermique
+
+2. CATALYSE
+H₂SO₄ concentré : Accélère sans modifier l'équilibre.
+Chauffage : Augmente la vitesse.
+
+3. DÉPLACEMENT D'ÉQUILIBRE
+- Excès d'un réactif
+- Élimination d'un produit (distillation de l'eau)
+- Utilisation d'anhydride ou chlorure d'acyle (réaction totale)
+
+4. SAPONIFICATION
+Ester + Base forte → Savon + Alcool
+Réaction TOTALE (pas d'équilibre)`,
+        exercises: [
+            { question: 'Comment rendre l\'estérification totale ?', options: ['Chauffer', 'Ajouter de l\'eau', 'Utiliser un chlorure d\'acyle', 'Refroidir'], correct: 2, explanation: 'Les chlorures d\'acyle réagissent totalement et rapidement.' },
+            { question: 'L\'estérification est-elle exothermique ?', options: ['Oui', 'Non, athermique', 'Endothermique', 'Variable'], correct: 1, explanation: 'La réaction n\'échange pas de chaleur avec l\'extérieur.' }
+        ],
+        relatedSimulations: ['cts-alcools', 'cts-cinetique']
+    },
+
+    'cts-acides-amines': {
+        title: '🔬 Acides Aminés et Chiralité',
+        description: 'Structure des acides α-aminés et stéréochimie',
+        type: 'cts-acides-amines',
+        image: '/images/simulations/chimie-ts/acides-amines.png',
+        level: 'Terminale S',
+        subject: 'Chimie',
+        config: {},
+        analogy: {
+            title: 'Les Briques de la Vie',
+            content: `Les acides aminés sont les LEGO du vivant ! 🧬
+
+Structure : NH₂-CHR-COOH
+- Un côté ACIDE (COOH)
+- Un côté AMINE (NH₂)
+- Au milieu : le carbone α (asymétrique*)
+
+*Asymétrique = 4 groupes différents = CHIRALITÉ
+Comme tes mains : L (gauche) et D (droite), non superposables !
+
+Dans le corps : TOUS les acides aminés sont de type L.
+C'est la signature du vivant !
+
+Zwitterion : NH₃⁺-CHR-COO⁻ (double charge)`
+        },
+        theory: `Acides α-aminés
+
+1. STRUCTURE
+R-CH(NH₂)-COOH
+Le carbone α porte 4 groupes différents (sauf Glycine).
+
+2. CHIRALITÉ
+Carbone asymétrique → Deux énantiomères (L et D).
+Représentation de Fischer.
+Acides aminés naturels = série L.
+
+3. PROPRIÉTÉS ACIDO-BASIQUES
+Zwitterion (Amphion) : R-CH(NH₃⁺)-COO⁻
+- Ampholyte : Peut être acide ET base
+- Point isoélectrique (pHi) : Charge globale nulle
+
+4. LIAISON PEPTIDIQUE
+COOH + NH₂ → CO-NH + H₂O
+Formation des protéines`,
+        exercises: [
+            { question: 'Qu\'est-ce qu\'un carbone asymétrique ?', options: ['Porteur de 4 groupes identiques', 'Porteur de 4 groupes différents', 'Un carbone terminal', 'Un carbone avec double liaison'], correct: 1, explanation: 'C\'est la condition pour avoir une molécule chirale.' },
+            { question: 'Les acides aminés naturels sont de série...', options: ['D', 'L', 'DL', 'Aucune'], correct: 1, explanation: 'C\'est une signature du vivant terrestre.' }
+        ],
+        relatedSimulations: ['cts-amines', 'cts-ph']
+    },
+
+    'cts-cinetique': {
+        title: '⏱️ Cinétique Chimique',
+        description: 'Vitesse de réaction, facteurs cinétiques et t½',
+        type: 'cts-cinetique',
+        image: '/images/simulations/chimie-ts/cinetique.png',
+        level: 'Terminale S',
+        subject: 'Chimie',
+        config: {},
+        analogy: {
+            title: 'La Course des Réactifs',
+            content: `Certaines réactions sont des sprinters, d'autres des marathoniens ! 🏃
+
+VITESSE DE RÉACTION = Combien de produit se forme par seconde.
+
+Facteurs qui ACCÉLÈRENT :
+1. TEMPÉRATURE ↑ : Les molécules bougent plus vite, se cognent plus fort.
+2. CONCENTRATION ↑ : Plus de molécules = plus de chocs.
+3. CATALYSEUR : Un raccourci qui facilite la réaction.
+
+TEMPS DE DEMI-RÉACTION (t½) :
+Temps pour atteindre 50% de l'avancement final.
+C'est comme le "mi-temps" de la réaction !`
+        },
+        theory: `Cinétique Chimique
+
+1. VITESSE DE RÉACTION
+v = (1/V) × (dx/dt)
+C'est la pente de la tangente à la courbe x(t).
+
+2. FACTEURS CINÉTIQUES
+- Température : Énergie des chocs
+- Concentration : Fréquence des chocs
+- Catalyseur : Abaisse l'énergie d'activation
+
+3. TEMPS DE DEMI-RÉACTION
+t½ : Durée pour x = xmax/2
+
+4. MÉTHODES DE SUIVI
+- Titrage (prélèvements)
+- Spectrophotométrie (couleur)
+- Pressiométrie (gaz)
+- Conductimétrie (ions)
+
+Trempe : Refroidissement brutal pour stopper la réaction.`,
+        exercises: [
+            { question: 'Comment évolue la vitesse au cours du temps ?', options: ['Elle augmente', 'Elle reste constante', 'Elle diminue', 'Elle oscille'], correct: 2, explanation: 'La concentration des réactifs diminue, donc la vitesse aussi.' },
+            { question: 'Un catalyseur modifie-t-il l\'équilibre ?', options: ['Oui', 'Non', 'Parfois', 'Dépend de la température'], correct: 1, explanation: 'Le catalyseur accélère mais ne change pas les proportions finales.' }
+        ],
+        relatedSimulations: ['cts-acides-carbo', 'cts-ph']
+    },
+
+    'cts-ph': {
+        title: '🧪 pH et Autoprotolyse',
+        description: 'Définition du pH et produit ionique de l\'eau',
+        type: 'cts-ph',
+        image: '/images/simulations/chimie-ts/ph-eau.png',
+        level: 'Terminale S',
+        subject: 'Chimie',
+        config: {},
+        analogy: {
+            title: 'L\'Échelle de l\'Acidité',
+            content: `Le pH mesure l'acidité comme un thermomètre mesure la température ! 🌡️
+
+Échelle de 0 à 14 :
+- pH < 7 : ACIDE (citron, vinaigre)
+- pH = 7 : NEUTRE (eau pure)
+- pH > 7 : BASIQUE (savon, javel)
+
+L'EAU S'IONISE ELLE-MÊME :
+2H₂O ⇌ H₃O⁺ + HO⁻
+
+Produit ionique : Ke = [H₃O⁺][HO⁻] = 10⁻¹⁴ (à 25°C)
+
+pH = -log[H₃O⁺]
+Si [H₃O⁺] = 10⁻³ mol/L → pH = 3`
+        },
+        theory: `pH et Autoprotolyse de l'eau
+
+1. AUTOPROTOLYSE
+2H₂O ⇌ H₃O⁺ + HO⁻
+
+Produit ionique : Ke = [H₃O⁺][HO⁻] = 10⁻¹⁴ (à 25°C)
+
+2. DÉFINITION DU pH
+pH = -log[H₃O⁺]
+[H₃O⁺] = 10⁻ᵖᴴ
+
+3. MILIEUX
+- Acide : pH < 7, [H₃O⁺] > [HO⁻]
+- Neutre : pH = 7, [H₃O⁺] = [HO⁻]
+- Basique : pH > 7, [H₃O⁺] < [HO⁻]
+
+4. INDICATEURS COLORÉS
+Couples acide-base avec formes colorées différentes.
+Zone de virage autour du pKa de l'indicateur.`,
+        exercises: [
+            { question: 'Si [H₃O⁺] = 10⁻⁵ mol/L, quel est le pH ?', options: ['5', '-5', '9', '7'], correct: 0, explanation: 'pH = -log(10⁻⁵) = 5' },
+            { question: 'Ke dépend de...', options: ['La concentration', 'Le volume', 'La température', 'Le pH'], correct: 2, explanation: 'Ke augmente avec la température.' }
+        ],
+        relatedSimulations: ['cts-acides-forts', 'cts-acides-faibles']
+    },
+
+    'cts-acides-forts': {
+        title: '💧 Acides et Bases Forts',
+        description: 'Réactions totales avec l\'eau, dosages',
+        type: 'cts-acides-forts',
+        image: '/images/simulations/chimie-ts/acides-forts.png',
+        level: 'Terminale S',
+        subject: 'Chimie',
+        config: {},
+        analogy: {
+            title: 'Les Brutes de la Chimie',
+            content: `Les acides et bases FORTS ne font pas dans la dentelle ! 💥
+
+ACIDE FORT (HCl, HNO₃) :
+"Je donne TOUS mes H⁺ à l'eau, sans négocier !"
+HCl + H₂O → H₃O⁺ + Cl⁻ (Réaction TOTALE)
+pH = -log C
+
+BASE FORTE (NaOH, KOH) :
+"Je prends TOUS les H⁺ de l'eau !"
+NaOH → Na⁺ + HO⁻ (Dissociation TOTALE)
+pH = 14 + log C
+
+Attention : Très corrosifs ! Toujours verser l'acide dans l'eau.`
+        },
+        theory: `Acides et Bases Forts
+
+1. ACIDE FORT
+Réaction totale avec l'eau.
+HA + H₂O → H₃O⁺ + A⁻
+
+pH = -log C (si C > 10⁻⁶ mol/L)
+
+Exemples : HCl, HNO₃, H₂SO₄
+
+2. BASE FORTE
+Dissociation totale.
+BOH → B⁺ + HO⁻
+
+pH = 14 + log C
+
+Exemples : NaOH, KOH
+
+3. DOSAGE ACIDE FORT / BASE FORTE
+À l'équivalence : pH = 7 (à 25°C)
+Saut de pH brutal (pente verticale).
+Relation : CaVa = CbVb`,
+        exercises: [
+            { question: 'pH d\'une solution de HCl à 10⁻² mol/L ?', options: ['2', '12', '7', '-2'], correct: 0, explanation: 'pH = -log(10⁻²) = 2' },
+            { question: 'pH d\'une solution de NaOH à 10⁻³ mol/L ?', options: ['3', '11', '7', '14'], correct: 1, explanation: 'pH = 14 + log(10⁻³) = 14 - 3 = 11' }
+        ],
+        relatedSimulations: ['cts-ph', 'cts-acides-faibles']
+    },
+
+    'cts-acides-faibles': {
+        title: '⚖️ Acides Faibles et Ka',
+        description: 'Équilibres acido-basiques et Henderson-Hasselbalch',
+        type: 'cts-acides-faibles',
+        image: '/images/simulations/chimie-ts/acides-faibles.png',
+        level: 'Terminale S',
+        subject: 'Chimie',
+        config: {},
+        analogy: {
+            title: 'Le Partage des H⁺',
+            content: `Les acides FAIBLES partagent leurs H⁺ à contrecœur ! ⚖️
+
+AH + H₂O ⇌ A⁻ + H₃O⁺
+
+C'est un ÉQUILIBRE, pas une réaction totale.
+Certaines molécules gardent leur H⁺, d'autres le donnent.
+
+Ka = [A⁻][H₃O⁺] / [AH]
+pKa = -log Ka
+
+Plus Ka est grand (pKa petit) → Plus l'acide est fort.
+
+FORMULE MAGIQUE (Henderson-Hasselbalch) :
+pH = pKa + log([A⁻]/[AH])
+
+Si pH = pKa → [Acide] = [Base conjuguée] !`
+        },
+        theory: `Acides et Bases Faibles
+
+1. ÉQUILIBRE CHIMIQUE
+AH + H₂O ⇌ A⁻ + H₃O⁺
+
+Constante d'acidité :
+Ka = [A⁻][H₃O⁺] / [AH]
+pKa = -log Ka
+
+2. RELATION D'HENDERSON-HASSELBALCH
+pH = pKa + log([Base]/[Acide])
+
+3. DOMAINES DE PRÉDOMINANCE
+Si pH < pKa : L'acide AH prédomine
+Si pH > pKa : La base A⁻ prédomine
+Si pH = pKa : [AH] = [A⁻]
+
+4. CLASSIFICATION
+Plus le pKa est petit, plus l'acide est fort.
+L'eau est ampholyte : H₃O⁺/H₂O et H₂O/HO⁻`,
+        exercises: [
+            { question: 'Si pH = pKa, que vaut le rapport [A⁻]/[AH] ?', options: ['0', '1', '10', '100'], correct: 1, explanation: 'log(1) = 0, donc pH = pKa.' },
+            { question: 'Un acide avec pKa = 2 est-il plus fort qu\'un acide avec pKa = 5 ?', options: ['Oui', 'Non', 'Égaux', 'Impossible à dire'], correct: 0, explanation: 'pKa petit = Ka grand = acide fort.' }
+        ],
+        relatedSimulations: ['cts-acides-forts', 'cts-tampon']
+    },
+
+    'cts-tampon': {
+        title: '🧪 Solutions Tampons',
+        description: 'Effet tampon et stabilité du pH',
+        type: 'cts-tampon',
+        image: '/images/simulations/chimie-ts/tampon.png',
+        level: 'Terminale S',
+        subject: 'Chimie',
+        config: {},
+        analogy: {
+            title: 'L\'Amortisseur du pH',
+            content: `Une solution tampon, c'est comme un amortisseur pour le pH ! 🛡️
+
+Elle résiste aux variations de pH quand on ajoute un peu d'acide ou de base.
+
+COMPOSITION :
+Acide faible + Sa base conjuguée (en quantités équimolaires)
+Ex: CH₃COOH + CH₃COO⁻
+
+FONCTIONNEMENT :
+- Si on ajoute H⁺ → La base A⁻ les capture : A⁻ + H⁺ → AH
+- Si on ajoute OH⁻ → L'acide réagit : AH + OH⁻ → A⁻ + H₂O
+
+Le pH ne bouge presque pas !
+C'est vital pour le sang (pH ≈ 7.4 très stable).`
+        },
+        theory: `Solutions Tampons
+
+1. DÉFINITION
+Solution dont le pH varie peu par :
+- Dilution modérée
+- Ajout modéré d'acide ou de base forte
+
+2. COMPOSITION
+Mélange d'un acide faible et de sa base conjuguée.
+Concentrations proches (rapport entre 0.1 et 10).
+
+3. MÉCANISME
+Ajout d'acide : A⁻ + H₃O⁺ → AH + H₂O
+Ajout de base : AH + HO⁻ → A⁻ + H₂O
+
+Les réserves d'AH et A⁻ "absorbent" les perturbations.
+
+4. pH DU TAMPON
+pH = pKa (si [AH] = [A⁻])
+
+5. APPLICATIONS
+- Sang : Tampon H₂CO₃/HCO₃⁻
+- Industrie : Fermentation, galvanoplastie`,
+        exercises: [
+            { question: 'Un tampon contient...', options: ['Acide fort + Base forte', 'Acide faible + Base conjuguée', 'Eau pure', 'Sel neutre'], correct: 1, explanation: 'C\'est la définition d\'un tampon.' },
+            { question: 'Pourquoi le pH du sang est-il stable ?', options: ['Car il est dilué', 'Grâce au tampon HCO₃⁻/H₂CO₃', 'Car il est chaud', 'Car il circule'], correct: 1, explanation: 'Le système bicarbonate maintient le pH à 7.4.' }
+        ],
+        relatedSimulations: ['cts-acides-faibles', 'cts-ph']
     }
 
 };

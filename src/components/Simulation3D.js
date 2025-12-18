@@ -64,6 +64,7 @@ import { DilutionAdvanced, TitrageAdvanced, PHIndicateursAdvanced, TestsIonsAdva
 import { TravailPuissanceSim, EnergieCinetiqueSim, EnergieMecaniqueSim, EnergiePotentielleSim, ElectrostatiqueSim, OptiqueLentilleSim, OndesSim, ElectroniqueSim } from './Physique1ereSimulations';
 import { ChimieOrgaGeneralSim, AlcanesSim, AlcenesSim, BenzeneSim, ComposesOxygenesSim, RedoxGammaSim, ElectrolyseSim, VoieSecheSimulation } from './Chimie1ereSimulations';
 import { CinematiquePoint, DynamiqueNewton, ProjectileMotion, GravitationSatellite, ChampMagnetiqueSolenoid, ForceLorentz, LoiLaplace, InductionRL, DipoleRC, OscillationsLCRLC, OscillationsMecaniques, InterferencesYoung, EffetPhotoelectrique, NiveauxEnergie, ReactionsNucleaires } from './PhysiqueTSSimulations';
+import { AlcoolsOxydation, AminesProprietes, Esterification, AcidesAminesChiralite, CinetiqueChimique, PHAutoprotolyse, AcidesBasesForts, AcidesFaiblesKa, SolutionsTampons } from './ChimieTSSimulations';
 
 
 
@@ -4717,6 +4718,26 @@ export default function Simulation3D({ type = 'atom', config = {} }) {
                 return <NiveauxEnergie />;
             case 'pts-nucleaire':
                 return <ReactionsNucleaires />;
+
+            // === CHIMIE TERMINALE S - SIMULATIONS ===
+            case 'cts-alcools':
+                return <AlcoolsOxydation />;
+            case 'cts-amines':
+                return <AminesProprietes />;
+            case 'cts-acides-carbo':
+                return <Esterification />;
+            case 'cts-acides-amines':
+                return <AcidesAminesChiralite />;
+            case 'cts-cinetique':
+                return <CinetiqueChimique />;
+            case 'cts-ph':
+                return <PHAutoprotolyse />;
+            case 'cts-acides-forts':
+                return <AcidesBasesForts />;
+            case 'cts-acides-faibles':
+                return <AcidesFaiblesKa />;
+            case 'cts-tampon':
+                return <SolutionsTampons />;
 
             default:
                 return <Atom {...config} />;
