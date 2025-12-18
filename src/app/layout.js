@@ -3,6 +3,7 @@ import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import MobileBottomNav from "@/components/MobileBottomNav";
+import AnalyticsWrapper from "@/components/AnalyticsWrapper";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -33,12 +34,15 @@ export default function RootLayout({ children }) {
         className={`${inter.className} antialiased bg-slate-950 text-white`}
         suppressHydrationWarning
       >
-        <Navbar />
-        <main className="main-content">{children}</main>
-        <Footer />
-        <MobileBottomNav />
+        <AnalyticsWrapper>
+          <Navbar />
+          <main className="main-content">{children}</main>
+          <Footer />
+          <MobileBottomNav />
+        </AnalyticsWrapper>
       </body>
     </html>
   );
 }
+
 
