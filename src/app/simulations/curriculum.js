@@ -797,26 +797,52 @@ export const simulationsCurriculum = {
                 title: "Seconde",
                 subjects: {
                     physique: {
-                        title: "Physique-Chimie",
+                        title: "Physique",
                         simulations: [
-                            { id: "rectilinear-motion", title: "Mouvement Rectiligne", description: "Vitesse, distance et temps", duration: "20 min", icon: "🚗", image: "/simulations/physique-2nde/mouvement-rectiligne.png", tags: ["cinématique", "vitesse"] },
-                            { id: "refraction-light", title: "Réfraction de la Lumière", description: "Lois de Snell-Descartes", duration: "25 min", icon: "🌈", image: "/simulations/physique-2nde/refraction.png", tags: ["optique", "lumière"] },
-                            { id: "light-spectrum", title: "Spectre Lumineux", description: "Dispersion par un prisme", duration: "15 min", icon: "🎨", image: "/simulations/physique-2nde/spectre.png", tags: ["lumière", "couleurs"] },
-                            { id: "gravitation-universal", title: "Gravitation Universelle", description: "Attraction entre les masses", duration: "30 min", icon: "🪐", image: "/simulations/physique-2nde/gravitation.png", tags: ["force", "newton"] },
-                            { id: "periodic-table", title: "Tableau Périodique", description: "Familles et classification", duration: "40 min", icon: "📊", image: "/simulations/chimie-2nde/tableau-periodique.png", tags: ["atomes", "chimie"] },
-                            { id: "molar-mass", title: "La Mole", description: "Quantité de matière", duration: "45 min", icon: "⚖️", image: "/simulations/chimie-2nde/mole.png", tags: ["mole", "avogadro"] },
-                            { id: "magnetic-field-earth", title: "Champ Magnétique Terrestre", description: "Boussole et pôles", duration: "20 min", icon: "🧭", image: "/simulations/physique-2nde/champ-magnetique.png", tags: ["magnétisme", "terre"] },
-                            { id: "vision-eye", title: "L'Œil et la Vision", description: "Formation des images", duration: "30 min", icon: "👁️", image: "/simulations/physique-2nde/oeil-vision.png", tags: ["optique", "lentilles"] }
+                            // P1 à P7 - Électricité
+                            { id: "electrisation-2nde", title: "⚡ Électrisation", description: "Charges électriques et électrostatique", duration: "25 min", icon: "⚡", image: "/simulations/physique-2nde/electrisation.png", tags: ["électricité", "charges"] },
+                            { id: "circuit-electrique-2nde", title: "🔌 Circuit Électrique", description: "Courant, conducteurs et isolants", duration: "30 min", icon: "🔌", image: "/simulations/physique-2nde/circuit-electrique.png", tags: ["circuit", "courant"] },
+                            { id: "intensite-courant-2nde", title: "⚡ Intensité du Courant", description: "Ampères et loi des nœuds", duration: "25 min", icon: "⚡", image: "/simulations/physique-2nde/intensite.png", tags: ["intensité", "ampère"] },
+                            { id: "tension-electrique-2nde", title: "🔋 Tension Électrique", description: "Volts et loi des mailles", duration: "30 min", icon: "🔋", image: "/simulations/physique-2nde/tension.png", tags: ["tension", "volt"] },
+                            { id: "loi-ohm-2nde", title: "Ω Loi d'Ohm", description: "Résistance et caractéristiques", duration: "35 min", icon: "Ω", image: "/simulations/physique-2nde/loi-ohm.png", tags: ["résistance", "ohm"] },
+                            { id: "generateur-2nde", title: "🔋 Générateurs", description: "Piles, f.e.m. et résistance interne", duration: "30 min", icon: "🔋", image: "/simulations/physique-2nde/generateur.png", tags: ["générateur", "pile"] },
+                            { id: "aop-2nde", title: "📊 Amplificateur Opérationnel", description: "Intro aux composants électroniques", duration: "40 min", icon: "📊", image: "/simulations/physique-2nde/aop.png", tags: ["électronique", "AOP"] },
+                            // P8 à P12 - Mécanique
+                            { id: "mouvement-2nde", title: "🚗 Mouvement et Référentiel", description: "Description du mouvement", duration: "25 min", icon: "🚗", image: "/simulations/physique-2nde/mouvement.png", tags: ["cinématique", "vitesse"] },
+                            { id: "forces-poids-2nde", title: "⚖️ Forces et Poids", description: "Force gravitationnelle et poids", duration: "30 min", icon: "⚖️", image: "/simulations/physique-2nde/forces-poids.png", tags: ["forces", "poids"] },
+                            { id: "equilibre-solide-2nde", title: "⚖️ Équilibre d'un Solide", description: "Conditions d'équilibre statique", duration: "35 min", icon: "⚖️", image: "/simulations/physique-2nde/equilibre-solide.png", tags: ["équilibre", "statique"] },
+                            { id: "equilibre-3forces-2nde", title: "📐 Équilibre sous 3 Forces", description: "Théorème des moments", duration: "35 min", icon: "📐", image: "/simulations/physique-2nde/equilibre-3forces.png", tags: ["équilibre", "forces"] },
+                            { id: "moment-force-2nde", title: "🔄 Moment d'une Force", description: "Couple et rotation", duration: "30 min", icon: "🔄", image: "/simulations/physique-2nde/moment-force.png", tags: ["moment", "rotation"] },
+                            // P13 à P15 - Optique
+                            { id: "propagation-lumiere-2nde", title: "💡 Propagation de la Lumière", description: "Rayons lumineux et ombres", duration: "25 min", icon: "💡", image: "/simulations/physique-2nde/propagation-lumiere.png", tags: ["optique", "lumière"] },
+                            { id: "reflexion-refraction-2nde", title: "🌈 Réflexion et Réfraction", description: "Lois de Snell-Descartes", duration: "30 min", icon: "🌈", image: "/simulations/physique-2nde/reflexion-refraction.png", tags: ["optique", "réfraction"] },
+                            { id: "lentilles-2nde", title: "🔍 Lentilles Minces", description: "Images et formule de conjugaison", duration: "35 min", icon: "🔍", image: "/simulations/physique-2nde/lentilles.png", tags: ["optique", "lentilles"] }
+                        ]
+                    },
+                    chimie: {
+                        title: "Chimie",
+                        simulations: [
+                            // C1 à C10 - Chimie Seconde
+                            { id: "separation-lab", title: "🧪 Mélanges et Corps Purs", description: "Techniques de séparation", duration: "30 min", icon: "🧪", image: "/simulations/chimie-2nde/separation.png", tags: ["mélanges", "séparation"] },
+                            { id: "atomic-structure-seconde", title: "⚛️ Structure de l'Atome", description: "Éléments et classification", duration: "35 min", icon: "⚛️", image: "/simulations/chimie-2nde/atome.png", tags: ["atome", "classification"] },
+                            { id: "lewis-structure-advanced", title: "🔗 Liaisons Chimiques", description: "Octet et structure de Lewis", duration: "40 min", icon: "🔗", image: "/simulations/chimie-2nde/liaisons.png", tags: ["liaisons", "Lewis"] },
+                            { id: "mole-scale-advanced", title: "⚖️ La Mole", description: "Grandeurs molaires et Avogadro", duration: "35 min", icon: "⚖️", image: "/simulations/chimie-2nde/mole.png", tags: ["mole", "avogadro"] },
+                            { id: "concentration-2nde", title: "🧪 Solutions et Concentration", description: "Préparation et dilution", duration: "30 min", icon: "🧪", image: "/simulations/chimie-2nde/concentration.png", tags: ["solution", "concentration"] },
+                            { id: "dosage-2nde", title: "📊 Dosages par Étalonnage", description: "Spectrophotométrie et conductimétrie", duration: "35 min", icon: "📊", image: "/simulations/chimie-2nde/dosage.png", tags: ["dosage", "étalonnage"] },
+                            { id: "reaction-chimique-2nde", title: "⚗️ Réaction Chimique", description: "Équation et avancement", duration: "30 min", icon: "⚗️", image: "/simulations/chimie-2nde/reaction.png", tags: ["réaction", "équation"] },
+                            { id: "tableau-avancement-2nde", title: "📋 Tableau d'Avancement", description: "Bilan de matière et stœchiométrie", duration: "40 min", icon: "📋", image: "/simulations/chimie-2nde/avancement.png", tags: ["stœchiométrie", "bilan"] },
+                            { id: "combustion-2nde", title: "🔥 Combustions", description: "Réactions avec le dioxygène", duration: "25 min", icon: "🔥", image: "/simulations/chimie-2nde/combustion.png", tags: ["combustion", "énergie"] },
+                            { id: "synthese-chimique-2nde", title: "🧬 Synthèse Chimique", description: "Protocole et rendement", duration: "35 min", icon: "🧬", image: "/simulations/chimie-2nde/synthese.png", tags: ["synthèse", "rendement"] }
                         ]
                     },
                     svt: {
                         title: "SVT",
                         simulations: [
-                            { id: "cell-respiration", title: "Respiration Cellulaire", description: "Production d'énergie", duration: "35 min", icon: "⚡", image: "/simulations/svt-2nde/respiration-cellulaire.png", tags: ["énergie", "cellule"] },
-                            { id: "body-effort", title: "Organisme à l'Effort", description: "Adaptations physiologiques", duration: "25 min", icon: "🏃", image: "/simulations/svt-2nde/effort-physique.png", tags: ["cœur", "poumons"] },
-                            { id: "cell-division", title: "Division Cellulaire (Mitose)", description: "Cycle cellulaire", duration: "30 min", icon: "🔬", image: "/simulations/svt-2nde/mitose.png", tags: ["cellule", "mitose"] },
-                            { id: "ecosystem-dynamics", title: "Dynamique des Écosystèmes", description: "Interactions", duration: "40 min", icon: "🌳", image: "/simulations/svt-2nde/ecosysteme.png", tags: ["écologie"] },
-                            { id: "homeostasis-regulation", title: "Régulation Glycémie", description: "Insuline et Glucagon", duration: "30 min", icon: "🍭", image: "/simulations/svt-2nde/glycemie.png", tags: ["hormones", "santé"] }
+                            { id: "cell-respiration", title: "⚡ Respiration Cellulaire", description: "Production d'énergie", duration: "35 min", icon: "⚡", image: "/simulations/svt-2nde/respiration-cellulaire.png", tags: ["énergie", "cellule"] },
+                            { id: "body-effort", title: "🏃 Organisme à l'Effort", description: "Adaptations physiologiques", duration: "25 min", icon: "🏃", image: "/simulations/svt-2nde/effort-physique.png", tags: ["cœur", "poumons"] },
+                            { id: "cell-division", title: "🔬 Division Cellulaire", description: "Cycle cellulaire et mitose", duration: "30 min", icon: "🔬", image: "/simulations/svt-2nde/mitose.png", tags: ["cellule", "mitose"] },
+                            { id: "ecosystem-dynamics", title: "🌳 Dynamique des Écosystèmes", description: "Interactions écologiques", duration: "40 min", icon: "🌳", image: "/simulations/svt-2nde/ecosysteme.png", tags: ["écologie"] },
+                            { id: "homeostasis-regulation", title: "🍭 Régulation Glycémie", description: "Insuline et Glucagon", duration: "30 min", icon: "🍭", image: "/simulations/svt-2nde/glycemie.png", tags: ["hormones", "santé"] }
                         ]
                     }
                 }
@@ -825,25 +851,48 @@ export const simulationsCurriculum = {
                 title: "Première S",
                 subjects: {
                     physique: {
-                        title: "Physique-Chimie",
+                        title: "Physique",
                         simulations: [
-                            { id: "electromagnetic-induction", title: "Induction Électromagnétique", description: "Champs et courants", duration: "40 min", icon: "🧲", image: "/simulations/physique-1ere/induction.png", tags: ["aimant", "bobine"] },
-                            { id: "molar-concentration", title: "Concentration Molaire", description: "Solutions et dilutions", duration: "30 min", icon: "🧪", image: "/simulations/chimie-1ere/concentration-molaire.png", tags: ["chimie", "dosage"] },
-                            { id: "quality-control-titration", title: "Contrôle Qualité", description: "Titrage colorimétrique", duration: "40 min", icon: "🌡️", image: "/simulations/chimie-1ere/titrage.png", tags: ["dosage", "chimie"] },
-                            { id: "molecular-geometry", title: "Géométrie Moléculaire", description: "Modèle VSEPR", duration: "45 min", icon: "🔷", image: "/simulations/chimie-1ere/geometrie-moleculaire.png", tags: ["atomes", "espace"] },
-                            { id: "electrolysis", title: "Électrolyse", description: "Réactions forcées", duration: "40 min", icon: "🔋", image: "/simulations/chimie-1ere/electrolyse.png", tags: ["redox", "pile"] },
-                            { id: "beer-lambert-law", title: "Loi de Beer-Lambert", description: "Dosage spectrophotométrique", duration: "30 min", icon: "🌈", image: "/simulations/chimie-1ere/beer-lambert.png", tags: ["chimie", "lumière"] }
+                            // P1 à P11 - Physique 1ère S
+                            { id: "p1s-travail-puissance", title: "⚡ Travail et Puissance", description: "Travail d'une force et puissance", duration: "35 min", icon: "⚡", image: "/simulations/physique-1ere/travail-puissance.png", tags: ["énergie", "travail"] },
+                            { id: "p1s-energie-cinetique", title: "🏃 Énergie Cinétique", description: "Théorème de l'énergie cinétique", duration: "30 min", icon: "🏃", image: "/simulations/physique-1ere/energie-cinetique.png", tags: ["énergie", "mouvement"] },
+                            { id: "p1s-energie-mecanique", title: "⚖️ Énergie Mécanique", description: "Conservation et dissipation", duration: "35 min", icon: "⚖️", image: "/simulations/physique-1ere/energie-mecanique.png", tags: ["conservation", "énergie"] },
+                            { id: "p1s-calorimetrie", title: "🌡️ Calorimétrie", description: "Chaleur et changements d'état", duration: "30 min", icon: "🌡️", image: "/simulations/physique-1ere/calorimetrie.png", tags: ["chaleur", "température"] },
+                            { id: "p1s-champ-electrique", title: "⚡ Champ Électrostatique", description: "Loi de Coulomb et champ E", duration: "40 min", icon: "⚡", image: "/simulations/physique-1ere/champ-electrique.png", tags: ["électrostatique", "champ"] },
+                            { id: "p1s-energie-electrostatique", title: "🔋 Énergie Électrostatique", description: "Potentiel et énergie", duration: "35 min", icon: "🔋", image: "/simulations/physique-1ere/energie-electrostatique.png", tags: ["potentiel", "énergie"] },
+                            { id: "p1s-transferts-energie", title: "⚡ Transferts d'Énergie", description: "Effet Joule et bilan", duration: "35 min", icon: "⚡", image: "/simulations/physique-1ere/transferts-energie.png", tags: ["joule", "puissance"] },
+                            { id: "p1s-condensateur", title: "🔋 Le Condensateur", description: "Capacité et énergie stockée", duration: "40 min", icon: "🔋", image: "/simulations/physique-1ere/condensateur.png", tags: ["condensateur", "capacité"] },
+                            { id: "p1s-aop", title: "📊 Amplificateur Opérationnel", description: "Montages inverseur et suiveur", duration: "45 min", icon: "📊", image: "/simulations/physique-1ere/aop.png", tags: ["électronique", "AOP"] },
+                            { id: "p1s-ondes-mecaniques", title: "🌊 Ondes Mécaniques", description: "Propagation et célérité", duration: "35 min", icon: "🌊", image: "/simulations/physique-1ere/ondes-mecaniques.png", tags: ["ondes", "propagation"] },
+                            { id: "p1s-optique", title: "🔍 Optique Géométrique", description: "Lentilles et instruments", duration: "40 min", icon: "🔍", image: "/simulations/physique-1ere/optique.png", tags: ["optique", "lentilles"] }
+                        ]
+                    },
+                    chimie: {
+                        title: "Chimie",
+                        simulations: [
+                            // C1 à C11 - Chimie 1ère S
+                            { id: "c1s-chimie-organique", title: "🧬 Introduction Chimie Organique", description: "Familles et nomenclature", duration: "35 min", icon: "🧬", image: "/simulations/chimie-1ere/chimie-organique.png", tags: ["organique", "carbone"] },
+                            { id: "c1s-alcanes", title: "⛽ Les Alcanes", description: "Combustion et nomenclature", duration: "30 min", icon: "⛽", image: "/simulations/chimie-1ere/alcanes.png", tags: ["alcanes", "hydrocarbures"] },
+                            { id: "c1s-alcenes-alcynes", title: "🔗 Alcènes et Alcynes", description: "Insaturation et réactivité", duration: "35 min", icon: "🔗", image: "/simulations/chimie-1ere/alcenes-alcynes.png", tags: ["alcènes", "double liaison"] },
+                            { id: "c1s-benzene", title: "⬡ Le Benzène", description: "Aromatiques et substitution", duration: "40 min", icon: "⬡", image: "/simulations/chimie-1ere/benzene.png", tags: ["benzène", "aromatique"] },
+                            { id: "c1s-composes-oxygenes", title: "🧪 Composés Oxygénés", description: "Alcools, aldéhydes, cétones", duration: "45 min", icon: "🧪", image: "/simulations/chimie-1ere/composes-oxygenes.png", tags: ["alcools", "carbonyle"] },
+                            { id: "c1s-couple-redox", title: "⚡ Couples Redox", description: "Oxydation et réduction", duration: "35 min", icon: "⚡", image: "/simulations/chimie-1ere/couple-redox.png", tags: ["redox", "oxydation"] },
+                            { id: "c1s-classification-potentiels", title: "📊 Classification des Potentiels", description: "Échelle des E°", duration: "35 min", icon: "📊", image: "/simulations/chimie-1ere/classification-potentiels.png", tags: ["potentiel", "électrochimie"] },
+                            { id: "c1s-reactions-redox", title: "⚗️ Réactions Redox", description: "Dosages par titrage", duration: "40 min", icon: "⚗️", image: "/simulations/chimie-1ere/reactions-redox.png", tags: ["dosage", "permanganate"] },
+                            { id: "c1s-electrolyse", title: "🔋 Électrolyse", description: "Réactions forcées et faraday", duration: "40 min", icon: "🔋", image: "/simulations/chimie-1ere/electrolyse.png", tags: ["électrolyse", "anode"] },
+                            { id: "c1s-voie-seche", title: "🔥 Réactions Voie Sèche", description: "Réduction des oxydes", duration: "30 min", icon: "🔥", image: "/simulations/chimie-1ere/voie-seche.png", tags: ["métallurgie", "réduction"] },
+                            { id: "c1s-chimie-industrielle", title: "🏭 Chimie Industrielle", description: "Phosphates et plastiques", duration: "35 min", icon: "🏭", image: "/simulations/chimie-1ere/chimie-industrielle.png", tags: ["industrie", "polymères"] }
                         ]
                     },
                     svt: {
                         title: "SVT",
                         simulations: [
-                            { id: "enzymatic-catalysis", title: "Catalyse Enzymatique", description: "Vitesse de réaction", duration: "40 min", icon: "🔑", image: "/simulations/svt-1ere/catalyse-enzymatique.png", tags: ["enzyme", "protéine"] },
-                            { id: "tectonics-plates", title: "Tectonique des Plaques", description: "Dérive et séismes", duration: "35 min", icon: "🌍", image: "/simulations/svt-1ere/tectonique.png", tags: ["géologie", "terre"] },
-                            { id: "greenhouse-effect", title: "Effet de Serre", description: "Bilan radiatif", duration: "25 min", icon: "🌡️", image: "/simulations/svt-1ere/effet-de-serre.png", tags: ["climat", "réchauffement"] },
-                            { id: "protein-synthesis", title: "Synthèse des Protéines", description: "ADN vers Protéine", duration: "40 min", icon: "🧬", image: "/simulations/svt-1ere/synthese-proteines.png", tags: ["génétique"] },
-                            { id: "plant-growth", title: "Croissance Végétale", description: "Auxine et Phototropisme", duration: "30 min", icon: "🌻", image: "/simulations/svt-1ere/croissance-vegetale.png", tags: ["plante", "hormone"] },
-                            { id: "enzyme-kinetics", title: "Cinétique Enzymatique", description: "Vitesse et Saturation", duration: "40 min", icon: "⏱️", image: "/simulations/svt-1ere/cinetique-enzymatique.png", tags: ["enzyme", "vitesse"] }
+                            { id: "enzymatic-catalysis", title: "🔑 Catalyse Enzymatique", description: "Vitesse de réaction", duration: "40 min", icon: "🔑", image: "/simulations/svt-1ere/catalyse-enzymatique.png", tags: ["enzyme", "protéine"] },
+                            { id: "tectonics-plates", title: "🌍 Tectonique des Plaques", description: "Dérive et séismes", duration: "35 min", icon: "🌍", image: "/simulations/svt-1ere/tectonique.png", tags: ["géologie", "terre"] },
+                            { id: "greenhouse-effect", title: "🌡️ Effet de Serre", description: "Bilan radiatif", duration: "25 min", icon: "🌡️", image: "/simulations/svt-1ere/effet-de-serre.png", tags: ["climat", "réchauffement"] },
+                            { id: "protein-synthesis", title: "🧬 Synthèse des Protéines", description: "ADN vers Protéine", duration: "40 min", icon: "🧬", image: "/simulations/svt-1ere/synthese-proteines.png", tags: ["génétique"] },
+                            { id: "plant-growth", title: "🌻 Croissance Végétale", description: "Auxine et Phototropisme", duration: "30 min", icon: "🌻", image: "/simulations/svt-1ere/croissance-vegetale.png", tags: ["plante", "hormone"] },
+                            { id: "enzyme-kinetics", title: "⏱️ Cinétique Enzymatique", description: "Vitesse et Saturation", duration: "40 min", icon: "⏱️", image: "/simulations/svt-1ere/cinetique-enzymatique.png", tags: ["enzyme", "vitesse"] }
                         ]
                     }
                 }
