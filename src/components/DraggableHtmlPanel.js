@@ -146,11 +146,11 @@ const DraggableHtmlPanel = ({ children, title, className = "", initialPos = null
     }, []);
 
     // Ne pas rendre tant que le client n'est pas monté ou si fermé
-    // Retourne un fragment vide pour éviter les erreurs R3F avec les enfants
-    if (!mounted || isClosed) return <></>;
+    // Retourne null pour éviter les erreurs R3F avec les enfants
+    if (!mounted || isClosed) return null;
 
     // Ne pas essayer de créer le portail si mountNode n'est pas déterminé
-    if (!mountNode) return <></>;
+    if (!mountNode) return null;
 
     const panelContent = (
         <div

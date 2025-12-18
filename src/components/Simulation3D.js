@@ -63,6 +63,7 @@ import { AtomicStructureAdvanced, MoleScaleAdvanced, LewisStructureAdvanced, Equ
 import { DilutionAdvanced, TitrageAdvanced, PHIndicateursAdvanced, TestsIonsAdvanced } from './Chimie2SAdvancedPart2';
 import { TravailPuissanceSim, EnergieCinetiqueSim, EnergieMecaniqueSim, EnergiePotentielleSim, ElectrostatiqueSim, OptiqueLentilleSim, OndesSim, ElectroniqueSim } from './Physique1ereSimulations';
 import { ChimieOrgaGeneralSim, AlcanesSim, AlcenesSim, BenzeneSim, ComposesOxygenesSim, RedoxGammaSim, ElectrolyseSim, VoieSecheSimulation } from './Chimie1ereSimulations';
+import { CinematiquePoint, DynamiqueNewton, ProjectileMotion, GravitationSatellite, ChampMagnetiqueSolenoid, ForceLorentz, LoiLaplace, InductionRL, DipoleRC, OscillationsLCRLC, OscillationsMecaniques, InterferencesYoung, EffetPhotoelectrique, NiveauxEnergie, ReactionsNucleaires } from './PhysiqueTSSimulations';
 
 
 
@@ -4684,6 +4685,38 @@ export default function Simulation3D({ type = 'atom', config = {} }) {
                 return <ElectrolyseSim />;
             case 'c1s-voieseche': // C11
                 return <VoieSecheSimulation />;
+
+            // === PHYSIQUE TERMINALE S - SIMULATIONS ===
+            case 'pts-cinematique':
+                return <CinematiquePoint />;
+            case 'pts-dynamique':
+                return <DynamiqueNewton />;
+            case 'pts-applications':
+                return <ProjectileMotion />;
+            case 'pts-gravitation':
+                return <GravitationSatellite />;
+            case 'pts-champ-magnetique':
+                return <ChampMagnetiqueSolenoid />;
+            case 'pts-lorentz':
+                return <ForceLorentz />;
+            case 'pts-laplace':
+                return <LoiLaplace />;
+            case 'pts-induction':
+                return <InductionRL />;
+            case 'pts-rc':
+                return <DipoleRC />;
+            case 'pts-oscillations-lc':
+                return <OscillationsLCRLC />;
+            case 'pts-oscillations-meca':
+                return <OscillationsMecaniques />;
+            case 'pts-interferences':
+                return <InterferencesYoung />;
+            case 'pts-photoelectrique':
+                return <EffetPhotoelectrique />;
+            case 'pts-niveaux-energie':
+                return <NiveauxEnergie />;
+            case 'pts-nucleaire':
+                return <ReactionsNucleaires />;
 
             default:
                 return <Atom {...config} />;

@@ -5015,6 +5015,909 @@ Fe2O3 + 2Al → 2Fe + Al2O3
 Réaction très exothermique`,
         exercises: [],
         relatedSimulations: ['c1s-redox', 'c1s-electrolyse']
+    },
+
+    // ================================================
+    // ========== PHYSIQUE TERMINALE S ==========
+    // ================================================
+
+    // === PARTIE 1 : CINÉMATIQUE - DYNAMIQUE ===
+
+    'pts-cinematique': {
+        title: '📍 Cinématique du Point',
+        description: 'Vecteurs position, vitesse, accélération - MRU, MRUV',
+        type: 'pts-cinematique',
+        image: '/images/simulations/physique-ts/cinematique.png',
+        level: 'Terminale S',
+        subject: 'Physique',
+        config: {},
+        analogy: {
+            title: 'Le GPS de la Voiture',
+            content: `La cinématique, c'est comme le GPS de ta voiture ! 🚗📍
+
+POSITION : Où tu es exactement sur la carte (coordonnées x, y, z).
+
+VITESSE : À quelle vitesse tu te déplaces. C'est la dérivée de ta position !
+Si tu bouges de 100m en 10s, ta vitesse moyenne est 10 m/s.
+
+ACCÉLÉRATION : À quelle vitesse ta vitesse change !
+Si tu appuies sur l'accélérateur, ta vitesse augmente → accélération positive.
+Si tu freines, ta vitesse diminue → accélération négative (décélération).
+
+MRU (Mouvement Rectiligne Uniforme) : Tu roules tout droit à vitesse constante.
+MRUV (Uniformément Varié) : Tu accélères ou freines de manière régulière.`
+        },
+        theory: `Cinématique du Point Matériel
+
+1. VECTEUR POSITION
+𝑂𝑀⃗ = x𝑖⃗ + y𝑗⃗ + z𝑘⃗
+Le point M est repéré par ses coordonnées (x, y, z).
+
+2. VECTEUR VITESSE
+𝑣⃗ = d𝑂𝑀⃗/dt = ẋ𝑖⃗ + ẏ𝑗⃗ + ż𝑘⃗
+La vitesse est la dérivée de la position.
+
+3. VECTEUR ACCÉLÉRATION
+𝑎⃗ = d𝑣⃗/dt = ẍ𝑖⃗ + ÿ𝑗⃗ + z̈𝑘⃗
+L'accélération est la dérivée de la vitesse.
+
+4. MOUVEMENTS PARTICULIERS
+
+MRU : 𝑎⃗ = 0⃗, v = cste, x(t) = vt + x₀
+
+MRUV : 𝑎⃗ = cste
+  v(t) = at + v₀
+  x(t) = ½at² + v₀t + x₀
+
+MCU (Circulaire Uniforme) : aₙ = v²/R (centripète)`,
+        exercises: [
+            { question: 'Si l\'accélération est nulle et constante, le mouvement est...', options: ['Accéléré', 'Rectiligne Uniforme', 'Circulaire', 'Impossible'], correct: 1, explanation: 'Si 𝑎⃗ = 0⃗, alors 𝑣⃗ est constant. Le mouvement est rectiligne uniforme (ou repos).' },
+            { question: 'L\'unité de l\'accélération dans le SI est...', options: ['m/s', 'm/s²', 'km/h', 'N'], correct: 1, explanation: 'L\'accélération s\'exprime en mètres par seconde carrée (m/s² ou m.s⁻²).' },
+            { question: 'Dans un MRUV, si a = 2 m/s² et v₀ = 0, quelle est la vitesse après 5s ?', options: ['5 m/s', '10 m/s', '25 m/s', '2 m/s'], correct: 1, explanation: 'v = at + v₀ = 2×5 + 0 = 10 m/s.' }
+        ],
+        relatedSimulations: ['pts-dynamique', 'pts-applications']
+    },
+
+    'pts-dynamique': {
+        title: '⚖️ Bases de la Dynamique',
+        description: 'Les trois lois de Newton - PFD',
+        type: 'pts-dynamique',
+        image: '/images/simulations/physique-ts/dynamique.png',
+        level: 'Terminale S',
+        subject: 'Physique',
+        config: {},
+        analogy: {
+            title: 'La Pomme de Newton',
+            content: `Newton a révolutionné la physique avec trois lois simples ! 🍎
+
+1ère LOI (INERTIE) : Si personne ne te pousse, tu restes tranquille.
+Une voiture au point mort sur un terrain plat parfait glisserait éternellement !
+C'est la PARESSE naturelle des objets.
+
+2ème LOI (PFD) : F = ma
+Plus tu pousses fort (F), plus ça accélère (a).
+Plus c'est lourd (m), moins ça accélère pour la même force.
+Pousser une brouette vide vs une brouette pleine !
+
+3ème LOI (ACTION-RÉACTION) : Quand tu frappes un mur, le mur te frappe aussi fort !
+C'est pour ça que ça fait mal. Le mur renvoie exactement ta force.`
+        },
+        theory: `Les Lois de Newton (Dynamique)
+
+1. PRINCIPE D'INERTIE (1ère Loi)
+Si Σ𝐹⃗ₑₓₜ = 0⃗, alors 𝑣⃗ = constante
+Un corps persévère dans son état de repos ou de MRU si aucune force ne s'exerce.
+
+2. PRINCIPE FONDAMENTAL DE LA DYNAMIQUE (2ème Loi)
+Dans un référentiel galiléen :
+Σ𝐹⃗ₑₓₜ = m𝑎⃗
+
+La somme vectorielle des forces = masse × accélération.
+Unité : 1 N = 1 kg.m.s⁻²
+
+3. PRINCIPE DES ACTIONS RÉCIPROQUES (3ème Loi)
+𝐹⃗ₐ/ᵦ = -𝐹⃗ᵦ/ₐ
+
+Les forces d'interaction sont égales en norme, de même direction, mais de sens opposés.
+
+THÉORÈME DU CENTRE D'INERTIE (TCI)
+Le mouvement de G est déterminé par : Σ𝐹⃗ₑₓₜ = m𝑎⃗ᴳ`,
+        exercises: [
+            { question: 'Quelle est l\'unité de la force dans le SI ?', options: ['Joule', 'Watt', 'Newton', 'Pascal'], correct: 2, explanation: 'Le Newton (N). 1 N = 1 kg.m.s⁻².' },
+            { question: 'Si F = 10 N et m = 2 kg, quelle est l\'accélération ?', options: ['5 m/s²', '20 m/s²', '0.2 m/s²', '12 m/s²'], correct: 0, explanation: 'a = F/m = 10/2 = 5 m/s².' },
+            { question: 'La Terre attire la pomme avec une force F. La pomme attire la Terre avec...', options: ['Une force nulle', 'Une force F', 'Une force plus petite', 'Une force plus grande'], correct: 1, explanation: 'Action-Réaction : Les forces sont égales en norme (mais la Terre bouge moins car sa masse est énorme).' }
+        ],
+        relatedSimulations: ['pts-cinematique', 'pts-applications']
+    },
+
+    'pts-applications': {
+        title: '🎯 Applications de la Dynamique',
+        description: 'Mouvement projectile, plan incliné, TEC',
+        type: 'pts-applications',
+        image: '/images/simulations/physique-ts/projectile.png',
+        level: 'Terminale S',
+        subject: 'Physique',
+        config: {},
+        analogy: {
+            title: 'Le Tir au But',
+            content: `Le mouvement d'un ballon de foot c'est de la physique pure ! ⚽
+
+PROJECTILE : Quand tu frappes le ballon, il suit une PARABOLE.
+- Horizontalement : il avance à vitesse constante (pas de force).
+- Verticalement : il monte, ralentit, s'arrête (sommet), puis retombe (gravité).
+
+PLAN INCLINÉ : Une bille sur une pente.
+On décompose le poids en deux :
+- Une composante qui pousse vers le bas de la pente (fait accélérer)
+- Une composante perpendiculaire (annulée par la réaction du sol)
+
+TEC (Théorème de l'Énergie Cinétique) :
+Toute l'énergie que tu mets en frappant se retrouve dans la vitesse du ballon !`
+        },
+        theory: `Applications de la Dynamique
+
+1. MOUVEMENT DANS UN CHAMP DE PESANTEUR UNIFORME
+
+Projectile lancé avec 𝑣⃗₀ :
+𝑎⃗ = 𝑔⃗ (verticale vers le bas)
+
+Équations :
+  vₓ = v₀cos(α)     x(t) = v₀cos(α)·t
+  vᵧ = v₀sin(α) - gt   y(t) = v₀sin(α)·t - ½gt²
+
+Trajectoire = Parabole (sauf tir vertical)
+Portée = distance horizontale maximale
+Flèche = hauteur maximale
+
+2. PLAN INCLINÉ (angle θ)
+Projection du poids :
+  Parallèle : P·sin(θ) → accélère
+  Perpendiculaire : P·cos(θ) → annulée par N
+
+Sans frottement : a = g·sin(θ)
+
+3. THÉORÈME DE L'ÉNERGIE CINÉTIQUE (TEC)
+ΔEc = Σ W(𝐹⃗)
+½mv² - ½mv₀² = Travail des forces`,
+        exercises: [
+            { question: 'Au sommet de la trajectoire d\'un projectile, la vitesse verticale est...', options: ['Maximale', 'Nulle', 'Négative', 'Égale à g'], correct: 1, explanation: 'Au sommet, le projectile s\'arrête de monter avant de redescendre → vᵧ = 0.' },
+            { question: 'L\'accélération d\'une bille sur un plan incliné sans frottement dépend de...', options: ['La masse de la bille', 'L\'angle du plan', 'La couleur de la bille', 'La température'], correct: 1, explanation: 'a = g·sin(θ). L\'accélération ne dépend que de l\'angle, pas de la masse !' },
+            { question: 'Le travail d\'une force perpendiculaire au déplacement est...', options: ['Maximal', 'Nul', 'Négatif', 'Infini'], correct: 1, explanation: 'W = F·d·cos(90°) = 0. Une force perpendiculaire ne travaille pas.' }
+        ],
+        relatedSimulations: ['pts-dynamique', 'pts-gravitation']
+    },
+
+    'pts-gravitation': {
+        title: '🌍 Gravitation Universelle',
+        description: 'Loi de Newton, satellites, lois de Kepler',
+        type: 'pts-gravitation',
+        image: '/images/simulations/physique-ts/gravitation.png',
+        level: 'Terminale S',
+        subject: 'Physique',
+        config: {},
+        analogy: {
+            title: 'La Fronde Cosmique',
+            content: `La gravitation, c'est la colle de l'Univers ! 🌍🌕
+
+LOI DE NEWTON : Tout attire tout !
+La Terre attire la Lune, mais la Lune attire aussi la Terre.
+Plus les masses sont grandes, plus ça attire.
+Plus c'est loin, moins ça attire (très vite : 1/d²).
+
+SATELLITES : Pourquoi ne tombent-ils pas ?
+Ils TOMBENT constamment... mais ils vont tellement vite qu'ils ratent la Terre !
+C'est une chute libre perpétuelle en cercle.
+
+SATELLITE GÉOSTATIONNAIRE : Période = 24h
+Il tourne à la même vitesse que la Terre → paraît immobile dans le ciel.
+C'est là qu'on met les satellites de télé !`
+        },
+        theory: `Gravitation Universelle
+
+1. LOI DE NEWTON
+𝐹⃗ₐ/ᵦ = -G(mₐmᵦ/d²)𝑢⃗ₐᵦ
+
+G = 6,67 × 10⁻¹¹ N.m².kg⁻²
+Force attractive, loi en 1/d²
+
+2. MOUVEMENT DES SATELLITES (Orbite circulaire)
+Vitesse orbitale : v = √(GM/r)
+Période : T = 2πr/v = 2π√(r³/GM)
+
+Indépendant de la masse du satellite !
+
+3. LOIS DE KEPLER
+
+1ère Loi : Orbites elliptiques (Soleil au foyer)
+
+2ème Loi : Loi des Aires
+Vitesse aréolaire constante (plus vite près du Soleil)
+
+3ème Loi : T²/r³ = constante
+Pour tous les satellites d'un même astre central.`,
+        exercises: [
+            { question: 'Si la distance entre deux planètes double, la force gravitationnelle...', options: ['Double', 'Est divisée par 2', 'Est divisée par 4', 'Reste constante'], correct: 2, explanation: 'F ∝ 1/d². Si d × 2, alors d² × 4, donc F ÷ 4.' },
+            { question: 'Un satellite géostationnaire a une période de...', options: ['1 heure', '12 heures', '24 heures', '1 mois'], correct: 2, explanation: '24h pour tourner avec la Terre et paraître immobile.' },
+            { question: 'La vitesse d\'un satellite dépend-elle de sa masse ?', options: ['Oui, plus c\'est lourd plus c\'est lent', 'Non, ça ne dépend pas de sa masse', 'Oui, plus c\'est lourd plus c\'est rapide', 'Seulement pour les petits satellites'], correct: 1, explanation: 'v = √(GM/r) ne contient pas la masse du satellite !' }
+        ],
+        relatedSimulations: ['pts-applications', 'satellite-motion']
+    },
+
+    // === PARTIE 2 : ÉLECTROMAGNÉTISME ===
+
+    'pts-champ-magnetique': {
+        title: '🧲 Champs Magnétiques',
+        description: 'Création, visualisation et solénoïde',
+        type: 'pts-champ-magnetique',
+        image: '/images/simulations/physique-ts/champ-magnetique.png',
+        level: 'Terminale S',
+        subject: 'Physique',
+        config: {},
+        analogy: {
+            title: 'La Boussole et les Aimants',
+            content: `Le champ magnétique est invisible mais partout autour de nous ! 🧭
+
+VISUALISATION : Fais tomber de la limaille de fer sur un aimant.
+Les petits morceaux de fer s'alignent et dessinent les lignes de champ !
+Elles sortent du pôle Nord et entrent au pôle Sud.
+
+BOUSSOLE : C'est un petit aimant.
+Son pôle Nord est attiré par le Sud magnétique de la Terre (qui est au Nord géographique !).
+
+SOLÉNOÏDE : Une bobine de fil.
+Quand le courant passe, il crée un champ magnétique uniforme à l'intérieur.
+C'est un électroaimant !`
+        },
+        theory: `Champs Magnétiques
+
+1. LE CHAMP 𝐵⃗
+Vecteur défini en tout point de l'espace
+Unité : Tesla (T)
+Visualisé par les lignes de champ (Nord → Sud)
+
+2. CHAMPS CRÉÉS PAR DES COURANTS
+
+Fil rectiligne infini :
+  B = μ₀I/(2πd)
+  Lignes circulaires autour du fil
+
+Solénoïde (bobine longue) :
+  B = μ₀nI
+  n = N/L (spires par mètre)
+  Champ UNIFORME à l'intérieur
+
+μ₀ = 4π × 10⁻⁷ T.m.A⁻¹
+
+3. SUPERPOSITION
+𝐵⃗ₜₒₜₐₗ = 𝐵⃗₁ + 𝐵⃗₂ + ...
+Somme vectorielle des contributions`,
+        exercises: [
+            { question: 'Une charge IMMOBILE crée-t-elle un champ magnétique ?', options: ['Oui', 'Non', 'Seulement si elle est chargée négativement', 'Seulement dans le vide'], correct: 1, explanation: 'Non ! Il faut des charges EN MOUVEMENT (courant) pour créer un champ magnétique.' },
+            { question: 'Où le champ d\'un solénoïde est-il uniforme ?', options: ['À l\'extérieur', 'Aux extrémités seulement', 'À l\'intérieur', 'Nulle part'], correct: 2, explanation: 'À l\'intérieur d\'un solénoïde long, B est constant (parallèle et uniforme).' },
+            { question: 'Quelle est l\'unité du champ magnétique ?', options: ['Newton', 'Volt', 'Tesla', 'Ampère'], correct: 2, explanation: 'Le Tesla (T). 1 T est un champ très intense !' }
+        ],
+        relatedSimulations: ['pts-lorentz', 'pts-laplace']
+    },
+
+    'pts-lorentz': {
+        title: '⚡ Force de Lorentz',
+        description: 'Particule chargée dans un champ B',
+        type: 'pts-lorentz',
+        image: '/images/simulations/physique-ts/lorentz.png',
+        level: 'Terminale S',
+        subject: 'Physique',
+        config: {},
+        analogy: {
+            title: 'L\'Électron Danseur',
+            content: `Un électron qui entre dans un champ magnétique se met à tourner en rond ! 💃
+
+Imagine une bille qui roule sur une patinoire avec du vent latéral.
+Le vent la pousse toujours perpendiculairement à sa direction.
+Résultat : elle tourne en cercle !
+
+FORCE DE LORENTZ : F = qv × B
+Elle est perpendiculaire à la vitesse ET au champ.
+Règle des trois doigts de la main droite !
+
+Cette force ne TRAVAILLE jamais (car ⊥ à v).
+L'énergie cinétique reste constante, seule la direction change.
+
+CYCLOTRON : On utilise ça pour accélérer des particules.`
+        },
+        theory: `Force de Lorentz
+
+1. EXPRESSION
+𝐹⃗ = q𝑣⃗ × 𝐵⃗ (Produit vectoriel)
+
+Direction : ⊥ au plan (𝑣⃗, 𝐵⃗)
+Sens : Règle de la main droite (attention au signe de q !)
+Intensité : F = |q|vB sin(α)
+
+2. CARACTÉRISTIQUES
+- Toujours ⊥ à 𝑣⃗ → ne travaille pas (Ec constante)
+- Ne modifie que la direction, pas la norme de v
+
+3. MOUVEMENT DANS B UNIFORME
+Si 𝑣⃗ ⊥ 𝐵⃗ : Mouvement CIRCULAIRE UNIFORME
+
+Rayon : R = mv/(|q|B)
+Période : T = 2πm/(|q|B) (indépendante de v !)
+
+4. APPLICATIONS
+- Cyclotron (accélérateur)
+- Spectrographe de masse
+- Tube cathodique`,
+        exercises: [
+            { question: 'La trajectoire d\'un électron entrant perpendiculairement dans B uniforme est...', options: ['Une droite', 'Une parabole', 'Un cercle', 'Une spirale'], correct: 2, explanation: 'F toujours ⊥ à v et constante en norme → trajectoire circulaire.' },
+            { question: 'La force de Lorentz travaille-t-elle ?', options: ['Oui, beaucoup', 'Non, jamais', 'Seulement si B est intense', 'Seulement si q > 0'], correct: 1, explanation: 'F ⊥ v → W = F·d·cos(90°) = 0. Elle ne modifie pas l\'énergie.' },
+            { question: 'Si on double la vitesse, le rayon de la trajectoire...', options: ['Double', 'Est divisé par 2', 'Reste constant', 'Quadruple'], correct: 0, explanation: 'R = mv/(qB). Si v × 2, alors R × 2.' }
+        ],
+        relatedSimulations: ['pts-champ-magnetique', 'pts-laplace']
+    },
+
+    'pts-laplace': {
+        title: '🔌 Loi de Laplace',
+        description: 'Moteur électrique et haut-parleur',
+        type: 'pts-laplace',
+        image: '/images/simulations/physique-ts/laplace.png',
+        level: 'Terminale S',
+        subject: 'Physique',
+        config: {},
+        analogy: {
+            title: 'Le Moteur qui Tourne',
+            content: `Laplace, c'est Lorentz mais pour les fils électriques ! 🔌⚡
+
+Un fil parcouru par un courant, c'est plein d'électrons qui bougent.
+S'ils sont dans un champ magnétique, chacun subit une force de Lorentz.
+Tous ensemble = Une GROSSE force sur le fil !
+
+MOTEUR ÉLECTRIQUE : Une spire de fil entre deux aimants.
+Le courant dans le fil crée une force qui le fait tourner.
+On alterne le sens du courant → rotation continue !
+
+HAUT-PARLEUR : Un fil en spirale collé à une membrane.
+Le courant varie → le fil bouge → la membrane vibre → SON !`
+        },
+        theory: `Loi de Laplace
+
+1. EXPRESSION
+d𝐹⃗ = I·d𝑙⃗ × 𝐵⃗
+
+Pour un fil rectiligne de longueur L :
+𝐹⃗ = I·𝐿⃗ × 𝐵⃗
+F = BIL sin(α)
+
+2. SENS DE LA FORCE
+Règle des trois doigts (I remplace v)
+ou règle de la main droite
+
+3. APPLICATIONS
+
+Moteur à courant continu :
+- Spire soumise à un couple de forces
+- Rotation grâce au collecteur (inverseur)
+
+Haut-parleur :
+- Bobine mobile dans champ permanent
+- I variable → mouvement oscillant
+- Signal électrique → Son
+
+Rails de Laplace :
+- Tige mobile sur rails
+- F = BIL pousse la tige`,
+        exercises: [
+            { question: 'La force de Laplace dépend de...', options: ['L\'angle entre I et B', 'La température', 'La couleur du fil', 'L\'heure'], correct: 0, explanation: 'F = BIL sin(α). L\'angle est crucial !' },
+            { question: 'Dans un haut-parleur, qu\'est-ce qui vibre ?', options: ['L\'aimant', 'La membrane attachée à la bobine', 'Le boîtier', 'L\'air ambiant'], correct: 1, explanation: 'La bobine bouge grâce à la force de Laplace et fait vibrer la membrane.' },
+            { question: 'La force de Laplace est la version macroscopique de...', options: ['La force électrique', 'La force de Lorentz', 'La gravité', 'Le frottement'], correct: 1, explanation: 'C\'est la somme des forces de Lorentz sur tous les porteurs de charge du fil.' }
+        ],
+        relatedSimulations: ['pts-lorentz', 'pts-induction']
+    },
+
+    'pts-induction': {
+        title: '🔋 Induction Magnétique - Dipôle RL',
+        description: 'Loi de Faraday, auto-induction, bobine',
+        type: 'pts-induction',
+        image: '/images/simulations/physique-ts/induction-rl.png',
+        level: 'Terminale S',
+        subject: 'Physique',
+        config: {},
+        analogy: {
+            title: 'La Dynamo du Vélo',
+            content: `L'induction, c'est créer de l'électricité avec un aimant ! 🚲💡
+
+FARADAY : Si tu bouges un aimant près d'une bobine, un courant apparaît !
+C'est la dynamo de ton vélo : la roue fait tourner un aimant → lumière !
+
+LOI DE LENZ : La nature est paresseuse.
+Le courant induit S'OPPOSE TOUJOURS à ce qui lui donne naissance.
+Si tu approches l'aimant, le courant créé tend à le repousser.
+C'est le signe "-" dans e = -dΦ/dt.
+
+BOBINE (INDUCTANCE L) : Elle n'aime pas le changement.
+Au début, elle freine l'établissement du courant.
+Elle lisse les variations, comme un amortisseur.`
+        },
+        theory: `Induction Électromagnétique
+
+1. LOI DE LENZ-FARADAY
+Une variation de flux magnétique Φ crée une f.é.m. induite :
+e = -dΦ/dt
+
+Le signe "-" traduit la loi de Lenz : opposition à la cause.
+
+2. AUTO-INDUCTION
+Une bobine parcourue par i variable :
+e = -L(di/dt)
+
+L = inductance (Henry, H)
+La bobine s'oppose aux variations de i.
+
+3. DIPÔLE RL (Résistance + Bobine)
+
+Équation lors de l'établissement :
+E = Ri + L(di/dt)
+
+Solution : i(t) = (E/R)(1 - e^(-t/τ))
+
+Constante de temps : τ = L/R
+
+4. ÉNERGIE MAGNÉTIQUE
+Eₗ = ½Li²
+Stockée dans le champ B de la bobine.`,
+        exercises: [
+            { question: 'La bobine assure la continuité de...', options: ['La tension', 'Le courant', 'La résistance', 'La température'], correct: 1, explanation: 'Par auto-induction, i ne peut pas varier brusquement (discontinuité impossible).' },
+            { question: 'Quel composant s\'oppose aux variations rapides de courant ?', options: ['Le condensateur', 'La résistance', 'La bobine', 'La diode'], correct: 2, explanation: 'La bobine "freine" les variations de courant par e = -L(di/dt).' },
+            { question: 'Quelle est l\'unité de l\'inductance L ?', options: ['Farad', 'Henry', 'Ohm', 'Tesla'], correct: 1, explanation: 'Le Henry (H). 1 H est une inductance importante.' }
+        ],
+        relatedSimulations: ['pts-laplace', 'pts-rc']
+    },
+
+    'pts-rc': {
+        title: '🔋 Dipôle RC',
+        description: 'Charge et décharge du condensateur',
+        type: 'pts-rc',
+        image: '/images/simulations/physique-ts/circuit-rc.png',
+        level: 'Terminale S',
+        subject: 'Physique',
+        config: {},
+        analogy: {
+            title: 'Le Réservoir d\'Électricité',
+            content: `Le condensateur est comme un réservoir d'eau ! 💧🔋
+
+CHARGE : Tu ouvres le robinet (on branche la pile).
+Au début, le réservoir est vide → l'eau coule à flot (i fort).
+Plus ça se remplit, plus la pression s'oppose → le débit diminue.
+À la fin, c'est plein → plus rien ne coule (i = 0, u = E).
+
+DÉCHARGE : Tu ouvres le fond du réservoir.
+Au début, la pression est forte → ça gicle !
+Plus ça se vide, moins il y a de pression → le débit faiblit.
+
+τ = RC : Temps caractéristique.
+À t = τ, on a 63% de la valeur finale.
+À t = 5τ, c'est fini (99%).`
+        },
+        theory: `Dipôle RC (Résistance + Condensateur)
+
+1. LE CONDENSATEUR
+Deux armatures séparées par un isolant
+q = C × uᴄ
+C = capacité (Farad, F)
+
+2. CHARGE DU CONDENSATEUR
+E = Ri + uᴄ = RC(duᴄ/dt) + uᴄ
+
+Solution : uᴄ(t) = E(1 - e^(-t/τ))
+avec τ = RC
+
+i(t) = (E/R)e^(-t/τ)
+
+3. DÉCHARGE
+uᴄ(t) = uᴄ(0) × e^(-t/τ)
+
+Décroissance exponentielle
+
+4. ÉNERGIE STOCKÉE
+Eᴄ = ½Cuᴄ²
+
+5. INTERPRÉTATIONS
+- τ petit → réponse rapide
+- τ grand → réponse lente
+- 5τ → régime permanent (99%)`,
+        exercises: [
+            { question: 'Le condensateur assure la continuité de...', options: ['Le courant', 'La tension', 'La résistance', 'La charge'], correct: 1, explanation: 'La tension aux bornes du condensateur ne peut pas changer brusquement.' },
+            { question: 'Quelle est l\'unité de la constante de temps RC ?', options: ['Ampère', 'Volt', 'Seconde', 'Hertz'], correct: 2, explanation: 'τ = RC est homogène à un temps (en secondes).' },
+            { question: 'À t = τ, le condensateur est chargé à...', options: ['37%', '50%', '63%', '99%'], correct: 2, explanation: 'À t = τ : uᴄ = E(1-e⁻¹) ≈ 0.63E = 63%.' }
+        ],
+        relatedSimulations: ['pts-induction', 'pts-oscillations-lc']
+    },
+
+    // === PARTIE 3 : OSCILLATIONS - OPTIQUE ===
+
+    'pts-oscillations-lc': {
+        title: '📡 Oscillations LC et RLC',
+        description: 'Circuit oscillant et résonance',
+        type: 'pts-oscillations-lc',
+        image: '/images/simulations/physique-ts/oscillations-rlc.png',
+        level: 'Terminale S',
+        subject: 'Physique',
+        config: {},
+        analogy: {
+            title: 'Le Ping-Pong Énergétique',
+            content: `L'énergie joue au ping-pong entre le condensateur et la bobine ! 🏓
+
+CIRCUIT LC (sans résistance) :
+Le condensateur est chargé (énergie électrique).
+Il se décharge dans la bobine (énergie magnétique).
+La bobine renvoie l'énergie au condensateur (mais inversé !).
+Et ça recommence... pour toujours ! (Oscillations libres)
+
+CIRCUIT RLC (avec résistance) :
+La résistance "mange" de l'énergie à chaque passage (effet Joule).
+Les oscillations diminuent progressivement (amorties).
+
+RÉSONANCE : Comme une balançoire !
+Si tu pousses au bon rythme (fréquence propre), l'amplitude explose !`
+        },
+        theory: `Oscillations Électriques
+
+1. OSCILLATIONS LIBRES (Circuit LC)
+Échange perpétuel : Eélec ↔ Emag
+
+Équation : L(d²q/dt²) + q/C = 0
+
+Période propre : T₀ = 2π√(LC)
+Pulsation : ω₀ = 1/√(LC)
+
+Conservation : Eₗ + Eᴄ = constante
+
+2. AMORTISSEMENT (Circuit RLC)
+R dissipe l'énergie (Joule)
+
+Régime pseudo-périodique : oscillations amorties
+Régime apériodique : pas d'oscillation (retour lent)
+Régime critique : retour le plus rapide sans oscillation
+
+3. OSCILLATIONS FORCÉES
+Générateur impose sa fréquence f
+
+RÉSONANCE d'intensité :
+- Quand f = f₀ = 1/(2π√LC)
+- Impédance minimale Z = R
+- Intensité maximale
+
+Application : Syntonisation radio`,
+        exercises: [
+            { question: 'Dans un circuit RLC libre, l\'énergie totale...', options: ['Se conserve', 'Augmente', 'Diminue', 'Oscille'], correct: 2, explanation: 'Elle diminue à cause des pertes par effet Joule dans R.' },
+            { question: 'La période propre d\'un circuit LC dépend de...', options: ['R uniquement', 'L et C', 'La tension', 'La température'], correct: 1, explanation: 'T₀ = 2π√(LC). Seules L et C comptent.' },
+            { question: 'À la résonance, l\'impédance du circuit RLC série est...', options: ['Maximale', 'Minimale (= R)', 'Nulle', 'Infinie'], correct: 1, explanation: 'Z = R (minimale) et l\'intensité est maximale.' }
+        ],
+        relatedSimulations: ['pts-rc', 'pts-oscillations-meca']
+    },
+
+    'pts-oscillations-meca': {
+        title: '⏱️ Oscillations Mécaniques',
+        description: 'Pendule et ressort',
+        type: 'pts-oscillations-meca',
+        image: '/images/simulations/physique-ts/oscillations-meca.png',
+        level: 'Terminale S',
+        subject: 'Physique',
+        config: {},
+        analogy: {
+            title: 'La Balançoire du Parc',
+            content: `Le pendule et le ressort sont les cousins mécaniques du circuit LC ! ⏱️
+
+PENDULE SIMPLE : Une bille au bout d'un fil.
+Si tu l'écartes et lâches, elle oscille.
+LA PÉRIODE NE DÉPEND PAS DE LA MASSE ! (Incroyable !)
+Seulement de la longueur du fil et de g.
+
+RESSORT : Une masse attachée à un ressort.
+Tu tires, tu lâches, ça oscille.
+Le ressort ramène toujours vers le centre (force de rappel).
+
+CONSERVATION DE L'ÉNERGIE :
+En haut : beaucoup d'Ep, peu d'Ec (lent)
+En bas : beaucoup d'Ec, peu d'Ep (rapide)
+Total constant (si pas de frottement) !`
+        },
+        theory: `Oscillations Mécaniques Libres
+
+1. PENDULE ÉLASTIQUE (Ressort)
+Masse m, ressort de raideur k
+Force de rappel : F = -kx
+
+Équation : m(d²x/dt²) + kx = 0
+
+Période : T₀ = 2π√(m/k)
+Pulsation : ω₀ = √(k/m)
+
+2. PENDULE PESANT SIMPLE
+Masse m, fil de longueur l
+Petites oscillations seulement !
+
+Équation : (d²θ/dt²) + (g/l)θ = 0
+
+Période : T₀ = 2π√(l/g)
+Indépendante de la masse !
+
+3. ÉNERGIE MÉCANIQUE
+Em = Ec + Ep = constante (sans frottement)
+
+Ressort : Ep = ½kx²
+Pendule : Ep = mgh
+
+ISOCHRONISME :
+La période ne dépend pas de l'amplitude (petites oscillations).`,
+        exercises: [
+            { question: 'La période du pendule simple dépend de...', options: ['La masse', 'La longueur et g', 'L\'amplitude', 'La couleur'], correct: 1, explanation: 'T = 2π√(l/g). La masse n\'intervient pas !' },
+            { question: 'Si on double la masse attachée au ressort, la période...', options: ['Double', 'Est multipliée par √2', 'Reste constante', 'Est divisée par 2'], correct: 1, explanation: 'T = 2π√(m/k). Si m × 2, alors √m × √2, donc T × √2.' },
+            { question: 'Au point le plus bas du pendule, l\'énergie potentielle est...', options: ['Maximale', 'Minimale', 'Nulle', 'Égale à Ec'], correct: 2, explanation: 'On prend h = 0 en bas, donc Ep = 0 et Ec est maximale.' }
+        ],
+        relatedSimulations: ['pts-oscillations-lc', 'kinetic-potential-energy']
+    },
+
+    'pts-interferences': {
+        title: '🌈 Interférences Lumineuses',
+        description: 'Fentes de Young et diffraction',
+        type: 'pts-interferences',
+        image: '/images/simulations/physique-ts/interferences.png',
+        level: 'Terminale S',
+        subject: 'Physique',
+        config: {},
+        analogy: {
+            title: 'Les Vagues qui se Rencontrent',
+            content: `Quand deux vagues se croisent, c'est magique ! 🌊
+
+INTERFÉRENCE CONSTRUCTIVE :
+Deux sommets de vague se rencontrent → SUPER vague (plus haute) !
+Comme deux amis qui poussent la même porte ensemble.
+
+INTERFÉRENCE DESTRUCTIVE :
+Un sommet rencontre un creux → Ils s'annulent (eau plate) !
+Comme pousser et tirer la porte en même temps.
+
+FENTES DE YOUNG :
+La lumière passe par deux fentes.
+Sur l'écran : des bandes brillantes (constructif) et sombres (destructif).
+C'est LA preuve que la lumière est une onde !
+
+La lumière rouge fait des bandes plus espacées que le bleu.`
+        },
+        theory: `Interférences Lumineuses
+
+1. CONDITIONS D'INTERFÉRENCE
+Sources COHÉRENTES nécessaires :
+- Même fréquence
+- Déphasage constant
+
+Obtenues par division du front d'onde (fentes de Young)
+
+2. DIFFÉRENCE DE MARCHE δ
+δ = d₂ - d₁ (différence des chemins)
+
+Constructive (brillant) : δ = kλ
+Destructive (sombre) : δ = (k + ½)λ
+
+3. INTERFRANGE i
+Distance entre deux franges brillantes consécutives :
+
+i = λD/a
+
+λ = longueur d'onde
+D = distance fentes-écran
+a = écart entre les fentes
+
+Plus a petit → i grand (franges espacées)
+Plus λ grand (rouge) → i grand
+
+4. LUMIÈRE BLANCHE
+Franges irisées (couleurs)
+Frange centrale blanche
+Le rouge plus étalé que le bleu`,
+        exercises: [
+            { question: 'Si on écarte les fentes (a augmente), l\'interfrange...', options: ['Augmente', 'Diminue', 'Reste constant', 'Disparaît'], correct: 1, explanation: 'i = λD/a. Si a augmente, i diminue (franges plus serrées).' },
+            { question: 'Pour une interférence constructive, la différence de marche doit être...', options: ['λ/2', 'kλ (entier)', '0 uniquement', 'Infinie'], correct: 1, explanation: 'δ = kλ avec k entier (0, 1, 2, 3...) donne un maximum de lumière.' },
+            { question: 'L\'expérience de Young prouve que la lumière est...', options: ['Une particule', 'Une onde', 'De la chaleur', 'Invisible'], correct: 1, explanation: 'Les interférences sont caractéristiques du comportement ondulatoire.' }
+        ],
+        relatedSimulations: ['wave-interference', 'diffraction-light']
+    },
+
+    // === PARTIE 4 : PHÉNOMÈNES CORPUSCULAIRES ===
+
+    'pts-photoelectrique': {
+        title: '💡 Effet Photoélectrique',
+        description: 'Photons et dualité onde-corpuscule',
+        type: 'pts-photoelectrique',
+        image: '/images/simulations/physique-ts/photoelectrique.png',
+        level: 'Terminale S',
+        subject: 'Physique',
+        config: {},
+        analogy: {
+            title: 'Les Billes de Lumière',
+            content: `Einstein a montré que la lumière est aussi faite de petits grains d'énergie : les PHOTONS ! 💡
+
+Imagine que tu bombardes une plaque de métal avec des billes (photons).
+Si les billes sont assez énergétiques, elles éjectent des électrons du métal !
+
+SEUIL DE FRÉQUENCE :
+Des billes molles (rouge, infrarouge) ne font rien.
+Des billes dures (bleu, UV) arrachent les électrons !
+
+Ce qui compte, c'est l'ÉNERGIE de chaque photon (E = hν), pas le nombre.
+Tu peux envoyer des milliards de photons rouges : rien ne se passe !
+Mais UN SEUL photon UV peut éjecter un électron.
+
+C'est pour ça qu'Einstein a eu le Nobel !`
+        },
+        theory: `Effet Photoélectrique
+
+1. OBSERVATION
+Émission d'électrons par un métal éclairé
+Ne se produit que si ν > ν₀ (fréquence seuil)
+L'intensité lumineuse n'a pas d'effet sur le seuil
+
+2. INTERPRÉTATION D'EINSTEIN (1905)
+La lumière = flux de PHOTONS
+Énergie d'un photon : E = hν = hc/λ
+
+h = 6,63 × 10⁻³⁴ J.s (constante de Planck)
+
+3. BILAN ÉNERGÉTIQUE
+hν = W₀ + Ec,max
+
+hν : Énergie du photon incident
+W₀ : Travail d'extraction (énergie pour sortir l'e⁻)
+Ec : Énergie cinétique de l'électron éjecté
+
+4. DUALITÉ ONDE-CORPUSCULE
+La lumière se comporte comme :
+- Une onde (interférences, diffraction)
+- Des particules (effet photoélectrique)
+
+Relation de De Broglie : λ = h/p`,
+        exercises: [
+            { question: 'L\'énergie d\'un photon dépend de...', options: ['Son intensité', 'Sa vitesse', 'Sa fréquence', 'Sa masse'], correct: 2, explanation: 'E = hν. Plus la fréquence est grande, plus le photon est énergétique.' },
+            { question: 'Quel rayonnement a les photons les plus énergétiques ?', options: ['Infrarouge', 'Lumière rouge', 'Lumière bleue', 'Ultraviolet'], correct: 3, explanation: 'UV a la fréquence la plus élevée → photons les plus énergétiques.' },
+            { question: 'Si on augmente l\'intensité lumineuse (plus de photons), on augmente...', options: ['L\'énergie des électrons', 'Le nombre d\'électrons éjectés', 'La fréquence seuil', 'Le travail d\'extraction'], correct: 1, explanation: 'Plus d\'intensité = plus de photons = plus d\'électrons éjectés (mais même énergie chacun).' }
+        ],
+        relatedSimulations: ['pts-niveaux-energie', 'quantum-mechanics']
+    },
+
+    'pts-niveaux-energie': {
+        title: '🔬 Niveaux d\'Énergie de l\'Atome',
+        description: 'Spectres et modèle de Bohr',
+        type: 'pts-niveaux-energie',
+        image: '/images/simulations/physique-ts/niveaux-energie.png',
+        level: 'Terminale S',
+        subject: 'Physique',
+        config: {},
+        analogy: {
+            title: 'L\'Ascenseur de l\'Électron',
+            content: `L'électron ne peut pas être n'importe où : il habite à des ÉTAGES précis ! 🏢
+
+NIVEAUX D'ÉNERGIE : Comme un immeuble avec des étages.
+- E₁ (RDC) : Niveau fondamental (le plus stable)
+- E₂, E₃... (étages) : États excités
+
+ABSORPTION : L'électron reçoit un photon et monte d'un étage.
+Mais il faut EXACTEMENT l'énergie correspondante !
+Si tu lui donnes trop ou pas assez, il refuse.
+
+ÉMISSION : L'électron redescend et libère un photon.
+La couleur du photon dépend de la hauteur de la chute.
+Grand saut → photon bleu/violet (énergétique)
+Petit saut → photon rouge (moins énergétique)
+
+SPECTRE DE RAIES : Chaque élément a sa signature unique !`
+        },
+        theory: `Niveaux d'Énergie de l'Atome
+
+1. QUANTIFICATION
+Les électrons ne peuvent occuper que certains niveaux discrets :
+E₁ < E₂ < E₃ < ... < E∞ = 0 (ionisation)
+
+Niveau fondamental : E₁ (le plus bas)
+États excités : E₂, E₃, ...
+
+2. TRANSITIONS
+
+Absorption : atome absorbe un photon
+L'électron monte : hν = Ehaut - Ebas
+
+Émission : atome émet un photon
+L'électron descend : hν = Ehaut - Ebas
+
+3. SPECTRES DE RAIES
+
+Émission : raies colorées sur fond noir
+(Gaz chaud qui rayonne)
+
+Absorption : raies noires sur fond coloré
+(Gaz froid traversé par lumière blanche)
+
+Signature UNIQUE de chaque élément !
+
+4. ATOME D'HYDROGÈNE
+Série de Balmer (visible) : transitions vers n = 2
+En = -13,6/n² eV (formule de Bohr)
+
+5. APPLICATIONS
+Laser : Émission stimulée
+Spectroscopie : Identification des éléments`,
+        exercises: [
+            { question: 'Si un photon a une énergie différente de ΔE entre deux niveaux, l\'atome...', options: ['L\'absorbe quand même', 'L\'ignore (le photon passe)', 'Explose', 'Change de couleur'], correct: 1, explanation: 'Quantification : l\'atome n\'accepte que l\'énergie exacte.' },
+            { question: 'Le niveau fondamental est...', options: ['Le plus haut', 'Le plus bas', 'Toujours excité', 'Ionisé'], correct: 1, explanation: 'E₁ est le niveau d\'énergie le plus bas, le plus stable.' },
+            { question: 'Un spectre d\'émission présente...', options: ['Des raies noires sur fond coloré', 'Des raies colorées sur fond noir', 'Un arc-en-ciel continu', 'Rien de visible'], correct: 1, explanation: 'Gaz chaud = raies brillantes sur fond noir.' }
+        ],
+        relatedSimulations: ['pts-photoelectrique', 'pts-nucleaire']
+    },
+
+    'pts-nucleaire': {
+        title: '☢️ Réactions Nucléaires',
+        description: 'Fission, fusion et radioactivité',
+        type: 'pts-nucleaire',
+        image: '/images/simulations/physique-ts/nucleaire.png',
+        level: 'Terminale S',
+        subject: 'Physique',
+        config: {},
+        analogy: {
+            title: 'Casser ou Coller les Noyaux',
+            content: `Au cœur de l'atome, une énergie colossale est cachée ! ☢️
+
+FISSION : On CASSE un gros noyau (Uranium).
+Comme briser une grosse bille en deux.
+Ça libère de l'énergie + des neutrons qui cassent d'autres noyaux.
+Réaction en chaîne → Centrale nucléaire (contrôlée) ou Bombe A (pas contrôlée).
+
+FUSION : On COLLE des petits noyaux (Hydrogène → Hélium).
+C'est ce que fait le Soleil !
+Ça libère ENCORE PLUS d'énergie que la fission.
+Mais il faut des millions de degrés (difficile à faire sur Terre).
+
+E = mc² : Une toute petite masse perdue = ÉNORME énergie libérée.`
+        },
+        theory: `Réactions Nucléaires
+
+1. LE NOYAU
+Nucléons = Protons (Z) + Neutrons (N)
+Notation : ᴬ_Z X avec A = Z + N
+Isotopes : même Z, A différent
+
+2. RADIOACTIVITÉ (Désintégration spontanée)
+
+Alpha (α) : émission de ⁴₂He
+  ᴬ_Z X → ᴬ⁻⁴_{Z-2} Y + ⁴₂He
+
+Bêta moins (β⁻) : n → p + e⁻
+  ᴬ_Z X → ᴬ_{Z+1} Y + e⁻
+
+Bêta plus (β⁺) : p → n + e⁺
+
+Gamma (γ) : désexcitation (photon)
+
+Loi de décroissance : N(t) = N₀ e^(-λt)
+Demi-vie : t₁/₂ = ln(2)/λ
+
+3. FISSION
+Noyau lourd → 2 noyaux moyens + neutrons
+²³⁵U + n → produits + 2-3 n + ÉNERGIE
+Réaction en chaîne (centrales, bombe A)
+
+4. FUSION
+2 noyaux légers → 1 noyau + ÉNERGIE
+²H + ³H → ⁴He + n
+Libère plus que la fission (Soleil, bombe H)
+
+5. DÉFAUT DE MASSE
+ΔE = Δm × c²
+La masse perdue devient énergie`,
+        exercises: [
+            { question: 'Lors d\'une désintégration alpha, le noyau émet...', options: ['Un électron', 'Un noyau d\'hélium', 'Un neutron', 'Un photon'], correct: 1, explanation: 'La particule α est un noyau d\'hélium (2 protons, 2 neutrons).' },
+            { question: 'La fusion se produit naturellement dans...', options: ['Les centrales nucléaires', 'Le Soleil', 'Les bombes A', 'Les réacteurs à fission'], correct: 1, explanation: 'Le Soleil fusionne l\'hydrogène en hélium depuis 5 milliards d\'années.' },
+            { question: 'Si la demi-vie est 10 ans, après 20 ans, il reste...', options: ['0%', '25%', '50%', '75%'], correct: 1, explanation: 'Après 10 ans : 50%. Après 20 ans : 25% (moitié de 50%).' }
+        ],
+        relatedSimulations: ['pts-niveaux-energie', 'radioactivity']
     }
 
 };
