@@ -209,18 +209,6 @@ export default function SimulationsPage() {
                         </div>
                     </div>
 
-                    {/* Filtre Difficulté */}
-                    <select
-                        value={selectedDifficulty || ''}
-                        onChange={(e) => setSelectedDifficulty(e.target.value || null)}
-                        className="px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white focus:border-purple-500 focus:outline-none transition-all"
-                    >
-                        <option value="">Toutes les difficultés</option>
-                        {simulationMetadata.difficulties.map(diff => (
-                            <option key={diff.id} value={diff.id}>{diff.label}</option>
-                        ))}
-                    </select>
-
                     {/* Filtre Matière */}
                     <select
                         value={selectedSubject || ''}
@@ -245,8 +233,6 @@ export default function SimulationsPage() {
                 {/* Grille de simulations */}
                 <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {filteredSimulations.map((sim, index) => {
-                        const difficultyData = simulationMetadata.difficulties.find(d => d.id === sim.difficulty);
-
                         return (
                             <Link
                                 id={sim.id}
@@ -254,10 +240,6 @@ export default function SimulationsPage() {
                                 href={`/simulations/${sim.id}`}
                                 className="group relative p-6 rounded-2xl bg-gradient-to-br from-white/10 to-white/5 border border-white/20 backdrop-blur-xl hover:scale-105 hover:border-[#00F5D4]/50 transition-all duration-300 cursor-pointer block"
                             >
-                                {/* Badge difficulté */}
-                                <div className="absolute top-4 right-4 px-3 py-1 rounded-full text-xs font-bold" style={{ backgroundColor: `${difficultyData?.color}20`, color: difficultyData?.color }}>
-                                    {difficultyData?.label}
-                                </div>
 
                                 {/* Image ou Icône */}
                                 <div className="mb-4 h-48 relative overflow-hidden rounded-xl border border-white/10 group-hover:border-[#00F5D4]/30 transition-colors">

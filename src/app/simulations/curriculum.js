@@ -799,24 +799,24 @@ export const simulationsCurriculum = {
                     physique: {
                         title: "Physique-Chimie",
                         simulations: [
-                            { id: "rectilinear-motion", title: "Mouvement Rectiligne", description: "Vitesse, distance et temps", difficulty: "facile", duration: "20 min", icon: "🚗", tags: ["cinématique", "vitesse"] },
-                            { id: "refraction-light", title: "Réfraction de la Lumière", description: "Lois de Snell-Descartes", difficulty: "moyen", duration: "25 min", icon: "🌈", tags: ["optique", "lumière"] },
-                            { id: "light-spectrum", title: "Spectre Lumineux", description: "Dispersion par un prisme", difficulty: "facile", duration: "15 min", icon: "🎨", tags: ["lumière", "couleurs"] },
-                            { id: "gravitation-universal", title: "Gravitation Universelle", description: "Attraction entre les masses", difficulty: "moyen", duration: "30 min", icon: "🪐", tags: ["force", "newton"] },
-                            { id: "periodic-table", title: "Tableau Périodique", description: "Familles et classification", difficulty: "moyen", duration: "40 min", icon: "📊", tags: ["atomes", "chimie"] },
-                            { id: "molar-mass", title: "La Mole", description: "Quantité de matière", difficulty: "difficile", duration: "45 min", icon: "⚖️", tags: ["mole", "avogadro"] },
-                            { id: "magnetic-field-earth", title: "Champ Magnétique Terrestre", description: "Boussole et pôles", difficulty: "facile", duration: "20 min", icon: "🧭", tags: ["magnétisme", "terre"] },
-                            { id: "vision-eye", title: "L'Œil et la Vision", description: "Formation des images", difficulty: "moyen", duration: "30 min", icon: "👁️", tags: ["optique", "lentilles"] }
+                            { id: "rectilinear-motion", title: "Mouvement Rectiligne", description: "Vitesse, distance et temps", duration: "20 min", icon: "🚗", image: "/simulations/physique-2nde/mouvement-rectiligne.png", tags: ["cinématique", "vitesse"] },
+                            { id: "refraction-light", title: "Réfraction de la Lumière", description: "Lois de Snell-Descartes", duration: "25 min", icon: "🌈", image: "/simulations/physique-2nde/refraction.png", tags: ["optique", "lumière"] },
+                            { id: "light-spectrum", title: "Spectre Lumineux", description: "Dispersion par un prisme", duration: "15 min", icon: "🎨", image: "/simulations/physique-2nde/spectre.png", tags: ["lumière", "couleurs"] },
+                            { id: "gravitation-universal", title: "Gravitation Universelle", description: "Attraction entre les masses", duration: "30 min", icon: "🪐", image: "/simulations/physique-2nde/gravitation.png", tags: ["force", "newton"] },
+                            { id: "periodic-table", title: "Tableau Périodique", description: "Familles et classification", duration: "40 min", icon: "📊", image: "/simulations/chimie-2nde/tableau-periodique.png", tags: ["atomes", "chimie"] },
+                            { id: "molar-mass", title: "La Mole", description: "Quantité de matière", duration: "45 min", icon: "⚖️", image: "/simulations/chimie-2nde/mole.png", tags: ["mole", "avogadro"] },
+                            { id: "magnetic-field-earth", title: "Champ Magnétique Terrestre", description: "Boussole et pôles", duration: "20 min", icon: "🧭", image: "/simulations/physique-2nde/champ-magnetique.png", tags: ["magnétisme", "terre"] },
+                            { id: "vision-eye", title: "L'Œil et la Vision", description: "Formation des images", duration: "30 min", icon: "👁️", image: "/simulations/physique-2nde/oeil-vision.png", tags: ["optique", "lentilles"] }
                         ]
                     },
                     svt: {
                         title: "SVT",
                         simulations: [
-                            { id: "cell-respiration", title: "Respiration Cellulaire", description: "Production d'énergie", difficulty: "moyen", duration: "35 min", icon: "⚡", tags: ["énergie", "cellule"] },
-                            { id: "body-effort", title: "Organisme à l'Effort", description: "Adaptations physiologiques", difficulty: "facile", duration: "25 min", icon: "🏃", tags: ["cœur", "poumons"] },
-                            { id: "cell-division", title: "Division Cellulaire (Mitose)", description: "Cycle cellulaire", difficulty: "moyen", duration: "30 min", icon: "🔬", tags: ["cellule", "mitose"] },
-                            { id: "ecosystem-dynamics", title: "Dynamique des Écosystèmes", description: "Interactions", difficulty: "moyen", duration: "40 min", icon: "🌳", tags: ["écologie"] },
-                            { id: "homeostasis-regulation", title: "Régulation Glycémie", description: "Insuline et Glucagon", difficulty: "moyen", duration: "30 min", icon: "🍭", tags: ["hormones", "santé"] }
+                            { id: "cell-respiration", title: "Respiration Cellulaire", description: "Production d'énergie", duration: "35 min", icon: "⚡", image: "/simulations/svt-2nde/respiration-cellulaire.png", tags: ["énergie", "cellule"] },
+                            { id: "body-effort", title: "Organisme à l'Effort", description: "Adaptations physiologiques", duration: "25 min", icon: "🏃", image: "/simulations/svt-2nde/effort-physique.png", tags: ["cœur", "poumons"] },
+                            { id: "cell-division", title: "Division Cellulaire (Mitose)", description: "Cycle cellulaire", duration: "30 min", icon: "🔬", image: "/simulations/svt-2nde/mitose.png", tags: ["cellule", "mitose"] },
+                            { id: "ecosystem-dynamics", title: "Dynamique des Écosystèmes", description: "Interactions", duration: "40 min", icon: "🌳", image: "/simulations/svt-2nde/ecosysteme.png", tags: ["écologie"] },
+                            { id: "homeostasis-regulation", title: "Régulation Glycémie", description: "Insuline et Glucagon", duration: "30 min", icon: "🍭", image: "/simulations/svt-2nde/glycemie.png", tags: ["hormones", "santé"] }
                         ]
                     }
                 }
@@ -827,23 +827,23 @@ export const simulationsCurriculum = {
                     physique: {
                         title: "Physique-Chimie",
                         simulations: [
-                            { id: "electromagnetic-induction", title: "Induction Électromagnétique", description: "Champs et courants", difficulty: "difficile", duration: "40 min", icon: "🧲", tags: ["aimant", "bobine"] },
-                            { id: "molar-concentration", title: "Concentration Molaire", description: "Solutions et dilutions", difficulty: "moyen", duration: "30 min", icon: "🧪", tags: ["chimie", "dosage"] },
-                            { id: "quality-control-titration", title: "Contrôle Qualité", description: "Titrage colorimétrique", difficulty: "moyen", duration: "40 min", icon: "🌡️", tags: ["dosage", "chimie"] },
-                            { id: "molecular-geometry", title: "Géométrie Moléculaire", description: "Modèle VSEPR", difficulty: "difficile", duration: "45 min", icon: "🔷", tags: ["atomes", "espace"] },
-                            { id: "electrolysis", title: "Électrolyse", description: "Réactions forcées", difficulty: "difficile", duration: "40 min", icon: "🔋", tags: ["redox", "pile"] },
-                            { id: "beer-lambert-law", title: "Loi de Beer-Lambert", description: "Dosage spectrophotométrique", difficulty: "moyen", duration: "30 min", icon: "🌈", tags: ["chimie", "lumière"] }
+                            { id: "electromagnetic-induction", title: "Induction Électromagnétique", description: "Champs et courants", duration: "40 min", icon: "🧲", image: "/simulations/physique-1ere/induction.png", tags: ["aimant", "bobine"] },
+                            { id: "molar-concentration", title: "Concentration Molaire", description: "Solutions et dilutions", duration: "30 min", icon: "🧪", image: "/simulations/chimie-1ere/concentration-molaire.png", tags: ["chimie", "dosage"] },
+                            { id: "quality-control-titration", title: "Contrôle Qualité", description: "Titrage colorimétrique", duration: "40 min", icon: "🌡️", image: "/simulations/chimie-1ere/titrage.png", tags: ["dosage", "chimie"] },
+                            { id: "molecular-geometry", title: "Géométrie Moléculaire", description: "Modèle VSEPR", duration: "45 min", icon: "🔷", image: "/simulations/chimie-1ere/geometrie-moleculaire.png", tags: ["atomes", "espace"] },
+                            { id: "electrolysis", title: "Électrolyse", description: "Réactions forcées", duration: "40 min", icon: "🔋", image: "/simulations/chimie-1ere/electrolyse.png", tags: ["redox", "pile"] },
+                            { id: "beer-lambert-law", title: "Loi de Beer-Lambert", description: "Dosage spectrophotométrique", duration: "30 min", icon: "🌈", image: "/simulations/chimie-1ere/beer-lambert.png", tags: ["chimie", "lumière"] }
                         ]
                     },
                     svt: {
                         title: "SVT",
                         simulations: [
-                            { id: "enzymatic-catalysis", title: "Catalyse Enzymatique", description: "Vitesse de réaction", difficulty: "difficile", duration: "40 min", icon: "🔑", tags: ["enzyme", "protéine"] },
-                            { id: "tectonics-plates", title: "Tectonique des Plaques", description: "Dérive et séismes", difficulty: "moyen", duration: "35 min", icon: "🌍", tags: ["géologie", "terre"] },
-                            { id: "greenhouse-effect", title: "Effet de Serre", description: "Bilan radiatif", difficulty: "moyen", duration: "25 min", icon: "🌡️", tags: ["climat", "réchauffement"] },
-                            { id: "protein-synthesis", title: "Synthèse des Protéines", description: "ADN vers Protéine", difficulty: "difficile", duration: "40 min", icon: "🧬", tags: ["génétique"] },
-                            { id: "plant-growth", title: "Croissance Végétale", description: "Auxine et Phototropisme", difficulty: "moyen", duration: "30 min", icon: "🌻", tags: ["plante", "hormone"] },
-                            { id: "enzyme-kinetics", title: "Cinétique Enzymatique", description: "Vitesse et Saturation", difficulty: "difficile", duration: "40 min", icon: "⏱️", tags: ["enzyme", "vitesse"] }
+                            { id: "enzymatic-catalysis", title: "Catalyse Enzymatique", description: "Vitesse de réaction", duration: "40 min", icon: "🔑", image: "/simulations/svt-1ere/catalyse-enzymatique.png", tags: ["enzyme", "protéine"] },
+                            { id: "tectonics-plates", title: "Tectonique des Plaques", description: "Dérive et séismes", duration: "35 min", icon: "🌍", image: "/simulations/svt-1ere/tectonique.png", tags: ["géologie", "terre"] },
+                            { id: "greenhouse-effect", title: "Effet de Serre", description: "Bilan radiatif", duration: "25 min", icon: "🌡️", image: "/simulations/svt-1ere/effet-de-serre.png", tags: ["climat", "réchauffement"] },
+                            { id: "protein-synthesis", title: "Synthèse des Protéines", description: "ADN vers Protéine", duration: "40 min", icon: "🧬", image: "/simulations/svt-1ere/synthese-proteines.png", tags: ["génétique"] },
+                            { id: "plant-growth", title: "Croissance Végétale", description: "Auxine et Phototropisme", duration: "30 min", icon: "🌻", image: "/simulations/svt-1ere/croissance-vegetale.png", tags: ["plante", "hormone"] },
+                            { id: "enzyme-kinetics", title: "Cinétique Enzymatique", description: "Vitesse et Saturation", duration: "40 min", icon: "⏱️", image: "/simulations/svt-1ere/cinetique-enzymatique.png", tags: ["enzyme", "vitesse"] }
                         ]
                     }
                 }
@@ -852,37 +852,49 @@ export const simulationsCurriculum = {
                 title: "Terminale S",
                 subjects: {
                     physique: {
-                        title: "Physique-Chimie",
+                        title: "Physique",
                         simulations: [
-                            { id: "satellite-motion", title: "Mouvement des Satellites", description: "Lois de Kepler", difficulty: "difficile", duration: "45 min", icon: "🛰️", tags: ["gravitation", "espace"] },
-                            { id: "rc-circuit", title: "Circuit RC", description: "Condensateur", difficulty: "difficile", duration: "50 min", icon: "⚡", tags: ["électricité", "tps"] },
-                            { id: "wave-interference", title: "Interférences d'Ondes", description: "Fentes de Young", difficulty: "très difficile", duration: "50 min", icon: "🌊", tags: ["ondes", "lumière"] },
-                            { id: "diffraction-light", title: "Diffraction", description: "Nature ondulatoire", difficulty: "difficile", duration: "30 min", icon: "🌈", tags: ["lumière", "ondes"] },
-                            { id: "chemical-equilibrium", title: "Équilibre Chimique", description: "Quotient de réaction", difficulty: "difficile", duration: "45 min", icon: "⚖️", tags: ["chimie", "équilibre"] },
-                            { id: "acid-base-titration", title: "Dosage pH-métrique", description: "Suivi pH", difficulty: "difficile", duration: "45 min", icon: "⚗️", tags: ["chimie", "pH"] },
-                            { id: "doppler-effect", title: "Effet Doppler", description: "Mouvement et fréquence", difficulty: "moyen", duration: "30 min", icon: "🚑", tags: ["ondes", "son"] },
-                            { id: "kepler-laws", title: "Lois de Kepler", description: "Orbite des planètes", difficulty: "difficile", duration: "40 min", icon: "🪐", tags: ["gravitation", "espace"] },
-                            { id: "pendulum-oscillation", title: "Oscillateurs", description: "Pendule simple", difficulty: "moyen", duration: "30 min", icon: "🕰️", tags: ["mécanique", "temps"] },
-                            { id: "rlc-circuit", title: "Circuit RLC", description: "Oscillations électriques", difficulty: "très difficile", duration: "50 min", icon: "⚡", tags: ["électricité", "radio"] },
-                            { id: "photoelectric-effect", title: "Effet Photoélectrique", description: "Photons et électrons", difficulty: "très difficile", duration: "40 min", icon: "☀️", tags: ["quantique", "lumière"] },
-                            { id: "fusion-fission", title: "Nucléaire : Fusion/Fission", description: "Énergie de l'atome", difficulty: "très difficile", duration: "45 min", icon: "☢️", tags: ["nucléaire", "énergie"] },
-                            { id: "esterification", title: "Estérification", description: "Synthèse d'arômes", difficulty: "moyen", duration: "40 min", icon: "🍓", tags: ["chimie", "organique"] },
-                            { id: "soap-saponification", title: "Saponification", description: "Fabrication du savon", difficulty: "moyen", duration: "35 min", icon: "🧼", tags: ["chimie", "organique"] },
-                            { id: "chirality-molecules", title: "Chiralité", description: "Isomérie spatiale", difficulty: "difficile", duration: "30 min", icon: "✋", tags: ["chimie", "espace"] },
-                            { id: "radioactive-dating", title: "Datation Carbone 14", description: "Loi de décroissance", difficulty: "moyen", duration: "30 min", icon: "🦴", tags: ["nucléaire", "temps"] },
-                            { id: "laser-principle", title: "Le Laser", description: "Émission stimulée", difficulty: "difficile", duration: "40 min", icon: "🔴", tags: ["optique", "quantique"] }
+                            { id: "pts-cinematique", title: "📍 Cinématique du Point", description: "Vecteurs position, vitesse, accélération", duration: "35 min", icon: "📍", image: "/simulations/physique-ts/cinematique.png", tags: ["cinématique", "vecteurs", "mouvement"] },
+                            { id: "pts-dynamique", title: "⚖️ Dynamique - Lois de Newton", description: "Forces, 2ème loi de Newton, équilibre", duration: "40 min", icon: "⚖️", image: "/simulations/physique-ts/dynamique.png", tags: ["forces", "newton", "mécanique"] },
+                            { id: "pts-applications", title: "🎯 Mouvement Projectile", description: "Chute libre et trajectoire parabolique", duration: "35 min", icon: "🎯", image: "/simulations/physique-ts/projectile.png", tags: ["projectile", "gravité", "trajectoire"] },
+                            { id: "pts-gravitation", title: "🛰️ Gravitation et Satellites", description: "Lois de Kepler, orbites et satellites", duration: "45 min", icon: "🛰️", image: "/simulations/physique-ts/gravitation.png", tags: ["gravitation", "kepler", "espace"] },
+                            { id: "pts-champ-magnetique", title: "🧲 Champ Magnétique", description: "Solénoïde, lignes de champ, induction", duration: "40 min", icon: "🧲", image: "/simulations/physique-ts/champ-magnetique.png", tags: ["magnétisme", "bobine", "champ"] },
+                            { id: "pts-lorentz", title: "⚡ Force de Lorentz", description: "Action du champ B sur une charge", duration: "40 min", icon: "⚡", image: "/simulations/physique-ts/lorentz.png", tags: ["lorentz", "charge", "électromagnétisme"] },
+                            { id: "pts-laplace", title: "🔧 Loi de Laplace", description: "Force sur un conducteur parcouru par I", duration: "40 min", icon: "🔧", image: "/simulations/physique-ts/laplace.png", tags: ["laplace", "moteur", "force"] },
+                            { id: "pts-induction", title: "🔁 Induction Électromagnétique", description: "Loi de Lentz, f.é.m. induite", duration: "45 min", icon: "🔁", image: "/simulations/physique-ts/induction.png", tags: ["induction", "lentz", "générateur"] },
+                            { id: "pts-rc", title: "🔋 Dipôle RC", description: "Charge et décharge du condensateur", duration: "40 min", icon: "🔋", image: "/simulations/physique-ts/dipole-rc.png", tags: ["RC", "condensateur", "τ"] },
+                            { id: "pts-oscillations-lc", title: "📡 Oscillations LC / RLC", description: "Oscillations libres et amorties", duration: "50 min", icon: "📡", image: "/simulations/physique-ts/oscillations-lc.png", tags: ["oscillations", "RLC", "résonance"] },
+                            { id: "pts-oscillations-meca", title: "🕰️ Oscillations Mécaniques", description: "Pendule simple et ressort", duration: "35 min", icon: "🕰️", image: "/simulations/physique-ts/oscillations-mecaniques.png", tags: ["pendule", "ressort", "période"] },
+                            { id: "pts-interferences", title: "🌊 Interférences Lumineuses", description: "Fentes de Young, franges", duration: "45 min", icon: "🌊", image: "/simulations/physique-ts/interferences.png", tags: ["interférences", "Young", "ondes"] },
+                            { id: "pts-photoelectrique", title: "☀️ Effet Photoélectrique", description: "Photons, seuil et énergie", duration: "40 min", icon: "☀️", image: "/simulations/physique-ts/photoelectrique.png", tags: ["photoélectrique", "photon", "quantique"] },
+                            { id: "pts-niveaux-energie", title: "⚛️ Niveaux d'Énergie", description: "Spectres d'émission et absorption", duration: "40 min", icon: "⚛️", image: "/simulations/physique-ts/niveaux-energie.png", tags: ["atome", "spectres", "Bohr"] },
+                            { id: "pts-nucleaire", title: "☢️ Réactions Nucléaires", description: "Fission, fusion, radioactivité", duration: "50 min", icon: "☢️", image: "/simulations/physique-ts/nucleaire.png", tags: ["nucléaire", "fission", "fusion"] }
+                        ]
+                    },
+                    chimie: {
+                        title: "Chimie",
+                        simulations: [
+                            { id: "cts-alcools", title: "🧪 Alcools et Oxydation", description: "Classes d'alcools et oxydation ménagée", duration: "35 min", icon: "🧪", image: "/simulations/chimie-ts/alcools.png", tags: ["alcools", "oxydation", "KMnO4"] },
+                            { id: "cts-amines", title: "🔬 Amines et Propriétés", description: "Structure, basicité et nucléophilie", duration: "30 min", icon: "🔬", image: "/simulations/chimie-ts/amines.png", tags: ["amines", "azote", "basique"] },
+                            { id: "cts-acides-carbo", title: "⚗️ Estérification", description: "Acide + Alcool → Ester + Eau", duration: "40 min", icon: "⚗️", image: "/simulations/chimie-ts/esterification.png", tags: ["ester", "équilibre", "parfum"] },
+                            { id: "cts-acides-amines", title: "🧬 Acides Aminés - Chiralité", description: "Structure, zwitterion et énantiomères", duration: "40 min", icon: "🧬", image: "/simulations/chimie-ts/acides-amines.png", tags: ["chiralité", "protéine", "L/D"] },
+                            { id: "cts-cinetique", title: "⏱️ Cinétique Chimique", description: "Vitesse, facteurs cinétiques, t½", duration: "45 min", icon: "⏱️", image: "/simulations/chimie-ts/cinetique.png", tags: ["cinétique", "vitesse", "catalyseur"] },
+                            { id: "cts-ph", title: "📊 pH et Autoprotolyse", description: "Ke, pH = -log[H₃O⁺], indicateurs", duration: "30 min", icon: "📊", image: "/simulations/chimie-ts/ph-eau.png", tags: ["pH", "eau", "acide"] },
+                            { id: "cts-acides-forts", title: "💧 Acides et Bases Forts", description: "Réactions totales, dosages", duration: "35 min", icon: "💧", image: "/simulations/chimie-ts/acides-forts.png", tags: ["HCl", "NaOH", "dosage"] },
+                            { id: "cts-acides-faibles", title: "⚖️ Acides Faibles et Ka", description: "Henderson-Hasselbalch, pKa", duration: "45 min", icon: "⚖️", image: "/simulations/chimie-ts/acides-faibles.png", tags: ["Ka", "équilibre", "tampon"] },
+                            { id: "cts-tampon", title: "🛡️ Solutions Tampons", description: "Résistance aux variations de pH", duration: "40 min", icon: "🛡️", image: "/simulations/chimie-ts/tampon.png", tags: ["tampon", "sang", "buffer"] }
                         ]
                     },
                     svt: {
                         title: "SVT",
                         simulations: [
-                            { id: "nerve-muscle-reflex", title: "Réflexe Myotatique", description: "Nerf et muscle", difficulty: "moyen", duration: "30 min", icon: "🦵", tags: ["nerf", "neurone"] },
-                            { id: "meiosis-diversity", title: "Méiose et Diversité", description: "Brassage génétique", difficulty: "difficile", duration: "45 min", icon: "🎲", tags: ["génétique", "reproduction"] },
-                            { id: "adaptive-immunity", title: "Immunité Adaptative", description: "Lymphocytes B et T", difficulty: "difficile", duration: "50 min", icon: "🛡️", tags: ["santé", "anticorps"] },
-                            { id: "geothermics", title: "Géothermie", description: "Énergie interne", difficulty: "moyen", duration: "30 min", icon: "🌋", tags: ["énergie", "terre"] },
-                            { id: "muscle-contraction", title: "Contraction Musculaire", description: "ATP et Mouvement", difficulty: "difficile", duration: "40 min", icon: "💪", tags: ["muscle", "énergie"] },
-                            { id: "aids-virus", title: "VIH et Système Immunitaire", description: "Infection virale", difficulty: "moyen", duration: "35 min", icon: "🦠", tags: ["santé", "virus"] },
-                            { id: "climate-feedback", title: "Rétroactions Climatiques", description: "Système Terre", difficulty: "difficile", duration: "40 min", icon: "🌡️", tags: ["climat", "écologie"] }
+                            { id: "nerve-muscle-reflex", title: "Réflexe Myotatique", description: "Nerf et muscle", duration: "30 min", icon: "🦵", image: "/simulations/svt-ts/reflexe-myotatique.png", tags: ["nerf", "neurone"] },
+                            { id: "meiosis-diversity", title: "Méiose et Diversité", description: "Brassage génétique", duration: "45 min", icon: "🎲", image: "/simulations/svt-ts/meiose.png", tags: ["génétique", "reproduction"] },
+                            { id: "adaptive-immunity", title: "Immunité Adaptative", description: "Lymphocytes B et T", duration: "50 min", icon: "🛡️", image: "/simulations/svt-ts/immunite.png", tags: ["santé", "anticorps"] },
+                            { id: "geothermics", title: "Géothermie", description: "Énergie interne", duration: "30 min", icon: "🌋", image: "/simulations/svt-ts/geothermie.png", tags: ["énergie", "terre"] },
+                            { id: "muscle-contraction", title: "Contraction Musculaire", description: "ATP et Mouvement", duration: "40 min", icon: "💪", image: "/simulations/svt-ts/contraction-musculaire.png", tags: ["muscle", "énergie"] },
+                            { id: "aids-virus", title: "VIH et Système Immunitaire", description: "Infection virale", duration: "35 min", icon: "🦠", image: "/simulations/svt-ts/vih.png", tags: ["santé", "virus"] },
+                            { id: "climate-feedback", title: "Rétroactions Climatiques", description: "Système Terre", duration: "40 min", icon: "🌡️", image: "/simulations/svt-ts/climat.png", tags: ["climat", "écologie"] }
                         ]
                     }
                 }
