@@ -56,8 +56,8 @@ export function ChimieOrgaGeneralSim() {
 
             <Text position={[0, -3, 0]} fontSize={0.4} color="#00F5D4">Méthane CH₄ - Tétravalence du Carbone</Text>
 
-            <Html position={[5, 3, 0]}>
-                <DraggableHtmlPanel title="🧪 Tétravalence du C">
+            <Html transform={false}>
+                <DraggableHtmlPanel usePortal={false} title="🧪 Tétravalence du C">
                     <div className="p-4 w-64 text-white">
                         <p className="text-sm mb-4">Le carbone forme toujours <span className="text-[#00F5D4] font-bold">4 liaisons</span> covalentes.</p>
                         <label className="flex items-center gap-2 text-xs">
@@ -105,8 +105,8 @@ export function AlcanesSim() {
 
             <Text position={[0, -2, 0]} fontSize={0.5} color="#00F5D4">{names[n]} ({formula})</Text>
 
-            <Html position={[6, 3, 0]}>
-                <DraggableHtmlPanel title="⛽ Les Alcanes">
+            <Html transform={false}>
+                <DraggableHtmlPanel usePortal={false} title="⛽ Les Alcanes">
                     <div className="p-4 w-64 text-white">
                         <label className="text-xs font-bold">Nombre de carbones: {n}</label>
                         <input type="range" min="1" max="8" value={n} onChange={e => setN(Number(e.target.value))} className="w-full mb-4" />
@@ -161,8 +161,8 @@ export function AlcenesSim() {
 
             <Text position={[0, -2.5, 0]} fontSize={0.4} color="#00FF00">Éthène C₂H₄ - Double Liaison C=C</Text>
 
-            <Html position={[5, 3, 0]}>
-                <DraggableHtmlPanel title="🧬 Alcènes">
+            <Html transform={false}>
+                <DraggableHtmlPanel usePortal={false} title="🧬 Alcènes">
                     <div className="p-4 w-64 text-white">
                         <p className="text-sm mb-2">Formule: <span className="font-mono text-green-400">CₙH₂ₙ</span></p>
                         <div className="bg-green-900/30 border border-green-500 p-2 rounded text-xs mb-4">
@@ -226,8 +226,8 @@ export function BenzeneSim() {
 
             <Text position={[0, -2.5, 0]} fontSize={0.4} color="#FF00FF">Benzène C₆H₆ - Aromatique</Text>
 
-            <Html position={[5, 3, 0]}>
-                <DraggableHtmlPanel title="💎 Benzène">
+            <Html transform={false}>
+                <DraggableHtmlPanel usePortal={false} title="💎 Benzène">
                     <div className="p-4 w-64 text-white">
                         <p className="text-sm mb-2">Formule: <span className="font-mono text-pink-400">C₆H₆</span></p>
                         <div className="bg-pink-900/30 border border-pink-500 p-2 rounded text-xs mb-4">
@@ -295,8 +295,8 @@ export function ComposesOxygenesSim() {
                 )}
             </group>
 
-            <Html position={[5, 3, 0]}>
-                <DraggableHtmlPanel title="🧪 Composés Oxygénés">
+            <Html transform={false}>
+                <DraggableHtmlPanel usePortal={false} title="🧪 Composés Oxygénés">
                     <div className="p-4 w-64 text-white">
                         <div className="flex gap-1 mb-4">
                             <button onClick={() => setType('alcool')} className={`flex-1 py-1 rounded text-xs ${type === 'alcool' ? 'bg-red-500' : 'bg-gray-700'}`}>Alcool</button>
@@ -355,8 +355,8 @@ export function RedoxGammaSim() {
                 </Box>
             )}
 
-            <Html position={[5, 3, 0]}>
-                <DraggableHtmlPanel title="⚗️ Règle du Gamma">
+            <Html transform={false}>
+                <DraggableHtmlPanel usePortal={false} title="⚗️ Règle du Gamma">
                     <div className="p-4 w-64 text-white">
                         <div className="mb-3">
                             <label className="text-xs font-bold">Lame métallique:</label>
@@ -422,8 +422,8 @@ export function ElectrolyseSim() {
                 <meshStandardMaterial color="#B87333" />
             </Cylinder>
 
-            <Html position={[5, 3, 0]}>
-                <DraggableHtmlPanel title="⚡ Électrolyse">
+            <Html transform={false}>
+                <DraggableHtmlPanel usePortal={false} title="⚡ Électrolyse">
                     <div className="p-4 w-64 text-white">
                         <div className="mb-3">
                             <label className="text-xs">Intensité I: {current} A</label>
@@ -490,8 +490,8 @@ export function VoieSecheSimulation() {
                 {isReacting ? "Fe₂O₃ + 2Al → 2Fe + Al₂O₃" : "Aluminothermie"}
             </Text>
 
-            <Html position={[5, 3, 0]}>
-                <DraggableHtmlPanel title="🔥 Voie Sèche">
+            <Html transform={false}>
+                <DraggableHtmlPanel usePortal={false} title="🔥 Voie Sèche">
                     <div className="p-4 w-64 text-white">
                         <p className="text-sm mb-4">Réduction par l'aluminium à haute température.</p>
                         <button
