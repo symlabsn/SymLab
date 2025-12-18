@@ -15,13 +15,15 @@ function triggerSuccess() {
 function SuccessOverlay({ show, message, onClose }) {
     if (!show) return null;
     return (
-        <div className="fixed inset-0 flex items-center justify-center pointer-events-none z-50">
-            <div className="bg-black/95 p-8 rounded-3xl border-2 border-[#00F5D4] text-center pointer-events-auto animate-bounce shadow-2xl">
-                <h2 className="text-4xl mb-4">🎉 Bravo !</h2>
-                <p className="text-xl text-white mb-6">{message}</p>
-                <button onClick={onClose} className="bg-[#00F5D4] text-black px-8 py-3 rounded-full font-bold hover:scale-105 transition-transform">Continuer ➡️</button>
+        <Html fullscreen>
+            <div className="fixed inset-0 flex items-center justify-center pointer-events-none z-50">
+                <div className="bg-black/95 p-8 rounded-3xl border-2 border-[#00F5D4] text-center pointer-events-auto animate-bounce shadow-2xl">
+                    <h2 className="text-4xl mb-4">🎉 Bravo !</h2>
+                    <p className="text-xl text-white mb-6">{message}</p>
+                    <button onClick={onClose} className="bg-[#00F5D4] text-black px-8 py-3 rounded-full font-bold hover:scale-105 transition-transform">Continuer ➡️</button>
+                </div>
             </div>
-        </div>
+        </Html>
     );
 }
 
