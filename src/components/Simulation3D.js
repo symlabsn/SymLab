@@ -67,6 +67,7 @@ import { CinematiquePoint, DynamiqueNewton, ProjectileMotion, GravitationSatelli
 import { CinematiquePointAdvanced, DynamiqueNewtonAdvanced, ProjectileMotionAdvanced, GravitationAdvanced } from './PhysiqueTSAdvanced';
 import { AlcoolsOxydation, AminesProprietes, Esterification, AcidesAminesChiralite, CinetiqueChimique, PHAutoprotolyse, AcidesBasesForts, AcidesFaiblesKa, SolutionsTampons } from './ChimieTSSimulations';
 import { ChampMagnetiqueTS, LorentzTS, LaplaceTS, InductionRLTS, DipoleRCTS } from './PhysiqueTSAdvanced2';
+import { OscillationsLCTS, OscillationsMecaTS, InterferencesTS } from './PhysiqueTSAdvanced3';
 
 
 
@@ -4709,11 +4710,11 @@ export default function Simulation3D({ type = 'atom', config = {} }) {
             case 'pts-rc':
                 return <DipoleRCTS />;
             case 'pts-oscillations-lc':
-                return <OscillationsLCRLC />;
+                return <OscillationsLCTS />;
             case 'pts-oscillations-meca':
-                return <OscillationsMecaniques />;
+                return <OscillationsMecaTS />;
             case 'pts-interferences':
-                return <InterferencesYoung />;
+                return <InterferencesTS />;
             case 'pts-photoelectrique':
                 return <EffetPhotoelectrique />;
             case 'pts-niveaux-energie':

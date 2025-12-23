@@ -9,6 +9,7 @@ import { useFrame } from '@react-three/fiber';
 import { Html, Line, Text } from '@react-three/drei';
 import * as THREE from 'three';
 import { SuccessOverlay, ConfettiExplosion } from './PC4eSimulations';
+import DraggableHtmlPanel from './DraggableHtmlPanel';
 
 // ============================================================
 // COMPOSANTS UTILITAIRES RÉUTILISABLES
@@ -179,46 +180,28 @@ function ChampMagnetiqueAdvanced() {
             ))}
 
             {/* Panneau de contrôle */}
-            <Html position={[-4, 2, 0]} transform={false} style={{ pointerEvents: 'auto' }}>
-                <div style={{
-                    background: 'linear-gradient(135deg, rgba(15,23,42,0.95), rgba(30,41,59,0.95))',
-                    padding: '20px',
-                    borderRadius: '16px',
-                    color: 'white',
-                    width: '320px',
-                    border: '1px solid rgba(148,163,184,0.2)',
-                    boxShadow: '0 25px 50px rgba(0,0,0,0.5)'
-                }}>
-                    <h3 style={{ margin: '0 0 15px 0', fontSize: '18px', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                        🧲 Champ Magnétique - Solénoïde
-                    </h3>
-
+            <DraggableHtmlPanel title="🧲 Champ Magnétique - Solénoïde">
+                <div className="text-white">
                     {challengeMode && (
                         <>
                             <ChallengeTimer timeLeft={timeLeft} maxTime={60} />
-                            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '15px' }}>
+                            <div className="flex justify-between mb-3 text-sm">
                                 <span>🎯 Score: {score}</span>
                                 <span>🔥 Streak: {streak}</span>
                                 <span>📊 Niveau: {level}</span>
                             </div>
                             {targetB && (
-                                <div style={{
-                                    background: 'rgba(59,130,246,0.2)',
-                                    padding: '10px',
-                                    borderRadius: '8px',
-                                    marginBottom: '15px',
-                                    border: '1px solid rgba(59,130,246,0.5)'
-                                }}>
+                                <div className="bg-blue-500/20 p-3 rounded-lg mb-3 border border-blue-500/50">
                                     <strong>🏥 Mission IRM:</strong><br />
                                     Créer B = {targetB.B} mT (±{targetB.tolerance})<br />
-                                    <small style={{ color: '#94a3b8' }}>{targetB.hint}</small>
+                                    <small className="text-gray-400">{targetB.hint}</small>
                                 </div>
                             )}
                         </>
                     )}
 
-                    <div style={{ marginBottom: '15px' }}>
-                        <label>Courant I: {current.toFixed(1)} A</label>
+                    <div className="mb-4">
+                        <label className="block text-sm mb-1">Courant I: {current.toFixed(1)} A</label>
                         <input
                             type="range"
                             min="0.1"
@@ -226,12 +209,12 @@ function ChampMagnetiqueAdvanced() {
                             step="0.1"
                             value={current}
                             onChange={(e) => setCurrent(parseFloat(e.target.value))}
-                            style={{ width: '100%' }}
+                            className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-[#10b981] no-drag"
                         />
                     </div>
 
-                    <div style={{ marginBottom: '15px' }}>
-                        <label>Nombre de spires N: {turns}</label>
+                    <div className="mb-4">
+                        <label className="block text-sm mb-1">Nombre de spires N: {turns}</label>
                         <input
                             type="range"
                             min="10"
@@ -239,12 +222,12 @@ function ChampMagnetiqueAdvanced() {
                             step="10"
                             value={turns}
                             onChange={(e) => setTurns(parseInt(e.target.value))}
-                            style={{ width: '100%' }}
+                            className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-[#10b981] no-drag"
                         />
                     </div>
 
-                    <div style={{ marginBottom: '15px' }}>
-                        <label>Longueur L: {(length * 100).toFixed(0)} cm</label>
+                    <div className="mb-4">
+                        <label className="block text-sm mb-1">Longueur L: {(length * 100).toFixed(0)} cm</label>
                         <input
                             type="range"
                             min="0.05"
@@ -252,22 +235,16 @@ function ChampMagnetiqueAdvanced() {
                             step="0.01"
                             value={length}
                             onChange={(e) => setLength(parseFloat(e.target.value))}
-                            style={{ width: '100%' }}
+                            className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-[#10b981] no-drag"
                         />
                     </div>
 
-                    <div style={{
-                        background: 'rgba(16,185,129,0.2)',
-                        padding: '12px',
-                        borderRadius: '8px',
-                        marginBottom: '15px',
-                        textAlign: 'center'
-                    }}>
-                        <div style={{ fontSize: '12px', color: '#94a3b8' }}>Champ magnétique B</div>
-                        <div style={{ fontSize: '24px', fontWeight: 'bold', color: '#10b981' }}>
+                    <div className="bg-emerald-500/20 p-3 rounded-lg mb-4 text-center">
+                        <div className="text-xs text-gray-400">Champ magnétique B</div>
+                        <div className="text-2xl font-bold text-emerald-400">
                             {B_mT.toFixed(2)} mT
                         </div>
-                        <div style={{ fontSize: '11px', color: '#64748b' }}>
+                        <div className="text-xs text-gray-500">
                             B = μ₀ × n × I = μ₀ × (N/L) × I
                         </div>
                     </div>
@@ -275,38 +252,20 @@ function ChampMagnetiqueAdvanced() {
                     {!challengeMode ? (
                         <button
                             onClick={startChallenge}
-                            style={{
-                                width: '100%',
-                                padding: '12px',
-                                background: 'linear-gradient(135deg, #8b5cf6, #6366f1)',
-                                border: 'none',
-                                borderRadius: '8px',
-                                color: 'white',
-                                fontWeight: 'bold',
-                                cursor: 'pointer'
-                            }}
+                            className="w-full py-3 bg-gradient-to-r from-purple-600 to-indigo-600 rounded-lg font-bold hover:from-purple-500 hover:to-indigo-500 transition-all no-drag"
                         >
                             🎮 Mode Défi IRM
                         </button>
                     ) : (
                         <button
                             onClick={checkAnswer}
-                            style={{
-                                width: '100%',
-                                padding: '12px',
-                                background: 'linear-gradient(135deg, #10b981, #059669)',
-                                border: 'none',
-                                borderRadius: '8px',
-                                color: 'white',
-                                fontWeight: 'bold',
-                                cursor: 'pointer'
-                            }}
+                            className="w-full py-3 bg-gradient-to-r from-emerald-600 to-green-600 rounded-lg font-bold hover:from-emerald-500 hover:to-green-500 transition-all no-drag"
                         >
                             ✓ Valider le champ
                         </button>
                     )}
                 </div>
-            </Html>
+            </DraggableHtmlPanel>
 
             {showSuccess && <SuccessOverlay message={`+${100 + Math.floor(timeLeft / 10) * 10 + streak * 25} pts!`} />}
             {showConfetti && <ConfettiExplosion />}
