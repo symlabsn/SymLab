@@ -410,134 +410,66 @@ function LorentzAdvanced() {
             })}
 
             {/* Panneau de contrôle */}
-            <Html position={[-4, 2, 0]} transform={false} style={{ pointerEvents: 'auto' }}>
-                <div style={{
-                    background: 'linear-gradient(135deg, rgba(15,23,42,0.95), rgba(30,41,59,0.95))',
-                    padding: '20px',
-                    borderRadius: '16px',
-                    color: 'white',
-                    width: '320px',
-                    border: '1px solid rgba(148,163,184,0.2)',
-                    boxShadow: '0 25px 50px rgba(0,0,0,0.5)'
-                }}>
-                    <h3 style={{ margin: '0 0 15px 0', fontSize: '18px' }}>
-                        ⚡ Force de Lorentz - Cyclotron
-                    </h3>
-
+            <DraggableHtmlPanel title="⚡ Force de Lorentz - Cyclotron">
+                <div className="text-white">
                     {challengeMode && (
                         <>
                             <ChallengeTimer timeLeft={timeLeft} maxTime={60} />
-                            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '15px' }}>
+                            <div className="flex justify-between mb-3 text-sm">
                                 <span>🎯 Score: {score}</span>
                                 <span>🔥 Streak: {streak}</span>
                                 <span>📊 Niveau: {level}</span>
                             </div>
                             {targetRadius && (
-                                <div style={{
-                                    background: 'rgba(168,85,247,0.2)',
-                                    padding: '10px',
-                                    borderRadius: '8px',
-                                    marginBottom: '15px',
-                                    border: '1px solid rgba(168,85,247,0.5)'
-                                }}>
+                                <div className="bg-purple-500/20 p-3 rounded-lg mb-3 border border-purple-500/50">
                                     <strong>🔬 Mission Cyclotron:</strong><br />
                                     Rayon = {targetRadius.radius} cm (±{targetRadius.tolerance})<br />
-                                    <small style={{ color: '#94a3b8' }}>{targetRadius.hint}</small>
+                                    <small className="text-gray-400">{targetRadius.hint}</small>
                                 </div>
                             )}
                         </>
                     )}
 
-                    <div style={{ marginBottom: '15px' }}>
-                        <label>Vitesse v: {(velocity / 1e6).toFixed(1)} × 10⁶ m/s</label>
-                        <input
-                            type="range"
-                            min="0.1"
-                            max="10"
-                            step="0.1"
-                            value={velocity / 1e6}
+                    <div className="mb-4">
+                        <label className="block text-sm mb-1">Vitesse v: {(velocity / 1e6).toFixed(1)} × 10⁶ m/s</label>
+                        <input type="range" min="0.1" max="10" step="0.1" value={velocity / 1e6}
                             onChange={(e) => setVelocity(parseFloat(e.target.value) * 1e6)}
-                            style={{ width: '100%' }}
-                        />
+                            className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-[#22d3ee] no-drag" />
                     </div>
 
-                    <div style={{ marginBottom: '15px' }}>
-                        <label>Champ B: {magneticField.toFixed(2)} T</label>
-                        <input
-                            type="range"
-                            min="0.01"
-                            max="2"
-                            step="0.01"
-                            value={magneticField}
+                    <div className="mb-4">
+                        <label className="block text-sm mb-1">Champ B: {magneticField.toFixed(2)} T</label>
+                        <input type="range" min="0.01" max="2" step="0.01" value={magneticField}
                             onChange={(e) => setMagneticField(parseFloat(e.target.value))}
-                            style={{ width: '100%' }}
-                        />
+                            className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-[#22d3ee] no-drag" />
                     </div>
 
-                    <div style={{ marginBottom: '15px' }}>
-                        <label>Charge: {particleCharge > 0 ? 'Proton (+)' : 'Électron (-)'}</label>
-                        <input
-                            type="range"
-                            min="-1"
-                            max="1"
-                            step="2"
-                            value={particleCharge}
+                    <div className="mb-4">
+                        <label className="block text-sm mb-1">Charge: {particleCharge > 0 ? 'Proton (+)' : 'Électron (-)'}</label>
+                        <input type="range" min="-1" max="1" step="2" value={particleCharge}
                             onChange={(e) => setParticleCharge(parseInt(e.target.value))}
-                            style={{ width: '100%' }}
-                        />
+                            className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-[#22d3ee] no-drag" />
                     </div>
 
-                    <div style={{
-                        background: 'rgba(34,211,238,0.2)',
-                        padding: '12px',
-                        borderRadius: '8px',
-                        marginBottom: '15px',
-                        textAlign: 'center'
-                    }}>
-                        <div style={{ fontSize: '12px', color: '#94a3b8' }}>Rayon de courbure R</div>
-                        <div style={{ fontSize: '24px', fontWeight: 'bold', color: '#22d3ee' }}>
-                            {radiusCm.toFixed(2)} cm
-                        </div>
-                        <div style={{ fontSize: '11px', color: '#64748b' }}>
-                            R = mv / (|q|B)
-                        </div>
+                    <div className="bg-cyan-500/20 p-3 rounded-lg mb-4 text-center">
+                        <div className="text-xs text-gray-400">Rayon de courbure R</div>
+                        <div className="text-2xl font-bold text-cyan-400">{radiusCm.toFixed(2)} cm</div>
+                        <div className="text-xs text-gray-500">R = mv / (|q|B)</div>
                     </div>
 
                     {!challengeMode ? (
-                        <button
-                            onClick={startChallenge}
-                            style={{
-                                width: '100%',
-                                padding: '12px',
-                                background: 'linear-gradient(135deg, #8b5cf6, #6366f1)',
-                                border: 'none',
-                                borderRadius: '8px',
-                                color: 'white',
-                                fontWeight: 'bold',
-                                cursor: 'pointer'
-                            }}
-                        >
+                        <button onClick={startChallenge}
+                            className="w-full py-3 bg-gradient-to-r from-purple-600 to-indigo-600 rounded-lg font-bold hover:from-purple-500 hover:to-indigo-500 transition-all no-drag">
                             🎮 Mode Défi Cyclotron
                         </button>
                     ) : (
-                        <button
-                            onClick={checkAnswer}
-                            style={{
-                                width: '100%',
-                                padding: '12px',
-                                background: 'linear-gradient(135deg, #10b981, #059669)',
-                                border: 'none',
-                                borderRadius: '8px',
-                                color: 'white',
-                                fontWeight: 'bold',
-                                cursor: 'pointer'
-                            }}
-                        >
+                        <button onClick={checkAnswer}
+                            className="w-full py-3 bg-gradient-to-r from-emerald-600 to-green-600 rounded-lg font-bold hover:from-emerald-500 hover:to-green-500 transition-all no-drag">
                             ✓ Valider la trajectoire
                         </button>
                     )}
                 </div>
-            </Html>
+            </DraggableHtmlPanel>
 
             {showSuccess && <SuccessOverlay message={`+${100 + Math.floor(timeLeft / 10) * 10 + streak * 25} pts!`} />}
             {showConfetti && <ConfettiExplosion />}
