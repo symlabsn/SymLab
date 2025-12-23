@@ -64,7 +64,9 @@ import { DilutionAdvanced, TitrageAdvanced, PHIndicateursAdvanced, TestsIonsAdva
 import { TravailPuissanceSim, EnergieCinetiqueSim, EnergieMecaniqueSim, EnergiePotentielleSim, ElectrostatiqueSim, OptiqueLentilleSim, OndesSim, ElectroniqueSim } from './Physique1ereSimulations';
 import { ChimieOrgaGeneralSim, AlcanesSim, AlcenesSim, BenzeneSim, ComposesOxygenesSim, RedoxGammaSim, ElectrolyseSim, VoieSecheSimulation } from './Chimie1ereSimulations';
 import { CinematiquePoint, DynamiqueNewton, ProjectileMotion, GravitationSatellite, ChampMagnetiqueSolenoid, ForceLorentz, LoiLaplace, InductionRL, DipoleRC, OscillationsLCRLC, OscillationsMecaniques, InterferencesYoung, EffetPhotoelectrique, NiveauxEnergie, ReactionsNucleaires } from './PhysiqueTSSimulations';
+import { CinematiquePointAdvanced, DynamiqueNewtonAdvanced, ProjectileMotionAdvanced, GravitationAdvanced } from './PhysiqueTSAdvanced';
 import { AlcoolsOxydation, AminesProprietes, Esterification, AcidesAminesChiralite, CinetiqueChimique, PHAutoprotolyse, AcidesBasesForts, AcidesFaiblesKa, SolutionsTampons } from './ChimieTSSimulations';
+import { ChampMagnetiqueTS, LorentzTS, LaplaceTS, InductionRLTS, DipoleRCTS } from './PhysiqueTSAdvanced2';
 
 
 
@@ -4687,25 +4689,25 @@ export default function Simulation3D({ type = 'atom', config = {} }) {
             case 'c1s-voieseche': // C11
                 return <VoieSecheSimulation />;
 
-            // === PHYSIQUE TERMINALE S - SIMULATIONS ===
+            // === PHYSIQUE TERMINALE S - SIMULATIONS AVANCÉES (Partie 1) ===
             case 'pts-cinematique':
-                return <CinematiquePoint />;
+                return <CinematiquePointAdvanced />;
             case 'pts-dynamique':
-                return <DynamiqueNewton />;
+                return <DynamiqueNewtonAdvanced />;
             case 'pts-applications':
-                return <ProjectileMotion />;
+                return <ProjectileMotionAdvanced />;
             case 'pts-gravitation':
-                return <GravitationSatellite />;
+                return <GravitationAdvanced />;
             case 'pts-champ-magnetique':
-                return <ChampMagnetiqueSolenoid />;
+                return <ChampMagnetiqueTS />;
             case 'pts-lorentz':
-                return <ForceLorentz />;
+                return <LorentzTS />;
             case 'pts-laplace':
-                return <LoiLaplace />;
+                return <LaplaceTS />;
             case 'pts-induction':
-                return <InductionRL />;
+                return <InductionRLTS />;
             case 'pts-rc':
-                return <DipoleRC />;
+                return <DipoleRCTS />;
             case 'pts-oscillations-lc':
                 return <OscillationsLCRLC />;
             case 'pts-oscillations-meca':
