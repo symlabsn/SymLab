@@ -197,20 +197,8 @@ function OscillationsLCAdvanced() {
             />
 
             {/* Panneau de contrôle */}
-            <Html position={[-4, 2, 0]} transform={false} style={{ pointerEvents: 'auto' }}>
-                <div style={{
-                    background: 'linear-gradient(135deg, rgba(15,23,42,0.95), rgba(30,41,59,0.95))',
-                    padding: '20px',
-                    borderRadius: '16px',
-                    color: 'white',
-                    width: '320px',
-                    border: '1px solid rgba(148,163,184,0.2)',
-                    boxShadow: '0 25px 50px rgba(0,0,0,0.5)'
-                }}>
-                    <h3 style={{ margin: '0 0 15px 0', fontSize: '18px' }}>
-                        📡 Oscillations LC/RLC - Radio
-                    </h3>
-
+            <DraggableHtmlPanel title="📡 Oscillations LC/RLC" defaultPosition="top-right">
+                <div className="no-drag" style={{ padding: '15px', color: 'white', width: '300px' }}>
                     {challengeMode && (
                         <>
                             <ChallengeTimer timeLeft={timeLeft} maxTime={60} />
@@ -297,7 +285,7 @@ function OscillationsLCAdvanced() {
                         {challengeMode ? '✓ Valider fréquence' : '🎮 Mode Défi Radio'}
                     </button>
                 </div>
-            </Html>
+            </DraggableHtmlPanel>
 
             {showSuccess && <SuccessOverlay message="Fréquence trouvée!" />}
             {showConfetti && <ConfettiExplosion />}
@@ -438,20 +426,8 @@ function OscillationsMecaAdvanced() {
             )}
 
             {/* Panneau de contrôle */}
-            <Html position={[-4, 2, 0]} transform={false} style={{ pointerEvents: 'auto' }}>
-                <div style={{
-                    background: 'linear-gradient(135deg, rgba(15,23,42,0.95), rgba(30,41,59,0.95))',
-                    padding: '20px',
-                    borderRadius: '16px',
-                    color: 'white',
-                    width: '320px',
-                    border: '1px solid rgba(148,163,184,0.2)',
-                    boxShadow: '0 25px 50px rgba(0,0,0,0.5)'
-                }}>
-                    <h3 style={{ margin: '0 0 15px 0', fontSize: '18px' }}>
-                        ⏱️ Oscillations Mécaniques
-                    </h3>
-
+            <DraggableHtmlPanel title="⏱️ Oscillations Mécaniques" defaultPosition="top-right">
+                <div className="no-drag" style={{ padding: '15px', color: 'white', width: '300px' }}>
                     {challengeMode && (
                         <>
                             <ChallengeTimer timeLeft={timeLeft} maxTime={60} />
@@ -554,7 +530,7 @@ function OscillationsMecaAdvanced() {
                         {challengeMode ? '✓ Valider période' : '🎮 Mode Défi Horloger'}
                     </button>
                 </div>
-            </Html>
+            </DraggableHtmlPanel>
 
             {showSuccess && <SuccessOverlay message="Horloge réglée!" />}
             {showConfetti && <ConfettiExplosion />}
@@ -714,20 +690,8 @@ function InterferencesAdvanced() {
             </group>
 
             {/* Panneau de contrôle */}
-            <Html position={[-4, 2, 0]} transform={false} style={{ pointerEvents: 'auto' }}>
-                <div style={{
-                    background: 'linear-gradient(135deg, rgba(15,23,42,0.95), rgba(30,41,59,0.95))',
-                    padding: '20px',
-                    borderRadius: '16px',
-                    color: 'white',
-                    width: '320px',
-                    border: '1px solid rgba(148,163,184,0.2)',
-                    boxShadow: '0 25px 50px rgba(0,0,0,0.5)'
-                }}>
-                    <h3 style={{ margin: '0 0 15px 0', fontSize: '18px' }}>
-                        🌈 Interférences - Fentes de Young
-                    </h3>
-
+            <DraggableHtmlPanel title="🌈 Interférences - Fentes de Young" defaultPosition="top-right">
+                <div className="no-drag" style={{ padding: '15px', color: 'white', width: '300px' }}>
                     {challengeMode && (
                         <>
                             <ChallengeTimer timeLeft={timeLeft} maxTime={60} />
@@ -801,7 +765,7 @@ function InterferencesAdvanced() {
                         {challengeMode ? '✓ Valider interfrange' : '🎮 Mode Défi Optique'}
                     </button>
                 </div>
-            </Html>
+            </DraggableHtmlPanel>
 
             {showSuccess && <SuccessOverlay message="Mesure précise!" />}
             {showConfetti && <ConfettiExplosion />}

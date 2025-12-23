@@ -68,6 +68,7 @@ import { CinematiquePointAdvanced, DynamiqueNewtonAdvanced, ProjectileMotionAdva
 import { AlcoolsOxydation, AminesProprietes, Esterification, AcidesAminesChiralite, CinetiqueChimique, PHAutoprotolyse, AcidesBasesForts, AcidesFaiblesKa, SolutionsTampons } from './ChimieTSSimulations';
 import { ChampMagnetiqueTS, LorentzTS, LaplaceTS, InductionRLTS, DipoleRCTS } from './PhysiqueTSAdvanced2';
 import { OscillationsLCTS, OscillationsMecaTS, InterferencesTS } from './PhysiqueTSAdvanced3';
+import { PhotoelectriqueTS, NiveauxEnergieTS, NucleaireTS } from './PhysiqueTSAdvanced4';
 
 
 
@@ -4716,11 +4717,11 @@ export default function Simulation3D({ type = 'atom', config = {} }) {
             case 'pts-interferences':
                 return <InterferencesTS />;
             case 'pts-photoelectrique':
-                return <EffetPhotoelectrique />;
+                return <PhotoelectriqueTS />;
             case 'pts-niveaux-energie':
-                return <NiveauxEnergie />;
+                return <NiveauxEnergieTS />;
             case 'pts-nucleaire':
-                return <ReactionsNucleaires />;
+                return <NucleaireTS />;
 
             // === CHIMIE TERMINALE S - SIMULATIONS ===
             case 'cts-alcools':
