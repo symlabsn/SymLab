@@ -8,36 +8,14 @@ import React, { useState, useRef, useEffect, useMemo, useCallback } from 'react'
 import { useFrame } from '@react-three/fiber';
 import { Html, Line, Text } from '@react-three/drei';
 import * as THREE from 'three';
-import { SuccessOverlay, ConfettiExplosion } from './PC4eSimulations';
+import { SuccessOverlay, ConfettiExplosion, ChallengeTimer } from './GamificationUtils';
 import DraggableHtmlPanel from './DraggableHtmlPanel';
 
 // ============================================================
 // COMPOSANTS UTILITAIRES RÉUTILISABLES
 // ============================================================
 
-// Timer visuel
-function ChallengeTimer({ timeLeft, maxTime }) {
-    const percentage = (timeLeft / maxTime) * 100;
-    const color = percentage > 50 ? '#4ade80' : percentage > 25 ? '#fbbf24' : '#ef4444';
-
-    return (
-        <div style={{
-            width: '100%',
-            height: '8px',
-            background: 'rgba(255,255,255,0.2)',
-            borderRadius: '4px',
-            overflow: 'hidden',
-            marginBottom: '10px'
-        }}>
-            <div style={{
-                width: `${percentage}%`,
-                height: '100%',
-                background: color,
-                transition: 'width 1s linear, background 0.3s'
-            }} />
-        </div>
-    );
-}
+// (ChallengeTimer supprimé car importé de GamificationUtils)
 
 // Particules magnétiques animées
 function MagneticFieldLines({ intensity = 1, polarity = 'N' }) {
@@ -180,92 +158,94 @@ function ChampMagnetiqueAdvanced() {
             ))}
 
             {/* Panneau de contrôle */}
-            <DraggableHtmlPanel title="🧲 Champ Magnétique - Solénoïde">
-                <div className="text-white">
-                    {challengeMode && (
-                        <>
-                            <ChallengeTimer timeLeft={timeLeft} maxTime={60} />
-                            <div className="flex justify-between mb-3 text-sm">
-                                <span>🎯 Score: {score}</span>
-                                <span>🔥 Streak: {streak}</span>
-                                <span>📊 Niveau: {level}</span>
-                            </div>
-                            {targetB && (
-                                <div className="bg-blue-500/20 p-3 rounded-lg mb-3 border border-blue-500/50">
-                                    <strong>🏥 Mission IRM:</strong><br />
-                                    Créer B = {targetB.B} mT (±{targetB.tolerance})<br />
-                                    <small className="text-gray-400">{targetB.hint}</small>
+            <Html transform={false}>
+                <DraggableHtmlPanel title="🧲 Champ Magnétique - Solénoïde">
+                    <div className="text-white">
+                        {challengeMode && (
+                            <>
+                                <ChallengeTimer timeLeft={timeLeft} maxTime={60} />
+                                <div className="flex justify-between mb-3 text-sm">
+                                    <span>🎯 Score: {score}</span>
+                                    <span>🔥 Streak: {streak}</span>
+                                    <span>📊 Niveau: {level}</span>
                                 </div>
-                            )}
-                        </>
-                    )}
+                                {targetB && (
+                                    <div className="bg-blue-500/20 p-3 rounded-lg mb-3 border border-blue-500/50">
+                                        <strong>🏥 Mission IRM:</strong><br />
+                                        Créer B = {targetB.B} mT (±{targetB.tolerance})<br />
+                                        <small className="text-gray-400">{targetB.hint}</small>
+                                    </div>
+                                )}
+                            </>
+                        )}
 
-                    <div className="mb-4">
-                        <label className="block text-sm mb-1">Courant I: {current.toFixed(1)} A</label>
-                        <input
-                            type="range"
-                            min="0.1"
-                            max="20"
-                            step="0.1"
-                            value={current}
-                            onChange={(e) => setCurrent(parseFloat(e.target.value))}
-                            className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-[#10b981] no-drag"
-                        />
-                    </div>
-
-                    <div className="mb-4">
-                        <label className="block text-sm mb-1">Nombre de spires N: {turns}</label>
-                        <input
-                            type="range"
-                            min="10"
-                            max="500"
-                            step="10"
-                            value={turns}
-                            onChange={(e) => setTurns(parseInt(e.target.value))}
-                            className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-[#10b981] no-drag"
-                        />
-                    </div>
-
-                    <div className="mb-4">
-                        <label className="block text-sm mb-1">Longueur L: {(length * 100).toFixed(0)} cm</label>
-                        <input
-                            type="range"
-                            min="0.05"
-                            max="0.5"
-                            step="0.01"
-                            value={length}
-                            onChange={(e) => setLength(parseFloat(e.target.value))}
-                            className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-[#10b981] no-drag"
-                        />
-                    </div>
-
-                    <div className="bg-emerald-500/20 p-3 rounded-lg mb-4 text-center">
-                        <div className="text-xs text-gray-400">Champ magnétique B</div>
-                        <div className="text-2xl font-bold text-emerald-400">
-                            {B_mT.toFixed(2)} mT
+                        <div className="mb-4">
+                            <label className="block text-sm mb-1">Courant I: {current.toFixed(1)} A</label>
+                            <input
+                                type="range"
+                                min="0.1"
+                                max="20"
+                                step="0.1"
+                                value={current}
+                                onChange={(e) => setCurrent(parseFloat(e.target.value))}
+                                className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-[#10b981] no-drag"
+                            />
                         </div>
-                        <div className="text-xs text-gray-500">
-                            B = μ₀ × n × I = μ₀ × (N/L) × I
-                        </div>
-                    </div>
 
-                    {!challengeMode ? (
-                        <button
-                            onClick={startChallenge}
-                            className="w-full py-3 bg-gradient-to-r from-purple-600 to-indigo-600 rounded-lg font-bold hover:from-purple-500 hover:to-indigo-500 transition-all no-drag"
-                        >
-                            🎮 Mode Défi IRM
-                        </button>
-                    ) : (
-                        <button
-                            onClick={checkAnswer}
-                            className="w-full py-3 bg-gradient-to-r from-emerald-600 to-green-600 rounded-lg font-bold hover:from-emerald-500 hover:to-green-500 transition-all no-drag"
-                        >
-                            ✓ Valider le champ
-                        </button>
-                    )}
-                </div>
-            </DraggableHtmlPanel>
+                        <div className="mb-4">
+                            <label className="block text-sm mb-1">Nombre de spires N: {turns}</label>
+                            <input
+                                type="range"
+                                min="10"
+                                max="500"
+                                step="10"
+                                value={turns}
+                                onChange={(e) => setTurns(parseInt(e.target.value))}
+                                className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-[#10b981] no-drag"
+                            />
+                        </div>
+
+                        <div className="mb-4">
+                            <label className="block text-sm mb-1">Longueur L: {(length * 100).toFixed(0)} cm</label>
+                            <input
+                                type="range"
+                                min="0.05"
+                                max="0.5"
+                                step="0.01"
+                                value={length}
+                                onChange={(e) => setLength(parseFloat(e.target.value))}
+                                className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-[#10b981] no-drag"
+                            />
+                        </div>
+
+                        <div className="bg-emerald-500/20 p-3 rounded-lg mb-4 text-center">
+                            <div className="text-xs text-gray-400">Champ magnétique B</div>
+                            <div className="text-2xl font-bold text-emerald-400">
+                                {B_mT.toFixed(2)} mT
+                            </div>
+                            <div className="text-xs text-gray-500">
+                                B = μ₀ × n × I = μ₀ × (N/L) × I
+                            </div>
+                        </div>
+
+                        {!challengeMode ? (
+                            <button
+                                onClick={startChallenge}
+                                className="w-full py-3 bg-gradient-to-r from-purple-600 to-indigo-600 rounded-lg font-bold hover:from-purple-500 hover:to-indigo-500 transition-all no-drag"
+                            >
+                                🎮 Mode Défi IRM
+                            </button>
+                        ) : (
+                            <button
+                                onClick={checkAnswer}
+                                className="w-full py-3 bg-gradient-to-r from-emerald-600 to-green-600 rounded-lg font-bold hover:from-emerald-500 hover:to-green-500 transition-all no-drag"
+                            >
+                                ✓ Valider le champ
+                            </button>
+                        )}
+                    </div>
+                </DraggableHtmlPanel>
+            </Html>
 
             {showSuccess && <SuccessOverlay message={`+${100 + Math.floor(timeLeft / 10) * 10 + streak * 25} pts!`} />}
             {showConfetti && <ConfettiExplosion />}
@@ -410,66 +390,68 @@ function LorentzAdvanced() {
             })}
 
             {/* Panneau de contrôle */}
-            <DraggableHtmlPanel title="⚡ Force de Lorentz - Cyclotron">
-                <div className="text-white">
-                    {challengeMode && (
-                        <>
-                            <ChallengeTimer timeLeft={timeLeft} maxTime={60} />
-                            <div className="flex justify-between mb-3 text-sm">
-                                <span>🎯 Score: {score}</span>
-                                <span>🔥 Streak: {streak}</span>
-                                <span>📊 Niveau: {level}</span>
-                            </div>
-                            {targetRadius && (
-                                <div className="bg-purple-500/20 p-3 rounded-lg mb-3 border border-purple-500/50">
-                                    <strong>🔬 Mission Cyclotron:</strong><br />
-                                    Rayon = {targetRadius.radius} cm (±{targetRadius.tolerance})<br />
-                                    <small className="text-gray-400">{targetRadius.hint}</small>
+            <Html transform={false}>
+                <DraggableHtmlPanel title="⚡ Force de Lorentz - Cyclotron">
+                    <div className="text-white">
+                        {challengeMode && (
+                            <>
+                                <ChallengeTimer timeLeft={timeLeft} maxTime={60} />
+                                <div className="flex justify-between mb-3 text-sm">
+                                    <span>🎯 Score: {score}</span>
+                                    <span>🔥 Streak: {streak}</span>
+                                    <span>📊 Niveau: {level}</span>
                                 </div>
-                            )}
-                        </>
-                    )}
+                                {targetRadius && (
+                                    <div className="bg-purple-500/20 p-3 rounded-lg mb-3 border border-purple-500/50">
+                                        <strong>🔬 Mission Cyclotron:</strong><br />
+                                        Rayon = {targetRadius.radius} cm (±{targetRadius.tolerance})<br />
+                                        <small className="text-gray-400">{targetRadius.hint}</small>
+                                    </div>
+                                )}
+                            </>
+                        )}
 
-                    <div className="mb-4">
-                        <label className="block text-sm mb-1">Vitesse v: {(velocity / 1e6).toFixed(1)} × 10⁶ m/s</label>
-                        <input type="range" min="0.1" max="10" step="0.1" value={velocity / 1e6}
-                            onChange={(e) => setVelocity(parseFloat(e.target.value) * 1e6)}
-                            className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-[#22d3ee] no-drag" />
+                        <div className="mb-4">
+                            <label className="block text-sm mb-1">Vitesse v: {(velocity / 1e6).toFixed(1)} × 10⁶ m/s</label>
+                            <input type="range" min="0.1" max="10" step="0.1" value={velocity / 1e6}
+                                onChange={(e) => setVelocity(parseFloat(e.target.value) * 1e6)}
+                                className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-[#22d3ee] no-drag" />
+                        </div>
+
+                        <div className="mb-4">
+                            <label className="block text-sm mb-1">Champ B: {magneticField.toFixed(2)} T</label>
+                            <input type="range" min="0.01" max="2" step="0.01" value={magneticField}
+                                onChange={(e) => setMagneticField(parseFloat(e.target.value))}
+                                className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-[#22d3ee] no-drag" />
+                        </div>
+
+                        <div className="mb-4">
+                            <label className="block text-sm mb-1">Charge: {particleCharge > 0 ? 'Proton (+)' : 'Électron (-)'}</label>
+                            <input type="range" min="-1" max="1" step="2" value={particleCharge}
+                                onChange={(e) => setParticleCharge(parseInt(e.target.value))}
+                                className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-[#22d3ee] no-drag" />
+                        </div>
+
+                        <div className="bg-cyan-500/20 p-3 rounded-lg mb-4 text-center">
+                            <div className="text-xs text-gray-400">Rayon de courbure R</div>
+                            <div className="text-2xl font-bold text-cyan-400">{radiusCm.toFixed(2)} cm</div>
+                            <div className="text-xs text-gray-500">R = mv / (|q|B)</div>
+                        </div>
+
+                        {!challengeMode ? (
+                            <button onClick={startChallenge}
+                                className="w-full py-3 bg-gradient-to-r from-purple-600 to-indigo-600 rounded-lg font-bold hover:from-purple-500 hover:to-indigo-500 transition-all no-drag">
+                                🎮 Mode Défi Cyclotron
+                            </button>
+                        ) : (
+                            <button onClick={checkAnswer}
+                                className="w-full py-3 bg-gradient-to-r from-emerald-600 to-green-600 rounded-lg font-bold hover:from-emerald-500 hover:to-green-500 transition-all no-drag">
+                                ✓ Valider la trajectoire
+                            </button>
+                        )}
                     </div>
-
-                    <div className="mb-4">
-                        <label className="block text-sm mb-1">Champ B: {magneticField.toFixed(2)} T</label>
-                        <input type="range" min="0.01" max="2" step="0.01" value={magneticField}
-                            onChange={(e) => setMagneticField(parseFloat(e.target.value))}
-                            className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-[#22d3ee] no-drag" />
-                    </div>
-
-                    <div className="mb-4">
-                        <label className="block text-sm mb-1">Charge: {particleCharge > 0 ? 'Proton (+)' : 'Électron (-)'}</label>
-                        <input type="range" min="-1" max="1" step="2" value={particleCharge}
-                            onChange={(e) => setParticleCharge(parseInt(e.target.value))}
-                            className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-[#22d3ee] no-drag" />
-                    </div>
-
-                    <div className="bg-cyan-500/20 p-3 rounded-lg mb-4 text-center">
-                        <div className="text-xs text-gray-400">Rayon de courbure R</div>
-                        <div className="text-2xl font-bold text-cyan-400">{radiusCm.toFixed(2)} cm</div>
-                        <div className="text-xs text-gray-500">R = mv / (|q|B)</div>
-                    </div>
-
-                    {!challengeMode ? (
-                        <button onClick={startChallenge}
-                            className="w-full py-3 bg-gradient-to-r from-purple-600 to-indigo-600 rounded-lg font-bold hover:from-purple-500 hover:to-indigo-500 transition-all no-drag">
-                            🎮 Mode Défi Cyclotron
-                        </button>
-                    ) : (
-                        <button onClick={checkAnswer}
-                            className="w-full py-3 bg-gradient-to-r from-emerald-600 to-green-600 rounded-lg font-bold hover:from-emerald-500 hover:to-green-500 transition-all no-drag">
-                            ✓ Valider la trajectoire
-                        </button>
-                    )}
-                </div>
-            </DraggableHtmlPanel>
+                </DraggableHtmlPanel>
+            </Html>
 
             {showSuccess && <SuccessOverlay message={`+${100 + Math.floor(timeLeft / 10) * 10 + streak * 25} pts!`} />}
             {showConfetti && <ConfettiExplosion />}

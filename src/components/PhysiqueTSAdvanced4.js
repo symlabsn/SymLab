@@ -8,32 +8,10 @@ import React, { useState, useRef, useEffect, useMemo, useCallback } from 'react'
 import { useFrame } from '@react-three/fiber';
 import { Html, Line, Text } from '@react-three/drei';
 import * as THREE from 'three';
-import { SuccessOverlay, ConfettiExplosion } from './PC4eSimulations';
+import { SuccessOverlay, ConfettiExplosion, ChallengeTimer } from './GamificationUtils';
 import DraggableHtmlPanel from './DraggableHtmlPanel';
 
-// Timer visuel
-function ChallengeTimer({ timeLeft, maxTime }) {
-    const percentage = (timeLeft / maxTime) * 100;
-    const color = percentage > 50 ? '#4ade80' : percentage > 25 ? '#fbbf24' : '#ef4444';
-
-    return (
-        <div style={{
-            width: '100%',
-            height: '8px',
-            background: 'rgba(255,255,255,0.2)',
-            borderRadius: '4px',
-            overflow: 'hidden',
-            marginBottom: '10px'
-        }}>
-            <div style={{
-                width: `${percentage}%`,
-                height: '100%',
-                background: color,
-                transition: 'width 1s linear, background 0.3s'
-            }} />
-        </div>
-    );
-}
+// (ChallengeTimer supprimé car importé de GamificationUtils)
 
 // ============================================================
 // P13. EFFET PHOTOÉLECTRIQUE - VERSION AVANCÉE
@@ -203,92 +181,94 @@ function PhotoelectriqueAdvanced() {
             </Text>
 
             {/* Panneau de contrôle */}
-            <DraggableHtmlPanel title="☀️ Effet Photoélectrique" defaultPosition="top-right">
-                <div className="no-drag" style={{ padding: '15px', color: 'white', width: '300px' }}>
-                    {challengeMode && (
-                        <>
-                            <ChallengeTimer timeLeft={timeLeft} maxTime={60} />
-                            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '15px' }}>
-                                <span>🎯 Score: {score}</span>
-                                <span>🔥 Streak: {streak}</span>
-                            </div>
-                            {targetEnergy && (
-                                <div style={{
-                                    background: 'rgba(234,179,8,0.2)',
-                                    padding: '10px',
-                                    borderRadius: '8px',
-                                    marginBottom: '15px',
-                                    border: '1px solid rgba(234,179,8,0.5)'
-                                }}>
-                                    <strong>🔋 Mission Cellule Solaire:</strong><br />
-                                    Ec = {targetEnergy.energy} eV (±{targetEnergy.tolerance})<br />
-                                    <small style={{ color: '#94a3b8' }}>{targetEnergy.hint}</small>
+            <Html transform={false}>
+                <DraggableHtmlPanel title="💡 Effet Photoélectrique" defaultPosition="top-right">
+                    <div className="no-drag" style={{ padding: '15px', color: 'white', width: '300px' }}>
+                        {challengeMode && (
+                            <>
+                                <ChallengeTimer timeLeft={timeLeft} maxTime={60} />
+                                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '15px' }}>
+                                    <span>🎯 Score: {score}</span>
+                                    <span>🔥 Streak: {streak}</span>
                                 </div>
-                            )}
-                        </>
-                    )}
+                                {targetEnergy && (
+                                    <div style={{
+                                        background: 'rgba(234,179,8,0.2)',
+                                        padding: '10px',
+                                        borderRadius: '8px',
+                                        marginBottom: '15px',
+                                        border: '1px solid rgba(234,179,8,0.5)'
+                                    }}>
+                                        <strong>🔋 Mission Cellule Solaire:</strong><br />
+                                        Ec = {targetEnergy.energy} eV (±{targetEnergy.tolerance})<br />
+                                        <small style={{ color: '#94a3b8' }}>{targetEnergy.hint}</small>
+                                    </div>
+                                )}
+                            </>
+                        )}
 
-                    <div style={{ marginBottom: '12px' }}>
-                        <label>Métal:</label>
-                        <select
-                            value={metalType}
-                            onChange={(e) => setMetalType(e.target.value)}
-                            style={{
-                                width: '100%', padding: '8px', borderRadius: '6px',
-                                background: '#1e293b', color: 'white', border: '1px solid #475569'
-                            }}
-                        >
-                            {Object.entries(metals).map(([key, val]) => (
-                                <option key={key} value={key}>{val.name} (W = {val.W} eV)</option>
-                            ))}
-                        </select>
-                    </div>
+                        <div style={{ marginBottom: '12px' }}>
+                            <label>Métal:</label>
+                            <select
+                                value={metalType}
+                                onChange={(e) => setMetalType(e.target.value)}
+                                style={{
+                                    width: '100%', padding: '8px', borderRadius: '6px',
+                                    background: '#1e293b', color: 'white', border: '1px solid #475569'
+                                }}
+                            >
+                                {Object.entries(metals).map(([key, val]) => (
+                                    <option key={key} value={key}>{val.name} (W = {val.W} eV)</option>
+                                ))}
+                            </select>
+                        </div>
 
-                    <div style={{ marginBottom: '12px' }}>
-                        <label>λ: {wavelength} nm</label>
-                        <input type="range" min="200" max="700" value={wavelength}
-                            onChange={(e) => setWavelength(parseInt(e.target.value))}
-                            style={{ width: '100%', accentColor: getColor(wavelength) }} />
+                        <div style={{ marginBottom: '12px' }}>
+                            <label>λ: {wavelength} nm</label>
+                            <input type="range" min="200" max="700" value={wavelength}
+                                onChange={(e) => setWavelength(parseInt(e.target.value))}
+                                style={{ width: '100%', accentColor: getColor(wavelength) }} />
+                            <div style={{
+                                height: '10px', borderRadius: '5px',
+                                background: 'linear-gradient(to right, #8b5cf6, #3b82f6, #22c55e, #eab308, #f97316, #ef4444)',
+                                marginTop: '5px'
+                            }} />
+                        </div>
+
+                        <div style={{ marginBottom: '12px' }}>
+                            <label>Intensité: {intensity}%</label>
+                            <input type="range" min="10" max="100" value={intensity}
+                                onChange={(e) => setIntensity(parseInt(e.target.value))} style={{ width: '100%' }} />
+                        </div>
+
                         <div style={{
-                            height: '10px', borderRadius: '5px',
-                            background: 'linear-gradient(to right, #8b5cf6, #3b82f6, #22c55e, #eab308, #f97316, #ef4444)',
-                            marginTop: '5px'
-                        }} />
-                    </div>
-
-                    <div style={{ marginBottom: '12px' }}>
-                        <label>Intensité: {intensity}%</label>
-                        <input type="range" min="10" max="100" value={intensity}
-                            onChange={(e) => setIntensity(parseInt(e.target.value))} style={{ width: '100%' }} />
-                    </div>
-
-                    <div style={{
-                        background: isPhotoelectric ? 'rgba(34,197,94,0.2)' : 'rgba(239,68,68,0.2)',
-                        padding: '12px',
-                        borderRadius: '8px',
-                        marginBottom: '15px',
-                        textAlign: 'center',
-                        border: `1px solid ${isPhotoelectric ? 'rgba(34,197,94,0.5)' : 'rgba(239,68,68,0.5)'}`
-                    }}>
-                        <div style={{ fontSize: '12px', color: '#94a3b8' }}>Énergie photon: {photonEnergy.toFixed(2)} eV</div>
-                        <div style={{ fontSize: '20px', fontWeight: 'bold', color: isPhotoelectric ? '#22c55e' : '#ef4444' }}>
-                            Ec = {kineticEnergy.toFixed(2)} eV
-                        </div>
-                        <div style={{ fontSize: '11px', color: '#64748b' }}>
-                            λ₀ = {lambdaSeuil.toFixed(0)} nm | Ec = hν - W
-                        </div>
-                    </div>
-
-                    <button onClick={challengeMode ? checkAnswer : startChallenge}
-                        style={{
-                            width: '100%', padding: '12px',
-                            background: challengeMode ? 'linear-gradient(135deg, #10b981, #059669)' : 'linear-gradient(135deg, #eab308, #ca8a04)',
-                            border: 'none', borderRadius: '8px', color: 'white', fontWeight: 'bold', cursor: 'pointer'
+                            background: isPhotoelectric ? 'rgba(34,197,94,0.2)' : 'rgba(239,68,68,0.2)',
+                            padding: '12px',
+                            borderRadius: '8px',
+                            marginBottom: '15px',
+                            textAlign: 'center',
+                            border: `1px solid ${isPhotoelectric ? 'rgba(34,197,94,0.5)' : 'rgba(239,68,68,0.5)'}`
                         }}>
-                        {challengeMode ? '✓ Valider énergie' : '🎮 Mode Défi Solaire'}
-                    </button>
-                </div>
-            </DraggableHtmlPanel>
+                            <div style={{ fontSize: '12px', color: '#94a3b8' }}>Énergie photon: {photonEnergy.toFixed(2)} eV</div>
+                            <div style={{ fontSize: '20px', fontWeight: 'bold', color: isPhotoelectric ? '#22c55e' : '#ef4444' }}>
+                                Ec = {kineticEnergy.toFixed(2)} eV
+                            </div>
+                            <div style={{ fontSize: '11px', color: '#64748b' }}>
+                                λ₀ = {lambdaSeuil.toFixed(0)} nm | Ec = hν - W
+                            </div>
+                        </div>
+
+                        <button onClick={challengeMode ? checkAnswer : startChallenge}
+                            style={{
+                                width: '100%', padding: '12px',
+                                background: challengeMode ? 'linear-gradient(135deg, #10b981, #059669)' : 'linear-gradient(135deg, #eab308, #ca8a04)',
+                                border: 'none', borderRadius: '8px', color: 'white', fontWeight: 'bold', cursor: 'pointer'
+                            }}>
+                            {challengeMode ? '✓ Valider énergie' : '🎮 Mode Défi Solaire'}
+                        </button>
+                    </div>
+                </DraggableHtmlPanel>
+            </Html>
 
             {showSuccess && <SuccessOverlay message="Énergie optimale!" />}
             {showConfetti && <ConfettiExplosion />}
@@ -495,87 +475,89 @@ function NiveauxEnergieAdvanced() {
             </group>
 
             {/* Panneau de contrôle */}
-            <DraggableHtmlPanel title="⚛️ Niveaux d'Énergie" defaultPosition="top-right">
-                <div className="no-drag" style={{ padding: '15px', color: 'white', width: '300px' }}>
-                    {challengeMode && (
-                        <>
-                            <ChallengeTimer timeLeft={timeLeft} maxTime={60} />
-                            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '15px' }}>
-                                <span>🎯 Score: {score}</span>
-                                <span>🔥 Streak: {streak}</span>
-                            </div>
-                            {targetWavelength && (
-                                <div style={{
-                                    background: 'rgba(139,92,246,0.2)',
-                                    padding: '10px',
-                                    borderRadius: '8px',
-                                    marginBottom: '15px',
-                                    border: '1px solid rgba(139,92,246,0.5)'
-                                }}>
-                                    <strong>🔬 Mission Spectroscopie:</strong><br />
-                                    λ = {targetWavelength.wavelength} nm (±{targetWavelength.tolerance})<br />
-                                    <small style={{ color: '#94a3b8' }}>{targetWavelength.hint}</small>
+            <Html transform={false}>
+                <DraggableHtmlPanel title="🌈 Niveaux d'Énergie" defaultPosition="top-right">
+                    <div className="no-drag" style={{ padding: '15px', color: 'white', width: '300px' }}>
+                        {challengeMode && (
+                            <>
+                                <ChallengeTimer timeLeft={timeLeft} maxTime={60} />
+                                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '15px' }}>
+                                    <span>🎯 Score: {score}</span>
+                                    <span>🔥 Streak: {streak}</span>
                                 </div>
-                            )}
-                        </>
-                    )}
+                                {targetWavelength && (
+                                    <div style={{
+                                        background: 'rgba(139,92,246,0.2)',
+                                        padding: '10px',
+                                        borderRadius: '8px',
+                                        marginBottom: '15px',
+                                        border: '1px solid rgba(139,92,246,0.5)'
+                                    }}>
+                                        <strong>🔬 Mission Spectroscopie:</strong><br />
+                                        λ = {targetWavelength.wavelength} nm (±{targetWavelength.tolerance})<br />
+                                        <small style={{ color: '#94a3b8' }}>{targetWavelength.hint}</small>
+                                    </div>
+                                )}
+                            </>
+                        )}
 
-                    <div style={{ marginBottom: '15px' }}>
-                        <label style={{ fontSize: '12px', color: '#94a3b8' }}>Transitions (Série de Balmer):</label>
-                        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px', marginTop: '8px' }}>
-                            {transitions.map((trans, i) => {
-                                const wl = getTransitionWavelength(trans.from, trans.to);
-                                const color = getColorFromWavelength(wl);
-                                return (
-                                    <button
-                                        key={i}
-                                        onClick={() => executeTransition(trans)}
-                                        style={{
-                                            padding: '8px',
-                                            background: selectedTransition === trans ? color : '#1e293b',
-                                            border: `2px solid ${color}`,
-                                            borderRadius: '6px',
-                                            color: 'white',
-                                            cursor: 'pointer',
-                                            fontSize: '11px'
-                                        }}
-                                    >
-                                        n={trans.from}→{trans.to}<br />
-                                        <span style={{ fontSize: '10px', color: '#94a3b8' }}>{Math.round(wl)} nm</span>
-                                    </button>
-                                );
-                            })}
+                        <div style={{ marginBottom: '15px' }}>
+                            <label style={{ fontSize: '12px', color: '#94a3b8' }}>Transitions (Série de Balmer):</label>
+                            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px', marginTop: '8px' }}>
+                                {transitions.map((trans, i) => {
+                                    const wl = getTransitionWavelength(trans.from, trans.to);
+                                    const color = getColorFromWavelength(wl);
+                                    return (
+                                        <button
+                                            key={i}
+                                            onClick={() => executeTransition(trans)}
+                                            style={{
+                                                padding: '8px',
+                                                background: selectedTransition === trans ? color : '#1e293b',
+                                                border: `2px solid ${color}`,
+                                                borderRadius: '6px',
+                                                color: 'white',
+                                                cursor: 'pointer',
+                                                fontSize: '11px'
+                                            }}
+                                        >
+                                            n={trans.from}→{trans.to}<br />
+                                            <span style={{ fontSize: '10px', color: '#94a3b8' }}>{Math.round(wl)} nm</span>
+                                        </button>
+                                    );
+                                })}
+                            </div>
                         </div>
+
+                        {selectedTransition && (
+                            <div style={{
+                                background: 'rgba(34,211,238,0.2)',
+                                padding: '10px',
+                                borderRadius: '8px',
+                                marginBottom: '15px',
+                                textAlign: 'center'
+                            }}>
+                                <div style={{ fontSize: '12px', color: '#94a3b8' }}>Transition sélectionnée</div>
+                                <div style={{ fontSize: '18px', fontWeight: 'bold', color: '#22d3ee' }}>
+                                    {selectedTransition.name}
+                                </div>
+                                <div style={{ fontSize: '14px', color: getColorFromWavelength(getTransitionWavelength(selectedTransition.from, selectedTransition.to)) }}>
+                                    λ = {getTransitionWavelength(selectedTransition.from, selectedTransition.to).toFixed(1)} nm
+                                </div>
+                            </div>
+                        )}
+
+                        <button onClick={challengeMode ? checkAnswer : startChallenge}
+                            style={{
+                                width: '100%', padding: '12px',
+                                background: challengeMode ? 'linear-gradient(135deg, #10b981, #059669)' : 'linear-gradient(135deg, #8b5cf6, #6366f1)',
+                                border: 'none', borderRadius: '8px', color: 'white', fontWeight: 'bold', cursor: 'pointer'
+                            }}>
+                            {challengeMode ? '✓ Identifier la raie' : '🎮 Mode Défi Spectroscopie'}
+                        </button>
                     </div>
-
-                    {selectedTransition && (
-                        <div style={{
-                            background: 'rgba(34,211,238,0.2)',
-                            padding: '10px',
-                            borderRadius: '8px',
-                            marginBottom: '15px',
-                            textAlign: 'center'
-                        }}>
-                            <div style={{ fontSize: '12px', color: '#94a3b8' }}>Transition sélectionnée</div>
-                            <div style={{ fontSize: '18px', fontWeight: 'bold', color: '#22d3ee' }}>
-                                {selectedTransition.name}
-                            </div>
-                            <div style={{ fontSize: '14px', color: getColorFromWavelength(getTransitionWavelength(selectedTransition.from, selectedTransition.to)) }}>
-                                λ = {getTransitionWavelength(selectedTransition.from, selectedTransition.to).toFixed(1)} nm
-                            </div>
-                        </div>
-                    )}
-
-                    <button onClick={challengeMode ? checkAnswer : startChallenge}
-                        style={{
-                            width: '100%', padding: '12px',
-                            background: challengeMode ? 'linear-gradient(135deg, #10b981, #059669)' : 'linear-gradient(135deg, #8b5cf6, #6366f1)',
-                            border: 'none', borderRadius: '8px', color: 'white', fontWeight: 'bold', cursor: 'pointer'
-                        }}>
-                        {challengeMode ? '✓ Identifier la raie' : '🎮 Mode Défi Spectroscopie'}
-                    </button>
-                </div>
-            </DraggableHtmlPanel>
+                </DraggableHtmlPanel>
+            </Html>
 
             {showSuccess && <SuccessOverlay message="Raie identifiée!" />}
             {showConfetti && <ConfettiExplosion />}
@@ -742,81 +724,83 @@ function NucleaireAdvanced() {
             </Text>
 
             {/* Panneau de contrôle */}
-            <DraggableHtmlPanel title="☢️ Réacteur Nucléaire" defaultPosition="top-right">
-                <div className="no-drag" style={{ padding: '15px', color: 'white', width: '300px' }}>
-                    {challengeMode && (
-                        <>
-                            <ChallengeTimer timeLeft={timeLeft} maxTime={60} />
-                            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '15px' }}>
-                                <span>🎯 Score: {score}</span>
-                                <span>🔥 Streak: {streak}</span>
-                            </div>
-                            {targetPower && (
-                                <div style={{
-                                    background: 'rgba(234,179,8,0.2)',
-                                    padding: '10px',
-                                    borderRadius: '8px',
-                                    marginBottom: '15px',
-                                    border: '1px solid rgba(234,179,8,0.5)'
-                                }}>
-                                    <strong>⚡ Mission Contrôle:</strong><br />
-                                    P = {targetPower.power}% (±{targetPower.tolerance}%)<br />
-                                    <small style={{ color: '#94a3b8' }}>{targetPower.hint}</small>
+            <Html transform={false}>
+                <DraggableHtmlPanel title="☢️ Réacteur Nucléaire" defaultPosition="top-right">
+                    <div className="no-drag" style={{ padding: '15px', color: 'white', width: '300px' }}>
+                        {challengeMode && (
+                            <>
+                                <ChallengeTimer timeLeft={timeLeft} maxTime={60} />
+                                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '15px' }}>
+                                    <span>🎯 Score: {score}</span>
+                                    <span>🔥 Streak: {streak}</span>
                                 </div>
-                            )}
-                        </>
-                    )}
+                                {targetPower && (
+                                    <div style={{
+                                        background: 'rgba(234,179,8,0.2)',
+                                        padding: '10px',
+                                        borderRadius: '8px',
+                                        marginBottom: '15px',
+                                        border: '1px solid rgba(234,179,8,0.5)'
+                                    }}>
+                                        <strong>⚡ Mission Contrôle:</strong><br />
+                                        P = {targetPower.power}% (±{targetPower.tolerance}%)<br />
+                                        <small style={{ color: '#94a3b8' }}>{targetPower.hint}</small>
+                                    </div>
+                                )}
+                            </>
+                        )}
 
-                    <div style={{ marginBottom: '15px' }}>
-                        <label>🎛️ Barres de Contrôle: {controlRods}%</label>
-                        <input type="range" min="0" max="100" value={controlRods}
-                            onChange={(e) => setControlRods(parseInt(e.target.value))}
-                            style={{ width: '100%' }} />
-                        <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '10px', color: '#64748b' }}>
-                            <span>Retirées (k↑)</span>
-                            <span>Insérées (k↓)</span>
+                        <div style={{ marginBottom: '15px' }}>
+                            <label>🎛️ Barres de Contrôle: {controlRods}%</label>
+                            <input type="range" min="0" max="100" value={controlRods}
+                                onChange={(e) => setControlRods(parseInt(e.target.value))}
+                                style={{ width: '100%' }} />
+                            <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '10px', color: '#64748b' }}>
+                                <span>Retirées (k↑)</span>
+                                <span>Insérées (k↓)</span>
+                            </div>
                         </div>
-                    </div>
 
-                    <div style={{
-                        background: isCritical ? 'rgba(239,68,68,0.3)' : isStable ? 'rgba(34,197,94,0.2)' : 'rgba(59,130,246,0.2)',
-                        padding: '12px',
-                        borderRadius: '8px',
-                        marginBottom: '15px',
-                        textAlign: 'center',
-                        border: `1px solid ${isCritical ? 'rgba(239,68,68,0.5)' : isStable ? 'rgba(34,197,94,0.5)' : 'rgba(59,130,246,0.5)'}`
-                    }}>
-                        <div style={{ fontSize: '12px', color: '#94a3b8' }}>Puissance</div>
-                        <div style={{ fontSize: '28px', fontWeight: 'bold', color: isCritical ? '#ef4444' : '#22c55e' }}>
-                            {power.toFixed(0)}%
-                        </div>
-                        <div style={{ fontSize: '11px', color: '#64748b' }}>
-                            k = {k.toFixed(2)} | {isCritical ? "⚠️ DANGER" : isStable ? "✓ Contrôlé" : "Sous-critique"}
-                        </div>
-                    </div>
-
-                    <button
-                        onClick={() => { setIsReacting(!isReacting); if (!isReacting) setNeutronCount(1); }}
-                        style={{
-                            width: '100%', padding: '10px',
-                            background: isReacting ? '#ef4444' : '#10b981',
-                            border: 'none', borderRadius: '8px', color: 'white', fontWeight: 'bold',
-                            cursor: 'pointer', marginBottom: '10px'
-                        }}
-                    >
-                        {isReacting ? '⏹ Arrêter réaction' : '▶ Démarrer réaction'}
-                    </button>
-
-                    <button onClick={challengeMode ? checkAnswer : startChallenge}
-                        style={{
-                            width: '100%', padding: '12px',
-                            background: challengeMode ? 'linear-gradient(135deg, #10b981, #059669)' : 'linear-gradient(135deg, #f97316, #ea580c)',
-                            border: 'none', borderRadius: '8px', color: 'white', fontWeight: 'bold', cursor: 'pointer'
+                        <div style={{
+                            background: isCritical ? 'rgba(239,68,68,0.3)' : isStable ? 'rgba(34,197,94,0.2)' : 'rgba(59,130,246,0.2)',
+                            padding: '12px',
+                            borderRadius: '8px',
+                            marginBottom: '15px',
+                            textAlign: 'center',
+                            border: `1px solid ${isCritical ? 'rgba(239,68,68,0.5)' : isStable ? 'rgba(34,197,94,0.5)' : 'rgba(59,130,246,0.5)'}`
                         }}>
-                        {challengeMode ? '✓ Valider puissance' : '🎮 Mode Défi Ingénieur'}
-                    </button>
-                </div>
-            </DraggableHtmlPanel>
+                            <div style={{ fontSize: '12px', color: '#94a3b8' }}>Puissance</div>
+                            <div style={{ fontSize: '28px', fontWeight: 'bold', color: isCritical ? '#ef4444' : '#22c55e' }}>
+                                {power.toFixed(0)}%
+                            </div>
+                            <div style={{ fontSize: '11px', color: '#64748b' }}>
+                                k = {k.toFixed(2)} | {isCritical ? "⚠️ DANGER" : isStable ? "✓ Contrôlé" : "Sous-critique"}
+                            </div>
+                        </div>
+
+                        <button
+                            onClick={() => { setIsReacting(!isReacting); if (!isReacting) setNeutronCount(1); }}
+                            style={{
+                                width: '100%', padding: '10px',
+                                background: isReacting ? '#ef4444' : '#10b981',
+                                border: 'none', borderRadius: '8px', color: 'white', fontWeight: 'bold',
+                                cursor: 'pointer', marginBottom: '10px'
+                            }}
+                        >
+                            {isReacting ? '⏹ Arrêter réaction' : '▶ Démarrer réaction'}
+                        </button>
+
+                        <button onClick={challengeMode ? checkAnswer : startChallenge}
+                            style={{
+                                width: '100%', padding: '12px',
+                                background: challengeMode ? 'linear-gradient(135deg, #10b981, #059669)' : 'linear-gradient(135deg, #f97316, #ea580c)',
+                                border: 'none', borderRadius: '8px', color: 'white', fontWeight: 'bold', cursor: 'pointer'
+                            }}>
+                            {challengeMode ? '✓ Valider puissance' : '🎮 Mode Défi Ingénieur'}
+                        </button>
+                    </div>
+                </DraggableHtmlPanel>
+            </Html>
 
             {showSuccess && <SuccessOverlay message="Réacteur contrôlé!" />}
             {showConfetti && <ConfettiExplosion />}

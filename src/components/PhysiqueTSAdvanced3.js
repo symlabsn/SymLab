@@ -8,32 +8,11 @@ import React, { useState, useRef, useEffect, useMemo, useCallback } from 'react'
 import { useFrame } from '@react-three/fiber';
 import { Html, Line, Text } from '@react-three/drei';
 import * as THREE from 'three';
-import { SuccessOverlay, ConfettiExplosion } from './PC4eSimulations';
+import { SuccessOverlay, ConfettiExplosion, ChallengeTimer } from './GamificationUtils';
 import DraggableHtmlPanel from './DraggableHtmlPanel';
 
 // Timer visuel
-function ChallengeTimer({ timeLeft, maxTime }) {
-    const percentage = (timeLeft / maxTime) * 100;
-    const color = percentage > 50 ? '#4ade80' : percentage > 25 ? '#fbbf24' : '#ef4444';
-
-    return (
-        <div style={{
-            width: '100%',
-            height: '8px',
-            background: 'rgba(255,255,255,0.2)',
-            borderRadius: '4px',
-            overflow: 'hidden',
-            marginBottom: '10px'
-        }}>
-            <div style={{
-                width: `${percentage}%`,
-                height: '100%',
-                background: color,
-                transition: 'width 1s linear, background 0.3s'
-            }} />
-        </div>
-    );
-}
+// (ChallengeTimer supprimé car importé de GamificationUtils)
 
 // ============================================================
 // P10. OSCILLATIONS LC/RLC - VERSION AVANCÉE
@@ -197,95 +176,97 @@ function OscillationsLCAdvanced() {
             />
 
             {/* Panneau de contrôle */}
-            <DraggableHtmlPanel title="📡 Oscillations LC/RLC" defaultPosition="top-right">
-                <div className="no-drag" style={{ padding: '15px', color: 'white', width: '300px' }}>
-                    {challengeMode && (
-                        <>
-                            <ChallengeTimer timeLeft={timeLeft} maxTime={60} />
-                            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '15px' }}>
-                                <span>🎯 Score: {score}</span>
-                                <span>🔥 Streak: {streak}</span>
-                            </div>
-                            {targetFreq && (
-                                <div style={{
-                                    background: 'rgba(139,92,246,0.2)',
-                                    padding: '10px',
-                                    borderRadius: '8px',
-                                    marginBottom: '15px',
-                                    border: '1px solid rgba(139,92,246,0.5)'
-                                }}>
-                                    <strong>📻 Mission Syntonisation:</strong><br />
-                                    f₀ = {targetFreq.freq} Hz (±{targetFreq.tolerance})<br />
-                                    <small style={{ color: '#94a3b8' }}>{targetFreq.hint}</small>
+            <Html transform={false}>
+                <DraggableHtmlPanel title="📡 Oscillations LC/RLC" defaultPosition="top-right">
+                    <div className="no-drag" style={{ padding: '15px', color: 'white', width: '300px' }}>
+                        {challengeMode && (
+                            <>
+                                <ChallengeTimer timeLeft={timeLeft} maxTime={60} />
+                                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '15px' }}>
+                                    <span>🎯 Score: {score}</span>
+                                    <span>🔥 Streak: {streak}</span>
                                 </div>
-                            )}
-                        </>
-                    )}
+                                {targetFreq && (
+                                    <div style={{
+                                        background: 'rgba(139,92,246,0.2)',
+                                        padding: '10px',
+                                        borderRadius: '8px',
+                                        marginBottom: '15px',
+                                        border: '1px solid rgba(139,92,246,0.5)'
+                                    }}>
+                                        <strong>📻 Mission Syntonisation:</strong><br />
+                                        f₀ = {targetFreq.freq} Hz (±{targetFreq.tolerance})<br />
+                                        <small style={{ color: '#94a3b8' }}>{targetFreq.hint}</small>
+                                    </div>
+                                )}
+                            </>
+                        )}
 
-                    <div style={{ marginBottom: '12px' }}>
-                        <label>L: {inductance.toFixed(3)} H</label>
-                        <input type="range" min="0.001" max="1" step="0.001" value={inductance}
-                            onChange={(e) => setInductance(parseFloat(e.target.value))} style={{ width: '100%' }} />
-                    </div>
-
-                    <div style={{ marginBottom: '12px' }}>
-                        <label>C: {capacitance} µF</label>
-                        <input type="range" min="1" max="1000" value={capacitance}
-                            onChange={(e) => setCapacitance(parseInt(e.target.value))} style={{ width: '100%' }} />
-                    </div>
-
-                    <div style={{ marginBottom: '12px' }}>
-                        <label>R: {resistance} Ω</label>
-                        <input type="range" min="0" max="100" value={resistance}
-                            onChange={(e) => setResistance(parseInt(e.target.value))} style={{ width: '100%' }} />
-                    </div>
-
-                    <div style={{
-                        background: 'rgba(139,92,246,0.2)',
-                        padding: '12px',
-                        borderRadius: '8px',
-                        marginBottom: '15px',
-                        textAlign: 'center'
-                    }}>
-                        <div style={{ fontSize: '12px', color: '#94a3b8' }}>Fréquence propre f₀</div>
-                        <div style={{ fontSize: '24px', fontWeight: 'bold', color: '#a855f7' }}>
-                            {frequency.toFixed(1)} Hz
+                        <div style={{ marginBottom: '12px' }}>
+                            <label>L: {inductance.toFixed(3)} H</label>
+                            <input type="range" min="0.001" max="1" step="0.001" value={inductance}
+                                onChange={(e) => setInductance(parseFloat(e.target.value))} style={{ width: '100%' }} />
                         </div>
-                        <div style={{ fontSize: '12px', color: '#94a3b8', marginTop: '5px' }}>
-                            T₀ = {periodMs.toFixed(2)} ms
-                        </div>
-                        <div style={{ fontSize: '11px', color: '#64748b' }}>
-                            f₀ = 1/(2π√LC) | {isUnderdamped ? "📈 Pseudo-périodique" : "📉 Apériodique"}
-                        </div>
-                    </div>
 
-                    <button
-                        onClick={() => { setIsOscillating(!isOscillating); setTime(0); }}
-                        style={{
-                            width: '100%',
-                            padding: '10px',
-                            background: isOscillating ? '#ef4444' : '#10b981',
-                            border: 'none',
+                        <div style={{ marginBottom: '12px' }}>
+                            <label>C: {capacitance} µF</label>
+                            <input type="range" min="1" max="1000" value={capacitance}
+                                onChange={(e) => setCapacitance(parseInt(e.target.value))} style={{ width: '100%' }} />
+                        </div>
+
+                        <div style={{ marginBottom: '12px' }}>
+                            <label>R: {resistance} Ω</label>
+                            <input type="range" min="0" max="100" value={resistance}
+                                onChange={(e) => setResistance(parseInt(e.target.value))} style={{ width: '100%' }} />
+                        </div>
+
+                        <div style={{
+                            background: 'rgba(139,92,246,0.2)',
+                            padding: '12px',
                             borderRadius: '8px',
-                            color: 'white',
-                            fontWeight: 'bold',
-                            cursor: 'pointer',
-                            marginBottom: '10px'
-                        }}
-                    >
-                        {isOscillating ? '⏹ Arrêter' : '▶ Démarrer oscillation'}
-                    </button>
-
-                    <button onClick={challengeMode ? checkAnswer : startChallenge}
-                        style={{
-                            width: '100%', padding: '12px',
-                            background: challengeMode ? 'linear-gradient(135deg, #10b981, #059669)' : 'linear-gradient(135deg, #8b5cf6, #6366f1)',
-                            border: 'none', borderRadius: '8px', color: 'white', fontWeight: 'bold', cursor: 'pointer'
+                            marginBottom: '15px',
+                            textAlign: 'center'
                         }}>
-                        {challengeMode ? '✓ Valider fréquence' : '🎮 Mode Défi Radio'}
-                    </button>
-                </div>
-            </DraggableHtmlPanel>
+                            <div style={{ fontSize: '12px', color: '#94a3b8' }}>Fréquence propre f₀</div>
+                            <div style={{ fontSize: '24px', fontWeight: 'bold', color: '#a855f7' }}>
+                                {frequency.toFixed(1)} Hz
+                            </div>
+                            <div style={{ fontSize: '12px', color: '#94a3b8', marginTop: '5px' }}>
+                                T₀ = {periodMs.toFixed(2)} ms
+                            </div>
+                            <div style={{ fontSize: '11px', color: '#64748b' }}>
+                                f₀ = 1/(2π√LC) | {isUnderdamped ? "📈 Pseudo-périodique" : "📉 Apériodique"}
+                            </div>
+                        </div>
+
+                        <button
+                            onClick={() => { setIsOscillating(!isOscillating); setTime(0); }}
+                            style={{
+                                width: '100%',
+                                padding: '10px',
+                                background: isOscillating ? '#ef4444' : '#10b981',
+                                border: 'none',
+                                borderRadius: '8px',
+                                color: 'white',
+                                fontWeight: 'bold',
+                                cursor: 'pointer',
+                                marginBottom: '10px'
+                            }}
+                        >
+                            {isOscillating ? '⏹ Arrêter' : '▶ Démarrer oscillation'}
+                        </button>
+
+                        <button onClick={challengeMode ? checkAnswer : startChallenge}
+                            style={{
+                                width: '100%', padding: '12px',
+                                background: challengeMode ? 'linear-gradient(135deg, #10b981, #059669)' : 'linear-gradient(135deg, #8b5cf6, #6366f1)',
+                                border: 'none', borderRadius: '8px', color: 'white', fontWeight: 'bold', cursor: 'pointer'
+                            }}>
+                            {challengeMode ? '✓ Valider fréquence' : '🎮 Mode Défi Radio'}
+                        </button>
+                    </div>
+                </DraggableHtmlPanel>
+            </Html>
 
             {showSuccess && <SuccessOverlay message="Fréquence trouvée!" />}
             {showConfetti && <ConfettiExplosion />}
@@ -426,111 +407,113 @@ function OscillationsMecaAdvanced() {
             )}
 
             {/* Panneau de contrôle */}
-            <DraggableHtmlPanel title="⏱️ Oscillations Mécaniques" defaultPosition="top-right">
-                <div className="no-drag" style={{ padding: '15px', color: 'white', width: '300px' }}>
-                    {challengeMode && (
-                        <>
-                            <ChallengeTimer timeLeft={timeLeft} maxTime={60} />
-                            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '15px' }}>
-                                <span>🎯 Score: {score}</span>
-                                <span>🔥 Streak: {streak}</span>
-                            </div>
-                            {targetPeriod && (
-                                <div style={{
-                                    background: 'rgba(16,185,129,0.2)',
-                                    padding: '10px',
-                                    borderRadius: '8px',
-                                    marginBottom: '15px',
-                                    border: '1px solid rgba(16,185,129,0.5)'
-                                }}>
-                                    <strong>🕰️ Mission Horlogerie:</strong><br />
-                                    T = {targetPeriod.period} s (±{targetPeriod.tolerance})<br />
-                                    <small style={{ color: '#94a3b8' }}>{targetPeriod.hint}</small>
+            <Html transform={false}>
+                <DraggableHtmlPanel title="⏱️ Oscillations Mécaniques" defaultPosition="top-right">
+                    <div className="no-drag" style={{ padding: '15px', color: 'white', width: '300px' }}>
+                        {challengeMode && (
+                            <>
+                                <ChallengeTimer timeLeft={timeLeft} maxTime={60} />
+                                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '15px' }}>
+                                    <span>🎯 Score: {score}</span>
+                                    <span>🔥 Streak: {streak}</span>
                                 </div>
-                            )}
-                        </>
-                    )}
+                                {targetPeriod && (
+                                    <div style={{
+                                        background: 'rgba(16,185,129,0.2)',
+                                        padding: '10px',
+                                        borderRadius: '8px',
+                                        marginBottom: '15px',
+                                        border: '1px solid rgba(16,185,129,0.5)'
+                                    }}>
+                                        <strong>🕰️ Mission Horlogerie:</strong><br />
+                                        T = {targetPeriod.period} s (±{targetPeriod.tolerance})<br />
+                                        <small style={{ color: '#94a3b8' }}>{targetPeriod.hint}</small>
+                                    </div>
+                                )}
+                            </>
+                        )}
 
-                    <div style={{ display: 'flex', gap: '10px', marginBottom: '15px' }}>
+                        <div style={{ display: 'flex', gap: '10px', marginBottom: '15px' }}>
+                            <button
+                                onClick={() => setMode('pendulum')}
+                                style={{
+                                    flex: 1, padding: '8px',
+                                    background: mode === 'pendulum' ? '#ef4444' : '#1e293b',
+                                    border: '1px solid #ef4444',
+                                    borderRadius: '6px', color: 'white', cursor: 'pointer'
+                                }}>
+                                🔴 Pendule
+                            </button>
+                            <button
+                                onClick={() => setMode('spring')}
+                                style={{
+                                    flex: 1, padding: '8px',
+                                    background: mode === 'spring' ? '#10b981' : '#1e293b',
+                                    border: '1px solid #10b981',
+                                    borderRadius: '6px', color: 'white', cursor: 'pointer'
+                                }}>
+                                🟢 Ressort
+                            </button>
+                        </div>
+
+                        {mode === 'pendulum' ? (
+                            <div style={{ marginBottom: '12px' }}>
+                                <label>Longueur L: {pendulumLength.toFixed(2)} m</label>
+                                <input type="range" min="0.1" max="3" step="0.01" value={pendulumLength}
+                                    onChange={(e) => setPendulumLength(parseFloat(e.target.value))} style={{ width: '100%' }} />
+                            </div>
+                        ) : (
+                            <>
+                                <div style={{ marginBottom: '12px' }}>
+                                    <label>Raideur k: {springK} N/m</label>
+                                    <input type="range" min="10" max="500" value={springK}
+                                        onChange={(e) => setSpringK(parseInt(e.target.value))} style={{ width: '100%' }} />
+                                </div>
+                                <div style={{ marginBottom: '12px' }}>
+                                    <label>Masse m: {mass.toFixed(1)} kg</label>
+                                    <input type="range" min="0.1" max="10" step="0.1" value={mass}
+                                        onChange={(e) => setMass(parseFloat(e.target.value))} style={{ width: '100%' }} />
+                                </div>
+                            </>
+                        )}
+
+                        <div style={{
+                            background: 'rgba(16,185,129,0.2)',
+                            padding: '12px',
+                            borderRadius: '8px',
+                            marginBottom: '15px',
+                            textAlign: 'center'
+                        }}>
+                            <div style={{ fontSize: '12px', color: '#94a3b8' }}>Période T₀</div>
+                            <div style={{ fontSize: '24px', fontWeight: 'bold', color: '#10b981' }}>
+                                {currentPeriod.toFixed(3)} s
+                            </div>
+                            <div style={{ fontSize: '11px', color: '#64748b' }}>
+                                {mode === 'pendulum' ? 'T = 2π√(L/g)' : 'T = 2π√(m/k)'}
+                            </div>
+                        </div>
+
                         <button
-                            onClick={() => setMode('pendulum')}
+                            onClick={() => { setIsOscillating(!isOscillating); setTime(0); }}
                             style={{
-                                flex: 1, padding: '8px',
-                                background: mode === 'pendulum' ? '#ef4444' : '#1e293b',
-                                border: '1px solid #ef4444',
-                                borderRadius: '6px', color: 'white', cursor: 'pointer'
+                                width: '100%', padding: '10px',
+                                background: isOscillating ? '#ef4444' : '#10b981',
+                                border: 'none', borderRadius: '8px', color: 'white', fontWeight: 'bold', cursor: 'pointer', marginBottom: '10px'
                             }}>
-                            🔴 Pendule
+                            {isOscillating ? '⏹ Arrêter' : '▶ Lancer oscillation'}
                         </button>
-                        <button
-                            onClick={() => setMode('spring')}
+
+                        <button onClick={challengeMode ? checkAnswer : startChallenge}
                             style={{
-                                flex: 1, padding: '8px',
-                                background: mode === 'spring' ? '#10b981' : '#1e293b',
-                                border: '1px solid #10b981',
-                                borderRadius: '6px', color: 'white', cursor: 'pointer'
+                                width: '100%', padding: '12px',
+                                background: challengeMode ? 'linear-gradient(135deg, #10b981, #059669)' : 'linear-gradient(135deg, #8b5cf6, #6366f1)',
+                                border: 'none', borderRadius: '8px', color: 'white', fontWeight: 'bold', cursor: 'pointer'
                             }}>
-                            🟢 Ressort
+                            {challengeMode ? '✓ Valider période' : '🎮 Mode Défi Horloger'}
                         </button>
                     </div>
-
-                    {mode === 'pendulum' ? (
-                        <div style={{ marginBottom: '12px' }}>
-                            <label>Longueur L: {pendulumLength.toFixed(2)} m</label>
-                            <input type="range" min="0.1" max="3" step="0.01" value={pendulumLength}
-                                onChange={(e) => setPendulumLength(parseFloat(e.target.value))} style={{ width: '100%' }} />
-                        </div>
-                    ) : (
-                        <>
-                            <div style={{ marginBottom: '12px' }}>
-                                <label>Raideur k: {springK} N/m</label>
-                                <input type="range" min="10" max="500" value={springK}
-                                    onChange={(e) => setSpringK(parseInt(e.target.value))} style={{ width: '100%' }} />
-                            </div>
-                            <div style={{ marginBottom: '12px' }}>
-                                <label>Masse m: {mass.toFixed(1)} kg</label>
-                                <input type="range" min="0.1" max="10" step="0.1" value={mass}
-                                    onChange={(e) => setMass(parseFloat(e.target.value))} style={{ width: '100%' }} />
-                            </div>
-                        </>
-                    )}
-
-                    <div style={{
-                        background: 'rgba(16,185,129,0.2)',
-                        padding: '12px',
-                        borderRadius: '8px',
-                        marginBottom: '15px',
-                        textAlign: 'center'
-                    }}>
-                        <div style={{ fontSize: '12px', color: '#94a3b8' }}>Période T₀</div>
-                        <div style={{ fontSize: '24px', fontWeight: 'bold', color: '#10b981' }}>
-                            {currentPeriod.toFixed(3)} s
-                        </div>
-                        <div style={{ fontSize: '11px', color: '#64748b' }}>
-                            {mode === 'pendulum' ? 'T = 2π√(L/g)' : 'T = 2π√(m/k)'}
-                        </div>
-                    </div>
-
-                    <button
-                        onClick={() => { setIsOscillating(!isOscillating); setTime(0); }}
-                        style={{
-                            width: '100%', padding: '10px',
-                            background: isOscillating ? '#ef4444' : '#10b981',
-                            border: 'none', borderRadius: '8px', color: 'white', fontWeight: 'bold', cursor: 'pointer', marginBottom: '10px'
-                        }}>
-                        {isOscillating ? '⏹ Arrêter' : '▶ Lancer oscillation'}
-                    </button>
-
-                    <button onClick={challengeMode ? checkAnswer : startChallenge}
-                        style={{
-                            width: '100%', padding: '12px',
-                            background: challengeMode ? 'linear-gradient(135deg, #10b981, #059669)' : 'linear-gradient(135deg, #8b5cf6, #6366f1)',
-                            border: 'none', borderRadius: '8px', color: 'white', fontWeight: 'bold', cursor: 'pointer'
-                        }}>
-                        {challengeMode ? '✓ Valider période' : '🎮 Mode Défi Horloger'}
-                    </button>
-                </div>
-            </DraggableHtmlPanel>
+                </DraggableHtmlPanel>
+            </Html>
 
             {showSuccess && <SuccessOverlay message="Horloge réglée!" />}
             {showConfetti && <ConfettiExplosion />}
@@ -690,82 +673,84 @@ function InterferencesAdvanced() {
             </group>
 
             {/* Panneau de contrôle */}
-            <DraggableHtmlPanel title="🌈 Interférences - Fentes de Young" defaultPosition="top-right">
-                <div className="no-drag" style={{ padding: '15px', color: 'white', width: '300px' }}>
-                    {challengeMode && (
-                        <>
-                            <ChallengeTimer timeLeft={timeLeft} maxTime={60} />
-                            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '15px' }}>
-                                <span>🎯 Score: {score}</span>
-                                <span>🔥 Streak: {streak}</span>
-                            </div>
-                            {targetInterfringe && (
-                                <div style={{
-                                    background: 'rgba(34,197,94,0.2)',
-                                    padding: '10px',
-                                    borderRadius: '8px',
-                                    marginBottom: '15px',
-                                    border: '1px solid rgba(34,197,94,0.5)'
-                                }}>
-                                    <strong>🔬 Mission Optique:</strong><br />
-                                    i = {targetInterfringe.interfringe} mm (±{targetInterfringe.tolerance})<br />
-                                    <small style={{ color: '#94a3b8' }}>{targetInterfringe.hint}</small>
+            <Html transform={false}>
+                <DraggableHtmlPanel title="🌈 Interférences - Fentes de Young" defaultPosition="top-right">
+                    <div className="no-drag" style={{ padding: '15px', color: 'white', width: '300px' }}>
+                        {challengeMode && (
+                            <>
+                                <ChallengeTimer timeLeft={timeLeft} maxTime={60} />
+                                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '15px' }}>
+                                    <span>🎯 Score: {score}</span>
+                                    <span>🔥 Streak: {streak}</span>
                                 </div>
-                            )}
-                        </>
-                    )}
+                                {targetInterfringe && (
+                                    <div style={{
+                                        background: 'rgba(34,197,94,0.2)',
+                                        padding: '10px',
+                                        borderRadius: '8px',
+                                        marginBottom: '15px',
+                                        border: '1px solid rgba(34,197,94,0.5)'
+                                    }}>
+                                        <strong>🔬 Mission Optique:</strong><br />
+                                        i = {targetInterfringe.interfringe} mm (±{targetInterfringe.tolerance})<br />
+                                        <small style={{ color: '#94a3b8' }}>{targetInterfringe.hint}</small>
+                                    </div>
+                                )}
+                            </>
+                        )}
 
-                    <div style={{ marginBottom: '12px' }}>
-                        <label>Longueur d'onde λ: {wavelength} nm</label>
-                        <input type="range" min="400" max="700" value={wavelength}
-                            onChange={(e) => setWavelength(parseInt(e.target.value))}
-                            style={{ width: '100%', accentColor: getColor(wavelength) }} />
+                        <div style={{ marginBottom: '12px' }}>
+                            <label>Longueur d'onde λ: {wavelength} nm</label>
+                            <input type="range" min="400" max="700" value={wavelength}
+                                onChange={(e) => setWavelength(parseInt(e.target.value))}
+                                style={{ width: '100%', accentColor: getColor(wavelength) }} />
+                            <div style={{
+                                height: '10px',
+                                borderRadius: '5px',
+                                background: 'linear-gradient(to right, #8b5cf6, #3b82f6, #22c55e, #eab308, #f97316, #ef4444)',
+                                marginTop: '5px'
+                            }} />
+                        </div>
+
+                        <div style={{ marginBottom: '12px' }}>
+                            <label>Écart fentes a: {slitSeparation.toFixed(2)} mm</label>
+                            <input type="range" min="0.1" max="2" step="0.01" value={slitSeparation}
+                                onChange={(e) => setSlitSeparation(parseFloat(e.target.value))} style={{ width: '100%' }} />
+                        </div>
+
+                        <div style={{ marginBottom: '12px' }}>
+                            <label>Distance écran D: {screenDistance.toFixed(1)} m</label>
+                            <input type="range" min="0.5" max="5" step="0.1" value={screenDistance}
+                                onChange={(e) => setScreenDistance(parseFloat(e.target.value))} style={{ width: '100%' }} />
+                        </div>
+
                         <div style={{
-                            height: '10px',
-                            borderRadius: '5px',
-                            background: 'linear-gradient(to right, #8b5cf6, #3b82f6, #22c55e, #eab308, #f97316, #ef4444)',
-                            marginTop: '5px'
-                        }} />
-                    </div>
-
-                    <div style={{ marginBottom: '12px' }}>
-                        <label>Écart fentes a: {slitSeparation.toFixed(2)} mm</label>
-                        <input type="range" min="0.1" max="2" step="0.01" value={slitSeparation}
-                            onChange={(e) => setSlitSeparation(parseFloat(e.target.value))} style={{ width: '100%' }} />
-                    </div>
-
-                    <div style={{ marginBottom: '12px' }}>
-                        <label>Distance écran D: {screenDistance.toFixed(1)} m</label>
-                        <input type="range" min="0.5" max="5" step="0.1" value={screenDistance}
-                            onChange={(e) => setScreenDistance(parseFloat(e.target.value))} style={{ width: '100%' }} />
-                    </div>
-
-                    <div style={{
-                        background: `rgba(${wavelength < 550 ? '59,130,246' : '239,68,68'},0.2)`,
-                        padding: '12px',
-                        borderRadius: '8px',
-                        marginBottom: '15px',
-                        textAlign: 'center'
-                    }}>
-                        <div style={{ fontSize: '12px', color: '#94a3b8' }}>Interfrange i</div>
-                        <div style={{ fontSize: '24px', fontWeight: 'bold', color: getColor(wavelength) }}>
-                            {interfringeMm.toFixed(2)} mm
-                        </div>
-                        <div style={{ fontSize: '11px', color: '#64748b' }}>
-                            i = λD/a
-                        </div>
-                    </div>
-
-                    <button onClick={challengeMode ? checkAnswer : startChallenge}
-                        style={{
-                            width: '100%', padding: '12px',
-                            background: challengeMode ? 'linear-gradient(135deg, #10b981, #059669)' : 'linear-gradient(135deg, #8b5cf6, #6366f1)',
-                            border: 'none', borderRadius: '8px', color: 'white', fontWeight: 'bold', cursor: 'pointer'
+                            background: `rgba(${wavelength < 550 ? '59,130,246' : '239,68,68'},0.2)`,
+                            padding: '12px',
+                            borderRadius: '8px',
+                            marginBottom: '15px',
+                            textAlign: 'center'
                         }}>
-                        {challengeMode ? '✓ Valider interfrange' : '🎮 Mode Défi Optique'}
-                    </button>
-                </div>
-            </DraggableHtmlPanel>
+                            <div style={{ fontSize: '12px', color: '#94a3b8' }}>Interfrange i</div>
+                            <div style={{ fontSize: '24px', fontWeight: 'bold', color: getColor(wavelength) }}>
+                                {interfringeMm.toFixed(2)} mm
+                            </div>
+                            <div style={{ fontSize: '11px', color: '#64748b' }}>
+                                i = λD/a
+                            </div>
+                        </div>
+
+                        <button onClick={challengeMode ? checkAnswer : startChallenge}
+                            style={{
+                                width: '100%', padding: '12px',
+                                background: challengeMode ? 'linear-gradient(135deg, #10b981, #059669)' : 'linear-gradient(135deg, #8b5cf6, #6366f1)',
+                                border: 'none', borderRadius: '8px', color: 'white', fontWeight: 'bold', cursor: 'pointer'
+                            }}>
+                            {challengeMode ? '✓ Valider interfrange' : '🎮 Mode Défi Optique'}
+                        </button>
+                    </div>
+                </DraggableHtmlPanel>
+            </Html>
 
             {showSuccess && <SuccessOverlay message="Mesure précise!" />}
             {showConfetti && <ConfettiExplosion />}

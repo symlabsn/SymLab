@@ -9,66 +9,11 @@ import { useFrame } from '@react-three/fiber';
 import { Html, Sphere, Box, Cylinder, Line, Text, Float, Cone, Ring } from '@react-three/drei';
 import * as THREE from 'three';
 import DraggableHtmlPanel from './DraggableHtmlPanel';
-import { SuccessOverlay, ConfettiExplosion } from './PC4eSimulations';
+import { SuccessOverlay, ConfettiExplosion, ChallengeTimer, ParticleTrail } from './GamificationUtils';
 
 // ============================================================
 // COMPOSANTS UTILITAIRES RÉUTILISABLES
 // ============================================================
-
-// Particules d'effet pour les succès
-function ParticleTrail({ active, color = '#FFD700', count = 30 }) {
-    const particles = useRef([]);
-
-    useFrame((state) => {
-        if (!active) return;
-        particles.current.forEach((p, i) => {
-            if (p) {
-                p.position.y += Math.sin(state.clock.elapsedTime * 2 + i) * 0.02;
-                p.rotation.z += 0.05;
-            }
-        });
-    });
-
-    if (!active) return null;
-
-    return (
-        <group>
-            {Array.from({ length: count }).map((_, i) => (
-                <Sphere
-                    key={i}
-                    ref={el => particles.current[i] = el}
-                    args={[0.05]}
-                    position={[
-                        (Math.random() - 0.5) * 6,
-                        (Math.random() - 0.5) * 4,
-                        (Math.random() - 0.5) * 2
-                    ]}
-                >
-                    <meshStandardMaterial color={color} emissive={color} emissiveIntensity={0.8} transparent opacity={0.7} />
-                </Sphere>
-            ))}
-        </group>
-    );
-}
-
-// Timer visuel
-function ChallengeTimer({ timeLeft, maxTime }) {
-    const progress = timeLeft / maxTime;
-    const color = progress > 0.5 ? '#4ADE80' : progress > 0.25 ? '#FBBF24' : '#EF4444';
-
-    return (
-        <div className="flex items-center gap-2 bg-black/40 rounded-lg px-3 py-1">
-            <div className="text-lg">⏱️</div>
-            <div className="w-24 h-2 bg-gray-700 rounded-full overflow-hidden">
-                <div
-                    className="h-full transition-all duration-300"
-                    style={{ width: `${progress * 100}%`, backgroundColor: color }}
-                />
-            </div>
-            <div className="font-mono text-sm" style={{ color }}>{timeLeft}s</div>
-        </div>
-    );
-}
 
 // ============================================================
 // P1. CINÉMATIQUE DU POINT - VERSION AVANCÉE
@@ -1192,8 +1137,8 @@ export function ProjectileMotionAdvanced() {
                                 onClick={launch}
                                 disabled={launched}
                                 className={`flex-1 py-3 rounded-lg font-bold text-lg transition ${launched
-                                        ? 'bg-gray-600 cursor-not-allowed'
-                                        : 'bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-400 hover:to-red-400'
+                                    ? 'bg-gray-600 cursor-not-allowed'
+                                    : 'bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-400 hover:to-red-400'
                                     }`}
                             >
                                 🚀 LANCER !
