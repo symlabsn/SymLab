@@ -8,7 +8,7 @@ import React, { useState, useRef, useEffect, useMemo, useCallback } from 'react'
 import { useFrame } from '@react-three/fiber';
 import { Html, Line, Text } from '@react-three/drei';
 import * as THREE from 'three';
-import { SuccessOverlay, ConfettiExplosion, ChallengeTimer } from './GamificationUtils';
+import { SuccessOverlay, ConfettiExplosion, ChallengeTimer, GradeBadge, XPBar, PhaseSelector, MissionObjective } from './GamificationUtils';
 import DraggableHtmlPanel from './DraggableHtmlPanel';
 
 // (ChallengeTimer supprimé car importé de GamificationUtils)
@@ -18,25 +18,24 @@ import DraggableHtmlPanel from './DraggableHtmlPanel';
 // Mission: Ingénieur Cellule Solaire - Optimiser la production
 // ============================================================
 function PhotoelectriqueAdvanced() {
+    // États Globaux
+    const [phase, setPhase] = useState('explore');
+    const [score, setScore] = useState(0);
+    const [level, setLevel] = useState(1);
+    const [showSuccess, setShowSuccess] = useState(false);
+    const [mission, setMission] = useState(null);
+    const [timeLeft, setTimeLeft] = useState(45);
+
+    // États Physiques
     const [wavelength, setWavelength] = useState(400);
     const [intensity, setIntensity] = useState(50);
     const [metalType, setMetalType] = useState('cesium');
     const [time, setTime] = useState(0);
-    const [challengeMode, setChallengeMode] = useState(false);
-    const [targetEnergy, setTargetEnergy] = useState(null);
-    const [score, setScore] = useState(0);
-    const [streak, setStreak] = useState(0);
-    const [timeLeft, setTimeLeft] = useState(60);
-    const [showSuccess, setShowSuccess] = useState(false);
-    const [showConfetti, setShowConfetti] = useState(false);
-    const [level, setLevel] = useState(1);
 
-    // Constantes
     const h = 6.626e-34;
     const c = 3e8;
     const eV = 1.602e-19;
 
-    // Travaux d'extraction (en eV)
     const metals = {
         cesium: { name: 'Césium', W: 1.9, color: '#ffd700' },
         sodium: { name: 'Sodium', W: 2.3, color: '#c0c0c0' },
@@ -46,71 +45,56 @@ function PhotoelectriqueAdvanced() {
 
     const W = metals[metalType].W;
     const wavelengthM = wavelength * 1e-9;
-    const photonEnergy = (h * c / wavelengthM) / eV; // en eV
+    const photonEnergy = (h * c / wavelengthM) / eV;
     const kineticEnergy = Math.max(0, photonEnergy - W);
     const isPhotoelectric = photonEnergy > W;
+    const lambdaSeuil = (h * c) / (W * eV) * 1e9;
 
-    // Longueur d'onde seuil
-    const lambdaSeuil = (h * c) / (W * eV) * 1e9; // en nm
-
-    // Animation des photons et électrons
-    const photonsRef = useRef([]);
-    const electronsRef = useRef([]);
-
-    useEffect(() => {
-        const interval = setInterval(() => setTime(t => t + 0.05), 50);
-        return () => clearInterval(interval);
-    }, []);
+    // Missions
+    const missions = useMemo(() => [
+        { id: 1, title: 'Cellule Domestique', objective: 'Générez des électrons à Ec = 0.50 eV (±0.1) pour une LED.', targetE: 0.5, tolerance: 0.1 },
+        { id: 2, title: 'Panneau Satellite', objective: 'Optimisez pour Ec = 1.20 eV (±0.15) en orbite.', targetE: 1.2, tolerance: 0.15 },
+        { id: 3, title: 'Capteur UV Industriel', objective: 'Atteignez Ec = 2.50 eV (±0.2) avec des UV.', targetE: 2.5, tolerance: 0.2 }
+    ], []);
 
     useEffect(() => {
-        if (challengeMode && timeLeft > 0) {
-            const timer = setInterval(() => setTimeLeft(t => t - 1), 1000);
-            return () => clearInterval(timer);
+        if (phase === 'mission' && !mission) {
+            const m = missions[Math.min(level - 1, missions.length - 1)];
+            setMission(m);
+            setTimeLeft(45);
         }
-    }, [challengeMode, timeLeft]);
+    }, [phase, level, mission, missions]);
 
-    const generateChallenge = useCallback(() => {
-        const targets = [
-            { energy: 0.5, tolerance: 0.1, hint: "Énergie cinétique faible" },
-            { energy: 1.0, tolerance: 0.15, hint: "Énergie modérée" },
-            { energy: 2.0, tolerance: 0.2, hint: "Électrons rapides" },
-            { energy: 3.0, tolerance: 0.3, hint: "Haute énergie cinétique" }
-        ];
-        setTargetEnergy(targets[Math.min(level - 1, targets.length - 1)]);
-    }, [level]);
+    useEffect(() => {
+        if (phase === 'mission' && timeLeft > 0 && !showSuccess) {
+            const timer = setTimeout(() => setTimeLeft(t => t - 1), 1000);
+            return () => clearTimeout(timer);
+        }
+    }, [timeLeft, phase, showSuccess]);
 
-    const startChallenge = () => {
-        setChallengeMode(true);
-        setTimeLeft(60);
-        setScore(0);
-        setStreak(0);
-        setLevel(1);
-        generateChallenge();
+    useEffect(() => {
+        if (phase === 'mission' && mission && !showSuccess) {
+            if (isPhotoelectric && Math.abs(kineticEnergy - mission.targetE) <= mission.tolerance) {
+                handleSuccess();
+            }
+        }
+    }, [kineticEnergy, isPhotoelectric, phase, mission, showSuccess]);
+
+    useFrame((state, delta) => {
+        setTime(t => t + delta);
+    });
+
+    const handleSuccess = () => {
+        setScore(s => s + 600);
+        setShowSuccess(true);
     };
 
-    const checkAnswer = () => {
-        if (!targetEnergy) return;
-
-        if (isPhotoelectric && Math.abs(kineticEnergy - targetEnergy.energy) <= targetEnergy.tolerance) {
-            const points = 100 + Math.floor(timeLeft / 10) * 10 + streak * 25;
-            setScore(s => s + points);
-            setStreak(s => s + 1);
-            setShowConfetti(true);
-            setShowSuccess(true);
-
-            setTimeout(() => {
-                setShowSuccess(false);
-                setShowConfetti(false);
-                setLevel(l => l + 1);
-                generateChallenge();
-                setTimeLeft(60);
-            }, 2000);
-        } else {
-            setStreak(0);
-        }
+    const nextMission = () => {
+        setShowSuccess(false);
+        setLevel(l => Math.min(l + 1, 3));
+        setMission(null);
     };
 
-    // Couleur selon longueur d'onde
     const getColor = (wl) => {
         if (wl < 450) return '#8b5cf6';
         if (wl < 495) return '#3b82f6';
@@ -122,156 +106,101 @@ function PhotoelectriqueAdvanced() {
 
     return (
         <group>
-            {/* Surface métallique */}
-            <mesh position={[0, -1, 0]} rotation={[-Math.PI / 2, 0, 0]}>
-                <boxGeometry args={[3, 2, 0.3]} />
-                <meshStandardMaterial color={metals[metalType].color} metalness={0.8} roughness={0.2} />
-            </mesh>
-            <Text position={[0, -1.5, 0]} fontSize={0.15} color="#ffffff">
-                {metals[metalType].name} (W = {W} eV)
-            </Text>
+            {/* Scène 3D */}
+            <group scale={1.2}>
+                <mesh position={[0, -1, 0]} rotation={[-Math.PI / 2, 0, 0]}>
+                    <boxGeometry args={[4, 3, 0.2]} />
+                    <meshStandardMaterial color={metals[metalType].color} metalness={0.8} roughness={0.2} />
+                </mesh>
 
-            {/* Source lumineuse */}
-            <mesh position={[-2, 2, 0]}>
-                <sphereGeometry args={[0.3, 16, 16]} />
-                <meshStandardMaterial
-                    color={getColor(wavelength)}
-                    emissive={getColor(wavelength)}
-                    emissiveIntensity={1}
-                />
-            </mesh>
+                <mesh position={[-2, 2.5, 0]}>
+                    <sphereGeometry args={[0.3, 16, 16]} />
+                    <meshStandardMaterial color={getColor(wavelength)} emissive={getColor(wavelength)} emissiveIntensity={2} />
+                </mesh>
 
-            {/* Photons arrivants */}
-            {Array.from({ length: Math.floor(intensity / 10) }).map((_, i) => {
-                const phase = (time * 2 + i * 0.3) % 3;
-                const x = -2 + phase * 0.8;
-                const y = 2 - phase * 1.2;
-                return phase < 2.5 ? (
-                    <mesh key={`photon-${i}`} position={[x, y, (i % 3) * 0.3 - 0.3]}>
-                        <sphereGeometry args={[0.08, 8, 8]} />
-                        <meshStandardMaterial
-                            color={getColor(wavelength)}
-                            emissive={getColor(wavelength)}
-                            emissiveIntensity={1}
-                        />
-                    </mesh>
-                ) : null;
-            })}
+                {/* Photons */}
+                {Array.from({ length: 5 }).map((_, i) => {
+                    const phaseMult = (time * 1.5 + i * 0.4) % 1;
+                    return (
+                        <mesh key={`p-${i}`} position={[-2 + phaseMult * 2, 2.5 - phaseMult * 3.5, 0]}>
+                            <sphereGeometry args={[0.05, 8, 8]} />
+                            <meshStandardMaterial color={getColor(wavelength)} emissive={getColor(wavelength)} emissiveIntensity={1} />
+                        </mesh>
+                    );
+                })}
 
-            {/* Électrons éjectés */}
-            {isPhotoelectric && Array.from({ length: Math.floor(intensity / 20) }).map((_, i) => {
-                const phase = (time * 3 + i * 0.5) % 2;
-                const x = (i % 3 - 1) * 0.5;
-                const y = -0.8 + phase * kineticEnergy * 0.8;
-                return (
-                    <mesh key={`electron-${i}`} position={[x, y, (i % 2) * 0.4 - 0.2]}>
-                        <sphereGeometry args={[0.06, 8, 8]} />
-                        <meshStandardMaterial
-                            color="#22d3ee"
-                            emissive="#22d3ee"
-                            emissiveIntensity={0.8}
-                        />
-                    </mesh>
-                );
-            })}
+                {/* Électrons */}
+                {isPhotoelectric && Array.from({ length: 5 }).map((_, i) => {
+                    const phaseMult = (time * 2 + i * 0.5) % 1;
+                    return (
+                        <mesh key={`e-${i}`} position={[phaseMult * kineticEnergy * 0.5, -0.8 + phaseMult * 2, 0]}>
+                            <sphereGeometry args={[0.04, 8, 8]} />
+                            <meshStandardMaterial color="#22d3ee" emissive="#22d3ee" emissiveIntensity={1} />
+                        </mesh>
+                    );
+                })}
+            </group>
 
-            {/* Indicateur d'effet */}
-            <Text position={[2, 0, 0]} fontSize={0.2} color={isPhotoelectric ? "#22c55e" : "#ef4444"}>
-                {isPhotoelectric ? "✓ Effet photo-\n  électrique" : "✗ Pas d'effet\n  (λ > λ₀)"}
-            </Text>
-
-            {/* Panneau de contrôle */}
+            {/* UI Holographique */}
             <Html transform={false}>
-                <DraggableHtmlPanel title="💡 Effet Photoélectrique" defaultPosition="top-right">
-                    <div className="no-drag" style={{ padding: '15px', color: 'white', width: '300px' }}>
-                        {challengeMode && (
-                            <>
-                                <ChallengeTimer timeLeft={timeLeft} maxTime={60} />
-                                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '15px' }}>
-                                    <span>🎯 Score: {score}</span>
-                                    <span>🔥 Streak: {streak}</span>
-                                </div>
-                                {targetEnergy && (
-                                    <div style={{
-                                        background: 'rgba(234,179,8,0.2)',
-                                        padding: '10px',
-                                        borderRadius: '8px',
-                                        marginBottom: '15px',
-                                        border: '1px solid rgba(234,179,8,0.5)'
-                                    }}>
-                                        <strong>🔋 Mission Cellule Solaire:</strong><br />
-                                        Ec = {targetEnergy.energy} eV (±{targetEnergy.tolerance})<br />
-                                        <small style={{ color: '#94a3b8' }}>{targetEnergy.hint}</small>
-                                    </div>
-                                )}
-                            </>
+                <DraggableHtmlPanel
+                    title="☀️ Photovoltaïque - Effet Einstein"
+                    showCloseButton={false}
+                    defaultPosition="bottom-center"
+                    className="w-[420px] border-yellow-500/30"
+                >
+                    <div className="text-white">
+                        <div className="flex justify-between items-center mb-4">
+                            <GradeBadge score={score} />
+                            {phase === 'mission' && <ChallengeTimer timeLeft={timeLeft} maxTime={45} />}
+                        </div>
+
+                        <XPBar current={score} nextLevel={2000} />
+
+                        <div className="h-[1px] bg-gradient-to-r from-transparent via-yellow-500/50 to-transparent my-4" />
+
+                        <PhaseSelector currentPhase={phase} onSelect={setPhase} />
+
+                        {phase === 'mission' && mission && (
+                            <MissionObjective objective={mission.objective} icon="🔋" />
                         )}
 
-                        <div style={{ marginBottom: '12px' }}>
-                            <label>Métal:</label>
-                            <select
-                                value={metalType}
-                                onChange={(e) => setMetalType(e.target.value)}
-                                style={{
-                                    width: '100%', padding: '8px', borderRadius: '6px',
-                                    background: '#1e293b', color: 'white', border: '1px solid #475569'
-                                }}
-                            >
-                                {Object.entries(metals).map(([key, val]) => (
-                                    <option key={key} value={key}>{val.name} (W = {val.W} eV)</option>
-                                ))}
-                            </select>
-                        </div>
-
-                        <div style={{ marginBottom: '12px' }}>
-                            <label>λ: {wavelength} nm</label>
-                            <input type="range" min="200" max="700" value={wavelength}
-                                onChange={(e) => setWavelength(parseInt(e.target.value))}
-                                style={{ width: '100%', accentColor: getColor(wavelength) }} />
-                            <div style={{
-                                height: '10px', borderRadius: '5px',
-                                background: 'linear-gradient(to right, #8b5cf6, #3b82f6, #22c55e, #eab308, #f97316, #ef4444)',
-                                marginTop: '5px'
-                            }} />
-                        </div>
-
-                        <div style={{ marginBottom: '12px' }}>
-                            <label>Intensité: {intensity}%</label>
-                            <input type="range" min="10" max="100" value={intensity}
-                                onChange={(e) => setIntensity(parseInt(e.target.value))} style={{ width: '100%' }} />
-                        </div>
-
-                        <div style={{
-                            background: isPhotoelectric ? 'rgba(34,197,94,0.2)' : 'rgba(239,68,68,0.2)',
-                            padding: '12px',
-                            borderRadius: '8px',
-                            marginBottom: '15px',
-                            textAlign: 'center',
-                            border: `1px solid ${isPhotoelectric ? 'rgba(34,197,94,0.5)' : 'rgba(239,68,68,0.5)'}`
-                        }}>
-                            <div style={{ fontSize: '12px', color: '#94a3b8' }}>Énergie photon: {photonEnergy.toFixed(2)} eV</div>
-                            <div style={{ fontSize: '20px', fontWeight: 'bold', color: isPhotoelectric ? '#22c55e' : '#ef4444' }}>
-                                Ec = {kineticEnergy.toFixed(2)} eV
+                        <div className="grid grid-cols-2 gap-4 mt-4">
+                            <div className="space-y-4">
+                                <div>
+                                    <label className="text-[10px] text-gray-400 block mb-1 uppercase tracking-wider font-bold">Métal Cible</label>
+                                    <select value={metalType} onChange={(e) => setMetalType(e.target.value)} className="w-full bg-gray-800 border border-gray-700 rounded p-1 text-[10px]">
+                                        {Object.entries(metals).map(([k, v]) => <option key={k} value={k}>{v.name} (W={v.W}eV)</option>)}
+                                    </select>
+                                </div>
+                                <div>
+                                    <label className="text-[10px] text-gray-400 block mb-1 uppercase tracking-wider font-bold">λ: {wavelength} nm</label>
+                                    <input type="range" min="200" max="800" value={wavelength} onChange={(e) => setWavelength(parseInt(e.target.value))} className="w-full h-1 bg-gray-700 accent-yellow-500 rounded-full" />
+                                </div>
                             </div>
-                            <div style={{ fontSize: '11px', color: '#64748b' }}>
-                                λ₀ = {lambdaSeuil.toFixed(0)} nm | Ec = hν - W
+
+                            <div className="bg-black/60 rounded-xl p-3 border border-yellow-500/20 flex flex-col justify-between shadow-inner">
+                                <div className="space-y-1">
+                                    <div className="text-[9px] text-yellow-500 font-mono tracking-tighter uppercase opacity-70 italic transform -skew-x-12 mb-1">QUANTUM_CELL_X1</div>
+                                    <div className="text-[10px] font-mono"><span className="text-yellow-400">ÉNERGIE Ec:</span> {kineticEnergy.toFixed(2)} eV</div>
+                                    <div className="text-[10px] font-mono"><span className="text-blue-400">SEUIL λ₀:</span> {lambdaSeuil.toFixed(0)} nm</div>
+                                    <div className={`text-[9px] mt-1 ${isPhotoelectric ? 'text-emerald-400' : 'text-red-400'}`}>
+                                        {isPhotoelectric ? "✓ ÉMISSION ACTIVE" : "✗ ÉNERGIE INSUFFISANTE"}
+                                    </div>
+                                </div>
                             </div>
                         </div>
-
-                        <button onClick={challengeMode ? checkAnswer : startChallenge}
-                            style={{
-                                width: '100%', padding: '12px',
-                                background: challengeMode ? 'linear-gradient(135deg, #10b981, #059669)' : 'linear-gradient(135deg, #eab308, #ca8a04)',
-                                border: 'none', borderRadius: '8px', color: 'white', fontWeight: 'bold', cursor: 'pointer'
-                            }}>
-                            {challengeMode ? '✓ Valider énergie' : '🎮 Mode Défi Solaire'}
-                        </button>
                     </div>
                 </DraggableHtmlPanel>
             </Html>
 
-            {showSuccess && <SuccessOverlay message="Énergie optimale!" />}
-            {showConfetti && <ConfettiExplosion />}
+            <SuccessOverlay
+                show={showSuccess}
+                message={`Courant établi ! Mission "${mission?.title}" réussie.`}
+                points={600}
+                onNext={nextMission}
+            />
+            <ConfettiExplosion active={showSuccess} />
         </group>
     );
 }
@@ -281,25 +210,24 @@ function PhotoelectriqueAdvanced() {
 // Mission: Spectroscopiste - Identifier les raies spectrales
 // ============================================================
 function NiveauxEnergieAdvanced() {
+    // États Globaux
+    const [phase, setPhase] = useState('explore');
+    const [score, setScore] = useState(0);
+    const [level, setLevel] = useState(1);
+    const [showSuccess, setShowSuccess] = useState(false);
+    const [mission, setMission] = useState(null);
+    const [timeLeft, setTimeLeft] = useState(45);
+
+    // États Physiques
     const [currentLevel, setCurrentLevel] = useState(1);
     const [selectedTransition, setSelectedTransition] = useState(null);
     const [showPhoton, setShowPhoton] = useState(false);
     const [photonPhase, setPhotonPhase] = useState(0);
-    const [challengeMode, setChallengeMode] = useState(false);
-    const [targetWavelength, setTargetWavelength] = useState(null);
-    const [score, setScore] = useState(0);
-    const [streak, setStreak] = useState(0);
-    const [timeLeft, setTimeLeft] = useState(60);
-    const [showSuccess, setShowSuccess] = useState(false);
-    const [showConfetti, setShowConfetti] = useState(false);
-    const [level, setLevel] = useState(1);
 
-    // Constantes
     const h = 6.626e-34;
     const c = 3e8;
     const eV = 1.602e-19;
 
-    // Niveaux d'énergie de l'hydrogène (en eV)
     const energyLevels = [
         { n: 1, E: -13.6, y: -2 },
         { n: 2, E: -3.4, y: -0.5 },
@@ -309,258 +237,201 @@ function NiveauxEnergieAdvanced() {
         { n: 6, E: -0.38, y: 2.0 }
     ];
 
-    // Transitions possibles (série visible - Balmer)
     const transitions = [
-        { from: 3, to: 2, name: "Hα (rouge)" },
-        { from: 4, to: 2, name: "Hβ (cyan)" },
-        { from: 5, to: 2, name: "Hγ (bleu)" },
-        { from: 6, to: 2, name: "Hδ (violet)" }
+        { from: 3, to: 2, name: "Hα (rouge)", targetWl: 656 },
+        { from: 4, to: 2, name: "Hβ (cyan)", targetWl: 486 },
+        { from: 5, to: 2, name: "Hγ (bleu)", targetWl: 434 },
+        { from: 6, to: 2, name: "Hδ (violet)", targetWl: 410 }
     ];
 
-    // Calcul de la longueur d'onde pour une transition
     const getTransitionWavelength = (from, to) => {
         const E1 = energyLevels.find(l => l.n === from).E;
         const E2 = energyLevels.find(l => l.n === to).E;
         const deltaE = Math.abs(E1 - E2) * eV;
-        const wavelength = (h * c / deltaE) * 1e9;
-        return wavelength;
+        return (h * c / deltaE) * 1e9;
     };
 
     const getColorFromWavelength = (wl) => {
-        if (wl > 620) return '#ef4444'; // Rouge
-        if (wl > 590) return '#f97316'; // Orange
-        if (wl > 570) return '#eab308'; // Jaune
-        if (wl > 495) return '#22c55e'; // Vert
-        if (wl > 450) return '#22d3ee'; // Cyan
-        return '#8b5cf6'; // Violet
+        if (wl > 620) return '#ef4444';
+        if (wl > 590) return '#f97316';
+        if (wl > 570) return '#eab308';
+        if (wl > 495) return '#22c55e';
+        if (wl > 450) return '#22d3ee';
+        return '#8b5cf6';
     };
 
+    // Missions
+    const missions = useMemo(() => [
+        { id: 1, title: 'Raie de Balmer Rouge', objective: 'Identifiez la transition générant λ = 656 nm (Hα).', targetWl: 656, tolerance: 10 },
+        { id: 2, title: 'Spectre Cyan', objective: 'Trouvez la raie Hβ correspondant à λ = 486 nm.', targetWl: 486, tolerance: 10 },
+        { id: 3, title: 'Ultraviolet Proche', objective: 'Identifiez la raie Hδ à λ = 410 nm.', targetWl: 410, tolerance: 10 }
+    ], []);
+
     useEffect(() => {
+        if (phase === 'mission' && !mission) {
+            const m = missions[Math.min(level - 1, missions.length - 1)];
+            setMission(m);
+            setTimeLeft(45);
+        }
+    }, [phase, level, mission, missions]);
+
+    useEffect(() => {
+        if (phase === 'mission' && timeLeft > 0 && !showSuccess) {
+            const timer = setTimeout(() => setTimeLeft(t => t - 1), 1000);
+            return () => clearTimeout(timer);
+        }
+    }, [timeLeft, phase, showSuccess]);
+
+    useEffect(() => {
+        if (phase === 'mission' && selectedTransition && !showSuccess) {
+            const actualWl = getTransitionWavelength(selectedTransition.from, selectedTransition.to);
+            if (Math.abs(actualWl - mission.targetWl) <= mission.tolerance) {
+                handleSuccess();
+            }
+        }
+    }, [selectedTransition, phase, mission, showSuccess]);
+
+    useFrame((state, delta) => {
         if (showPhoton) {
-            const interval = setInterval(() => {
-                setPhotonPhase(p => {
-                    if (p >= 1) {
-                        setShowPhoton(false);
-                        return 0;
-                    }
-                    return p + 0.05;
-                });
-            }, 50);
-            return () => clearInterval(interval);
+            setPhotonPhase(p => {
+                if (p >= 1) {
+                    setShowPhoton(false);
+                    return 0;
+                }
+                return p + delta * 2;
+            });
         }
-    }, [showPhoton]);
-
-    useEffect(() => {
-        if (challengeMode && timeLeft > 0) {
-            const timer = setInterval(() => setTimeLeft(t => t - 1), 1000);
-            return () => clearInterval(timer);
-        }
-    }, [challengeMode, timeLeft]);
-
-    const generateChallenge = useCallback(() => {
-        const targets = [
-            { wavelength: 656, tolerance: 10, hint: "Raie Hα - Rouge vif" },
-            { wavelength: 486, tolerance: 8, hint: "Raie Hβ - Cyan" },
-            { wavelength: 434, tolerance: 8, hint: "Raie Hγ - Bleu" },
-            { wavelength: 410, tolerance: 5, hint: "Raie Hδ - Violet" }
-        ];
-        setTargetWavelength(targets[Math.min(level - 1, targets.length - 1)]);
-    }, [level]);
-
-    const startChallenge = () => {
-        setChallengeMode(true);
-        setTimeLeft(60);
-        setScore(0);
-        setStreak(0);
-        setLevel(1);
-        generateChallenge();
-    };
+    });
 
     const executeTransition = (trans) => {
         setSelectedTransition(trans);
         setCurrentLevel(trans.from);
         setShowPhoton(true);
         setPhotonPhase(0);
-
-        setTimeout(() => {
-            setCurrentLevel(trans.to);
-        }, 500);
+        setTimeout(() => setCurrentLevel(trans.to), 300);
     };
 
-    const checkAnswer = () => {
-        if (!targetWavelength || !selectedTransition) return;
+    const handleSuccess = () => {
+        setScore(s => s + 650);
+        setShowSuccess(true);
+    };
 
-        const actualWl = getTransitionWavelength(selectedTransition.from, selectedTransition.to);
-        if (Math.abs(actualWl - targetWavelength.wavelength) <= targetWavelength.tolerance) {
-            const points = 100 + Math.floor(timeLeft / 10) * 10 + streak * 25;
-            setScore(s => s + points);
-            setStreak(s => s + 1);
-            setShowConfetti(true);
-            setShowSuccess(true);
-
-            setTimeout(() => {
-                setShowSuccess(false);
-                setShowConfetti(false);
-                setLevel(l => l + 1);
-                generateChallenge();
-                setTimeLeft(60);
-                setSelectedTransition(null);
-            }, 2000);
-        } else {
-            setStreak(0);
-        }
+    const nextMission = () => {
+        setShowSuccess(false);
+        setLevel(l => Math.min(l + 1, 3));
+        setMission(null);
+        setSelectedTransition(null);
     };
 
     return (
         <group>
-            {/* Diagramme des niveaux */}
-            {energyLevels.map((lvl, i) => (
-                <group key={lvl.n} position={[0, lvl.y, 0]}>
-                    {/* Ligne du niveau */}
-                    <Line
-                        points={[[-2, 0, 0], [2, 0, 0]]}
-                        color={currentLevel === lvl.n ? '#22d3ee' : '#64748b'}
-                        lineWidth={currentLevel === lvl.n ? 3 : 1}
-                    />
-                    {/* Label */}
-                    <Text position={[-2.5, 0, 0]} fontSize={0.15} color="#ffffff">
-                        n={lvl.n}
-                    </Text>
-                    <Text position={[2.5, 0, 0]} fontSize={0.12} color="#94a3b8">
-                        E={lvl.E} eV
-                    </Text>
-                </group>
-            ))}
+            {/* Scène 3D */}
+            <group scale={1.2}>
+                {energyLevels.map((lvl) => (
+                    <group key={lvl.n} position={[0, lvl.y, 0]}>
+                        <Line points={[[-2, 0, 0], [2, 0, 0]]} color={currentLevel === lvl.n ? '#22d3ee' : '#475569'} lineWidth={currentLevel === lvl.n ? 3 : 1} />
+                        <Text position={[-2.4, 0, 0]} fontSize={0.12} color="white">n={lvl.n}</Text>
+                        <Text position={[2.4, 0, 0]} fontSize={0.1} color="#94a3b8">{lvl.E} eV</Text>
+                    </group>
+                ))}
 
-            {/* Électron */}
-            <mesh position={[0, energyLevels.find(l => l.n === currentLevel)?.y || 0, 0.2]}>
-                <sphereGeometry args={[0.15, 16, 16]} />
-                <meshStandardMaterial color="#22d3ee" emissive="#22d3ee" emissiveIntensity={0.8} />
-            </mesh>
-
-            {/* Photon émis */}
-            {showPhoton && selectedTransition && (() => {
-                const wl = getTransitionWavelength(selectedTransition.from, selectedTransition.to);
-                const color = getColorFromWavelength(wl);
-                const fromY = energyLevels.find(l => l.n === selectedTransition.from).y;
-                const toY = energyLevels.find(l => l.n === selectedTransition.to).y;
-                const x = 0.5 + photonPhase * 2;
-                const y = fromY + (toY - fromY) * photonPhase;
-                return (
-                    <mesh position={[x, y, 0]}>
-                        <sphereGeometry args={[0.1, 8, 8]} />
-                        <meshStandardMaterial color={color} emissive={color} emissiveIntensity={1} />
-                    </mesh>
-                );
-            })()}
-
-            {/* Spectre */}
-            <group position={[0, -3, 0]}>
-                <Text position={[0, 0.3, 0]} fontSize={0.15} color="white">Spectre de l'Hydrogène</Text>
-                <mesh>
-                    <boxGeometry args={[4, 0.3, 0.1]} />
-                    <meshStandardMaterial color="#0f172a" />
+                <mesh position={[0, energyLevels.find(l => l.n === currentLevel)?.y || 0, 0.1]}>
+                    <sphereGeometry args={[0.12, 16, 16]} />
+                    <meshStandardMaterial color="#22d3ee" emissive="#22d3ee" emissiveIntensity={1} />
                 </mesh>
-                {transitions.map((trans, i) => {
-                    const wl = getTransitionWavelength(trans.from, trans.to);
+
+                {showPhoton && selectedTransition && (() => {
+                    const wl = getTransitionWavelength(selectedTransition.from, selectedTransition.to);
                     const color = getColorFromWavelength(wl);
-                    const x = ((wl - 400) / 300) * 3.5 - 1.75;
+                    const fromY = energyLevels.find(l => l.n === selectedTransition.from).y;
+                    const toY = energyLevels.find(l => l.n === selectedTransition.to).y;
                     return (
-                        <mesh key={i} position={[x, 0, 0.1]}>
-                            <boxGeometry args={[0.05, 0.25, 0.02]} />
-                            <meshStandardMaterial color={color} emissive={color} emissiveIntensity={1} />
+                        <mesh position={[0.5 + photonPhase * 2, fromY + (toY - fromY) * photonPhase, 0]}>
+                            <sphereGeometry args={[0.08, 8, 8]} />
+                            <meshStandardMaterial color={color} emissive={color} emissiveIntensity={2} />
                         </mesh>
                     );
-                })}
+                })()}
+
+                {/* Spectre visible */}
+                <group position={[0, -3.2, 0]}>
+                    <mesh><boxGeometry args={[4, 0.4, 0.1]} /><meshStandardMaterial color="#020617" /></mesh>
+                    {transitions.map((t, i) => {
+                        const wl = getTransitionWavelength(t.from, t.to);
+                        return (
+                            <mesh key={i} position={[((wl - 400) / 300) * 3.5 - 1.75, 0, 0.1]}>
+                                <boxGeometry args={[0.04, 0.3, 0.02]} />
+                                <meshStandardMaterial color={getColorFromWavelength(wl)} emissive={getColorFromWavelength(wl)} emissiveIntensity={1} />
+                            </mesh>
+                        );
+                    })}
+                </group>
             </group>
 
-            {/* Panneau de contrôle */}
+            {/* UI Holographique */}
             <Html transform={false}>
-                <DraggableHtmlPanel title="🌈 Niveaux d'Énergie" defaultPosition="top-right">
-                    <div className="no-drag" style={{ padding: '15px', color: 'white', width: '300px' }}>
-                        {challengeMode && (
-                            <>
-                                <ChallengeTimer timeLeft={timeLeft} maxTime={60} />
-                                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '15px' }}>
-                                    <span>🎯 Score: {score}</span>
-                                    <span>🔥 Streak: {streak}</span>
-                                </div>
-                                {targetWavelength && (
-                                    <div style={{
-                                        background: 'rgba(139,92,246,0.2)',
-                                        padding: '10px',
-                                        borderRadius: '8px',
-                                        marginBottom: '15px',
-                                        border: '1px solid rgba(139,92,246,0.5)'
-                                    }}>
-                                        <strong>🔬 Mission Spectroscopie:</strong><br />
-                                        λ = {targetWavelength.wavelength} nm (±{targetWavelength.tolerance})<br />
-                                        <small style={{ color: '#94a3b8' }}>{targetWavelength.hint}</small>
-                                    </div>
-                                )}
-                            </>
-                        )}
-
-                        <div style={{ marginBottom: '15px' }}>
-                            <label style={{ fontSize: '12px', color: '#94a3b8' }}>Transitions (Série de Balmer):</label>
-                            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px', marginTop: '8px' }}>
-                                {transitions.map((trans, i) => {
-                                    const wl = getTransitionWavelength(trans.from, trans.to);
-                                    const color = getColorFromWavelength(wl);
-                                    return (
-                                        <button
-                                            key={i}
-                                            onClick={() => executeTransition(trans)}
-                                            style={{
-                                                padding: '8px',
-                                                background: selectedTransition === trans ? color : '#1e293b',
-                                                border: `2px solid ${color}`,
-                                                borderRadius: '6px',
-                                                color: 'white',
-                                                cursor: 'pointer',
-                                                fontSize: '11px'
-                                            }}
-                                        >
-                                            n={trans.from}→{trans.to}<br />
-                                            <span style={{ fontSize: '10px', color: '#94a3b8' }}>{Math.round(wl)} nm</span>
-                                        </button>
-                                    );
-                                })}
-                            </div>
+                <DraggableHtmlPanel
+                    title="🌈 Spectroscopie Atomique"
+                    showCloseButton={false}
+                    defaultPosition="bottom-center"
+                    className="w-[420px] border-indigo-500/30"
+                >
+                    <div className="text-white">
+                        <div className="flex justify-between items-center mb-4">
+                            <GradeBadge score={score} />
+                            {phase === 'mission' && <ChallengeTimer timeLeft={timeLeft} maxTime={45} />}
                         </div>
 
-                        {selectedTransition && (
-                            <div style={{
-                                background: 'rgba(34,211,238,0.2)',
-                                padding: '10px',
-                                borderRadius: '8px',
-                                marginBottom: '15px',
-                                textAlign: 'center'
-                            }}>
-                                <div style={{ fontSize: '12px', color: '#94a3b8' }}>Transition sélectionnée</div>
-                                <div style={{ fontSize: '18px', fontWeight: 'bold', color: '#22d3ee' }}>
-                                    {selectedTransition.name}
-                                </div>
-                                <div style={{ fontSize: '14px', color: getColorFromWavelength(getTransitionWavelength(selectedTransition.from, selectedTransition.to)) }}>
-                                    λ = {getTransitionWavelength(selectedTransition.from, selectedTransition.to).toFixed(1)} nm
-                                </div>
-                            </div>
+                        <XPBar current={score} nextLevel={2500} />
+
+                        <div className="h-[1px] bg-gradient-to-r from-transparent via-indigo-500/50 to-transparent my-4" />
+
+                        <PhaseSelector currentPhase={phase} onSelect={setPhase} />
+
+                        {phase === 'mission' && mission && (
+                            <MissionObjective objective={mission.objective} icon="🔬" />
                         )}
 
-                        <button onClick={challengeMode ? checkAnswer : startChallenge}
-                            style={{
-                                width: '100%', padding: '12px',
-                                background: challengeMode ? 'linear-gradient(135deg, #10b981, #059669)' : 'linear-gradient(135deg, #8b5cf6, #6366f1)',
-                                border: 'none', borderRadius: '8px', color: 'white', fontWeight: 'bold', cursor: 'pointer'
-                            }}>
-                            {challengeMode ? '✓ Identifier la raie' : '🎮 Mode Défi Spectroscopie'}
-                        </button>
+                        <div className="grid grid-cols-2 gap-4 mt-4">
+                            <div className="grid grid-cols-2 gap-2">
+                                {transitions.map((t, i) => (
+                                    <button
+                                        key={i}
+                                        onClick={() => executeTransition(t)}
+                                        style={{ borderLeft: `3px solid ${getColorFromWavelength(t.targetWl)}` }}
+                                        className={`p-2 rounded bg-gray-800/50 hover:bg-gray-700 transition-all text-left group`}
+                                    >
+                                        <div className="text-[9px] font-bold text-gray-400">n={t.from} → n={t.to}</div>
+                                        <div className="text-[10px] text-white"> Balmer-{i + 1}</div>
+                                    </button>
+                                ))}
+                            </div>
+
+                            <div className="bg-black/60 rounded-xl p-3 border border-indigo-500/20 flex flex-col justify-between shadow-inner">
+                                <div className="space-y-1">
+                                    <div className="text-[9px] text-indigo-500 font-mono tracking-tighter uppercase opacity-70 italic transform -skew-x-12 mb-1">SPECTRA_SCANNR_V5</div>
+                                    {selectedTransition ? (
+                                        <>
+                                            <div className="text-[10px] font-mono"><span className="text-indigo-400">λ:</span> {getTransitionWavelength(selectedTransition.from, selectedTransition.to).toFixed(1)} nm</div>
+                                            <div className="text-[10px] font-mono"><span className="text-blue-400">ΔE:</span> {(Math.abs(energyLevels.find(l => l.n === selectedTransition.from).E - energyLevels.find(l => l.n === selectedTransition.to).E)).toFixed(2)} eV</div>
+                                        </>
+                                    ) : (
+                                        <div className="text-[9px] text-gray-500 animate-pulse italic">ATTENTE_TRANSITION...</div>
+                                    )}
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </DraggableHtmlPanel>
             </Html>
 
-            {showSuccess && <SuccessOverlay message="Raie identifiée!" />}
-            {showConfetti && <ConfettiExplosion />}
+            <SuccessOverlay
+                show={showSuccess}
+                message={`Raie identifiée ! Mission "${mission?.title}" réussie.`}
+                points={650}
+                onNext={nextMission}
+            />
+            <ConfettiExplosion active={showSuccess} />
         </group>
     );
 }
@@ -570,240 +441,176 @@ function NiveauxEnergieAdvanced() {
 // Mission: Ingénieur Nucléaire - Contrôler la réaction
 // ============================================================
 function NucleaireAdvanced() {
-    const [reactionType, setReactionType] = useState('fission');
+    // États Globaux
+    const [phase, setPhase] = useState('explore');
+    const [score, setScore] = useState(0);
+    const [level, setLevel] = useState(1);
+    const [showSuccess, setShowSuccess] = useState(false);
+    const [mission, setMission] = useState(null);
+    const [timeLeft, setTimeLeft] = useState(45);
+
+    // États Physiques
     const [controlRods, setControlRods] = useState(50);
     const [neutronCount, setNeutronCount] = useState(1);
     const [time, setTime] = useState(0);
     const [isReacting, setIsReacting] = useState(false);
     const [chainReaction, setChainReaction] = useState([]);
-    const [challengeMode, setChallengeMode] = useState(false);
-    const [targetPower, setTargetPower] = useState(null);
-    const [score, setScore] = useState(0);
-    const [streak, setStreak] = useState(0);
-    const [timeLeft, setTimeLeft] = useState(60);
-    const [showSuccess, setShowSuccess] = useState(false);
-    const [showConfetti, setShowConfetti] = useState(false);
-    const [level, setLevel] = useState(1);
 
-    // Simulation de la réaction
-    const k = (100 - controlRods) / 50; // Facteur de multiplication
-    const power = Math.min(100, neutronCount * k * 10);
-    const isCritical = k > 1 && controlRods < 60;
-    const isStable = k >= 0.8 && k <= 1.2;
+    const k = (120 - controlRods) / 60; // Facteur de multiplication k
+    const power = Math.min(100, neutronCount * k * 8);
+    const isCritical = k > 1.1 && controlRods < 40;
+    const isStable = k >= 0.9 && k <= 1.1;
+
+    // Missions
+    const missions = useMemo(() => [
+        { id: 1, title: 'Mode Veille', objective: 'Maintenez une puissance P = 20% (±5%) pour le réseau urbain.', targetP: 20, tolerance: 5 },
+        { id: 2, title: 'Pic de Consommation', objective: 'Stabilisez à P = 75% (±5%) pendant la tempête.', targetP: 75, tolerance: 5 },
+        { id: 3, title: 'Test de Criticité', objective: 'Atteignez P = 95% (±3%) sans fusion du cœur.', targetP: 95, tolerance: 3 }
+    ], []);
 
     useEffect(() => {
+        if (phase === 'mission' && !mission) {
+            const m = missions[Math.min(level - 1, missions.length - 1)];
+            setMission(m);
+            setTimeLeft(45);
+        }
+    }, [phase, level, mission, missions]);
+
+    useEffect(() => {
+        if (phase === 'mission' && timeLeft > 0 && !showSuccess) {
+            const timer = setTimeout(() => setTimeLeft(t => t - 1), 1000);
+            return () => clearTimeout(timer);
+        }
+    }, [timeLeft, phase, showSuccess]);
+
+    useEffect(() => {
+        if (phase === 'mission' && mission && !showSuccess) {
+            if (isReacting && Math.abs(power - mission.targetP) <= mission.tolerance) {
+                handleSuccess();
+            }
+        }
+    }, [power, isReacting, phase, mission, showSuccess]);
+
+    useFrame((state, delta) => {
         if (isReacting) {
-            const interval = setInterval(() => {
-                setTime(t => t + 0.1);
-                setNeutronCount(n => {
-                    const newN = n * k;
-                    return Math.min(100, Math.max(0.1, newN));
-                });
+            setTime(t => t + delta);
+            setNeutronCount(n => Math.min(100, Math.max(0.1, n * (1 + (k - 1) * delta * 2))));
 
-                // Ajouter des particules à la réaction en chaîne
-                if (Math.random() < k * 0.3) {
-                    setChainReaction(prev => [
-                        ...prev.slice(-20),
-                        {
-                            id: Date.now(),
-                            x: (Math.random() - 0.5) * 2,
-                            y: (Math.random() - 0.5) * 2,
-                            z: (Math.random() - 0.5) * 2
-                        }
-                    ]);
-                }
-            }, 100);
-            return () => clearInterval(interval);
+            if (Math.random() < k * 0.2) {
+                setChainReaction(prev => [...prev.slice(-15), {
+                    id: Date.now() + Math.random(),
+                    x: (Math.random() - 0.5) * 2.5,
+                    y: (Math.random() - 0.5) * 2.5,
+                    z: (Math.random() - 0.5) * 2.5
+                }]);
+            }
         }
-    }, [isReacting, k]);
+    });
 
-    useEffect(() => {
-        if (challengeMode && timeLeft > 0) {
-            const timer = setInterval(() => setTimeLeft(t => t - 1), 1000);
-            return () => clearInterval(timer);
-        }
-    }, [challengeMode, timeLeft]);
-
-    const generateChallenge = useCallback(() => {
-        const targets = [
-            { power: 50, tolerance: 10, hint: "Puissance modérée" },
-            { power: 70, tolerance: 8, hint: "Haute puissance" },
-            { power: 30, tolerance: 8, hint: "Puissance réduite" },
-            { power: 80, tolerance: 5, hint: "Puissance maximale stable" }
-        ];
-        setTargetPower(targets[Math.min(level - 1, targets.length - 1)]);
-    }, [level]);
-
-    const startChallenge = () => {
-        setChallengeMode(true);
-        setTimeLeft(60);
-        setScore(0);
-        setStreak(0);
-        setLevel(1);
-        setIsReacting(true);
-        setNeutronCount(1);
-        generateChallenge();
+    const handleSuccess = () => {
+        setScore(s => s + 700);
+        setShowSuccess(true);
     };
 
-    const checkAnswer = () => {
-        if (!targetPower) return;
-
-        if (Math.abs(power - targetPower.power) <= targetPower.tolerance && isStable) {
-            const points = 100 + Math.floor(timeLeft / 10) * 10 + streak * 25;
-            setScore(s => s + points);
-            setStreak(s => s + 1);
-            setShowConfetti(true);
-            setShowSuccess(true);
-
-            setTimeout(() => {
-                setShowSuccess(false);
-                setShowConfetti(false);
-                setLevel(l => l + 1);
-                generateChallenge();
-                setTimeLeft(60);
-                setNeutronCount(1);
-            }, 2000);
-        } else {
-            setStreak(0);
-        }
+    const nextMission = () => {
+        setShowSuccess(false);
+        setLevel(l => Math.min(l + 1, 3));
+        setMission(null);
     };
 
     return (
         <group>
             {/* Cœur du réacteur */}
-            <mesh position={[0, 0, 0]}>
-                <cylinderGeometry args={[1.5, 1.5, 2, 32]} />
-                <meshStandardMaterial
-                    color={isCritical ? "#ef4444" : isStable ? "#22c55e" : "#3b82f6"}
-                    emissive={isCritical ? "#ef4444" : "#22d3ee"}
-                    emissiveIntensity={power / 100 * 0.5}
-                    transparent
-                    opacity={0.7}
-                />
-            </mesh>
-
-            {/* Barres de contrôle */}
-            {[-0.8, 0, 0.8].map((x, i) => (
-                <mesh key={i} position={[x, 1 + (controlRods / 100) * 1.5, 0]}>
-                    <cylinderGeometry args={[0.1, 0.1, 1.5, 8]} />
-                    <meshStandardMaterial color="#64748b" metalness={0.8} />
-                </mesh>
-            ))}
-
-            {/* Particules de la réaction */}
-            {chainReaction.map((particle, i) => (
-                <mesh key={particle.id} position={[particle.x, particle.y, particle.z]}>
-                    <sphereGeometry args={[0.08, 8, 8]} />
+            <group scale={1.2}>
+                <mesh position={[0, 0, 0]}>
+                    <cylinderGeometry args={[1.5, 1.5, 3, 32]} />
                     <meshStandardMaterial
-                        color={i % 2 === 0 ? "#22d3ee" : "#fbbf24"}
-                        emissive={i % 2 === 0 ? "#22d3ee" : "#fbbf24"}
-                        emissiveIntensity={0.8}
+                        color={isCritical ? "#ef4444" : isStable ? "#22c55e" : "#3b82f6"}
+                        emissive={isCritical ? "#ef4444" : "#22d3ee"}
+                        emissiveIntensity={power / 100}
+                        transparent
+                        opacity={0.6}
                     />
                 </mesh>
-            ))}
 
-            {/* Légende des particules */}
-            <Text position={[-2.5, 1, 0]} fontSize={0.12} color="#22d3ee">● Neutrons</Text>
-            <Text position={[-2.5, 0.7, 0]} fontSize={0.12} color="#fbbf24">● Fragments</Text>
+                {/* Barres de contrôle graphitées */}
+                {[-0.8, 0, 0.8].map((x, i) => (
+                    <mesh key={i} position={[x, 1 + (controlRods / 100) * 2, 0]}>
+                        <cylinderGeometry args={[0.1, 0.1, 2, 8]} />
+                        <meshStandardMaterial color="#1e293b" metalness={0.9} roughness={0.1} />
+                    </mesh>
+                ))}
 
-            {/* Indicateur de criticité */}
-            <group position={[2.5, 0, 0]}>
-                <Text position={[0, 0.5, 0]} fontSize={0.15} color="white">État:</Text>
-                <Text
-                    position={[0, 0, 0]}
-                    fontSize={0.18}
-                    color={isCritical ? "#ef4444" : isStable ? "#22c55e" : "#3b82f6"}
-                >
-                    {isCritical ? "⚠️ CRITIQUE" : isStable ? "✓ STABLE" : "📉 Sous-critique"}
-                </Text>
+                {/* Neutrons & Fragments - Particules dynamiques */}
+                {chainReaction.map((p) => (
+                    <mesh key={p.id} position={[p.x, p.y, p.z]}>
+                        <sphereGeometry args={[0.06, 8, 8]} />
+                        <meshStandardMaterial color={Math.random() > 0.5 ? "#22d3ee" : "#facc15"} emissive={Math.random() > 0.5 ? "#22d3ee" : "#facc15"} emissiveIntensity={1} />
+                    </mesh>
+                ))}
             </group>
 
-            {/* Équation de fission */}
-            <Text position={[0, -2, 0]} fontSize={0.12} color="#94a3b8">
-                ²³⁵U + n → ¹⁴⁴Ba + ⁸⁹Kr + 3n + Énergie
-            </Text>
-
-            {/* Panneau de contrôle */}
+            {/* UI Holographique */}
             <Html transform={false}>
-                <DraggableHtmlPanel title="☢️ Réacteur Nucléaire" defaultPosition="top-right">
-                    <div className="no-drag" style={{ padding: '15px', color: 'white', width: '300px' }}>
-                        {challengeMode && (
-                            <>
-                                <ChallengeTimer timeLeft={timeLeft} maxTime={60} />
-                                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '15px' }}>
-                                    <span>🎯 Score: {score}</span>
-                                    <span>🔥 Streak: {streak}</span>
-                                </div>
-                                {targetPower && (
-                                    <div style={{
-                                        background: 'rgba(234,179,8,0.2)',
-                                        padding: '10px',
-                                        borderRadius: '8px',
-                                        marginBottom: '15px',
-                                        border: '1px solid rgba(234,179,8,0.5)'
-                                    }}>
-                                        <strong>⚡ Mission Contrôle:</strong><br />
-                                        P = {targetPower.power}% (±{targetPower.tolerance}%)<br />
-                                        <small style={{ color: '#94a3b8' }}>{targetPower.hint}</small>
-                                    </div>
-                                )}
-                            </>
+                <DraggableHtmlPanel
+                    title="☢️ Gestion Centrale - Fission"
+                    showCloseButton={false}
+                    defaultPosition="bottom-center"
+                    className="w-[420px] border-emerald-500/30"
+                >
+                    <div className="text-white">
+                        <div className="flex justify-between items-center mb-4">
+                            <GradeBadge score={score} />
+                            {phase === 'mission' && <ChallengeTimer timeLeft={timeLeft} maxTime={45} />}
+                        </div>
+
+                        <XPBar current={score} nextLevel={3000} />
+
+                        <div className="h-[1px] bg-gradient-to-r from-transparent via-emerald-500/50 to-transparent my-4" />
+
+                        <PhaseSelector currentPhase={phase} onSelect={setPhase} />
+
+                        {phase === 'mission' && mission && (
+                            <MissionObjective objective={mission.objective} icon="☢️" />
                         )}
 
-                        <div style={{ marginBottom: '15px' }}>
-                            <label>🎛️ Barres de Contrôle: {controlRods}%</label>
-                            <input type="range" min="0" max="100" value={controlRods}
-                                onChange={(e) => setControlRods(parseInt(e.target.value))}
-                                style={{ width: '100%' }} />
-                            <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '10px', color: '#64748b' }}>
-                                <span>Retirées (k↑)</span>
-                                <span>Insérées (k↓)</span>
+                        <div className="grid grid-cols-2 gap-4 mt-4">
+                            <div className="space-y-4">
+                                <div>
+                                    <label className="text-[10px] text-gray-400 block mb-1 uppercase tracking-wider font-bold">Barres de Contrôle: {controlRods}%</label>
+                                    <input type="range" min="0" max="100" value={controlRods} onChange={(e) => setControlRods(parseInt(e.target.value))} className="w-full h-1 bg-gray-700 accent-emerald-500 rounded-full" />
+                                    <div className="flex justify-between text-[8px] text-gray-500 mt-1 font-mono">
+                                        <span>MAX_POW</span>
+                                        <span>SHUTDOWN</span>
+                                    </div>
+                                </div>
+                                <button onClick={() => { setIsReacting(!isReacting); if (!isReacting) setNeutronCount(1); }} className={`w-full py-1 rounded text-[10px] font-bold transition-all ${isReacting ? 'bg-red-500' : 'bg-emerald-500'}`}>
+                                    {isReacting ? 'ARRÊTER RÉACTEUR' : 'DÉMARRER RÉACTEUR'}
+                                </button>
+                            </div>
+
+                            <div className="bg-black/60 rounded-xl p-3 border border-emerald-500/20 flex flex-col justify-between shadow-inner">
+                                <div className="space-y-1">
+                                    <div className="text-[9px] text-emerald-500 font-mono tracking-tighter uppercase opacity-70 italic transform -skew-x-12 mb-1">REACTOR_CORE_OS</div>
+                                    <div className="text-[10px] font-mono"><span className="text-emerald-400">PUISSANCE:</span> {power.toFixed(1)}%</div>
+                                    <div className="text-[10px] font-mono"><span className="text-blue-400">MULT. k:</span> {k.toFixed(3)}</div>
+                                    <div className={`text-[9px] mt-1 font-bold ${isCritical ? 'text-red-500' : isStable ? 'text-emerald-400' : 'text-blue-400'}`}>
+                                        {isCritical ? "⚠️ ÉTAT CRITIQUE" : isStable ? "✓ RÉGIME STABLE" : "📉 SOUS-CRITIQUE"}
+                                    </div>
+                                </div>
                             </div>
                         </div>
-
-                        <div style={{
-                            background: isCritical ? 'rgba(239,68,68,0.3)' : isStable ? 'rgba(34,197,94,0.2)' : 'rgba(59,130,246,0.2)',
-                            padding: '12px',
-                            borderRadius: '8px',
-                            marginBottom: '15px',
-                            textAlign: 'center',
-                            border: `1px solid ${isCritical ? 'rgba(239,68,68,0.5)' : isStable ? 'rgba(34,197,94,0.5)' : 'rgba(59,130,246,0.5)'}`
-                        }}>
-                            <div style={{ fontSize: '12px', color: '#94a3b8' }}>Puissance</div>
-                            <div style={{ fontSize: '28px', fontWeight: 'bold', color: isCritical ? '#ef4444' : '#22c55e' }}>
-                                {power.toFixed(0)}%
-                            </div>
-                            <div style={{ fontSize: '11px', color: '#64748b' }}>
-                                k = {k.toFixed(2)} | {isCritical ? "⚠️ DANGER" : isStable ? "✓ Contrôlé" : "Sous-critique"}
-                            </div>
-                        </div>
-
-                        <button
-                            onClick={() => { setIsReacting(!isReacting); if (!isReacting) setNeutronCount(1); }}
-                            style={{
-                                width: '100%', padding: '10px',
-                                background: isReacting ? '#ef4444' : '#10b981',
-                                border: 'none', borderRadius: '8px', color: 'white', fontWeight: 'bold',
-                                cursor: 'pointer', marginBottom: '10px'
-                            }}
-                        >
-                            {isReacting ? '⏹ Arrêter réaction' : '▶ Démarrer réaction'}
-                        </button>
-
-                        <button onClick={challengeMode ? checkAnswer : startChallenge}
-                            style={{
-                                width: '100%', padding: '12px',
-                                background: challengeMode ? 'linear-gradient(135deg, #10b981, #059669)' : 'linear-gradient(135deg, #f97316, #ea580c)',
-                                border: 'none', borderRadius: '8px', color: 'white', fontWeight: 'bold', cursor: 'pointer'
-                            }}>
-                            {challengeMode ? '✓ Valider puissance' : '🎮 Mode Défi Ingénieur'}
-                        </button>
                     </div>
                 </DraggableHtmlPanel>
             </Html>
 
-            {showSuccess && <SuccessOverlay message="Réacteur contrôlé!" />}
-            {showConfetti && <ConfettiExplosion />}
+            <SuccessOverlay
+                show={showSuccess}
+                message={`Réacteur stabilisé ! Mission "${mission?.title}" réussie.`}
+                points={700}
+                onNext={nextMission}
+            />
+            <ConfettiExplosion active={showSuccess} />
         </group>
     );
 }
