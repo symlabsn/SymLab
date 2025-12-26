@@ -146,11 +146,11 @@ const DraggableHtmlPanel = ({ children, title, className = "", initialPos = null
     }, []);
 
     // Ne pas rendre tant que le client n'est pas monté ou si fermé
-    // Retourne null pour éviter les erreurs R3F avec les enfants
-    if (!mounted || isClosed) return null;
+    // Retourne un fragment vide pour éviter les erreurs R3F avec les enfants null
+    if (!mounted || isClosed) return <></>;
 
     // Ne pas essayer de créer le portail si mountNode n'est pas déterminé
-    if (!mountNode) return null;
+    if (!mountNode) return <></>;
 
     const panelContent = (
         <div
@@ -213,7 +213,12 @@ const DraggableHtmlPanel = ({ children, title, className = "", initialPos = null
         </div>
     );
 
-    // Toujours utiliser createPortal pour détacher du contexte R3F
+    // Si usePortal est false, rendre directement (pour compatibilité avec <Html> de drei)
+    if (!usePortal) {
+        return panelContent;
+    }
+
+    // Utiliser createPortal pour détacher du contexte R3F
     return createPortal(panelContent, mountNode);
 };
 
