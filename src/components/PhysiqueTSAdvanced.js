@@ -173,7 +173,7 @@ export function CinematiquePointAdvanced() {
             <ParticleTrail active={running && motionType === 'mcu'} color="#3B82F6" />
 
             {/* Titre dynamique */}
-            <Text position={[0, 4, 0]} fontSize={0.5} color="#60A5FA" font="/fonts/bold.woff">
+            <Text position={[0, 4, 0]} fontSize={0.5} color="#60A5FA">
                 🌌 CINÉMATIQUE DU POINT
             </Text>
 
@@ -565,7 +565,7 @@ export function DynamiqueNewtonAdvanced() {
             <ConfettiExplosion active={showSuccess} />
 
             {/* Titre */}
-            <Text position={[0, 4, 0]} fontSize={0.5} color="#F59E0B" font="/fonts/bold.woff">
+            <Text position={[0, 4, 0]} fontSize={0.5} color="#F59E0B">
                 ⚖️ DYNAMIQUE DE NEWTON
             </Text>
 

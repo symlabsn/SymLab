@@ -567,84 +567,78 @@ function LaplaceAdvanced() {
             </group>
 
             {/* Panneau */}
-            <Html position={[-4, 2, 0]} transform={false} style={{ pointerEvents: 'auto' }}>
-                <div style={{
-                    background: 'linear-gradient(135deg, rgba(15,23,42,0.95), rgba(30,41,59,0.95))',
-                    padding: '20px',
-                    borderRadius: '16px',
-                    color: 'white',
-                    width: '320px',
-                    border: '1px solid rgba(148,163,184,0.2)',
-                    boxShadow: '0 25px 50px rgba(0,0,0,0.5)'
-                }}>
-                    <h3 style={{ margin: '0 0 15px 0', fontSize: '18px' }}>
-                        🔌 Loi de Laplace - Haut-Parleur
-                    </h3>
+            <Html transform={false}>
+                <DraggableHtmlPanel title="🔌 Loi de Laplace - Haut-Parleur" defaultPosition="top-left" className="w-[320px] text-white">
+                    <div className="p-2">
+                        <h3 style={{ margin: '0 0 15px 0', fontSize: '18px' }}>
+                            🔌 Loi de Laplace - Haut-Parleur
+                        </h3>
 
-                    {challengeMode && (
-                        <>
-                            <ChallengeTimer timeLeft={timeLeft} maxTime={60} />
-                            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '15px' }}>
-                                <span>🎯 Score: {score}</span>
-                                <span>🔥 Streak: {streak}</span>
-                            </div>
-                            {targetForce && (
-                                <div style={{
-                                    background: 'rgba(16,185,129,0.2)',
-                                    padding: '10px',
-                                    borderRadius: '8px',
-                                    marginBottom: '15px',
-                                    border: '1px solid rgba(16,185,129,0.5)'
-                                }}>
-                                    <strong>🔊 Mission Audio:</strong><br />
-                                    Force = {targetForce.force} mN (±{targetForce.tolerance})<br />
-                                    <small style={{ color: '#94a3b8' }}>{targetForce.hint}</small>
+                        {challengeMode && (
+                            <>
+                                <ChallengeTimer timeLeft={timeLeft} maxTime={60} />
+                                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '15px' }}>
+                                    <span>🎯 Score: {score}</span>
+                                    <span>🔥 Streak: {streak}</span>
                                 </div>
-                            )}
-                        </>
-                    )}
+                                {targetForce && (
+                                    <div style={{
+                                        background: 'rgba(16,185,129,0.2)',
+                                        padding: '10px',
+                                        borderRadius: '8px',
+                                        marginBottom: '15px',
+                                        border: '1px solid rgba(16,185,129,0.5)'
+                                    }}>
+                                        <strong>🔊 Mission Audio:</strong><br />
+                                        Force = {targetForce.force} mN (±{targetForce.tolerance})<br />
+                                        <small style={{ color: '#94a3b8' }}>{targetForce.hint}</small>
+                                    </div>
+                                )}
+                            </>
+                        )}
 
-                    <div style={{ marginBottom: '12px' }}>
-                        <label>Courant I: {current.toFixed(1)} A</label>
-                        <input type="range" min="0.1" max="10" step="0.1" value={current}
-                            onChange={(e) => setCurrent(parseFloat(e.target.value))} style={{ width: '100%' }} />
-                    </div>
-
-                    <div style={{ marginBottom: '12px' }}>
-                        <label>Longueur L: {(wireLength * 100).toFixed(0)} cm</label>
-                        <input type="range" min="0.01" max="0.5" step="0.01" value={wireLength}
-                            onChange={(e) => setWireLength(parseFloat(e.target.value))} style={{ width: '100%' }} />
-                    </div>
-
-                    <div style={{ marginBottom: '12px' }}>
-                        <label>Champ B: {magneticField.toFixed(2)} T</label>
-                        <input type="range" min="0.1" max="2" step="0.01" value={magneticField}
-                            onChange={(e) => setMagneticField(parseFloat(e.target.value))} style={{ width: '100%' }} />
-                    </div>
-
-                    <div style={{
-                        background: 'rgba(251,191,36,0.2)',
-                        padding: '12px',
-                        borderRadius: '8px',
-                        marginBottom: '15px',
-                        textAlign: 'center'
-                    }}>
-                        <div style={{ fontSize: '12px', color: '#94a3b8' }}>Force de Laplace F</div>
-                        <div style={{ fontSize: '24px', fontWeight: 'bold', color: '#fbbf24' }}>
-                            {forceMN.toFixed(1)} mN
+                        <div style={{ marginBottom: '12px' }}>
+                            <label>Courant I: {current.toFixed(1)} A</label>
+                            <input type="range" min="0.1" max="10" step="0.1" value={current}
+                                onChange={(e) => setCurrent(parseFloat(e.target.value))} style={{ width: '100%' }} />
                         </div>
-                        <div style={{ fontSize: '11px', color: '#64748b' }}>F = B × I × L × sin(θ)</div>
-                    </div>
 
-                    <button onClick={challengeMode ? checkAnswer : startChallenge}
-                        style={{
-                            width: '100%', padding: '12px',
-                            background: challengeMode ? 'linear-gradient(135deg, #10b981, #059669)' : 'linear-gradient(135deg, #8b5cf6, #6366f1)',
-                            border: 'none', borderRadius: '8px', color: 'white', fontWeight: 'bold', cursor: 'pointer'
+                        <div style={{ marginBottom: '12px' }}>
+                            <label>Longueur L: {(wireLength * 100).toFixed(0)} cm</label>
+                            <input type="range" min="0.01" max="0.5" step="0.01" value={wireLength}
+                                onChange={(e) => setWireLength(parseFloat(e.target.value))} style={{ width: '100%' }} />
+                        </div>
+
+                        <div style={{ marginBottom: '12px' }}>
+                            <label>Champ B: {magneticField.toFixed(2)} T</label>
+                            <input type="range" min="0.1" max="2" step="0.01" value={magneticField}
+                                onChange={(e) => setMagneticField(parseFloat(e.target.value))} style={{ width: '100%' }} />
+                        </div>
+
+                        <div style={{
+                            background: 'rgba(251,191,36,0.2)',
+                            padding: '12px',
+                            borderRadius: '8px',
+                            marginBottom: '15px',
+                            textAlign: 'center'
                         }}>
-                        {challengeMode ? '✓ Valider' : '🎮 Mode Défi Audio'}
-                    </button>
-                </div>
+                            <div style={{ fontSize: '12px', color: '#94a3b8' }}>Force de Laplace F</div>
+                            <div style={{ fontSize: '24px', fontWeight: 'bold', color: '#fbbf24' }}>
+                                {forceMN.toFixed(1)} mN
+                            </div>
+                            <div style={{ fontSize: '11px', color: '#64748b' }}>F = B × I × L × sin(θ)</div>
+                        </div>
+
+                        <button onClick={challengeMode ? checkAnswer : startChallenge}
+                            style={{
+                                width: '100%', padding: '12px',
+                                background: challengeMode ? 'linear-gradient(135deg, #10b981, #059669)' : 'linear-gradient(135deg, #8b5cf6, #6366f1)',
+                                border: 'none', borderRadius: '8px', color: 'white', fontWeight: 'bold', cursor: 'pointer'
+                            }}>
+                            {challengeMode ? '✓ Valider' : '🎮 Mode Défi Audio'}
+                        </button>
+                    </div>
+                </DraggableHtmlPanel>
             </Html>
 
             {showSuccess && <SuccessOverlay message={`Bravo!`} />}
@@ -759,77 +753,75 @@ function InductionRLAdvanced() {
             </mesh>
 
             {/* Panneau */}
-            <Html position={[-4, 2, 0]} transform={false} style={{ pointerEvents: 'auto' }}>
-                <div style={{
-                    background: 'linear-gradient(135deg, rgba(15,23,42,0.95), rgba(30,41,59,0.95))',
-                    padding: '20px', borderRadius: '16px', color: 'white', width: '320px',
-                    border: '1px solid rgba(148,163,184,0.2)', boxShadow: '0 25px 50px rgba(0,0,0,0.5)'
-                }}>
-                    <h3 style={{ margin: '0 0 15px 0', fontSize: '18px' }}>🔋 Dipôle RL - Induction</h3>
+            <Html transform={false}>
+                <DraggableHtmlPanel title="🔋 Dipôle RL - Induction" defaultPosition="top-left" className="w-[320px] text-white">
+                    <div className="p-2">
+                        <h3 style={{ margin: '0 0 15px 0', fontSize: '18px' }}>🔋 Dipôle RL - Induction</h3>
 
-                    {challengeMode && (
-                        <>
-                            <ChallengeTimer timeLeft={timeLeft} maxTime={60} />
-                            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '15px' }}>
-                                <span>🎯 Score: {score}</span>
-                                <span>🔥 Streak: {streak}</span>
-                            </div>
-                            {targetTau && (
-                                <div style={{
-                                    background: 'rgba(139,92,246,0.2)', padding: '10px', borderRadius: '8px',
-                                    marginBottom: '15px', border: '1px solid rgba(139,92,246,0.5)'
-                                }}>
-                                    <strong>⚡ Mission Protection:</strong><br />
-                                    τ = {targetTau.tau} ms (±{targetTau.tolerance})<br />
-                                    <small style={{ color: '#94a3b8' }}>{targetTau.hint}</small>
+                        {challengeMode && (
+                            <>
+                                <ChallengeTimer timeLeft={timeLeft} maxTime={60} />
+                                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '15px' }}>
+                                    <span>🎯 Score: {score}</span>
+                                    <span>🔥 Streak: {streak}</span>
                                 </div>
-                            )}
-                        </>
-                    )}
+                                {targetTau && (
+                                    <div style={{
+                                        background: 'rgba(139,92,246,0.2)', padding: '10px', borderRadius: '8px',
+                                        marginBottom: '15px', border: '1px solid rgba(139,92,246,0.5)'
+                                    }}>
+                                        <strong>⚡ Mission Protection:</strong><br />
+                                        τ = {targetTau.tau} ms (±{targetTau.tolerance})<br />
+                                        <small style={{ color: '#94a3b8' }}>{targetTau.hint}</small>
+                                    </div>
+                                )}
+                            </>
+                        )}
 
-                    <div style={{ marginBottom: '12px' }}>
-                        <label>R: {resistance} Ω</label>
-                        <input type="range" min="10" max="1000" value={resistance}
-                            onChange={(e) => setResistance(parseInt(e.target.value))} style={{ width: '100%' }} />
-                    </div>
-
-                    <div style={{ marginBottom: '12px' }}>
-                        <label>L: {inductance.toFixed(2)} H</label>
-                        <input type="range" min="0.01" max="2" step="0.01" value={inductance}
-                            onChange={(e) => setInductance(parseFloat(e.target.value))} style={{ width: '100%' }} />
-                    </div>
-
-                    <div style={{
-                        background: 'rgba(139,92,246,0.2)', padding: '12px', borderRadius: '8px',
-                        marginBottom: '15px', textAlign: 'center'
-                    }}>
-                        <div style={{ fontSize: '12px', color: '#94a3b8' }}>Constante de temps τ</div>
-                        <div style={{ fontSize: '24px', fontWeight: 'bold', color: '#8b5cf6' }}>
-                            {tauMs.toFixed(2)} ms
+                        <div style={{ marginBottom: '12px' }}>
+                            <label>R: {resistance} Ω</label>
+                            <input type="range" min="10" max="1000" value={resistance}
+                                onChange={(e) => setResistance(parseInt(e.target.value))} style={{ width: '100%' }} />
                         </div>
-                        <div style={{ fontSize: '11px', color: '#64748b' }}>τ = L / R</div>
-                    </div>
 
-                    <div style={{ display: 'flex', gap: '10px', marginBottom: '15px' }}>
-                        <button onClick={() => { setIsCharging(true); setTime(0); }}
-                            style={{ flex: 1, padding: '8px', background: '#10b981', border: 'none', borderRadius: '6px', color: 'white', cursor: 'pointer' }}>
-                            ⚡ Charger
-                        </button>
-                        <button onClick={() => { setIsCharging(false); setTime(0); }}
-                            style={{ flex: 1, padding: '8px', background: '#ef4444', border: 'none', borderRadius: '6px', color: 'white', cursor: 'pointer' }}>
-                            📉 Décharger
-                        </button>
-                    </div>
+                        <div style={{ marginBottom: '12px' }}>
+                            <label>L: {inductance.toFixed(2)} H</label>
+                            <input type="range" min="0.01" max="2" step="0.01" value={inductance}
+                                onChange={(e) => setInductance(parseFloat(e.target.value))} style={{ width: '100%' }} />
+                        </div>
 
-                    <button onClick={challengeMode ? checkAnswer : startChallenge}
-                        style={{
-                            width: '100%', padding: '12px',
-                            background: challengeMode ? 'linear-gradient(135deg, #10b981, #059669)' : 'linear-gradient(135deg, #8b5cf6, #6366f1)',
-                            border: 'none', borderRadius: '8px', color: 'white', fontWeight: 'bold', cursor: 'pointer'
+                        <div style={{
+                            background: 'rgba(139,92,246,0.2)', padding: '12px', borderRadius: '8px',
+                            marginBottom: '15px', textAlign: 'center'
                         }}>
-                        {challengeMode ? '✓ Valider τ' : '🎮 Mode Défi'}
-                    </button>
-                </div>
+                            <div style={{ fontSize: '12px', color: '#94a3b8' }}>Constante de temps τ</div>
+                            <div style={{ fontSize: '24px', fontWeight: 'bold', color: '#8b5cf6' }}>
+                                {tauMs.toFixed(2)} ms
+                            </div>
+                            <div style={{ fontSize: '11px', color: '#64748b' }}>τ = L / R</div>
+                        </div>
+
+                        <div style={{ display: 'flex', gap: '10px', marginBottom: '15px' }}>
+                            <button onClick={() => { setIsCharging(true); setTime(0); }}
+                                style={{ flex: 1, padding: '8px', background: '#10b981', border: 'none', borderRadius: '6px', color: 'white', cursor: 'pointer' }}>
+                                ⚡ Charger
+                            </button>
+                            <button onClick={() => { setIsCharging(false); setTime(0); }}
+                                style={{ flex: 1, padding: '8px', background: '#ef4444', border: 'none', borderRadius: '6px', color: 'white', cursor: 'pointer' }}>
+                                📉 Décharger
+                            </button>
+                        </div>
+
+                        <button onClick={challengeMode ? checkAnswer : startChallenge}
+                            style={{
+                                width: '100%', padding: '12px',
+                                background: challengeMode ? 'linear-gradient(135deg, #10b981, #059669)' : 'linear-gradient(135deg, #8b5cf6, #6366f1)',
+                                border: 'none', borderRadius: '8px', color: 'white', fontWeight: 'bold', cursor: 'pointer'
+                            }}>
+                            {challengeMode ? '✓ Valider τ' : '🎮 Mode Défi'}
+                        </button>
+                    </div>
+                </DraggableHtmlPanel>
             </Html>
 
             {showSuccess && <SuccessOverlay message="Parfait!" />}
@@ -964,80 +956,78 @@ function DipoleRCAdvanced() {
             </mesh>
 
             {/* Panneau */}
-            <Html position={[-4, 2, 0]} transform={false} style={{ pointerEvents: 'auto' }}>
-                <div style={{
-                    background: 'linear-gradient(135deg, rgba(15,23,42,0.95), rgba(30,41,59,0.95))',
-                    padding: '20px', borderRadius: '16px', color: 'white', width: '320px',
-                    border: '1px solid rgba(148,163,184,0.2)', boxShadow: '0 25px 50px rgba(0,0,0,0.5)'
-                }}>
-                    <h3 style={{ margin: '0 0 15px 0', fontSize: '18px' }}>📸 Dipôle RC - Flash Photo</h3>
+            <Html transform={false}>
+                <DraggableHtmlPanel title="📸 Dipôle RC - Flash Photo" defaultPosition="top-left" className="w-[320px] text-white">
+                    <div className="p-2">
+                        <h3 style={{ margin: '0 0 15px 0', fontSize: '18px' }}>📸 Dipôle RC - Flash Photo</h3>
 
-                    {challengeMode && (
-                        <>
-                            <ChallengeTimer timeLeft={timeLeft} maxTime={60} />
-                            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '15px' }}>
-                                <span>🎯 Score: {score}</span>
-                                <span>🔥 Streak: {streak}</span>
-                            </div>
-                            {targetTau && (
-                                <div style={{
-                                    background: 'rgba(251,191,36,0.2)', padding: '10px', borderRadius: '8px',
-                                    marginBottom: '15px', border: '1px solid rgba(251,191,36,0.5)'
-                                }}>
-                                    <strong>📸 Mission Flash:</strong><br />
-                                    τ = {targetTau.tau} ms (±{targetTau.tolerance})<br />
-                                    <small style={{ color: '#94a3b8' }}>{targetTau.hint}</small>
+                        {challengeMode && (
+                            <>
+                                <ChallengeTimer timeLeft={timeLeft} maxTime={60} />
+                                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '15px' }}>
+                                    <span>🎯 Score: {score}</span>
+                                    <span>🔥 Streak: {streak}</span>
                                 </div>
-                            )}
-                        </>
-                    )}
+                                {targetTau && (
+                                    <div style={{
+                                        background: 'rgba(251,191,36,0.2)', padding: '10px', borderRadius: '8px',
+                                        marginBottom: '15px', border: '1px solid rgba(251,191,36,0.5)'
+                                    }}>
+                                        <strong>📸 Mission Flash:</strong><br />
+                                        τ = {targetTau.tau} ms (±{targetTau.tolerance})<br />
+                                        <small style={{ color: '#94a3b8' }}>{targetTau.hint}</small>
+                                    </div>
+                                )}
+                            </>
+                        )}
 
-                    <div style={{ marginBottom: '12px' }}>
-                        <label>R: {resistance} Ω</label>
-                        <input type="range" min="100" max="10000" step="100" value={resistance}
-                            onChange={(e) => setResistance(parseInt(e.target.value))} style={{ width: '100%' }} />
-                    </div>
-
-                    <div style={{ marginBottom: '12px' }}>
-                        <label>C: {capacitance} µF</label>
-                        <input type="range" min="1" max="1000" value={capacitance}
-                            onChange={(e) => setCapacitance(parseInt(e.target.value))} style={{ width: '100%' }} />
-                    </div>
-
-                    <div style={{
-                        background: 'rgba(251,191,36,0.2)', padding: '12px', borderRadius: '8px',
-                        marginBottom: '15px', textAlign: 'center'
-                    }}>
-                        <div style={{ fontSize: '12px', color: '#94a3b8' }}>Constante de temps τ</div>
-                        <div style={{ fontSize: '24px', fontWeight: 'bold', color: '#fbbf24' }}>
-                            {tauMs.toFixed(1)} ms
+                        <div style={{ marginBottom: '12px' }}>
+                            <label>R: {resistance} Ω</label>
+                            <input type="range" min="100" max="10000" step="100" value={resistance}
+                                onChange={(e) => setResistance(parseInt(e.target.value))} style={{ width: '100%' }} />
                         </div>
-                        <div style={{ fontSize: '11px', color: '#64748b' }}>τ = R × C</div>
-                        <div style={{ marginTop: '8px', fontSize: '14px' }}>
-                            Charge: {chargePercent.toFixed(0)}% | Énergie: {(energy * 1000).toFixed(1)} mJ
+
+                        <div style={{ marginBottom: '12px' }}>
+                            <label>C: {capacitance} µF</label>
+                            <input type="range" min="1" max="1000" value={capacitance}
+                                onChange={(e) => setCapacitance(parseInt(e.target.value))} style={{ width: '100%' }} />
                         </div>
-                    </div>
 
-                    <div style={{ display: 'flex', gap: '10px', marginBottom: '15px' }}>
-                        <button onClick={() => setIsCharging(true)}
-                            style={{ flex: 1, padding: '8px', background: '#10b981', border: 'none', borderRadius: '6px', color: 'white', cursor: 'pointer' }}>
-                            ⚡ Charger
-                        </button>
-                        <button onClick={triggerFlash}
-                            style={{ flex: 1, padding: '8px', background: chargePercent > 80 ? '#fbbf24' : '#64748b', border: 'none', borderRadius: '6px', color: 'white', cursor: 'pointer' }}>
-                            📸 Flash!
-                        </button>
-                    </div>
-
-                    <button onClick={challengeMode ? checkAnswer : startChallenge}
-                        style={{
-                            width: '100%', padding: '12px',
-                            background: challengeMode ? 'linear-gradient(135deg, #10b981, #059669)' : 'linear-gradient(135deg, #8b5cf6, #6366f1)',
-                            border: 'none', borderRadius: '8px', color: 'white', fontWeight: 'bold', cursor: 'pointer'
+                        <div style={{
+                            background: 'rgba(251,191,36,0.2)', padding: '12px', borderRadius: '8px',
+                            marginBottom: '15px', textAlign: 'center'
                         }}>
-                        {challengeMode ? '✓ Valider τ' : '🎮 Mode Défi Flash'}
-                    </button>
-                </div>
+                            <div style={{ fontSize: '12px', color: '#94a3b8' }}>Constante de temps τ</div>
+                            <div style={{ fontSize: '24px', fontWeight: 'bold', color: '#fbbf24' }}>
+                                {tauMs.toFixed(1)} ms
+                            </div>
+                            <div style={{ fontSize: '11px', color: '#64748b' }}>τ = R × C</div>
+                            <div style={{ marginTop: '8px', fontSize: '14px' }}>
+                                Charge: {chargePercent.toFixed(0)}% | Énergie: {(energy * 1000).toFixed(1)} mJ
+                            </div>
+                        </div>
+
+                        <div style={{ display: 'flex', gap: '10px', marginBottom: '15px' }}>
+                            <button onClick={() => setIsCharging(true)}
+                                style={{ flex: 1, padding: '8px', background: '#10b981', border: 'none', borderRadius: '6px', color: 'white', cursor: 'pointer' }}>
+                                ⚡ Charger
+                            </button>
+                            <button onClick={triggerFlash}
+                                style={{ flex: 1, padding: '8px', background: chargePercent > 80 ? '#fbbf24' : '#64748b', border: 'none', borderRadius: '6px', color: 'white', cursor: 'pointer' }}>
+                                📸 Flash!
+                            </button>
+                        </div>
+
+                        <button onClick={challengeMode ? checkAnswer : startChallenge}
+                            style={{
+                                width: '100%', padding: '12px',
+                                background: challengeMode ? 'linear-gradient(135deg, #10b981, #059669)' : 'linear-gradient(135deg, #8b5cf6, #6366f1)',
+                                border: 'none', borderRadius: '8px', color: 'white', fontWeight: 'bold', cursor: 'pointer'
+                            }}>
+                            {challengeMode ? '✓ Valider τ' : '🎮 Mode Défi Flash'}
+                        </button>
+                    </div>
+                </DraggableHtmlPanel>
             </Html>
 
             {showSuccess && <SuccessOverlay message="Flash réussi!" />}
