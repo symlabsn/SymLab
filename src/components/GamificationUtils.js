@@ -153,3 +153,109 @@ export function ParticleTrail({ active, color = '#FFD700', count = 30 }) {
         </group>
     );
 }
+/**
+ * Badge de Grade dynamique
+ */
+export function GradeBadge({ score }) {
+    const getGrade = (s) => {
+        if (s >= 2000) return { name: 'Maître de la Physique 🧠', color: '#f59e0b', bg: 'rgba(245,158,11,0.2)' };
+        if (s >= 1000) return { name: 'Expert Scientifique 👨‍🔬', color: '#8b5cf6', bg: 'rgba(139,92,246,0.2)' };
+        if (s >= 500) return { name: 'Ingénieur Senior 🛠️', color: '#22d3ee', bg: 'rgba(34,211,238,0.2)' };
+        return { name: 'Cadet de l\'Espace 🚀', color: '#4ade80', bg: 'rgba(74,222,128,0.2)' };
+    };
+
+    const grade = getGrade(score);
+
+    return (
+        <div style={{
+            background: grade.bg,
+            border: `1px solid ${grade.color}`,
+            color: grade.color,
+            padding: '4px 12px',
+            borderRadius: '20px',
+            fontSize: '11px',
+            fontWeight: 'bold',
+            textTransform: 'uppercase',
+            letterSpacing: '1px',
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '6px'
+        }}>
+            {grade.name}
+        </div>
+    );
+}
+
+/**
+ * Barre d'XP fluide
+ */
+export function XPBar({ current, nextLevel }) {
+    const progress = Math.min(100, (current / nextLevel) * 100);
+    return (
+        <div className="w-full mt-2">
+            <div className="flex justify-between text-[10px] text-gray-400 mb-1 px-1">
+                <span>XP PROGRESSION</span>
+                <span>{current} / {nextLevel}</span>
+            </div>
+            <div className="w-full h-1 bg-gray-800 rounded-full overflow-hidden">
+                <div
+                    className="h-full bg-gradient-to-r from-blue-500 via-cyan-400 to-emerald-400 transition-all duration-1000"
+                    style={{ width: `${progress}%` }}
+                />
+            </div>
+        </div>
+    );
+}
+
+/**
+ * Sélecteur de phase (Exploration / Entraînement / Mission)
+ */
+export function PhaseSelector({ currentPhase, onSelect }) {
+    const phases = [
+        { id: 'explore', label: '🔭 Explorer', color: '#94a3b8' },
+        { id: 'train', label: '🎓 S\'entraîner', color: '#6366f1' },
+        { id: 'mission', label: '⚡ MISSION', color: '#f59e0b', bold: true }
+    ];
+
+    return (
+        <div className="flex p-1 bg-black/40 rounded-xl mb-4">
+            {phases.map(p => (
+                <button
+                    key={p.id}
+                    onClick={() => onSelect(p.id)}
+                    className={`flex-1 py-1.5 px-2 rounded-lg text-[10px] font-bold transition-all ${currentPhase === p.id
+                        ? 'bg-white/10 text-white shadow-lg'
+                        : 'text-gray-500 hover:text-gray-300'
+                        }`}
+                    style={{ color: currentPhase === p.id ? (p.bold ? p.color : 'white') : '' }}
+                >
+                    {p.label}
+                </button>
+            ))}
+        </div>
+    );
+}
+
+/**
+ * Objectif de mission holographique
+ */
+export function MissionObjective({ objective, icon = "🎯" }) {
+    return (
+        <div className="relative overflow-hidden group">
+            <div className="absolute inset-0 bg-blue-500/5 group-hover:bg-blue-500/10 transition-colors" />
+            <div className="relative p-3 border-l-4 border-blue-500 bg-gradient-to-r from-blue-500/10 to-transparent">
+                <div className="flex items-start gap-2">
+                    <span className="text-xl animate-pulse">{icon}</span>
+                    <div>
+                        <div className="text-[10px] font-bold text-blue-400 uppercase tracking-tighter">Objectif en cours</div>
+                        <div className="text-white text-sm font-medium leading-tight">{objective}</div>
+                    </div>
+                </div>
+            </div>
+            {/* Holographic scanline effect */}
+            <div className="absolute inset-0 pointer-events-none opacity-20">
+                <div className="w-full h-[1px] bg-blue-400 animate-[scan_3s_linear_infinite]" />
+            </div>
+        </div>
+    );
+}
