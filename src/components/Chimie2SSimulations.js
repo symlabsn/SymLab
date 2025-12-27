@@ -5,70 +5,7 @@ import { Html, Text, Line, OrbitControls, Float } from '@react-three/drei';
 import * as THREE from 'three';
 import DraggableHtmlPanel from './DraggableHtmlPanel';
 
-// =========================================================
-// GAMIFICATION COMPONENTS
-// =========================================================
-function ConfettiExplosion({ trigger }) {
-    const particlesRef = useRef([]);
-    const [particles, setParticles] = useState([]);
-
-    useEffect(() => {
-        if (trigger) {
-            const newParticles = Array(50).fill(0).map((_, i) => ({
-                id: i,
-                x: 0,
-                y: 0,
-                vx: (Math.random() - 0.5) * 0.3,
-                vy: Math.random() * 0.2 + 0.1,
-                color: ['#FFD700', '#FF6B6B', '#4ECDC4', '#45B7D1', '#96E6A1'][Math.floor(Math.random() * 5)],
-                size: 0.05 + Math.random() * 0.05
-            }));
-            setParticles(newParticles);
-            setTimeout(() => setParticles([]), 2000);
-        }
-    }, [trigger]);
-
-    useFrame((state, delta) => {
-        particlesRef.current.forEach((mesh, i) => {
-            if (mesh && particles[i]) {
-                mesh.position.x += particles[i].vx;
-                mesh.position.y += particles[i].vy;
-                particles[i].vy -= 0.01; // Gravity
-                mesh.rotation.z += 0.1;
-            }
-        });
-    });
-
-    return (
-        <group position={[0, 0, 2]}>
-            {particles.map((p, i) => (
-                <mesh key={p.id} ref={el => particlesRef.current[i] = el} position={[p.x, p.y, 0]}>
-                    <boxGeometry args={[p.size, p.size, p.size]} />
-                    <meshBasicMaterial color={p.color} />
-                </mesh>
-            ))}
-        </group>
-    );
-}
-
-function SuccessOverlay({ show, message, onClose }) {
-    if (!show) return null;
-    return (
-        <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 animate-in fade-in">
-            <div className="bg-gradient-to-br from-green-900 to-emerald-800 p-8 rounded-2xl border-2 border-green-400 shadow-2xl max-w-md text-center animate-in zoom-in">
-                <div className="text-6xl mb-4">🎉</div>
-                <h2 className="text-2xl font-bold text-green-400 mb-2">BRAVO !</h2>
-                <p className="text-white mb-6">{message}</p>
-                <button
-                    onClick={onClose}
-                    className="bg-green-500 hover:bg-green-400 text-black font-bold px-6 py-3 rounded-xl transition-all"
-                >
-                    Continuer →
-                </button>
-            </div>
-        </div>
-    );
-}
+import { PhaseSelector, GradeBadge, MissionObjective, XPBar, SuccessOverlay, ConfettiExplosion } from './GamificationUtils';
 
 // =========================================================
 // 1. DILUTION INTERACTIVE (Nouveau - Avec Challenge)
@@ -84,38 +21,38 @@ export function DilutionSimulation() {
     // Calcul Cf = Ci * Vi / Vf
     const Cf = (Ci * Vi) / Vf;
 
-    // Challenge Mode
-    const [challengeMode, setChallengeMode] = useState(false);
-    const [targetCf, setTargetCf] = useState(0.25);
+    // Gamification
+    const [mode, setMode] = useState('explore'); // explore, challenge
+    const [targetCf, setTargetCf] = useState(null);
+    const [score, setScore] = useState(0);
     const [showSuccess, setShowSuccess] = useState(false);
-    const [confetti, setConfetti] = useState(false);
 
     const tolerance = 0.02;
-    const isCorrect = Math.abs(Cf - targetCf) < tolerance;
-
-    const checkAnswer = () => {
-        if (isCorrect) {
-            setConfetti(true);
-            setTimeout(() => setShowSuccess(true), 500);
-        }
-    };
+    const isCorrect = targetCf && Math.abs(Cf - targetCf) < tolerance;
 
     const startChallenge = () => {
+        setMode('challenge');
         const targets = [0.1, 0.25, 0.5, 0.75, 1.0];
-        setTargetCf(targets[Math.floor(Math.random() * targets.length)]);
-        setChallengeMode(true);
+        const newTarget = targets[Math.floor(Math.random() * targets.length)];
+        setTargetCf(newTarget);
+        setScore(0);
         setShowSuccess(false);
     };
 
-    // Animation état
-    const [step, setStep] = useState(0); // 0: idle, 1: prélever, 2: verser, 3: compléter
+    const checkAnswer = () => {
+        if (isCorrect) {
+            setShowSuccess(true);
+            setScore(s => s + 100);
+        }
+    };
 
     return (
         <group>
             <ambientLight intensity={0.7} />
             <pointLight position={[5, 5, 5]} />
 
-            <ConfettiExplosion trigger={confetti} />
+            <SuccessOverlay show={showSuccess} message={`Solution préparée : ${Cf.toFixed(2)} mol/L !`} points={100} onNext={startChallenge} />
+            <ConfettiExplosion active={showSuccess} />
 
             {/* Solution Mère (à gauche) */}
             <group position={[-3, -1, 0]}>
@@ -173,89 +110,123 @@ export function DilutionSimulation() {
             <arrowHelper args={[new THREE.Vector3(1, 0, 0), new THREE.Vector3(1, 0, 0), 1.5, 0xFFFFFF, 0.2, 0.15]} />
 
             <Html transform={false}>
-                <DraggableHtmlPanel title="💧 Dilution (Ci·Vi = Cf·Vf)" className="w-[340px]" defaultPosition="bottom-center">
-                    <div className="space-y-4 text-white">
-                        {challengeMode && (
-                            <div className="bg-yellow-900/50 border border-yellow-500 p-3 rounded-lg text-center">
-                                <div className="text-xs text-yellow-400">🎯 DÉFI : Obtenir une concentration de</div>
-                                <div className="text-2xl font-bold text-yellow-400">{targetCf.toFixed(2)} mol/L</div>
-                            </div>
-                        )}
-
-                        <div className="grid grid-cols-2 gap-3 text-sm">
-                            <div>
-                                <label className="text-xs text-blue-400">Ci (Solution mère)</label>
-                                <input
-                                    type="range" min="0.5" max="3.0" step="0.1"
-                                    value={Ci} onChange={(e) => setCi(Number(e.target.value))}
-                                    className="w-full h-1 bg-blue-900 rounded accent-blue-500"
-                                />
-                                <div className="text-right text-blue-400">{Ci.toFixed(1)} mol/L</div>
-                            </div>
-                            <div>
-                                <label className="text-xs text-indigo-400">Vi (À prélever)</label>
-                                <input
-                                    type="range" min="10" max="100" step="5"
-                                    value={Vi} onChange={(e) => setVi(Number(e.target.value))}
-                                    className="w-full h-1 bg-indigo-900 rounded accent-indigo-500"
-                                />
-                                <div className="text-right text-indigo-400">{Vi} mL</div>
-                            </div>
-                        </div>
-
-                        <div>
-                            <label className="text-xs text-cyan-400">Vf (Volume final)</label>
-                            <div className="flex gap-2 mt-1">
-                                {[100, 200, 250, 500].map(v => (
-                                    <button
-                                        key={v}
-                                        onClick={() => setVf(v)}
-                                        className={`flex-1 py-1 rounded text-xs ${Vf === v ? 'bg-cyan-600' : 'bg-gray-700'}`}
-                                    >
-                                        {v} mL
-                                    </button>
-                                ))}
-                            </div>
-                        </div>
-
-                        <div className="bg-gray-900 p-3 rounded-xl border border-gray-700 text-center">
-                            <div className="text-xs text-gray-400 mb-1">Concentration finale</div>
-                            <div className={`text-3xl font-bold font-mono ${challengeMode && isCorrect ? 'text-green-400' : 'text-white'}`}>
-                                Cf = {Cf.toFixed(3)} mol/L
-                            </div>
-                            <div className="text-[10px] bg-black/30 p-1 rounded mt-2 font-mono">
-                                Cf = (Ci × Vi) / Vf = ({Ci} × {Vi}) / {Vf}
-                            </div>
-                        </div>
-
-                        {challengeMode ? (
-                            <button
-                                onClick={checkAnswer}
-                                className={`w-full py-3 rounded-xl font-bold transition-all ${isCorrect ? 'bg-green-600 hover:bg-green-500' : 'bg-gray-700'}`}
-                            >
-                                {isCorrect ? '✓ Valider la réponse' : 'Ajuste les paramètres...'}
-                            </button>
-                        ) : (
-                            <button
-                                onClick={startChallenge}
-                                className="w-full py-3 bg-gradient-to-r from-yellow-600 to-orange-600 rounded-xl font-bold hover:from-yellow-500 hover:to-orange-500"
-                            >
-                                🎯 Mode Challenge
-                            </button>
-                        )}
+                <DraggableHtmlPanel title="💧 Dilution Interact" className="w-[340px] border-cyan-500/30 text-white">
+                    <div className="mb-4">
+                        <PhaseSelector currentPhase={mode} onSelect={setMode} />
                     </div>
+
+                    <div className="flex justify-between items-end mb-4 pb-2 border-b border-white/10">
+                        <div>
+                            <div className="text-xs text-cyan-400 font-bold uppercase tracking-wider mb-1">Module Chimie</div>
+                            <div className="text-xl font-black text-white leading-none">DILUTION</div>
+                        </div>
+                        <GradeBadge score={score} />
+                    </div>
+
+                    {mode === 'explore' ? (
+                        <>
+                            <MissionObjective objective="Apprenez à diluer une solution !" icon="💧" />
+                            <div className="space-y-4">
+                                <div className="grid grid-cols-2 gap-3 text-sm">
+                                    <div className="bg-blue-900/20 p-2 rounded border border-blue-500/30">
+                                        <label className="text-xs text-blue-300 font-bold">Ci (Solution mère)</label>
+                                        <input
+                                            type="range" min="0.5" max="3.0" step="0.1"
+                                            value={Ci} onChange={(e) => setCi(Number(e.target.value))}
+                                            className="w-full h-1 bg-blue-900 rounded accent-blue-500 mt-2"
+                                        />
+                                        <div className="text-right text-blue-400 font-mono mt-1">{Ci.toFixed(1)} mol/L</div>
+                                    </div>
+                                    <div className="bg-indigo-900/20 p-2 rounded border border-indigo-500/30">
+                                        <label className="text-xs text-indigo-300 font-bold">Vi (Prélèvement)</label>
+                                        <input
+                                            type="range" min="10" max="100" step="5"
+                                            value={Vi} onChange={(e) => setVi(Number(e.target.value))}
+                                            className="w-full h-1 bg-indigo-900 rounded accent-indigo-500 mt-2"
+                                        />
+                                        <div className="text-right text-indigo-400 font-mono mt-1">{Vi} mL</div>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <label className="text-xs text-cyan-400 font-bold">Vf (Volume fiole jaugée)</label>
+                                    <div className="flex gap-2 mt-1">
+                                        {[100, 200, 250, 500].map(v => (
+                                            <button
+                                                key={v}
+                                                onClick={() => setVf(v)}
+                                                className={`flex-1 py-1 rounded text-xs transition-colors ${Vf === v ? 'bg-cyan-600 text-white' : 'bg-gray-800 text-gray-400 hover:bg-gray-700'}`}
+                                            >
+                                                {v}
+                                            </button>
+                                        ))}
+                                    </div>
+                                </div>
+
+                                <div className="bg-gray-800 p-3 rounded-xl border border-gray-600 text-center">
+                                    <div className="text-xs text-gray-400 mb-1">Concentration finale</div>
+                                    <div className="text-2xl font-bold font-mono text-white">
+                                        Cf = {Cf.toFixed(3)} mol/L
+                                    </div>
+                                    <div className="text-[10px] bg-black/30 p-1 rounded mt-2 font-mono text-gray-400">
+                                        Cf = (Ci × Vi) / Vf
+                                    </div>
+                                </div>
+                            </div>
+                        </>
+                    ) : (
+                        <div className="bg-gray-900/50 p-4 rounded-xl border border-cyan-500/30">
+                            <div className="flex justify-between items-center mb-6">
+                                <h3 className="text-cyan-300 font-bold flex items-center gap-2">
+                                    <span>🎯</span> Défi Préparateur
+                                </h3>
+                                <XPBar current={score} nextLevel={100} />
+                            </div>
+
+                            {targetCf ? (
+                                <div className="space-y-4 animate-in slide-in-from-right duration-300">
+                                    <div className="bg-cyan-900/30 p-3 rounded border border-cyan-500/30 text-center">
+                                        <div className="text-cyan-200 text-xs uppercase mb-1">Commande Client</div>
+                                        <div className="font-bold text-xl text-white">Cible: {targetCf.toFixed(2)} mol/L</div>
+                                        <div className="text-xs text-gray-500 mt-1">Prépare cette solution par dilution.</div>
+                                    </div>
+
+                                    <div className="space-y-2">
+                                        <div className="text-xs text-gray-400">Paramètres actuels:</div>
+                                        <div className="flex justify-between text-xs bg-gray-800 p-2 rounded">
+                                            <span>Ci: {Ci.toFixed(1)}</span>
+                                            <span>Vi: {Vi}</span>
+                                            <span>Vf: {Vf}</span>
+                                        </div>
+                                        <div className="text-center font-bold text-white mt-1">
+                                            <span className={Math.abs(Cf - targetCf) < tolerance ? "text-green-400" : "text-white"}>Cf Actuel: {Cf.toFixed(3)} mol/L</span>
+                                        </div>
+                                    </div>
+
+                                    {/* Simplified controls for challenge */}
+                                    <div className="grid grid-cols-2 gap-2">
+                                        <input type="range" min="10" max="100" step="5" value={Vi} onChange={(e) => setVi(Number(e.target.value))} className="w-full accent-indigo-500" />
+                                        <select value={Vf} onChange={e => setVf(Number(e.target.value))} className="bg-gray-700 text-xs rounded">
+                                            {[100, 200, 250, 500].map(v => <option key={v} value={v}>{v} mL</option>)}
+                                        </select>
+                                    </div>
+
+
+                                    <button onClick={checkAnswer} className="w-full py-2 bg-cyan-600 hover:bg-cyan-500 rounded-lg font-bold text-white shadow-lg shadow-cyan-900/30">
+                                        Valider la Solution
+                                    </button>
+                                </div>
+                            ) : (
+                                <div className="text-center py-8">
+                                    <button onClick={startChallenge} className="px-8 py-3 bg-cyan-600 hover:bg-cyan-500 text-white rounded-full font-bold shadow-lg shadow-cyan-900/20 transition-all transform hover:scale-105">
+                                        Relever le Défi
+                                    </button>
+                                </div>
+                            )}
+                        </div>
+                    )}
                 </DraggableHtmlPanel>
             </Html>
-
-            {showSuccess && (
-                <Html fullscreen>
-                    <SuccessOverlay
-                        show={showSuccess}
-                        message={`Tu as correctement préparé une solution à ${targetCf} mol/L par dilution !`}
-                        onClose={() => { setShowSuccess(false); setChallengeMode(false); setConfetti(false); }}
-                    />
-                </Html>
-            )}
         </group>
     );
 }
@@ -265,13 +236,43 @@ export function DilutionSimulation() {
 // =========================================================
 export function TitrageAcideBase() {
     const [volumeBase, setVolumeBase] = useState(0); // mL de NaOH ajouté
-    const [concentrationAcide] = useState(0.1); // mol/L de HCl
-    const [volumeAcide] = useState(20); // mL
     const [concentrationBase] = useState(0.1); // mol/L de NaOH
+
+    // Pour le mode challenge, ces valeurs peuvent changer
+    const [concentrationAcide, setConcentrationAcide] = useState(0.1); // mol/L de HCl
+    const [volumeAcide, setVolumeAcide] = useState(20); // mL
+
+    // Gamification
+    const [mode, setMode] = useState('explore'); // explore, challenge
+    const [score, setScore] = useState(0);
+    const [showSuccess, setShowSuccess] = useState(false);
+    const [targetVeq, setTargetVeq] = useState(null); // Pour le challenge
 
     // Calcul du pH (simplifié)
     // Équivalence quand nAcide = nBase => Veq = (Ca * Va) / Cb
     const Veq = (concentrationAcide * volumeAcide) / concentrationBase;
+
+    // Challenge Logic
+    const startChallenge = () => {
+        setMode('challenge');
+        // Randomize Acid concentration between 0.05 and 0.15
+        const newCa = 0.05 + Math.random() * 0.1;
+        setConcentrationAcide(newCa);
+        setVolumeBase(0);
+        setTargetVeq((newCa * volumeAcide) / concentrationBase);
+        setScore(0);
+        setShowSuccess(false);
+    };
+
+    const checkChallenge = () => {
+        if (!targetVeq) return;
+        // Success if stopped within 0.5mL of Veq AND pH is roughly neutral (or just checking volume)
+        // Let's be lenient: +/- 0.5mL
+        if (Math.abs(volumeBase - targetVeq) <= 0.5) {
+            setShowSuccess(true);
+            setScore(s => s + 100);
+        }
+    };
 
     // Avant équivalence: excès d'acide
     // pH = -log[H3O+] avec [H3O+] ~ excès moles acide / volume total
@@ -294,8 +295,8 @@ export function TitrageAcideBase() {
 
     // Couleur indicateur BBT
     let indicatorColor = '#22C55E'; // Vert neutre
-    if (pH < 6) indicatorColor = '#FACC15'; // Jaune acide
-    else if (pH > 8) indicatorColor = '#3B82F6'; // Bleu basique
+    if (pH < 6.0) indicatorColor = '#FACC15'; // Jaune acide
+    else if (pH > 8.0) indicatorColor = '#3B82F6'; // Bleu basique
 
     const [isDropping, setIsDropping] = useState(false);
     const dropRef = useRef();
@@ -314,6 +315,9 @@ export function TitrageAcideBase() {
         <group>
             <ambientLight intensity={0.7} />
             <pointLight position={[5, 5, 5]} />
+
+            <SuccessOverlay show={showSuccess} message={`Équivalence trouvée ! Veq ≈ ${volumeBase} mL`} points={100} onNext={startChallenge} />
+            <ConfettiExplosion active={showSuccess} />
 
             {/* Burette */}
             <group position={[0, 3, 0]}>
@@ -357,69 +361,126 @@ export function TitrageAcideBase() {
             </group>
 
             <Html transform={false}>
-                <DraggableHtmlPanel title="⚗️ Titrage Acide-Base" className="w-[320px]" defaultPosition="bottom-right">
-                    <div className="space-y-4 text-white">
-                        <div className="flex items-center gap-4">
-                            <button
-                                onClick={addDrop}
-                                disabled={volumeBase >= 40}
-                                className="flex-1 py-3 bg-blue-600 hover:bg-blue-500 rounded-xl font-bold transition-all disabled:opacity-50"
-                            >
-                                💧 Ajouter goutte
-                            </button>
-                            <button
-                                onClick={() => setVolumeBase(0)}
-                                className="py-3 px-4 bg-gray-700 hover:bg-gray-600 rounded-xl"
-                            >
-                                🔄
-                            </button>
-                        </div>
-
-                        <div className="grid grid-cols-2 gap-2 text-sm">
-                            <div className="bg-gray-800 p-2 rounded text-center">
-                                <div className="text-xs text-gray-400">V(NaOH) ajouté</div>
-                                <div className="font-bold">{volumeBase.toFixed(1)} mL</div>
-                            </div>
-                            <div className="bg-gray-800 p-2 rounded text-center">
-                                <div className="text-xs text-gray-400">V(équivalence)</div>
-                                <div className="font-bold text-yellow-400">{Veq.toFixed(1)} mL</div>
-                            </div>
-                        </div>
-
-                        {/* pH Meter */}
-                        <div className="bg-gradient-to-r from-red-600 via-green-500 to-blue-600 p-1 rounded-xl">
-                            <div className="bg-black p-3 rounded-lg">
-                                <div className="flex justify-between text-xs mb-1">
-                                    <span className="text-red-400">Acide</span>
-                                    <span className="text-green-400">Neutre</span>
-                                    <span className="text-blue-400">Basique</span>
-                                </div>
-                                <div className="relative h-4 bg-gradient-to-r from-red-500 via-yellow-400 via-green-400 via-cyan-400 to-blue-600 rounded">
-                                    <div
-                                        className="absolute top-1/2 -translate-y-1/2 w-2 h-6 bg-white rounded shadow-lg"
-                                        style={{ left: `${(pH / 14) * 100}%`, transform: 'translateX(-50%) translateY(-50%)' }}
-                                    />
-                                </div>
-                                <div className="text-center mt-2">
-                                    <span className="text-3xl font-bold">pH = {pH.toFixed(1)}</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        {/* Indicateur explication */}
-                        <div className="text-xs bg-gray-900 p-2 rounded flex items-center gap-2">
-                            <div className="w-4 h-4 rounded-full" style={{ backgroundColor: indicatorColor }} />
-                            <span>
-                                BBT : {pH < 6 ? 'Jaune (Acide)' : pH > 8 ? 'Bleu (Basique)' : 'Vert (Neutre)'}
-                            </span>
-                        </div>
-
-                        {Math.abs(volumeBase - Veq) < 0.5 && (
-                            <div className="bg-green-900/50 border border-green-500 p-2 rounded text-center animate-pulse">
-                                🎯 Point d'équivalence atteint !
-                            </div>
-                        )}
+                <DraggableHtmlPanel title="⚗️ Titrage Acide-Base" className="w-[340px] border-emerald-500/30 text-white" defaultPosition="bottom-right">
+                    <div className="mb-4">
+                        <PhaseSelector currentPhase={mode} onSelect={setMode} />
                     </div>
+
+                    <div className="flex justify-between items-end mb-4 pb-2 border-b border-white/10">
+                        <div>
+                            <div className="text-xs text-emerald-400 font-bold uppercase tracking-wider mb-1">Module Chimie</div>
+                            <div className="text-xl font-black text-white leading-none">TITRAGE</div>
+                        </div>
+                        <GradeBadge score={score} />
+                    </div>
+
+                    {mode === 'explore' ? (
+                        <>
+                            <MissionObjective objective="Observez le virage de l'indicateur !" icon="🧪" />
+                            <div className="space-y-4">
+                                <div className="flex items-center gap-4">
+                                    <button
+                                        onClick={addDrop}
+                                        disabled={volumeBase >= 40}
+                                        className="flex-1 py-3 bg-emerald-600 hover:bg-emerald-500 rounded-xl font-bold transition-all disabled:opacity-50 shadow-lg shadow-emerald-900/20"
+                                    >
+                                        💧 Ajouter goutte (+0.5mL)
+                                    </button>
+                                    <button
+                                        onClick={() => setVolumeBase(0)}
+                                        className="py-3 px-4 bg-gray-700 hover:bg-gray-600 rounded-xl"
+                                    >
+                                        🔄
+                                    </button>
+                                </div>
+
+                                <div className="grid grid-cols-2 gap-2 text-sm">
+                                    <div className="bg-gray-800 p-2 rounded text-center">
+                                        <div className="text-xs text-gray-400">V(NaOH) ajouté</div>
+                                        <div className="font-bold text-lg">{volumeBase.toFixed(1)} mL</div>
+                                    </div>
+                                    <div className="bg-emerald-900/20 p-2 rounded border border-emerald-500/30 text-center">
+                                        <div className="text-xs text-emerald-400">V(équivalence)</div>
+                                        <div className="font-bold text-white text-lg">{Veq.toFixed(1)} mL</div>
+                                    </div>
+                                </div>
+
+                                {/* pH Meter */}
+                                <div className="bg-gradient-to-r from-red-600 via-green-500 to-blue-600 p-1 rounded-xl">
+                                    <div className="bg-black p-3 rounded-lg">
+                                        <div className="flex justify-between text-[10px] mb-1 uppercase font-bold">
+                                            <span className="text-red-400">Acide</span>
+                                            <span className="text-green-400">Neutre</span>
+                                            <span className="text-blue-400">Basique</span>
+                                        </div>
+                                        <div className="relative h-2 bg-gradient-to-r from-red-500 via-yellow-400 via-green-400 via-cyan-400 to-blue-600 rounded-full mb-2">
+                                            <div
+                                                className="absolute top-1/2 -translate-y-1/2 w-3 h-3 bg-white rounded-full shadow-lg border-2 border-black"
+                                                style={{ left: `${(pH / 14) * 100}%` }}
+                                            />
+                                        </div>
+                                        <div className="text-center">
+                                            <span className="text-2xl font-bold font-mono">pH = {pH.toFixed(1)}</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Indicateur explication */}
+                                <div className="text-xs bg-gray-800 p-2 rounded flex items-center gap-2">
+                                    <div className="w-4 h-4 rounded-full border border-white/20" style={{ backgroundColor: indicatorColor }} />
+                                    <span className="text-gray-300">
+                                        BBT : {pH < 6.0 ? 'Jaune (Acide)' : pH > 8.0 ? 'Bleu (Basique)' : 'Vert (Neutre)'}
+                                    </span>
+                                </div>
+                            </div>
+                        </>
+                    ) : (
+                        <div className="bg-gray-900/50 p-4 rounded-xl border border-emerald-500/30">
+                            <div className="flex justify-between items-center mb-6">
+                                <h3 className="text-emerald-300 font-bold flex items-center gap-2">
+                                    <span>🕵️</span> Défi Équivalence
+                                </h3>
+                                <XPBar current={score} nextLevel={100} />
+                            </div>
+
+                            {targetVeq ? (
+                                <div className="space-y-4 animate-in slide-in-from-right duration-300">
+                                    <div className="bg-gray-800 p-3 rounded border border-gray-600 text-center">
+                                        <div className="text-gray-400 text-xs uppercase mb-1">Concentration Inconnue</div>
+                                        <div className="font-bold text-xl text-emerald-400">Trouve le Veq</div>
+                                        <div className="text-xs text-gray-500 mt-1">Arrête-toi quand la solution devient verte !</div>
+                                    </div>
+
+                                    <div className="flex items-center gap-4">
+                                        <button
+                                            onClick={addDrop}
+                                            disabled={volumeBase >= 40}
+                                            className="flex-1 py-3 bg-emerald-600 hover:bg-emerald-500 rounded-xl font-bold transition-all disabled:opacity-50 shadow-lg shadow-emerald-900/20"
+                                        >
+                                            💧 Ajouter (+0.5)
+                                        </button>
+                                        <div className="font-bold text-white text-xl bg-gray-800 p-3 rounded min-w-[80px] text-center">
+                                            {volumeBase.toFixed(1)}
+                                        </div>
+                                    </div>
+
+                                    <div className="flex justify-center">
+                                        <div className="w-8 h-8 rounded-full border-2 border-white/20 shadow-[0_0_15px_rgba(0,0,0,0.5)] transform scale-125 transition-colors duration-500" style={{ backgroundColor: indicatorColor }} />
+                                    </div>
+
+                                    <button onClick={checkChallenge} className="w-full py-2 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 rounded-lg font-bold text-white shadow-lg">
+                                        Valider l'Équivalence
+                                    </button>
+                                </div>
+                            ) : (
+                                <div className="text-center py-8">
+                                    <button onClick={startChallenge} className="px-8 py-3 bg-emerald-600 hover:bg-emerald-500 text-white rounded-full font-bold shadow-lg shadow-emerald-900/20 transition-all transform hover:scale-105">
+                                        Lancer le Titrage
+                                    </button>
+                                </div>
+                            )}
+                        </div>
+                    )}
                 </DraggableHtmlPanel>
             </Html>
         </group>
@@ -490,7 +551,7 @@ export function DissolutionSimulation() {
                 <meshStandardMaterial color={isDissolving ? current.color : '#60A5FA'} transparent opacity={0.1 + progress * 0.4} />
             </mesh>
 
-            {/* Soluté (cristaux qui disparaissent) */}
+            {/* Soluté */}
             {!isDissolving && (
                 <group position={[0, 2.5, 0]}>
                     <mesh>
@@ -501,7 +562,7 @@ export function DissolutionSimulation() {
                 </group>
             )}
 
-            {/* Ions se dispersant */}
+            {/* Ions */}
             {isDissolving && ions.map((ion, i) => {
                 const t = Math.min(1, progress * 2 - ion.delay / 2000);
                 if (t < 0) return null;
@@ -517,42 +578,45 @@ export function DissolutionSimulation() {
             })}
 
             <Html transform={false}>
-                <DraggableHtmlPanel title="💠 Dissolution (Soluté → Ions)" className="w-[300px]" defaultPosition="bottom-left">
-                    <div className="space-y-4 text-white">
+                <DraggableHtmlPanel title="💠 Dissolution" className="w-[300px] border-purple-500/30 text-white" defaultPosition="bottom-left">
+                    <div className="flex justify-between items-end mb-4 pb-2 border-b border-white/10">
+                        <div>
+                            <div className="text-xs text-purple-400 font-bold uppercase tracking-wider mb-1">Module Chimie</div>
+                            <div className="text-xl font-black text-white leading-none">DISSOLUTION</div>
+                        </div>
+                    </div>
+
+                    <div className="space-y-4">
                         <div className="flex gap-2">
                             {Object.keys(solutes).map(key => (
                                 <button
                                     key={key}
                                     onClick={() => { setSoluteType(key); setIsDissolving(false); setProgress(0); }}
-                                    className={`flex-1 py-2 rounded text-xs ${soluteType === key ? 'bg-blue-600' : 'bg-gray-700'}`}
+                                    className={`flex-1 py-2 rounded text-xs transition-colors ${soluteType === key ? 'bg-purple-600 font-bold' : 'bg-gray-700 hover:bg-gray-600'}`}
                                 >
                                     {key}
                                 </button>
                             ))}
                         </div>
 
-                        <div className="bg-gray-900 p-3 rounded text-center">
-                            <div className="text-sm text-gray-400">{current.name}</div>
-                            <div className="text-lg font-mono mt-1">{current.formula}</div>
+                        <div className="bg-gray-800 p-3 rounded text-center border-l-2 border-purple-500">
+                            <div className="text-sm text-gray-300">{current.name}</div>
+                            <div className="text-lg font-mono mt-1 text-purple-300">{current.formula}</div>
                         </div>
 
                         <button
                             onClick={startDissolution}
                             disabled={isDissolving}
-                            className="w-full py-3 bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl font-bold hover:from-blue-500 hover:to-purple-500 disabled:opacity-50"
+                            className="w-full py-3 bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl font-bold hover:from-blue-500 hover:to-purple-500 disabled:opacity-50 shadow-lg"
                         >
                             {isDissolving ? 'Dissolution en cours...' : '🔬 Dissoudre le soluté'}
                         </button>
 
                         {progress > 0.8 && (
-                            <div className="bg-green-900/50 border border-green-500 p-2 rounded text-xs text-center">
-                                ✓ Solution homogène ! Les ions sont dispersés uniformément.
+                            <div className="bg-green-900/50 border border-green-500 p-2 rounded text-xs text-center animate-in fade-in">
+                                ✓ Solution homogène ! Les ions sont dispersés.
                             </div>
                         )}
-
-                        <div className="text-xs text-gray-400">
-                            <strong>Dissolution :</strong> Le soluté se sépare en ions qui se dispersent dans le solvant.
-                        </div>
                     </div>
                 </DraggableHtmlPanel>
             </Html>
@@ -566,12 +630,19 @@ export function DissolutionSimulation() {
 // =========================================================
 // 4. ÉQUILIBRAGE ÉQUATION-BILAN (Mission Lancement)
 // =========================================================
+// =========================================================
+// 4. ÉQUILIBRAGE ÉQUATION-BILAN (Mission Lancement)
+// =========================================================
 export function EquationBalancer() {
     const [coefficients, setCoefficients] = useState([1, 1, 1, 1]);
     const [currentEquation, setCurrentEquation] = useState(0);
     const [rocketState, setRocketState] = useState('idle'); // idle, countdown, launch, crash
     const [rocketHeight, setRocketHeight] = useState(0);
-    const [confetti, setConfetti] = useState(false);
+
+    // Gamification
+    const [mode, setMode] = useState('mission');
+    const [score, setScore] = useState(0);
+    const [showSuccess, setShowSuccess] = useState(false);
 
     const equations = [
         {
@@ -633,8 +704,8 @@ export function EquationBalancer() {
             setRocketState('countdown');
             setTimeout(() => {
                 setRocketState('launch');
-                setConfetti(true);
-                triggerSuccess();
+                setShowSuccess(true);
+                setScore(s => s + 300);
             }, 1000);
         } else {
             setRocketState('crash');
@@ -647,14 +718,15 @@ export function EquationBalancer() {
         setCoefficients([1, 1, 1, 1]);
         setRocketState('idle');
         setRocketHeight(0);
-        setConfetti(false);
+        setShowSuccess(false);
     };
 
     return (
         <group>
             <ambientLight intensity={0.5} />
             <pointLight position={[10, 10, 10]} intensity={1} />
-            <ConfettiExplosion trigger={confetti} />
+            <ConfettiExplosion active={showSuccess} />
+            <SuccessOverlay show={showSuccess} message="Lancement Réussi ! Orbite atteinte." points={300} onNext={nextMission} />
 
             {/* Décors Pas de tir */}
             <mesh position={[0, -2, 0]} rotation={[-Math.PI / 2, 0, 0]}>
@@ -698,7 +770,7 @@ export function EquationBalancer() {
                             <meshBasicMaterial color="#555" />
                         </Sphere>
                     ))}
-                    <Text position={[3, 2, -2]} fontSize={0.5} color="red">FAILURE!</Text>
+                    <Text position={[3, 2, -2]} fontSize={0.5} color="red">ERREUR DE CALCUL !</Text>
                 </group>
             )}
 
@@ -728,44 +800,59 @@ export function EquationBalancer() {
             </group>
 
             <Html transform={false}>
-                <DraggableHtmlPanel title="🚀 Centre de Contrôle" className="w-[360px]">
-                    <div className="p-4 text-white">
-                        <div className="bg-gray-800 p-2 rounded mb-4 text-center border-l-4 border-blue-500">
-                            <div className="text-xs text-gray-400">Mission:</div>
-                            <div className="font-bold text-lg">{eq.name}</div>
-                        </div>
+                <DraggableHtmlPanel title="🚀 Centre de Contrôle" className="w-[380px] border-red-500/30 text-white">
+                    <div className="mb-4">
+                        <PhaseSelector currentPhase={mode} onSelect={setMode} />
+                    </div>
 
-                        {/* Contrôles coefficients */}
-                        <div className="grid grid-cols-4 gap-2 mb-6">
-                            {[...eq.reactants, ...eq.products].map((mol, i) => (
-                                <div key={i} className="text-center bg-gray-900/50 p-2 rounded">
-                                    <div className="text-xs text-blue-300 font-bold mb-2">{mol.formula}</div>
-                                    <div className="flex flex-col items-center gap-1">
-                                        <button onClick={() => updateCoef(i, 1)} className="w-full bg-gray-700 hover:bg-gray-600 rounded text-xs py-1">▲</button>
-                                        <span className="font-bold text-xl my-1">{coefficients[i] || 1}</span>
-                                        <button onClick={() => updateCoef(i, -1)} className="w-full bg-gray-700 hover:bg-gray-600 rounded text-xs py-1">▼</button>
-                                    </div>
+                    <div className="flex justify-between items-end mb-4 pb-2 border-b border-white/10">
+                        <div>
+                            <div className="text-xs text-red-400 font-bold uppercase tracking-wider mb-1">Programme Spatial</div>
+                            <div className="text-xl font-black text-white leading-none">PROPULSION</div>
+                        </div>
+                        <GradeBadge score={score} />
+                    </div>
+
+                    <div className="bg-gray-800/80 p-3 rounded-xl mb-4 text-center border-l-4 border-blue-500">
+                        <div className="text-xs text-gray-400 uppercase tracking-widest">Mission Actuelle</div>
+                        <div className="font-bold text-lg text-white">{eq.name}</div>
+                    </div>
+
+                    {/* Contrôles coefficients */}
+                    <div className="grid grid-cols-4 gap-2 mb-6">
+                        {[...eq.reactants, ...eq.products].map((mol, i) => (
+                            <div key={i} className="text-center bg-gray-900/50 p-2 rounded border border-gray-700 hover:border-blue-500/50 transition-colors">
+                                <div className="text-xs text-blue-300 font-bold mb-2">{mol.formula}</div>
+                                <div className="flex flex-col items-center gap-1">
+                                    <button onClick={() => updateCoef(i, 1)} className="w-full bg-gray-700 hover:bg-gray-600 rounded text-xs py-1 text-green-400">▲</button>
+                                    <span className="font-bold text-xl my-1 font-mono">{coefficients[i] || 1}</span>
+                                    <button onClick={() => updateCoef(i, -1)} className="w-full bg-gray-700 hover:bg-gray-600 rounded text-xs py-1 text-red-400">▼</button>
                                 </div>
-                            ))}
-                        </div>
+                            </div>
+                        ))}
+                    </div>
 
-                        <div className="space-y-2">
-                            {rocketState === 'idle' ? (
-                                <button onClick={launchRocket} className="w-full py-4 bg-red-600 hover:bg-red-500 rounded font-bold text-xl shadow-lg border-b-4 border-red-800 active:border-b-0 active:translate-y-1">
-                                    LANCEMENT 🚀
-                                </button>
-                            ) : rocketState === 'launch' ? (
-                                <button onClick={nextMission} className="w-full py-3 bg-green-600 hover:bg-green-500 rounded font-bold animate-pulse">
-                                    MISSION SUIVANTE →
-                                </button>
-                            ) : (
-                                <div className="text-center text-red-500 font-bold animate-bounce">ANNULATION...</div>
-                            )}
-                        </div>
+                    <div className="space-y-2">
+                        {rocketState === 'idle' ? (
+                            <button
+                                onClick={launchRocket}
+                                className="w-full py-4 bg-gradient-to-r from-red-600 to-orange-600 hover:from-red-500 hover:to-orange-500 rounded-xl font-black text-xl shadow-lg shadow-orange-900/20 transform hover:scale-[1.02] transition-all flex items-center justify-center gap-2"
+                            >
+                                <span>🚀</span> DÉCOLLAGE IMMÉDIAT
+                            </button>
+                        ) : rocketState === 'countdown' ? (
+                            <div className="text-center text-4xl font-black text-white animate-pulse py-4">
+                                PRÊT...
+                            </div>
+                        ) : (
+                            <div className="text-center text-red-400 font-bold py-4">
+                                SÉQUENCE EN COURS...
+                            </div>
+                        )}
+                    </div>
 
-                        <div className="mt-4 text-[10px] text-gray-500 text-center">
-                            Ajustez les coefficients stœchiométriques pour respecter la conservation de la masse.
-                        </div>
+                    <div className="mt-4 text-[10px] text-gray-500 text-center bg-black/20 p-2 rounded">
+                        Loi de Lavoisier : "Rien ne se perd, rien ne se crée, tout se transforme."
                     </div>
                 </DraggableHtmlPanel>
             </Html>
@@ -778,6 +865,7 @@ export function EquationBalancer() {
 // =========================================================
 export function LewisStructure() {
     const [molecule, setMolecule] = useState('H2O');
+    const [rotationSpeed, setRotationSpeed] = useState(0.5);
 
     const molecules = {
         H2O: {
@@ -798,7 +886,7 @@ export function LewisStructure() {
                 { el: 'O', pos: [-1.5, 0, 0], color: '#EF4444', size: 0.45, electrons: 6 },
                 { el: 'O', pos: [1.5, 0, 0], color: '#EF4444', size: 0.45, electrons: 6 },
             ],
-            bonds: [[0, 1, 2], [0, 2, 2]], // Doubles liaisons (le 3e élément = multiplicité)
+            bonds: [[0, 1], [0, 2]], // Doubles liaisons (le 3e élément = multiplicité)
             doubletsNonLiants: [{ atom: 1, count: 2 }, { atom: 2, count: 2 }],
             angle: '180°'
         },
@@ -818,10 +906,10 @@ export function LewisStructure() {
             name: 'Méthane',
             atoms: [
                 { el: 'C', pos: [0, 0, 0], color: '#333333', size: 0.5, electrons: 4 },
-                { el: 'H', pos: [0.8, 0.8, 0.8], color: '#FFFFFF', size: 0.3, electrons: 1 },
-                { el: 'H', pos: [-0.8, -0.8, 0.8], color: '#FFFFFF', size: 0.3, electrons: 1 },
-                { el: 'H', pos: [0.8, -0.8, -0.8], color: '#FFFFFF', size: 0.3, electrons: 1 },
-                { el: 'H', pos: [-0.8, 0.8, -0.8], color: '#FFFFFF', size: 0.3, electrons: 1 },
+                { el: 'H', pos: [0, 1, 0], color: '#FFFFFF', size: 0.3, electrons: 1 },
+                { el: 'H', pos: [0.94, -0.33, 0], color: '#FFFFFF', size: 0.3, electrons: 1 },
+                { el: 'H', pos: [-0.47, -0.33, 0.81], color: '#FFFFFF', size: 0.3, electrons: 1 },
+                { el: 'H', pos: [-0.47, -0.33, -0.81], color: '#FFFFFF', size: 0.3, electrons: 1 },
             ],
             bonds: [[0, 1], [0, 2], [0, 3], [0, 4]],
             doubletsNonLiants: [],
@@ -830,38 +918,39 @@ export function LewisStructure() {
     };
 
     const mol = molecules[molecule];
+    const current = molecules[molecule]; // Keep both for consistency with the diff
     const groupRef = useRef();
 
     useFrame((state, delta) => {
         if (groupRef.current) {
-            groupRef.current.rotation.y += delta * 0.3;
+            groupRef.current.rotation.y += delta * rotationSpeed;
         }
     });
 
     return (
         <group>
-            <ambientLight intensity={0.7} />
-            <pointLight position={[5, 5, 5]} />
+            <ambientLight intensity={0.5} />
+            <pointLight position={[10, 10, 10]} intensity={1} />
 
             <Text position={[0, 3.5, 0]} fontSize={0.4} color="white">STRUCTURE DE LEWIS</Text>
             <Text position={[0, 3, 0]} fontSize={0.3} color="#FCD34D">{mol.name} ({molecule})</Text>
 
             <group ref={groupRef} scale={[1.5, 1.5, 1.5]}>
                 {/* Atomes */}
-                {mol.atoms.map((atom, i) => (
+                {current.atoms.map((atom, i) => (
                     <group key={i} position={atom.pos}>
                         <mesh>
                             <sphereGeometry args={[atom.size, 32, 32]} />
-                            <meshStandardMaterial color={atom.color} />
+                            <meshStandardMaterial color={atom.color} roughness={0.3} metalness={0.2} />
                         </mesh>
-                        <Text position={[0, 0, atom.size + 0.1]} fontSize={0.2} color="white">{atom.el}</Text>
+                        <Text position={[0, atom.size + 0.2, 0]} fontSize={0.3} color="white">{atom.el}</Text>
                     </group>
                 ))}
 
                 {/* Liaisons */}
-                {mol.bonds.map((bond, i) => {
-                    const a1 = mol.atoms[bond[0]];
-                    const a2 = mol.atoms[bond[1]];
+                {current.bonds.map((bond, i) => {
+                    const a1 = current.atoms[bond[0]];
+                    const a2 = current.atoms[bond[1]];
                     const multiplicity = bond[2] || 1;
                     const start = new THREE.Vector3(...a1.pos);
                     const end = new THREE.Vector3(...a2.pos);
@@ -889,7 +978,7 @@ export function LewisStructure() {
                 })}
 
                 {/* Doublets non liants */}
-                {mol.doubletsNonLiants.map((dnl, i) => {
+                {mol.doubletsNonLiants && mol.doubletsNonLiants.map((dnl, i) => {
                     const atom = mol.atoms[dnl.atom];
                     return [...Array(dnl.count)].map((_, j) => {
                         const angle = (j / dnl.count) * Math.PI * 2 + Math.PI / 4;

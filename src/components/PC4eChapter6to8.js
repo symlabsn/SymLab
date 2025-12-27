@@ -4,7 +4,7 @@ import * as THREE from 'three';
 import { useFrame } from '@react-three/fiber';
 import { Text, Html, Box, Sphere, Cylinder, Float, Line } from '@react-three/drei';
 import DraggableHtmlPanel from './DraggableHtmlPanel';
-import { SuccessOverlay, ConfettiExplosion } from './PC4eSimulations';
+import { SuccessOverlay, ConfettiExplosion } from './GamificationUtils';
 
 // ============================================================
 // CHAPITRE 6: SOURCES DE LUMIÈRE (ENRICHI)

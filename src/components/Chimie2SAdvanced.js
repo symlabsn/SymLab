@@ -4,65 +4,8 @@ import { useFrame } from '@react-three/fiber';
 import { Html, Text, Float } from '@react-three/drei';
 import * as THREE from 'three';
 import DraggableHtmlPanel from './DraggableHtmlPanel';
+import { ConfettiExplosion as Confetti } from './GamificationUtils';
 
-// =========================================================
-// COMPOSANTS DE GAMIFICATION PARTAGÉS
-// =========================================================
-
-function Confetti({ active }) {
-    const groupRef = useRef();
-    const [particles, setParticles] = useState([]);
-
-    useEffect(() => {
-        if (active) {
-            const colors = ['#FFD700', '#FF6B6B', '#4ECDC4', '#45B7D1', '#96E6A1', '#DDA0DD'];
-            const newParticles = [];
-            for (let i = 0; i < 50; i++) {
-                newParticles.push({
-                    id: i,
-                    x: (Math.random() - 0.5) * 0.5,
-                    y: 2 + Math.random(),
-                    z: (Math.random() - 0.5) * 0.5,
-                    vx: (Math.random() - 0.5) * 0.1,
-                    vy: Math.random() * 0.15 + 0.05,
-                    vz: (Math.random() - 0.5) * 0.1,
-                    color: colors[i % colors.length],
-                    size: 0.02 + Math.random() * 0.02
-                });
-            }
-            setParticles(newParticles);
-            const timer = setTimeout(() => setParticles([]), 3000);
-            return () => clearTimeout(timer);
-        }
-    }, [active]);
-
-    useFrame(() => {
-        if (groupRef.current && particles.length > 0) {
-            groupRef.current.children.forEach((mesh, i) => {
-                if (particles[i]) {
-                    mesh.position.x += particles[i].vx;
-                    mesh.position.y += particles[i].vy;
-                    mesh.position.z += particles[i].vz;
-                    particles[i].vy -= 0.005;
-                    mesh.rotation.x += 0.1;
-                }
-            });
-        }
-    });
-
-    if (particles.length === 0) return null;
-
-    return (
-        <group ref={groupRef}>
-            {particles.map((p) => (
-                <mesh key={p.id} position={[p.x, p.y, p.z]}>
-                    <boxGeometry args={[p.size, p.size, p.size * 0.3]} />
-                    <meshStandardMaterial color={p.color} emissive={p.color} emissiveIntensity={0.3} />
-                </mesh>
-            ))}
-        </group>
-    );
-}
 
 // =========================================================
 // C2. STRUCTURE ATOMIQUE - AMÉLIORÉE
@@ -319,8 +262,8 @@ export function AtomicStructureAdvanced() {
                                             key={e.symbol}
                                             onClick={() => setElementSymbol(e.symbol)}
                                             className={`p-1 text-[10px] font-bold rounded border transition-all ${elementSymbol === e.symbol
-                                                    ? 'bg-blue-600 border-blue-400 text-white scale-110 z-10'
-                                                    : 'bg-gray-700 border-gray-600 text-gray-300 hover:bg-gray-600'
+                                                ? 'bg-blue-600 border-blue-400 text-white scale-110 z-10'
+                                                : 'bg-gray-700 border-gray-600 text-gray-300 hover:bg-gray-600'
                                                 }`}
                                             title={e.name}
                                         >

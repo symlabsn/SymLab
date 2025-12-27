@@ -1,6 +1,6 @@
 'use client';
 import { useState, useEffect } from 'react';
-import { ConfettiExplosion } from './PC4eSimulations'; // Re-use confetti if available, or just omit
+import { ConfettiExplosion } from './GamificationUtils';
 
 export default function EnhancedQuiz({ simulation, onComplete }) {
     const [currentQuestion, setCurrentQuestion] = useState(0);

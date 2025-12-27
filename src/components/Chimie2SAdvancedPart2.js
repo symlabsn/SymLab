@@ -4,59 +4,13 @@ import { useFrame } from '@react-three/fiber';
 import { Html, Text, Float } from '@react-three/drei';
 import * as THREE from 'three';
 import DraggableHtmlPanel from './DraggableHtmlPanel';
+import { ConfettiExplosion as Confetti } from './GamificationUtils';
 
 // =========================================================
 // CHIMIE 2NDE S - SIMULATIONS AVANCÉES C6-C10
 // Solutions Aqueuses, Acides, Bases, pH, Tests d'Ions
 // =========================================================
 
-// Confetti
-function Confetti({ active }) {
-    const groupRef = useRef();
-    const [particles, setParticles] = useState([]);
-
-    useEffect(() => {
-        if (active) {
-            const colors = ['#FFD700', '#FF6B6B', '#4ECDC4', '#45B7D1', '#96E6A1'];
-            const newParticles = [];
-            for (let i = 0; i < 50; i++) {
-                newParticles.push({
-                    id: i, x: (Math.random() - 0.5) * 0.5, y: 2 + Math.random(), z: (Math.random() - 0.5) * 0.5,
-                    vx: (Math.random() - 0.5) * 0.1, vy: Math.random() * 0.15 + 0.05, vz: (Math.random() - 0.5) * 0.1,
-                    color: colors[i % colors.length], size: 0.02 + Math.random() * 0.02
-                });
-            }
-            setParticles(newParticles);
-            setTimeout(() => setParticles([]), 3000);
-        }
-    }, [active]);
-
-    useFrame(() => {
-        if (groupRef.current && particles.length > 0) {
-            groupRef.current.children.forEach((mesh, i) => {
-                if (particles[i]) {
-                    mesh.position.x += particles[i].vx;
-                    mesh.position.y += particles[i].vy;
-                    mesh.position.z += particles[i].vz;
-                    particles[i].vy -= 0.005;
-                    mesh.rotation.x += 0.1;
-                }
-            });
-        }
-    });
-
-    if (particles.length === 0) return null;
-    return (
-        <group ref={groupRef}>
-            {particles.map((p) => (
-                <mesh key={p.id} position={[p.x, p.y, p.z]}>
-                    <boxGeometry args={[p.size, p.size, p.size * 0.3]} />
-                    <meshStandardMaterial color={p.color} emissive={p.color} emissiveIntensity={0.3} />
-                </mesh>
-            ))}
-        </group>
-    );
-}
 
 // =========================================================
 // C6. SOLUTIONS & CONCENTRATION - DILUTION AVANCÉE

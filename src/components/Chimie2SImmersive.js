@@ -4,68 +4,13 @@ import { useFrame } from '@react-three/fiber';
 import { Html, Text, Float } from '@react-three/drei';
 import * as THREE from 'three';
 import DraggableHtmlPanel from './DraggableHtmlPanel';
+import { ConfettiExplosion as Confetti } from './GamificationUtils';
 
 // =========================================================
 // 🧪 LABORATOIRE VIRTUEL DE SÉPARATION - AVEC MODE DÉFI
 // Chapitres C1-C5 Chimie 2nde S
 // =========================================================
 
-// Confetti pour célébration
-function Confetti({ active }) {
-    const groupRef = useRef();
-    const [particles, setParticles] = useState([]);
-
-    useEffect(() => {
-        if (active) {
-            const colors = ['#FFD700', '#FF6B6B', '#4ECDC4', '#45B7D1', '#96E6A1', '#DDA0DD'];
-            const newParticles = [];
-            for (let i = 0; i < 60; i++) {
-                newParticles.push({
-                    id: i,
-                    x: (Math.random() - 0.5) * 0.5,
-                    y: 2 + Math.random(),
-                    z: (Math.random() - 0.5) * 0.5,
-                    vx: (Math.random() - 0.5) * 0.12,
-                    vy: Math.random() * 0.18 + 0.05,
-                    vz: (Math.random() - 0.5) * 0.12,
-                    color: colors[i % colors.length],
-                    size: 0.02 + Math.random() * 0.025
-                });
-            }
-            setParticles(newParticles);
-            const timer = setTimeout(() => setParticles([]), 3500);
-            return () => clearTimeout(timer);
-        }
-    }, [active]);
-
-    useFrame(() => {
-        if (groupRef.current && particles.length > 0) {
-            groupRef.current.children.forEach((mesh, i) => {
-                if (particles[i]) {
-                    mesh.position.x += particles[i].vx;
-                    mesh.position.y += particles[i].vy;
-                    mesh.position.z += particles[i].vz;
-                    particles[i].vy -= 0.006;
-                    mesh.rotation.x += 0.12;
-                    mesh.rotation.z += 0.08;
-                }
-            });
-        }
-    });
-
-    if (particles.length === 0) return null;
-
-    return (
-        <group ref={groupRef}>
-            {particles.map((p) => (
-                <mesh key={p.id} position={[p.x, p.y, p.z]}>
-                    <boxGeometry args={[p.size, p.size, p.size * 0.4]} />
-                    <meshStandardMaterial color={p.color} emissive={p.color} emissiveIntensity={0.4} />
-                </mesh>
-            ))}
-        </group>
-    );
-}
 
 // === SCÉNARIOS DE BASE ===
 const BASE_SCENARIOS = {
@@ -820,8 +765,8 @@ export function SeparationLab() {
                                 {/* Résultat */}
                                 {challengeAnswer && (
                                     <div className={`p-3 rounded-xl text-center ${challengeAnswer === currentChallenge.technique
-                                            ? 'bg-green-900/50 border border-green-500'
-                                            : 'bg-red-900/50 border border-red-500'
+                                        ? 'bg-green-900/50 border border-green-500'
+                                        : 'bg-red-900/50 border border-red-500'
                                         }`}>
                                         {challengeAnswer === currentChallenge.technique ? (
                                             <>
@@ -882,13 +827,13 @@ export function SeparationLab() {
                                             <div
                                                 key={i}
                                                 className={`flex items-center gap-2 p-2 rounded-lg transition-all text-sm ${i < currentStep ? 'bg-green-900/40 border border-green-500/40' :
-                                                        i === currentStep && isRunning ? 'bg-blue-900/50 border border-blue-400' :
-                                                            'bg-gray-800/40'
+                                                    i === currentStep && isRunning ? 'bg-blue-900/50 border border-blue-400' :
+                                                        'bg-gray-800/40'
                                                     }`}
                                             >
                                                 <span className={`w-5 h-5 rounded-full flex items-center justify-center text-xs font-bold ${i < currentStep ? 'bg-green-500' :
-                                                        i === currentStep && isRunning ? 'bg-blue-500' :
-                                                            'bg-gray-700'
+                                                    i === currentStep && isRunning ? 'bg-blue-500' :
+                                                        'bg-gray-700'
                                                     }`}>
                                                     {i < currentStep ? '✓' : i + 1}
                                                 </span>
@@ -924,10 +869,10 @@ export function SeparationLab() {
                                                 onClick={() => selectScenario(s)}
                                                 disabled={isRunning}
                                                 className={`p-2 rounded-xl text-left text-sm transition-all ${scenario?.id === s.id
-                                                        ? 'bg-blue-600 border-2 border-blue-400'
-                                                        : completed.includes(s.id)
-                                                            ? 'bg-green-900/40 border border-green-500/40'
-                                                            : 'bg-gray-800 hover:bg-gray-700 border border-gray-700'
+                                                    ? 'bg-blue-600 border-2 border-blue-400'
+                                                    : completed.includes(s.id)
+                                                        ? 'bg-green-900/40 border border-green-500/40'
+                                                        : 'bg-gray-800 hover:bg-gray-700 border border-gray-700'
                                                     } disabled:opacity-50`}
                                             >
                                                 <div className="font-bold">{s.title}</div>
