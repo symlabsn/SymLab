@@ -756,7 +756,6 @@ export function ElectroniqueSim() {
             </Html>
             <SuccessOverlay show={showSuccess} message="Circuit Maîtrisé !" points={400} onNext={() => { setShowSuccess(false); setMission(null); setPhase('explore'); }} />
             <ConfettiExplosion active={showSuccess} />
-        </Html>
         </group >
     );
 }
@@ -925,7 +924,6 @@ export function OndesSim() {
             </Html>
             <SuccessOverlay show={showSuccess} message="Ondes Maîtrisées !" points={300} onNext={() => { setShowSuccess(false); setMission(null); setPhase('explore'); }} />
             <ConfettiExplosion active={showSuccess} />
-        </Html>
         </group >
     );
 }
@@ -1096,7 +1094,6 @@ export function OptiqueLentilleSim() {
             </Html>
             <SuccessOverlay show={showSuccess} message="Optique Maîtrisée !" points={300} onNext={() => { setShowSuccess(false); setMission(null); setPhase('explore'); }} />
             <ConfettiExplosion active={showSuccess} />
-        </Html>
         </group >
     );
 }
