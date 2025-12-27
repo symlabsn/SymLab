@@ -1371,10 +1371,39 @@ function CircuitSegment({ p1, p2, vertical, active }) {
     const mid = [(p1[0] + p2[0]) / 2, (p1[1] + p2[1]) / 2, (p1[2] + p2[2]) / 2];
     const len = Math.sqrt(Math.pow(p2[0] - p1[0], 2) + Math.pow(p2[1] - p1[1], 2));
     const rot = vertical ? [0, 0, 0] : [0, 0, Math.PI / 2];
+
+    // Electrons
+    const electrons = useMemo(() => Array.from({ length: Math.ceil(len * 5) }), [len]);
+
     return (
-        <mesh position={mid} rotation={rot}>
-            <cylinderGeometry args={[0.03, 0.03, len]} />
-            <meshStandardMaterial color={active ? '#F59E0B' : '#4B5563'} />
+        <group position={mid} rotation={rot}>
+            {/* Wire */}
+            <mesh>
+                <cylinderGeometry args={[0.03, 0.03, len]} />
+                <meshStandardMaterial color={active ? '#F59E0B' : '#4B5563'} />
+            </mesh>
+
+            {/* Electron Flow */}
+            {active && electrons.map((_, i) => (
+                <MovingElectron key={i} offset={i / electrons.length} len={len} speed={2} />
+            ))}
+        </group>
+    );
+}
+
+function MovingElectron({ offset, len, speed }) {
+    const ref = useRef();
+    useFrame((state) => {
+        if (ref.current) {
+            // Move along Y axis (cylinder's length)
+            const t = (state.clock.elapsedTime * speed + offset) % 1;
+            ref.current.position.y = (t - 0.5) * len;
+        }
+    });
+    return (
+        <mesh ref={ref}>
+            <sphereGeometry args={[0.04]} />
+            <meshBasicMaterial color="#FEF3C7" />
         </mesh>
     );
 }
@@ -1393,9 +1422,36 @@ function Switch3D({ position, closed }) {
 function Lamp3D({ active, intensity }) {
     return (
         <group position={[0, 1, 0]}>
-            <Sphere args={[0.4]} material-color={active ? "yellow" : "gray"} material-emissive={active ? "yellow" : "black"} material-emissiveIntensity={intensity} />
+            {/* Bulb Glass */}
+            <mesh>
+                <sphereGeometry args={[0.4, 32, 32]} />
+                <meshPhysicalMaterial
+                    color={active ? "#FEF9C3" : "#E5E7EB"}
+                    transparent
+                    opacity={0.4}
+                    transmission={0.9}
+                    roughness={0.1}
+                    thickness={0.1}
+                />
+            </mesh>
+            {/* Filament */}
+            <mesh>
+                <sphereGeometry args={[0.15]} />
+                <meshBasicMaterial color={active ? "#FBBF24" : "#4B5563"} />
+            </mesh>
+            {/* Base */}
             <Cylinder args={[0.2, 0.2, 0.5]} position={[0, -0.4, 0]} material-color="silver" />
-            {active && <pointLight distance={3} intensity={intensity} color="orange" />}
+
+            {/* Glow */}
+            {active && (
+                <>
+                    <pointLight distance={3} intensity={intensity} color="orange" />
+                    <mesh scale={1.2}>
+                        <sphereGeometry args={[0.4]} />
+                        <meshBasicMaterial color="#FBBF24" transparent opacity={0.2} />
+                    </mesh>
+                </>
+            )}
         </group>
     );
 }

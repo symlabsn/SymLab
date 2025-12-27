@@ -301,6 +301,7 @@ export function AtomBuilderSim() {
     const [score, setScore] = useState(0);
     const [collection, setCollection] = useState([]);
     const [timeLeft, setTimeLeft] = useState(60);
+    const [showShells, setShowShells] = useState(true);
 
     const elements = {
         1: { name: 'Hydrogène', symbol: 'H' },
@@ -371,7 +372,14 @@ export function AtomBuilderSim() {
 
                     <div className="h-[1px] bg-gradient-to-r from-transparent via-pink-500/50 to-transparent my-4" />
 
-                    <PhaseSelector currentPhase={phase} onSelect={(p) => { setPhase(p); if (p === 'mission') startMission(); }} />
+                    <div className="h-[1px] bg-gradient-to-r from-transparent via-pink-500/50 to-transparent my-4" />
+
+                    <div className="flex justify-between items-center mb-2">
+                        <PhaseSelector currentPhase={phase} onSelect={(p) => { setPhase(p); if (p === 'mission') startMission(); }} />
+                        <button onClick={() => setShowShells(!showShells)} className={`text-[10px] px-2 py-1 rounded border ${showShells ? 'bg-blue-600/50 border-blue-400' : 'bg-gray-800 border-gray-600'}`}>
+                            {showShells ? '👁️ Orbites' : '🙈 Orbites'}
+                        </button>
+                    </div>
 
                     {phase === 'mission' && mission && (
                         <MissionObjective objective={`Construis cet isotope : ${mission.name}`} icon="⚛️" />
@@ -467,7 +475,12 @@ export function AtomBuilderSim() {
                                 Math.cos(i * 3) * 0.35,
                                 Math.sin(i * 4) * 0.35
                             ]}>
-                                <meshStandardMaterial color="#EF4444" roughness={0.3} />
+                                <meshStandardMaterial
+                                    color="#EF4444"
+                                    roughness={0.3}
+                                    emissive={isStable ? "#EF4444" : "#7F1D1D"}
+                                    emissiveIntensity={isStable ? 0.2 : 0}
+                                />
                             </Sphere>
                         ))}
                         {/* Neutrons gris */}
