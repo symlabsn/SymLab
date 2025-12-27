@@ -5,7 +5,7 @@ import { Html, Text, Line, OrbitControls, Float } from '@react-three/drei';
 import * as THREE from 'three';
 import DraggableHtmlPanel from './DraggableHtmlPanel';
 
-import { PhaseSelector, GradeBadge, MissionObjective, XPBar, SuccessOverlay, ConfettiExplosion } from './GamificationUtils';
+import { PhaseSelector, GradeBadge, MissionObjective, XPBar, SuccessOverlay, ConfettiExplosion, ChallengeTimer } from './GamificationUtils';
 
 // =========================================================
 // 1. DILUTION INTERACTIVE (Nouveau - Avec Challenge)
@@ -488,23 +488,60 @@ export function TitrageAcideBase() {
 }
 
 // =========================================================
-// 3. DISSOLUTION (Animation particules)
+// 3. DISSOLUTION (Animation particules + Missions Gamifiées)
 // =========================================================
+
 export function DissolutionSimulation() {
+    // États de base
     const [soluteType, setSoluteType] = useState('NaCl');
     const [isDissolving, setIsDissolving] = useState(false);
     const [progress, setProgress] = useState(0);
 
+    // Gamification
+    const [phase, setPhase] = useState('explore');
+    const [score, setScore] = useState(0);
+    const [showSuccess, setShowSuccess] = useState(false);
+    const [mission, setMission] = useState(null);
+    const [timeLeft, setTimeLeft] = useState(30);
+
     const solutes = {
-        NaCl: { name: 'Chlorure de Sodium', formula: 'NaCl → Na⁺ + Cl⁻', color: '#FFFFFF', ionColors: ['#9333EA', '#22C55E'] },
-        CuSO4: { name: 'Sulfate de Cuivre', formula: 'CuSO₄ → Cu²⁺ + SO₄²⁻', color: '#3B82F6', ionColors: ['#3B82F6', '#F97316'] },
-        KMnO4: { name: 'Permanganate de K', formula: 'KMnO₄ → K⁺ + MnO₄⁻', color: '#A855F7', ionColors: ['#A855F7', '#EC4899'] },
+        NaCl: { name: 'Chlorure de Sodium', formula: 'NaCl → Na⁺ + Cl⁻', color: '#FFFFFF', ionColors: ['#9333EA', '#22C55E'], cation: 'Na⁺', anion: 'Cl⁻' },
+        CuSO4: { name: 'Sulfate de Cuivre', formula: 'CuSO₄ → Cu²⁺ + SO₄²⁻', color: '#3B82F6', ionColors: ['#3B82F6', '#F97316'], cation: 'Cu²⁺', anion: 'SO₄²⁻' },
+        KMnO4: { name: 'Permanganate de K', formula: 'KMnO₄ → K⁺ + MnO₄⁻', color: '#A855F7', ionColors: ['#A855F7', '#EC4899'], cation: 'K⁺', anion: 'MnO₄⁻' },
+        FeCl3: { name: 'Chlorure de Fer III', formula: 'FeCl₃ → Fe³⁺ + 3Cl⁻', color: '#F59E0B', ionColors: ['#F59E0B', '#22C55E'], cation: 'Fe³⁺', anion: 'Cl⁻' },
+        AgNO3: { name: 'Nitrate d\'Argent', formula: 'AgNO₃ → Ag⁺ + NO₃⁻', color: '#E5E7EB', ionColors: ['#9CA3AF', '#EF4444'], cation: 'Ag⁺', anion: 'NO₃⁻' },
     };
 
     const current = solutes[soluteType];
 
+    // Missions
+    const missions = useMemo(() => [
+        { id: 1, title: '💎 Cristal de Sel', objective: 'Dissous le NaCl et observe la formation des ions Na⁺ et Cl⁻.', targetSolute: 'NaCl', points: 100 },
+        { id: 2, title: '🔵 Solution Bleue', objective: 'Prépare une solution de sulfate de cuivre et identifie le cation Cu²⁺.', targetSolute: 'CuSO4', points: 150 },
+        { id: 3, title: '💜 Violet Intense', objective: 'Dissous le permanganate de potassium pour voir sa couleur caractéristique.', targetSolute: 'KMnO4', points: 150 },
+        { id: 4, title: '🧪 Fer Rouillé', objective: 'Identifie les ions Fe³⁺ dans une solution de chlorure de fer III.', targetSolute: 'FeCl3', points: 200 },
+        { id: 5, title: '⚗️ Expert Chimiste', objective: 'Dissous le nitrate d\'argent - attention substance sensible à la lumière !', targetSolute: 'AgNO3', points: 250 },
+    ], []);
+
     // Particules d'ions
     const [ions, setIons] = useState([]);
+
+    // Timer pour le mode mission
+    useEffect(() => {
+        let timer;
+        if (phase === 'mission' && timeLeft > 0 && !showSuccess && mission) {
+            timer = setInterval(() => setTimeLeft(prev => prev - 1), 1000);
+        }
+        return () => clearInterval(timer);
+    }, [phase, timeLeft, showSuccess, mission]);
+
+    // Initialiser mission
+    useEffect(() => {
+        if (phase === 'mission' && !mission) {
+            setMission(missions[0]);
+            setTimeLeft(30);
+        }
+    }, [phase, mission, missions]);
 
     const startDissolution = () => {
         setIsDissolving(true);
@@ -513,16 +550,18 @@ export function DissolutionSimulation() {
 
         // Générer les ions qui se dispersent
         const newIons = [];
-        for (let i = 0; i < 20; i++) {
+        const ionCount = 30; // Plus d'ions pour plus de dynamisme
+        for (let i = 0; i < ionCount; i++) {
             newIons.push({
                 id: i,
                 type: i % 2,
                 startX: (Math.random() - 0.5) * 0.5,
                 startY: 2,
-                targetX: (Math.random() - 0.5) * 2,
-                targetY: -1 + Math.random() * 2,
-                targetZ: (Math.random() - 0.5) * 2,
-                delay: Math.random() * 1000
+                targetX: (Math.random() - 0.5) * 2.5,
+                targetY: -1 + Math.random() * 2.5,
+                targetZ: (Math.random() - 0.5) * 2.5,
+                delay: Math.random() * 800,
+                wobble: Math.random() * 2 // Mouvement brownien
             });
         }
         setIons(newIons);
@@ -530,93 +569,199 @@ export function DissolutionSimulation() {
 
     useFrame((state, delta) => {
         if (isDissolving && progress < 1) {
-            setProgress(p => Math.min(1, p + delta * 0.3));
+            setProgress(p => Math.min(1, p + delta * 0.25));
+        }
+        // Mouvement brownien des ions
+        if (progress >= 1 && ions.length > 0) {
+            setIons(prev => prev.map(ion => ({
+                ...ion,
+                targetX: ion.targetX + Math.sin(state.clock.elapsedTime * ion.wobble) * delta * 0.3,
+                targetZ: ion.targetZ + Math.cos(state.clock.elapsedTime * ion.wobble) * delta * 0.3
+            })));
         }
     });
+
+    // Vérifier si mission réussie
+    useEffect(() => {
+        if (phase === 'mission' && mission && progress >= 1 && soluteType === mission.targetSolute) {
+            setScore(prev => prev + mission.points);
+            setShowSuccess(true);
+        }
+    }, [phase, mission, progress, soluteType]);
+
+    const nextMission = () => {
+        setShowSuccess(false);
+        const nextIdx = missions.findIndex(m => m.id === mission.id) + 1;
+        if (nextIdx < missions.length) {
+            setMission(missions[nextIdx]);
+            setTimeLeft(30);
+            setSoluteType(missions[nextIdx].targetSolute);
+            setIsDissolving(false);
+            setProgress(0);
+            setIons([]);
+        } else {
+            setPhase('explore');
+            setMission(null);
+        }
+    };
 
     return (
         <group>
             <ambientLight intensity={0.7} />
-            <pointLight position={[5, 5, 5]} />
+            <pointLight position={[5, 5, 5]} intensity={1.2} />
+            <pointLight position={[-3, 3, 3]} intensity={0.5} color={current.color} />
 
-            {/* Bécher */}
+            <SuccessOverlay show={showSuccess} message={mission?.title || "Dissolution réussie !"} points={mission?.points || 100} onNext={nextMission} />
+            <ConfettiExplosion active={showSuccess} />
+
+            {/* Bécher avec effets */}
             <mesh position={[0, 0, 0]}>
                 <cylinderGeometry args={[1.5, 1.5, 4, 32, 1, true]} />
-                <meshPhysicalMaterial color="white" transmission={0.9} transparent opacity={0.3} side={THREE.DoubleSide} />
+                <meshPhysicalMaterial color="white" transmission={0.95} transparent opacity={0.25} side={THREE.DoubleSide} roughness={0.1} />
             </mesh>
 
-            {/* Eau */}
+            {/* Fond du bécher */}
+            <mesh position={[0, -2, 0]} rotation={[-Math.PI / 2, 0, 0]}>
+                <circleGeometry args={[1.45, 32]} />
+                <meshPhysicalMaterial color="white" transmission={0.9} transparent opacity={0.2} />
+            </mesh>
+
+            {/* Eau avec gradient de couleur */}
             <mesh position={[0, -0.5, 0]}>
-                <cylinderGeometry args={[1.45, 1.45, 3, 32]} />
-                <meshStandardMaterial color={isDissolving ? current.color : '#60A5FA'} transparent opacity={0.1 + progress * 0.4} />
+                <cylinderGeometry args={[1.43, 1.43, 3, 32]} />
+                <meshStandardMaterial color={isDissolving ? current.color : '#60A5FA'} transparent opacity={0.15 + progress * 0.45} />
             </mesh>
 
-            {/* Soluté */}
+            {/* Soluté tombant */}
             {!isDissolving && (
-                <group position={[0, 2.5, 0]}>
-                    <mesh>
-                        <boxGeometry args={[0.5, 0.5, 0.5]} />
-                        <meshStandardMaterial color={current.color} />
-                    </mesh>
-                    <Text position={[0, 0.6, 0]} fontSize={0.2} color="white">{soluteType}</Text>
-                </group>
+                <Float speed={2} floatIntensity={0.2}>
+                    <group position={[0, 2.5, 0]}>
+                        <mesh>
+                            <boxGeometry args={[0.5, 0.5, 0.5]} />
+                            <meshStandardMaterial color={current.color} metalness={0.3} roughness={0.5} />
+                        </mesh>
+                        <Text position={[0, 0.6, 0]} fontSize={0.2} color="white">{soluteType}</Text>
+                    </group>
+                </Float>
             )}
 
-            {/* Ions */}
-            {isDissolving && ions.map((ion, i) => {
-                const t = Math.min(1, progress * 2 - ion.delay / 2000);
+            {/* Ions avec animation */}
+            {isDissolving && ions.map((ion) => {
+                const t = Math.min(1, progress * 2.5 - ion.delay / 1500);
                 if (t < 0) return null;
                 const x = ion.startX + (ion.targetX - ion.startX) * t;
                 const y = ion.startY + (ion.targetY - ion.startY) * t;
                 const z = ion.targetZ * t;
                 return (
                     <mesh key={ion.id} position={[x, y, z]}>
-                        <sphereGeometry args={[0.08]} />
-                        <meshStandardMaterial color={current.ionColors[ion.type]} emissive={current.ionColors[ion.type]} emissiveIntensity={0.3} />
+                        <sphereGeometry args={[0.1]} />
+                        <meshStandardMaterial color={current.ionColors[ion.type]} emissive={current.ionColors[ion.type]} emissiveIntensity={0.5} />
                     </mesh>
                 );
             })}
 
+            {/* Étiquettes ions */}
+            {progress >= 1 && (
+                <>
+                    <Text position={[-1.8, 1.5, 0]} fontSize={0.2} color={current.ionColors[0]}>{current.cation}</Text>
+                    <Text position={[1.8, 1.5, 0]} fontSize={0.2} color={current.ionColors[1]}>{current.anion}</Text>
+                </>
+            )}
+
             <Html transform={false}>
-                <DraggableHtmlPanel title="💠 Dissolution" className="w-[300px] border-purple-500/30 text-white" defaultPosition="bottom-left">
+                <DraggableHtmlPanel title="💠 Laboratoire de Dissolution" className="w-[380px] border-purple-500/30 text-white" defaultPosition="bottom-right">
+                    <PhaseSelector currentPhase={phase} onSelect={setPhase} />
+
+                    {phase === 'mission' && mission && (
+                        <div className="mb-4 space-y-3">
+                            <div className="flex justify-between items-center">
+                                <GradeBadge score={score} />
+                                <ChallengeTimer timeLeft={timeLeft} maxTime={30} />
+                            </div>
+                            <MissionObjective objective={mission.objective} icon="🧪" />
+                        </div>
+                    )}
+
                     <div className="flex justify-between items-end mb-4 pb-2 border-b border-white/10">
                         <div>
                             <div className="text-xs text-purple-400 font-bold uppercase tracking-wider mb-1">Module Chimie</div>
                             <div className="text-xl font-black text-white leading-none">DISSOLUTION</div>
                         </div>
+                        <GradeBadge score={score} />
                     </div>
 
                     <div className="space-y-4">
-                        <div className="flex gap-2">
-                            {Object.keys(solutes).map(key => (
-                                <button
-                                    key={key}
-                                    onClick={() => { setSoluteType(key); setIsDissolving(false); setProgress(0); }}
-                                    className={`flex-1 py-2 rounded text-xs transition-colors ${soluteType === key ? 'bg-purple-600 font-bold' : 'bg-gray-700 hover:bg-gray-600'}`}
-                                >
-                                    {key}
-                                </button>
-                            ))}
+                        {/* Sélecteur de soluté */}
+                        <div>
+                            <div className="text-xs text-gray-400 uppercase tracking-wider mb-2">Soluté</div>
+                            <div className="grid grid-cols-5 gap-1">
+                                {Object.keys(solutes).map(key => (
+                                    <button
+                                        key={key}
+                                        onClick={() => { setSoluteType(key); setIsDissolving(false); setProgress(0); setIons([]); }}
+                                        className={`py-2 rounded text-[10px] font-bold transition-all ${soluteType === key
+                                            ? 'bg-purple-600 shadow-lg shadow-purple-900/30 scale-105'
+                                            : 'bg-gray-800 hover:bg-gray-700'}`}
+                                        style={{ borderBottom: soluteType === key ? `3px solid ${solutes[key].color}` : 'none' }}
+                                    >
+                                        {key}
+                                    </button>
+                                ))}
+                            </div>
                         </div>
 
-                        <div className="bg-gray-800 p-3 rounded text-center border-l-2 border-purple-500">
-                            <div className="text-sm text-gray-300">{current.name}</div>
-                            <div className="text-lg font-mono mt-1 text-purple-300">{current.formula}</div>
+                        {/* Info soluté */}
+                        <div className="bg-gradient-to-r from-purple-900/40 to-blue-900/40 p-3 rounded-xl border border-purple-500/20">
+                            <div className="flex items-center gap-3">
+                                <div className="w-6 h-6 rounded-full" style={{ backgroundColor: current.color, boxShadow: `0 0 15px ${current.color}` }} />
+                                <div>
+                                    <div className="text-sm font-bold text-white">{current.name}</div>
+                                    <div className="text-xs font-mono text-purple-300">{current.formula}</div>
+                                </div>
+                            </div>
                         </div>
 
+                        {/* Équation ionique */}
+                        <div className="grid grid-cols-2 gap-2 text-center text-xs">
+                            <div className="bg-black/40 p-2 rounded border border-purple-500/20">
+                                <div className="text-gray-500 uppercase text-[10px]">Cation</div>
+                                <div className="text-lg font-bold" style={{ color: current.ionColors[0] }}>{current.cation}</div>
+                            </div>
+                            <div className="bg-black/40 p-2 rounded border border-green-500/20">
+                                <div className="text-gray-500 uppercase text-[10px]">Anion</div>
+                                <div className="text-lg font-bold" style={{ color: current.ionColors[1] }}>{current.anion}</div>
+                            </div>
+                        </div>
+
+                        {/* Bouton action */}
                         <button
                             onClick={startDissolution}
-                            disabled={isDissolving}
-                            className="w-full py-3 bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl font-bold hover:from-blue-500 hover:to-purple-500 disabled:opacity-50 shadow-lg"
+                            disabled={isDissolving && progress < 1}
+                            className={`w-full py-4 rounded-xl font-black text-sm transition-all transform hover:scale-[1.02] ${isDissolving && progress < 1
+                                ? 'bg-gray-700 cursor-not-allowed opacity-70'
+                                : 'bg-gradient-to-r from-purple-600 via-blue-600 to-cyan-600 hover:from-purple-500 hover:via-blue-500 hover:to-cyan-500 shadow-lg shadow-purple-900/30'
+                                }`}
                         >
-                            {isDissolving ? 'Dissolution en cours...' : '🔬 Dissoudre le soluté'}
+                            {isDissolving && progress < 1 ? (
+                                <span className="flex items-center justify-center gap-2">
+                                    <span className="animate-spin">⚗️</span> Dissolution... {Math.round(progress * 100)}%
+                                </span>
+                            ) : progress >= 1 ? (
+                                '🔄 Nouvelle Dissolution'
+                            ) : (
+                                '🔬 DISSOUDRE LE SOLUTÉ'
+                            )}
                         </button>
 
-                        {progress > 0.8 && (
-                            <div className="bg-green-900/50 border border-green-500 p-2 rounded text-xs text-center animate-in fade-in">
-                                ✓ Solution homogène ! Les ions sont dispersés.
+                        {/* Message succès */}
+                        {progress >= 1 && !showSuccess && (
+                            <div className="bg-green-900/40 border border-green-500/50 p-3 rounded-xl text-center animate-in slide-in-from-bottom duration-500">
+                                <div className="text-green-400 font-bold text-sm mb-1">✓ Solution homogène obtenue !</div>
+                                <div className="text-xs text-gray-300">Les ions {current.cation} et {current.anion} sont dispersés uniformément.</div>
                             </div>
                         )}
+
+                        <XPBar current={score % 500} nextLevel={500} />
                     </div>
                 </DraggableHtmlPanel>
             </Html>
@@ -861,37 +1006,55 @@ export function EquationBalancer() {
 }
 
 // =========================================================
-// 5. STRUCTURE DE LEWIS (Visualisation molécules)
+// 5. STRUCTURE DE LEWIS (Visualisation molécules + Gamification)
 // =========================================================
 export function LewisStructure() {
     const [molecule, setMolecule] = useState('H2O');
     const [rotationSpeed, setRotationSpeed] = useState(0.5);
 
+    // Gamification
+    const [phase, setPhase] = useState('explore');
+    const [score, setScore] = useState(0);
+    const [showSuccess, setShowSuccess] = useState(false);
+    const [mission, setMission] = useState(null);
+    const [timeLeft, setTimeLeft] = useState(25);
+    const [quizAnswer, setQuizAnswer] = useState(null);
+    const [showLabels, setShowLabels] = useState(true);
+
     const molecules = {
         H2O: {
             name: 'Eau',
+            formula: 'H₂O',
             atoms: [
                 { el: 'O', pos: [0, 0, 0], color: '#EF4444', size: 0.5, electrons: 6 },
                 { el: 'H', pos: [-0.8, -0.6, 0], color: '#FFFFFF', size: 0.3, electrons: 1 },
                 { el: 'H', pos: [0.8, -0.6, 0], color: '#FFFFFF', size: 0.3, electrons: 1 },
             ],
-            bonds: [[0, 1], [0, 2]], // Simple liaisons
-            doubletsNonLiants: [{ atom: 0, count: 2 }], // O a 2 doublets non liants
-            angle: '104.5°'
+            bonds: [[0, 1], [0, 2]],
+            doubletsNonLiants: [{ atom: 0, count: 2 }],
+            bondsCount: 2,
+            doubletsCount: 2,
+            angle: '104.5°',
+            geometry: 'Coudée'
         },
         CO2: {
             name: 'Dioxyde de carbone',
+            formula: 'CO₂',
             atoms: [
                 { el: 'C', pos: [0, 0, 0], color: '#333333', size: 0.5, electrons: 4 },
                 { el: 'O', pos: [-1.5, 0, 0], color: '#EF4444', size: 0.45, electrons: 6 },
                 { el: 'O', pos: [1.5, 0, 0], color: '#EF4444', size: 0.45, electrons: 6 },
             ],
-            bonds: [[0, 1], [0, 2]], // Doubles liaisons (le 3e élément = multiplicité)
+            bonds: [[0, 1, 2], [0, 2, 2]],
             doubletsNonLiants: [{ atom: 1, count: 2 }, { atom: 2, count: 2 }],
-            angle: '180°'
+            bondsCount: 4,
+            doubletsCount: 4,
+            angle: '180°',
+            geometry: 'Linéaire'
         },
         NH3: {
             name: 'Ammoniac',
+            formula: 'NH₃',
             atoms: [
                 { el: 'N', pos: [0, 0.3, 0], color: '#3B82F6', size: 0.5, electrons: 5 },
                 { el: 'H', pos: [-0.7, -0.5, 0.4], color: '#FFFFFF', size: 0.3, electrons: 1 },
@@ -900,10 +1063,14 @@ export function LewisStructure() {
             ],
             bonds: [[0, 1], [0, 2], [0, 3]],
             doubletsNonLiants: [{ atom: 0, count: 1 }],
-            angle: '107°'
+            bondsCount: 3,
+            doubletsCount: 1,
+            angle: '107°',
+            geometry: 'Pyramidale'
         },
         CH4: {
             name: 'Méthane',
+            formula: 'CH₄',
             atoms: [
                 { el: 'C', pos: [0, 0, 0], color: '#333333', size: 0.5, electrons: 4 },
                 { el: 'H', pos: [0, 1, 0], color: '#FFFFFF', size: 0.3, electrons: 1 },
@@ -913,13 +1080,72 @@ export function LewisStructure() {
             ],
             bonds: [[0, 1], [0, 2], [0, 3], [0, 4]],
             doubletsNonLiants: [],
-            angle: '109.5°'
+            bondsCount: 4,
+            doubletsCount: 0,
+            angle: '109.5°',
+            geometry: 'Tétraédrique'
+        },
+        HCl: {
+            name: 'Chlorure d\'hydrogène',
+            formula: 'HCl',
+            atoms: [
+                { el: 'Cl', pos: [0, 0, 0], color: '#22C55E', size: 0.55, electrons: 7 },
+                { el: 'H', pos: [0.9, 0, 0], color: '#FFFFFF', size: 0.3, electrons: 1 },
+            ],
+            bonds: [[0, 1]],
+            doubletsNonLiants: [{ atom: 0, count: 3 }],
+            bondsCount: 1,
+            doubletsCount: 3,
+            angle: '-',
+            geometry: 'Linéaire'
+        },
+        O2: {
+            name: 'Dioxygène',
+            formula: 'O₂',
+            atoms: [
+                { el: 'O', pos: [-0.6, 0, 0], color: '#EF4444', size: 0.5, electrons: 6 },
+                { el: 'O', pos: [0.6, 0, 0], color: '#EF4444', size: 0.5, electrons: 6 },
+            ],
+            bonds: [[0, 1, 2]],
+            doubletsNonLiants: [{ atom: 0, count: 2 }, { atom: 1, count: 2 }],
+            bondsCount: 2,
+            doubletsCount: 4,
+            angle: '-',
+            geometry: 'Linéaire'
         }
     };
 
+    // Missions quiz
+    const missions = useMemo(() => [
+        { id: 1, title: '💧 Molécule de la Vie', question: 'Combien de doublets non liants sur O dans H₂O ?', answer: 2, molecule: 'H2O', points: 100 },
+        { id: 2, title: '🌿 Gaz Carbonique', question: 'Quelle est la géométrie de CO₂ ?', answer: 'Linéaire', molecule: 'CO2', points: 120 },
+        { id: 3, title: '🔥 Combustible', question: 'Quel est l\'angle de liaison dans CH₄ ?', answer: '109.5°', molecule: 'CH4', points: 150 },
+        { id: 4, title: '💨 Ammoniac', question: 'Combien de liaisons covalentes dans NH₃ ?', answer: 3, molecule: 'NH3', points: 130 },
+        { id: 5, title: '🧪 Expert Lewis', question: 'Combien de doublets non liants sur Cl dans HCl ?', answer: 3, molecule: 'HCl', points: 180 },
+    ], []);
+
     const mol = molecules[molecule];
-    const current = molecules[molecule]; // Keep both for consistency with the diff
+    const current = molecules[molecule];
     const groupRef = useRef();
+
+    // Timer
+    useEffect(() => {
+        let timer;
+        if (phase === 'mission' && timeLeft > 0 && !showSuccess && mission) {
+            timer = setInterval(() => setTimeLeft(prev => prev - 1), 1000);
+        }
+        return () => clearInterval(timer);
+    }, [phase, timeLeft, showSuccess, mission]);
+
+    // Init mission
+    useEffect(() => {
+        if (phase === 'mission' && !mission) {
+            setMission(missions[0]);
+            setTimeLeft(25);
+            setMolecule(missions[0].molecule);
+            setQuizAnswer(null);
+        }
+    }, [phase, mission, missions]);
 
     useFrame((state, delta) => {
         if (groupRef.current) {
@@ -927,13 +1153,50 @@ export function LewisStructure() {
         }
     });
 
+    const checkAnswer = (answer) => {
+        setQuizAnswer(answer);
+        if (answer === mission.answer || String(answer) === String(mission.answer)) {
+            setScore(prev => prev + mission.points);
+            setShowSuccess(true);
+        }
+    };
+
+    const nextMission = () => {
+        setShowSuccess(false);
+        const nextIdx = missions.findIndex(m => m.id === mission.id) + 1;
+        if (nextIdx < missions.length) {
+            setMission(missions[nextIdx]);
+            setTimeLeft(25);
+            setMolecule(missions[nextIdx].molecule);
+            setQuizAnswer(null);
+        } else {
+            setPhase('explore');
+            setMission(null);
+        }
+    };
+
+    // Generate options for quiz
+    const getOptions = () => {
+        if (!mission) return [];
+        if (typeof mission.answer === 'number') {
+            return [0, 1, 2, 3, 4].filter(n => n >= 0);
+        }
+        return ['Linéaire', 'Coudée', 'Tétraédrique', 'Pyramidale'];
+    };
+
     return (
         <group>
             <ambientLight intensity={0.5} />
             <pointLight position={[10, 10, 10]} intensity={1} />
+            <pointLight position={[-5, 5, -5]} intensity={0.5} color="#60A5FA" />
 
-            <Text position={[0, 3.5, 0]} fontSize={0.4} color="white">STRUCTURE DE LEWIS</Text>
-            <Text position={[0, 3, 0]} fontSize={0.3} color="#FCD34D">{mol.name} ({molecule})</Text>
+            <SuccessOverlay show={showSuccess} message={mission?.title || "Bravo !"} points={mission?.points || 100} onNext={nextMission} />
+            <ConfettiExplosion active={showSuccess} />
+
+            <Float speed={1} floatIntensity={0.2}>
+                <Text position={[0, 3.5, 0]} fontSize={0.4} color="white">🔬 STRUCTURE DE LEWIS</Text>
+                <Text position={[0, 3, 0]} fontSize={0.25} color="#FCD34D">{mol.name} ({mol.formula})</Text>
+            </Float>
 
             <group ref={groupRef} scale={[1.5, 1.5, 1.5]}>
                 {/* Atomes */}
@@ -943,7 +1206,9 @@ export function LewisStructure() {
                             <sphereGeometry args={[atom.size, 32, 32]} />
                             <meshStandardMaterial color={atom.color} roughness={0.3} metalness={0.2} />
                         </mesh>
-                        <Text position={[0, atom.size + 0.2, 0]} fontSize={0.3} color="white">{atom.el}</Text>
+                        {showLabels && (
+                            <Text position={[0, atom.size + 0.2, 0]} fontSize={0.25} color="white" outlineWidth={0.02} outlineColor="black">{atom.el}</Text>
+                        )}
                     </group>
                 ))}
 
@@ -961,15 +1226,15 @@ export function LewisStructure() {
                     return (
                         <group key={i}>
                             {[...Array(multiplicity)].map((_, j) => {
-                                const offset = (j - (multiplicity - 1) / 2) * 0.1;
+                                const offset = (j - (multiplicity - 1) / 2) * 0.12;
                                 return (
                                     <mesh
                                         key={j}
                                         position={[mid.x, mid.y + offset, mid.z]}
                                         rotation={[0, 0, Math.atan2(dir.y, dir.x) - Math.PI / 2]}
                                     >
-                                        <cylinderGeometry args={[0.05, 0.05, len * 0.6, 8]} />
-                                        <meshStandardMaterial color="#888" />
+                                        <cylinderGeometry args={[0.04, 0.04, len * 0.6, 8]} />
+                                        <meshStandardMaterial color="#888" metalness={0.3} />
                                     </mesh>
                                 );
                             })}
@@ -987,11 +1252,11 @@ export function LewisStructure() {
                             <group key={`${i}-${j}`} position={[atom.pos[0] + offset[0], atom.pos[1] + offset[1], atom.pos[2]]}>
                                 <mesh position={[-0.08, 0, 0]}>
                                     <sphereGeometry args={[0.06]} />
-                                    <meshStandardMaterial color="#FFD700" emissive="#FFD700" emissiveIntensity={0.5} />
+                                    <meshStandardMaterial color="#FFD700" emissive="#FFD700" emissiveIntensity={0.6} />
                                 </mesh>
                                 <mesh position={[0.08, 0, 0]}>
                                     <sphereGeometry args={[0.06]} />
-                                    <meshStandardMaterial color="#FFD700" emissive="#FFD700" emissiveIntensity={0.5} />
+                                    <meshStandardMaterial color="#FFD700" emissive="#FFD700" emissiveIntensity={0.6} />
                                 </mesh>
                             </group>
                         );
@@ -1000,47 +1265,113 @@ export function LewisStructure() {
             </group>
 
             <Html transform={false}>
-                <DraggableHtmlPanel title="🔬 Formule de Lewis" className="w-[280px]" defaultPosition="bottom-right">
-                    <div className="space-y-4 text-white">
-                        <div className="grid grid-cols-4 gap-1">
-                            {Object.keys(molecules).map(key => (
-                                <button
-                                    key={key}
-                                    onClick={() => setMolecule(key)}
-                                    className={`py-2 rounded text-xs ${molecule === key ? 'bg-blue-600' : 'bg-gray-700'}`}
-                                >
-                                    {key}
-                                </button>
-                            ))}
+                <DraggableHtmlPanel title="🔬 Atelier Lewis" className="w-[380px] border-blue-500/30 text-white" defaultPosition="bottom-right">
+                    <PhaseSelector currentPhase={phase} onSelect={setPhase} />
+
+                    {phase === 'mission' && mission && (
+                        <div className="mb-4 space-y-3">
+                            <div className="flex justify-between items-center">
+                                <GradeBadge score={score} />
+                                <ChallengeTimer timeLeft={timeLeft} maxTime={25} />
+                            </div>
+                            <MissionObjective objective={mission.question} icon="❓" />
+
+                            {/* Quiz options */}
+                            <div className="grid grid-cols-3 gap-2">
+                                {getOptions().map(opt => (
+                                    <button
+                                        key={opt}
+                                        onClick={() => checkAnswer(opt)}
+                                        disabled={quizAnswer !== null}
+                                        className={`py-3 rounded-xl font-bold text-sm transition-all ${quizAnswer === opt
+                                                ? quizAnswer === mission.answer || String(quizAnswer) === String(mission.answer)
+                                                    ? 'bg-green-600'
+                                                    : 'bg-red-600'
+                                                : 'bg-gray-700 hover:bg-gray-600'
+                                            }`}
+                                    >
+                                        {opt}
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
+                    )}
+
+                    <div className="flex justify-between items-end mb-4 pb-2 border-b border-white/10">
+                        <div>
+                            <div className="text-xs text-blue-400 font-bold uppercase tracking-wider mb-1">Module Chimie</div>
+                            <div className="text-xl font-black text-white leading-none">LEWIS</div>
+                        </div>
+                        <GradeBadge score={score} />
+                    </div>
+
+                    <div className="space-y-4">
+                        {/* Sélecteur molécule */}
+                        <div>
+                            <div className="text-xs text-gray-400 uppercase tracking-wider mb-2">Molécule</div>
+                            <div className="grid grid-cols-6 gap-1">
+                                {Object.keys(molecules).map(key => (
+                                    <button
+                                        key={key}
+                                        onClick={() => setMolecule(key)}
+                                        className={`py-2 rounded text-[10px] font-bold transition-all ${molecule === key
+                                            ? 'bg-blue-600 shadow-lg shadow-blue-900/30'
+                                            : 'bg-gray-800 hover:bg-gray-700'}`}
+                                    >
+                                        {molecules[key].formula}
+                                    </button>
+                                ))}
+                            </div>
                         </div>
 
-                        <div className="bg-gray-900 p-3 rounded space-y-2 text-sm">
-                            <div className="flex justify-between">
-                                <span className="text-gray-400">Angle de liaison</span>
-                                <span className="font-bold">{mol.angle}</span>
+                        {/* Info molécule */}
+                        <div className="bg-gradient-to-r from-blue-900/40 to-indigo-900/40 p-4 rounded-xl border border-blue-500/20">
+                            <div className="text-center mb-3">
+                                <div className="text-2xl font-black text-white">{mol.formula}</div>
+                                <div className="text-sm text-gray-400">{mol.name}</div>
                             </div>
-                            <div className="flex justify-between">
-                                <span className="text-gray-400">Liaisons</span>
-                                <span className="font-bold">{mol.bonds.length}</span>
-                            </div>
-                            <div className="flex justify-between">
-                                <span className="text-gray-400">Doublets non-liants</span>
-                                <span className="font-bold text-yellow-400">
-                                    {mol.doubletsNonLiants.reduce((acc, d) => acc + d.count, 0)}
-                                </span>
+
+                            <div className="grid grid-cols-2 gap-2 text-xs">
+                                <div className="bg-black/30 p-2 rounded">
+                                    <div className="text-gray-500 uppercase text-[9px]">Géométrie</div>
+                                    <div className="font-bold text-blue-300">{mol.geometry}</div>
+                                </div>
+                                <div className="bg-black/30 p-2 rounded">
+                                    <div className="text-gray-500 uppercase text-[9px]">Angle</div>
+                                    <div className="font-bold text-cyan-300">{mol.angle}</div>
+                                </div>
+                                <div className="bg-black/30 p-2 rounded">
+                                    <div className="text-gray-500 uppercase text-[9px]">Liaisons</div>
+                                    <div className="font-bold text-green-300">{mol.bondsCount}</div>
+                                </div>
+                                <div className="bg-black/30 p-2 rounded">
+                                    <div className="text-gray-500 uppercase text-[9px]">Doublets NL</div>
+                                    <div className="font-bold text-yellow-300">{mol.doubletsCount}</div>
+                                </div>
                             </div>
                         </div>
 
-                        <div className="text-xs text-gray-400">
-                            <div className="flex items-center gap-2 mb-1">
-                                <div className="w-3 h-3 rounded-full bg-gray-500" />
-                                <span>Liaison covalente</span>
+                        {/* Légende & Controls */}
+                        <div className="flex justify-between items-center text-xs">
+                            <div className="flex items-center gap-4">
+                                <div className="flex items-center gap-1">
+                                    <div className="w-3 h-3 rounded-full bg-gray-500" />
+                                    <span className="text-gray-400">Liaison</span>
+                                </div>
+                                <div className="flex items-center gap-1">
+                                    <div className="w-3 h-3 rounded-full bg-yellow-400" />
+                                    <span className="text-gray-400">Doublet NL</span>
+                                </div>
                             </div>
-                            <div className="flex items-center gap-2">
-                                <div className="w-3 h-3 rounded-full bg-yellow-400" />
-                                <span>Doublet non-liant</span>
-                            </div>
+                            <button
+                                onClick={() => setShowLabels(!showLabels)}
+                                className={`px-3 py-1 rounded text-[10px] ${showLabels ? 'bg-blue-600' : 'bg-gray-700'}`}
+                            >
+                                {showLabels ? '👁 Labels ON' : '👁 Labels OFF'}
+                            </button>
                         </div>
+
+                        <XPBar current={score % 500} nextLevel={500} />
                     </div>
                 </DraggableHtmlPanel>
             </Html>
