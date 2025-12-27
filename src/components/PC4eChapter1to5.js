@@ -113,7 +113,7 @@ export function Chap1ScienceIntro() {
 
 
             <Html transform={false}>
-                <DraggableHtmlPanel usePortal={false} title="🔬 Démarche Scientifique" showCloseButton={false} defaultPosition="bottom-center" className="w-[400px] border-blue-500/30 text-white">
+                <DraggableHtmlPanel title="🔬 Démarche Scientifique" showCloseButton={false} defaultPosition="bottom-center" className="w-[400px] border-blue-500/30 text-white">
                     {/* Header Controls */}
                     <div className="flex justify-between items-center mb-4 border-b border-white/10 pb-2">
                         <div className="flex gap-2">
@@ -419,7 +419,7 @@ export function Chap2Mesures() {
         <group>
 
             <Html transform={false}>
-                <DraggableHtmlPanel usePortal={false} title="📏 Laboratoire de Mesure" showCloseButton={false} defaultPosition="bottom-center" className="w-[380px] border-cyan-500/30 text-white">
+                <DraggableHtmlPanel title="📏 Laboratoire de Mesure" showCloseButton={false} defaultPosition="bottom-center" className="w-[380px] border-cyan-500/30 text-white">
 
                     {/* Choix Objet */}
                     <div className="mb-4">
@@ -606,7 +606,7 @@ export function Chap3Densite() {
         <group>
 
             <Html transform={false}>
-                <DraggableHtmlPanel usePortal={false} title="⚖️ Densité & Archimède PRO" showCloseButton={false} defaultPosition="bottom-center" className="w-[400px] border-blue-500/30 text-white max-h-[85vh] overflow-y-auto custom-scrollbar">
+                <DraggableHtmlPanel title="⚖️ Densité & Archimède PRO" showCloseButton={false} defaultPosition="bottom-center" className="w-[400px] border-blue-500/30 text-white max-h-[85vh] overflow-y-auto custom-scrollbar">
 
                     <div className="flex justify-between items-center mb-4 border-b border-white/10 pb-2">
                         <div className="flex gap-2">
@@ -831,7 +831,7 @@ export function Chap4PoidsMasse() {
         <group>
 
             <Html transform={false}>
-                <DraggableHtmlPanel usePortal={false} title="⚖️ Poids (N) vs Masse (kg) PRO" showCloseButton={false} defaultPosition="bottom-center" className="w-[380px] border-purple-500/30 text-white max-h-[85vh] overflow-y-auto custom-scrollbar">
+                <DraggableHtmlPanel title="⚖️ Poids (N) vs Masse (kg) PRO" showCloseButton={false} defaultPosition="bottom-center" className="w-[380px] border-purple-500/30 text-white max-h-[85vh] overflow-y-auto custom-scrollbar">
 
                     <div className="flex justify-between items-center mb-4 border-b border-white/10 pb-2">
                         <div className="flex gap-2">
@@ -1137,7 +1137,7 @@ export function Chap5Electricite() {
         <group>
 
             <Html transform={false}>
-                <DraggableHtmlPanel usePortal={false} title="⚡ Circuit Électrique" showCloseButton={false} defaultPosition="bottom-center" className="w-[380px] border-yellow-500/30 text-white">
+                <DraggableHtmlPanel title="⚡ Circuit Électrique" showCloseButton={false} defaultPosition="bottom-center" className="w-[380px] border-yellow-500/30 text-white">
                     {/* Header */}
                     <div className="flex justify-between items-center mb-4 border-b border-white/10 pb-2">
                         <div className="flex gap-2">

@@ -82,7 +82,7 @@ function WeightMass() {
         <>
             {/* Controls - Panneau Draggable - Rendu Portal */}
             <Html transform={false}>
-                <DraggableHtmlPanel usePortal={false} title="⚖️ Poids vs Masse">
+                <DraggableHtmlPanel title="⚖️ Poids vs Masse">
                     <div className="text-white">
                         <label className="block text-sm font-bold mb-2 text-[#00F5D4]">Masse : {mass} kg</label>
                         <input
@@ -200,7 +200,7 @@ function ThalesTheorem() {
         <>
             {/* Controls - Draggable - Rendu Portal */}
             <Html transform={false}>
-                <DraggableHtmlPanel usePortal={false} title="📐 Théorème de Thalès">
+                <DraggableHtmlPanel title="📐 Théorème de Thalès">
                     <div className="text-white">
                         <label className="block text-sm mb-1">Position MN (Ratio : {ratio.toFixed(2)})</label>
                         <input
@@ -289,7 +289,7 @@ function TrigUnitCircle() {
         <>
             {/* Controls - Draggable - Rendu Portal */}
             <Html transform={false}>
-                <DraggableHtmlPanel usePortal={false} title="⭕ Cercle Trigonométrique">
+                <DraggableHtmlPanel title="⭕ Cercle Trigonométrique">
                     <div className="text-white">
                         <div className="flex items-center justify-between mb-4">
                             <span className="text-xs text-gray-400">Animation</span>
@@ -674,7 +674,7 @@ function ElectricCircuit() {
     return (
         <group>
             <Html transform={false}>
-                <DraggableHtmlPanel usePortal={false} title="⚡ Circuit Électrique" showCloseButton={false} defaultPosition="bottom-center" className="min-w-[200px] text-white">
+                <DraggableHtmlPanel title="⚡ Circuit Électrique" showCloseButton={false} defaultPosition="bottom-center" className="min-w-[200px] text-white">
                     <button
                         onClick={() => setIsClosed(!isClosed)}
                         className={`w-full py-2 rounded-lg font-bold transition-all ${isClosed ? 'bg-green-600 hover:bg-green-500 shadow-[0_0_20px_rgba(34,197,94,0.5)]' : 'bg-red-600 hover:bg-red-500'}`}
@@ -1700,7 +1700,7 @@ function EnergyConservation() {
         <group>
             {/* Panneau de Contrôle */}
             <Html transform={false}>
-                <DraggableHtmlPanel usePortal={false} title="⚡ Conservation de l'Énergie" showCloseButton={false} defaultPosition="bottom-center" className="min-w-[260px] text-white">
+                <DraggableHtmlPanel title="⚡ Conservation de l'Énergie" showCloseButton={false} defaultPosition="bottom-center" className="min-w-[260px] text-white">
                     <h3 className="text-[#FCD34D] font-bold mb-3 text-center">⚡ Conservation de l'Énergie</h3>
 
                     <div className="space-y-3">
@@ -2146,7 +2146,7 @@ function ForcePhysics() {
         <>
             {/* Panneau de Contrôle - Draggable - Rendu Portal */}
             <Html transform={false}>
-                <DraggableHtmlPanel usePortal={false} title="⚡ Forces et Mouvement" showCloseButton={false} defaultPosition="bottom-center" className="min-w-[300px]">
+                <DraggableHtmlPanel title="⚡ Forces et Mouvement" showCloseButton={false} defaultPosition="bottom-center" className="min-w-[300px]">
                     <div className="text-white space-y-3">
                         {/* Le reste du contenu sera inséré par le contexte, mais je dois m'assurer d'inclure tout le contenu du div original */}
                         <div>
@@ -2335,7 +2335,7 @@ function TectonicPlates() {
         <>
             {/* Panneau de Contrôle - Draggable - Rendu Portal */}
             <Html transform={false}>
-                <DraggableHtmlPanel usePortal={false} title="🌍 Tectonique des Plaques">
+                <DraggableHtmlPanel title="🌍 Tectonique des Plaques">
                     <div className="bg-transparent text-white min-w-[280px]">
 
                         <div className="space-y-3">
@@ -2515,7 +2515,7 @@ function MixtureSeparation() {
     return (
         <>
             <Html transform={false}>
-                <DraggableHtmlPanel usePortal={false} title="🧪 Séparation des Mélanges">
+                <DraggableHtmlPanel title="🧪 Séparation des Mélanges">
                     <div className="text-white min-w-[280px]">
                         <div className="space-y-3">
                             <div>
@@ -4080,7 +4080,7 @@ function SimpleMachinesLever() {
         <>
             {/* Controls - Draggable - Rendu Portal */}
             <Html transform={false}>
-                <DraggableHtmlPanel usePortal={false} title="🔧 Le Levier">
+                <DraggableHtmlPanel title="🔧 Le Levier">
                     <div className="text-white min-w-[250px]">
                         <label className="block text-sm mb-1">Longueur du Bras de Force : {forceDist} m</label>
                         <input
@@ -4194,7 +4194,7 @@ function VolcanoEruption() {
     return (
         <>
             <Html transform={false}>
-                <DraggableHtmlPanel usePortal={false} title="🌋 Contrôle Volcan">
+                <DraggableHtmlPanel title="🌋 Contrôle Volcan">
                     <div className="text-white">
                         <button
                             onClick={() => setErupting(!erupting)}
