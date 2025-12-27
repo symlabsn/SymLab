@@ -158,10 +158,10 @@ export function ParticleTrail({ active, color = '#FFD700', count = 30 }) {
  */
 export function GradeBadge({ score }) {
     const getGrade = (s) => {
-        if (s >= 2000) return { name: 'Maître de la Physique 🧠', color: '#f59e0b', bg: 'rgba(245,158,11,0.2)' };
+        if (s >= 2000) return { name: 'Maître des Sciences 🧠', color: '#f59e0b', bg: 'rgba(245,158,11,0.2)' };
         if (s >= 1000) return { name: 'Expert Scientifique 👨‍🔬', color: '#8b5cf6', bg: 'rgba(139,92,246,0.2)' };
         if (s >= 500) return { name: 'Ingénieur Senior 🛠️', color: '#22d3ee', bg: 'rgba(34,211,238,0.2)' };
-        return { name: 'Cadet de l\'Espace 🚀', color: '#4ade80', bg: 'rgba(74,222,128,0.2)' };
+        return { name: 'Apprenti Chercheur 🔭', color: '#4ade80', bg: 'rgba(74,222,128,0.2)' };
     };
 
     const grade = getGrade(score);
