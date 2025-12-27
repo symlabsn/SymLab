@@ -7,8 +7,7 @@ import { useFrame } from '@react-three/fiber';
 import { Html, Sphere, Box, Cylinder, Line, Text, Float, OrbitControls, useGLTF } from '@react-three/drei';
 import * as THREE from 'three';
 import DraggableHtmlPanel from './DraggableHtmlPanel';
-import { SuccessOverlay, ConfettiExplosion } from './PC4eSimulations';
-import { PhaseSelector, GradeBadge, MissionObjective, XPBar } from './GamificationUtils';
+import { PhaseSelector, GradeBadge, MissionObjective, XPBar, SuccessOverlay, ConfettiExplosion } from './GamificationUtils';
 
 // Helper for electron visualization
 function ElectronsStream({ path, count = 20, speed = 1, active = false }) {

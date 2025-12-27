@@ -7,8 +7,7 @@ import { useFrame } from '@react-three/fiber';
 import { Html, Sphere, Box, Cylinder, Line, Text, Plane } from '@react-three/drei';
 import * as THREE from 'three';
 import DraggableHtmlPanel from './DraggableHtmlPanel';
-import { SuccessOverlay, ConfettiExplosion } from './PC4eSimulations';
-import { PhaseSelector, GradeBadge, MissionObjective, XPBar } from './GamificationUtils';
+import { PhaseSelector, GradeBadge, MissionObjective, XPBar, SuccessOverlay, ConfettiExplosion } from './GamificationUtils';
 
 // ============================================================
 // P13. PROPAGATION RECTILIGNE DE LA LUMIÈRE
