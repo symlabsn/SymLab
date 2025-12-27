@@ -12,7 +12,7 @@ export const pc3eData = {
             image: '/simulations/pc3e/lens-optics-3e.png',
             simulation: {
                 id: 'lens-optics-3e',
-                title: 'Lentilles Convergentes et Divergentes',
+                title: "L'Œil de Lynx : Maître de la Vision",
                 type: 'lens-optics'
             },
             story: `Vos lunettes, l'appareil photo, le microscope... tous utilisent des lentilles. Ce sont des morceaux de verre courbés qui dévient la lumière pour agrandir, réduire ou corriger la vision.`,
@@ -76,7 +76,7 @@ Plus la distance focale est petite, plus la lentille est puissante !`
             image: '/simulations/pc3e/light-dispersion-3e.png',
             simulation: {
                 id: 'light-dispersion-3e',
-                title: 'Le Prisme et l\'Arc-en-ciel',
+                title: "Spectre Secret : Le Mystère de l'Arc-en-ciel",
                 type: 'light-dispersion'
             },
             story: `Pourquoi voit-on un arc-en-ciel après la pluie ? Parce que les gouttes d'eau décomposent la lumière blanche en toutes ses couleurs. C'est la dispersion !`,
@@ -140,7 +140,7 @@ La lumière d'une seule couleur (laser rouge) ne peut pas être décomposée : e
             image: '/simulations/pc3e/forces-vectors-3e.png',
             simulation: {
                 id: 'forces-vectors-3e',
-                title: 'Forces et Représentation Vectorielle',
+                title: "Jedi des Forces : Maîtrise l'Invisible",
                 type: 'forces-vectors'
             },
             story: `Une force, c'est une poussée ou une traction. Quand vous tirez une porte, vous exercez une force. La Terre aussi exerce une force sur vous : le poids. Les forces sont partout !`,
@@ -212,7 +212,7 @@ Un sac de riz de 50 kg pèse : P = 50 × 10 = **500 N** !`
             image: '/simulations/pc3e/work-power-3e.png',
             simulation: {
                 id: 'work-power-3e',
-                title: 'Travail et Puissance Mécanique',
+                title: "Hercule Moderne : Puissance et Énergie",
                 type: 'work-power'
             },
             story: `Soulever un sac à dos, c'est fournir un travail. Plus le sac est lourd et plus vous montez haut, plus le travail est grand. La puissance, c'est la vitesse à laquelle vous fournissez ce travail.`,
@@ -280,7 +280,7 @@ Mamadou est 5 fois plus puissant ! 💪`
             image: '/simulations/pc3e/electrostatics-3e.png',
             simulation: {
                 id: 'electrostatics-3e',
-                title: 'Charges Électriques et Électrisation',
+                title: "Foudre en Main : Le Pouvoir Statique",
                 type: 'electrostatics'
             },
             story: `Frottez un ballon sur vos cheveux et collez-le au mur : il tient ! C'est l'électricité statique. Les objets se chargent électriquement par frottement.`,
@@ -349,7 +349,7 @@ C'est dangereux près de l'essence ou du gaz.`
             image: '/simulations/pc3e/resistance-ohm-3e.png',
             simulation: {
                 id: 'resistance-ohm-3e',
-                title: "Loi d'Ohm et Circuits",
+                title: "Maître du Flux : Dompte la Résistance",
                 type: 'ohm-law-circuit'
             },
             story: `Un fil électrique, c'est comme un tuyau d'eau. Plus le tuyau est fin, plus l'eau a du mal à passer. La résistance, c'est la finesse du fil électrique qui freine le courant.`,
@@ -422,7 +422,7 @@ Plus la résistance est grande, moins le courant passe !Comme pincer le tuyau : 
             image: '/simulations/pc3e/energy-transformations-3e.png',
             simulation: {
                 id: 'energy-transformations-3e',
-                title: 'Chaînes Énergétiques et Rendement',
+                title: "Transformateur Universel : L'Énergie en Action",
                 type: 'energy-flow'
             },
             story: `L'énergie ne se crée pas, ne se détruit pas, elle se transforme. Une pile transforme l'énergie chimique en énergie électrique. Une lampe transforme l'énergie électrique en lumière et chaleur.`,
@@ -501,7 +501,7 @@ Une ampoule LED a un rendement de 40% (bien mieux que 5% pour une incandescente 
             image: '/simulations/pc3e/aqueous-solutions-3e.png',
             simulation: {
                 id: 'aqueous-solutions-3e',
-                title: 'Dissolution et Concentration',
+                title: "Chimiste Expert : La Potion Parfaite",
                 type: 'solution-mixing'
             },
             story: `Une solution, c'est un mélange homogène. Le sel dans l'eau, le sucre dans le café... L'eau est le solvant universel. Elle dissout presque tout !`,
@@ -571,7 +571,7 @@ Il reste au fond ! La solution est **SATURÉE**.
             image: '/simulations/pc3e/acids-bases-ph-3e.png',
             simulation: {
                 id: 'acids-bases-ph-3e',
-                title: 'Échelle pH et Indicateurs Colorés',
+                title: "Détective Acide : Le Code Couleur",
                 type: 'ph-scale'
             },
             story: `Le citron est acide, le savon est basique. Comment les reconnaître ? Avec le pH ! C'est une échelle de 0 à 14 qui mesure l'acidité.`,
@@ -643,7 +643,7 @@ Le pH se rapproche de 7 !`
             image: '/simulations/pc3e/metals-properties-3e.png',
             simulation: {
                 id: 'metals-properties-3e',
-                title: 'Réactions des Métaux',
+                title: "Alchimie Métallique : Réactions Explosives",
                 type: 'metal-reactions'
             },
             story: `Le fer rouille, l'aluminium résiste, l'or brille éternellement. Chaque métal a sa personnalité chimique. Certains réagissent violemment avec l'eau ou l'air, d'autres sont inertes.`,
@@ -714,7 +714,7 @@ Le gaz H₂ forme des bulles ! 💨
             image: '/simulations/pc3e/hydrocarbons-3e.png',
             simulation: {
                 id: 'hydrocarbons-3e',
-                title: 'Pétrole et Combustion',
+                title: "Énergie Fossile : Le Feu Sacré",
                 type: 'combustion-3d'
             },
             story: `Le pétrole, l'essence, le gaz naturel... ce sont tous des hydrocarbures. Des molécules faites uniquement de Carbone (C) et d'Hydrogène (H). Ils brûlent très bien et fournissent beaucoup d'énergie.`,

@@ -46,7 +46,7 @@ La Physique-Chimie, c'est résoudre les mystères de l'univers avec méthode.`
             ],
             simulation: {
                 id: 'scientific-method-sim',
-                title: 'La Démarche Scientifique Interactive',
+                title: 'Mission : Enquête Scientifique',
                 type: 'chap1-science-intro'
             },
             image: '/simulations/pc4e/chap1-science.png',
@@ -115,7 +115,7 @@ La balance du marché et la balance du laboratoire parlent le même langage : le
             ],
             simulation: {
                 id: 'measurement-tools-sim',
-                title: 'Laboratoire de Mesures',
+                title: 'Défi Précision : Le Maître des Mesures',
                 type: 'chap2-mesures'
             },
             image: '/simulations/pc4e/chap2-mesures.png',
@@ -186,7 +186,7 @@ C'est comme ça que grand-mère vérifie ses œufs au marché !`
             ],
             simulation: {
                 id: 'density-explorer',
-                title: 'Explorateur de Densité',
+                title: 'Exploration : Flotte ou Coule ?',
                 type: 'chap3-densite'
             },
             image: '/simulations/pc4e/chap3-densite.png',
@@ -257,7 +257,7 @@ La balance mesure la MASSE (quantité de matière).`
             ],
             simulation: {
                 id: 'weight-mass-sim',
-                title: 'Poids vs Masse : Terre et Lune',
+                title: 'Voyage Interplanétaire : Gravité Zéro',
                 type: 'chap4-poids-masse'
             },
             image: '/simulations/pc4e/chap4-poids-masse.png',
@@ -330,7 +330,7 @@ Si la route est coupée quelque part, plus personne ne circule !`
             ],
             simulation: {
                 id: 'intro-electricity-sim',
-                title: "Introduction à l'Électricité",
+                title: "Ingénieur Lumière : Illumine la Ville",
                 type: 'chap5-electricite'
             },
             image: '/simulations/pc4e/chap5-electricite.png',
@@ -396,7 +396,7 @@ C'est une chaîne : Source → Objet → Récepteur !`
             ],
             simulation: {
                 id: 'light-sources-sim',
-                title: 'Sources et Récepteurs de Lumière',
+                title: "Chasseur d'Ombres et de Lumières",
                 type: 'chap6-sources-lumiere'
             },
             image: '/simulations/pc4e/chap6-sources-lumiere.png',
@@ -465,7 +465,7 @@ Le son fait des courbes, la lumière non.`
             ],
             simulation: {
                 id: 'light-propagation-pc4',
-                title: 'Propagation Rectiligne',
+                title: 'Laser Quest : La Ligne Directe',
                 type: 'chap7-propagation-lumiere'
             },
             image: '/simulations/pc4e/chap7-propagation.png',
@@ -536,7 +536,7 @@ Elles utilisent la réfraction pour agrandir ou corriger la vue !`
             ],
             simulation: {
                 id: 'refraction-simulator',
-                title: 'Simulateur de Réfraction',
+                title: 'Magie Optique : Le Bâton Brisé',
                 type: 'chap8-refraction'
             },
             image: '/simulations/pc4e/chap8-refraction.png',
@@ -614,7 +614,7 @@ Au labo, on utilise du papier filtre.`
             ],
             simulation: {
                 id: 'mixture-separation-sim',
-                title: 'Séparation des Mélanges',
+                title: "Alchimiste de l'Eau : L'Art de Séparer",
                 type: 'chap9-melanges'
             },
             image: '/simulations/pc4e/chap9-melanges.png',
@@ -690,7 +690,7 @@ L'air contient des molécules $O_2$ (dioxygène), $N_2$ (diazote), $CO_2$...`
             ],
             simulation: {
                 id: 'atom-builder-sim',
-                title: 'Constructeur de Molécules',
+                title: "Architecte de l'Invisible : Construis ton Atome",
                 type: 'chap10-atomes'
             },
             image: '/simulations/pc4e/chap10-atomes.png',
@@ -764,7 +764,7 @@ On dit "donne-moi 1 mole de fer" = 56 g de fer. Simple !`
             ],
             simulation: {
                 id: 'mole-concept-sim',
-                title: 'Le Concept de Mole',
+                title: 'Le Compteur Géant : L\'Univers dans une Mole',
                 type: 'chap11-mole'
             },
             image: '/simulations/pc4e/chap11-mole.png',
@@ -842,7 +842,7 @@ Si tu enlèves un élément → le feu s'éteint !`
             ],
             simulation: {
                 id: 'mass-conservation',
-                title: 'Conservation de la Masse',
+                title: 'Maître du Feu : L\'Équilibre Chimique',
                 type: 'chap12-conservation'
             },
             image: '/simulations/pc4e/chap12-conservation.png',
