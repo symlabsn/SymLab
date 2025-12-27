@@ -4,6 +4,7 @@ import * as THREE from 'three';
 import { useFrame } from '@react-three/fiber';
 import { Text, Html, Float, Sphere, OrbitControls, Box, Cylinder, Torus } from '@react-three/drei';
 import DraggableHtmlPanel from './DraggableHtmlPanel';
+import { SuccessOverlay, ConfettiExplosion, GradeBadge, XPBar, PhaseSelector, MissionObjective, ChallengeTimer } from './GamificationUtils';
 
 // ============================================================
 // CHAPITRE 9: SÉPARATION DES MÉLANGES (IMMERSIVE & CHALLENGE)
@@ -34,6 +35,8 @@ export function MixtureSeparationPC4() {
         salt_water: { name: 'Eau salée', components: ['Eau', 'Sel'], color: '#93C5FD', difficulty: 2 },
         oil_water: { name: 'Eau + Huile', components: ['Eau', 'Huile'], color: '#FEF3C7', difficulty: 1 }
     };
+
+    const mix = mixtures[mission?.target || mixture];
 
     const methods = {
         decantation: { name: 'Décantation', icon: '⏳', effective: ['mud', 'oil_water'], desc: 'Laisser reposer (densité)' },
@@ -99,7 +102,7 @@ export function MixtureSeparationPC4() {
             <ConfettiExplosion active={showSuccess} />
 
             <Html transform={false}>
-                <DraggableHtmlPanel title="⚗️ Laboratoire de Séparation" showCloseButton={false} defaultPosition="bottom-center" className="w-[400px] border-orange-500/30 text-white">
+                <DraggableHtmlPanel usePortal={false} title="⚗️ Laboratoire de Séparation" showCloseButton={false} defaultPosition="bottom-center" className="w-[400px] border-orange-500/30 text-white">
                     <div className="flex justify-between items-center mb-4">
                         <GradeBadge score={score} />
                         {phase === 'mission' && <ChallengeTimer timeLeft={timeLeft} maxTime={45} />}
@@ -186,17 +189,17 @@ export function MixtureSeparationPC4() {
                     <div className="bg-black rounded-full border-4 border-gray-500 w-48 h-48 overflow-hidden relative shadow-2xl">
                         <div className="absolute inset-0 bg-white/10 pointer-events-none"></div>
                         {/* Simulation de vue microscopique */}
-                        {(challengeTarget || mixture) === 'mud' && (
+                        {(mission?.target || mixture) === 'mud' && (
                             <div className="w-full h-full bg-[#5D4037]/20 flex flex-wrap content-center justify-center p-4 gap-1">
                                 {Array.from({ length: 20 }).map((_, i) => <div key={i} className="w-2 h-2 bg-[#5D4037] rounded-full animate-bounce" style={{ animationDelay: `${i * 0.1}s` }}></div>)}
                             </div>
                         )}
-                        {(challengeTarget || mixture) === 'salt_water' && (
+                        {(mission?.target || mixture) === 'salt_water' && (
                             <div className="w-full h-full bg-[#93C5FD]/20 flex flex-wrap content-center justify-center p-4">
                                 <div className="text-xs text-center text-white font-bold opacity-50">Ions Na+ Cl- dissous (invisibles à l'oeil)</div>
                             </div>
                         )}
-                        {(challengeTarget || mixture) === 'oil_water' && (
+                        {(mission?.target || mixture) === 'oil_water' && (
                             <div className="w-full h-full bg-[#FEF3C7]/20 flex items-center justify-center">
                                 <div className="w-16 h-16 bg-yellow-400/50 rounded-full blur-md animate-pulse"></div>
                                 <div className="w-8 h-8 bg-yellow-400/50 rounded-full blur-sm absolute top-10 left-10"></div>
@@ -224,7 +227,7 @@ export function MixtureSeparationPC4() {
                                 <meshStandardMaterial color={mix ? mix.color : '#FFF'} transparent opacity={0.8} />
                             </mesh>
 
-                            {(challengeTarget === 'mud' || mixture === 'mud') && particles && (
+                            {(mission?.target === 'mud' || mixture === 'mud') && particles && (
                                 <group position={[0, isSuccess && method === 'decantation' ? -0.6 : 0, 0]}>
                                     <points>
                                         <bufferGeometry>
@@ -235,14 +238,14 @@ export function MixtureSeparationPC4() {
                                 </group>
                             )}
 
-                            {(challengeTarget === 'oil_water' || mixture === 'oil_water') && isSuccess && method === 'decantation' && (
+                            {(mission?.target === 'oil_water' || mixture === 'oil_water') && isSuccess && method === 'decantation' && (
                                 <mesh position={[0, 0.5, 0]}>
                                     <cylinderGeometry args={[0.95, 0.95, 0.5, 32]} />
                                     <meshStandardMaterial color="#FBBF24" transparent opacity={0.8} />
                                 </mesh>
                             )}
 
-                            {(challengeTarget === 'salt_water' || mixture === 'salt_water') && isSuccess && method === 'evaporation' && progress > 0.8 && (
+                            {(mission?.target === 'salt_water' || mixture === 'salt_water') && isSuccess && method === 'evaporation' && progress > 0.8 && (
                                 <mesh position={[0, -0.7, 0]}>
                                     <cylinderGeometry args={[0.9, 0.9, 0.1, 32]} />
                                     <meshStandardMaterial color="white" roughness={0.8} />
@@ -358,7 +361,7 @@ export function AtomBuilderSim() {
             <ConfettiExplosion active={showSuccess} />
 
             <Html transform={false}>
-                <DraggableHtmlPanel title="⚛️ Architecte de l'Atome" showCloseButton={false} defaultPosition="bottom-center" className="w-[400px] border-pink-500/30 text-white">
+                <DraggableHtmlPanel usePortal={false} title="⚛️ Architecte de l'Atome" showCloseButton={false} defaultPosition="bottom-center" className="w-[400px] border-pink-500/30 text-white">
                     <div className="flex justify-between items-center mb-4">
                         <GradeBadge score={score} />
                         {phase === 'mission' && <ChallengeTimer timeLeft={timeLeft} maxTime={60} />}
@@ -604,7 +607,7 @@ export function MoleConceptPC4() {
             <ConfettiExplosion active={showSuccess} />
 
             <Html transform={false}>
-                <DraggableHtmlPanel title="⚖️ Laboratoire de la Mole" showCloseButton={false} defaultPosition="bottom-center" className="w-[400px] border-green-500/30 text-white">
+                <DraggableHtmlPanel usePortal={false} title="⚖️ Laboratoire de la Mole" showCloseButton={false} defaultPosition="bottom-center" className="w-[400px] border-green-500/30 text-white">
                     <div className="flex justify-between items-center mb-4">
                         <GradeBadge score={score} />
                         {phase === 'mission' && <ChallengeTimer timeLeft={timeLeft} maxTime={45} />}
@@ -797,7 +800,7 @@ export function MassConservation() {
             <ConfettiExplosion active={showSuccess} />
 
             <Html transform={false}>
-                <DraggableHtmlPanel title="⚖️ Conservation de la Masse" showCloseButton={false} defaultPosition="bottom-center" className="w-[400px] border-red-500/30 text-white">
+                <DraggableHtmlPanel usePortal={false} title="⚖️ Conservation de la Masse" showCloseButton={false} defaultPosition="bottom-center" className="w-[400px] border-red-500/30 text-white">
                     <div className="flex justify-between items-center mb-4">
                         <GradeBadge score={score} />
                         <div className="bg-gray-900 rounded-lg px-3 py-1 border border-white/10 text-[10px] text-gray-400">
@@ -1032,7 +1035,7 @@ export function ScientificMethod() {
             <ConfettiExplosion active={showSuccess} />
 
             <Html transform={false}>
-                <DraggableHtmlPanel title="🔬 Démarche Scientifique" showCloseButton={false} defaultPosition="bottom-center" className="w-[400px] border-blue-500/30 text-white">
+                <DraggableHtmlPanel usePortal={false} title="🔬 Démarche Scientifique" showCloseButton={false} defaultPosition="bottom-center" className="w-[400px] border-blue-500/30 text-white">
                     <div className="flex justify-between items-center mb-4">
                         <GradeBadge score={score} />
                         <div className="bg-gray-900 rounded-lg px-3 py-1 border border-white/10 text-[10px] text-gray-400 capitalize">
@@ -1265,7 +1268,7 @@ export function DensityExplorer() {
             <ConfettiExplosion active={showSuccessOverlay} />
 
             <Html transform={false}>
-                <DraggableHtmlPanel title="🌊 Labo de Densité" showCloseButton={false} defaultPosition="bottom-center" className="w-[400px] border-cyan-500/30 text-white">
+                <DraggableHtmlPanel usePortal={false} title="🌊 Labo de Densité" showCloseButton={false} defaultPosition="bottom-center" className="w-[400px] border-cyan-500/30 text-white">
                     <div className="flex justify-between items-center mb-4">
                         <GradeBadge score={score} />
                         <div className="bg-gray-900 rounded-lg px-3 py-1 border border-white/10 text-[10px] text-gray-400 uppercase">
@@ -1476,7 +1479,7 @@ export function MeasurementTools() {
             <ConfettiExplosion active={showSuccess} />
 
             <Html transform={false}>
-                <DraggableHtmlPanel title="📏 Atelier de Métrologie" showCloseButton={false} defaultPosition="bottom-center" className="w-[450px] border-yellow-500/30 text-white">
+                <DraggableHtmlPanel usePortal={false} title="📏 Atelier de Métrologie" showCloseButton={false} defaultPosition="bottom-center" className="w-[450px] border-yellow-500/30 text-white">
                     <div className="flex justify-between items-center mb-4">
                         <GradeBadge score={score} />
                         <div className="bg-gray-900 rounded-lg px-3 py-1 border border-white/10 text-[10px] text-gray-400 font-mono tracking-tighter">
@@ -1651,7 +1654,7 @@ export function RefractionSimulator() {
             <ConfettiExplosion active={showSuccess} />
 
             <Html transform={false}>
-                <DraggableHtmlPanel title="🔦 Optique de Réfraction" showCloseButton={false} defaultPosition="bottom-center" className="w-[400px] border-red-500/30 text-white">
+                <DraggableHtmlPanel usePortal={false} title="🔦 Optique de Réfraction" showCloseButton={false} defaultPosition="bottom-center" className="w-[400px] border-red-500/30 text-white">
                     <div className="flex justify-between items-center mb-4">
                         <GradeBadge score={score} />
                         <div className="bg-gray-900 rounded-lg px-3 py-1 border border-white/10 text-[10px] text-gray-400">
@@ -1833,7 +1836,7 @@ export function CircuitSeriesParallel() {
             <ConfettiExplosion active={showSuccess} />
 
             <Html transform={false}>
-                <DraggableHtmlPanel title="⚡ Circuits Électriques" showCloseButton={false} defaultPosition="bottom-center" className="w-[420px] border-yellow-500/30 text-white">
+                <DraggableHtmlPanel usePortal={false} title="⚡ Circuits Électriques" showCloseButton={false} defaultPosition="bottom-center" className="w-[420px] border-yellow-500/30 text-white">
                     <div className="flex justify-between items-center mb-4">
                         <GradeBadge score={score} />
                         <div className="bg-gray-900 rounded-lg px-3 py-1 border border-white/10 text-[10px] text-gray-400">
@@ -1997,7 +2000,7 @@ export function LightPropagationPC4() {
             <ConfettiExplosion active={showSuccess} />
 
             <Html transform={false}>
-                <DraggableHtmlPanel title="🔦 Propagation Rectiligne" showCloseButton={false} defaultPosition="bottom-center" className="w-[400px] border-white/30 text-white">
+                <DraggableHtmlPanel usePortal={false} title="🔦 Propagation Rectiligne" showCloseButton={false} defaultPosition="bottom-center" className="w-[400px] border-white/30 text-white">
                     <div className="flex justify-between items-center mb-4">
                         <GradeBadge score={score} />
                         <div className="bg-gray-900 rounded-lg px-3 py-1 border border-white/10 text-[10px] text-gray-400">
@@ -2180,7 +2183,7 @@ export function ShadowsSimulator() {
             <ConfettiExplosion active={showSuccess} />
 
             <Html transform={false}>
-                <DraggableHtmlPanel title="🌑 Ombres et Pénombre" showCloseButton={false} defaultPosition="bottom-center" className="w-[400px] border-gray-500/30 text-white">
+                <DraggableHtmlPanel usePortal={false} title="🌑 Ombres et Pénombre" showCloseButton={false} defaultPosition="bottom-center" className="w-[400px] border-gray-500/30 text-white">
                     <div className="flex justify-between items-center mb-4">
                         <GradeBadge score={score} />
                         <div className="bg-gray-900 rounded-lg px-3 py-1 border border-white/10 text-[10px] text-gray-400">
@@ -2290,7 +2293,7 @@ export function LightSources() {
     return (
         <group>
             <Html transform={false}>
-                <DraggableHtmlPanel title="☀️ Sources de Lumière" showCloseButton={false} defaultPosition="bottom-center" className="w-[400px] border-yellow-500/30 text-white">
+                <DraggableHtmlPanel usePortal={false} title="☀️ Sources de Lumière" showCloseButton={false} defaultPosition="bottom-center" className="w-[400px] border-yellow-500/30 text-white">
                     <div className="flex justify-between items-center mb-4">
                         <GradeBadge score={score} />
                         <div className="bg-gray-900 rounded-lg px-3 py-1 border border-white/10 text-[10px] text-gray-400">
@@ -2514,7 +2517,7 @@ export function IntroElectricity() {
             <ConfettiExplosion active={showSuccess} />
 
             <Html transform={false}>
-                <DraggableHtmlPanel title="🔌 Circuit et Sécurité" showCloseButton={false} defaultPosition="bottom-center" className="w-[400px] border-blue-500/30 text-white">
+                <DraggableHtmlPanel usePortal={false} title="🔌 Circuit et Sécurité" showCloseButton={false} defaultPosition="bottom-center" className="w-[400px] border-blue-500/30 text-white">
                     <div className="flex justify-between items-center mb-4">
                         <GradeBadge score={score} />
                         <div className="bg-gray-900 rounded-lg px-3 py-1 border border-white/10 text-[10px] text-gray-400">
@@ -2770,7 +2773,7 @@ export function WeightMassPC4() {
             <ConfettiExplosion active={showSuccess} />
 
             <Html transform={false}>
-                <DraggableHtmlPanel title="🚀 Mission : Poids Spatial" showCloseButton={false} defaultPosition="bottom-center" className="w-[400px] border-blue-500/30 text-white">
+                <DraggableHtmlPanel usePortal={false} title="🚀 Mission : Poids Spatial" showCloseButton={false} defaultPosition="bottom-center" className="w-[400px] border-blue-500/30 text-white">
                     <div className="flex justify-between items-center mb-4">
                         <GradeBadge score={score} />
                         {phase === 'mission' && <ChallengeTimer timeLeft={timeLeft} maxTime={45} />}

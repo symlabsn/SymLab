@@ -81,33 +81,35 @@ function WeightMass() {
     return (
         <>
             {/* Controls - Panneau Draggable - Rendu Portal */}
-            <DraggableHtmlPanel title="⚖️ Poids vs Masse">
-                <div className="text-white">
-                    <label className="block text-sm font-bold mb-2 text-[#00F5D4]">Masse : {mass} kg</label>
-                    <input
-                        type="range"
-                        min="1"
-                        max="50"
-                        value={mass}
-                        onChange={(e) => setMass(parseInt(e.target.value))}
-                        className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-[#00F5D4]"
-                    />
-                    <div className="flex justify-between text-xs text-gray-400 mt-1">
-                        <span>1kg</span>
-                        <span>50kg</span>
-                    </div>
-                    <div className="mt-3 pt-3 border-t border-white/10 grid grid-cols-2 gap-2 text-xs">
-                        <div className="p-2 rounded bg-blue-500/20">
-                            <div className="text-blue-400">🌍 Terre</div>
-                            <div className="font-bold">{(mass * 9.8).toFixed(1)} N</div>
+            <Html transform={false}>
+                <DraggableHtmlPanel usePortal={false} title="⚖️ Poids vs Masse">
+                    <div className="text-white">
+                        <label className="block text-sm font-bold mb-2 text-[#00F5D4]">Masse : {mass} kg</label>
+                        <input
+                            type="range"
+                            min="1"
+                            max="50"
+                            value={mass}
+                            onChange={(e) => setMass(parseInt(e.target.value))}
+                            className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-[#00F5D4]"
+                        />
+                        <div className="flex justify-between text-xs text-gray-400 mt-1">
+                            <span>1kg</span>
+                            <span>50kg</span>
                         </div>
-                        <div className="p-2 rounded bg-gray-500/20">
-                            <div className="text-gray-400">🌙 Lune</div>
-                            <div className="font-bold">{(mass * 1.6).toFixed(1)} N</div>
+                        <div className="mt-3 pt-3 border-t border-white/10 grid grid-cols-2 gap-2 text-xs">
+                            <div className="p-2 rounded bg-blue-500/20">
+                                <div className="text-blue-400">🌍 Terre</div>
+                                <div className="font-bold">{(mass * 9.8).toFixed(1)} N</div>
+                            </div>
+                            <div className="p-2 rounded bg-gray-500/20">
+                                <div className="text-gray-400">🌙 Lune</div>
+                                <div className="font-bold">{(mass * 1.6).toFixed(1)} N</div>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </DraggableHtmlPanel>
+                </DraggableHtmlPanel>
+            </Html>
 
             <group>
 
@@ -197,25 +199,27 @@ function ThalesTheorem() {
     return (
         <>
             {/* Controls - Draggable - Rendu Portal */}
-            <DraggableHtmlPanel title="📐 Théorème de Thalès">
-                <div className="text-white">
-                    <label className="block text-sm mb-1">Position MN (Ratio : {ratio.toFixed(2)})</label>
-                    <input
-                        type="range"
-                        min="0.1"
-                        max="0.9"
-                        step="0.05"
-                        value={ratio}
-                        onChange={(e) => setRatio(parseFloat(e.target.value))}
-                        className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-[#EF4444]"
-                    />
-                    <div className="mt-3 text-xs space-y-1 font-mono text-gray-300">
-                        <div className="flex justify-between"><span>AM/AB =</span> <span className="text-[#EF4444]">{ratio.toFixed(2)}</span></div>
-                        <div className="flex justify-between"><span>AN/AC =</span> <span className="text-[#EF4444]">{ratio.toFixed(2)}</span></div>
-                        <div className="flex justify-between"><span>MN/BC =</span> <span className="text-[#EF4444]">{ratio.toFixed(2)}</span></div>
+            <Html transform={false}>
+                <DraggableHtmlPanel usePortal={false} title="📐 Théorème de Thalès">
+                    <div className="text-white">
+                        <label className="block text-sm mb-1">Position MN (Ratio : {ratio.toFixed(2)})</label>
+                        <input
+                            type="range"
+                            min="0.1"
+                            max="0.9"
+                            step="0.05"
+                            value={ratio}
+                            onChange={(e) => setRatio(parseFloat(e.target.value))}
+                            className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-[#EF4444]"
+                        />
+                        <div className="mt-3 text-xs space-y-1 font-mono text-gray-300">
+                            <div className="flex justify-between"><span>AM/AB =</span> <span className="text-[#EF4444]">{ratio.toFixed(2)}</span></div>
+                            <div className="flex justify-between"><span>AN/AC =</span> <span className="text-[#EF4444]">{ratio.toFixed(2)}</span></div>
+                            <div className="flex justify-between"><span>MN/BC =</span> <span className="text-[#EF4444]">{ratio.toFixed(2)}</span></div>
+                        </div>
                     </div>
-                </div>
-            </DraggableHtmlPanel>
+                </DraggableHtmlPanel>
+            </Html>
 
             <group>
 
@@ -284,49 +288,51 @@ function TrigUnitCircle() {
     return (
         <>
             {/* Controls - Draggable - Rendu Portal */}
-            <DraggableHtmlPanel title="⭕ Cercle Trigonométrique">
-                <div className="text-white">
-                    <div className="flex items-center justify-between mb-4">
-                        <span className="text-xs text-gray-400">Animation</span>
-                        <button
-                            onClick={() => setAutoPlay(!autoPlay)}
-                            className={`px-3 py-1 rounded-lg text-xs font-bold ${autoPlay ? 'bg-red-500/20 text-red-400' : 'bg-green-500/20 text-green-400'}`}
-                        >
-                            {autoPlay ? 'Pause ⏸' : 'Play ▶'}
-                        </button>
-                    </div>
+            <Html transform={false}>
+                <DraggableHtmlPanel usePortal={false} title="⭕ Cercle Trigonométrique">
+                    <div className="text-white">
+                        <div className="flex items-center justify-between mb-4">
+                            <span className="text-xs text-gray-400">Animation</span>
+                            <button
+                                onClick={() => setAutoPlay(!autoPlay)}
+                                className={`px-3 py-1 rounded-lg text-xs font-bold ${autoPlay ? 'bg-red-500/20 text-red-400' : 'bg-green-500/20 text-green-400'}`}
+                            >
+                                {autoPlay ? 'Pause ⏸' : 'Play ▶'}
+                            </button>
+                        </div>
 
-                    {!autoPlay && (
-                        <div className="mb-4">
-                            <label className="block text-xs mb-1 text-gray-400">Angle (rad)</label>
-                            <input
-                                type="range"
-                                min="0"
-                                max={Math.PI * 2}
-                                step="0.01"
-                                value={angle}
-                                onChange={(e) => setAngle(parseFloat(e.target.value))}
-                                className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-[#00F5D4]"
-                            />
-                        </div>
-                    )}
+                        {!autoPlay && (
+                            <div className="mb-4">
+                                <label className="block text-xs mb-1 text-gray-400">Angle (rad)</label>
+                                <input
+                                    type="range"
+                                    min="0"
+                                    max={Math.PI * 2}
+                                    step="0.01"
+                                    value={angle}
+                                    onChange={(e) => setAngle(parseFloat(e.target.value))}
+                                    className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-[#00F5D4]"
+                                />
+                            </div>
+                        )}
 
-                    <div className="space-y-2 text-xs font-mono border-t border-white/10 pt-2">
-                        <div className="flex justify-between">
-                            <span className="text-blue-400">Cos (x) :</span>
-                            <span>{cosVal.toFixed(2)}</span>
-                        </div>
-                        <div className="flex justify-between">
-                            <span className="text-red-400">Sin (y) :</span>
-                            <span>{sinVal.toFixed(2)}</span>
-                        </div>
-                        <div className="flex justify-between font-bold">
-                            <span className="text-gray-400">Angle :</span>
-                            <span>{((currentAngle * 180) / Math.PI).toFixed(0)}°</span>
+                        <div className="space-y-2 text-xs font-mono border-t border-white/10 pt-2">
+                            <div className="flex justify-between">
+                                <span className="text-blue-400">Cos (x) :</span>
+                                <span>{cosVal.toFixed(2)}</span>
+                            </div>
+                            <div className="flex justify-between">
+                                <span className="text-red-400">Sin (y) :</span>
+                                <span>{sinVal.toFixed(2)}</span>
+                            </div>
+                            <div className="flex justify-between font-bold">
+                                <span className="text-gray-400">Angle :</span>
+                                <span>{((currentAngle * 180) / Math.PI).toFixed(0)}°</span>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </DraggableHtmlPanel>
+                </DraggableHtmlPanel>
+            </Html>
 
             <group>
 
@@ -667,8 +673,8 @@ function ElectricCircuit() {
     const [isClosed, setIsClosed] = useState(false);
     return (
         <group>
-            <Html>
-                <DraggableHtmlPanel title="⚡ Circuit Électrique" showCloseButton={false} defaultPosition="bottom-center" className="min-w-[200px] text-white">
+            <Html transform={false}>
+                <DraggableHtmlPanel usePortal={false} title="⚡ Circuit Électrique" showCloseButton={false} defaultPosition="bottom-center" className="min-w-[200px] text-white">
                     <button
                         onClick={() => setIsClosed(!isClosed)}
                         className={`w-full py-2 rounded-lg font-bold transition-all ${isClosed ? 'bg-green-600 hover:bg-green-500 shadow-[0_0_20px_rgba(34,197,94,0.5)]' : 'bg-red-600 hover:bg-red-500'}`}
@@ -1693,8 +1699,8 @@ function EnergyConservation() {
     return (
         <group>
             {/* Panneau de Contrôle */}
-            <Html>
-                <DraggableHtmlPanel title="⚡ Conservation de l'Énergie" showCloseButton={false} defaultPosition="bottom-center" className="min-w-[260px] text-white">
+            <Html transform={false}>
+                <DraggableHtmlPanel usePortal={false} title="⚡ Conservation de l'Énergie" showCloseButton={false} defaultPosition="bottom-center" className="min-w-[260px] text-white">
                     <h3 className="text-[#FCD34D] font-bold mb-3 text-center">⚡ Conservation de l'Énergie</h3>
 
                     <div className="space-y-3">
@@ -2139,8 +2145,8 @@ function ForcePhysics() {
     return (
         <>
             {/* Panneau de Contrôle - Draggable - Rendu Portal */}
-            <Html>
-                <DraggableHtmlPanel title="⚡ Forces et Mouvement" showCloseButton={false} defaultPosition="bottom-center" className="min-w-[300px]">
+            <Html transform={false}>
+                <DraggableHtmlPanel usePortal={false} title="⚡ Forces et Mouvement" showCloseButton={false} defaultPosition="bottom-center" className="min-w-[300px]">
                     <div className="text-white space-y-3">
                         {/* Le reste du contenu sera inséré par le contexte, mais je dois m'assurer d'inclure tout le contenu du div original */}
                         <div>
@@ -2328,56 +2334,58 @@ function TectonicPlates() {
     return (
         <>
             {/* Panneau de Contrôle - Draggable - Rendu Portal */}
-            <DraggableHtmlPanel title="🌍 Tectonique des Plaques">
-                <div className="bg-transparent text-white min-w-[280px]">
+            <Html transform={false}>
+                <DraggableHtmlPanel usePortal={false} title="🌍 Tectonique des Plaques">
+                    <div className="bg-transparent text-white min-w-[280px]">
 
-                    <div className="space-y-3">
-                        <div>
-                            <label className="block text-xs mb-2">Type de Mouvement</label>
-                            <div className="grid grid-cols-3 gap-1">
-                                {Object.entries(movementTypes).map(([key, data]) => (
-                                    <button
-                                        key={key}
-                                        onClick={() => setMovementType(key)}
-                                        className={`py-2 px-1 rounded-lg text-xs font-bold transition-colors ${movementType === key
-                                            ? 'bg-orange-600'
-                                            : 'bg-gray-700 hover:bg-gray-600'
-                                            }`}
-                                    >
-                                        {data.icon}
-                                    </button>
-                                ))}
+                        <div className="space-y-3">
+                            <div>
+                                <label className="block text-xs mb-2">Type de Mouvement</label>
+                                <div className="grid grid-cols-3 gap-1">
+                                    {Object.entries(movementTypes).map(([key, data]) => (
+                                        <button
+                                            key={key}
+                                            onClick={() => setMovementType(key)}
+                                            className={`py-2 px-1 rounded-lg text-xs font-bold transition-colors ${movementType === key
+                                                ? 'bg-orange-600'
+                                                : 'bg-gray-700 hover:bg-gray-600'
+                                                }`}
+                                        >
+                                            {data.icon}
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+
+                            <div>
+                                <label className="block text-xs mb-1">Vitesse : {speed}x</label>
+                                <input
+                                    type="range"
+                                    min="0.1"
+                                    max="3"
+                                    step="0.1"
+                                    value={speed}
+                                    onChange={(e) => setSpeed(parseFloat(e.target.value))}
+                                    className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-[#FF4500]"
+                                />
+                            </div>
+
+                            <button
+                                onClick={() => setIsAnimating(!isAnimating)}
+                                className={`w-full py-2 rounded-lg font-bold transition-colors ${isAnimating ? 'bg-red-600' : 'bg-green-600'
+                                    }`}
+                            >
+                                {isAnimating ? '⏸️ Pause' : '▶️ Animer'}
+                            </button>
+
+                            <div className="p-2 bg-white/5 rounded-lg text-center">
+                                <div className="font-bold text-[#FF4500]">{movementTypes[movementType].name}</div>
+                                <div className="text-xs text-gray-300">{movementTypes[movementType].desc}</div>
                             </div>
                         </div>
-
-                        <div>
-                            <label className="block text-xs mb-1">Vitesse : {speed}x</label>
-                            <input
-                                type="range"
-                                min="0.1"
-                                max="3"
-                                step="0.1"
-                                value={speed}
-                                onChange={(e) => setSpeed(parseFloat(e.target.value))}
-                                className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-[#FF4500]"
-                            />
-                        </div>
-
-                        <button
-                            onClick={() => setIsAnimating(!isAnimating)}
-                            className={`w-full py-2 rounded-lg font-bold transition-colors ${isAnimating ? 'bg-red-600' : 'bg-green-600'
-                                }`}
-                        >
-                            {isAnimating ? '⏸️ Pause' : '▶️ Animer'}
-                        </button>
-
-                        <div className="p-2 bg-white/5 rounded-lg text-center">
-                            <div className="font-bold text-[#FF4500]">{movementTypes[movementType].name}</div>
-                            <div className="text-xs text-gray-300">{movementTypes[movementType].desc}</div>
-                        </div>
                     </div>
-                </div>
-            </DraggableHtmlPanel>
+                </DraggableHtmlPanel>
+            </Html>
 
             <group>
 
@@ -2506,67 +2514,68 @@ function MixtureSeparation() {
 
     return (
         <>
-            {/* Panneau de Contrôle - Draggable - Rendu Portal */}
-            <DraggableHtmlPanel title="🧪 Séparation des Mélanges">
-                <div className="text-white min-w-[280px]">
-                    <div className="space-y-3">
-                        <div>
-                            <label className="block text-xs mb-2">Technique</label>
-                            <div className="grid grid-cols-2 gap-2">
-                                <button
-                                    onClick={() => { setTechnique('decantation'); reset(); }}
-                                    className={`py-2 px-3 rounded-lg text-xs font-bold transition-colors ${technique === 'decantation'
-                                        ? 'bg-blue-600'
-                                        : 'bg-gray-700 hover:bg-gray-600'
-                                        }`}
-                                >
-                                    🏺 Décantation
-                                </button>
-                                <button
-                                    onClick={() => { setTechnique('filtration'); reset(); }}
-                                    className={`py-2 px-3 rounded-lg text-xs font-bold transition-colors ${technique === 'filtration'
-                                        ? 'bg-green-600'
-                                        : 'bg-gray-700 hover:bg-gray-600'
-                                        }`}
-                                >
-                                    📄 Filtration
-                                </button>
+            <Html transform={false}>
+                <DraggableHtmlPanel usePortal={false} title="🧪 Séparation des Mélanges">
+                    <div className="text-white min-w-[280px]">
+                        <div className="space-y-3">
+                            <div>
+                                <label className="block text-xs mb-2">Technique</label>
+                                <div className="grid grid-cols-2 gap-2">
+                                    <button
+                                        onClick={() => { setTechnique('decantation'); reset(); }}
+                                        className={`py-2 px-3 rounded-lg text-xs font-bold transition-colors ${technique === 'decantation'
+                                            ? 'bg-blue-600'
+                                            : 'bg-gray-700 hover:bg-gray-600'
+                                            }`}
+                                    >
+                                        🏺 Décantation
+                                    </button>
+                                    <button
+                                        onClick={() => { setTechnique('filtration'); reset(); }}
+                                        className={`py-2 px-3 rounded-lg text-xs font-bold transition-colors ${technique === 'filtration'
+                                            ? 'bg-green-600'
+                                            : 'bg-gray-700 hover:bg-gray-600'
+                                            }`}
+                                    >
+                                        📄 Filtration
+                                    </button>
+                                </div>
                             </div>
-                        </div>
 
-                        <button
-                            onClick={isAnimating ? reset : startAnimation}
-                            className={`w-full py-2 rounded-lg font-bold transition-colors ${isAnimating ? 'bg-red-600' : 'bg-blue-600 hover:bg-blue-500'
-                                }`}
-                        >
-                            {isAnimating ? '🔄 Reset' : '▶️ Démarrer'}
-                        </button>
+                            <button
+                                onClick={isAnimating ? reset : startAnimation}
+                                className={`w-full py-2 rounded-lg font-bold transition-colors ${isAnimating ? 'bg-red-600' : 'bg-blue-600 hover:bg-blue-500'
+                                    }`}
+                            >
+                                {isAnimating ? '🔄 Reset' : '▶️ Démarrer'}
+                            </button>
 
-                        {/* Barre de progression */}
-                        <div>
-                            <div className="flex justify-between text-xs mb-1">
-                                <span className="text-gray-400">Séparation</span>
-                                <span>{Math.round(progress)}%</span>
+                            {/* Barre de progression */}
+                            <div>
+                                <div className="flex justify-between text-xs mb-1">
+                                    <span className="text-gray-400">Séparation</span>
+                                    <span>{Math.round(progress)}%</span>
+                                </div>
+                                <div className="w-full bg-gray-700 rounded-full h-2">
+                                    <div
+                                        className={`h-2 rounded-full transition-all ${technique === 'decantation'
+                                            ? 'bg-gradient-to-r from-yellow-600 to-blue-400'
+                                            : 'bg-gradient-to-r from-gray-400 to-blue-400'
+                                            }`}
+                                        style={{ width: `${progress}%` }}
+                                    />
+                                </div>
                             </div>
-                            <div className="w-full bg-gray-700 rounded-full h-2">
-                                <div
-                                    className={`h-2 rounded-full transition-all ${technique === 'decantation'
-                                        ? 'bg-gradient-to-r from-yellow-600 to-blue-400'
-                                        : 'bg-gradient-to-r from-gray-400 to-blue-400'
-                                        }`}
-                                    style={{ width: `${progress}%` }}
-                                />
-                            </div>
-                        </div>
 
-                        <div className="text-xs text-center text-gray-400">
-                            {technique === 'decantation'
-                                ? 'Les particules lourdes tombent au fond'
-                                : 'L\'eau passe, les impuretés restent'}
+                            <div className="text-xs text-center text-gray-400">
+                                {technique === 'decantation'
+                                    ? 'Les particules lourdes tombent au fond'
+                                    : 'L\'eau passe, les impuretés restent'}
+                            </div>
                         </div>
                     </div>
-                </div>
-            </DraggableHtmlPanel>
+                </DraggableHtmlPanel>
+            </Html>
             <group>
 
                 <Text position={[0, 3, 0]} fontSize={0.5} color="white">
@@ -4070,33 +4079,35 @@ function SimpleMachinesLever() {
     return (
         <>
             {/* Controls - Draggable - Rendu Portal */}
-            <DraggableHtmlPanel title="🔧 Le Levier">
-                <div className="text-white min-w-[250px]">
-                    <label className="block text-sm mb-1">Longueur du Bras de Force : {forceDist} m</label>
-                    <input
-                        type="range"
-                        min="1"
-                        max="4"
-                        step="0.1"
-                        value={forceDist}
-                        onChange={(e) => setForceDist(parseFloat(e.target.value))}
-                        className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-[#3B82F6]"
-                    />
-                    <div className="mt-3 text-xs space-y-1 font-mono text-gray-300">
-                        <div className="flex justify-between">
-                            <span>Couple Charge (Rouge):</span>
-                            <span>{momentLoad.toFixed(0)} N.m</span>
-                        </div>
-                        <div className="flex justify-between">
-                            <span>Couple Force (Bleu):</span>
-                            <span className={netMoment > 0 ? "text-green-400" : "text-red-400"}>{momentForce.toFixed(0)} N.m</span>
-                        </div>
-                        <div className="text-center mt-2 font-bold text-[#F59E0B]">
-                            {netMoment > 0 ? "ÇA SOULÈVE ! 🚀" : "TROP LOURD... 😫"}
+            <Html transform={false}>
+                <DraggableHtmlPanel usePortal={false} title="🔧 Le Levier">
+                    <div className="text-white min-w-[250px]">
+                        <label className="block text-sm mb-1">Longueur du Bras de Force : {forceDist} m</label>
+                        <input
+                            type="range"
+                            min="1"
+                            max="4"
+                            step="0.1"
+                            value={forceDist}
+                            onChange={(e) => setForceDist(parseFloat(e.target.value))}
+                            className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-[#3B82F6]"
+                        />
+                        <div className="mt-3 text-xs space-y-1 font-mono text-gray-300">
+                            <div className="flex justify-between">
+                                <span>Couple Charge (Rouge):</span>
+                                <span>{momentLoad.toFixed(0)} N.m</span>
+                            </div>
+                            <div className="flex justify-between">
+                                <span>Couple Force (Bleu):</span>
+                                <span className={netMoment > 0 ? "text-green-400" : "text-red-400"}>{momentForce.toFixed(0)} N.m</span>
+                            </div>
+                            <div className="text-center mt-2 font-bold text-[#F59E0B]">
+                                {netMoment > 0 ? "ÇA SOULÈVE ! 🚀" : "TROP LOURD... 😫"}
+                            </div>
                         </div>
                     </div>
-                </div>
-            </DraggableHtmlPanel>
+                </DraggableHtmlPanel>
+            </Html>
             <group>
 
                 <group position={[0, -1, 0]}>
@@ -4182,27 +4193,28 @@ function VolcanoEruption() {
 
     return (
         <>
-            {/* Controls - Draggable - Rendu Portal */}
-            <DraggableHtmlPanel title="🌋 Contrôle Volcan">
-                <div className="text-white">
-                    <button
-                        onClick={() => setErupting(!erupting)}
-                        className={`w-full py-2 rounded-lg font-bold mb-3 transition-colors ${erupting ? 'bg-red-600 animate-pulse' : 'bg-green-600 hover:bg-green-500'}`}
-                    >
-                        {erupting ? "ARRÊTER !" : "DÉCLENCHER"}
-                    </button>
+            <Html transform={false}>
+                <DraggableHtmlPanel usePortal={false} title="🌋 Contrôle Volcan">
+                    <div className="text-white">
+                        <button
+                            onClick={() => setErupting(!erupting)}
+                            className={`w-full py-2 rounded-lg font-bold mb-3 transition-colors ${erupting ? 'bg-red-600 animate-pulse' : 'bg-green-600 hover:bg-green-500'}`}
+                        >
+                            {erupting ? "ARRÊTER !" : "DÉCLENCHER"}
+                        </button>
 
-                    <label className="block text-sm mb-1">Pression Magmatique</label>
-                    <input
-                        type="range"
-                        min="1"
-                        max="10"
-                        value={pressure}
-                        onChange={(e) => setPressure(parseInt(e.target.value))}
-                        className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-[#EF4444]"
-                    />
-                </div>
-            </DraggableHtmlPanel>
+                        <label className="block text-sm mb-1">Pression Magmatique</label>
+                        <input
+                            type="range"
+                            min="1"
+                            max="10"
+                            value={pressure}
+                            onChange={(e) => setPressure(parseInt(e.target.value))}
+                            className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-[#EF4444]"
+                        />
+                    </div>
+                </DraggableHtmlPanel>
+            </Html>
 
             <group>
 
