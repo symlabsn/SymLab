@@ -10,7 +10,7 @@ export const chimieTsData = {
             part: 'Partie 1 : Chimie Organique',
             title: 'C1. Alcools',
             simulation: { id: 'cts-alcools', title: 'Alcools et Oxydation' },
-            image: '/images/simulations/chimie-ts/alcools.png',
+            image: '/simulations/chimie-ts/alcools.png',
             story: "L'éthanol n'est que le plus célèbre d'une grande famille. Primaires, secondaires, tertiaires... leur structure détermine leur réactivité, notamment l'oxydation ménagée qui peut transformer votre vin en vinaigre.",
             content: `
 ### 1. Nomenclature et Classes
@@ -47,7 +47,7 @@ Conservation du squelette carboné. Oxydants : $KMnO_4$ ou $K_2Cr_2O_7$ en milie
             part: 'Partie 1 : Chimie Organique',
             title: 'C2. Amines',
             simulation: { id: 'cts-amines', title: 'Amines et Propriétés' },
-            image: '/images/simulations/chimie-ts/amines.png',
+            image: '/simulations/chimie-ts/amines.png',
             story: "Dérivés de l'ammoniac, les amines sont responsables de l'odeur du poisson... mais aussi de la structure des protéines ! Elles sont basiques et nucléophiles.",
             content: `
 ### 1. Définition et Classes
@@ -81,7 +81,7 @@ Dérivés de $NH_3$ où des H sont remplacés par des groupes alkyles.
             part: 'Partie 1 : Chimie Organique',
             title: 'C3. Acides Carboxyliques et Dérivés',
             simulation: { id: 'cts-acides-carbo', title: 'Estérification' },
-            image: '/images/simulations/chimie-ts/esterification.png',
+            image: '/simulations/chimie-ts/esterification.png',
             story: "Le centre de la chimie organique fonctionnelle. À partir de l'acide, on fabrique des esters (parfums), des amides (plastiques) et des anhydrides.",
             content: `
 ### 1. Acides Carboxyliques
@@ -115,7 +115,7 @@ Réaction **lente, limitée et athermique**. On l'accélère avec un catalyseur 
             part: 'Partie 1 : Chimie Organique',
             title: 'C9. Acides α-aminés',
             simulation: { id: 'cts-acides-amines', title: 'Acides Aminés et Chiralité' },
-            image: '/images/simulations/chimie-ts/acides-amines.png',
+            image: '/simulations/chimie-ts/acides-amines.png',
             story: "Les briques élémentaires de la vie. Avec une fonction acide d'un côté et amine de l'autre, ils peuvent s'enchaîner pour former des protéines. Et ils ont une 'main' (chiralité).",
             content: `
 ### 1. Structure et Stéréochimie
@@ -147,7 +147,7 @@ Réaction entre COOH d'un AA et NH2 d'un autre $\\rightarrow$ Amide (Peptide) + 
             part: 'Partie 2 : Cinétique Chimique',
             title: 'C4. Cinétique Chimique',
             simulation: { id: 'cts-cinetique', title: 'Cinétique Chimique' },
-            image: '/images/simulations/chimie-ts/cinetique.png',
+            image: '/simulations/chimie-ts/cinetique.png',
             story: "Certaines réactions prennent des millions d'années, d'autres sont explosives. La cinétique étudie la vitesse des réactions et comment la contrôler.",
             content: `
 ### 1. Vitesse de réaction
@@ -181,7 +181,7 @@ Durée pour atteindre la moitié de l'avancement final.
             part: 'Partie 3 : Acides et Bases',
             title: 'C5. Autoprotolyse de l’eau et pH',
             simulation: { id: 'cts-ph', title: 'pH et Autoprotolyse' },
-            image: '/images/simulations/chimie-ts/ph-eau.png',
+            image: '/simulations/chimie-ts/ph-eau.png',
             story: "L'eau n'est pas chimiquement morte. Elle s'ionise elle-même en permanence. C'est la base de l'échelle pH qui mesure l'acidité de tout le reste.",
             content: `
 ### 1. Autoprotolyse de l'eau
@@ -214,7 +214,7 @@ Couples acide-base dont les formes acide et basique ont des couleurs différente
             part: 'Partie 3 : Acides et Bases',
             title: 'C6. Acides et Bases Forts',
             simulation: { id: 'cts-acides-forts', title: 'Acides et Bases Forts' },
-            image: '/images/simulations/chimie-ts/acides-forts.png',
+            image: '/simulations/chimie-ts/acides-forts.png',
             story: "Les 'brutes' de la chimie. Ils réagissent totalement avec l'eau. Pas d'équilibre, pas de retour en arrière. Attention, ça brûle.",
             content: `
 ### 1. Définitions
@@ -247,7 +247,7 @@ $H_3O^+ + HO^- \\rightarrow 2H_2O$. Réaction quasi-totale, très exothermique.
             part: 'Partie 3 : Acides et Bases',
             title: 'C7. Acides et Bases Faibles - Ka',
             simulation: { id: 'cts-acides-faibles', title: 'Acides Faibles et Ka' },
-            image: '/images/simulations/chimie-ts/acides-faibles.png',
+            image: '/simulations/chimie-ts/acides-faibles.png',
             story: "La subtilité de l'équilibre chimique. Ils ne se dissolvent qu'à moitié. Entre l'acide et sa base conjuguée, c'est une lutte permanente d'influence régie par une constante.",
             content: `
 ### 1. Équilibre chimique
@@ -280,7 +280,7 @@ Plus le $pKa$ est petit, plus l'acide est fort (et sa base conjuguée faible).
             part: 'Partie 3 : Acides et Bases',
             title: 'C8. Réaction Faible/Forte et Tampon',
             simulation: { id: 'cts-tampon', title: 'Solutions Tampons' },
-            image: '/images/simulations/chimie-ts/tampon.png',
+            image: '/simulations/chimie-ts/tampon.png',
             story: "Comment faire réagir un acide faible ? En le forçant avec une base forte. Cela crée au passage des solutions tampons, cruciales pour la vie (sang).",
             content: `
 ### 1. Réaction Acide Faible + Base Forte

@@ -1,9 +1,9 @@
-import React, { useState, useRef, useMemo } from 'react';
+import React, { useState, useRef, useMemo, useEffect } from 'react';
 import { useFrame } from '@react-three/fiber';
-import { Html, OrbitControls, Text, Sphere, Box, Cylinder, Line, Plane } from '@react-three/drei';
+import { Html, OrbitControls, Text, Sphere, Box, Cylinder, Line, Plane, Float, MeshDistortMaterial } from '@react-three/drei';
 import * as THREE from 'three';
 import DraggableHtmlPanel from './DraggableHtmlPanel';
-import confetti from 'canvas-confetti';
+import { SuccessOverlay, ConfettiExplosion, ChallengeTimer, GradeBadge, XPBar, PhaseSelector, MissionObjective } from './GamificationUtils';
 
 // ==========================================
 // ATOM COLORS & RADII
@@ -16,19 +16,72 @@ const ATOM = {
     Cl: { color: '#0F0', r: 0.45 },
 };
 
-function triggerSuccess() {
-    confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
-}
+// trigSuccess removal (using SuccessOverlay now)
 
 // ==========================================
 // C1: GÉNÉRALITÉS CHIMIE ORGANIQUE (Tétravalence du C)
 // ==========================================
 export function ChimieOrgaGeneralSim() {
+    // États Globaux & Gamification
+    const [phase, setPhase] = useState('explore');
+    const [score, setScore] = useState(0);
+    const [level, setLevel] = useState(1);
+    const [showSuccess, setShowSuccess] = useState(false);
+    const [mission, setMission] = useState(null);
+    const [timeLeft, setTimeLeft] = useState(30);
+
+    // États Physiques
     const [showLabels, setShowLabels] = useState(true);
     const groupRef = useRef();
 
+    // Missions Config
+    const missions = useMemo(() => [
+        { id: 1, title: 'Analyse Tétraédrique', objective: 'Affichez les labels pour identifier le Cα.', showLabels: true },
+        { id: 2, title: 'Géométrie Moléculaire', objective: 'Observez la molécule sous 3 angles différents.', requiredRotation: true },
+        { id: 3, title: 'Calcul de Valence', objective: 'Vérifiez les 4 liaisons du carbone central.', checkValence: true }
+    ], []);
+
+    useEffect(() => {
+        if (phase === 'mission' && !mission) {
+            setMission(missions[0]);
+            setTimeLeft(30);
+        }
+    }, [phase, mission, missions]);
+
+    useEffect(() => {
+        let timer;
+        if (phase === 'mission' && timeLeft > 0 && !showSuccess) {
+            timer = setInterval(() => setTimeLeft(prev => prev - 1), 1000);
+        } else if (timeLeft === 0 && !showSuccess) {
+            setPhase('explore');
+            setMission(null);
+        }
+        return () => clearInterval(timer);
+    }, [phase, timeLeft, showSuccess]);
+
+    const nextMission = () => {
+        setShowSuccess(false);
+        const nextIdx = missions.findIndex(m => m.id === mission.id) + 1;
+        if (nextIdx < missions.length) {
+            setMission(missions[nextIdx]);
+            setTimeLeft(30);
+        } else {
+            setPhase('explore');
+            setMission(null);
+            setScore(prev => prev + 500);
+        }
+    };
+
+    const completeObjective = () => {
+        setScore(prev => prev + 200);
+        setShowSuccess(true);
+    };
+
     useFrame((state) => {
         if (groupRef.current) groupRef.current.rotation.y += 0.005;
+        if (phase === 'mission' && mission?.id === 1 && showLabels) {
+            // Auto-complete if they enable labels
+        }
     });
 
     // Méthane CH4 - Tétraèdre parfait
@@ -39,41 +92,86 @@ export function ChimieOrgaGeneralSim() {
     return (
         <group>
             <OrbitControls />
-            <group ref={groupRef} scale={2}>
-                {/* Carbone central */}
-                <Sphere args={[ATOM.C.r]}><meshStandardMaterial color={ATOM.C.color} /></Sphere>
-                {showLabels && <Text position={[0, 0.6, 0]} fontSize={0.3} color="cyan">C</Text>}
 
-                {/* 4 Hydrogènes */}
-                {hPos.map((p, i) => (
-                    <group key={i}>
-                        <Sphere args={[ATOM.H.r]} position={p}><meshStandardMaterial color={ATOM.H.color} /></Sphere>
-                        <Line points={[[0, 0, 0], p]} color="#888" lineWidth={2} />
-                        {showLabels && <Text position={[p[0] * 1.3, p[1] * 1.3, p[2] * 1.3]} fontSize={0.2} color="gray">H</Text>}
-                    </group>
-                ))}
-            </group>
+            {/* Scène 3D Améliorée */}
+            <Float speed={2} rotationIntensity={0.5} floatIntensity={0.5}>
+                <group ref={groupRef} scale={2}>
+                    {/* Carbone central avec effet Glow */}
+                    <mesh>
+                        <sphereGeometry args={[ATOM.C.r, 32, 32]} />
+                        <meshStandardMaterial color={ATOM.C.color} metalness={0.8} roughness={0.2} />
+                    </mesh>
+                    {showLabels && <Text position={[0, 0.6, 0]} fontSize={0.2} color="#00F5D4" font="/fonts/Geist-Black.ttf">C</Text>}
 
-            <Text position={[0, -3, 0]} fontSize={0.4} color="#00F5D4">Méthane CH₄ - Tétravalence du Carbone</Text>
+                    {/* 4 Hydrogènes avec liaisons holographiques */}
+                    {hPos.map((p, i) => (
+                        <group key={i}>
+                            <mesh position={p}>
+                                <sphereGeometry args={[ATOM.H.r, 24, 24]} />
+                                <meshStandardMaterial color={ATOM.H.color} emissive="#fff" emissiveIntensity={0.2} />
+                            </mesh>
+                            <Line points={[[0, 0, 0], p]} color="#00F5D4" lineWidth={2} transparent opacity={0.6} />
+                            {showLabels && <Text position={[p[0] * 1.3, p[1] * 1.3, p[2] * 1.3]} fontSize={0.15} color="#94a3b8">H</Text>}
+                        </group>
+                    ))}
+                </group>
+            </Float>
 
+            {/* UI Holographique */}
             <Html transform={false}>
-                <DraggableHtmlPanel usePortal={false} title="🧪 Tétravalence du C">
-                    <div className="p-4 w-64 text-white">
-                        <div className="mb-4">
-                            <p className="text-sm mb-1">Exemple: Méthane <span className="font-bold text-[#00F5D4] font-mono">CH<sub>4</sub></span></p>
-                            <p className="text-xs text-gray-300">Le carbone est tétravalent (4 liaisons).</p>
+                <DraggableHtmlPanel title="🧪 Tétravalence du Carbone" className="w-[380px] border-cyan-500/30">
+                    <PhaseSelector currentPhase={phase} onSelect={setPhase} />
+
+                    {phase === 'mission' && mission && (
+                        <div className="mb-4 space-y-3">
+                            <div className="flex justify-between items-center">
+                                <GradeBadge score={score} />
+                                <ChallengeTimer timeLeft={timeLeft} maxTime={30} />
+                            </div>
+                            <MissionObjective objective={mission.objective} />
                         </div>
-                        <label className="flex items-center gap-2 text-xs">
-                            <input type="checkbox" checked={showLabels} onChange={e => setShowLabels(e.target.checked)} />
-                            Afficher les labels
-                        </label>
-                        <div className="mt-4 text-xs bg-black/30 p-2 rounded">
-                            <p>Angles de liaison: 109.5°</p>
-                            <p>Géométrie: Tétraédrique</p>
+                    )}
+
+                    <div className="space-y-4">
+                        <div className="p-3 bg-cyan-500/10 rounded-xl border border-cyan-500/20">
+                            <p className="text-[11px] text-cyan-300 uppercase font-black mb-1">Structure de Base</p>
+                            <p className="text-sm text-white">Méthane <span className="font-bold text-[#00F5D4] font-mono text-lg">CH₄</span></p>
+                            <p className="text-[10px] text-gray-400 mt-1">Le carbone forme 4 liaisons covalentes parfaites.</p>
                         </div>
+
+                        <button
+                            onClick={() => {
+                                setShowLabels(!showLabels);
+                                if (phase === 'mission' && mission?.id === 1) completeObjective();
+                            }}
+                            className={`w-full py-3 rounded-xl font-black text-[10px] transition-all flex items-center justify-center gap-2 ${showLabels ? 'bg-cyan-600 shadow-lg shadow-cyan-600/20' : 'bg-gray-800 hover:bg-gray-700'}`}>
+                            <span>{showLabels ? 'DÉSACTIVER LABELS' : 'ACTIVER LABELS HOLOGRAPHIQUES'}</span>
+                            {showLabels && <span className="animate-pulse">●</span>}
+                        </button>
+
+                        <div className="grid grid-cols-2 gap-2">
+                            <div className="p-2 bg-black/40 rounded-lg border border-white/5">
+                                <p className="text-[9px] text-gray-500 uppercase">Angles</p>
+                                <p className="text-sm font-bold text-white">109.5°</p>
+                            </div>
+                            <div className="p-2 bg-black/40 rounded-lg border border-white/5">
+                                <p className="text-[9px] text-gray-500 uppercase">Géométrie</p>
+                                <p className="text-sm font-bold text-white">Tétraèdre</p>
+                            </div>
+                        </div>
+
+                        <XPBar current={score % 1000} nextLevel={1000} />
                     </div>
                 </DraggableHtmlPanel>
             </Html>
+
+            <SuccessOverlay
+                show={showSuccess}
+                message={mission?.title || "Objectif atteint !"}
+                points={200}
+                onNext={nextMission}
+            />
+            <ConfettiExplosion active={showSuccess} />
         </group>
     );
 }
@@ -82,8 +180,58 @@ export function ChimieOrgaGeneralSim() {
 // C2: ALCANES (Nomenclature + Combustion)
 // ==========================================
 export function AlcanesSim() {
+    // États Globaux & Gamification
+    const [phase, setPhase] = useState('explore');
+    const [score, setScore] = useState(0);
+    const [showSuccess, setShowSuccess] = useState(false);
+    const [mission, setMission] = useState(null);
+    const [timeLeft, setTimeLeft] = useState(45);
+
+    // États Physiques
     const [n, setN] = useState(3);
     const names = ['', 'Méthane', 'Éthane', 'Propane', 'Butane', 'Pentane', 'Hexane', 'Heptane', 'Octane'];
+
+    // Missions Config
+    const missions = useMemo(() => [
+        { id: 1, title: 'Synthèse Butane', objective: 'Ajustez la chaîne pour former du Butane (n=4).', targetN: 4 },
+        { id: 2, title: 'Chaîne Longue', objective: 'Modélisez l\'Octane (n=8).', targetN: 8 },
+        { id: 3, title: 'Combustion Éthane', objective: 'Sélectionnez l\'Éthane (n=2).', targetN: 2 }
+    ], []);
+
+    useEffect(() => {
+        if (phase === 'mission' && !mission) {
+            setMission(missions[0]);
+            setTimeLeft(45);
+        }
+    }, [phase, mission, missions]);
+
+    useEffect(() => {
+        let timer;
+        if (phase === 'mission' && timeLeft > 0 && !showSuccess) {
+            timer = setInterval(() => setTimeLeft(prev => prev - 1), 1000);
+        }
+        return () => clearInterval(timer);
+    }, [phase, timeLeft, showSuccess]);
+
+    const handleNChange = (val) => {
+        setN(val);
+        if (phase === 'mission' && val === mission?.targetN) {
+            setScore(prev => prev + 300);
+            setShowSuccess(true);
+        }
+    };
+
+    const nextMission = () => {
+        setShowSuccess(false);
+        const nextIdx = missions.findIndex(m => m.id === mission.id) + 1;
+        if (nextIdx < missions.length) {
+            setMission(missions[nextIdx]);
+            setTimeLeft(45);
+        } else {
+            setPhase('explore');
+            setMission(null);
+        }
+    };
 
     const structure = useMemo(() => {
         const list = [];
@@ -124,48 +272,82 @@ export function AlcanesSim() {
             <group scale={1.5}>
                 {structure.atoms.map((a, k) => (
                     <group key={k}>
-                        <Sphere args={[a.type === 'C' ? ATOM.C.r : ATOM.H.r]} position={a.pos}>
-                            <meshStandardMaterial color={a.type === 'C' ? ATOM.C.color : ATOM.H.color} />
-                        </Sphere>
-                        {a.parent && <Line points={[a.parent, a.pos]} color="#888" lineWidth={2} />}
+                        <mesh position={a.pos}>
+                            <sphereGeometry args={[a.type === 'C' ? ATOM.C.r : ATOM.H.r, 24, 24]} />
+                            <meshStandardMaterial
+                                color={a.type === 'C' ? ATOM.C.color : ATOM.H.color}
+                                metalness={0.6}
+                                roughness={0.3}
+                            />
+                        </mesh>
+                        {a.parent && <Line points={[a.parent, a.pos]} color="#00F5D4" lineWidth={1} transparent opacity={0.4} />}
                     </group>
                 ))}
 
                 {Array.from({ length: n - 1 }).map((_, i) => {
                     const carbons = structure.atoms.filter(a => a.type === 'C');
-                    return <Line key={'cc' + i} points={[carbons[i].pos, carbons[i + 1].pos]} color="#555" lineWidth={5} />;
+                    return <Line key={'cc' + i} points={[carbons[i].pos, carbons[i + 1].pos]} color="#00F5D4" lineWidth={4} />;
                 })}
             </group>
 
-            <Text position={[0, -2.5, 0]} fontSize={0.5} color="#00F5D4">{names[n]}</Text>
-
             <Html transform={false}>
-                <DraggableHtmlPanel usePortal={false} title="⛽ Les Alcanes">
-                    <div className="p-4 w-72 text-white">
-                        <label className="text-xs font-bold mb-2 block">Nombre de carbones: {n}</label>
-                        <input type="range" min="1" max="8" value={n} onChange={e => setN(Number(e.target.value))} className="w-full mb-4 accent-[#00F5D4]" />
+                <DraggableHtmlPanel title="⛽ Raffinerie d'Alcanes" className="w-[400px] border-orange-500/30">
+                    <PhaseSelector currentPhase={phase} onSelect={setPhase} />
 
-                        <div className="bg-black/30 p-3 rounded text-sm space-y-2">
-                            <div className="flex justify-between">
-                                <span className="text-gray-400">Nom :</span>
-                                <span className="font-bold text-[#00F5D4]">{names[n]}</span>
+                    {phase === 'mission' && mission && (
+                        <div className="mb-4">
+                            <div className="flex justify-between items-center mb-2">
+                                <GradeBadge score={score} />
+                                <ChallengeTimer timeLeft={timeLeft} maxTime={45} />
                             </div>
-                            <div className="flex justify-between items-center">
-                                <span className="text-gray-400">Formule :</span>
-                                <span className="font-mono bg-gray-800 px-2 py-1 rounded">C<sub>{n}</sub>H<sub>{2 * n + 2}</sub></span>
-                            </div>
-                            <div className="text-xs text-gray-500 mt-1">Générale : C<sub>n</sub>H<sub>2n+2</sub></div>
+                            <MissionObjective objective={mission.objective} />
+                        </div>
+                    )}
+
+                    <div className="space-y-4">
+                        <div className="flex justify-between items-end">
+                            <label className="text-[10px] font-black text-orange-400 uppercase tracking-widest">Carbones: {n}</label>
+                            <span className="text-2xl font-black text-white">{names[n]}</span>
                         </div>
 
-                        <div className="mt-4 text-xs text-gray-300">
-                            <p className="font-bold text-orange-400 mb-1">Combustion complète :</p>
-                            <div className="font-mono bg-orange-900/20 p-2 rounded text-[10px]">
+                        <div className="relative h-10 flex items-center">
+                            <input
+                                type="range" min="1" max="8" value={n}
+                                onChange={e => handleNChange(Number(e.target.value))}
+                                className="w-full h-2 bg-gray-800 rounded-lg appearance-none cursor-pointer accent-orange-500"
+                            />
+                        </div>
+
+                        <div className="grid grid-cols-2 gap-3">
+                            <div className="p-3 bg-black/40 rounded-xl border border-white/5">
+                                <p className="text-[9px] text-gray-500 uppercase">Formulaire Brut</p>
+                                <p className="text-lg font-mono font-bold text-orange-400">C<sub>{n}</sub>H<sub>{2 * n + 2}</sub></p>
+                            </div>
+                            <div className="p-3 bg-black/40 rounded-xl border border-white/5">
+                                <p className="text-[9px] text-gray-500 uppercase">État (25°C)</p>
+                                <p className="text-sm font-bold text-white">{n < 5 ? 'Gaz' : 'Liquide'}</p>
+                            </div>
+                        </div>
+
+                        <div className="p-3 bg-orange-500/5 rounded-xl border border-orange-500/20">
+                            <p className="text-[10px] font-bold text-orange-300 mb-2 uppercase tracking-tighter">Équation de Combustion</p>
+                            <div className="font-mono text-[11px] text-white overflow-x-auto whitespace-nowrap">
                                 C<sub>{n}</sub>H<sub>{2 * n + 2}</sub> + {(3 * n + 1) / 2}O<sub>2</sub> → {n}CO<sub>2</sub> + {n + 1}H<sub>2</sub>O
                             </div>
                         </div>
+
+                        <XPBar current={score % 1000} nextLevel={1000} />
                     </div>
                 </DraggableHtmlPanel>
             </Html>
+
+            <SuccessOverlay
+                show={showSuccess}
+                message={`Alcène ${names[n]} identifié !`}
+                points={300}
+                onNext={nextMission}
+            />
+            <ConfettiExplosion active={showSuccess} />
         </group>
     );
 }
@@ -174,52 +356,174 @@ export function AlcanesSim() {
 // C3: ALCÈNES (Double liaison)
 // ==========================================
 export function AlcenesSim() {
+    // États Globaux & Gamification
+    const [phase, setPhase] = useState('explore');
+    const [score, setScore] = useState(0);
+    const [showSuccess, setShowSuccess] = useState(false);
+    const [mission, setMission] = useState(null);
+    const [timeLeft, setTimeLeft] = useState(45);
+
+    // États Physiques
     const groupRef = useRef();
-    useFrame(() => { if (groupRef.current) groupRef.current.rotation.y += 0.005; });
+    const [showDoubleBond, setShowDoubleBond] = useState(true);
+
+    // Missions Config
+    const missions = useMemo(() => [
+        { id: 1, title: 'Analyse d\'Insaturation', objective: 'Localisez la double liaison C=C.', checkBond: true },
+        { id: 2, title: 'Réactivité π', objective: 'Observez la densité électronique entre les C.', checkDensity: true },
+        { id: 3, title: 'Géométrie Plane', objective: 'Vérifiez l\'alignement des atomes.', checkGeometry: true }
+    ], []);
+
+    useEffect(() => {
+        if (phase === 'mission' && !mission) {
+            setMission(missions[0]);
+            setTimeLeft(45);
+        }
+    }, [phase, mission, missions]);
+
+    useEffect(() => {
+        let timer;
+        if (phase === 'mission' && timeLeft > 0 && !showSuccess) {
+            timer = setInterval(() => setTimeLeft(prev => prev - 1), 1000);
+        }
+        return () => clearInterval(timer);
+    }, [phase, timeLeft, showSuccess]);
+
+    const completeObjective = () => {
+        setScore(prev => prev + 350);
+        setShowSuccess(true);
+    };
+
+    const nextMission = () => {
+        setShowSuccess(false);
+        const nextIdx = missions.findIndex(m => m.id === mission.id) + 1;
+        if (nextIdx < missions.length) {
+            setMission(missions[nextIdx]);
+            setTimeLeft(45);
+        } else {
+            setPhase('explore');
+            setMission(null);
+        }
+    };
+
+    useFrame((state) => {
+        if (groupRef.current) groupRef.current.rotation.y += 0.005;
+    });
 
     return (
         <group>
             <OrbitControls />
-            <group ref={groupRef} scale={1.5}>
-                {/* Éthène C2H4 */}
-                <Sphere args={[0.35]} position={[-0.6, 0, 0]}><meshStandardMaterial color="#333" /></Sphere>
-                <Sphere args={[0.35]} position={[0.6, 0, 0]}><meshStandardMaterial color="#333" /></Sphere>
+            <Float speed={2} rotationIntensity={0.5} floatIntensity={0.4}>
+                <group ref={groupRef} scale={1.5}>
+                    {/* Éthène C2H4 */}
+                    <mesh position={[-0.6, 0, 0]}>
+                        <sphereGeometry args={[0.35, 32, 32]} />
+                        <meshStandardMaterial color="#333" metalness={0.8} />
+                    </mesh>
+                    <mesh position={[0.6, 0, 0]}>
+                        <sphereGeometry args={[0.35, 32, 32]} />
+                        <meshStandardMaterial color="#333" metalness={0.8} />
+                    </mesh>
 
-                {/* Double liaison */}
-                <Line points={[[-0.25, 0.1, 0], [0.25, 0.1, 0]]} color="#00FF00" lineWidth={4} />
-                <Line points={[[-0.25, -0.1, 0], [0.25, -0.1, 0]]} color="#00FF00" lineWidth={4} />
+                    {/* Double liaison Holographique */}
+                    {showDoubleBond && (
+                        <>
+                            <mesh position={[0, 0.12, 0]} rotation={[0, 0, Math.PI / 2]}>
+                                <cylinderGeometry args={[0.04, 0.04, 1, 16]} />
+                                <meshStandardMaterial color="#00FF00" emissive="#00FF00" emissiveIntensity={2} transparent opacity={0.6} />
+                            </mesh>
+                            <mesh position={[0, -0.12, 0]} rotation={[0, 0, Math.PI / 2]}>
+                                <cylinderGeometry args={[0.04, 0.04, 1, 16]} />
+                                <meshStandardMaterial color="#00FF00" emissive="#00FF00" emissiveIntensity={2} transparent opacity={0.6} />
+                            </mesh>
+                        </>
+                    )}
 
-                {/* Hydrogènes */}
-                <Sphere args={[0.2]} position={[-1.1, 0.5, 0]}><meshStandardMaterial color="#FFF" /></Sphere>
-                <Sphere args={[0.2]} position={[-1.1, -0.5, 0]}><meshStandardMaterial color="#FFF" /></Sphere>
-                <Sphere args={[0.2]} position={[1.1, 0.5, 0]}><meshStandardMaterial color="#FFF" /></Sphere>
-                <Sphere args={[0.2]} position={[1.1, -0.5, 0]}><meshStandardMaterial color="#FFF" /></Sphere>
+                    {/* Hydrogènes */}
+                    <group>
+                        <mesh position={[-1.1, 0.5, 0]}>
+                            <sphereGeometry args={[0.2, 16, 16]} />
+                            <meshStandardMaterial color="#FFF" />
+                        </mesh>
+                        <mesh position={[-1.1, -0.5, 0]}>
+                            <sphereGeometry args={[0.2, 16, 16]} />
+                            <meshStandardMaterial color="#FFF" />
+                        </mesh>
+                        <mesh position={[1.1, 0.5, 0]}>
+                            <sphereGeometry args={[0.2, 16, 16]} />
+                            <meshStandardMaterial color="#FFF" />
+                        </mesh>
+                        <mesh position={[1.1, -0.5, 0]}>
+                            <sphereGeometry args={[0.2, 16, 16]} />
+                            <meshStandardMaterial color="#FFF" />
+                        </mesh>
 
-                <Line points={[[-0.6, 0, 0], [-1.1, 0.5, 0]]} color="#888" />
-                <Line points={[[-0.6, 0, 0], [-1.1, -0.5, 0]]} color="#888" />
-                <Line points={[[0.6, 0, 0], [1.1, 0.5, 0]]} color="#888" />
-                <Line points={[[0.6, 0, 0], [1.1, -0.5, 0]]} color="#888" />
-            </group>
-
-            <Text position={[0, -2.5, 0]} fontSize={0.4} color="#00FF00">Éthène C₂H₄ - Double Liaison C=C</Text>
+                        <Line points={[[-0.6, 0, 0], [-1.1, 0.5, 0]]} color="#00FF00" lineWidth={1} transparent opacity={0.3} />
+                        <Line points={[[-0.6, 0, 0], [-1.1, -0.5, 0]]} color="#00FF00" lineWidth={1} transparent opacity={0.3} />
+                        <Line points={[[0.6, 0, 0], [1.1, 0.5, 0]]} color="#00FF00" lineWidth={1} transparent opacity={0.3} />
+                        <Line points={[[0.6, 0, 0], [1.1, -0.5, 0]]} color="#00FF00" lineWidth={1} transparent opacity={0.3} />
+                    </group>
+                </group>
+            </Float>
 
             <Html transform={false}>
-                <DraggableHtmlPanel usePortal={false} title="🧬 Alcènes">
-                    <div className="p-4 w-64 text-white">
-                        <p className="text-sm mb-2">Formule: <span className="font-mono text-green-400">C<sub>n</sub>H<sub>2n</sub></span></p>
-                        <div className="bg-green-900/30 border border-green-500 p-2 rounded text-xs mb-4">
-                            <p className="font-bold">Double liaison C=C</p>
-                            <p>Site de réactivité intense</p>
+                <DraggableHtmlPanel title="🧬 Laboratoire Alcènes" className="w-[380px] border-green-500/30">
+                    <PhaseSelector currentPhase={phase} onSelect={setPhase} />
+
+                    {phase === 'mission' && mission && (
+                        <div className="mb-4">
+                            <div className="flex justify-between items-center mb-2">
+                                <GradeBadge score={score} />
+                                <ChallengeTimer timeLeft={timeLeft} maxTime={45} />
+                            </div>
+                            <MissionObjective objective={mission.objective} />
                         </div>
-                        <div className="text-xs text-gray-400">
-                            <p className="font-bold text-yellow-400">Réactions d'addition:</p>
-                            <p>• Hydrogénation: + H<sub>2</sub></p>
-                            <p>• Halogénation: + Br<sub>2</sub></p>
-                            <p>• Hydratation: + H<sub>2</sub>O</p>
+                    )}
+
+                    <div className="space-y-4">
+                        <div className="p-3 bg-green-500/10 rounded-xl border border-green-500/20">
+                            <p className="text-[11px] text-green-300 uppercase font-black mb-1">Structure de Base</p>
+                            <p className="text-xl font-black text-white">Éthène <span className="text-green-400 font-mono">C₂H₄</span></p>
+                            <p className="text-[10px] text-gray-400 mt-1">L'insaturation C=C est le centre de réactivité.</p>
                         </div>
+
+                        <div className="grid grid-cols-2 gap-3">
+                            <button
+                                onClick={() => {
+                                    setShowDoubleBond(!showDoubleBond);
+                                    if (phase === 'mission' && mission?.id === 1) completeObjective();
+                                }}
+                                className={`p-3 rounded-xl font-bold text-[10px] transition-all flex flex-col items-center gap-2 ${showDoubleBond ? 'bg-green-600/20 border-green-500' : 'bg-gray-800 border-transparent'} border text-white`}>
+                                <span className="text-lg">⚡</span>
+                                <span>DOUBLE LIAISON</span>
+                            </button>
+                            <div className="p-3 bg-black/40 rounded-xl border border-white/5 text-center">
+                                <p className="text-[9px] text-gray-500 uppercase">Hybridation</p>
+                                <p className="text-sm font-bold text-white">sp² (Plan)</p>
+                            </div>
+                        </div>
+
+                        <div className="p-3 bg-black/40 rounded-xl border border-white/5">
+                            <p className="text-[10px] font-bold text-yellow-400 mb-2 uppercase">Réactions Clés</p>
+                            <ul className="text-[11px] text-gray-300 space-y-1">
+                                <li className="flex items-center gap-2"><span className="text-green-500">•</span> Hydrogénation (+H₂)</li>
+                                <li className="flex items-center gap-2"><span className="text-green-500">•</span> Halogénation (+Br₂)</li>
+                                <li className="flex items-center gap-2"><span className="text-green-500">•</span> Hydratation (+H₂O)</li>
+                            </ul>
+                        </div>
+
+                        <XPBar current={score % 1000} nextLevel={1000} />
                     </div>
                 </DraggableHtmlPanel>
             </Html>
+
+            <SuccessOverlay
+                show={showSuccess}
+                message={`Liaison π analysée !`}
+                points={350}
+                onNext={nextMission}
+            />
+            <ConfettiExplosion active={showSuccess} />
         </group>
     );
 }
@@ -228,8 +532,59 @@ export function AlcenesSim() {
 // C4: BENZÈNE (Cycle aromatique)
 // ==========================================
 export function BenzeneSim() {
+    // États Globaux & Gamification
+    const [phase, setPhase] = useState('explore');
+    const [score, setScore] = useState(0);
+    const [showSuccess, setShowSuccess] = useState(false);
+    const [mission, setMission] = useState(null);
+    const [timeLeft, setTimeLeft] = useState(60);
+
+    // États Physiques
     const groupRef = useRef();
-    useFrame(() => { if (groupRef.current) groupRef.current.rotation.y += 0.003; });
+    const [showAromaticCircle, setShowAromaticCircle] = useState(true);
+
+    // Missions Config
+    const missions = useMemo(() => [
+        { id: 1, title: 'Cercle de Mésomérie', objective: 'Activez la délocalisation électronique.', checkArom: true },
+        { id: 2, title: 'Symétrie Hexagonale', objective: 'Analysez les angles de liaison (120°).', checkSym: true },
+        { id: 3, title: 'Calcul de Formule', objective: 'Vérifiez les 6 C et 6 H du cycle.', checkForm: true }
+    ], []);
+
+    useEffect(() => {
+        if (phase === 'mission' && !mission) {
+            setMission(missions[0]);
+            setTimeLeft(60);
+        }
+    }, [phase, mission, missions]);
+
+    useEffect(() => {
+        let timer;
+        if (phase === 'mission' && timeLeft > 0 && !showSuccess) {
+            timer = setInterval(() => setTimeLeft(prev => prev - 1), 1000);
+        }
+        return () => clearInterval(timer);
+    }, [phase, timeLeft, showSuccess]);
+
+    const completeObjective = () => {
+        setScore(prev => prev + 400);
+        setShowSuccess(true);
+    };
+
+    const nextMission = () => {
+        setShowSuccess(false);
+        const nextIdx = missions.findIndex(m => m.id === mission.id) + 1;
+        if (nextIdx < missions.length) {
+            setMission(missions[nextIdx]);
+            setTimeLeft(60);
+        } else {
+            setPhase('explore');
+            setMission(null);
+        }
+    };
+
+    useFrame((state) => {
+        if (groupRef.current) groupRef.current.rotation.y += 0.003;
+    });
 
     const angle = (i) => (i * Math.PI * 2) / 6;
     const r = 1.2;
@@ -237,53 +592,94 @@ export function BenzeneSim() {
     return (
         <group>
             <OrbitControls />
-            <group ref={groupRef}>
-                {/* 6 Carbones en hexagone */}
-                {Array.from({ length: 6 }).map((_, i) => (
-                    <group key={i}>
-                        <Sphere args={[0.3]} position={[r * Math.cos(angle(i)), r * Math.sin(angle(i)), 0]}>
-                            <meshStandardMaterial color="#333" />
-                        </Sphere>
-                        {/* Liaison vers le suivant */}
-                        <Line points={[
-                            [r * Math.cos(angle(i)), r * Math.sin(angle(i)), 0],
-                            [r * Math.cos(angle(i + 1)), r * Math.sin(angle(i + 1)), 0]
-                        ]} color="#888" lineWidth={2} />
-                        {/* H vers l'extérieur */}
-                        <Sphere args={[0.15]} position={[1.8 * Math.cos(angle(i)), 1.8 * Math.sin(angle(i)), 0]}>
-                            <meshStandardMaterial color="#FFF" />
-                        </Sphere>
-                        <Line points={[
-                            [r * Math.cos(angle(i)), r * Math.sin(angle(i)), 0],
-                            [1.7 * Math.cos(angle(i)), 1.7 * Math.sin(angle(i)), 0]
-                        ]} color="#888" />
-                    </group>
-                ))}
-                {/* Cercle central (délocalisation) */}
-                <mesh rotation={[Math.PI / 2, 0, 0]}>
-                    <torusGeometry args={[0.6, 0.05, 16, 32]} />
-                    <meshStandardMaterial color="#FF00FF" />
-                </mesh>
-            </group>
+            <Float speed={1.5} rotationIntensity={0.2} floatIntensity={0.3}>
+                <group ref={groupRef}>
+                    {/* 6 Carbones en hexagone */}
+                    {Array.from({ length: 6 }).map((_, i) => (
+                        <group key={i}>
+                            <mesh position={[r * Math.cos(angle(i)), r * Math.sin(angle(i)), 0]}>
+                                <sphereGeometry args={[0.3, 32, 32]} />
+                                <meshStandardMaterial color="#333" metalness={0.9} />
+                            </mesh>
+                            {/* Liaison vers le suivant */}
+                            <Line points={[
+                                [r * Math.cos(angle(i)), r * Math.sin(angle(i)), 0],
+                                [r * Math.cos(angle(i + 1)), r * Math.sin(angle(i + 1)), 0]
+                            ]} color="#ec4899" lineWidth={2} transparent opacity={0.6} />
 
-            <Text position={[0, -2.5, 0]} fontSize={0.4} color="#FF00FF">Benzène C₆H₆ - Aromatique</Text>
+                            {/* H vers l'extérieur */}
+                            <mesh position={[1.8 * Math.cos(angle(i)), 1.8 * Math.sin(angle(i)), 0]}>
+                                <sphereGeometry args={[0.15, 16, 16]} />
+                                <meshStandardMaterial color="#FFF" />
+                            </mesh>
+                            <Line points={[
+                                [r * Math.cos(angle(i)), r * Math.sin(angle(i)), 0],
+                                [1.7 * Math.cos(angle(i)), 1.7 * Math.sin(angle(i)), 0]
+                            ]} color="#ec4899" lineWidth={1} transparent opacity={0.3} />
+                        </group>
+                    ))}
+
+                    {/* Cercle central (délocalisation) avec effet Glitch/Glow */}
+                    {showAromaticCircle && (
+                        <mesh rotation={[Math.PI / 2, 0, 0]}>
+                            <torusGeometry args={[0.6, 0.04, 16, 100]} />
+                            <MeshDistortMaterial color="#ec4899" emissive="#ec4899" emissiveIntensity={3} distort={0.2} speed={5} />
+                        </mesh>
+                    )}
+                </group>
+            </Float>
 
             <Html transform={false}>
-                <DraggableHtmlPanel usePortal={false} title="💎 Benzène">
-                    <div className="p-4 w-64 text-white">
-                        <p className="text-sm mb-2">Formule: <span className="font-mono text-pink-400">C₆H₆</span></p>
-                        <div className="bg-pink-900/30 border border-pink-500 p-2 rounded text-xs mb-4">
-                            <p className="font-bold">Électrons π délocalisés</p>
-                            <p>Stabilité aromatique exceptionnelle</p>
+                <DraggableHtmlPanel title="💎 Chambre du Benzène" className="w-[380px] border-pink-500/30">
+                    <PhaseSelector currentPhase={phase} onSelect={setPhase} />
+
+                    {phase === 'mission' && mission && (
+                        <div className="mb-4">
+                            <div className="flex justify-between items-center mb-2">
+                                <GradeBadge score={score} />
+                                <ChallengeTimer timeLeft={timeLeft} maxTime={60} />
+                            </div>
+                            <MissionObjective objective={mission.objective} />
                         </div>
-                        <div className="text-xs text-gray-400">
-                            <p className="font-bold text-yellow-400">Réactions de substitution:</p>
-                            <p>• Nitration: → Nitrobenzène</p>
-                            <p>• Halogénation (catalysée)</p>
+                    )}
+
+                    <div className="space-y-4">
+                        <div className="p-3 bg-pink-500/10 rounded-xl border border-pink-500/20 text-center">
+                            <p className="text-[10px] text-pink-300 font-black uppercase tracking-widest mb-1">Aromatisme</p>
+                            <p className="text-2xl font-black text-white">Benzène <span className="text-pink-400 font-mono">C₆H₆</span></p>
                         </div>
+
+                        <button
+                            onClick={() => {
+                                setShowAromaticCircle(!showAromaticCircle);
+                                if (phase === 'mission' && mission?.id === 1) completeObjective();
+                            }}
+                            className={`w-full py-4 rounded-xl font-black text-[11px] transition-all flex items-center justify-center gap-2 ${showAromaticCircle ? 'bg-pink-600 shadow-lg shadow-pink-600/20' : 'bg-gray-800'}`}>
+                            <span>{showAromaticCircle ? 'MASQUER DÉLOCALISATION' : 'ACTIVER CHAMP π'}</span>
+                            {showAromaticCircle && <span className="animate-pulse">●</span>}
+                        </button>
+
+                        <div className="bg-black/40 p-3 rounded-xl border border-white/5">
+                            <p className="text-[10px] font-bold text-yellow-400 mb-2 uppercase">Propriétés Électroniques</p>
+                            <div className="space-y-1 text-[11px] text-gray-300">
+                                <p>• 6 Électrons π délocalisés</p>
+                                <p>• Longueur de liaison unique : 1.40 Å</p>
+                                <p>• Énergie de résonance élevée</p>
+                            </div>
+                        </div>
+
+                        <XPBar current={score % 1000} nextLevel={1000} />
                     </div>
                 </DraggableHtmlPanel>
             </Html>
+
+            <SuccessOverlay
+                show={showSuccess}
+                message={`Stabilité aromatique confirmée !`}
+                points={400}
+                onNext={nextMission}
+            />
+            <ConfettiExplosion active={showSuccess} />
         </group>
     );
 }

@@ -73,6 +73,7 @@ export const svtTsData = {
             id: 'chap-12',
             part: 'Première partie : Relations avec le milieu',
             title: '12. Mouvements involontaires ou réflexes',
+            image: '/simulations/svt-ts/reflexe-myotatique.png',
             content: `### Réflexe Myotatique\nContraction suite à étirement. Centre : Moelle épinière. Monosynaptique.`
         },
         {
@@ -91,6 +92,7 @@ export const svtTsData = {
             id: 'chap-15',
             part: 'Première partie : Relations avec le milieu',
             title: '15. Fonctionnement du muscle',
+            image: '/simulations/svt-ts/contraction-musculaire.png',
             content: `### Contraction\nGlissement Actine/Myosine. Raccourcissement sarcomère. Nécessite ATP + Ca2+.`
         },
 
@@ -167,6 +169,7 @@ export const svtTsData = {
             id: 'chap-25',
             part: 'Immunologie',
             title: '25. La réponse immunitaire',
+            image: '/simulations/svt-ts/immunite.png',
             content: `### Mécanismes\nInnée (Phagocytose) et Acquise (LB/Anticorps, LT8/Cytolyse).`
         },
         {
@@ -279,6 +282,7 @@ Plateau de contraction suite à une série de stimuli rapprochés (fusion compl�
             id: 'chap-36',
             part: 'Immunologie',
             title: '36. Le SIDA',
+            image: '/simulations/svt-ts/vih.png',
             content: `
 ### Le Virus VIH
 Rétrovirus à ARN. Cible les récepteurs CD4 (LT4).
@@ -305,6 +309,7 @@ Ovaires (Follicules), Trompes, Utérus, Vagin.
             id: 'chap-38',
             part: 'Reproduction',
             title: '38. Formation des gamètes',
+            image: '/simulations/svt-ts/meiose.png',
             content: `
 ### Spermatogenèse
 Continue de la puberté à la mort. Multiplication -> Accroissement -> Maturation (Méiose) -> Différenciation (Spermiogenèse).

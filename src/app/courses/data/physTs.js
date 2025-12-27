@@ -10,7 +10,7 @@ export const physTsData = {
             part: 'Partie 1 : Cinématique - Dynamique',
             title: 'P1. Cinématique du Point',
             simulation: { id: 'pts-cinematique', title: 'Cinématique du Point' },
-            image: '/images/simulations/physique-ts/cinematique.png',
+            image: '/simulations/physique-ts/cinematique.png',
             story: "Avant de savoir pourquoi les choses bougent (Dynamique), il faut savoir décrire comment elles bougent (Cinématique). Position, vitesse, accélération... tout est lié par le temps.",
             content: `
 ### 1. Vecteurs Position, Vitesse et Accélération
@@ -43,7 +43,7 @@ export const physTsData = {
             part: 'Partie 1 : Cinématique - Dynamique',
             title: 'P2. Bases de la Dynamique',
             simulation: { id: 'pts-dynamique', title: 'Bases de la Dynamique' },
-            image: '/images/simulations/physique-ts/dynamique.png',
+            image: '/simulations/physique-ts/dynamique.png',
             story: "Newton a changé notre vision du monde avec trois lois simples. Elles expliquent pourquoi la pomme tombe et pourquoi la Lune ne tombe pas (ou plutôt, tombe en permanence).",
             content: `
 ### 1. Les Lois de Newton
@@ -74,7 +74,7 @@ Le mouvement du centre d'inertie G d'un système est déterminé par la somme de
             part: 'Partie 1 : Cinématique - Dynamique',
             title: 'P3. Applications des bases de la dynamique',
             simulation: { id: 'pts-applications', title: 'Mouvement Projectile' },
-            image: '/images/simulations/physique-ts/projectile.png',
+            image: '/simulations/physique-ts/projectile.png',
             story: "Appliquons Newton ! Que ce soit pour tirer un boulet de canon (mouvement projectile) ou faire glisser une brique, tout est prévisible.",
             content: `
 ### 1. Mouvement dans un champ de pesanteur uniforme
@@ -110,7 +110,7 @@ $\\Delta E_c = \\sum W(\\vec{F})$. Variation d'énergie cinétique = Somme des t
             part: 'Partie 1 : Cinématique - Dynamique',
             title: 'P4. Gravitation Universelle',
             simulation: { id: 'pts-gravitation', title: 'Gravitation Universelle' },
-            image: '/images/simulations/physique-ts/gravitation.png',
+            image: '/simulations/physique-ts/gravitation.png',
             story: "Pourquoi les planètes tournent-elles rond ? La gravitation est la colle de l'univers. C'est la même force qui vous plaque au sol et qui tient la Lune en laisse.",
             content: `
 ### 1. Loi de Newton
@@ -150,7 +150,7 @@ Vitesse orbitale : $v = \\sqrt{\\frac{GM}{r}}$.
             part: 'Partie 2 : Électromagnétisme',
             title: 'P5. Champs Magnétiques',
             simulation: { id: 'pts-champ-magnetique', title: 'Champs Magnétiques' },
-            image: '/images/simulations/physique-ts/champ-magnetique.png',
+            image: '/simulations/physique-ts/champ-magnetique.png',
             story: "L'aimant, la boussole, le moteur électrique. Tout cela repose sur un phénomène invisible : le champ magnétique. Il est créé par des charges en mouvement.",
             content: `
 ### 1. Le Champ Magnétique $\\vec{B}$
@@ -183,7 +183,7 @@ Le champ total est la somme vectorielle des champs créés par chaque source.
             part: 'Partie 2 : Électromagnétisme',
             title: 'P6. Particule chargée dans un champ B',
             simulation: { id: 'pts-lorentz', title: 'Force de Lorentz' },
-            image: '/images/simulations/physique-ts/lorentz.png',
+            image: '/simulations/physique-ts/lorentz.png',
             story: "Quand un électron rencontre un champ magnétique, il ne peut pas aller tout droit. Il est dévié par une force mystérieuse qui ne travaille jamais : la force de Lorentz.",
             content: `
 ### 1. Force de Lorentz
@@ -218,7 +218,7 @@ Dans un champ uniforme, le mouvement est **circulaire uniforme**. Le rayon $R = 
             part: 'Partie 2 : Électromagnétisme',
             title: 'P7. Loi de Laplace',
             simulation: { id: 'pts-laplace', title: 'Loi de Laplace' },
-            image: '/images/simulations/physique-ts/laplace.png',
+            image: '/simulations/physique-ts/laplace.png',
             story: "Si une particule chargée est déviée, alors un courant (qui est un flux de particules) l'est aussi. C'est le principe du haut-parleur et du moteur électrique.",
             content: `
 ### 1. Force de Laplace
@@ -250,7 +250,7 @@ Pour une portion de fil rectiligne $\\vec{l}$ : $\\vec{F} = I \\vec{l} \\wedge \
             part: 'Partie 2 : Électromagnétisme',
             title: 'P8. Induction Magnétique - Dipôle RL',
             simulation: { id: 'pts-induction', title: 'Induction - Dipôle RL' },
-            image: '/images/simulations/physique-ts/induction-rl.png',
+            image: '/simulations/physique-ts/induction.png',
             story: "On peut créer de l'électricité avec un aimant ! Si le champ magnétique varie, un courant apparaît. C'est l'induction. La bobine, elle, n'aime pas le changement.",
             content: `
 ### 1. Loi de Lenz-Faraday
@@ -285,7 +285,7 @@ Constante de temps $\\tau = \\frac{L}{R}$.
             part: 'Partie 2 : Électromagnétisme',
             title: 'P9. Étude du dipôle RC',
             simulation: { id: 'pts-rc', title: 'Dipôle RC' },
-            image: '/images/simulations/physique-ts/circuit-rc.png',
+            image: '/simulations/physique-ts/dipole-rc.png',
             story: "Le condensateur est un réservoir à charges. Il se remplit et se vide. Associé à une résistance, cela prend du temps... un temps très précis.",
             content: `
 ### 1. Le Condensateur
@@ -325,7 +325,7 @@ $E_C = \\frac{1}{2} C u_C^2$.
             part: 'Partie 3 : Oscillations - Optique',
             title: 'P10. Oscillations électriques (LC et RLC)',
             simulation: { id: 'pts-oscillations-lc', title: 'Oscillations LC/RLC' },
-            image: '/images/simulations/physique-ts/oscillations-rlc.png',
+            image: '/simulations/physique-ts/oscillations-lc.png',
             story: "Que se passe-t-il si on branche un condensateur chargé sur une bobine ? L'énergie joue au ping-pong entre les deux. C'est un oscillateur.",
             content: `
 ### 1. Oscillations Libres (Circuit LC)
@@ -357,7 +357,7 @@ Un générateur impose sa fréquence. Phénomène de **Résonance** quand la fr�
             part: 'Partie 3 : Oscillations - Optique',
             title: 'P11. Oscillations Mécaniques Libres',
             simulation: { id: 'pts-oscillations-meca', title: 'Oscillations Mécaniques' },
-            image: '/images/simulations/physique-ts/oscillations-meca.png',
+            image: '/simulations/physique-ts/oscillations-mecaniques.png',
             story: "Le pendule et le ressort sont les grands frères mécaniques du circuit LC. Mêmes équations, mêmes mouvements de va-et-vient.",
             content: `
 ### 1. Pendule Élastique (Ressort)
@@ -393,7 +393,7 @@ Conservation de $E_m = E_c + E_p$ en l'absence de frottements.
             part: 'Partie 3 : Oscillations - Optique',
             title: 'P12. Interférences Lumineuses',
             simulation: { id: 'pts-interferences', title: 'Interférences Lumineuses' },
-            image: '/images/simulations/physique-ts/interferences.png',
+            image: '/simulations/physique-ts/interferences.png',
             story: "La lumière est une onde. Quand deux vagues de lumière se croisent, elles peuvent s'additionner (lumière max) ou s'annuler (noir). C'est la preuve ondulatoire.",
             content: `
 ### 1. Conditions d'interférence
@@ -433,7 +433,7 @@ $i = \\frac{\\lambda D}{a}$ (D=distance écran, a=écart fentes).
             part: 'Partie 4 : Phénomènes Corpusculaires',
             title: 'P13. Effet Photoélectrique',
             simulation: { id: 'pts-photoelectrique', title: 'Effet Photoélectrique' },
-            image: '/images/simulations/physique-ts/photoelectrique.png',
+            image: '/simulations/physique-ts/photoelectrique.png',
             story: "Einstein a eu son Nobel pour ça ! La lumière n'est pas qu'une onde, c'est aussi un bombardement de petits grains d'énergie : les photons. Ils peuvent arracher des électrons au métal.",
             content: `
 ### 1. L'Effet Photoélectrique
@@ -469,7 +469,7 @@ $h\\nu = W_0 + E_{c,max}$
             part: 'Partie 4 : Phénomènes Corpusculaires',
             title: 'P14. Niveaux d\'énergie de l\'atome',
             simulation: { id: 'pts-niveaux-energie', title: 'Niveaux d\'Énergie' },
-            image: '/images/simulations/physique-ts/niveaux-energie.png',
+            image: '/simulations/physique-ts/niveaux-energie.png',
             story: "L'atome n'est pas un système solaire miniature chaotique. Les électrons habitent à des étages très précis. Pour changer d'étage, ils doivent payer ou gagner l'énergie exacte.",
             content: `
 ### 1. Quantification de l'énergie
@@ -502,7 +502,7 @@ Signature unique de chaque élément chimique. Série de Balmer (Visible pour l'
             part: 'Partie 4 : Phénomènes Corpusculaires',
             title: 'P15. Réactions Nucléaires',
             simulation: { id: 'pts-nucleaire', title: 'Réactions Nucléaires' },
-            image: '/images/simulations/physique-ts/nucleaire.png',
+            image: '/simulations/physique-ts/nucleaire.png',
             story: "Plongeons au cœur du noyau. Ici, la matière se transforme en énergie (E=mc²). Fission, fusion, radioactivité... c'est la source d'énergie des étoiles et des centrales.",
             content: `
 ### 1. Le Noyau

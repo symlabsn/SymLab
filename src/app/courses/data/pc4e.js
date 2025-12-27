@@ -49,6 +49,7 @@ La Physique-Chimie, c'est résoudre les mystères de l'univers avec méthode.`
                 title: 'La Démarche Scientifique Interactive',
                 type: 'chap1-science-intro'
             },
+            image: '/simulations/pc4e/chap1-science.png',
             defis: [
                 {
                     id: 'defi-intro-1',
@@ -117,6 +118,7 @@ La balance du marché et la balance du laboratoire parlent le même langage : le
                 title: 'Laboratoire de Mesures',
                 type: 'chap2-mesures'
             },
+            image: '/simulations/pc4e/chap2-mesures.png',
             defis: [
                 {
                     id: 'defi-mes-1',
@@ -187,6 +189,7 @@ C'est comme ça que grand-mère vérifie ses œufs au marché !`
                 title: 'Explorateur de Densité',
                 type: 'chap3-densite'
             },
+            image: '/simulations/pc4e/chap3-densite.png',
             defis: [
                 {
                     id: 'defi-dens-1',
@@ -257,6 +260,7 @@ La balance mesure la MASSE (quantité de matière).`
                 title: 'Poids vs Masse : Terre et Lune',
                 type: 'chap4-poids-masse'
             },
+            image: '/simulations/pc4e/chap4-poids-masse.png',
             defis: [
                 {
                     id: 'defi-poids-1',
@@ -329,6 +333,7 @@ Si la route est coupée quelque part, plus personne ne circule !`
                 title: "Introduction à l'Électricité",
                 type: 'chap5-electricite'
             },
+            image: '/simulations/pc4e/chap5-electricite.png',
             defis: [
                 {
                     id: 'defi-elec-1',
@@ -394,6 +399,7 @@ C'est une chaîne : Source → Objet → Récepteur !`
                 title: 'Sources et Récepteurs de Lumière',
                 type: 'chap6-sources-lumiere'
             },
+            image: '/simulations/pc4e/chap6-sources-lumiere.png',
             defis: [
                 {
                     id: 'defi-lum-1',
@@ -462,6 +468,7 @@ Le son fait des courbes, la lumière non.`
                 title: 'Propagation Rectiligne',
                 type: 'chap7-propagation-lumiere'
             },
+            image: '/simulations/pc4e/chap7-propagation.png',
             defis: [
                 {
                     id: 'defi-prop-1',
@@ -532,6 +539,7 @@ Elles utilisent la réfraction pour agrandir ou corriger la vue !`
                 title: 'Simulateur de Réfraction',
                 type: 'chap8-refraction'
             },
+            image: '/simulations/pc4e/chap8-refraction.png',
             defis: [
                 {
                     id: 'defi-ref-1',
@@ -609,6 +617,7 @@ Au labo, on utilise du papier filtre.`
                 title: 'Séparation des Mélanges',
                 type: 'chap9-melanges'
             },
+            image: '/simulations/pc4e/chap9-melanges.png',
             defis: [
                 {
                     id: 'defi-mel-1',
@@ -684,6 +693,7 @@ L'air contient des molécules $O_2$ (dioxygène), $N_2$ (diazote), $CO_2$...`
                 title: 'Constructeur de Molécules',
                 type: 'chap10-atomes'
             },
+            image: '/simulations/pc4e/chap10-atomes.png',
             defis: [
                 {
                     id: 'defi-atom-1',
@@ -757,6 +767,7 @@ On dit "donne-moi 1 mole de fer" = 56 g de fer. Simple !`
                 title: 'Le Concept de Mole',
                 type: 'chap11-mole'
             },
+            image: '/simulations/pc4e/chap11-mole.png',
             defis: [
                 {
                     id: 'defi-mol-1',
@@ -834,6 +845,7 @@ Si tu enlèves un élément → le feu s'éteint !`
                 title: 'Conservation de la Masse',
                 type: 'chap12-conservation'
             },
+            image: '/simulations/pc4e/chap12-conservation.png',
             defis: [
                 {
                     id: 'defi-reac-1',
