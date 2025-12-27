@@ -44,7 +44,7 @@ import { ChemicalReaction } from './ChemicalReaction';
 import { ImmuneSystem } from './ImmuneSystem';
 import { ThermalTransfer } from './ThermalTransfer';
 import { SoundPropagation } from './SoundPropagation';
-import { DensityExplorer, RefractionSimulator, CircuitSeriesParallel, MassConservation, LightPropagationPC4, ScientificMethod, MeasurementTools, LightSources, IntroElectricity, MixtureSeparationPC4, MoleConceptPC4, AtomBuilderSim, ShadowsSimulator } from './PC4eSimulations';
+import { WeightMassPC4, DensityExplorer, RefractionSimulator, CircuitSeriesParallel, MassConservation, LightPropagationPC4, ScientificMethod, MeasurementTools, LightSources, IntroElectricity, MixtureSeparationPC4, MoleConceptPC4, AtomBuilderSim, ShadowsSimulator } from './PC4eSimulations';
 
 import { Chap1ScienceIntro, Chap2Mesures, Chap3Densite, Chap4PoidsMasse, Chap5Electricite } from './PC4eChapter1to5';
 import { Chap6SourcesLumiere, Chap7PropagationLumiere, Chap8Refraction } from './PC4eChapter6to8';
@@ -4455,25 +4455,25 @@ export default function Simulation3D({ type = 'atom', config = {} }) {
             case 'mole-concept':
                 return <MoleConceptPC4 />;
 
-            // === CHAPITRES 1-5 PC 4E ===
+            // === CHAPITRES 1-5 PC 4E (GAMIFIED) ===
             case 'chap1-science-intro':
-                return <Chap1ScienceIntro />;
+                return <ScientificMethod />;
             case 'chap2-mesures':
-                return <Chap2Mesures />;
+                return <MeasurementTools />;
             case 'chap3-densite':
-                return <Chap3Densite />;
+                return <DensityExplorer />;
             case 'chap4-poids-masse':
-                return <Chap4PoidsMasse />;
+                return <WeightMassPC4 />;
             case 'chap5-electricite':
-                return <Chap5Electricite />;
+                return <IntroElectricity />;
 
-            // === CHAPITRES 6-8 PC 4E ===
+            // === CHAPITRES 6-8 PC 4E (GAMIFIED) ===
             case 'chap6-sources-lumiere':
-                return <Chap6SourcesLumiere />;
+                return <LightSources />;
             case 'chap7-propagation-lumiere':
-                return <Chap7PropagationLumiere />;
+                return <LightPropagationPC4 />;
             case 'chap8-refraction':
-                return <Chap8Refraction />;
+                return <RefractionSimulator />;
 
             // === CHAPITRES 9-12 PC 4E ===
             case 'chap9-melanges':

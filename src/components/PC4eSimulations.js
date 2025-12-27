@@ -9,18 +9,19 @@ import DraggableHtmlPanel from './DraggableHtmlPanel';
 // CHAPITRE 9: SÉPARATION DES MÉLANGES (IMMERSIVE & CHALLENGE)
 // ============================================================
 export function MixtureSeparationPC4() {
-    const [mode, setMode] = useState('explore');
+    const [phase, setPhase] = useState('explore');
     const [mixture, setMixture] = useState('mud');
     const [method, setMethod] = useState(null);
     const [progress, setProgress] = useState(0);
     const [particles, setParticles] = useState(null);
-    const [challengeTarget, setChallengeTarget] = useState(null);
+    const [targetReached, setTargetReached] = useState(false);
 
     // Gamification & Features
     const [score, setScore] = useState(0);
-    const [level, setLevel] = useState(1);
     const [showSuccess, setShowSuccess] = useState(false);
     const [microscope, setMicroscope] = useState(false);
+    const [timeLeft, setTimeLeft] = useState(45);
+    const [mission, setMission] = useState(null);
 
     // Initialisation des particules
     useEffect(() => {
@@ -29,9 +30,9 @@ export function MixtureSeparationPC4() {
     }, []);
 
     const mixtures = {
-        mud: { name: 'Eau boueuse', components: ['Eau', 'Terre'], color: '#78350F', separated: false, difficulty: 1 },
-        salt_water: { name: 'Eau salée', components: ['Eau', 'Sel'], color: '#93C5FD', separated: false, difficulty: 2 },
-        oil_water: { name: 'Eau + Huile', components: ['Eau', 'Huile'], color: '#FEF3C7', separated: false, difficulty: 1 }
+        mud: { name: 'Eau boueuse', components: ['Eau', 'Terre'], color: '#78350F', difficulty: 1 },
+        salt_water: { name: 'Eau salée', components: ['Eau', 'Sel'], color: '#93C5FD', difficulty: 2 },
+        oil_water: { name: 'Eau + Huile', components: ['Eau', 'Huile'], color: '#FEF3C7', difficulty: 1 }
     };
 
     const methods = {
@@ -40,25 +41,22 @@ export function MixtureSeparationPC4() {
         evaporation: { name: 'Vaporisation', icon: '🔥', effective: ['salt_water'], desc: 'Chauffer pour récupérer le solide' }
     };
 
-    const mix = mixtures[challengeTarget || mixture];
-
     const startSeparation = (m) => {
         setMethod(m);
         setProgress(0);
         setShowSuccess(false);
     };
 
-    const isSuccess = method && methods[method].effective.includes(challengeTarget || mixture);
+    const isSuccess = method && methods[method].effective.includes(mission?.target || mixture);
 
     useFrame((state, delta) => {
         if (method && progress < 1) {
             setProgress(prev => {
                 const newP = Math.min(prev + delta * 0.3, 1);
                 if (newP === 1 && prev < 1) {
-                    if (mode === 'challenge' && isSuccess) {
-                        setShowSuccess(true);
-                        setScore(s => s + 50 * level);
-                        if (score > 100) setLevel(2);
+                    if (isSuccess) {
+                        setTargetReached(true);
+                        handleMissionSuccess();
                     }
                 }
                 return newP;
@@ -66,95 +64,119 @@ export function MixtureSeparationPC4() {
         }
     });
 
-    const startChallenge = () => {
+    const handleMissionSuccess = () => {
+        const points = 50 + (phase === 'mission' ? Math.floor(timeLeft * 2) : 0);
+        setScore(s => s + points);
+        setShowSuccess(true);
+    };
+
+    const startMission = () => {
         const keys = Object.keys(mixtures);
         const randomKey = keys[Math.floor(Math.random() * keys.length)];
-        setChallengeTarget(randomKey);
+        setMission({
+            target: randomKey,
+            objective: `Isolez les composants de : ${mixtures[randomKey].name}`
+        });
         setMixture(randomKey);
-        setMode('challenge');
+        setPhase('mission');
         setMethod(null);
         setProgress(0);
         setShowSuccess(false);
+        setTimeLeft(45);
+        setTargetReached(false);
     };
+
+    useEffect(() => {
+        if (phase === 'mission' && timeLeft > 0 && !showSuccess) {
+            const timer = setTimeout(() => setTimeLeft(t => t - 1), 1000);
+            return () => clearTimeout(timer);
+        }
+    }, [timeLeft, phase, showSuccess]);
 
     return (
         <>
-            <SuccessOverlay show={showSuccess} message={`Bravo ! Tu as séparé : ${mixtures[challengeTarget || 'mud'].name}`} points={50 * level} onNext={startChallenge} />
+            <SuccessOverlay show={showSuccess} message={`Mission Accomplie ! Tu as séparé : ${mixtures[mission?.target || mixture].name}`} points={50 + (phase === 'mission' ? Math.floor(timeLeft * 2) : 0)} onNext={phase === 'mission' ? startMission : () => setShowSuccess(false)} />
+            <ConfettiExplosion active={showSuccess} />
 
             <Html transform={false}>
-                <DraggableHtmlPanel title={`⚗️ Séparation - Niveaux ${level}`} showCloseButton={false} defaultPosition="bottom-center" className="w-[350px] border-orange-500/30 text-white">
+                <DraggableHtmlPanel title="⚗️ Laboratoire de Séparation" showCloseButton={false} defaultPosition="bottom-center" className="w-[400px] border-orange-500/30 text-white">
                     <div className="flex justify-between items-center mb-4">
-                        <div className="bg-gray-900 rounded-lg px-3 py-1 border border-orange-500/30">
-                            <span className="text-xs text-orange-400 font-bold">SCORE</span>
-                            <div className="font-mono text-xl">{score}</div>
-                        </div>
-                        <button onClick={() => setMode(mode === 'explore' ? 'challenge' : 'explore')}
-                            className={`text-xs px-3 py-1 rounded font-bold transition-colors ${mode === 'explore' ? 'bg-gray-700 hover:bg-white hover:text-black' : 'bg-orange-600 text-white'}`}>
-                            {mode === 'explore' ? 'Aller au Défi 🏆' : 'Retour Exploration'}
-                        </button>
+                        <GradeBadge score={score} />
+                        {phase === 'mission' && <ChallengeTimer timeLeft={timeLeft} maxTime={45} />}
                     </div>
 
-                    {mode === 'explore' ? (
-                        <div className="mb-4">
-                            <label className="text-xs text-gray-400 uppercase font-bold">1. Choisir le mélange</label>
-                            <div className="grid grid-cols-3 gap-2 mt-1">
-                                {Object.entries(mixtures).map(([k, m]) => (
-                                    <button key={k} onClick={() => { setMixture(k); setMethod(null); setProgress(0); }}
-                                        className={`p-2 rounded-lg text-xs font-bold transition-all ${mixture === k ? 'bg-orange-600 scale-105' : 'bg-gray-800 hover:bg-gray-700'}`}>
-                                        {m.name}
-                                    </button>
-                                ))}
-                            </div>
-                        </div>
-                    ) : (
-                        <div className="mb-4 bg-gray-800 p-3 rounded-xl border border-orange-500 text-center relative overflow-hidden">
-                            {!challengeTarget ? (
-                                <button onClick={startChallenge} className="w-full py-2 bg-orange-600 font-bold rounded hover:bg-orange-500 animate-pulse">Lancer un Défi Aléatoire</button>
-                            ) : (
-                                <div>
-                                    <div className="text-sm">Identifie et Sépare :</div>
-                                    <div className="font-bold text-lg text-orange-200">Mélange Mystère</div>
-                                    <div className="text-xs text-gray-400 mt-1">Utilise le microscope pour voir les composants !</div>
-                                    <button onClick={() => setMicroscope(!microscope)} className={`mt-2 text-xs border border-white/20 px-2 py-1 rounded ${microscope ? 'bg-blue-600' : 'bg-gray-700'}`}>
-                                        {microscope ? 'Masquer Microscope 🔬' : 'Voir au Microscope 🔬'}
-                                    </button>
+                    <XPBar current={score} nextLevel={1000} />
 
-                                    {progress === 1 && !isSuccess && <div className="mt-2 text-red-400 font-bold animate-shake">Technique inefficace ! Essaie encore.</div>}
+                    <div className="h-[1px] bg-gradient-to-r from-transparent via-orange-500/50 to-transparent my-4" />
+
+                    <PhaseSelector currentPhase={phase} onSelect={(p) => { setPhase(p); if (p === 'mission') startMission(); }} />
+
+                    {phase === 'mission' && mission && (
+                        <MissionObjective objective={mission.objective} icon="⚗️" />
+                    )}
+
+                    <div className="grid grid-cols-2 gap-4 mt-4">
+                        <div className="space-y-4">
+                            {phase === 'explore' && (
+                                <div>
+                                    <label className="text-[10px] text-gray-400 block mb-1 uppercase">Solution à traiter</label>
+                                    <div className="grid grid-cols-1 gap-1">
+                                        {Object.entries(mixtures).map(([k, m]) => (
+                                            <button key={k} onClick={() => { setMixture(k); setMethod(null); setProgress(0); }}
+                                                className={`py-1 px-2 rounded-lg text-xs font-bold transition-all border ${mixture === k ? 'bg-orange-600 border-orange-400' : 'bg-gray-800 border-gray-700'}`}>
+                                                {m.name}
+                                            </button>
+                                        ))}
+                                    </div>
                                 </div>
                             )}
-                        </div>
-                    )}
 
-                    {(mode === 'explore' || challengeTarget) && (
-                        <div className="mb-4">
-                            <label className="text-xs text-gray-400 uppercase font-bold">2. Technique de séparation</label>
-                            <div className="grid grid-cols-1 gap-2 mt-1">
-                                {Object.entries(methods).map(([k, m]) => (
-                                    <button key={k} onClick={() => startSeparation(k)}
-                                        className={`flex items-center gap-3 p-2 rounded-lg text-sm text-left transition-all ${method === k ? 'bg-orange-100 text-black border-l-4 border-orange-500' : 'bg-gray-800 hover:bg-gray-700'}`}>
-                                        <span className="text-xl">{m.icon}</span>
-                                        <div>
-                                            <div className="font-bold">{m.name}</div>
-                                            <div className="text-[10px] opacity-70 leading-tight">{m.desc}</div>
+                            <div>
+                                <label className="text-[10px] text-gray-400 block mb-1 uppercase">Technique de Séparation</label>
+                                <div className="grid grid-cols-1 gap-1">
+                                    {Object.entries(methods).map(([k, m]) => (
+                                        <button key={k} onClick={() => startSeparation(k)}
+                                            className={`flex items-center gap-2 p-1 px-2 rounded-lg border transition-all ${method === k ? 'bg-orange-100 text-black border-orange-500' : 'bg-gray-800 border-gray-700'}`}>
+                                            <span className="text-lg">{m.icon}</span>
+                                            <div className="text-left">
+                                                <div className="font-bold text-[10px]">{m.name}</div>
+                                                <div className="text-[8px] opacity-70 leading-tight">{m.desc}</div>
+                                            </div>
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="bg-black/60 rounded-xl p-3 border border-white/5 flex flex-col justify-between">
+                            <div className="space-y-2 text-center">
+                                <div className="text-[9px] text-gray-500 font-mono">LAB_ANALYSIS</div>
+                                <button onClick={() => setMicroscope(!microscope)} className={`w-full py-1 text-[10px] border px-2 rounded transition-colors ${microscope ? 'bg-blue-600 border-blue-400 text-white' : 'bg-gray-800 border-gray-600 text-gray-400'}`}>
+                                    {microscope ? 'Microscope: ON 🔬' : 'Microscope: OFF 🔬'}
+                                </button>
+
+                                {method && (
+                                    <div className="mt-2">
+                                        <div className="flex justify-between text-[9px] font-mono mb-1">
+                                            <span>PROGRESS</span>
+                                            <span>{Math.round(progress * 100)}%</span>
                                         </div>
-                                    </button>
-                                ))}
-                            </div>
-                        </div>
-                    )}
+                                        <div className="h-1 bg-gray-800 rounded-full overflow-hidden">
+                                            <div className="h-full bg-orange-500 transition-all" style={{ width: `${progress * 100}%` }} />
+                                        </div>
+                                    </div>
+                                )}
 
-                    {/* Feedback visuel de progrès */}
-                    {method && (
-                        <div className="relative pt-2">
-                            <div className="flex justify-between text-xs font-bold mb-1">
-                                <span>{methods[method].name} en cours...</span>
-                                <span>{Math.round(progress * 100)}%</span>
+                                {progress === 1 && !isSuccess && (
+                                    <div className="text-red-400 text-[9px] font-bold animate-pulse mt-1">Échec: Technique Inadaptée</div>
+                                )}
                             </div>
-                            <div className="h-2 bg-gray-700 rounded-full overflow-hidden">
-                                <div className="h-full bg-orange-500 transition-all duration-100" style={{ width: `${progress * 100}%` }}></div>
-                            </div>
+
+                            <button onClick={() => { setMethod(null); setProgress(0); }} className="w-full py-1 bg-white/5 hover:bg-white/10 rounded text-[10px] transition-all mt-2">
+                                RE-INITIALISER
+                            </button>
                         </div>
-                    )}
+                    </div>
                 </DraggableHtmlPanel>
             </Html>
 
@@ -265,17 +287,18 @@ export function MixtureSeparationPC4() {
 // CHAPITRE 10: LES ATOMES (IMMERSIVE & MISSION)
 // ============================================================
 export function AtomBuilderSim() {
+    const [phase, setPhase] = useState('explore');
     const [protons, setProtons] = useState(1);
     const [neutrons, setNeutrons] = useState(0);
     const [electrons, setElectrons] = useState(1);
-    const [showShells, setShowShells] = useState(true);
     const [mission, setMission] = useState(null);
-    const [success, setSuccess] = useState(false);
+    const [showSuccess, setShowSuccess] = useState(false);
+
     // Gamification
     const [score, setScore] = useState(0);
-    const [collection, setCollection] = useState([]); // List of discovered symbols
+    const [collection, setCollection] = useState([]);
+    const [timeLeft, setTimeLeft] = useState(60);
 
-    // Données simplifiées
     const elements = {
         1: { name: 'Hydrogène', symbol: 'H' },
         2: { name: 'Hélium', symbol: 'He' },
@@ -292,93 +315,134 @@ export function AtomBuilderSim() {
 
     const startMission = () => {
         const targets = [
-            { p: 1, n: 0, e: 1, name: "Hydrogène-1", points: 10 },
-            { p: 2, n: 2, e: 2, name: "Hélium-4", points: 20 },
-            { p: 3, n: 4, e: 3, name: "Lithium-7", points: 30 },
-            { p: 6, n: 6, e: 6, name: "Carbone-12", points: 50 },
-            { p: 4, n: 5, e: 4, name: "Béryllium-9", points: 40 }
+            { id: 1, p: 1, n: 0, e: 1, name: "Hydrogène-1", points: 50 },
+            { id: 2, p: 2, n: 2, e: 2, name: "Hélium-4", points: 100 },
+            { id: 3, p: 6, n: 6, e: 6, name: "Carbone-12", points: 200 }
         ];
         const t = targets[Math.floor(Math.random() * targets.length)];
         setMission(t);
-        setSuccess(false);
+        setPhase('mission');
         setProtons(1); setNeutrons(0); setElectrons(1);
+        setShowSuccess(false);
+        setTimeLeft(60);
     };
 
     useEffect(() => {
-        if (mission) {
+        if (phase === 'mission' && mission && !showSuccess) {
             if (protons === mission.p && neutrons === mission.n && electrons === mission.e) {
-                if (!success) { // Trigger once
-                    setSuccess(true);
-                    setScore(s => s + mission.points);
-                    if (!collection.includes(element.symbol)) {
-                        setCollection(prev => [...prev, element.symbol]);
-                    }
+                const bonus = Math.floor(timeLeft / 2);
+                setScore(s => s + mission.points + bonus);
+                setShowSuccess(true);
+                if (!collection.includes(element.symbol)) {
+                    setCollection(prev => [...prev, element.symbol]);
                 }
-            } else {
-                setSuccess(false);
             }
         }
-    }, [protons, neutrons, electrons, mission]);
+    }, [protons, neutrons, electrons, mission, phase]);
+
+    useEffect(() => {
+        if (phase === 'mission' && timeLeft > 0 && !showSuccess) {
+            const timer = setTimeout(() => setTimeLeft(t => t - 1), 1000);
+            return () => clearTimeout(timer);
+        }
+    }, [timeLeft, phase, showSuccess]);
 
     return (
         <>
-            <SuccessOverlay show={success} message={`Atome Créé : ${mission?.name}`} points={mission?.points} onNext={startMission} />
+            <SuccessOverlay
+                show={showSuccess}
+                message={`Fantastique ! Atome de ${mission?.name} stabilisé.`}
+                points={mission?.points + Math.floor(timeLeft / 2)}
+                onNext={startMission}
+            />
+            <ConfettiExplosion active={showSuccess} />
 
             <Html transform={false}>
-                <DraggableHtmlPanel title="⚛️ Constructeur Atomique" showCloseButton={false} defaultPosition="bottom-center" className="w-[350px] border-pink-500/30 text-white">
+                <DraggableHtmlPanel title="⚛️ Architecte de l'Atome" showCloseButton={false} defaultPosition="bottom-center" className="w-[400px] border-pink-500/30 text-white">
                     <div className="flex justify-between items-center mb-4">
-                        <div className="bg-gray-900 rounded-lg px-3 py-1 border border-pink-500/30">
-                            <span className="text-xs text-pink-400 font-bold">XP</span>
-                            <div className="font-mono text-xl">{score}</div>
-                        </div>
-                        <button onClick={startMission} className="text-xs bg-pink-700 px-3 py-1 rounded hover:bg-pink-600 animate-pulse font-bold shadow-lg shadow-pink-500/30">
-                            {mission ? 'Nouvelle Mission 🎯' : 'Lancer Mission 🎯'}
-                        </button>
+                        <GradeBadge score={score} />
+                        {phase === 'mission' && <ChallengeTimer timeLeft={timeLeft} maxTime={60} />}
                     </div>
 
-                    {mission && !success && (
-                        <div className="mb-4 p-3 rounded-xl border-dashed border-2 border-pink-500/50 bg-gray-800/80">
-                            <div className="text-xs text-gray-400 uppercase">Objectif :</div>
-                            <div className="font-bold text-lg">{mission.name}</div>
-                            <div className="text-xs text-pink-300">Construis cet atome neutre et stable !</div>
-                        </div>
+                    <XPBar current={score} nextLevel={2000} />
+
+                    <div className="h-[1px] bg-gradient-to-r from-transparent via-pink-500/50 to-transparent my-4" />
+
+                    <PhaseSelector currentPhase={phase} onSelect={(p) => { setPhase(p); if (p === 'mission') startMission(); }} />
+
+                    {phase === 'mission' && mission && (
+                        <MissionObjective objective={`Construis cet isotope : ${mission.name}`} icon="⚛️" />
                     )}
 
-                    <div className="bg-gray-800 p-4 rounded-xl mb-4 flex items-center justify-between relative overflow-hidden">
-                        <div className="text-center z-10">
-                            <div className="text-xs text-gray-400">Z (Protons)</div>
-                            <div className="text-xl font-bold">{protons}</div>
-                        </div>
-                        <div className={`bg-white text-black w-14 h-14 flex items-center justify-center rounded-lg font-bold text-2xl border-4 ${isStable ? 'border-pink-500' : 'border-red-500 animate-bounce'} z-10 shadow-xl`}>
-                            {element.symbol}
-                        </div>
-                        <div className="text-center z-10">
-                            <div className="text-xs text-gray-400">A (Masse)</div>
-                            <div className="text-xl font-bold">{massNumber}</div>
-                        </div>
-                        {/* Radioactive visual if unstable */}
-                        {!isStable && <div className="absolute inset-0 bg-red-500/20 animate-pulse"></div>}
-                    </div>
-
-                    <div className="space-y-3">
-                        <ControlRow label="Protons (+)" color="text-red-400" value={protons} onChange={setProtons} min={1} max={6} />
-                        <ControlRow label="Neutrons (0)" color="text-gray-400" value={neutrons} onChange={setNeutrons} min={0} max={8} />
-                        <ControlRow label="Électrons (-)" color="text-blue-400" value={electrons} onChange={setElectrons} min={0} max={6} />
-                    </div>
-
-                    <div className="mt-4 p-3 bg-gray-900 rounded-lg flex justify-between items-center text-sm">
-                        <span>Charge : <strong className={charge > 0 ? 'text-red-400' : (charge < 0 ? 'text-blue-400' : 'text-green-400')}>{charge > 0 ? '+' : ''}{charge}</strong></span>
-                        <span>Stabilité : <strong className={isStable ? 'text-green-400' : 'text-red-400'}>{isStable ? 'Stable' : 'Instable ☢️'}</strong></span>
-                    </div>
-
-                    <div className="mt-4 border-t border-gray-700 pt-2">
-                        <div className="text-xs text-gray-400 uppercase mb-1">Collection</div>
-                        <div className="flex gap-1 overflow-x-auto pb-2">
-                            {['H', 'He', 'Li', 'Be', 'B', 'C'].map(sym => (
-                                <div key={sym} className={`w-8 h-8 rounded flex items-center justify-center text-xs font-bold ${collection.includes(sym) ? 'bg-pink-600 text-white' : 'bg-gray-800 text-gray-600'}`}>
-                                    {sym}
+                    <div className="grid grid-cols-2 gap-4 mt-4">
+                        <div className="space-y-4">
+                            <div className="bg-gray-800/50 p-2 rounded-xl border border-white/5">
+                                <div className="flex items-center justify-between mb-4">
+                                    <div className="text-center bg-gray-900 rounded-lg p-2 min-w-[50px]">
+                                        <div className="text-[10px] text-gray-500">Z</div>
+                                        <div className="font-bold text-pink-400">{protons}</div>
+                                    </div>
+                                    <div className="w-12 h-12 flex items-center justify-center bg-white text-black rounded font-black text-xl shadow-[0_0_20px_rgba(255,255,255,0.3)]">
+                                        {element.symbol}
+                                    </div>
+                                    <div className="text-center bg-gray-900 rounded-lg p-2 min-w-[50px]">
+                                        <div className="text-[10px] text-gray-500">A</div>
+                                        <div className="font-bold text-pink-400">{massNumber}</div>
+                                    </div>
                                 </div>
-                            ))}
+                            </div>
+
+                            <div className="space-y-3">
+                                <div className="space-y-1">
+                                    <label className="flex justify-between text-[10px] text-red-400 font-bold">
+                                        <span>PROTONS (+)</span>
+                                        <span>{protons}</span>
+                                    </label>
+                                    <input type="range" min="1" max="6" value={protons} onChange={e => setProtons(Number(e.target.value))} className="w-full h-1 bg-gray-700 accent-red-500 rounded-lg appearance-none cursor-pointer" />
+                                </div>
+                                <div className="space-y-1">
+                                    <label className="flex justify-between text-[10px] text-gray-400 font-bold">
+                                        <span>NEUTRONS (0)</span>
+                                        <span>{neutrons}</span>
+                                    </label>
+                                    <input type="range" min="0" max="8" value={neutrons} onChange={e => setNeutrons(Number(e.target.value))} className="w-full h-1 bg-gray-700 accent-gray-500 rounded-lg appearance-none cursor-pointer" />
+                                </div>
+                                <div className="space-y-1">
+                                    <label className="flex justify-between text-[10px] text-blue-400 font-bold">
+                                        <span>ÉLECTRONS (-)</span>
+                                        <span>{electrons}</span>
+                                    </label>
+                                    <input type="range" min="0" max="6" value={electrons} onChange={e => setElectrons(Number(e.target.value))} className="w-full h-1 bg-gray-700 accent-blue-500 rounded-lg appearance-none cursor-pointer" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="bg-black/60 rounded-xl p-3 border border-pink-500/20 flex flex-col justify-between">
+                            <div className="space-y-3">
+                                <div className="text-[10px] text-gray-500 font-mono tracking-widest text-center uppercase">Telemetry</div>
+
+                                <div className="space-y-1">
+                                    <div className="flex justify-between text-[10px]">
+                                        <span>CHARGE</span>
+                                        <span className={charge === 0 ? 'text-green-400' : 'text-red-400'}>{charge === 0 ? 'NEUTRE' : `${charge > 0 ? '+' : ''}${charge}`}</span>
+                                    </div>
+                                    <div className="flex justify-between text-[10px]">
+                                        <span>STABILITÉ</span>
+                                        <span className={isStable ? 'text-green-400' : 'text-red-500 animate-pulse'}>{isStable ? 'STABLE' : 'INSTABLE'}</span>
+                                    </div>
+                                </div>
+
+                                <div className="border-t border-white/5 pt-2">
+                                    <div className="text-[9px] text-gray-500 mb-1">COLLECTION</div>
+                                    <div className="flex flex-wrap gap-1">
+                                        {['H', 'He', 'Li', 'Be', 'B', 'C'].map(s => (
+                                            <div key={s} className={`w-6 h-6 flex items-center justify-center rounded text-[9px] font-bold ${collection.includes(s) ? 'bg-pink-600 text-white' : 'bg-gray-800 text-gray-600'}`}>
+                                                {s}
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </DraggableHtmlPanel>
@@ -479,85 +543,10 @@ function Electron({ radius, speed, offset }) {
 // GAMIFICATION HELPERS (ADDED)
 // ============================================================
 
-export function SuccessOverlay({ show, message, points, onNext }) {
-    if (!show) return null;
-    return (
-        <Html center style={{ pointerEvents: 'none' }} zIndexRange={[1000, 0]}>
-            <div className="flex flex-col items-center justify-center p-4" style={{ width: '100vw', height: '100vh', pointerEvents: 'none' }}>
-                <div className="bg-black/90 backdrop-blur-md p-8 rounded-3xl border-4 border-yellow-500 text-center shadow-[0_0_50px_rgba(234,179,8,0.5)] transform transition-all animate-in zoom-in slide-in-from-bottom-10 fade-in duration-500 pointer-events-auto">
-                    <div className="text-6xl mb-4 animate-bounce">🏆</div>
-                    <div className="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 via-orange-400 to-yellow-300 mb-2">
-                        EXCELLENT !
-                    </div>
-                    <div className="text-white text-xl mb-6 font-medium max-w-md mx-auto">{message}</div>
+// Local gamification helpers removed to use GamificationUtils.js central ones
 
-                    {points && (
-                        <div className="bg-gradient-to-r from-yellow-900/50 to-orange-900/50 rounded-xl p-4 mb-6 border border-yellow-500/30">
-                            <div className="text-yellow-400 font-mono text-xs uppercase tracking-wider mb-1">Récompense</div>
-                            <div className="text-4xl font-bold text-white drop-shadow-md">+{points} XP</div>
-                        </div>
-                    )}
-
-                    {onNext && (
-                        <button onClick={onNext} className="w-full py-4 bg-gradient-to-r from-green-500 to-emerald-600 rounded-xl text-white font-bold text-xl hover:scale-105 hover:shadow-lg hover:shadow-green-500/30 transition-all flex items-center justify-center gap-2">
-                            Continuer l'aventure 🚀
-                        </button>
-                    )}
-                </div>
-            </div>
-        </Html>
-    );
-}
-
-export function ConfettiExplosion({ active }) {
-    if (!active) return null;
-    return (
-        <group>
-            {Array.from({ length: 80 }).map((_, i) => (
-                <ConfettiParticle key={i} />
-            ))}
-            <pointLight position={[0, 5, 0]} intensity={2} color="#FFD700" distance={10} decay={2} />
-        </group>
-    );
-}
-
-function ConfettiParticle() {
-    const ref = useRef();
-    const [data] = useState(() => ({
-        pos: [0, 0, 0],
-        vel: [(Math.random() - 0.5) * 8, Math.random() * 8 + 5, (Math.random() - 0.5) * 8],
-        rot: [Math.random(), Math.random(), Math.random()],
-        color: ['#FCD34D', '#F472B6', '#60A5FA', '#34D399', '#A78BFA'][Math.floor(Math.random() * 5)],
-        spin: [(Math.random() - 0.5) * 10, (Math.random() - 0.5) * 10]
-    }));
-
-    useFrame((state, delta) => {
-        if (ref.current) {
-            ref.current.position.x += data.vel[0] * delta;
-            ref.current.position.y += data.vel[1] * delta;
-            ref.current.position.z += data.vel[2] * delta;
-            ref.current.rotation.x += data.spin[0] * delta;
-            ref.current.rotation.y += data.spin[1] * delta;
-            data.vel[1] -= 9.8 * delta; // Gravity
-
-            // Reset if fell too low (loop for continuous celebration? No, just fall)
-        }
-    });
-
-    return (
-        <mesh ref={ref} position={data.pos} rotation={data.rot}>
-            <planeGeometry args={[0.15, 0.15]} />
-            <meshBasicMaterial color={data.color} side={THREE.DoubleSide} />
-        </mesh>
-    );
-}
-
-
-// ============================================================
-// CHAPITRE 11: LA MOLE (IMMERSIVE & CHALLENGE)
-// ============================================================
 export function MoleConceptPC4() {
-    const [mode, setMode] = useState('explore'); // explore, challenge
+    const [phase, setPhase] = useState('explore');
     const [element, setElement] = useState('C');
     const [moles, setMoles] = useState(1);
     const [targetMass, setTargetMass] = useState(null);
@@ -566,8 +555,8 @@ export function MoleConceptPC4() {
     // Gamification
     const [score, setScore] = useState(0);
     const [showSuccess, setShowSuccess] = useState(false);
+    const [timeLeft, setTimeLeft] = useState(45);
 
-    // Données molaires
     const elements = {
         C: { name: 'Carbone', M: 12.0, color: '#1F2937' },
         S: { name: 'Soufre', M: 32.1, color: '#FCD34D' },
@@ -587,92 +576,101 @@ export function MoleConceptPC4() {
         const randMoles = (Math.floor(Math.random() * 40) + 1) / 10;
         setTargetMass((randMoles * elements[randEl].M).toFixed(1));
         setMoles(0);
-        setMode('challenge');
+        setPhase('mission');
         setShowSuccess(false);
+        setTimeLeft(45);
     };
 
     const checkChallenge = () => {
         if (targetMass && Math.abs(mass - parseFloat(targetMass)) < 0.1) {
             if (!showSuccess) {
+                const points = 50 + Math.floor(timeLeft / 2);
+                setScore(s => s + points);
                 setShowSuccess(true);
-                setScore(s => s + 50);
             }
         }
     };
 
-    // Auto-check when slider stops (or just button?) - Let's use auto-check but with delay? 
-    // Or button "Valider". Button is better for "Game" feel.
+    useEffect(() => {
+        if (phase === 'mission' && timeLeft > 0 && !showSuccess) {
+            const timer = setTimeout(() => setTimeLeft(t => t - 1), 1000);
+            return () => clearTimeout(timer);
+        }
+    }, [timeLeft, phase, showSuccess]);
 
     return (
         <>
-            <SuccessOverlay show={showSuccess} message={`Parfait ! ${mass.toFixed(1)}g de ${el.name}`} points={50} onNext={startChallenge} />
+            <SuccessOverlay show={showSuccess} message={`Pesée parfaite ! ${mass.toFixed(1)}g de ${el.name}`} points={50 + Math.floor(timeLeft / 2)} onNext={startChallenge} />
+            <ConfettiExplosion active={showSuccess} />
 
             <Html transform={false}>
-                <DraggableHtmlPanel title="⚖️ La Mole - Laboratoire" showCloseButton={false} defaultPosition="bottom-center" className="w-[350px] border-green-500/30 text-white">
+                <DraggableHtmlPanel title="⚖️ Laboratoire de la Mole" showCloseButton={false} defaultPosition="bottom-center" className="w-[400px] border-green-500/30 text-white">
                     <div className="flex justify-between items-center mb-4">
-                        <div className="bg-gray-900 rounded-lg px-3 py-1 border border-green-500/30">
-                            <span className="text-xs text-green-400 font-bold">SCORE</span>
-                            <div className="font-mono text-xl">{score}</div>
-                        </div>
-                        <button onClick={() => { setMode(mode === 'explore' ? 'challenge' : 'explore'); if (mode === 'explore') startChallenge(); }}
-                            className={`text-xs px-3 py-1 rounded font-bold transition-colors ${mode === 'explore' ? 'bg-gray-700' : 'bg-green-600'}`}>
-                            {mode === 'explore' ? 'Mode Défi 🏆' : 'Mode Libre'}
-                        </button>
+                        <GradeBadge score={score} />
+                        {phase === 'mission' && <ChallengeTimer timeLeft={timeLeft} maxTime={45} />}
                     </div>
 
-                    {mode === 'challenge' && (
-                        <div className={`mb-4 p-3 rounded-xl border-2 text-center transition-colors ${showSuccess ? 'border-green-500 bg-green-900/40' : 'border-gray-500 bg-gray-800'}`}>
-                            <div className="text-xs text-gray-400 uppercase">Objectif : Peser exactement</div>
-                            <div className="text-3xl font-bold font-mono">{targetMass} g</div>
-                            <div className="text-sm">de {el.name}</div>
-                            {/* Validator helper */}
-                            <div className="mt-2 text-xs text-gray-400">Ajuste la quantité (n) pour atteindre la masse cible.</div>
-                            <button onClick={checkChallenge} disabled={showSuccess} className="mt-2 w-full py-1 bg-green-700/50 hover:bg-green-600 rounded text-xs font-bold border border-green-500/50">
-                                VÉRIFIER MA PESÉE
-                            </button>
-                        </div>
+                    <XPBar current={score} nextLevel={1500} />
+
+                    <div className="h-[1px] bg-gradient-to-r from-transparent via-green-500/50 to-transparent my-4" />
+
+                    <PhaseSelector currentPhase={phase} onSelect={(p) => { setPhase(p); if (p === 'mission') startChallenge(); }} />
+
+                    {phase === 'mission' && targetMass && (
+                        <MissionObjective objective={`Pèse exactement ${targetMass}g de ${el.name}`} icon="⚖️" />
                     )}
 
-                    {mode === 'explore' && (
-                        <div className="flex flex-wrap gap-2 mb-4">
-                            {Object.entries(elements).map(([k, e]) => (
-                                <button key={k} onClick={() => setElement(k)}
-                                    className={`px-3 py-1 rounded-full text-sm font-bold border ${element === k ? 'bg-white text-black' : 'border-gray-600 text-gray-400'}`}>
-                                    {e.name} ({k})
-                                </button>
-                            ))}
-                        </div>
-                    )}
+                    <div className="grid grid-cols-2 gap-4 mt-4">
+                        <div className="space-y-4">
+                            {phase === 'explore' && (
+                                <div>
+                                    <label className="text-[10px] text-gray-400 block mb-1 uppercase tracking-wider">Échantillon</label>
+                                    <div className="grid grid-cols-2 gap-1">
+                                        {Object.entries(elements).map(([k, e]) => (
+                                            <button key={k} onClick={() => setElement(k)}
+                                                className={`p-1 text-[10px] font-bold rounded border transition-all ${element === k ? 'bg-green-600 border-green-400' : 'bg-gray-800 border-gray-700'}`}>
+                                                {k}
+                                            </button>
+                                        ))}
+                                    </div>
+                                </div>
+                            )}
 
-                    <div className="mb-6 bg-gray-800 p-4 rounded-xl text-center shadow-inner relative overflow-hidden">
-                        <div className="text-xs text-gray-400 uppercase">Quantité de matière (n)</div>
-                        <div className="text-4xl font-bold my-2 text-green-300 font-mono">{moles} <span className="text-lg">mol</span></div>
-                        <input type="range" min="0" max="5" step="0.1" value={moles} onChange={(e) => setMoles(Number(e.target.value))}
-                            className="w-full accent-green-500 cursor-pointer" />
-
-                        {/* Analogy Toggle */}
-                        {mode === 'explore' && (
-                            <button onClick={() => setShowAnalogy(!showAnalogy)} className="absolute top-2 right-2 text-[10px] bg-white/10 px-2 py-1 rounded hover:bg-white/20">
-                                {showAnalogy ? 'Cacher Analogie' : 'Voir Analogie 🧠'}
-                            </button>
-                        )}
-                    </div>
-
-                    <div className="space-y-2 font-mono text-sm">
-                        <div className="flex justify-between text-gray-400">
-                            <span>Masse Molaire ({el.symbol}) :</span>
-                            <span>{el.M} g/mol</span>
-                        </div>
-                        <div className="flex justify-between bg-white/10 p-2 rounded items-center">
-                            <span>Masse (m) :</span>
-                            <span className={`font-bold text-lg ${showSuccess ? 'text-green-400' : 'text-white'}`}>{mass.toFixed(1)} g</span>
-                        </div>
-                        {mode === 'explore' && (
-                            <div className="flex justify-between text-gray-400">
-                                <span>Atomes (N) :</span>
-                                <span>{atoms} × 10²³</span>
+                            <div>
+                                <label className="text-[10px] text-gray-400 block mb-1 uppercase tracking-wider">Quantité (n)</label>
+                                <div className="bg-gray-900/50 p-3 rounded-xl border border-white/5">
+                                    <div className="text-2xl font-bold text-green-400 font-mono mb-2">{moles} <span className="text-xs text-gray-500">mol</span></div>
+                                    <input type="range" min="0" max="5" step="0.1" value={moles} onChange={(e) => setMoles(Number(e.target.value))}
+                                        className="w-full h-1 bg-gray-700 accent-green-500 rounded-lg appearance-none cursor-pointer" />
+                                </div>
                             </div>
-                        )}
+                        </div>
+
+                        <div className="bg-black/60 rounded-xl p-3 border border-green-500/20 flex flex-col justify-between">
+                            <div className="space-y-3">
+                                <div className="text-[10px] text-center font-mono text-gray-500 tracking-widest uppercase">Balance Digitale</div>
+
+                                <div className="bg-gray-900/80 p-3 rounded-lg border border-white/5 text-center">
+                                    <div className="text-2xl font-black text-white font-mono">{mass.toFixed(1)}<span className="text-xs ml-1 text-gray-500">g</span></div>
+                                </div>
+
+                                <div className="space-y-1">
+                                    <div className="flex justify-between text-[9px]">
+                                        <span className="text-gray-500">MASSE MOLAIRE</span>
+                                        <span className="font-bold text-gray-300">{el.M} g/mol</span>
+                                    </div>
+                                    <div className="flex justify-between text-[9px]">
+                                        <span className="text-gray-500">PARTICULES</span>
+                                        <span className="font-bold text-gray-300">{atoms}e23</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <button onClick={phase === 'mission' ? checkChallenge : () => setShowAnalogy(!showAnalogy)}
+                                className={`w-full py-2 rounded font-bold text-[10px] transition-all ${phase === 'mission' ? 'bg-green-600 hover:bg-green-500 shadow-lg shadow-green-500/20' : 'bg-gray-800 hover:bg-white hover:text-black'}`}>
+                                {phase === 'mission' ? 'VALIDER LA PESÉE' : (showAnalogy ? 'CACHER ANALOGIE' : 'VOIR ANALOGIE 🧠')}
+                            </button>
+                        </div>
                     </div>
                 </DraggableHtmlPanel>
             </Html>
@@ -739,6 +737,7 @@ export function MoleConceptPC4() {
 // CHAPITRE 4: CONSERVATION DE LA MASSE (IMMERSIVE)
 // ============================================================
 export function MassConservation() {
+    const [phase, setPhase] = useState('explore');
     const [step, setStep] = useState(0); // 0: Setup, 1: Reaction
     const [system, setSystem] = useState('open'); // open, closed
     const [gasParticles, setGasParticles] = useState(null);
@@ -747,10 +746,9 @@ export function MassConservation() {
     // Gamification
     const [score, setScore] = useState(0);
     const [showSuccess, setShowSuccess] = useState(false);
-    const [prediction, setPrediction] = useState(null); // 'same' | 'less' | 'more'
+    const [prediction, setPrediction] = useState(null);
     const [experimentDone, setExperimentDone] = useState(false);
 
-    // Initialisation particules
     useEffect(() => {
         const pts = new Float32Array(150 * 3);
         for (let i = 0; i < 150 * 3; i++) pts[i] = (Math.random() - 0.5) * 1.0;
@@ -758,12 +756,10 @@ export function MassConservation() {
     }, []);
 
     const startReaction = () => {
-        if (!prediction) return; // Must predict
-
+        if (!prediction) return;
         setExperimentDone(false);
         setStep(1);
-        // Animation of mass loss if open
-        let target = system === 'open' ? 190 : 200; // Lost 10g of gas
+        let target = system === 'open' ? 190 : 200;
         const duration = 3000;
         const start = 200;
         const startTime = Date.now();
@@ -771,22 +767,16 @@ export function MassConservation() {
         const animate = () => {
             const elapsed = Date.now() - startTime;
             const progress = Math.min(elapsed / duration, 1);
-
             const newVal = start - (start - target) * progress;
             setBalanceValue(newVal);
-
             if (progress < 1) {
                 requestAnimationFrame(animate);
             } else {
-                // Done
                 setExperimentDone(true);
-                // Check Win
                 const correct = (system === 'open' && prediction === 'less') || (system === 'closed' && prediction === 'same');
                 if (correct) {
                     setShowSuccess(true);
                     setScore(s => s + 50);
-                } else {
-                    setShowSuccess(false);
                 }
             }
         };
@@ -804,68 +794,73 @@ export function MassConservation() {
     return (
         <>
             <SuccessOverlay show={showSuccess} message={system === 'closed' ? "Masse conservée ! Bravo !" : "Masse perdue (gaz) ! Bien vu !"} points={50} onNext={reset} />
+            <ConfettiExplosion active={showSuccess} />
 
-            <Html>
-                <DraggableHtmlPanel title="⚖️ Conservation de la Masse" showCloseButton={false} defaultPosition="bottom-center" className="w-[350px] border-red-500/30 text-white">
+            <Html transform={false}>
+                <DraggableHtmlPanel title="⚖️ Conservation de la Masse" showCloseButton={false} defaultPosition="bottom-center" className="w-[400px] border-red-500/30 text-white">
                     <div className="flex justify-between items-center mb-4">
-                        <div className="bg-gray-900 rounded-lg px-3 py-1 border border-red-500/30">
-                            <span className="text-xs text-red-400 font-bold">XP</span>
-                            <div className="font-mono text-xl">{score}</div>
+                        <GradeBadge score={score} />
+                        <div className="bg-gray-900 rounded-lg px-3 py-1 border border-white/10 text-[10px] text-gray-400">
+                            STEP: {step === 0 ? 'PREDICTION' : 'ANALYSIS'}
                         </div>
                     </div>
 
-                    <div className="mb-4 bg-gray-800 p-3 rounded-xl border border-gray-600">
-                        <div className="text-xs text-gray-400 mb-2 uppercase font-bold">1. Configure l'expérience</div>
-                        <div className="flex gap-2">
-                            <button onClick={() => !step && setSystem('open')} disabled={step === 1}
-                                className={`flex-1 py-2 rounded font-bold transition-all ${system === 'open' ? 'bg-red-600 ring-2 ring-white' : 'bg-gray-700 opacity-50'}`}>
-                                Ouvert 🔓
-                            </button>
-                            <button onClick={() => !step && setSystem('closed')} disabled={step === 1}
-                                className={`flex-1 py-2 rounded font-bold transition-all ${system === 'closed' ? 'bg-green-600 ring-2 ring-white' : 'bg-gray-700 opacity-50'}`}>
-                                Fermé 🔒
-                            </button>
-                        </div>
-                    </div>
+                    <XPBar current={score} nextLevel={1000} />
 
-                    {step === 0 && (
-                        <div className="mb-4 p-3 bg-gray-900/80 rounded-xl border border-yellow-500/30">
-                            <div className="text-xs text-yellow-400 mb-2 uppercase font-bold">2. Fais ta prédiction</div>
-                            <div className="text-sm mb-2 text-center">La masse va-t-elle changer ?</div>
-                            <div className="flex gap-2">
-                                <button onClick={() => setPrediction('less')} className={`flex-1 p-2 rounded border ${prediction === 'less' ? 'bg-yellow-600 border-yellow-400' : 'border-gray-600 hover:bg-gray-700'}`}>
-                                    Diminuer 📉
-                                </button>
-                                <button onClick={() => setPrediction('same')} className={`flex-1 p-2 rounded border ${prediction === 'same' ? 'bg-yellow-600 border-yellow-400' : 'border-gray-600 hover:bg-gray-700'}`}>
-                                    Rester Pareil ⚖️
-                                </button>
+                    <div className="h-[1px] bg-gradient-to-r from-transparent via-red-500/50 to-transparent my-4" />
+
+                    <div className="grid grid-cols-2 gap-4 mt-4">
+                        <div className="space-y-4">
+                            <div className="bg-gray-800/50 p-3 rounded-xl border border-white/5">
+                                <label className="text-[10px] text-gray-500 block mb-2 uppercase tracking-widest">Type de Système</label>
+                                <div className="grid grid-cols-1 gap-2">
+                                    <button onClick={() => !step && setSystem('open')} disabled={step === 1}
+                                        className={`flex-1 py-1.5 rounded text-[10px] font-bold transition-all ${system === 'open' ? 'bg-red-600 border-red-400 border' : 'bg-gray-800 border-gray-700 border opacity-50'}`}>
+                                        SYSTÈME OUVERT 🔓
+                                    </button>
+                                    <button onClick={() => !step && setSystem('closed')} disabled={step === 1}
+                                        className={`flex-1 py-1.5 rounded text-[10px] font-bold transition-all ${system === 'closed' ? 'bg-green-600 border-green-400 border' : 'bg-gray-800 border-gray-700 border opacity-50'}`}>
+                                        SYSTÈME CLOS 🔒
+                                    </button>
+                                </div>
                             </div>
-                        </div>
-                    )}
 
-                    <div className="mb-4 p-3 border border-gray-600 rounded bg-black/50 text-center relative">
-                        <div className="text-gray-400 text-xs uppercase">Masse Totale</div>
-                        <div className={`text-3xl font-mono font-bold ${step === 1 && system === 'open' ? 'text-red-400 animate-pulse' : 'text-green-400'}`}>
-                            {balanceValue.toFixed(1)} g
+                            {step === 0 && (
+                                <div className="bg-gray-800/50 p-3 rounded-xl border border-white/5">
+                                    <label className="text-[10px] text-gray-500 block mb-2 uppercase tracking-widest">Prédiction</label>
+                                    <div className="grid grid-cols-1 gap-1">
+                                        <button onClick={() => setPrediction('less')} className={`p-1.5 rounded text-[10px] border transition-all ${prediction === 'less' ? 'bg-orange-600 border-orange-400' : 'bg-gray-900 border-gray-700'}`}>
+                                            LA MASSE VA BAISSER
+                                        </button>
+                                        <button onClick={() => setPrediction('same')} className={`p-1.5 rounded text-[10px] border transition-all ${prediction === 'same' ? 'bg-orange-600 border-orange-400' : 'bg-gray-900 border-gray-700'}`}>
+                                            LA MASSE SERA stable
+                                        </button>
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+
+                        <div className="bg-black/60 rounded-xl p-3 border border-red-500/20 flex flex-col justify-between">
+                            <div className="space-y-3">
+                                <div className="text-[10px] text-center font-mono text-gray-500 tracking-widest uppercase">Balance Digitale</div>
+
+                                <div className="bg-gray-900/80 p-3 rounded-lg border border-white/5 text-center">
+                                    <div className={`text-2xl font-black font-mono transition-colors ${step === 1 && system === 'open' ? 'text-red-400 animate-pulse' : 'text-green-400'}`}>
+                                        {balanceValue.toFixed(1)}<span className="text-[10px] ml-1 opacity-50">g</span>
+                                    </div>
+                                </div>
+
+                                <div className="text-[9px] text-gray-400 leading-tight">
+                                    {step === 0 ? "Configurez et faites une prédiction." : (experimentDone ? (system === 'open' ? "Le gaz s'est échappé !" : "Le gaz est resté piégé.") : "Réaction en cours...")}
+                                </div>
+                            </div>
+
+                            <button onClick={step === 0 ? startReaction : reset} disabled={step === 0 && !prediction}
+                                className={`w-full py-2 rounded font-black text-[10px] tracking-widest shadow-lg transition-transform hover:scale-105 active:scale-95 ${step === 0 ? (prediction ? 'bg-white text-black' : 'bg-gray-800 text-gray-600 cursor-not-allowed') : 'bg-gray-200 text-black'}`}>
+                                {step === 0 ? "LANCER RÉACTION" : "REINIT."}
+                            </button>
                         </div>
                     </div>
-
-                    <button onClick={step === 0 ? startReaction : reset} disabled={step === 0 && !prediction}
-                        className={`w-full py-3 rounded-xl font-bold text-lg transition-transform hover:scale-105 ${step === 0 ? (prediction ? 'bg-white text-black' : 'bg-gray-600 text-gray-400 cursor-not-allowed') : 'bg-gray-700 text-white'}`}>
-                        {step === 0 ? "Lancer la Réaction 💥" : "Réinitialiser 🔄"}
-                    </button>
-
-                    {step === 1 && experimentDone && !showSuccess && (
-                        <div className="mt-3 text-sm text-center text-red-400 font-bold bg-red-900/20 p-2 rounded animate-shake">
-                            Mauvaise prédiction ! Regarde bien ce qu'il s'est passé.
-                        </div>
-                    )}
-
-                    {step === 1 && experimentDone && (
-                        <div className="mt-2 text-xs text-center text-gray-400">
-                            {system === 'open' ? "Le gaz s'est échappé..." : "Le bouchon a tout retenu !"}
-                        </div>
-                    )}
                 </DraggableHtmlPanel>
             </Html>
 
@@ -957,13 +952,11 @@ function GasParticles({ particles, escape }) {
 // CHAPITRE 1: DÉMARCHE SCIENTIFIQUE (IMMERSIVE)
 // ============================================================
 export function ScientificMethod() {
-
-    const [scenario, setScenario] = useState('plant'); // plant, pendulum
+    const [phase, setPhase] = useState('explore');
+    const [scenario, setScenario] = useState('plant');
     const [step, setStep] = useState(0);
-    const [variable, setVariable] = useState(null); // water/light or length/mass
+    const [variable, setVariable] = useState(null);
     const [result, setResult] = useState(null);
-
-    // Gamification
     const [score, setScore] = useState(0);
     const [showSuccess, setShowSuccess] = useState(false);
 
@@ -989,15 +982,25 @@ export function ScientificMethod() {
             ],
             exp: "Lançons le pendule avec ce paramètre...",
             conc: { true: "Exact ! Plus c'est court, plus c'est rapide.", false: "La période reste la même." }
+        },
+        mission: {
+            title: "🕵️ Mission : La Lampe",
+            obs: "La lampe de bureau ne s'allume plus ! À toi de trouver pourquoi.",
+            hypotheses: [
+                { id: 'bulb', text: "L'ampoule est grillée", correct: true },
+                { id: 'plug', text: "La prise est débranchée", correct: false },
+                { id: 'switch', text: "L'interrupteur est cassé", correct: false }
+            ],
+            exp: "Remplaçons l'élément pour vérifier...",
+            conc: { true: "Gagné ! C'était bien l'ampoule.", false: "Même avec cet élément neuf, ça ne s'allume pas." }
         }
     };
 
-    const sc = scenarios[scenario];
+    const sc = phase === 'mission' ? scenarios.mission : scenarios[scenario];
 
     const runExperiment = (hId) => {
         setVariable(hId);
         setStep(2);
-        // Simulation du temps d'expérience
         setTimeout(() => {
             const isCorrect = sc.hypotheses.find(h => h.id === hId).correct;
             setResult(isCorrect);
@@ -1016,95 +1019,114 @@ export function ScientificMethod() {
         setShowSuccess(false);
     };
 
-    return (
-        <>
-            <SuccessOverlay show={showSuccess} message={sc.conc[true]} points={50} onNext={reset} />
+    const handlePhaseChange = (p) => {
+        setPhase(p);
+        if (p === 'mission') setScenario('mission');
+        else if (scenario === 'mission') setScenario('plant');
+        reset();
+    };
 
-            <Html>
-                <DraggableHtmlPanel title="🔬 Démarche Scientifique" showCloseButton={false} defaultPosition="bottom-center" className="w-[380px] border-blue-500/30 text-white">
+    return (
+        <group>
+            <SuccessOverlay show={showSuccess} message={sc.conc[true]} points={50} onNext={() => { if (phase === 'mission') handlePhaseChange('explore'); else reset(); }} />
+            <ConfettiExplosion active={showSuccess} />
+
+            <Html transform={false}>
+                <DraggableHtmlPanel title="🔬 Démarche Scientifique" showCloseButton={false} defaultPosition="bottom-center" className="w-[400px] border-blue-500/30 text-white">
                     <div className="flex justify-between items-center mb-4">
-                        <div className="bg-gray-900 rounded-lg px-3 py-1 border border-blue-500/30">
-                            <span className="text-xs text-blue-400 font-bold">XP</span>
-                            <div className="font-mono text-xl">{score}</div>
+                        <GradeBadge score={score} />
+                        <div className="bg-gray-900 rounded-lg px-3 py-1 border border-white/10 text-[10px] text-gray-400 capitalize">
+                            Phase: {phase} | Étape {step + 1}
                         </div>
-                        <button onClick={reset} className="text-xs bg-gray-700 px-2 py-1 rounded hover:bg-gray-600">🔄 Reset</button>
                     </div>
 
-                    {/* Choix Scénario */}
-                    {step === 0 && (
-                        <div className="space-y-3">
-                            <p className="text-sm text-gray-300 mb-2">Choisis une énigme à résoudre :</p>
-                            <button onClick={() => setScenario('plant')} className={`w-full p-3 rounded-xl border text-left transition-all ${scenario === 'plant' ? 'border-green-500 bg-green-900/30' : 'border-gray-700 hover:border-green-500'}`}>
-                                🌿 La Plante Triste
-                            </button>
-                            <button onClick={() => setScenario('pendulum')} className={`w-full p-3 rounded-xl border text-left transition-all ${scenario === 'pendulum' ? 'border-purple-500 bg-purple-900/30' : 'border-gray-700 hover:border-purple-500'}`}>
-                                ⏱️ Le Pendule Mystérieux
-                            </button>
-                            <button onClick={() => setStep(1)} className="w-full mt-2 py-3 bg-blue-600 font-bold rounded-xl hover:bg-blue-500 shadow-lg">
-                                COMMENCER L'ENQUÊTE ➡️
-                            </button>
-                        </div>
-                    )}
+                    <XPBar current={score} nextLevel={1000} />
 
-                    {/* Étapes */}
-                    {step === 1 && (
-                        <div className="animate-in slide-in-from-right">
-                            <div className="bg-gray-800 p-3 rounded-lg border-l-4 border-blue-500 mb-4">
-                                <div className="text-xs font-bold text-gray-400 uppercase">1. Observation</div>
-                                <p>{sc.obs}</p>
-                            </div>
-                            <div className="text-sm font-bold mb-2">2. Formule une hypothèse :</div>
-                            <div className="space-y-2">
-                                {sc.hypotheses.map(h => (
-                                    <button key={h.id} onClick={() => runExperiment(h.id)}
-                                        className="w-full p-3 bg-gray-700 hover:bg-gray-600 rounded-lg text-left text-sm transition-colors border border-transparent hover:border-blue-400">
-                                        🤔 {h.text}
-                                    </button>
-                                ))}
-                            </div>
-                        </div>
-                    )}
+                    <div className="h-[1px] bg-gradient-to-r from-transparent via-blue-500/50 to-transparent my-4" />
 
-                    {step === 2 && (
-                        <div className="text-center py-8 animate-pulse">
-                            <div className="text-4xl mb-2">⚙️</div>
-                            <div className="text-xl font-bold text-blue-400">Expérience en cours...</div>
-                            <p className="text-sm text-gray-400">{sc.exp}</p>
-                        </div>
-                    )}
+                    <PhaseSelector currentPhase={phase} onSelect={handlePhaseChange} />
 
-                    {step === 3 && (
-                        <div className="animate-in zoom-in">
-                            <div className={`p-4 rounded-xl border-2 mb-4 ${result ? 'border-green-500 bg-green-900/20' : 'border-red-500 bg-red-900/20'}`}>
-                                <div className="text-3xl mb-2">{result ? '🎉' : '❌'}</div>
-                                <div className="font-bold text-lg mb-1">Conclusion</div>
-                                <p>{sc.conc[result]}</p>
-                            </div>
-                            {!result && (
-                                <button onClick={() => setStep(1)} className="w-full py-3 bg-gray-700 rounded-xl hover:bg-gray-600">
-                                    Tester une autre hypothèse
-                                </button>
+                    <div className="grid grid-cols-2 gap-4 mt-4">
+                        <div className="space-y-4">
+                            {step === 0 && (
+                                <div className="space-y-2">
+                                    <label className="text-[10px] text-gray-400 block uppercase tracking-widest">Enquête en cours</label>
+                                    {phase === 'explore' ? (
+                                        <>
+                                            <button onClick={() => setScenario('plant')} className={`w-full p-2 rounded text-[10px] font-bold border transition-all ${scenario === 'plant' ? 'bg-green-600 border-green-400' : 'bg-gray-800 border-gray-700 opacity-50'}`}>
+                                                LA PLANTE 🌱
+                                            </button>
+                                            <button onClick={() => setScenario('pendulum')} className={`w-full p-2 rounded text-[10px] font-bold border transition-all ${scenario === 'pendulum' ? 'bg-purple-600 border-purple-400' : 'bg-gray-800 border-gray-700 opacity-50'}`}>
+                                                LE PENDULE ⏱️
+                                            </button>
+                                        </>
+                                    ) : (
+                                        <div className="p-4 bg-blue-900/20 border border-blue-500/30 rounded-xl text-center">
+                                            <span className="text-2xl">🕵️</span>
+                                            <div className="text-[10px] font-bold mt-2 text-blue-300">MISSION SPÉCIALE</div>
+                                        </div>
+                                    )}
+                                </div>
                             )}
-                            {result && (
-                                <button onClick={reset} className="w-full py-3 bg-green-600 rounded-xl hover:bg-green-500 font-bold">
-                                    Mission Accomplie ! 🚀
-                                </button>
+
+                            {step === 1 && (
+                                <div className="space-y-2">
+                                    <label className="text-[10px] text-gray-400 block uppercase tracking-widest">Tes Hypothèses</label>
+                                    {sc.hypotheses.map(h => (
+                                        <button key={h.id} onClick={() => runExperiment(h.id)}
+                                            className="w-full p-2 text-left text-[9px] bg-gray-800 hover:bg-gray-700 rounded border border-gray-600 hover:border-blue-400 transition-all">
+                                            🤔 {h.text}
+                                        </button>
+                                    ))}
+                                </div>
                             )}
                         </div>
-                    )}
+
+                        <div className="bg-black/60 rounded-xl p-3 border border-blue-500/20 flex flex-col justify-between">
+                            <div className="space-y-3">
+                                <div className="text-[10px] text-center font-mono text-gray-500 tracking-widest uppercase">Carnet de Labo</div>
+
+                                <div className="bg-gray-900/80 p-3 rounded-lg border border-white/5">
+                                    <div className="text-[10px] leading-relaxed text-blue-100 italic">
+                                        {step === 0 ? sc.obs : (step === 1 ? "Choisis une hypothèse à tester par l'expérience." : (step === 2 ? sc.exp : "Interprète les résultats obtenus."))}
+                                    </div>
+                                </div>
+
+                                {step === 3 && (
+                                    <div className={`p-2 rounded text-[10px] font-bold text-center ${result ? 'bg-green-900/40 text-green-400' : 'bg-red-900/40 text-red-400'}`}>
+                                        {result ? 'VALIDÉE ✅' : 'REJETÉE ❌'}
+                                    </div>
+                                )}
+                            </div>
+
+                            <button onClick={step === 0 ? () => setStep(1) : (step === 3 ? reset : null)}
+                                disabled={step === 1 || step === 2}
+                                className={`w-full py-2 rounded font-black text-[10px] tracking-widest transition-transform hover:scale-105 active:scale-95 ${step === 0 ? 'bg-blue-600 text-white shadow-lg shadow-blue-500/20' : (step === 3 ? 'bg-white text-black' : 'bg-gray-800 text-gray-500')}`}>
+                                {step === 0 ? 'SUIVANT' : (step === 3 ? 'RECOMMENCER' : 'EXPÉRIENCE...')}
+                            </button>
+                        </div>
+                    </div>
                 </DraggableHtmlPanel>
             </Html>
 
-            <ConfettiExplosion active={showSuccess} />
-
-            <group>
-                {/* SCÈNE 3D DYNAMIQUE */}
-                <group position={[0, -1, 0]}>
-                    {scenario === 'plant' && <PlantSim state={step === 0 ? 'dead' : (step === 2 ? 'growing' : (result ? 'alive' : 'dead_dry'))} />}
-                    {scenario === 'pendulum' && <PendulumSim moving={step === 2} length={variable === 'length' ? 1 : 2} mass={variable === 'mass' ? 2 : 1} />}
-                </group>
+            <group position={[0, -1, 0]}>
+                {scenario === 'plant' && <PlantSim state={step === 0 ? 'dead' : (step === 2 ? 'growing' : (result ? 'alive' : 'dead_dry'))} />}
+                {scenario === 'pendulum' && <PendulumSim moving={step === 2} length={variable === 'length' ? 1 : 2} mass={variable === 'mass' ? 2 : 1} />}
+                {scenario === 'mission' && (
+                    <group>
+                        <mesh position={[0, 1, 0]}>
+                            <cylinderGeometry args={[0.5, 0.5, 1]} />
+                            <meshStandardMaterial color={step === 3 && result ? "#FFEB3B" : "#333"} emissive={step === 3 && result ? "#FFEB3B" : "black"} emissiveIntensity={1} />
+                        </mesh>
+                        <mesh position={[0, 0, 0]}>
+                            <boxGeometry args={[1, 0.2, 1]} />
+                            <meshStandardMaterial color="gray" />
+                        </mesh>
+                        {step === 2 && <Text position={[0, 2, 0]} fontSize={0.2} color="white">🔧 En cours de réparation...</Text>}
+                    </group>
+                )}
             </group>
-        </>
+        </group>
     );
 }
 
@@ -1189,8 +1211,8 @@ function PendulumSim({ moving, length, mass }) {
 // DENSITÉ (IMMERSIVE & CHALLENGE)
 // ============================================================
 export function DensityExplorer() {
-    const [mode, setMode] = useState('sinkfloat'); // sinkfloat, tower, challenge
-    const [selectedObject, setSelectedObject] = useState(null);
+    const [phase, setPhase] = useState('explore'); // explore, challenge
+    const [subMode, setSubMode] = useState('sinkfloat'); // sinkfloat, tower
     const [objectsInWater, setObjectsInWater] = useState([]);
     const [mysteryObj, setMysteryObj] = useState(null);
     const [success, setSuccess] = useState(null);
@@ -1213,14 +1235,13 @@ export function DensityExplorer() {
     ];
 
     const dropObject = (obj) => {
-        // Reset animation par suppression/rajout
         setObjectsInWater(prev => [...prev.filter(o => o.id !== obj.id), { ...obj, key: Math.random() }]);
     };
 
     const startChallenge = () => {
         const secret = items[Math.floor(Math.random() * items.length)];
-        setMysteryObj({ ...secret, id: 'mystery', name: 'Mystère❓', color: '#607D8B' });
-        setMode('challenge');
+        setMysteryObj({ ...secret, originalId: secret.id, id: 'mystery', name: 'Mystère❓', color: '#607D8B' });
+        setPhase('mission');
         setObjectsInWater([]);
         setSuccess(null);
         setShowSuccessOverlay(false);
@@ -1228,100 +1249,103 @@ export function DensityExplorer() {
 
     const verifyGuess = (guessId) => {
         if (!mysteryObj) return;
-        if (guessId === mysteryObj.originalId || items.find(i => i.id === guessId).dens === mysteryObj.dens) {
+        if (guessId === mysteryObj.originalId) {
             setSuccess(true);
-            if (!showSuccessOverlay) {
-                setScore(s => s + 50);
-                setShowSuccessOverlay(true);
-            }
+            const points = 50;
+            setScore(s => s + points);
+            setShowSuccessOverlay(true);
         } else {
             setSuccess(false);
         }
     };
 
-    // Pre-process mystery object to keep original ID reference for checking
-    useEffect(() => {
-        if (mysteryObj && !mysteryObj.originalId) {
-            // Find which item it corresponds to based on density if not set
-            const original = items.find(i => i.dens === mysteryObj.dens);
-            if (original) setMysteryObj(prev => ({ ...prev, originalId: original.id }));
-        }
-    }, [mysteryObj]);
-
-
     return (
         <>
-            <SuccessOverlay show={showSuccessOverlay} message={`Bravo ! C'était bien du ${mysteryObj?.originalId ? items.find(i => i.id === mysteryObj.originalId).name : '...'} !`} points={50} onNext={startChallenge} />
+            <SuccessOverlay show={showSuccessOverlay} message={`Excellent ! C'était bien du ${mysteryObj?.originalId ? items.find(i => i.id === mysteryObj.originalId).name : '...'} !`} points={50} onNext={startChallenge} />
+            <ConfettiExplosion active={showSuccessOverlay} />
 
-            <Html>
-                <DraggableHtmlPanel title="🌊 Laboratoire de Densité" showCloseButton={false} defaultPosition="bottom-center" className="w-[350px] border-cyan-500/30 text-white">
+            <Html transform={false}>
+                <DraggableHtmlPanel title="🌊 Labo de Densité" showCloseButton={false} defaultPosition="bottom-center" className="w-[400px] border-cyan-500/30 text-white">
                     <div className="flex justify-between items-center mb-4">
-                        <div className="bg-gray-900 rounded-lg px-3 py-1 border border-cyan-500/30">
-                            <span className="text-xs text-cyan-400 font-bold">XP</span>
-                            <div className="font-mono text-xl">{score}</div>
+                        <GradeBadge score={score} />
+                        <div className="bg-gray-900 rounded-lg px-3 py-1 border border-white/10 text-[10px] text-gray-400 uppercase">
+                            {phase === 'mission' ? 'MISSION EN COURS' : 'MODE LIBRE'}
                         </div>
-                        {mode !== 'challenge' && <button onClick={startChallenge} className="text-xs bg-cyan-700 px-2 py-1 rounded hover:bg-white hover:text-black transition-colors animate-pulse font-bold">Mode Défi 🏆</button>}
-                        {mode === 'challenge' && <button onClick={() => setMode('sinkfloat')} className="text-xs bg-gray-700 px-2 py-1 rounded">Retour</button>}
                     </div>
 
-                    <div className="flex gap-2 mb-4 bg-gray-800 p-1 rounded-lg">
-                        <button onClick={() => { setMode('sinkfloat'); setObjectsInWater([]); }}
-                            className={`flex-1 py-1 rounded text-sm ${mode === 'sinkfloat' ? 'bg-cyan-600' : 'hover:bg-gray-700'}`}>
-                            Libre
-                        </button>
-                        <button onClick={() => { setMode('tower'); setObjectsInWater([]); }}
-                            className={`flex-1 py-1 rounded text-sm ${mode === 'tower' ? 'bg-orange-600' : 'hover:bg-gray-700'}`}>
-                            Tour
-                        </button>
-                    </div>
+                    <XPBar current={score} nextLevel={1000} />
 
-                    {mode === 'challenge' && (
-                        <div className="mb-4">
-                            <div className="bg-gray-800 p-3 rounded-lg mb-3 border-l-4 border-cyan-500">
-                                <p className="text-sm">Identifie le matériau de l'objet mystère !</p>
-                                <button onClick={() => dropObject(mysteryObj)} className="mt-2 text-xs bg-white text-black px-3 py-1 rounded font-bold hover:bg-gray-200 w-full">
-                                    Lâcher l'Objet Mystère 👇
-                                </button>
-                            </div>
+                    <div className="h-[1px] bg-gradient-to-r from-transparent via-cyan-500/50 to-transparent my-4" />
 
-                            <div className="text-xs text-gray-400 mb-2">C'est quoi selon toi ?</div>
-                            <div className="grid grid-cols-2 gap-2">
-                                {items.map(item => (
-                                    <button key={item.id} onClick={() => verifyGuess(item.id)}
-                                        className={`p-2 rounded border ${success === true && item.dens === mysteryObj.dens ? 'bg-green-600 border-green-400' : 'bg-gray-700 border-gray-600 hover:border-cyan-400'}`}>
-                                        {item.name}
+                    <PhaseSelector currentPhase={phase} onSelect={(p) => { setPhase(p); if (p === 'mission') startChallenge(); }} />
+
+                    {phase === 'mission' && mysteryObj && (
+                        <MissionObjective objective="Analyse le comportement de l'objet mystère et identifie son matériau." icon="🔍" />
+                    )}
+
+                    <div className="grid grid-cols-2 gap-4 mt-4">
+                        <div className="space-y-4">
+                            <div className="bg-gray-800/50 p-2 rounded-xl border border-white/5">
+                                <label className="text-[10px] text-gray-500 block mb-2 uppercase tracking-widest text-center">Environnement</label>
+                                <div className="grid grid-cols-1 gap-1">
+                                    <button onClick={() => { setSubMode('sinkfloat'); setObjectsInWater([]); }}
+                                        className={`py-1.5 rounded text-[10px] font-bold border transition-all ${subMode === 'sinkfloat' ? 'bg-cyan-600 border-cyan-400' : 'bg-gray-900 border-gray-700 opacity-50'}`}>
+                                        AQUARIUM D'EAU 💧
                                     </button>
-                                ))}
+                                    <button onClick={() => { setSubMode('tower'); setObjectsInWater([]); }}
+                                        className={`py-1.5 rounded text-[10px] font-bold border transition-all ${subMode === 'tower' ? 'bg-orange-600 border-orange-400' : 'bg-gray-900 border-gray-700 opacity-50'}`}>
+                                        TOUR DE LIQUIDES 🥪
+                                    </button>
+                                </div>
                             </div>
-                            {success === false && <div className="mt-3 text-center text-red-400 font-bold animate-pulse">Incorrect ! Observe bien où il flotte.</div>}
-                        </div>
-                    )}
 
-                    {mode === 'sinkfloat' && (
-                        <div className="grid grid-cols-2 gap-2">
-                            {items.map(item => (
-                                <button key={item.id} onClick={() => dropObject(item)}
-                                    className="p-3 bg-gray-800 rounded-xl hover:bg-gray-700 border border-gray-600 hover:border-cyan-400 transition-all flex items-center gap-2">
-                                    <div className="w-4 h-4 rounded-full" style={{ backgroundColor: item.color }}></div>
-                                    <span className="text-sm font-bold">{item.name}</span>
-                                </button>
-                            ))}
+                            <div className="space-y-1">
+                                <label className="text-[10px] text-gray-500 block mb-1 uppercase tracking-widest text-center">Objets</label>
+                                <div className="grid grid-cols-2 gap-1">
+                                    {phase === 'mission' ? (
+                                        <button onClick={() => dropObject(mysteryObj)} className="col-span-2 py-3 bg-white text-black rounded-lg font-black text-[12px] shadow-lg shadow-white/10 hover:scale-105 active:scale-95 transition-all">
+                                            LÂCHER L'OBJET MYSTÈRE 👇
+                                        </button>
+                                    ) : (
+                                        items.map(item => (
+                                            <button key={item.id} onClick={() => dropObject(item)}
+                                                className="p-1 px-2 bg-gray-800 hover:bg-gray-700 rounded border border-gray-600 text-[9px] font-bold text-left flex items-center gap-2">
+                                                <div className="w-2 h-2 rounded-full" style={{ backgroundColor: item.color }} />
+                                                {item.name}
+                                            </button>
+                                        ))
+                                    )}
+                                </div>
+                            </div>
                         </div>
-                    )}
 
-                    {mode === 'tower' && (
-                        <div className="text-sm p-4 bg-gray-800 rounded-xl">
-                            <p className="mb-2">Densité des liquides :</p>
-                            <ul className="space-y-1">
-                                {liquids.map(l => (
-                                    <li key={l.id} className="flex justify-between" style={{ color: l.color }}>
-                                        <span>{l.name}</span>
-                                        <span className="font-mono">{l.dens}</span>
-                                    </li>
-                                ))}
-                            </ul>
+                        <div className="bg-black/60 rounded-xl p-3 border border-cyan-500/20 flex flex-col justify-between">
+                            <div className="space-y-3">
+                                <div className="text-[10px] text-center font-mono text-gray-500 tracking-widest uppercase">Analyse Materiaux</div>
+
+                                {phase === 'mission' ? (
+                                    <div className="grid grid-cols-2 gap-1">
+                                        {items.map(item => (
+                                            <button key={item.id} onClick={() => verifyGuess(item.id)}
+                                                className={`p-1.5 rounded text-[9px] font-bold border transition-all ${success === false ? 'animate-shake' : ''} bg-gray-900 border-gray-700 hover:border-cyan-400`}>
+                                                {item.name}
+                                            </button>
+                                        ))}
+                                    </div>
+                                ) : (
+                                    <div className="bg-gray-900/80 p-3 rounded-lg border border-white/5 text-[9px] text-gray-400 leading-tight">
+                                        {subMode === 'sinkfloat' ? "Dans l'eau (d=1), les objets plus denses coulent, les moins denses flottent." : "Découvre comment les objets se stabilisent entre différentes couches de liquides."}
+                                    </div>
+                                )}
+
+                                {success === false && <div className="text-[9px] text-red-400 font-bold text-center animate-pulse">ESSAYE ENCORE !</div>}
+                            </div>
+
+                            <button onClick={() => setObjectsInWater([])} className="w-full py-2 rounded bg-gray-800 text-[10px] font-bold hover:bg-white hover:text-black transition-all">
+                                VIDER L'AQUARIUM
+                            </button>
                         </div>
-                    )}
+                    </div>
                 </DraggableHtmlPanel>
             </Html>
 
@@ -1336,7 +1360,7 @@ export function DensityExplorer() {
                         <meshPhysicalMaterial color="#E0F7FA" transmission={0.9} opacity={0.3} transparent side={THREE.DoubleSide} thickness={0.5} roughness={0} />
                     </mesh>
 
-                    {mode === 'sinkfloat' || mode === 'challenge' ? (
+                    {subMode === 'sinkfloat' || phase === 'mission' ? (
                         <group>
                             <mesh position={[0, 1, 0]}>
                                 <boxGeometry args={[3, 2, 2]} />
@@ -1358,7 +1382,7 @@ export function DensityExplorer() {
 
                     {/* Objets Simulés */}
                     {objectsInWater.map(obj => (
-                        <FloatingObject key={obj.key} obj={obj} mode={mode === 'challenge' ? 'sinkfloat' : mode} liquids={liquids} />
+                        <FloatingObject key={obj.key} obj={obj} mode={phase === 'mission' ? 'sinkfloat' : subMode} liquids={liquids} />
                     ))}
                 </group>
             </group>
@@ -1405,19 +1429,18 @@ function FloatingObject({ obj, mode, liquids }) {
 // OUTILS DE MESURE (IMMERSIVE)
 // ============================================================
 export function MeasurementTools() {
-    const [tool, setTool] = useState('ruler');
-    const [target, setTarget] = useState(5.0); // True value
-    const [userDist, setUserDist] = useState(0); // User measurement slider
+    const [phase, setPhase] = useState('explore');
+    const [toolType, setToolType] = useState('ruler'); // ruler, balance
+    const [target, setTarget] = useState(5.0);
+    const [userValue, setUserValue] = useState(0);
     const [feedback, setFeedback] = useState(null);
-
-    // Gamification
     const [score, setScore] = useState(0);
     const [showSuccess, setShowSuccess] = useState(false);
 
     const checkMeasurement = () => {
-        const diff = Math.abs(userDist - target);
-        // Tolérance 0.1
-        const result = diff < 0.2 ? 'perfect' : (diff < 0.5 ? 'good' : 'bad');
+        const diff = Math.abs(userValue - target);
+        const tolerance = toolType === 'ruler' ? 0.2 : 0.5;
+        const result = diff < (tolerance / 2) ? 'perfect' : (diff < tolerance ? 'good' : 'bad');
         setFeedback(result);
 
         if (result === 'perfect' || result === 'good') {
@@ -1429,84 +1452,142 @@ export function MeasurementTools() {
         }
     };
 
-    const nextObject = () => {
-        setTarget((Math.random() * 3 + 3).toFixed(1));
+    const startNext = () => {
+        if (phase === 'mission') {
+            const nextTool = Math.random() > 0.5 ? 'ruler' : 'balance';
+            setToolType(nextTool);
+            setTarget(nextTool === 'ruler' ? (Math.random() * 4 + 3).toFixed(1) : (Math.random() * 150 + 50).toFixed(0));
+        } else {
+            setTarget(toolType === 'ruler' ? (Math.random() * 4 + 3).toFixed(1) : (Math.random() * 150 + 50).toFixed(0));
+        }
+        setUserValue(toolType === 'ruler' ? 3 : 0);
         setFeedback(null);
         setShowSuccess(false);
     };
 
+    const handlePhaseChange = (p) => {
+        setPhase(p);
+        startNext();
+    };
+
     return (
-        <>
-            <SuccessOverlay show={showSuccess} message={feedback === 'perfect' ? "Mesure Parfaite ! 🎯" : "Bonne mesure ! 👍"} points={feedback === 'perfect' ? 50 : 20} onNext={nextObject} />
+        <group>
+            <SuccessOverlay show={showSuccess} message={feedback === 'perfect' ? "Précision Chirurgicale ! 🎯" : "Mesure validée ! 👍"} points={feedback === 'perfect' ? 50 : 20} onNext={startNext} />
+            <ConfettiExplosion active={showSuccess} />
 
-            <Html>
-                <DraggableHtmlPanel title="📏 Précision de Mesure" showCloseButton={false} defaultPosition="bottom-center" className="w-[350px] border-yellow-500/30 text-white">
-
+            <Html transform={false}>
+                <DraggableHtmlPanel title="📏 Atelier de Métrologie" showCloseButton={false} defaultPosition="bottom-center" className="w-[450px] border-yellow-500/30 text-white">
                     <div className="flex justify-between items-center mb-4">
-                        <div className="bg-gray-900 rounded-lg px-3 py-1 border border-yellow-500/30">
-                            <span className="text-xs text-yellow-400 font-bold">XP</span>
-                            <div className="font-mono text-xl">{score}</div>
+                        <GradeBadge score={score} />
+                        <div className="bg-gray-900 rounded-lg px-3 py-1 border border-white/10 text-[10px] text-gray-400 font-mono tracking-tighter">
+                            LAB_STATION_PC4_02
                         </div>
                     </div>
 
-                    <div className="mb-4 text-sm text-gray-300">
-                        Objectif : Mesure la longueur de la barre verte le plus précisément possible !
-                    </div>
+                    <XPBar current={score} nextLevel={2000} />
 
-                    <div className="bg-gray-800 p-4 rounded-xl mb-4">
-                        <label className="block text-xs uppercase text-gray-500 mb-2">Ta lecture (cm)</label>
-                        <div className="flex items-center gap-3">
-                            <input type="range" min="3" max="7" step="0.1" value={userDist} onChange={(e) => { setUserDist(parseFloat(e.target.value)); setFeedback(null); setShowSuccess(false); }}
-                                className="w-full accent-yellow-500" />
-                            <span className="font-mono text-xl font-bold">{userDist.toFixed(1)}</span>
+                    <div className="h-[1px] bg-gradient-to-r from-transparent via-yellow-500/50 to-transparent my-4" />
+
+                    <PhaseSelector currentPhase={phase} onSelect={handlePhaseChange} />
+
+                    <div className="grid grid-cols-2 gap-4 mt-4">
+                        <div className="space-y-4">
+                            <div className="bg-gray-800/50 p-2 rounded-xl border border-white/5">
+                                <label className="text-[10px] text-gray-500 block mb-2 uppercase tracking-widest text-center">Choix de l'Outil</label>
+                                <div className="grid grid-cols-2 gap-1">
+                                    <button onClick={() => { setToolType('ruler'); startNext(); }} disabled={phase === 'mission'}
+                                        className={`py-1.5 rounded text-[10px] font-bold border transition-all ${toolType === 'ruler' ? 'bg-yellow-600 border-yellow-400' : 'bg-gray-900 border-gray-700 opacity-50'}`}>
+                                        RÈGLE 📏
+                                    </button>
+                                    <button onClick={() => { setToolType('balance'); startNext(); }} disabled={phase === 'mission'}
+                                        className={`py-1.5 rounded text-[10px] font-bold border transition-all ${toolType === 'balance' ? 'bg-yellow-600 border-yellow-400' : 'bg-gray-900 border-gray-700 opacity-50'}`}>
+                                        BALANCE ⚖️
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div className="bg-gray-900/50 p-3 rounded-xl border border-white/5">
+                                <label className="text-[10px] text-gray-500 block mb-2 uppercase tracking-widest text-center">Valeur Mesurée</label>
+                                <div className="text-3xl font-black text-yellow-400 font-mono text-center mb-2">
+                                    {toolType === 'ruler' ? parseFloat(userValue).toFixed(1) : userValue}
+                                    <span className="text-xs ml-1 text-gray-500">{toolType === 'ruler' ? 'cm' : 'g'}</span>
+                                </div>
+                                <input type="range"
+                                    min={toolType === 'ruler' ? 3 : 0}
+                                    max={toolType === 'ruler' ? 7 : 200}
+                                    step={toolType === 'ruler' ? 0.1 : 1}
+                                    value={userValue}
+                                    onChange={(e) => { setUserValue(parseFloat(e.target.value)); setFeedback(null); setShowSuccess(false); }}
+                                    className="w-full h-1 bg-gray-700 accent-yellow-500 rounded-lg appearance-none cursor-pointer" />
+                            </div>
+                        </div>
+
+                        <div className="bg-black/60 rounded-xl p-3 border border-yellow-500/20 flex flex-col justify-between">
+                            <div className="space-y-3">
+                                <div className="text-[10px] text-center font-mono text-gray-400 tracking-widest uppercase">Objectif</div>
+
+                                {phase === 'mission' ? (
+                                    <div className="p-3 bg-yellow-900/20 border border-yellow-500/30 rounded-lg text-center animate-pulse">
+                                        <div className="text-[10px] text-yellow-200 font-bold">CIBLE À ATTEINDRE</div>
+                                        <div className="text-2xl font-black text-white">{target} {toolType === 'ruler' ? 'cm' : 'g'}</div>
+                                    </div>
+                                ) : (
+                                    <div className="bg-gray-900/80 p-3 rounded-lg border border-white/5 text-[9px] text-gray-400 leading-tight italic">
+                                        Entraîne-toi à utiliser les différents instruments de mesure avec précision.
+                                    </div>
+                                )}
+
+                                {feedback === 'bad' && (
+                                    <div className="p-2 bg-red-900/40 text-red-400 text-[9px] font-bold text-center animate-shake rounded">
+                                        INCORRECT ({toolType === 'ruler' ? '±0.2cm' : '±0.5g'})
+                                    </div>
+                                )}
+                            </div>
+
+                            <button onClick={checkMeasurement} disabled={showSuccess}
+                                className={`w-full py-3 rounded-xl font-black text-[10px] tracking-widest transition-all ${showSuccess ? 'bg-gray-800 text-gray-500' : 'bg-yellow-600 text-black shadow-lg shadow-yellow-500/30'}`}>
+                                VALIDER LA MESURE
+                            </button>
                         </div>
                     </div>
-
-                    <button onClick={checkMeasurement} disabled={showSuccess} className="w-full py-3 bg-yellow-600 font-bold rounded-xl hover:bg-yellow-500 shadow-lg text-black">
-                        VÉRIFIER
-                    </button>
-
-                    {feedback && !showSuccess && (
-                        <div className={`mt-3 p-2 rounded text-center font-bold bg-red-500 text-white`}>
-                            Essaie encore... 🧐
-                            <div className="text-xs font-normal mt-1">Regarde bien les graduations !</div>
-                        </div>
-                    )}
                 </DraggableHtmlPanel>
             </Html>
 
-            <ConfettiExplosion active={showSuccess} />
-
-            <group>
-
-                <group position={[0, -1, 0]}>
-                    {/* Rule */}
-                    <mesh position={[0, 0, -0.1]}>
-                        <boxGeometry args={[10, 1, 0.1]} />
-                        <meshStandardMaterial color="#FFCA28" />
-                    </mesh>
-                    {/* Graduations Visuals (Simplified stripes) */}
-                    {Array.from({ length: 11 }).map((_, i) => (
-                        <mesh key={i} position={[i - 5, 0.2, 0]}>
-                            <boxGeometry args={[0.05, 0.5, 0.15]} />
-                            <meshStandardMaterial color="black" />
+            <group position={[0, -1, 0]}>
+                {toolType === 'ruler' ? (
+                    <group>
+                        <mesh position={[0, 0, -0.1]}>
+                            <boxGeometry args={[10, 1, 0.1]} />
+                            <meshStandardMaterial color="#FFCA28" />
                         </mesh>
-                    ))}
-
-                    {/* Object to measure */}
-                    <mesh position={[(target / 2) - 5, -0.2, 0.1]}>
-                        <boxGeometry args={[target, 0.5, 0.1]} />
-                        <meshStandardMaterial color="#66BB6A" />
-                    </mesh>
-
-                    {/* Cursor User */}
-                    <mesh position={[userDist - 5, 0.5, 0.2]}>
-                        <coneGeometry args={[0.2, 0.5, 16]} rotation={[Math.PI, 0, 0]} />
-                        <meshStandardMaterial color="red" />
-                    </mesh>
-                </group>
+                        {Array.from({ length: 11 }).map((_, i) => (
+                            <mesh key={i} position={[i - 5, 0.2, 0]}>
+                                <boxGeometry args={[0.05, 0.5, 0.15]} />
+                                <meshStandardMaterial color="black" />
+                            </mesh>
+                        ))}
+                        <mesh position={[(target / 2) - 5, -0.2, 0.1]}>
+                            <boxGeometry args={[target, 0.5, 0.1]} />
+                            <meshStandardMaterial color="#66BB6A" />
+                        </mesh>
+                        <mesh position={[userValue - 5, 0.5, 0.2]}>
+                            <coneGeometry args={[0.2, 0.5, 16]} rotation={[Math.PI, 0, 0]} />
+                            <meshStandardMaterial color="red" />
+                        </mesh>
+                    </group>
+                ) : (
+                    <group scale={[1.5, 1.5, 1.5]}>
+                        <Box args={[2, 0.2, 1.5]} material-color="#333" />
+                        <Box args={[1.8, 0.1, 1.3]} position={[0, 0.1, 0]} material-color="#111" />
+                        <mesh position={[0, 0.2 + (userValue / 200), 0]} scale={[1, 1, 1]}>
+                            <sphereGeometry args={[0.4 + (target / 300)]} />
+                            <meshStandardMaterial color="#64B5F6" />
+                        </mesh>
+                        <Text position={[0, -0.5, 0.8]} fontSize={0.2} color="red">{userValue} g</Text>
+                    </group>
+                )}
             </group>
-        </>
+        </group>
     );
 }
 
@@ -1517,10 +1598,10 @@ export function MeasurementTools() {
 // RÉFRACTION (IMMERSIVE & CHALLENGE)
 // ============================================================
 export function RefractionSimulator() {
-    const [angle, setAngle] = useState(45); // Degrés
-    const [material, setMaterial] = useState('water'); // water, glass, diamond
-    const [mode, setMode] = useState('explore'); // explore, challenge
-    const [targetX, setTargetX] = useState(1.5); // Target position
+    const [phase, setPhase] = useState('explore');
+    const [angle, setAngle] = useState(45);
+    const [material, setMaterial] = useState('water');
+    const [targetX, setTargetX] = useState(1.5);
     const [hit, setHit] = useState(false);
 
     // Gamification
@@ -1536,90 +1617,113 @@ export function RefractionSimulator() {
     const n1 = 1.0; // Air
     const n2 = materials[material].n;
 
-    // Snell-Descartes: n1 * sin(i) = n2 * sin(r)
-    // r = asin( n1/n2 * sin(i) )
     const rad = (deg) => deg * Math.PI / 180;
     const angleRad = rad(angle);
     const rRad = Math.asin((n1 / n2) * Math.sin(angleRad));
     const rDeg = rRad * 180 / Math.PI;
 
-    // Calcul de l'impact
     const hitX = Math.tan(rRad) * 2;
 
     const startChallenge = () => {
-        setMode('challenge');
-        setTargetX((Math.random() * 2 + 0.5) * (Math.random() > 0.5 ? 1 : -1)); // Random X between [-2.5, -0.5] U [0.5, 2.5]
+        setPhase('mission');
+        setTargetX((Math.random() * 2 + 0.5) * (Math.random() > 0.5 ? 1 : -1));
         setHit(false);
         setShowSuccess(false);
     };
 
     useEffect(() => {
-        if (mode === 'challenge') {
-            // Check hit with tolerance
+        if (phase === 'mission') {
             if (Math.abs(hitX - targetX) < 0.2) {
                 if (!hit) {
                     setHit(true);
-                    if (!showSuccess) {
-                        setScore(s => s + 50);
-                        setShowSuccess(true);
-                    }
+                    setScore(s => s + 50);
+                    setShowSuccess(true);
                 }
             } else {
                 setHit(false);
             }
         }
-    }, [hitX, targetX, mode, hit, showSuccess]);
-
+    }, [hitX, targetX, phase, hit]);
 
     return (
         <>
             <SuccessOverlay show={showSuccess} message="Cible touchée ! Magnifique précision !" points={50} onNext={startChallenge} />
+            <ConfettiExplosion active={showSuccess} />
 
-            <Html>
-                <DraggableHtmlPanel title="🔦 La Réfraction" showCloseButton={false} defaultPosition="bottom-center" className="w-[350px] border-red-500/30 text-white">
+            <Html transform={false}>
+                <DraggableHtmlPanel title="🔦 Optique de Réfraction" showCloseButton={false} defaultPosition="bottom-center" className="w-[400px] border-red-500/30 text-white">
                     <div className="flex justify-between items-center mb-4">
-                        <div className="bg-gray-900 rounded-lg px-3 py-1 border border-red-500/30">
-                            <span className="text-xs text-red-400 font-bold">XP</span>
-                            <div className="font-mono text-xl">{score}</div>
+                        <GradeBadge score={score} />
+                        <div className="bg-gray-900 rounded-lg px-3 py-1 border border-white/10 text-[10px] text-gray-400">
+                            OPTIQUE LAB
                         </div>
-                        <button onClick={mode === 'explore' ? startChallenge : () => setMode('explore')}
-                            className={`text-xs px-2 py-1 rounded transition-colors ${mode === 'explore' ? 'bg-red-700 hover:bg-white hover:text-red-700 font-bold animate-pulse' : 'bg-gray-700'}`}>
-                            {mode === 'explore' ? 'Mode Cible 🎯' : 'Retour'}
-                        </button>
                     </div>
 
-                    {mode === 'challenge' && (
-                        <div className={`mb-4 p-3 border-l-4 rounded bg-gray-800 ${hit ? 'border-green-500' : 'border-red-500'}`}>
-                            <div className="text-xs uppercase text-gray-400">Objectif</div>
-                            <div className="text-sm">Touche la cible au fond !</div>
-                            {hit && <div className="text-green-400 font-bold mt-1 animate-bounce">CIBLE TOUCHÉE ! BRAVO !</div>}
-                        </div>
+                    <XPBar current={score} nextLevel={1000} />
+
+                    <div className="h-[1px] bg-gradient-to-r from-transparent via-red-500/50 to-transparent my-4" />
+
+                    <PhaseSelector currentPhase={phase} onSelect={(p) => { setPhase(p); if (p === 'mission') startChallenge(); }} />
+
+                    {phase === 'mission' && !hit && (
+                        <MissionObjective objective="Ajuste l'angle d'incidence pour toucher la cible au fond de la cuve." icon="🎯" />
                     )}
 
-                    <div className="bg-gray-800 p-4 rounded-xl mb-4">
-                        <label className="text-xs text-gray-400 uppercase">Angle d'incidence (i)</label>
-                        <div className="flex items-center gap-3">
-                            <input type="range" min="-80" max="80" value={angle} onChange={(e) => { setAngle(parseFloat(e.target.value)); }} className="w-full accent-red-500" />
-                            <span className="font-mono text-xl">{Math.abs(angle)}°</span>
+                    <div className="grid grid-cols-2 gap-4 mt-4">
+                        <div className="space-y-4">
+                            <div className="bg-gray-900/50 p-2 rounded-xl border border-white/5">
+                                <label className="text-[10px] text-gray-400 block mb-2 uppercase tracking-widest text-center">Milieu de Réfraction</label>
+                                <div className="grid grid-cols-1 gap-1">
+                                    {Object.entries(materials).map(([k, m]) => (
+                                        <button key={k} onClick={() => setMaterial(k)}
+                                            className={`py-1.5 rounded text-[10px] font-bold border transition-all ${material === k ? 'bg-red-600 border-red-400' : 'bg-gray-800 border-gray-700 opacity-50'}`}>
+                                            {m.name.toUpperCase()} (n={m.n})
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+
+                            <div className="bg-gray-900/50 p-3 rounded-xl border border-white/5">
+                                <label className="text-[10px] text-gray-500 block mb-2 uppercase tracking-widest text-center">Angle d'Incidence (i)</label>
+                                <div className="text-2xl font-black text-red-400 font-mono text-center mb-2">{Math.abs(angle)}°</div>
+                                <input type="range" min="-80" max="80" step="1" value={angle} onChange={(e) => setAngle(parseFloat(e.target.value))}
+                                    className="w-full h-1 bg-gray-700 accent-red-500 rounded-lg appearance-none cursor-pointer" />
+                            </div>
                         </div>
-                    </div>
 
-                    <div className="flex gap-2 mb-4">
-                        {Object.entries(materials).map(([k, m]) => (
-                            <button key={k} onClick={() => setMaterial(k)}
-                                className={`flex-1 py-2 text-xs font-bold rounded ${material === k ? 'bg-white text-black' : 'bg-gray-700 text-gray-300'}`}>
-                                {m.name} ({m.n})
+                        <div className="bg-black/60 rounded-xl p-3 border border-red-500/20 flex flex-col justify-between">
+                            <div className="space-y-3">
+                                <div className="text-[10px] text-center font-mono text-gray-500 tracking-widest uppercase">Données Physiques</div>
+
+                                <div className="bg-gray-900/80 p-3 rounded-lg border border-white/5 space-y-2">
+                                    <div className="flex justify-between items-center text-[10px]">
+                                        <span className="text-gray-500">INDICE n1</span>
+                                        <span className="text-white font-bold">1.00 (Air)</span>
+                                    </div>
+                                    <div className="flex justify-between items-center text-[10px]">
+                                        <span className="text-gray-500">INDICE n2</span>
+                                        <span className="text-white font-bold">{n2.toFixed(2)}</span>
+                                    </div>
+                                    <div className="h-[1px] bg-white/5" />
+                                    <div className="flex justify-between items-center">
+                                        <span className="text-[10px] text-red-400 font-bold">ANGLE R</span>
+                                        <span className="text-lg font-black text-white font-mono">{rDeg.toFixed(1)}°</span>
+                                    </div>
+                                </div>
+
+                                <div className="text-[9px] text-gray-400 italic text-center p-1">
+                                    Loi de Snell-Descartes:<br />
+                                    n₁ × sin(i) = n₂ × sin(r)
+                                </div>
+                            </div>
+
+                            <button onClick={() => setAngle(0)} className="w-full py-2 rounded bg-gray-800 text-[10px] font-bold hover:bg-white hover:text-black transition-all">
+                                RÉALIGNER OPTIQUE
                             </button>
-                        ))}
-                    </div>
-
-                    <div className="bg-gray-900 p-3 rounded text-center font-mono text-sm">
-                        Angle de réfraction (r) : <span className="text-green-400 font-bold text-lg">{rDeg.toFixed(1)}°</span>
+                        </div>
                     </div>
                 </DraggableHtmlPanel>
             </Html>
-
-            <ConfettiExplosion active={showSuccess} />
 
             <group>
 
@@ -1657,7 +1761,7 @@ export function RefractionSimulator() {
                 </group>
 
                 {/* Target in Challenge Mode */}
-                {mode === 'challenge' && (
+                {phase === 'mission' && (
                     <mesh position={[targetX, -4, 0]}>
                         <cylinderGeometry args={[0.3, 0.3, 0.1]} />
                         <meshStandardMaterial color={hit ? "#4CAF50" : "#F44336"} emissive={hit ? "#4CAF50" : "black"} />
@@ -1680,8 +1784,12 @@ export function RefractionSimulator() {
 // CIRCUITS SÉRIE / PARALLÈLE (IMMERSIVE)
 // ============================================================
 export function CircuitSeriesParallel() {
+    const [phase, setPhase] = useState('explore');
     const [mode, setMode] = useState('series');
-    const [bulbs, setBulbs] = useState([true, true]); // true = working, false = broken
+    const [bulbs, setBulbs] = useState([true, true]);
+    const [score, setScore] = useState(0);
+    const [showSuccess, setShowSuccess] = useState(false);
+    const [missionTarget, setMissionTarget] = useState(null);
 
     const toggleBulb = (index) => {
         const newBulbs = [...bulbs];
@@ -1689,64 +1797,122 @@ export function CircuitSeriesParallel() {
         setBulbs(newBulbs);
     };
 
-    // Logic: 
-    // Series: All must be working for ANY to light up.
-    // Parallel: Each lights up if it is working (independent).
     const isLit = (index) => {
-        if (!bulbs[index]) return false; // If broken, not lit
-        if (mode === 'series') return bulbs.every(b => b); // All must work
-        return true; // Parallel: Independent
+        if (!bulbs[index]) return false;
+        if (mode === 'series') return bulbs.every(b => b);
+        return true;
     };
 
-    return (
-        <>
-            <Html>
-                <DraggableHtmlPanel title="⚡ Série vs Parallèle" showCloseButton={false} defaultPosition="bottom-center" className="w-[350px] border-yellow-500/30 text-white">
+    const startMission = () => {
+        setPhase('mission');
+        const randMode = Math.random() > 0.5 ? 'series' : 'parallel';
+        setMode(randMode);
+        setBulbs([Math.random() > 0.5, Math.random() > 0.5]);
+        setMissionTarget(Math.random() > 0.5 ? 'all_on' : 'all_off');
+        setShowSuccess(false);
+    };
 
-                    <div className="flex gap-2 mb-6">
-                        <button onClick={() => { setMode('series'); setBulbs([true, true]); }} className={`flex-1 py-2 rounded font-bold ${mode === 'series' ? 'bg-yellow-600' : 'bg-gray-700'}`}>Série</button>
-                        <button onClick={() => { setMode('parallel'); setBulbs([true, true]); }} className={`flex-1 py-2 rounded font-bold ${mode === 'parallel' ? 'bg-yellow-600' : 'bg-gray-700'}`}>Parallèle</button>
+    useEffect(() => {
+        if (phase === 'mission') {
+            const allLit = bulbs.every((_, i) => isLit(i));
+            const allOff = bulbs.every((_, i) => !isLit(i));
+
+            if (missionTarget === 'all_on' && allLit) {
+                setScore(s => s + 50);
+                setShowSuccess(true);
+            } else if (missionTarget === 'all_off' && allOff) {
+                setScore(s => s + 50);
+                setShowSuccess(true);
+            }
+        }
+    }, [bulbs, mode, phase, missionTarget]);
+
+    return (
+        <group>
+            <SuccessOverlay show={showSuccess} message="Circuit configuré avec succès ! Tu es un expert en électricité." points={50} onNext={startMission} />
+            <ConfettiExplosion active={showSuccess} />
+
+            <Html transform={false}>
+                <DraggableHtmlPanel title="⚡ Circuits Électriques" showCloseButton={false} defaultPosition="bottom-center" className="w-[420px] border-yellow-500/30 text-white">
+                    <div className="flex justify-between items-center mb-4">
+                        <GradeBadge score={score} />
+                        <div className="bg-gray-900 rounded-lg px-3 py-1 border border-white/10 text-[10px] text-gray-400">
+                            LAB D'ÉLECTROTECHNIQUE
+                        </div>
                     </div>
 
-                    <p className="text-sm text-gray-300 mb-2">
-                        Clique sur une ampoule pour la "dévisser" (ou la casser).
-                    </p>
-                    <div className="p-3 bg-gray-800 rounded-xl text-center text-sm">
-                        {mode === 'series'
-                            ? "En SÉRIE : Si une seule ampoule grille, le circuit est ouvert et TOUT s'éteint !"
-                            : "En PARALLÈLE : Chaque ampoule a sa propre boucle. Si l'une grille, l'autre RESTE allumée !"}
+                    <XPBar current={score} nextLevel={2000} />
+
+                    <div className="h-[1px] bg-gradient-to-r from-transparent via-yellow-500/50 to-transparent my-4" />
+
+                    <PhaseSelector currentPhase={phase} onSelect={(p) => { setPhase(p); if (p === 'mission') startMission(); }} />
+
+                    {phase === 'mission' && missionTarget && (
+                        <MissionObjective
+                            objective={missionTarget === 'all_on' ? "Trouve la configuration pour allumer TOUTES les lampes." : "Configure le circuit pour éteindre TOUTES les lampes."}
+                            icon="💡"
+                        />
+                    )}
+
+                    <div className="grid grid-cols-2 gap-4 mt-4">
+                        <div className="space-y-4">
+                            <div className="bg-gray-800/10 p-2 rounded-xl border border-white/5">
+                                <label className="text-[10px] text-gray-500 block mb-2 uppercase tracking-widest text-center">Type de Circuit</label>
+                                <div className="grid grid-cols-1 gap-1">
+                                    <button onClick={() => setMode('series')}
+                                        className={`py-2 rounded text-[10px] font-bold border transition-all ${mode === 'series' ? 'bg-yellow-600 border-yellow-400 text-black' : 'bg-gray-800 border-gray-700 opacity-50'}`}>
+                                        SÉRIE 🔗
+                                    </button>
+                                    <button onClick={() => setMode('parallel')}
+                                        className={`py-2 rounded text-[10px] font-bold border transition-all ${mode === 'parallel' ? 'bg-yellow-600 border-yellow-400 text-black' : 'bg-gray-800 border-gray-700 opacity-50'}`}>
+                                        PARALLÈLE 🪜
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="bg-black/60 rounded-xl p-3 border border-yellow-500/20 flex flex-col justify-between">
+                            <div className="space-y-3">
+                                <div className="text-[10px] text-center font-mono text-gray-500 tracking-widest uppercase">État du Réseau</div>
+                                <div className="space-y-2">
+                                    {[0, 1].map(i => (
+                                        <div key={i} className="flex items-center justify-between bg-gray-900/50 p-2 rounded border border-white/5">
+                                            <span className="text-[9px] text-gray-400">LAMPE {i + 1}</span>
+                                            <div className="flex gap-2 items-center">
+                                                <div className={`w-2 h-2 rounded-full ${bulbs[i] ? 'bg-green-500' : 'bg-red-500'}`} />
+                                                <div className={`w-3 h-3 rounded-full ${isLit(i) ? 'bg-yellow-400 shadow-[0_0_10px_#facc15]' : 'bg-gray-800'}`} />
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                            <button onClick={() => setBulbs([true, true])} className="w-full py-2 bg-gray-800 text-[9px] font-bold hover:bg-white hover:text-black transition-all rounded-lg uppercase">
+                                RÉTABLIR TOUT
+                            </button>
+                        </div>
                     </div>
                 </DraggableHtmlPanel>
             </Html>
 
             <group>
-
-                {/* Battery */}
                 <mesh position={[-3, 0, 0]}>
                     <boxGeometry args={[1, 1.5, 1]} />
                     <meshStandardMaterial color="#333" />
                     <Text position={[0, 0, 0.6]} fontSize={0.5} color="white">⚡</Text>
                 </mesh>
 
-                {/* Circuit */}
                 {mode === 'series' ? (
                     <group>
-                        {/* Wires */}
                         <mesh position={[0, 1.5, 0]} rotation={[0, 0, Math.PI / 2]}><cylinderGeometry args={[0.05, 0.05, 6]} /><meshStandardMaterial color="orange" /></mesh>
                         <mesh position={[0, -1.5, 0]} rotation={[0, 0, Math.PI / 2]}><cylinderGeometry args={[0.05, 0.05, 6]} /><meshStandardMaterial color="orange" /></mesh>
                         <mesh position={[3, 0, 0]}><cylinderGeometry args={[0.05, 0.05, 3]} /><meshStandardMaterial color="orange" /></mesh>
-
-                        {/* Bulbs */}
                         <InteractiveBulb position={[-1, 1.5, 0]} lit={isLit(0)} working={bulbs[0]} onClick={() => toggleBulb(0)} />
                         <InteractiveBulb position={[1, 1.5, 0]} lit={isLit(1)} working={bulbs[1]} onClick={() => toggleBulb(1)} />
                     </group>
                 ) : (
                     <group>
-                        {/* Main Wires */}
                         <mesh position={[-1, 2, 0]} rotation={[0, 0, Math.PI / 2]}><cylinderGeometry args={[0.05, 0.05, 4]} /><meshStandardMaterial color="orange" /></mesh>
                         <mesh position={[-1, -2, 0]} rotation={[0, 0, Math.PI / 2]}><cylinderGeometry args={[0.05, 0.05, 4]} /><meshStandardMaterial color="orange" /></mesh>
-
-                        {/* Branches */}
                         <group position={[1, 0, 0]}>
                             <mesh position={[0, 0, 0]}><cylinderGeometry args={[0.05, 0.05, 4]} /><meshStandardMaterial color="orange" /></mesh>
                             <InteractiveBulb position={[0, 0, 0]} lit={isLit(0)} working={bulbs[0]} onClick={() => toggleBulb(0)} />
@@ -1758,7 +1924,7 @@ export function CircuitSeriesParallel() {
                     </group>
                 )}
             </group>
-        </>
+        </group>
     );
 }
 
@@ -1793,49 +1959,101 @@ function InteractiveBulb({ position, lit, working, onClick }) {
 // PROPAGATION LUMIÈRE (IMMERSIVE - ALIGNEMENT)
 // ============================================================
 export function LightPropagationPC4() {
-    const [screens, setScreens] = useState([0, 0, 0.5]); // Y positions of holes
-    const dragIndex = useRef(null);
+    const [phase, setPhase] = useState('explore');
+    const [screens, setScreens] = useState([0, 0, 0.5]);
+    const [score, setScore] = useState(0);
+    const [showSuccess, setShowSuccess] = useState(false);
 
-    const onPointerDown = (i) => (e) => {
-        e.stopPropagation();
-        dragIndex.current = i;
-    };
-
-    // Simple drag simulation logic would require more complex events or useGesture
-    // We will use simple Up/Down buttons for simplicity in this context
     const moveScreen = (i, dir) => {
         setScreens(prev => {
             const next = [...prev];
-            next[i] = Math.max(-1, Math.min(1, next[i] + dir * 0.2));
+            next[i] = Math.max(-1, Math.min(1, next[i] + dir * 0.1));
             return next;
         });
     };
 
-    // Check alignment (approx 0)
     const aligned = screens.every(y => Math.abs(y) < 0.1);
+
+    useEffect(() => {
+        if (aligned && !showSuccess && phase === 'mission') {
+            setScore(s => s + 50);
+            setShowSuccess(true);
+        }
+    }, [aligned, showSuccess, phase]);
+
+    const startMission = () => {
+        setPhase('mission');
+        setScreens([
+            (Math.random() - 0.5) * 1.5,
+            (Math.random() - 0.5) * 1.5,
+            (Math.random() - 0.5) * 1.5
+        ]);
+        setShowSuccess(false);
+    };
 
     return (
         <>
-            <Html>
-                <DraggableHtmlPanel title="🔦 Propagation Rectiligne" showCloseButton={false} defaultPosition="bottom-center" className="w-[350px] border-white/30 text-white">
-                    <p className="text-sm text-gray-400 mb-4">La lumière voyage en ligne droite. Aligne les trous pour que le laser atteigne la cible !</p>
+            <SuccessOverlay show={showSuccess} message="Faisceau aligné ! La lumière voyage bien en ligne droite." points={50} onNext={startMission} />
+            <ConfettiExplosion active={showSuccess} />
 
-                    <div className="flex justify-between gap-2">
-                        {[0, 1, 2].map(i => (
-                            <div key={i} className="flex flex-col items-center bg-gray-800 p-2 rounded">
-                                <div className="text-xs mb-1">Écran {i + 1}</div>
-                                <button onClick={() => moveScreen(i, 1)} className="p-1 bg-gray-700 hover:bg-gray-600 rounded">⬆️</button>
-                                <div className="h-4 my-1 w-1 bg-white/20"></div>
-                                <button onClick={() => moveScreen(i, -1)} className="p-1 bg-gray-700 hover:bg-gray-600 rounded">⬇️</button>
-                            </div>
-                        ))}
+            <Html transform={false}>
+                <DraggableHtmlPanel title="🔦 Propagation Rectiligne" showCloseButton={false} defaultPosition="bottom-center" className="w-[400px] border-white/30 text-white">
+                    <div className="flex justify-between items-center mb-4">
+                        <GradeBadge score={score} />
+                        <div className="bg-gray-900 rounded-lg px-3 py-1 border border-white/10 text-[10px] text-gray-400">
+                            OPTIQUE GÉOMÉTRIQUE
+                        </div>
                     </div>
 
-                    {aligned && (
-                        <div className="mt-4 p-3 bg-green-600 text-center font-bold rounded-xl animate-bounce">
-                            CIBLE ATTEINTE ! 🎯
-                        </div>
+                    <XPBar current={score} nextLevel={1000} />
+
+                    <div className="h-[1px] bg-gradient-to-r from-transparent via-white/50 to-transparent my-4" />
+
+                    <PhaseSelector currentPhase={phase} onSelect={(p) => { setPhase(p); if (p === 'mission') startMission(); }} />
+
+                    {phase === 'mission' && !aligned && (
+                        <MissionObjective objective="Aligne tous les écrans pour que le laser traverse les ouvertures." icon="🔦" />
                     )}
+
+                    <div className="grid grid-cols-2 gap-4 mt-4">
+                        <div className="space-y-4">
+                            <div className="bg-gray-800/50 p-3 rounded-xl border border-white/5">
+                                <label className="text-[10px] text-gray-500 block mb-3 uppercase tracking-widest text-center">Contrôle des Écrans</label>
+                                <div className="grid grid-cols-3 gap-2">
+                                    {[0, 1, 2].map(i => (
+                                        <div key={i} className="flex flex-col items-center gap-1">
+                                            <button onClick={() => moveScreen(i, 1)} className="w-full py-1 bg-gray-700 hover:bg-gray-600 rounded text-[10px]">▲</button>
+                                            <div className="text-[9px] font-bold text-gray-400">E{i + 1}</div>
+                                            <button onClick={() => moveScreen(i, -1)} className="w-full py-1 bg-gray-700 hover:bg-gray-600 rounded text-[10px]">▼</button>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="bg-black/60 rounded-xl p-3 border border-white/20 flex flex-col justify-between">
+                            <div className="space-y-3">
+                                <div className="text-[10px] text-center font-mono text-gray-500 tracking-widest uppercase">Statut Optique</div>
+
+                                <div className="space-y-1.5">
+                                    {[0, 1, 2].map(i => (
+                                        <div key={i} className="flex items-center justify-between bg-gray-900/50 p-1.5 rounded border border-white/5">
+                                            <span className="text-[9px] text-gray-500 uppercase">Écran {i + 1}</span>
+                                            <div className={`w-2 h-2 rounded-full ${Math.abs(screens[i]) < 0.1 ? 'bg-green-500 shadow-[0_0_5px_rgba(34,197,94,0.5)]' : 'bg-red-500'}`} />
+                                        </div>
+                                    ))}
+                                </div>
+
+                                <div className="text-[9px] text-center text-gray-500 leading-tight">
+                                    {aligned ? "ALIGNEMENT PARFAIT ✅" : "DÉCALAGE DÉTECTÉ ❌"}
+                                </div>
+                            </div>
+
+                            <button onClick={startMission} className="w-full py-2 rounded bg-gray-800 text-[10px] font-bold hover:bg-white hover:text-black transition-all">
+                                RÉINITIALISER
+                            </button>
+                        </div>
+                    </div>
                 </DraggableHtmlPanel>
             </Html>
 
@@ -1914,8 +2132,12 @@ export function LightPropagationPC4() {
 // OMBRES ET PÉNOMBRE (IMMERSIVE)
 // ============================================================
 export function ShadowsSimulator() {
-    const [sourceType, setSourceType] = useState('point'); // point, extended
-    const [objZ, setObjZ] = useState(-2); // Position between source (-4) and screen (2)
+    const [phase, setPhase] = useState('explore');
+    const [sourceType, setSourceType] = useState('point');
+    const [objZ, setObjZ] = useState(-2);
+    const [score, setScore] = useState(0);
+    const [showSuccess, setShowSuccess] = useState(false);
+    const [targetRadius, setTargetRadius] = useState(1.5);
 
     // Geometry Constants
     const sourceZ = -4;
@@ -1923,127 +2145,115 @@ export function ShadowsSimulator() {
     const objRadius = 0.5;
 
     // Thales calculations
-    const d1 = Math.abs(objZ - sourceZ); // Dist Source-Object
-    const dTotal = Math.abs(screenZ - sourceZ); // Dist Source-Screen
-    const d2 = Math.abs(screenZ - objZ); // Dist Object-Screen
+    const d1 = Math.abs(objZ - sourceZ);
+    const dTotal = Math.abs(screenZ - sourceZ);
+    const d2 = Math.abs(screenZ - objZ);
 
-    // Shadow sizes (Homothétie)
-    // Scale factor k = dTotal / d1
     const k = dTotal / d1;
-
-    // For Point Source: simple projection
     const shadowRadius = objRadius * k;
 
-    // For Extended Source:
-    // Umbra (Ombre propre/portée pure) shrinks if source > object
-    // Penumbra (Pénombre) expands
-    // Simplified model: 
-    // Source Radius roughly 0.1 (Point) vs 0.8 (Extended)
     const sourceRadius = sourceType === 'point' ? 0.05 : 0.8;
+    const penumbraRadius = shadowRadius + (sourceType === 'extended' ? (d2 * 0.5) : 0);
+    const umbraRadius = sourceType === 'extended' ? Math.max(0, shadowRadius - (d2 * 0.3)) : shadowRadius;
 
-    // Umbra Radius (approximation usually r_u = (r*D - R*d2)/d1 ... complex geometry)
-    // Let's use simple visual approximation for the 'faked' shadow on screen
-    // If source is bigger than object, umbra shrinks.
-    // Geometrically: H = source radius, h = object radius
-    // Umbra radius U = (h*D - H*d2) / d1  (where D is source-screen dist? No, typically simpler)
-    // Visual logic: 
-    // Outer Penumbra Radius = (h*D + H*d2) / d1 ... ?
-    // Let's stick to visual tweaking:
-    // Point source: Sharp shadow size = h * (d1+d2)/d1
-    // Extended:
-    // Umbra matches point source logic but subtracts influence of extended source angle
-    // Penumbra is the blur area.
+    const startMission = () => {
+        setPhase('mission');
+        setTargetRadius(parseFloat((Math.random() * 2 + 1).toFixed(1)));
+        setShowSuccess(false);
+    };
 
-    const penumbraRadius = shadowRadius + (sourceType === 'extended' ? (d2 * 0.5) : 0); // Blur grows with distance from screen
-    const umbraRadius = sourceType === 'extended' ? Math.max(0, shadowRadius - (d2 * 0.3)) : shadowRadius; // Umbra shrinks
+    useEffect(() => {
+        if (phase === 'mission') {
+            const currentSize = sourceType === 'point' ? shadowRadius : umbraRadius;
+            if (Math.abs(currentSize - targetRadius) < 0.1) {
+                if (!showSuccess) {
+                    setScore(s => s + 50);
+                    setShowSuccess(true);
+                }
+            }
+        }
+    }, [objZ, sourceType, phase, targetRadius]);
 
     return (
-        <>
-            <Html>
-                <DraggableHtmlPanel title="🌑 Ombres & Pénombre" showCloseButton={false} defaultPosition="bottom-center" className="w-[350px] border-gray-500/30 text-white">
+        <group>
+            <SuccessOverlay show={showSuccess} message={`Taille cible atteinte ! L'ombre mesure exactement ${targetRadius} unités.`} points={50} onNext={startMission} />
+            <ConfettiExplosion active={showSuccess} />
 
-                    <div className="flex bg-gray-800 p-1 rounded-lg mb-6">
-                        <button onClick={() => setSourceType('point')} className={`flex-1 py-2 rounded text-sm ${sourceType === 'point' ? 'bg-yellow-600 font-bold' : 'text-gray-400'}`}>Source Ponctuelle</button>
-                        <button onClick={() => setSourceType('extended')} className={`flex-1 py-2 rounded text-sm ${sourceType === 'extended' ? 'bg-orange-600 font-bold' : 'text-gray-400'}`}>Source Étendue</button>
-                    </div>
-
-                    <div className="mb-4">
-                        <label className="text-xs text-gray-400 uppercase">Position de l'objet</label>
-                        <input type="range" min="-3" max="0" step="0.1" value={objZ} onChange={(e) => setObjZ(parseFloat(e.target.value))} className="w-full accent-white" />
-                        <div className="flex justify-between text-xs text-gray-500">
-                            <span>Près Source</span>
-                            <span>Près Écran</span>
+            <Html transform={false}>
+                <DraggableHtmlPanel title="🌑 Ombres et Pénombre" showCloseButton={false} defaultPosition="bottom-center" className="w-[400px] border-gray-500/30 text-white">
+                    <div className="flex justify-between items-center mb-4">
+                        <GradeBadge score={score} />
+                        <div className="bg-gray-900 rounded-lg px-3 py-1 border border-white/10 text-[10px] text-gray-400">
+                            STATION D'OPTIQUE GEOM.
                         </div>
                     </div>
 
-                    <div className="p-3 bg-gray-900 rounded text-sm text-gray-300">
-                        {sourceType === 'point'
-                            ? "Une source ponctuelle crée une ombre nette (ombre portée)."
-                            : "Une source étendue crée une ombre centrale et une zone de pénombre floue."}
+                    <XPBar current={score} nextLevel={1000} />
+
+                    <div className="h-[1px] bg-gradient-to-r from-transparent via-gray-500/50 to-transparent my-4" />
+
+                    <PhaseSelector currentPhase={phase} onSelect={(p) => { setPhase(p); if (p === 'mission') startMission(); }} />
+
+                    <div className="grid grid-cols-2 gap-4 mt-4">
+                        <div className="space-y-4">
+                            {phase === 'mission' && (
+                                <MissionObjective objective={`Ajuste la position pour que l'ombre portée (zone d'ombre) mesure ${targetRadius} unités.`} icon="🎯" />
+                            )}
+
+                            <div className="bg-gray-800/10 p-2 rounded-xl border border-white/5">
+                                <label className="text-[10px] text-gray-400 block mb-2 uppercase tracking-widest text-center">Type de Source</label>
+                                <div className="grid grid-cols-1 gap-1">
+                                    <button onClick={() => setSourceType('point')}
+                                        className={`py-1.5 rounded text-[10px] font-bold border transition-all ${sourceType === 'point' ? 'bg-yellow-600 border-yellow-400 text-black' : 'bg-gray-800 border-gray-700 opacity-50'}`}>
+                                        PONCTUELLE ⚪
+                                    </button>
+                                    <button onClick={() => setSourceType('extended')}
+                                        className={`py-1.5 rounded text-[10px] font-bold border transition-all ${sourceType === 'extended' ? 'bg-orange-600 border-orange-400 text-black' : 'bg-gray-800 border-gray-700 opacity-50'}`}>
+                                        ÉTENDUE ☀️
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div className="bg-gray-900/50 p-3 rounded-xl border border-white/5">
+                                <label className="text-[10px] text-gray-500 block mb-2 uppercase tracking-widest text-center">Distance Objet-Source</label>
+                                <input type="range" min="-3" max="0" step="0.1" value={objZ} onChange={(e) => setObjZ(parseFloat(e.target.value))}
+                                    className="w-full h-1 bg-gray-700 accent-white rounded-lg appearance-none cursor-pointer" />
+                                <div className="flex justify-between text-[8px] text-gray-500 mt-1 uppercase tracking-tighter">
+                                    <span>Près Source</span>
+                                    <span>Près Écran</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="bg-black/60 rounded-xl p-3 border border-gray-500/20 flex flex-col justify-between">
+                            <div className="space-y-3">
+                                <div className="text-[10px] text-center font-mono text-gray-500 tracking-widest uppercase">Mesures Écran</div>
+                                <div className="bg-gray-900/80 p-3 rounded-lg border border-white/5 space-y-2 text-center">
+                                    <div className="text-[9px] text-gray-500 uppercase">Ombre Portée (R)</div>
+                                    <div className="text-2xl font-black text-white font-mono">{umbraRadius.toFixed(2)}</div>
+                                    {sourceType === 'extended' && (
+                                        <div className="mt-2">
+                                            <div className="text-[8px] text-gray-600 uppercase">Pénombre (R)</div>
+                                            <div className="text-sm font-bold text-gray-400">{penumbraRadius.toFixed(2)}</div>
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
+                            <button onClick={() => { setObjZ(-2); setSourceType('point'); setPhase('explore'); }} className="w-full py-2 bg-gray-800 text-[10px] font-bold hover:bg-white hover:text-black transition-all rounded-lg uppercase">
+                                Réinitialiser
+                            </button>
+                        </div>
                     </div>
                 </DraggableHtmlPanel>
             </Html>
 
-            <group>
-
-                {/* Source */}
-                <group position={[0, 0, sourceZ]}>
-                    {sourceType === 'point' ? (
-                        <mesh>
-                            <sphereGeometry args={[0.1]} />
-                            <meshBasicMaterial color="#FFD700" />
-                            <pointLight intensity={1.5} distance={10} />
-                        </mesh>
-                    ) : (
-                        <group>
-                            <mesh rotation={[Math.PI / 2, 0, 0]}>
-                                <cylinderGeometry args={[0.8, 0.8, 0.1]} />
-                                <meshBasicMaterial color="#FFA000" />
-                            </mesh>
-                            {/* Fake multiple lights for soft shadow if we were using real shadows, 
-                            but here we use manual shadow shape calculation so simple light is ok for illumination */}
-                            <pointLight intensity={1.5} distance={10} />
-                        </group>
-                    )}
-                </group>
-
-                {/* Object */}
-                <mesh position={[0, 0, objZ]}>
-                    <sphereGeometry args={[objRadius, 32, 32]} />
-                    <meshStandardMaterial color="#EF5350" />
+            <group position={[0, 0, (screenZ + sourceZ) / 2]}>
+                <mesh>
+                    <cylinderGeometry args={[0.01, umbraRadius, screenZ - sourceZ]} />
+                    <meshBasicMaterial color="yellow" transparent opacity={0.05} />
                 </mesh>
-
-                {/* Screen */}
-                <group position={[0, 0, screenZ]}>
-                    <mesh>
-                        <planeGeometry args={[6, 6]} />
-                        <meshStandardMaterial color="white" side={THREE.DoubleSide} />
-                    </mesh>
-
-                    {/* Simulated Shadow on Screen */}
-                    <group position={[0, 0, 0.01]}> {/* Slightly in front to avoid z-fight */}
-                        {/* Penumbra (Grey blur) */}
-                        {sourceType === 'extended' && (
-                            <mesh>
-                                <ringGeometry args={[umbraRadius, penumbraRadius, 32]} />
-                                <meshBasicMaterial color="gray" opacity={0.5} transparent />
-                            </mesh>
-                        )}
-                        {/* Umbra (Black) */}
-                        <mesh>
-                            <circleGeometry args={[umbraRadius, 32]} />
-                            <meshBasicMaterial color="black" opacity={0.8} transparent />
-                        </mesh>
-                    </group>
-                </group>
-
-                {/* Visual Ray Lines (Simplified) */}
-                <group>
-                    <Line points={[[0, (sourceType === 'extended' ? 0.8 : 0), sourceZ], [0, objRadius, objZ], [0, penumbraRadius, screenZ]]} color="yellow" opacity={0.3} transparent />
-                    <Line points={[[0, (sourceType === 'extended' ? -0.8 : 0), sourceZ], [0, -objRadius, objZ], [0, -penumbraRadius, screenZ]]} color="yellow" opacity={0.3} transparent />
-                </group>
             </group>
-        </>
+        </group>
     );
 }
 
@@ -2051,10 +2261,11 @@ export function ShadowsSimulator() {
 // SOURCES DE LUMIÈRE (IMMERSIVE)
 // ============================================================
 export function LightSources() {
-
     const [sunOn, setSunOn] = useState(true);
     const [lampOn, setLampOn] = useState(false);
     const [info, setInfo] = useState(null);
+    const [score, setScore] = useState(0);
+    const [discovered, setDiscovered] = useState(new Set());
 
     const objects = [
         { id: 'sun', type: 'primary', name: 'Soleil', pos: [-3, 2, -2], color: '#FDB813', scale: 1 },
@@ -2067,41 +2278,84 @@ export function LightSources() {
         if (obj.id === 'sun') setSunOn(!sunOn);
         if (obj.id === 'lamp') setLampOn(!lampOn);
         setInfo(obj);
+
+        if (!discovered.has(obj.id)) {
+            const newDiscovered = new Set(discovered);
+            newDiscovered.add(obj.id);
+            setDiscovered(newDiscovered);
+            setScore(s => s + 25);
+        }
     };
 
     return (
         <group>
-            <Html>
-                <DraggableHtmlPanel title="☀️ Sources de Lumière" showCloseButton={false} defaultPosition="bottom-center" className="w-[350px] border-yellow-500/30 text-white">
-
-                    <p className="text-sm text-gray-300 mb-4">
-                        Clique sur les objets pour explorer leurs propriétés.
-                    </p>
-
-                    <div className="flex gap-2 mb-4">
-                        <div className="flex-1 bg-gray-800 p-2 rounded text-center">
-                            <div className="text-yellow-400 font-bold text-lg">{sunOn ? "ON" : "OFF"}</div>
-                            <div className="text-xs">Soleil</div>
-                        </div>
-                        <div className="flex-1 bg-gray-800 p-2 rounded text-center">
-                            <div className="text-white font-bold text-lg">{lampOn ? "ON" : "OFF"}</div>
-                            <div className="text-xs">Lampe</div>
+            <Html transform={false}>
+                <DraggableHtmlPanel title="☀️ Sources de Lumière" showCloseButton={false} defaultPosition="bottom-center" className="w-[400px] border-yellow-500/30 text-white">
+                    <div className="flex justify-between items-center mb-4">
+                        <GradeBadge score={score} />
+                        <div className="bg-gray-900 rounded-lg px-3 py-1 border border-white/10 text-[10px] text-gray-400">
+                            TYPES DE SOURCES
                         </div>
                     </div>
 
-                    {info && (
-                        <div className="p-3 bg-gray-800 rounded-xl border-l-4 border-yellow-500 animate-in slide-in-from-bottom">
-                            <div className="font-bold text-lg">{info.name}</div>
-                            <div className="text-sm text-yellow-200 uppercase font-bold mb-1">
-                                {info.type === 'primary' ? 'Source Primaire 🌟' : 'Source Secondaire 🌙'}
+                    <XPBar current={score} nextLevel={100} />
+
+                    <div className="h-[1px] bg-gradient-to-r from-transparent via-yellow-500/50 to-transparent my-4" />
+
+                    <div className="grid grid-cols-2 gap-4 mt-4">
+                        <div className="space-y-4">
+                            <div className="bg-gray-800/50 p-3 rounded-xl border border-white/5 space-y-3">
+                                <label className="text-[10px] text-gray-500 block uppercase tracking-widest text-center">État des Sources</label>
+                                <div className="grid grid-cols-2 gap-2">
+                                    <div className={`p-2 rounded border transition-all text-center ${sunOn ? 'bg-yellow-600/20 border-yellow-500' : 'bg-gray-900/50 border-white/5 opacity-50'}`}>
+                                        <div className="text-[10px] font-bold text-yellow-400">SOLEIL</div>
+                                        <div className="text-[8px] text-gray-500 uppercase">{sunOn ? 'Actif' : 'Éteint'}</div>
+                                    </div>
+                                    <div className={`p-2 rounded border transition-all text-center ${lampOn ? 'bg-white/10 border-white' : 'bg-gray-900/50 border-white/5 opacity-50'}`}>
+                                        <div className="text-[10px] font-bold text-white">LAMPE</div>
+                                        <div className="text-[8px] text-gray-500 uppercase">{lampOn ? 'Actif' : 'Éteint'}</div>
+                                    </div>
+                                </div>
                             </div>
-                            <p className="text-sm text-gray-400">
-                                {info.type === 'primary'
-                                    ? "Produit sa propre lumière."
-                                    : "Ne produit pas de lumière, diffuse celle reçue."}
-                            </p>
+
+                            <div className="bg-gray-900/80 p-3 rounded-lg border border-white/5 text-[10px] text-gray-400 leading-tight">
+                                <span className="text-yellow-500 font-bold italic">Info :</span> Cliquez sur les objets en 3D pour découvrir s'ils sont des sources primaires ou secondaires.
+                            </div>
                         </div>
-                    )}
+
+                        <div className="bg-black/60 rounded-xl p-3 border border-yellow-500/20 flex flex-col justify-between min-h-[160px]">
+                            {info ? (
+                                <div className="space-y-3 animate-in fade-in zoom-in duration-300">
+                                    <div className="text-[10px] text-center font-mono text-gray-500 tracking-widest uppercase">Élément Découvert</div>
+                                    <div className="bg-gray-900/80 p-3 rounded-lg border border-yellow-500/30">
+                                        <div className="text-[12px] font-black text-white mb-1 uppercase tracking-wider">{info.name}</div>
+                                        <div className={`text-[9px] font-bold px-2 py-0.5 rounded inline-block mb-2 ${info.type === 'primary' ? 'bg-yellow-600/20 text-yellow-500' : 'bg-blue-600/20 text-blue-400'}`}>
+                                            {info.type === 'primary' ? 'SOURCE PRIMAIRE 🌟' : 'SOURCE SECONDAIRE 🌙'}
+                                        </div>
+                                        <p className="text-[9px] text-gray-400 leading-tight">
+                                            {info.type === 'primary'
+                                                ? "Cet objet produit sa propre lumière !"
+                                                : "Cet objet ne produit pas de lumière, il ne fait que diffuser la lumière qu'il reçoit."}
+                                        </p>
+                                    </div>
+                                </div>
+                            ) : (
+                                <div className="flex flex-col items-center justify-center h-full text-center space-y-2 opacity-40">
+                                    <div className="text-2xl">🔍</div>
+                                    <div className="text-[9px] text-gray-500 uppercase tracking-widest">En attente de découverte</div>
+                                </div>
+                            )}
+
+                            <div className="mt-4 flex justify-between items-center text-[9px] text-gray-500 border-t border-white/5 pt-2">
+                                <span>OBJETS : {discovered.size} / 4</span>
+                                <div className="flex gap-1">
+                                    {[0, 1, 2, 3].map(i => (
+                                        <div key={i} className={`w-1.5 h-1.5 rounded-full ${i < discovered.size ? 'bg-yellow-500' : 'bg-gray-800'}`} />
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </DraggableHtmlPanel>
             </Html>
 
@@ -2182,31 +2436,48 @@ export function LightSources() {
 // INTRODUCTION ÉLECTRICITÉ (IMMERSIVE & SÉCURITÉ)
 // ============================================================
 export function IntroElectricity() {
+    const [phase, setPhase] = useState('explore');
     const [switchClosed, setSwitchClosed] = useState(false);
     const [shortCircuit, setShortCircuit] = useState(false);
     const [fuseBlown, setFuseBlown] = useState(false);
+    const [score, setScore] = useState(0);
+    const [showSuccess, setShowSuccess] = useState(false);
+    const [missionFault, setMissionFault] = useState(null); // 'fuse', 'short'
+    const [repaired, setRepaired] = useState(false);
 
     // Electrons animation reference
     const electronsRef = useRef([]);
 
     useFrame((state) => {
-        if (switchClosed && !fuseBlown) {
-            const t = state.clock.getElapsedTime();
-            if (electronsRef.current) {
-                // S'il y a court-circuit, les électrons s'affolent (vitesse x5)
-                const speed = shortCircuit ? 10 : 2;
-                electronsRef.current.position.x = (t * speed % 2) * 2;
-            }
+        if (switchClosed && !fuseBlown && !shortCircuit) {
+            // Normal flow
         }
     });
 
-    const toggleShortCircuit = () => {
-        if (fuseBlown) return; // Trop tard
-        if (!shortCircuit) {
-            // Activer court-circuit
+    const startMission = () => {
+        setPhase('mission');
+        const faults = ['fuse', 'short'];
+        const fault = faults[Math.floor(Math.random() * faults.length)];
+        setMissionFault(fault);
+
+        if (fault === 'fuse') {
+            setFuseBlown(true);
+            setShortCircuit(false);
+        } else {
             setShortCircuit(true);
-            setSwitchClosed(true); // Forcer le passage
-            // Le fusible grille après 1.5 secondes
+            setFuseBlown(false);
+        }
+
+        setSwitchClosed(false);
+        setRepaired(false);
+        setShowSuccess(false);
+    };
+
+    const toggleShortCircuit = () => {
+        if (fuseBlown) return;
+        if (!shortCircuit) {
+            setShortCircuit(true);
+            setSwitchClosed(true);
             setTimeout(() => {
                 setFuseBlown(true);
                 setSwitchClosed(false);
@@ -2216,56 +2487,121 @@ export function IntroElectricity() {
         }
     };
 
+    const handleRepair = (type) => {
+        if (phase === 'mission') {
+            if (type === missionFault) {
+                if (type === 'fuse') setFuseBlown(false);
+                if (type === 'short') setShortCircuit(false);
+                setRepaired(true);
+                setScore(s => s + 50);
+                setShowSuccess(true);
+            }
+        } else {
+            if (type === 'fuse') replaceFuse();
+        }
+    };
+
     const replaceFuse = () => {
         setFuseBlown(false);
         setShortCircuit(false);
         setSwitchClosed(false);
+        setScore(s => s + 10);
     };
 
     return (
         <group>
-            <Html>
-                <DraggableHtmlPanel title="🔌 Le Circuit & Sécurité" showCloseButton={false} defaultPosition="bottom-center" className="w-[350px] border-blue-500/30 text-white">
+            <SuccessOverlay show={showSuccess} message="Circuit réparé ! Tu as identifié et corrigé la panne." points={50} onNext={startMission} />
+            <ConfettiExplosion active={showSuccess} />
 
-                    <div className="bg-gray-800 p-3 rounded-lg mb-4">
-                        <div className="flex justify-between items-center mb-2">
-                            <span className="text-sm font-bold">État du Circuit :</span>
-                            <span className={`text-xs px-2 py-1 rounded font-bold ${fuseBlown ? 'bg-red-900 text-red-200' : (switchClosed ? 'bg-green-600' : 'bg-gray-600')}`}>
-                                {fuseBlown ? "FUSIBLE GRILLÉ 💥" : (switchClosed ? "FERMÉ (ON)" : "OUVERT (OFF)")}
-                            </span>
+            <Html transform={false}>
+                <DraggableHtmlPanel title="🔌 Circuit et Sécurité" showCloseButton={false} defaultPosition="bottom-center" className="w-[400px] border-blue-500/30 text-white">
+                    <div className="flex justify-between items-center mb-4">
+                        <GradeBadge score={score} />
+                        <div className="bg-gray-900 rounded-lg px-3 py-1 border border-white/10 text-[10px] text-gray-400">
+                            DÉPANNAGE ÉLECTRIQUE
                         </div>
-                        <p className="text-xs text-gray-400">
-                            {fuseBlown
-                                ? "Le courant était trop fort ! Le fusible a fondu pour protéger le circuit."
-                                : (shortCircuit ? "DANGER ! Court-circuit en cours !" : "Tout fonctionne normalement.")}
-                        </p>
                     </div>
 
-                    <button onClick={() => !fuseBlown && setSwitchClosed(!switchClosed)} disabled={fuseBlown || shortCircuit}
-                        className={`w-full py-3 mb-2 rounded-xl font-bold text-lg transition-all 
-                        ${fuseBlown ? 'bg-gray-700 opacity-50 cursor-not-allowed' : (switchClosed ? 'bg-green-600 hover:bg-green-500' : 'bg-blue-600 hover:bg-blue-500')}`}>
-                        {switchClosed ? "Ouvrir Interrupteur" : "Fermer Interrupteur"}
-                    </button>
+                    <XPBar current={score} nextLevel={1000} />
 
-                    <button onClick={toggleShortCircuit} disabled={fuseBlown}
-                        className={`w-full py-3 mb-2 rounded-xl font-bold text-lg transition-all border-2 
-                        ${shortCircuit ? 'bg-red-600 border-red-800 animate-pulse' : 'bg-transparent border-red-600 text-red-500 hover:bg-red-900/30'}`}>
-                        {shortCircuit ? "⚠️ COURT-CIRCUIT !!!" : "🔥 Créer Court-Circuit"}
-                    </button>
+                    <div className="h-[1px] bg-gradient-to-r from-transparent via-blue-500/50 to-transparent my-4" />
 
-                    {fuseBlown && (
-                        <button onClick={replaceFuse} className="w-full py-2 bg-yellow-600 rounded-lg text-white font-bold animate-bounce">
-                            🛠️ Remplacer le Fusible
-                        </button>
+                    <PhaseSelector currentPhase={phase} onSelect={(p) => { setPhase(p); if (p === 'mission') startMission(); else { setFuseBlown(false); setShortCircuit(false); } }} />
+
+                    {phase === 'mission' && !repaired && (
+                        <MissionObjective objective="Le circuit ne fonctionne plus. Trouve la panne et répare-la !" icon="🛠️" />
                     )}
+
+                    <div className="grid grid-cols-2 gap-4 mt-4">
+                        <div className="space-y-4">
+                            <div className="bg-gray-800/50 p-3 rounded-xl border border-white/5 space-y-3">
+                                <label className="text-[10px] text-gray-400 block uppercase tracking-widest text-center">Contrôle</label>
+                                <button onClick={() => !fuseBlown && setSwitchClosed(!switchClosed)} disabled={fuseBlown || shortCircuit}
+                                    className={`w-full py-4 rounded-xl font-black text-[12px] transition-all shadow-lg ${fuseBlown ? 'bg-gray-800 text-gray-600' : (switchClosed ? 'bg-green-600 text-white shadow-green-500/20' : 'bg-blue-600 text-white shadow-blue-500/20')}`}>
+                                    {switchClosed ? "COUPER LE COURANT" : "METTRE SOUS TENSION"}
+                                </button>
+                            </div>
+
+                            <div className="flex flex-col gap-2">
+                                {phase === 'explore' ? (
+                                    <button onClick={toggleShortCircuit} disabled={fuseBlown || shortCircuit}
+                                        className="w-full py-2 bg-red-900/40 hover:bg-red-900/60 border border-red-500/30 rounded text-[9px] font-bold text-red-200 uppercase">
+                                        Simuler Court-Circuit ⚠️
+                                    </button>
+                                ) : (
+                                    <div className="grid grid-cols-2 gap-2">
+                                        <button onClick={() => handleRepair('fuse')} className="p-2 bg-gray-800 hover:bg-gray-700 border border-white/10 rounded text-[8px] font-bold">🛠️ CHANGER FUSIBLE</button>
+                                        <button onClick={() => handleRepair('short')} className="p-2 bg-gray-800 hover:bg-gray-700 border border-white/10 rounded text-[8px] font-bold">✂️ ISOLER CÂBLES</button>
+                                    </div>
+                                )}
+
+                                {fuseBlown && phase === 'explore' && (
+                                    <button onClick={replaceFuse}
+                                        className="w-full py-2 bg-green-600 hover:bg-green-500 border border-green-400/50 rounded text-[9px] font-bold text-white uppercase animate-pulse">
+                                        Remplacer Fusible 🛠️
+                                    </button>
+                                )}
+                            </div>
+                        </div>
+
+                        <div className="bg-black/60 rounded-xl p-3 border border-blue-500/20 flex flex-col justify-between">
+                            <div className="space-y-3">
+                                <div className="text-[10px] text-center font-mono text-gray-500 tracking-widest uppercase">Indicateurs</div>
+
+                                <div className="bg-gray-900/80 p-3 rounded-lg border border-white/5 space-y-2">
+                                    <div className="flex justify-between items-center text-[10px]">
+                                        <span className="text-gray-500 uppercase">COURANT</span>
+                                        <span className={`font-bold ${switchClosed && !fuseBlown && !shortCircuit ? 'text-green-400' : 'text-red-400'}`}>
+                                            {switchClosed && !fuseBlown && !shortCircuit ? 'FLUX OK' : 'STOP'}
+                                        </span>
+                                    </div>
+                                    <div className="flex justify-between items-center text-[10px]">
+                                        <span className="text-gray-500 uppercase">SÉCURITÉ</span>
+                                        <span className={`font-bold ${fuseBlown ? 'text-red-400' : 'text-blue-400'}`}>
+                                            {fuseBlown ? 'DÉFAUT' : 'OK'}
+                                        </span>
+                                    </div>
+                                    <div className="h-[1px] bg-white/5" />
+                                    <p className="text-[9px] text-gray-500 leading-tight italic">
+                                        {fuseBlown
+                                            ? "Fusible grillé ! L'installation est protégée."
+                                            : (shortCircuit ? "DANGER ! Court-circuit détecté !" : "Tout est normal. Observe le trajet de l'électricité.")}
+                                    </p>
+                                </div>
+                            </div>
+
+                            <button onClick={() => { setSwitchClosed(false); setShortCircuit(false); setFuseBlown(false); setPhase('explore'); }} className="w-full py-2 rounded bg-gray-800 text-[10px] font-bold hover:bg-white hover:text-black transition-all">
+                                RESET
+                            </button>
+                        </div>
+                    </div>
                 </DraggableHtmlPanel>
             </Html>
 
             <group position={[0, -1, 0]}>
                 {/* Battery */}
                 <group position={[-2, 0, 0]}>
-                    <boxGeometry args={[1, 1.5, 1]} />
-                    <meshStandardMaterial color={shortCircuit && !fuseBlown ? "#ff3333" : "#212121"} />
+                    <Box args={[1, 1.5, 1]} material-color={shortCircuit && !fuseBlown ? "#ff3333" : "#212121"} />
                     <Text position={[0, 0, 0.6]} fontSize={0.8} color="white">+</Text>
                     {/* Fire effect if short circuit */}
                     {shortCircuit && !fuseBlown && (
@@ -2277,17 +2613,18 @@ export function IntroElectricity() {
                 </group>
 
                 {/* Fuse */}
-                <group position={[0, 1.5, 0]}>
+                <group position={[0, 1.5, 0]} onClick={() => handleRepair('fuse')}
+                    onPointerOver={() => document.body.style.cursor = 'pointer'}
+                    onPointerOut={() => document.body.style.cursor = 'auto'}>
                     <mesh rotation={[0, 0, Math.PI / 2]}>
                         <cylinderGeometry args={[0.1, 0.1, 1]} />
                         <meshStandardMaterial color="white" transparent opacity={0.5} />
                     </mesh>
-                    {/* Visual filament inside */}
                     <mesh rotation={[0, 0, Math.PI / 2]}>
-                        <cylinderGeometry args={[0.02, 0.02, fuseBlown ? 0.2 : 1]} /> {/* Broken if blown */}
+                        <cylinderGeometry args={[0.02, 0.02, fuseBlown ? 0.2 : 1]} />
                         <meshBasicMaterial color={fuseBlown ? "black" : "red"} />
                     </mesh>
-                    <Text position={[0, 0.3, 0]} fontSize={0.2} color="white">Fusible</Text>
+                    <Text position={[0, 0.3, 0]} fontSize={0.2} color="white">FUSIBLE</Text>
                 </group>
 
                 {/* Bulb */}
@@ -2295,9 +2632,9 @@ export function IntroElectricity() {
                     <mesh position={[0, 0.8, 0]}>
                         <sphereGeometry args={[0.6]} />
                         <meshStandardMaterial
-                            color={switchClosed && !shortCircuit ? "#FFEB3B" : "white"}
-                            emissive={switchClosed && !shortCircuit ? "#FFEB3B" : "black"}
-                            emissiveIntensity={switchClosed && !shortCircuit ? 2 : 0}
+                            color={switchClosed && !shortCircuit && !fuseBlown ? "#FFEB3B" : "white"}
+                            emissive={switchClosed && !shortCircuit && !fuseBlown ? "#FFEB3B" : "black"}
+                            emissiveIntensity={switchClosed && !shortCircuit && !fuseBlown ? 2 : 0}
                             transparent opacity={0.6}
                         />
                     </mesh>
@@ -2311,7 +2648,6 @@ export function IntroElectricity() {
                 <group position={[0, -1.5, 0]}>
                     <mesh position={[-0.5, 0, 0]}><boxGeometry args={[0.2, 0.2, 0.2]} /><meshStandardMaterial color="gray" /></mesh>
                     <mesh position={[0.5, 0, 0]}><boxGeometry args={[0.2, 0.2, 0.2]} /><meshStandardMaterial color="gray" /></mesh>
-                    {/* The moving part */}
                     <mesh position={[-0.5, 0.2, 0]} rotation={[0, 0, switchClosed ? 0 : 0.5]}>
                         <boxGeometry args={[1.2, 0.1, 0.1]} />
                         <meshStandardMaterial color="red" />
@@ -2319,37 +2655,29 @@ export function IntroElectricity() {
                 </group>
 
                 {/* Wires */}
-                {/* Battery + to Fuse */}
                 <WirePath points={[[-2, 0.75, 0], [-2, 1.5, 0], [-0.5, 1.5, 0]]} color="red" />
-                {/* Fuse to Bulb */}
                 <WirePath points={[[0.5, 1.5, 0], [2, 1.5, 0], [2, 0.8, 0]]} color="red" />
-
-                {/* Battery - to Switch */}
                 <WirePath points={[[-2, -0.75, 0], [-2, -1.5, 0], [-0.5, -1.5, 0]]} color="black" />
-                {/* Switch to Bulb */}
                 <WirePath points={[[0.5, -1.5, 0], [2, -1.5, 0], [2, -0.4, 0]]} color="black" />
 
-                {/* SHORT CIRCUIT WIRE (bypass bulb) */}
+                {/* SHORT CIRCUIT WIRE */}
                 {shortCircuit && (
-                    <WirePath points={[[1, 1.5, 0], [1, -1.5, 0]]} color="#FF5722" /> // Direct connecting + line to - line
+                    <group onClick={() => handleRepair('short')}>
+                        <WirePath points={[[1, 1.5, 0], [1, -1.5, 0]]} color="#FF5722" />
+                        <Text position={[1.2, 0, 0]} fontSize={0.2} color="orange">PANNE ⚠️</Text>
+                    </group>
                 )}
 
                 {/* Electron Flow Visualization */}
-                {switchClosed && !fuseBlown && (
+                {switchClosed && !fuseBlown && !shortCircuit && (
                     <group>
-                        {/* Top path */}
-                        <ElectronStream start={[-2, 1.5, 0]} end={[0, 1.5, 0]} speed={shortCircuit ? 5 : 1} />
-                        {!shortCircuit && <ElectronStream start={[0.1, 1.5, 0]} end={[2, 1.5, 0]} speed={1} />}
-
-                        {/* Short circuit path */}
-                        {shortCircuit && <ElectronStream start={[0, 1.5, 0]} end={[0, -1.5, 0]} speed={5} />}
-
-                        {/* Bottom path */}
-                        <ElectronStream start={[2, -1.5, 0]} end={[-2, -1.5, 0]} speed={shortCircuit ? 5 : 1} />
+                        <ElectronStream start={[-2, 1.5, 0]} end={[0, 1.5, 0]} speed={1} />
+                        <ElectronStream start={[0.1, 1.5, 0]} end={[2, 1.5, 0]} speed={1} />
+                        <ElectronStream start={[2, -1.5, 0]} end={[-2, -1.5, 0]} speed={1} />
                     </group>
                 )}
             </group>
-        </group>
+        </group >
     );
 }
 
@@ -2380,6 +2708,164 @@ function ElectronStream({ start, end, speed = 1 }) {
             {Array.from({ length: count }).map((_, i) => (
                 <MovingElectron key={i} start={start} end={end} offset={i / count} speed={speed} />
             ))}
+        </group>
+    );
+}
+
+
+// ============================================================
+// CHAPITRE 4: POIDS ET MASSE (ENRICHI & CHALLENGE)
+// ============================================================
+export function WeightMassPC4() {
+    const [phase, setPhase] = useState('explore');
+    const [planet, setPlanet] = useState('earth');
+    const [mass, setMass] = useState(10);
+    const [targetWeight, setTargetWeight] = useState(null);
+    const [score, setScore] = useState(0);
+    const [showSuccess, setShowSuccess] = useState(false);
+    const [timeLeft, setTimeLeft] = useState(45);
+
+    const planets = {
+        earth: { name: 'Terre', g: 9.8, color: '#3B82F6', emissive: '#1D4ED8' },
+        moon: { name: 'Lune', g: 1.6, color: '#9CA3AF', emissive: '#4B5563' },
+        mars: { name: 'Mars', g: 3.7, color: '#EF4444', emissive: '#991B1B' },
+        jupiter: { name: 'Jupiter', g: 24.8, color: '#F59E0B', emissive: '#B45309' }
+    };
+
+    const currentPlanet = planets[planet];
+    const weight = (mass * currentPlanet.g).toFixed(1);
+
+    const startMission = () => {
+        const keys = Object.keys(planets);
+        const randPlanet = keys[Math.floor(Math.random() * keys.length)];
+        setPlanet(randPlanet);
+        const randMass = Math.floor(Math.random() * 40 + 10);
+        setTargetWeight((randMass * planets[randPlanet].g).toFixed(1));
+        setMass(0);
+        setPhase('mission');
+        setShowSuccess(false);
+        setTimeLeft(45);
+    };
+
+    const checkMission = () => {
+        if (targetWeight && Math.abs(parseFloat(weight) - parseFloat(targetWeight)) < 0.5) {
+            if (!showSuccess) {
+                const points = 50 + Math.floor(timeLeft / 2);
+                setScore(s => s + points);
+                setShowSuccess(true);
+            }
+        }
+    };
+
+    useEffect(() => {
+        if (phase === 'mission' && timeLeft > 0 && !showSuccess) {
+            const timer = setTimeout(() => setTimeLeft(t => t - 1), 1000);
+            return () => clearTimeout(timer);
+        }
+    }, [timeLeft, phase, showSuccess]);
+
+    return (
+        <group>
+            <SuccessOverlay show={showSuccess} message={`Cargaison équilibrée ! ${weight} N sur ${currentPlanet.name}`} points={50 + Math.floor(timeLeft / 2)} onNext={startMission} />
+            <ConfettiExplosion active={showSuccess} />
+
+            <Html transform={false}>
+                <DraggableHtmlPanel title="🚀 Mission : Poids Spatial" showCloseButton={false} defaultPosition="bottom-center" className="w-[400px] border-blue-500/30 text-white">
+                    <div className="flex justify-between items-center mb-4">
+                        <GradeBadge score={score} />
+                        {phase === 'mission' && <ChallengeTimer timeLeft={timeLeft} maxTime={45} />}
+                    </div>
+
+                    <XPBar current={score} nextLevel={2000} />
+
+                    <div className="h-[1px] bg-gradient-to-r from-transparent via-blue-500/50 to-transparent my-4" />
+
+                    <PhaseSelector currentPhase={phase} onSelect={(p) => { setPhase(p); if (p === 'mission') startMission(); }} />
+
+                    {phase === 'mission' && targetWeight && (
+                        <MissionObjective objective={`Ajustez la masse pour atteindre un poids de ${targetWeight} N sur ${currentPlanet.name}`} icon="⚖️" />
+                    )}
+
+                    <div className="grid grid-cols-2 gap-4 mt-4">
+                        <div className="space-y-4">
+                            <div>
+                                <label className="text-[10px] text-gray-400 block mb-1 uppercase tracking-wider">Destination</label>
+                                <div className="grid grid-cols-2 gap-1">
+                                    {Object.entries(planets).map(([k, p]) => (
+                                        <button key={k} onClick={() => setPlanet(k)} disabled={phase === 'mission'}
+                                            className={`p-1 text-[9px] font-bold rounded border transition-all ${planet === k ? 'bg-blue-600 border-blue-400' : 'bg-gray-800 border-gray-700 opacity-50'}`}>
+                                            {p.name.toUpperCase()}
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+
+                            <div>
+                                <label className="text-[10px] text-gray-400 block mb-1 uppercase tracking-wider">Cargaison (Masse)</label>
+                                <div className="bg-gray-900/50 p-3 rounded-xl border border-white/5">
+                                    <div className="text-2xl font-bold text-blue-400 font-mono mb-2">{mass} <span className="text-xs text-gray-500">kg</span></div>
+                                    <input type="range" min="0" max="100" step="1" value={mass} onChange={(e) => setMass(Number(e.target.value))}
+                                        className="w-full h-1 bg-gray-700 accent-blue-500 rounded-lg appearance-none cursor-pointer" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="bg-black/60 rounded-xl p-3 border border-blue-500/20 flex flex-col justify-between">
+                            <div className="space-y-3 text-center">
+                                <div className="text-[10px] font-mono text-gray-500 tracking-widest uppercase">Indicateur de Poids</div>
+                                <div className="bg-gray-900/80 p-3 rounded-lg border border-blue-500/30">
+                                    <div className="text-2xl font-black text-white font-mono">{weight}<span className="text-xs ml-1 text-gray-500">N</span></div>
+                                    <div className="text-[8px] text-blue-400 mt-1 uppercase">Force Gravitationnelle</div>
+                                </div>
+                                <div className="text-[10px] text-gray-500">g = {currentPlanet.g} N/kg</div>
+                            </div>
+
+                            <button onClick={phase === 'mission' ? checkMission : null}
+                                className={`w-full py-2 rounded font-black text-[10px] tracking-widest transition-all ${phase === 'mission' ? 'bg-blue-600 hover:bg-blue-500 shadow-lg shadow-blue-500/20' : 'bg-gray-800 text-gray-500 cursor-default'}`}>
+                                {phase === 'mission' ? 'VÉRIFIER LE POIDS' : 'EXPLORATION LIBRE'}
+                            </button>
+                        </div>
+                    </div>
+                </DraggableHtmlPanel>
+            </Html>
+
+            <group position={[0, -2, 0]}>
+                {/* Planet Surface */}
+                <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.05, 0]}>
+                    <planeGeometry args={[10, 10]} />
+                    <meshStandardMaterial color={currentPlanet.color} roughness={0.8} />
+                </mesh>
+                <gridHelper args={[10, 10, currentPlanet.color, '#1F2937']} />
+
+                {/* Astronaut / Cargo Object */}
+                <Float speed={2} rotationIntensity={0.2} floatIntensity={currentPlanet.g < 5 ? 0.5 : 0.1}>
+                    <mesh position={[0, 1, 0]} scale={[1 + mass / 100, 1 + mass / 100, 1 + mass / 100]}>
+                        <boxGeometry args={[1, 1, 1]} />
+                        <meshStandardMaterial color="#FCD34D" metalness={0.5} roughness={0.2} />
+                    </mesh>
+
+                    {/* Weight Vector */}
+                    <arrowHelper
+                        args={[
+                            new THREE.Vector3(0, -1, 0),
+                            new THREE.Vector3(0, 0.5, 0),
+                            1 + parseFloat(weight) / 100,
+                            0xEF4444,
+                            0.3,
+                            0.2
+                        ]}
+                    />
+                </Float>
+
+                {/* Background Planet */}
+                <group position={[5, 5, -10]}>
+                    <mesh>
+                        <sphereGeometry args={[2, 32, 32]} />
+                        <meshStandardMaterial color={currentPlanet.color} emissive={currentPlanet.emissive} emissiveIntensity={0.5} />
+                    </mesh>
+                    <pointLight intensity={2} color={currentPlanet.color} />
+                </group>
+            </group>
         </group>
     );
 }

@@ -4,7 +4,7 @@ import { useFrame } from '@react-three/fiber';
 import { Text, Html, useGLTF, Float, Sphere, Box, Cylinder, Torus, Line } from '@react-three/drei';
 import DraggableHtmlPanel from './DraggableHtmlPanel';
 import * as THREE from 'three';
-import { SuccessOverlay, ConfettiExplosion } from './PC4eSimulations';
+import { SuccessOverlay, ConfettiExplosion, ChallengeTimer, GradeBadge, XPBar, PhaseSelector, MissionObjective } from './GamificationUtils';
 
 // Images et icônes
 const ICONS = {
