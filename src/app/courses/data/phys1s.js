@@ -11,7 +11,7 @@ export const phys1sData = {
             id: 'p1s-01',
             part: 'Énergie - Champs',
             title: 'P1. Travail et puissance',
-            simulation: { id: 'p1s-travail', title: '🔧 Travail & Puissance' },
+            simulation: { id: 'p1s-travail', title: 'Moteur et Force : Le Défi de Puissance' },
             image: '/images/courses/p1s_travail_puissance.png',
             story: "Pour déplacer un objet, il faut de l'énergie. Mais l'efficacité dépend de la vitesse : c'est la puissance.",
             content: `
@@ -48,7 +48,7 @@ Puissance instantanée : $P(t) = \\vec{F} \\cdot \\vec{v}$.
             id: 'p1s-02',
             part: 'Énergie - Champs',
             title: 'P2. Énergie cinétique',
-            simulation: { id: 'p1s-cinetique', title: '🚗 Énergie Cinétique' },
+            simulation: { id: 'p1s-cinetique', title: 'Vitesse Extrême : L\'Énergie Cinétique' },
             image: '/images/courses/p1s_energie_cinetique.png',
             story: "Un objet en mouvement possède une énergie liée à sa vitesse. C'est l'énergie du mouvement.",
             content: `
@@ -81,7 +81,7 @@ $$ \\Delta E_c = E_{cB} - E_{cA} = \\sum W_{AB}(\\vec{F}_{ext}) $$
             id: 'p1s-03',
             part: 'Énergie - Champs',
             title: 'P3. Énergie potentielle. Énergie mécanique',
-            simulation: { id: 'p1s-mecanique', title: '🎢 Pendule & Conservation' },
+            simulation: { id: 'p1s-mecanique', title: 'Montagnes Russes : Conservation d\'Énergie' },
             image: '/images/courses/p1s_energie_potentielle.png',
             story: "L'énergie peut être stockée (potentielle) et transformée en mouvement. La conservation de l'énergie est un principe clé.",
             content: `
@@ -149,7 +149,7 @@ $L$ : Chaleur latente de changement d'état.
             id: 'p1s-05',
             part: 'Énergie - Champs',
             title: 'P5. Force et champ électrostatiques',
-            simulation: { id: 'p1s-electro', title: '⚡ Champ Électrique' },
+            simulation: { id: 'p1s-electro', title: 'Le Champ de Force Invisible' },
             image: '/images/courses/p1s_champ_electrique.png',
             story: "L'électricité statique n'est pas de la magie. C'est l'action à distance entre charges électriques.",
             content: `
@@ -214,7 +214,7 @@ L'énergie mécanique d'une particule chargée se conserve dans un champ électr
             id: 'p1s-07',
             part: 'Énergie - Champs',
             title: 'P7. Énergie dans un circuit électrique',
-            simulation: { id: 'p1s-electronique', title: '⚡ Labo Électronique' },
+            simulation: { id: 'p1s-electronique', title: 'Circuit Lab : Maître de l\'Électronique' },
             image: '/images/courses/p1s_dipole_rc.png',
             story: "Générateurs et récepteurs échangent de l'énergie. Bilan de puissance.",
             content: `
@@ -316,7 +316,7 @@ Courants d'entrée nuls : $i_+ = i_- = 0$.
             id: 'p1s-10',
             part: 'Phénomènes Vibratoires',
             title: 'P10. Propagation et Ondes',
-            simulation: { id: 'p1s-ondes', title: '🌊 Cuve à Ondes' },
+            simulation: { id: 'p1s-ondes', title: "Océan d'Ondes : Propagation et Interférences" },
             image: '/images/courses/p1s_ondes_mecaniques.png',
             story: "Le son, la lumière, les vagues, les séismes... Tout est onde.",
             content: `
@@ -353,7 +353,7 @@ Superposition de deux ondes synchrones. Création de franges d'amplitude maximal
             id: 'p1s-11',
             part: 'Optique',
             title: 'P11. Lentilles minces',
-            simulation: { id: 'p1s-optique', title: '👁️ Banc Optique' },
+            simulation: { id: 'p1s-optique', title: "L'Œil Magique : Optique Géométrique" },
             image: '/images/courses/p1s_lentilles_optique.png',
             story: "Les lunettes, les microscopes, les télescopes reposent tous sur les lentilles.",
             content: `

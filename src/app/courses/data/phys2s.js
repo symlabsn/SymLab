@@ -87,7 +87,7 @@ Où $k = 9 \\times 10^9$ N·m²/C² (constante de Coulomb)
             ],
             simulation: {
                 id: 'electrisation-2nde',
-                title: 'Phénomènes d\'Électrisation',
+                title: 'Maître de la Foudre : Les Origines',
                 type: 'electrisation-2nde'
             },
             image: '/simulations/physique-2nde/electrisation.png',
@@ -182,7 +182,7 @@ Un circuit électrique est constitué de :
             ],
             simulation: {
                 id: 'circuit-electrique-2nde',
-                title: 'Circuit Électrique Interactif',
+                title: 'Architecte de Circuits : Le Réseau',
                 type: 'circuit-electrique-2nde'
             },
             image: '/simulations/physique-2nde/circuit-electrique.png',
@@ -289,7 +289,7 @@ $$I_1 = I_2 = I_3 = ... = I$$
             ],
             simulation: {
                 id: 'circuit-electrique-2nde',
-                title: 'Intensité et Loi des Nœuds',
+                title: 'Contrôleur de Flux : Loi des Nœuds',
                 type: 'circuit-electrique-2nde'
             },
             image: '/simulations/physique-2nde/intensite.png',
@@ -390,7 +390,7 @@ $$U_1 = U_2 = U_3 = ... = U_{générateur}$$
             ],
             simulation: {
                 id: 'circuit-electrique-2nde',
-                title: 'Tension Électrique',
+                title: 'Haute Tension : Le Défi du Voltage',
                 type: 'circuit-electrique-2nde'
             },
             image: '/simulations/physique-2nde/tension.png',
@@ -512,7 +512,7 @@ $$E = P \\times t$$
             ],
             simulation: {
                 id: 'loi-ohm-2nde',
-                title: 'Loi d\'Ohm - Caractéristique U=f(I)',
+                title: "Le Code d'Ohm : Maîtrise la Résistance",
                 type: 'loi-ohm-2nde'
             },
             image: '/simulations/physique-2nde/loi-ohm.png',
@@ -593,7 +593,7 @@ $$\\eta = \\frac{P_{utile}}{P_{totale}} = \\frac{U \\times I}{E \\times I} = \\f
             ],
             simulation: {
                 id: 'generateur-2nde',
-                title: 'Générateurs et f.é.m',
+                title: "Centrale d'Énergie : Puissance Max",
                 type: 'generateur-2nde'
             },
             image: '/simulations/physique-2nde/generateur.png',
@@ -682,7 +682,7 @@ Sert à isoler deux parties d'un circuit (adaptation d'impédance).
             ],
             simulation: {
                 id: 'aop-simulation',
-                title: 'Amplificateur Opérationnel',
+                title: "Studio Son : L'Amplificateur Suprême",
                 type: 'aop-simulation'
             },
             image: '/simulations/physique-2nde/aop.png',
@@ -754,7 +754,7 @@ Où $d$ est la distance parcourue (m) et $t$ la durée (s).
             ],
             simulation: {
                 id: 'mouvement-2nde',
-                title: 'Mouvement et Référentiel',
+                title: "Relativité : L'Observateur Mobile",
                 type: 'mouvement-2nde'
             },
             image: '/simulations/physique-2nde/mouvement.png',
@@ -811,7 +811,7 @@ On mesure l'intensité d'une force avec un **Dynamomètre** (basé sur l'allonge
             ],
             simulation: {
                 id: 'forces-poids-2nde',
-                title: 'Forces et Poids',
+                title: 'Newton vs Gravité : Le Duel',
                 type: 'forces-poids-2nde'
             },
             image: '/simulations/physique-2nde/forces-poids.png',
@@ -879,7 +879,7 @@ Où $\\vec{g}$ est le vecteur champ de pesanteur (Intensité de la pesanteur).
             ],
             simulation: {
                 id: 'forces-poids-2nde',
-                title: 'Poids vs Masse',
+                title: 'Mission Lunaire : Poids ou Masse ?',
                 type: 'forces-poids-2nde'
             },
             image: '/simulations/physique-2nde/forces-poids.png',
@@ -944,7 +944,7 @@ On résout ensuite le système d'équations.
             ],
             simulation: {
                 id: 'equilibre-3forces-2nde',
-                title: 'Équilibre à 3 Forces',
+                title: "L'Équilibriste : Le Trio de Forces",
                 type: 'equilibre-3forces-2nde'
             },
             image: '/simulations/physique-2nde/equilibre-3forces.png',
@@ -1014,7 +1014,7 @@ Elles provoquent une rotation pure (comme tourner un volant ou un bouchon).
             ],
             simulation: {
                 id: 'moment-force-2nde',
-                title: 'Moment d\'une Force',
+                title: 'Levier de Puissance : La Rotation',
                 type: 'moment-force-2nde'
             },
             image: '/simulations/physique-2nde/moment-force.png',
@@ -1088,7 +1088,7 @@ Si la source est étendue, une zone de transition apparaît : la **pénombre**.
             ],
             simulation: {
                 id: 'propagation-lumiere-2nde',
-                title: 'Propagation de la Lumière',
+                title: 'Voyage Photonique : Ligne Droite',
                 type: 'propagation-lumiere-2nde'
             },
             image: '/simulations/physique-2nde/propagation-lumiere.png',
@@ -1154,7 +1154,7 @@ L'image A' d'un objet A donnée par un miroir plan est :
             ],
             simulation: {
                 id: 'reflexion-lumiere-2nde',
-                title: 'Réflexion de la Lumière',
+                title: 'Miroir Magique : Le Rebond Parfait',
                 type: 'reflexion-lumiere-2nde'
             },
             image: '/simulations/physique-2nde/reflexion-refraction.png',
@@ -1235,7 +1235,7 @@ Un **prisme** sépare ces couleurs : c'est la **dispersion**.
             ],
             simulation: {
                 id: 'refraction-dispersion-2nde',
-                title: 'Réfraction et Dispersion',
+                title: "Prisme de Cristal : L'Arc-en-Ciel",
                 type: 'refraction-dispersion-2nde'
             },
             image: '/simulations/physique-2nde/reflexion-refraction.png',
