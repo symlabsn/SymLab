@@ -7,11 +7,14 @@ import { useFrame } from '@react-three/fiber';
 import { Html, Sphere, Box, Cylinder, Line, Text, Plane } from '@react-three/drei';
 import * as THREE from 'three';
 import DraggableHtmlPanel from './DraggableHtmlPanel';
-
 import { SuccessOverlay, ConfettiExplosion } from './PC4eSimulations';
+import { PhaseSelector, GradeBadge, MissionObjective, XPBar } from './GamificationUtils';
 
 // ============================================================
 // P13. PROPAGATION RECTILIGNE DE LA LUMIÈRE
+// ============================================================
+// ============================================================
+// P13. PROPAGATION RECTILIGNE DE LA LUMIÈRE (ENRICHI)
 // ============================================================
 export function PropagationLumiereSeconde() {
     const [sourceType, setSourceType] = useState('ponctuelle');
@@ -20,29 +23,18 @@ export function PropagationLumiereSeconde() {
     const [obstaclePosition, setObstaclePosition] = useState(0);
     const lightRef = useRef();
 
-
     useFrame((state) => {
         if (lightRef.current) {
             lightRef.current.intensity = 1 + Math.sin(state.clock.elapsedTime * 3) * 0.2;
         }
     });
 
-    // Calculate shadow geometry
-    // Thales: h_obstacle / d_source_obstacle = h_shadow / d_source_screen
-    // Source is at x=-4. Obstacle at x=obstaclePosition. Screen at x=4.
-    const h_obstacle = 0.4; // Cylinder radius (approx width/2) x 2 ?? No radius is 0.4 so diameter 0.8?
-    // Let's assume diameter = 0.8
+    const h_obstacle = 0.4;
     const d_source_screen = 8;
-    const d_source_obstacle = obstaclePosition - (-4); // obstaclePosition + 4
-
-    // Avoid division by zero if obstacle touches source
+    const d_source_obstacle = obstaclePosition - (-4);
     const safe_d_so = Math.max(0.1, d_source_obstacle);
-
-    // Shadow Size Calculation (Simplification for visualisation)
-    // h_shadow = h_obstacle * (d_screen / d_obstacle)
     const shadowScale = d_source_screen / safe_d_so;
     const shadowWidth = 0.8 * shadowScale;
-
     const penumbraWidth = sourceType === 'etendue' ? 0.3 * shadowScale : 0;
 
     // Gamification
@@ -53,23 +45,20 @@ export function PropagationLumiereSeconde() {
 
     const startChallenge = () => {
         setMode('challenge');
-        // Random target width
-        const target = Math.random() * 2 + 1; // 1m to 3m
+        const target = Math.random() * 2 + 1;
         setTargetNotchWidth(target);
-        setObstaclePosition(0); // Reset
+        setObstaclePosition(0);
         setScore(0);
         setShowSuccess(false);
     };
 
     const checkChallenge = () => {
         if (!targetNotchWidth) return;
-        // Check if shadowWidth matches targetNotchWidth within 10%
         if (Math.abs(shadowWidth - targetNotchWidth) / targetNotchWidth < 0.1) {
             setShowSuccess(true);
             setScore(s => s + 100);
         }
     };
-
 
     return (
         <group>
@@ -77,23 +66,14 @@ export function PropagationLumiereSeconde() {
             <ConfettiExplosion active={showSuccess} />
 
             {/* Light source */}
-
             <group position={[-4, 0, 0]}>
                 {sourceType === 'ponctuelle' ? (
                     <Sphere args={[0.3, 16, 16]}>
-                        <meshStandardMaterial
-                            color="#ffeb3b"
-                            emissive="#ff9800"
-                            emissiveIntensity={1}
-                        />
+                        <meshStandardMaterial color="#ffeb3b" emissive="#ff9800" emissiveIntensity={1} />
                     </Sphere>
                 ) : (
                     <Box args={[0.3, 1.5, 0.3]}>
-                        <meshStandardMaterial
-                            color="#ffeb3b"
-                            emissive="#ff9800"
-                            emissiveIntensity={1}
-                        />
+                        <meshStandardMaterial color="#ffeb3b" emissive="#ff9800" emissiveIntensity={1} />
                     </Box>
                 )}
                 <Text position={[0, -1, 0]} fontSize={0.2} color="#fff">
@@ -139,26 +119,16 @@ export function PropagationLumiereSeconde() {
             {/* Shadow on screen */}
             {showShadow && (
                 <group position={[3.9, 0, 0]}>
-                    {/* Umbra (full shadow) */}
                     <Plane args={[0.1, shadowWidth]} rotation={[0, -Math.PI / 2, 0]}>
                         <meshBasicMaterial color="#111" side={THREE.DoubleSide} />
                     </Plane>
 
-                    {/* Penumbra (partial shadow for extended source) */}
                     {sourceType === 'etendue' && (
                         <>
-                            <Plane
-                                args={[0.1, penumbraWidth]}
-                                position={[0, shadowWidth / 2 + penumbraWidth / 2, 0]}
-                                rotation={[0, -Math.PI / 2, 0]}
-                            >
+                            <Plane args={[0.1, penumbraWidth]} position={[0, shadowWidth / 2 + penumbraWidth / 2, 0]} rotation={[0, -Math.PI / 2, 0]}>
                                 <meshBasicMaterial color="#444" transparent opacity={0.5} side={THREE.DoubleSide} />
                             </Plane>
-                            <Plane
-                                args={[0.1, penumbraWidth]}
-                                position={[0, -shadowWidth / 2 - penumbraWidth / 2, 0]}
-                                rotation={[0, -Math.PI / 2, 0]}
-                            >
+                            <Plane args={[0.1, penumbraWidth]} position={[0, -shadowWidth / 2 - penumbraWidth / 2, 0]} rotation={[0, -Math.PI / 2, 0]}>
                                 <meshBasicMaterial color="#444" transparent opacity={0.5} side={THREE.DoubleSide} />
                             </Plane>
                         </>
@@ -170,143 +140,123 @@ export function PropagationLumiereSeconde() {
                 </group>
             )}
 
-            {/* Labels */}
-            <Text position={[4, 2.3, 0]} fontSize={0.2} color="#fff">
-                Écran
-            </Text>
+            <Text position={[4, 2.3, 0]} fontSize={0.2} color="#fff">Écran</Text>
 
-            {/* Shadow cone visualization */}
             {showShadow && (
                 <Line
-                    points={[
-                        [obstaclePosition, 0.75, 0],
-                        [4, shadowWidth / 2 + (sourceType === 'etendue' ? penumbraWidth : 0), 0]
-                    ]}
-                    color="#666"
-                    lineWidth={1}
-                    dashed
+                    points={[[obstaclePosition, 0.75, 0], [4, shadowWidth / 2 + (sourceType === 'etendue' ? penumbraWidth : 0), 0]]}
+                    color="#666" lineWidth={1} dashed
                 />
             )}
 
-            {/* Challenge Target Visuals */}
             {mode === 'challenge' && (
                 <group position={[4, 0, 0]}>
                     <Plane args={[0.1, targetNotchWidth]} rotation={[0, -Math.PI / 2, 0]}>
                         <meshBasicMaterial color="#e91e63" transparent opacity={0.3} side={THREE.DoubleSide} />
                     </Plane>
-                    <Text position={[0.2, targetNotchWidth / 2 + 0.2, 0]} fontSize={0.15} color="#e91e63" rotation={[0, -Math.PI / 2, 0]}>
-                        Cible
-                    </Text>
-                    <Text position={[0.2, -targetNotchWidth / 2 - 0.2, 0]} fontSize={0.15} color="#e91e63" rotation={[0, -Math.PI / 2, 0]}>
-                        Cible
-                    </Text>
+                    <Text position={[0.2, targetNotchWidth / 2 + 0.2, 0]} fontSize={0.15} color="#e91e63" rotation={[0, -Math.PI / 2, 0]}>Cible</Text>
+                    <Text position={[0.2, -targetNotchWidth / 2 - 0.2, 0]} fontSize={0.15} color="#e91e63" rotation={[0, -Math.PI / 2, 0]}>Cible</Text>
                 </group>
             )}
 
-            {/* Control Panel */}
             <Html position={[6, 2, 0]} transform={false}>
-                <DraggableHtmlPanel title="💡 Propagation de la Lumière">
-                    <div className="p-4 w-[300px] text-white">
-                        <div className="flex justify-between items-center mb-4">
-                            <div className="flex gap-2">
-                                <button onClick={() => setMode('explore')} className={`text-xs px-2 py-1 rounded ${mode === 'explore' ? 'bg-amber-600' : 'bg-gray-700'}`}>Labo</button>
-                                <button onClick={startChallenge} className={`text-xs px-2 py-1 rounded ${mode === 'challenge' ? 'bg-pink-600' : 'bg-gray-700'}`}>Défi Ombre 🏆</button>
-                            </div>
-                            {mode === 'challenge' && <div className="font-bold text-pink-400 text-xs">Score: {score}</div>}
+                <DraggableHtmlPanel title="💡 Propagation de la Lumière" className="w-[350px] border-amber-500/30 text-white">
+                    <div className="mb-4">
+                        <PhaseSelector currentPhase={mode} onSelect={setMode} />
+                    </div>
+
+                    <div className="flex justify-between items-end mb-4 pb-2 border-b border-white/10">
+                        <div>
+                            <div className="text-xs text-amber-400 font-bold uppercase tracking-wider mb-1">Module Optique</div>
+                            <div className="text-xl font-black text-white leading-none">PROPAGATION</div>
                         </div>
+                        <GradeBadge score={score} />
+                    </div>
 
-                        {mode === 'challenge' && (
-                            <div className="bg-pink-900/40 p-2 rounded mb-4 border border-pink-500/30 text-sm animate-pulse">
-                                <div className="font-bold text-pink-300">MISSION:</div>
-                                Ajuste l'obstacle pour obtenir une ombre de taille exacte (zone rose).
+                    {mode === 'explore' ? (
+                        <>
+                            <MissionObjective objective="Observez la formation des ombres !" icon="💡" />
+                            <div className="space-y-4">
+                                <div className="bg-gray-800 p-3 rounded">
+                                    <label className="text-xs text-gray-400 block mb-2">Type de source</label>
+                                    <div className="flex gap-2">
+                                        <button onClick={() => setSourceType('ponctuelle')} className={`flex-1 py-2 rounded text-xs ${sourceType === 'ponctuelle' ? 'bg-amber-600' : 'bg-gray-700'}`}>⚪ Ponctuelle</button>
+                                        <button onClick={() => setSourceType('etendue')} className={`flex-1 py-2 rounded text-xs ${sourceType === 'etendue' ? 'bg-amber-600' : 'bg-gray-700'}`}>📏 Étendue</button>
+                                    </div>
+                                </div>
+
+                                <div className="bg-gray-800 p-3 rounded">
+                                    <label className="text-xs text-gray-400 block mb-1">Position obstacle: {obstaclePosition.toFixed(2)}m</label>
+                                    <input type="range" min="-2" max="2" step="0.05" value={obstaclePosition} onChange={(e) => setObstaclePosition(parseFloat(e.target.value))} className="w-full accent-amber-500" />
+                                </div>
+
+                                <div className="grid grid-cols-2 gap-2 text-xs text-gray-300">
+                                    <label className="flex items-center gap-2"><input type="checkbox" checked={showRays} onChange={(e) => setShowRays(e.target.checked)} className="accent-amber-500" /> Rayons</label>
+                                    <label className="flex items-center gap-2"><input type="checkbox" checked={showShadow} onChange={(e) => setShowShadow(e.target.checked)} className="accent-amber-500" /> Ombre</label>
+                                </div>
+
+                                <div className="bg-amber-900/20 p-2 rounded text-center">
+                                    <div className="text-xs text-amber-200">Largeur Ombre</div>
+                                    <div className="text-lg font-bold text-white">{shadowWidth.toFixed(2)} m</div>
+                                    {sourceType === 'etendue' && <div className="text-xs text-gray-400 mt-1">Pénombre: {penumbraWidth.toFixed(2)} m</div>}
+                                </div>
                             </div>
-                        )}
-
-                        <div className="mb-4">
-                            <label className="block text-sm mb-2 text-gray-300">
-                                Type de source:
-                            </label>
-                            <div className="flex gap-2">
-                                <button
-                                    onClick={() => setSourceType('ponctuelle')}
-                                    className={`flex-1 py-2 rounded text-xs ${sourceType === 'ponctuelle' ? 'bg-amber-600' : 'bg-gray-700'}`}
-                                >
-                                    ⚪ Ponctuelle
-                                </button>
-                                <button
-                                    onClick={() => setSourceType('etendue')}
-                                    className={`flex-1 py-2 rounded text-xs ${sourceType === 'etendue' ? 'bg-amber-600' : 'bg-gray-700'}`}
-                                >
-                                    📏 Étendue
-                                </button>
+                        </>
+                    ) : (
+                        <div className="bg-gray-900/50 p-4 rounded-xl border border-amber-500/30">
+                            <div className="flex justify-between items-center mb-6">
+                                <h3 className="text-amber-300 font-bold flex items-center gap-2">
+                                    <span>🎥</span> Défi Projectionniste
+                                </h3>
+                                <XPBar current={score} nextLevel={100} />
                             </div>
-                        </div>
 
-                        <div className="mb-4">
-                            <label className="block text-sm mb-1 text-gray-300">
-                                Position obstacle: {obstaclePosition.toFixed(2)}
-                            </label>
-                            <input
-                                type="range"
-                                min="-2"
-                                max="2"
-                                step="0.05"
-                                value={obstaclePosition}
-                                onChange={(e) => setObstaclePosition(parseFloat(e.target.value))}
-                                className="w-full h-1 accent-amber-500"
-                            />
-                        </div>
+                            {targetNotchWidth ? (
+                                <div className="space-y-4 animate-in slide-in-from-right duration-300">
+                                    <div className="bg-black/30 p-3 rounded border border-amber-500/30 text-center">
+                                        <div className="text-amber-200 text-xs uppercase mb-1">Cible (Zone Rose)</div>
+                                        <div className="font-bold text-2xl text-white">{targetNotchWidth.toFixed(2)} m</div>
+                                        <div className="text-xs text-gray-500">Ajuste la position de l'obstacle</div>
+                                    </div>
 
-                        {mode === 'challenge' ? (
-                            <button onClick={checkChallenge} className="w-full py-2 bg-pink-600 hover:bg-pink-500 rounded font-bold text-sm mb-3">
-                                Vérifier l'Ombre
-                            </button>
-                        ) : (
-                            <div className="space-y-2 mb-4">
-                                <label className="flex items-center gap-2 text-sm text-gray-300">
-                                    <input
-                                        type="checkbox"
-                                        checked={showRays}
-                                        onChange={(e) => setShowRays(e.target.checked)}
-                                        className="accent-amber-500"
-                                    />
-                                    Afficher les rayons
-                                </label>
-                                <label className="flex items-center gap-2 text-sm text-gray-300">
-                                    <input
-                                        type="checkbox"
-                                        checked={showShadow}
-                                        onChange={(e) => setShowShadow(e.target.checked)}
-                                        className="accent-amber-500"
-                                    />
-                                    Afficher l'ombre
-                                </label>
-                            </div>
-                        )}
+                                    <div className="bg-gray-800 p-3 rounded-lg">
+                                        <label className="text-xs text-gray-400 block mb-1">Position Obstacle</label>
+                                        <input type="range" min="-2" max="2" step="0.01" value={obstaclePosition} onChange={e => setObstaclePosition(parseFloat(e.target.value))} className="w-full accent-amber-500" />
+                                        <div className="flex justify-between text-xs mt-1">
+                                            <span>Proche Source</span>
+                                            <span>Proche Écran</span>
+                                        </div>
+                                    </div>
 
-                        <div className="bg-amber-800/30 p-2 rounded border border-amber-500/20">
-                            <p className="text-xs text-amber-200 font-bold mb-1">
-                                📊 Résultat:
-                            </p>
-                            <p className="text-xs text-gray-300">
-                                Largeur Ombre: <strong>{shadowWidth.toFixed(2)} m</strong>
-                            </p>
-                            {sourceType === 'etendue' && (
-                                <p className="text-xs text-gray-300">
-                                    Largeur Pénombre: <strong>{penumbraWidth.toFixed(2)} m</strong>
-                                </p>
+                                    <div className="text-center text-xs">
+                                        <span className="text-gray-400">Taille Actuelle: </span>
+                                        <strong className={Math.abs(shadowWidth - targetNotchWidth) / targetNotchWidth < 0.1 ? 'text-green-400' : 'text-white'}>{shadowWidth.toFixed(2)} m</strong>
+                                    </div>
+
+                                    <button onClick={checkChallenge} className="w-full py-2 bg-pink-600 hover:bg-pink-500 rounded-lg font-bold text-white shadow-lg shadow-pink-900/30">
+                                        Vérifier la Taille
+                                    </button>
+                                </div>
+                            ) : (
+                                <div className="text-center py-8">
+                                    <button onClick={startChallenge} className="px-8 py-3 bg-amber-600 hover:bg-amber-500 text-white rounded-full font-bold shadow-lg shadow-amber-900/20 transition-all transform hover:scale-105">
+                                        Relever le Défi
+                                    </button>
+                                </div>
                             )}
                         </div>
-                    </div>
+                    )}
                 </DraggableHtmlPanel>
             </Html>
-
         </group>
     );
 }
 
 // ============================================================
 // P14. RÉFLEXION DE LA LUMIÈRE
+// ============================================================
+// ============================================================
+// P14. RÉFLEXION DE LA LUMIÈRE (ENRICHI)
 // ============================================================
 export function ReflexionLumiereSeconde() {
     const [angleIncidence, setAngleIncidence] = useState(45);
@@ -326,13 +276,7 @@ export function ReflexionLumiereSeconde() {
 
     const startChallenge = () => {
         setMode('challenge');
-        // Random target angle (reflected ray direction)
-        // Ray source is fixed. Mirror is flat. We vary Incidence angle.
-        // Wait, if source is fixed, changing mirror orientation changes incidence angle.
-        // In this sim, we change "Angle Incidence".
-        // Let's assume the source moves to maintain incidence... OR the mirror rotates?
-        // Sim simplifies: user sets 'i'. So 'r' = 'i'.
-        // Target should be positioned at some angle R. User must match 'i' to that R.
+        // Random target angle
         const target = Math.floor(Math.random() * 60 + 10); // 10 to 70 deg
         setTargetAngle(target);
         setAngleIncidence(45); // reset
@@ -350,7 +294,6 @@ export function ReflexionLumiereSeconde() {
         }
     };
 
-
     // Calculate ray positions
     const rayLength = 3;
     const incidentEnd = [-rayLength * Math.sin(rad), rayLength * Math.cos(rad), 0];
@@ -362,7 +305,6 @@ export function ReflexionLumiereSeconde() {
             <ConfettiExplosion active={showSuccess} />
 
             {/* Mirror surface */}
-
             <group rotation={[0, 0, 0]}>
                 {mirrorType === 'plan' ? (
                     <Box args={[6, 0.1, 2]} position={[0, 0, 0]}>
@@ -382,76 +324,46 @@ export function ReflexionLumiereSeconde() {
             {/* Normal line */}
             {showNormal && (
                 <group>
-                    <Line
-                        points={[[0, 0, 0], [0, 3.5, 0]]}
-                        color="#9c27b0"
-                        lineWidth={2}
-                        dashed
-                        dashSize={0.1}
-                    />
-                    <Text position={[0.3, 3.2, 0]} fontSize={0.15} color="#9c27b0">
-                        Normale (N)
-                    </Text>
+                    <Line points={[[0, 0, 0], [0, 3.5, 0]]} color="#9c27b0" lineWidth={2} dashed dashSize={0.1} />
+                    <Text position={[0.3, 3.2, 0]} fontSize={0.15} color="#9c27b0">Normale (N)</Text>
                 </group>
             )}
 
             {/* Incident ray */}
             <group>
-                <Line
-                    points={[incidentEnd, [0, 0, 0]]}
-                    color="#ffeb3b"
-                    lineWidth={4}
-                />
+                <Line points={[incidentEnd, [0, 0, 0]]} color="#ffeb3b" lineWidth={4} />
                 <Sphere args={[0.1, 8, 8]} position={incidentEnd}>
                     <meshStandardMaterial color="#ffeb3b" emissive="#ff9800" emissiveIntensity={0.5} />
                 </Sphere>
-                <Text position={[incidentEnd[0] - 0.5, incidentEnd[1] + 0.3, 0]} fontSize={0.15} color="#ffeb3b">
-                    Rayon incident
-                </Text>
+                <Text position={[incidentEnd[0] - 0.5, incidentEnd[1] + 0.3, 0]} fontSize={0.15} color="#ffeb3b">Rayon incident</Text>
             </group>
 
             {/* Reflected ray */}
             <group>
-                <Line
-                    points={[[0, 0, 0], reflectedEnd]}
-                    color="#4caf50"
-                    lineWidth={4}
-                />
-                <Text position={[reflectedEnd[0] + 0.3, reflectedEnd[1] + 0.3, 0]} fontSize={0.15} color="#4caf50">
-                    Rayon réfléchi
-                </Text>
+                <Line points={[[0, 0, 0], reflectedEnd]} color="#4caf50" lineWidth={4} />
+                <Text position={[reflectedEnd[0] + 0.3, reflectedEnd[1] + 0.3, 0]} fontSize={0.15} color="#4caf50">Rayon réfléchi</Text>
             </group>
 
             {/* Angle arcs */}
             {showAngles && (
                 <group>
-                    {/* Incidence angle arc */}
                     <mesh rotation={[0, 0, 0]}>
                         <ringGeometry args={[0.8, 0.9, 32, 1, Math.PI / 2, rad]} />
                         <meshBasicMaterial color="#ffeb3b" transparent opacity={0.5} side={THREE.DoubleSide} />
                     </mesh>
-                    <Text position={[-0.5, 1.2, 0]} fontSize={0.15} color="#ffeb3b">
-                        i = {angleIncidence}°
-                    </Text>
+                    <Text position={[-0.5, 1.2, 0]} fontSize={0.15} color="#ffeb3b">i = {angleIncidence}°</Text>
 
-                    {/* Reflection angle arc */}
                     <mesh rotation={[0, 0, 0]}>
                         <ringGeometry args={[0.8, 0.9, 32, 1, Math.PI / 2 - rad, rad]} />
                         <meshBasicMaterial color="#4caf50" transparent opacity={0.5} side={THREE.DoubleSide} />
                     </mesh>
-                    <Text position={[0.5, 1.2, 0]} fontSize={0.15} color="#4caf50">
-                        r = {angleReflexion}°
-                    </Text>
+                    <Text position={[0.5, 1.2, 0]} fontSize={0.15} color="#4caf50">r = {angleReflexion}°</Text>
                 </group>
             )}
 
             {/* Point of incidence */}
-            <Sphere args={[0.12, 16, 16]} position={[0, 0, 0]}>
-                <meshStandardMaterial color="#f44336" />
-            </Sphere>
-            <Text position={[0.3, -0.25, 0]} fontSize={0.12} color="#f44336">
-                I
-            </Text>
+            <Sphere args={[0.12, 16, 16]} position={[0, 0, 0]}><meshStandardMaterial color="#f44336" /></Sphere>
+            <Text position={[0.3, -0.25, 0]} fontSize={0.12} color="#f44336">I</Text>
 
             {/* Virtual image indicator (for plane mirror) */}
             {mirrorType === 'plan' && mode === 'explore' && (
@@ -459,23 +371,14 @@ export function ReflexionLumiereSeconde() {
                     <Sphere args={[0.15, 16, 16]} position={incidentEnd}>
                         <meshStandardMaterial color="#ffeb3b" transparent opacity={0.4} />
                     </Sphere>
-                    <Text position={[incidentEnd[0], incidentEnd[1] - 0.3, 0]} fontSize={0.12} color="#aaa">
-                        Image virtuelle
-                    </Text>
-                    <Line
-                        points={[[0, 0, 0], [incidentEnd[0], incidentEnd[1], 0]]}
-                        color="#aaa"
-                        lineWidth={1}
-                        dashed
-                    />
+                    <Text position={[incidentEnd[0], incidentEnd[1] - 0.3, 0]} fontSize={0.12} color="#aaa">Image virtuelle</Text>
+                    <Line points={[[0, 0, 0], [incidentEnd[0], incidentEnd[1], 0]]} color="#aaa" lineWidth={1} dashed />
                 </group>
             )}
 
             {/* Target for Challenge */}
             {mode === 'challenge' && targetAngle && (
                 <group>
-                    {/* The Target Position - needs to be hit by reflected ray */}
-                    {/* Reflected ray angle is 'r'. We need target to be at angle 'targetAngle' */}
                     <group rotation={[0, 0, -targetAngle * Math.PI / 180]}>
                         <mesh position={[0, 2.5, 0]}>
                             <circleGeometry args={[0.3, 32]} />
@@ -486,90 +389,97 @@ export function ReflexionLumiereSeconde() {
                 </group>
             )}
 
-            {/* Control Panel */}
             <Html position={[5, 3, 0]} transform={false}>
-                <DraggableHtmlPanel title="🪞 Réflexion de la Lumière">
-                    <div className="p-4 w-[300px] text-white">
-                        <div className="flex justify-between items-center mb-4">
-                            <div className="flex gap-2">
-                                <button onClick={() => setMode('explore')} className={`text-xs px-2 py-1 rounded ${mode === 'explore' ? 'bg-cyan-600' : 'bg-gray-700'}`}>Labo</button>
-                                <button onClick={startChallenge} className={`text-xs px-2 py-1 rounded ${mode === 'challenge' ? 'bg-pink-600' : 'bg-gray-700'}`}>Défi Tir 🏆</button>
-                            </div>
-                            {mode === 'challenge' && <div className="font-bold text-pink-400 text-xs">{score} pts</div>}
+                <DraggableHtmlPanel title="🪞 Réflexion de la Lumière" className="w-[350px] border-blue-500/30 text-white">
+                    <div className="mb-4">
+                        <PhaseSelector currentPhase={mode} onSelect={setMode} />
+                    </div>
+
+                    <div className="flex justify-between items-end mb-4 pb-2 border-b border-white/10">
+                        <div>
+                            <div className="text-xs text-blue-400 font-bold uppercase tracking-wider mb-1">Module Optique</div>
+                            <div className="text-xl font-black text-white leading-none">RÉFLEXION</div>
                         </div>
+                        <GradeBadge score={score} />
+                    </div>
 
-                        {mode === 'challenge' && (
-                            <div className="bg-pink-900/40 p-2 rounded mb-4 border border-pink-500/30 text-sm animate-pulse">
-                                <div className="font-bold text-pink-300">MISSION:</div>
-                                Oriente le miroir (angle i) pour que le rayon réfléchi touche la cible !
-                            </div>
-                        )}
-
-                        <div className="mb-4">
-                            <label className="block text-sm mb-1 text-gray-300">
-                                Angle d'incidence (i): <span className="text-yellow-400 font-bold">{angleIncidence}°</span>
-                            </label>
-                            <input
-                                type="range"
-                                min="10"
-                                max="80"
-                                value={angleIncidence}
-                                onChange={(e) => setAngleIncidence(parseFloat(e.target.value))}
-                                className="w-full accent-yellow-400"
-                            />
-                        </div>
-
-                        {mode === 'explore' && (
-                            <>
-                                <div className="mb-4">
-                                    <label className="block text-sm mb-2 text-gray-300">Type de miroir:</label>
+                    {mode === 'explore' ? (
+                        <>
+                            <MissionObjective objective="Manipulez la lumière avec un miroir !" icon="🪞" />
+                            <div className="space-y-4">
+                                <div className="bg-gray-800 p-3 rounded">
+                                    <label className="text-xs text-secondary block mb-2">Type de miroir</label>
                                     <div className="flex gap-2">
                                         <button onClick={() => setMirrorType('plan')} className={`flex-1 py-2 rounded text-xs ${mirrorType === 'plan' ? 'bg-blue-600' : 'bg-gray-700'}`}>📏 Plan</button>
                                         <button onClick={() => setMirrorType('courbe')} className={`flex-1 py-2 rounded text-xs ${mirrorType === 'courbe' ? 'bg-blue-600' : 'bg-gray-700'}`}>🔵 Courbe</button>
                                     </div>
                                 </div>
-                                <div className="space-y-2 mb-4">
-                                    <label className="flex items-center gap-2 text-sm text-gray-300">
-                                        <input type="checkbox" checked={showNormal} onChange={(e) => setShowNormal(e.target.checked)} className="accent-blue-500" />
-                                        Afficher la normale
-                                    </label>
-                                    <label className="flex items-center gap-2 text-sm text-gray-300">
-                                        <input type="checkbox" checked={showAngles} onChange={(e) => setShowAngles(e.target.checked)} className="accent-blue-500" />
-                                        Afficher les angles
-                                    </label>
+
+                                <div className="bg-gray-800 p-3 rounded border-l-4 border-yellow-500">
+                                    <label className="text-xs text-yellow-400 block mb-1">Angle d'incidence (i)</label>
+                                    <div className="flex items-center gap-2">
+                                        <input type="range" min="10" max="80" value={angleIncidence} onChange={(e) => setAngleIncidence(parseFloat(e.target.value))} className="flex-1 accent-yellow-400" />
+                                        <span className="font-bold w-10 text-right">{angleIncidence}°</span>
+                                    </div>
                                 </div>
-                            </>
-                        )}
 
-                        {mode === 'challenge' && (
-                            <button onClick={checkChallenge} disabled={hitTarget} className={`w-full py-2 rounded font-bold text-sm mb-3 ${hitTarget ? 'bg-green-600' : 'bg-pink-600 hover:bg-pink-500'}`}>
-                                {hitTarget ? 'CIBLE TOUCHÉE !' : 'Tirer / Vérifier'}
-                            </button>
-                        )}
+                                <div className="grid grid-cols-2 gap-2 text-xs text-gray-300">
+                                    <label className="flex items-center gap-2"><input type="checkbox" checked={showNormal} onChange={(e) => setShowNormal(e.target.checked)} className="accent-blue-500" /> Normale</label>
+                                    <label className="flex items-center gap-2"><input type="checkbox" checked={showAngles} onChange={(e) => setShowAngles(e.target.checked)} className="accent-blue-500" /> Angles</label>
+                                </div>
 
-                        <div className="bg-blue-900/20 p-2 rounded border border-blue-500/20">
-                            <p className="text-xs text-blue-200 font-bold mb-1">
-                                ⚖️ Loi de la Réflexion:
-                            </p>
-                            <div className="flex justify-between text-xs text-gray-300">
-                                <span>Incidence (i):</span>
-                                <strong className="text-yellow-400">{angleIncidence}°</strong>
+                                <div className="bg-blue-900/20 p-2 rounded text-center">
+                                    <div className="text-xs text-blue-200">Loi de la Réflexion</div>
+                                    <div className="font-bold text-white">i = r</div>
+                                    <div className="text-xs text-gray-400">{angleIncidence}° = {angleReflexion}°</div>
+                                </div>
                             </div>
-                            <div className="flex justify-between text-xs text-gray-300">
-                                <span>Réflexion (r):</span>
-                                <strong className="text-green-400">{angleReflexion}°</strong>
+                        </>
+                    ) : (
+                        <div className="bg-gray-900/50 p-4 rounded-xl border border-blue-500/30">
+                            <div className="flex justify-between items-center mb-6">
+                                <h3 className="text-blue-300 font-bold flex items-center gap-2">
+                                    <span>🎯</span> Défi Sniper Optique
+                                </h3>
+                                <XPBar current={score} nextLevel={100} />
                             </div>
+
+                            {targetAngle ? (
+                                <div className="space-y-4 animate-in slide-in-from-right duration-300">
+                                    <div className="bg-pink-900/30 p-3 rounded border border-pink-500/30 text-center">
+                                        <div className="text-pink-200 text-xs uppercase mb-1">Cible Détectée</div>
+                                        <div className="font-bold text-lg text-white">Angle Cible: {targetAngle}°</div>
+                                    </div>
+
+                                    <div className="bg-gray-800 p-3 rounded-lg">
+                                        <label className="text-xs text-yellow-400 block mb-1">Ajuste l'Angle d'Incidence</label>
+                                        <div className="flex items-center gap-2">
+                                            <input type="range" min="10" max="80" value={angleIncidence} onChange={(e) => setAngleIncidence(parseFloat(e.target.value))} className="w-full accent-yellow-500" />
+                                            <span className="text-xs font-mono w-8">{angleIncidence}°</span>
+                                        </div>
+                                    </div>
+
+                                    <button onClick={checkChallenge} disabled={hitTarget} className={`w-full py-2 rounded-lg font-bold text-white shadow-lg ${hitTarget ? 'bg-green-600' : 'bg-pink-600 hover:bg-pink-500 shadow-pink-900/30'}`}>
+                                        {hitTarget ? 'CIBLE TOUCHÉE !' : 'Tirer le Rayon'}
+                                    </button>
+                                </div>
+                            ) : (
+                                <div className="text-center py-8">
+                                    <button onClick={startChallenge} className="px-8 py-3 bg-blue-600 hover:bg-blue-500 text-white rounded-full font-bold shadow-lg shadow-blue-900/20 transition-all transform hover:scale-105">
+                                        Relever le Défi
+                                    </button>
+                                </div>
+                            )}
                         </div>
-                    </div>
+                    )}
                 </DraggableHtmlPanel>
             </Html>
-
         </group>
     );
 }
 
 // ============================================================
-// P15. RÉFRACTION ET DISPERSION
+// P15. RÉFRACTION ET DISPERSION (ENRICHI)
 // ============================================================
 export function RefractionDispersionSeconde() {
     const [angleIncidence, setAngleIncidence] = useState(45);
@@ -595,8 +505,8 @@ export function RefractionDispersionSeconde() {
 
     const startChallenge = () => {
         setMode('challenge');
-        // Random mystery index between 1.3 and 2.5
-        const secret = Number((Math.random() * 1.2 + 1.3).toFixed(2));
+        // Random mystery index
+        const secret = Number((Math.random() * 1.0 + 1.2).toFixed(2)); // 1.2 to 2.2
         setMysteryIndex(secret);
         setMilieu1('air');
         setMilieu2('mystery');
@@ -616,314 +526,196 @@ export function RefractionDispersionSeconde() {
     const n2 = indices[milieu2].n;
     const rad1 = (angleIncidence * Math.PI) / 180;
 
-    // Snell-Descartes law: n1 * sin(i1) = n2 * sin(i2)
+    // Snell-Descartes: n1 sin i1 = n2 sin i2
     const sinI2 = (n1 * Math.sin(rad1)) / n2;
     const hasTotalReflection = sinI2 > 1;
     const angleRefraction = hasTotalReflection ? 90 : (Math.asin(sinI2) * 180) / Math.PI;
     const rad2 = (angleRefraction * Math.PI) / 180;
 
-    // Calculate critical angle
-    const criticalAngle = n1 > n2 ? (Math.asin(n2 / n1) * 180) / Math.PI : null;
-
     const rayLength = 2.5;
-
-    // Dispersion colors (for prism effect)
     const spectrumColors = ['#ff0000', '#ff7f00', '#ffff00', '#00ff00', '#0000ff', '#4b0082', '#8f00ff'];
 
     return (
         <group>
             {/* First medium (top) */}
             <Box args={[8, 3, 2]} position={[0, 1.5, 0]}>
-                <meshStandardMaterial
-                    color={indices[milieu1].color}
-                    transparent
-                    opacity={0.3}
-                />
+                <meshStandardMaterial color={indices[milieu1].color} transparent opacity={0.3} />
             </Box>
-            <Text position={[-3, 2.5, 1]} fontSize={0.2} color="#333">
-                {indices[milieu1].name} (n₁ = {n1})
-            </Text>
+            <Text position={[-3, 2.5, 1]} fontSize={0.2} color="#333">{indices[milieu1].name} (n₁ = {n1})</Text>
 
             {/* Second medium (bottom) */}
             <Box args={[8, 3, 2]} position={[0, -1.5, 0]}>
-                <meshStandardMaterial
-                    color={indices[milieu2].color}
-                    transparent
-                    opacity={0.5}
-                />
+                <meshStandardMaterial color={indices[milieu2].color} transparent opacity={0.5} />
             </Box>
             <Text position={[-3, -2.5, 1]} fontSize={0.2} color="#333">
-                {indices[milieu2].name} (n₂ = {n2})
+                {indices[milieu2].name} (n₂ = {mode === 'challenge' && milieu2 === 'mystery' ? '?' : n2})
             </Text>
 
-            {/* Interface (dioptre) */}
-            <Box args={[8, 0.05, 2]} position={[0, 0, 0]}>
-                <meshStandardMaterial color="#fff" />
-            </Box>
+            {/* Interface */}
+            <Box args={[8, 0.05, 2]} position={[0, 0, 0]}><meshStandardMaterial color="#fff" /></Box>
 
             {/* Normal */}
             {showNormal && (
                 <group>
-                    <Line
-                        points={[[0, -2.5, 0], [0, 2.5, 0]]}
-                        color="#9c27b0"
-                        lineWidth={2}
-                        dashed
-                    />
-                    <Text position={[0.3, 2.2, 0]} fontSize={0.15} color="#9c27b0">
-                        Normale
-                    </Text>
+                    <Line points={[[0, -2.5, 0], [0, 2.5, 0]]} color="#9c27b0" lineWidth={2} dashed />
+                    <Text position={[0.3, 2.2, 0]} fontSize={0.15} color="#9c27b0">Normale</Text>
                 </group>
             )}
 
             {/* Incident ray */}
-            <Line
-                points={[
-                    [-rayLength * Math.sin(rad1), rayLength * Math.cos(rad1), 0],
-                    [0, 0, 0]
-                ]}
-                color="#ffeb3b"
-                lineWidth={4}
-            />
-            <Text position={[-rayLength * Math.sin(rad1) * 0.5 - 0.5, rayLength * Math.cos(rad1) * 0.5, 0]} fontSize={0.15} color="#ffeb3b">
-                Incident
-            </Text>
+            <Line points={[[-rayLength * Math.sin(rad1), rayLength * Math.cos(rad1), 0], [0, 0, 0]]} color="#ffeb3b" lineWidth={4} />
+            <Text position={[-rayLength * Math.sin(rad1) * 0.5 - 0.5, rayLength * Math.cos(rad1) * 0.5, 0]} fontSize={0.15} color="#ffeb3b">Incident</Text>
 
-            {/* Refracted ray (or total reflection) */}
+            {/* Refracted ray */}
             {!showDispersion && (
                 hasTotalReflection ? (
-                    // Total internal reflection
                     <group>
-                        <Line
-                            points={[
-                                [0, 0, 0],
-                                [rayLength * Math.sin(rad1), rayLength * Math.cos(rad1), 0]
-                            ]}
-                            color="#f44336"
-                            lineWidth={4}
-                        />
-                        <Text position={[1.5, 1.5, 0]} fontSize={0.2} color="#f44336">
-                            ⚠️ Réflexion Totale!
-                        </Text>
+                        <Line points={[[0, 0, 0], [rayLength * Math.sin(rad1), rayLength * Math.cos(rad1), 0]]} color="#f44336" lineWidth={4} />
+                        <Text position={[1.5, 1.5, 0]} fontSize={0.2} color="#f44336">⚠️ Réflexion Totale!</Text>
                     </group>
                 ) : (
                     <group>
-                        <Line
-                            points={[
-                                [0, 0, 0],
-                                [rayLength * Math.sin(rad2), -rayLength * Math.cos(rad2), 0]
-                            ]}
-                            color="#4caf50"
-                            lineWidth={4}
-                        />
-                        <Text position={[rayLength * Math.sin(rad2) * 0.5 + 0.3, -rayLength * Math.cos(rad2) * 0.5, 0]} fontSize={0.15} color="#4caf50">
-                            Réfracté
-                        </Text>
+                        <Line points={[[0, 0, 0], [rayLength * Math.sin(rad2), -rayLength * Math.cos(rad2), 0]]} color="#4caf50" lineWidth={4} />
+                        <Text position={[rayLength * Math.sin(rad2) * 0.5 + 0.3, -rayLength * Math.cos(rad2) * 0.5, 0]} fontSize={0.15} color="#4caf50">Réfracté</Text>
                     </group>
                 )
             )}
 
-            {/* Dispersion (spectrum) */}
+            {/* Dispersion */}
             {showDispersion && !hasTotalReflection && (
                 <group>
                     {spectrumColors.map((color, i) => {
                         const dispersionAngle = angleRefraction + (i - 3) * 2;
                         const dispRad = (dispersionAngle * Math.PI) / 180;
                         return (
-                            <Line
-                                key={i}
-                                points={[
-                                    [0, 0, 0],
-                                    [rayLength * Math.sin(dispRad), -rayLength * Math.cos(dispRad), 0]
-                                ]}
-                                color={color}
-                                lineWidth={3}
-                            />
+                            <Line key={i} points={[[0, 0, 0], [rayLength * Math.sin(dispRad), -rayLength * Math.cos(dispRad), 0]]} color={color} lineWidth={3} />
                         );
                     })}
-                    <Text position={[2, -2, 0]} fontSize={0.15} color="#fff">
-                        Dispersion (Spectre)
-                    </Text>
+                    <Text position={[2, -2, 0]} fontSize={0.15} color="#fff">Dispersion (Spectre)</Text>
                 </group>
             )}
 
-            {/* Success Overlay integrated for Refraction */}
             <SuccessOverlay show={showSuccess} message={`Bravo ! Indice n = ${mysteryIndex}`} points={100} onNext={startChallenge} />
             <ConfettiExplosion active={showSuccess} />
 
-
             {/* Angle indicators */}
-            <Text position={[-0.8, 0.8, 0]} fontSize={0.15} color="#ffeb3b">
-                i₁ = {angleIncidence}°
-            </Text>
+            <Text position={[-0.8, 0.8, 0]} fontSize={0.15} color="#ffeb3b">i₁ = {angleIncidence}°</Text>
             {!hasTotalReflection && (
-                <Text position={[0.5, -0.8, 0]} fontSize={0.15} color="#4caf50">
-                    i₂ = {angleRefraction.toFixed(1)}°
-                </Text>
+                <Text position={[0.5, -0.8, 0]} fontSize={0.15} color="#4caf50">i₂ = {angleRefraction.toFixed(1)}°</Text>
             )}
 
-            {/* Control Panel */}
             <Html position={[6, 2, 0]} transform={false}>
-                <DraggableHtmlPanel title="🔬 Réfraction & Dispersion">
-                    <div style={{ padding: '15px', minWidth: '300px' }}>
-                        <div style={{ marginBottom: '15px' }}>
-                            <label style={{ color: '#fff', display: 'block', marginBottom: '5px' }}>
-                                Angle d'incidence: {angleIncidence}°
-                            </label>
-                            <input
-                                type="range"
-                                min="5"
-                                max="85"
-                                value={angleIncidence}
-                                onChange={(e) => setAngleIncidence(parseFloat(e.target.value))}
-                                style={{ width: '100%' }}
-                            />
+                <DraggableHtmlPanel title="🔬 Réfraction & Dispersion" className="w-[380px] border-cyan-500/30 text-white">
+                    <div className="mb-4">
+                        <PhaseSelector currentPhase={mode} onSelect={setMode} />
+                    </div>
+
+                    <div className="flex justify-between items-end mb-4 pb-2 border-b border-white/10">
+                        <div>
+                            <div className="text-xs text-cyan-400 font-bold uppercase tracking-wider mb-1">Module Optique</div>
+                            <div className="text-xl font-black text-white leading-none">RÉFRACTION</div>
                         </div>
+                        <GradeBadge score={score} />
+                    </div>
 
-                        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px', marginBottom: '15px' }}>
-                            <div>
-                                <label style={{ color: '#fff', display: 'block', marginBottom: '5px', fontSize: '12px' }}>
-                                    Milieu 1 (dessus):
-                                </label>
-                                <select
-                                    value={milieu1}
-                                    onChange={(e) => setMilieu1(e.target.value)}
-                                    style={{
-                                        width: '100%',
-                                        padding: '8px',
-                                        borderRadius: '6px',
-                                        background: '#333',
-                                        color: '#fff',
-                                        border: 'none'
-                                    }}
-                                >
-                                    {Object.entries(indices).map(([key, val]) => (
-                                        <option key={key} value={key}>{val.name} (n={val.n})</option>
-                                    ))}
-                                </select>
-                            </div>
-                            <div>
-                                <label style={{ color: '#fff', display: 'block', marginBottom: '5px', fontSize: '12px' }}>
-                                    Milieu 2 (dessous):
-                                </label>
-                                <select
-                                    value={milieu2}
-                                    onChange={(e) => setMilieu2(e.target.value)}
-                                    style={{
-                                        width: '100%',
-                                        padding: '8px',
-                                        borderRadius: '6px',
-                                        background: '#333',
-                                        color: '#fff',
-                                        border: 'none'
-                                    }}
-                                >
-                                    {Object.entries(indices).map(([key, val]) => (
-                                        <option key={key} value={key}>{val.name} (n={val.n})</option>
-                                    ))}
-                                </select>
-                            </div>
-                        </div>
+                    {mode === 'explore' ? (
+                        <>
+                            <MissionObjective objective="Simulez le changement de milieu !" icon="🧪" />
+                            <div className="space-y-4">
+                                <div className="bg-gray-800 p-3 rounded">
+                                    <label className="text-xs text-secondary block mb-2">Milieux</label>
+                                    <div className="grid grid-cols-2 gap-2 mb-2">
+                                        <select value={milieu1} onChange={e => setMilieu1(e.target.value)} className="bg-gray-700 text-xs p-1 rounded">
+                                            {Object.keys(indices).filter(k => k !== 'mystery').map(k => <option key={k} value={k}>{indices[k].name}</option>)}
+                                        </select>
+                                        <select value={milieu2} onChange={e => setMilieu2(e.target.value)} className="bg-gray-700 text-xs p-1 rounded">
+                                            {Object.keys(indices).filter(k => k !== 'mystery').map(k => <option key={k} value={k}>{indices[k].name}</option>)}
+                                        </select>
+                                    </div>
+                                    <div className="flex justify-between text-xs text-gray-400">
+                                        <span>n₁ = {n1}</span>
+                                        <span>n₂ = {n2}</span>
+                                    </div>
+                                </div>
 
-                        {/* Challenge Mode UI */}
-                        {mode === 'challenge' ? (
-                            <div className="bg-purple-900/40 p-3 rounded mb-4 border border-purple-500/30">
-                                <p className="text-xs text-purple-300 font-bold mb-2">🔎 Trouve l'indice n du milieu Mystère !</p>
-                                <p className="text-[10px] text-gray-300 mb-2">Indice: Utilise la loi calculée ci-dessous.</p>
+                                <div className="bg-gray-800 p-3 rounded border-l-4 border-yellow-500">
+                                    <label className="text-xs text-yellow-500 block mb-1">Angle d'incidence (i₁)</label>
+                                    <div className="flex items-center gap-2">
+                                        <input type="range" min="5" max="85" value={angleIncidence} onChange={(e) => setAngleIncidence(parseFloat(e.target.value))} className="flex-1 accent-yellow-400" />
+                                        <span className="font-bold w-10 text-right text-sm">{angleIncidence}°</span>
+                                    </div>
+                                </div>
 
-                                <label className="block text-xs text-gray-300 mb-1">Ton estimation de n:</label>
-                                <div className="flex gap-2">
-                                    <input
-                                        type="number"
-                                        step="0.01"
-                                        value={guessIndex}
-                                        onChange={e => setGuessIndex(Number(e.target.value))}
-                                        className="w-20 bg-gray-800 border border-purple-500 rounded px-1 text-sm"
-                                    />
-                                    <button onClick={checkChallenge} className="flex-1 bg-purple-600 hover:bg-purple-500 rounded font-bold text-xs">
-                                        Valider
-                                    </button>
+                                <div className="space-y-2 mb-4">
+                                    <div className="flex items-center gap-4">
+                                        <label className="flex items-center gap-2 text-xs text-gray-300">
+                                            <input type="checkbox" checked={showNormal} onChange={(e) => setShowNormal(e.target.checked)} className="accent-cyan-500" /> Normale
+                                        </label>
+                                        <label className="flex items-center gap-2 text-xs text-gray-300">
+                                            <input type="checkbox" checked={showDispersion} onChange={(e) => setShowDispersion(e.target.checked)} className="accent-purple-500" /> Dispersion
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div className="bg-cyan-900/20 p-2 rounded text-center">
+                                    <div className="text-xs text-cyan-200">Loi de Snell-Descartes</div>
+                                    <div className="font-bold text-white text-sm">n₁ sin(i₁) = n₂ sin(i₂)</div>
                                 </div>
                             </div>
-                        ) : null}
+                        </>
+                    ) : (
+                        <div className="bg-gray-900/50 p-4 rounded-xl border border-cyan-500/30">
+                            <div className="flex justify-between items-center mb-6">
+                                <h3 className="text-cyan-300 font-bold flex items-center gap-2">
+                                    <span>🕵️</span> Défi Indice Mystère
+                                </h3>
+                                <XPBar current={score} nextLevel={100} />
+                            </div>
 
-                        {/* Mode Switcher */}
-                        <div className="flex gap-2 mb-4">
-                            <button onClick={() => setMode('explore')} className={`flex-1 py-1 rounded text-xs ${mode === 'explore' ? 'bg-cyan-600' : 'bg-gray-700'}`}>Labo</button>
-                            <button onClick={startChallenge} className={`flex-1 py-1 rounded text-xs ${mode === 'challenge' ? 'bg-purple-600' : 'bg-gray-700'}`}>Défi Mystère 🕵️</button>
-                        </div>
+                            {mysteryIndex ? (
+                                <div className="space-y-4 animate-in slide-in-from-right duration-300">
+                                    <div className="bg-gray-800 p-3 rounded border border-gray-600 text-center">
+                                        <div className="text-gray-400 text-xs uppercase mb-1">Matériau Inconnu</div>
+                                        <div className="font-bold text-xl text-white">n₂ = ???</div>
+                                        <div className="text-xs text-gray-500 mt-1">Change l'angle et devine l'indice !</div>
+                                    </div>
 
+                                    <div className="bg-gray-800 p-3 rounded-lg">
+                                        <label className="text-xs text-yellow-400 block mb-1">Angle d'incidence (i₁)</label>
+                                        <input type="range" min="5" max="85" value={angleIncidence} onChange={(e) => setAngleIncidence(parseFloat(e.target.value))} className="w-full accent-yellow-400" />
+                                        <div className="flex justify-between text-xs text-gray-400 mt-1">
+                                            <span>i₁ = {angleIncidence}°</span>
+                                            <span>i₂ = {hasTotalReflection ? 'Refl. Tot.' : angleRefraction.toFixed(1) + '°'}</span>
+                                        </div>
+                                    </div>
 
+                                    <div className="bg-cyan-900/20 p-3 rounded border border-cyan-500/30">
+                                        <label className="text-xs text-cyan-300 font-bold block mb-2">Ton Estimation de n₂</label>
+                                        <div className="flex items-center gap-2">
+                                            <button onClick={() => setGuessIndex(g => Math.max(1, Number((g - 0.05).toFixed(2))))} className="px-2 bg-gray-700 rounded text-lg font-bold">-</button>
+                                            <div className="flex-1 text-center font-mono text-xl font-bold bg-black/30 rounded py-1 border border-cyan-500/50 text-cyan-400">
+                                                {guessIndex.toFixed(2)}
+                                            </div>
+                                            <button onClick={() => setGuessIndex(g => Math.min(3, Number((g + 0.05).toFixed(2))))} className="px-2 bg-gray-700 rounded text-lg font-bold">+</button>
+                                        </div>
+                                    </div>
 
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: '15px' }}>
-                            <label style={{ color: '#fff', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                                <input
-                                    type="checkbox"
-                                    checked={showNormal}
-                                    onChange={(e) => setShowNormal(e.target.checked)}
-                                />
-                                Afficher la normale
-                            </label>
-                            <label style={{ color: '#fff', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                                <input
-                                    type="checkbox"
-                                    checked={showDispersion}
-                                    onChange={(e) => setShowDispersion(e.target.checked)}
-                                />
-                                🌈 Afficher la dispersion
-                            </label>
-                        </div>
-
-                        <div style={{
-                            background: hasTotalReflection ? 'rgba(244,67,54,0.3)' : 'rgba(76,175,80,0.2)',
-                            padding: '12px',
-                            borderRadius: '8px',
-                            marginBottom: '10px'
-                        }}>
-                            <p style={{ color: hasTotalReflection ? '#ef9a9a' : '#81c784', margin: '0 0 8px 0', fontWeight: 'bold' }}>
-                                📊 Calculs (Snell-Descartes):
-                            </p>
-                            <p style={{ color: '#fff', margin: '3px 0', fontSize: '12px' }}>
-                                n₁ × sin(i₁) = n₂ × sin(i₂)
-                            </p>
-                            <p style={{ color: '#fff', margin: '3px 0', fontSize: '12px' }}>
-                                {n1} × sin({angleIncidence}°) = {n2} × sin(i₂)
-                            </p>
-                            <p style={{ color: '#fff', margin: '3px 0', fontSize: '12px' }}>
-                                sin(i₂) = {sinI2.toFixed(4)}
-                            </p>
-                            {hasTotalReflection ? (
-                                <p style={{ color: '#f44336', margin: '8px 0 0 0', fontWeight: 'bold' }}>
-                                    ⚠️ sin(i₂) {'>'} 1 → Réflexion totale!
-                                </p>
+                                    <button onClick={checkChallenge} className="w-full py-2 bg-cyan-600 hover:bg-cyan-500 rounded-lg font-bold text-white shadow-lg shadow-cyan-900/30">
+                                        Valider mon hypothèse
+                                    </button>
+                                </div>
                             ) : (
-                                <p style={{ color: '#4caf50', margin: '8px 0 0 0', fontWeight: 'bold' }}>
-                                    i₂ = {angleRefraction.toFixed(1)}°
-                                </p>
-                            )}
-                            {criticalAngle && (
-                                <p style={{ color: '#ff9800', margin: '5px 0 0 0', fontSize: '11px' }}>
-                                    Angle limite: {criticalAngle.toFixed(1)}°
-                                </p>
+                                <div className="text-center py-8">
+                                    <button onClick={startChallenge} className="px-8 py-3 bg-cyan-600 hover:bg-cyan-500 text-white rounded-full font-bold shadow-lg shadow-cyan-900/20 transition-all transform hover:scale-105">
+                                        Relever le Défi
+                                    </button>
+                                </div>
                             )}
                         </div>
-
-                        <div style={{
-                            background: 'rgba(33,150,243,0.2)',
-                            padding: '10px',
-                            borderRadius: '8px',
-                            fontSize: '11px',
-                            color: '#90caf9'
-                        }}>
-                            <strong>📐 Loi de Snell-Descartes:</strong><br />
-                            n₁ × sin(i₁) = n₂ × sin(i₂)<br />
-                            Utile pour trouver un indice inconnu !
-                        </div>
-                    </div>
+                    )}
                 </DraggableHtmlPanel>
-            </Html >
-
-        </group >
+            </Html>
+        </group>
     );
 }
 

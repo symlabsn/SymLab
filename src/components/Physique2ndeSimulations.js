@@ -8,6 +8,7 @@ import { Html, Sphere, Box, Cylinder, Line, Text, Float, OrbitControls, useGLTF 
 import * as THREE from 'three';
 import DraggableHtmlPanel from './DraggableHtmlPanel';
 import { SuccessOverlay, ConfettiExplosion } from './PC4eSimulations';
+import { PhaseSelector, GradeBadge, MissionObjective, XPBar } from './GamificationUtils';
 
 // Helper for electron visualization
 function ElectronsStream({ path, count = 20, speed = 1, active = false }) {
@@ -28,9 +29,6 @@ function ElectronsStream({ path, count = 20, speed = 1, active = false }) {
     return null; // Implemented inside components for specific paths
 }
 
-// ============================================================
-// P1. ÉLECTRISATION - Phénomènes d'électrisation par frottement
-// ============================================================
 // ============================================================
 // P1. ÉLECTRISATION - Phénomènes d'électrisation (ENRICHI)
 // ============================================================
@@ -58,17 +56,16 @@ export function ElectrisationSimulation() {
         verre: { name: 'Verre', tendency: 5, color: '#A5F3FC' },
         laine: { name: 'Laine', tendency: 2, color: '#FEF3C7' },
         soie: { name: 'Soie', tendency: -1, color: '#FBCFE8' },
-        plastique: { name: 'Plastique (PVC)', tendency: -5, color: '#4ADE80' }, // PVC is very negative
+        plastique: { name: 'Plastique (PVC)', tendency: -5, color: '#4ADE80' },
         ebonite: { name: 'Ébonite', tendency: -6, color: '#1F2937' }
     };
 
     useFrame((state) => {
         // Frottement Logic
-        if (isRubbing & scenario === 'frottement') {
+        if (isRubbing && scenario === 'frottement') {
             const t1 = materials[material1].tendency;
             const t2 = materials[material2].tendency;
-            const delta = t1 - t2; // Si t1 > t2, mat1 perd e- (devient +), mat2 gagne e- (devient -)
-            // PVC (-5) vs Laine (2) => -5 - 2 = -7. PVC devient très négatif.
+            const delta = t1 - t2;
 
             // On charge progressivement
             if (Math.abs(chargeRod) < 100) {
@@ -91,16 +88,11 @@ export function ElectrisationSimulation() {
 
         // Contact Logic
         if (scenario === 'contact' && distance < 0.8) {
-            // Transfert de charge
             const total = chargeRod + chargeObject;
             const share = total / 2;
-            // Transfert progressif
             setChargeRod(prev => prev + (share - prev) * 0.1);
             setChargeObject(prev => prev + (share - prev) * 0.1);
         }
-
-        // Influence Logic (Electroscope visual effect only, no permanent transfer)
-        // Handled in render
     });
 
     const reset = () => {
@@ -147,112 +139,160 @@ export function ElectrisationSimulation() {
 
     return (
         <group>
-            <SuccessOverlay show={showSuccess} message="Défi Réussi ! Tu maîtrises l'électrisation." points={50} onNext={generateChallenge} />
+            <SuccessOverlay show={showSuccess} message="Défi Réussi !" points={50} onNext={generateChallenge} />
             <ConfettiExplosion active={showSuccess} />
 
             <Html transform={false}>
-                <DraggableHtmlPanel title="⚡ Labo d'Électrostatique" showCloseButton={false} defaultPosition="bottom-center" className="w-[350px] border-blue-400/30 text-white">
-                    <div className="flex justify-between items-center mb-4">
-                        <div className="flex gap-2">
-                            <button onClick={() => setMode('explore')} className={`text-xs px-2 py-1 rounded ${mode === 'explore' ? 'bg-blue-600' : 'bg-gray-700'}`}>Exploration</button>
-                            <button onClick={startChallenge} className={`text-xs px-2 py-1 rounded ${mode === 'challenge' ? 'bg-purple-600' : 'bg-gray-700'}`}>Défis 🏆</button>
-                        </div>
-                        {mode === 'challenge' && <div className="font-bold text-yellow-400">{score} XP</div>}
+                <DraggableHtmlPanel title="⚡ Labo Électrostatique" showCloseButton={false} defaultPosition="bottom-center" className="w-[360px] border-blue-500/30 text-white">
+                    {/* MODE SELECTOR */}
+                    <div className="mb-4">
+                        <PhaseSelector currentPhase={mode} onSelect={setMode} />
                     </div>
 
-                    {mode === 'challenge' && challenge && (
-                        <div className="mb-4 bg-purple-900/50 p-3 rounded-lg border border-purple-500/30 text-center">
-                            <div className="text-sm font-bold">{challenge.desc}</div>
-                            <div className="text-xs text-gray-400 mt-1">Choisis les bons matériaux et frotte !</div>
+                    {/* HEADER INFO */}
+                    <div className="flex justify-between items-end mb-4 pb-2 border-b border-white/10">
+                        <div>
+                            <div className="text-xs text-blue-300 font-bold uppercase tracking-wider mb-1">Module Physique</div>
+                            <div className="text-xl font-black text-white leading-none">ÉLECTRISATION</div>
                         </div>
-                    )}
-
-                    {/* Scénarios */}
-                    <div className="flex gap-2 mb-4 overflow-x-auto pb-1">
-                        {['frottement', 'contact', 'influence'].map(s => (
-                            <button key={s} onClick={() => { setScenario(s); reset(); }}
-                                className={`px-3 py-1 rounded-full text-xs font-bold whitespace-nowrap ${scenario === s ? 'bg-blue-500 text-white' : 'bg-gray-700 text-gray-300'}`}>
-                                {s.charAt(0).toUpperCase() + s.slice(1)}
-                            </button>
-                        ))}
+                        <GradeBadge score={score} />
                     </div>
 
-                    {scenario === 'frottement' && (
-                        <div className="space-y-3">
-                            <div className="grid grid-cols-2 gap-2">
-                                <div>
-                                    <label className="text-xs text-gray-400 block mb-1">Objet A (Mobile)</label>
-                                    <select value={material1} onChange={e => setMaterial1(e.target.value)} className="w-full bg-gray-800 rounded p-1 text-sm border border-gray-600">
-                                        {Object.keys(materials).map(k => <option key={k} value={k}>{materials[k].name}</option>)}
-                                    </select>
+                    {mode === 'explore' ? (
+                        <>
+                            <div className="mb-4">
+                                <MissionObjective objective="Expérimentez avec les charges électriques !" icon="🧪" />
+                            </div>
+
+                            {/* Scénarios */}
+                            <div className="flex gap-2 mb-4 overflow-x-auto pb-1 no-scrollbar">
+                                {['frottement', 'contact', 'influence'].map(s => (
+                                    <button key={s} onClick={() => { setScenario(s); reset(); }}
+                                        className={`px-3 py-1 rounded-full text-xs font-bold whitespace-nowrap transition-all ${scenario === s ? 'bg-blue-600 text-white shadow-lg shadow-blue-900/40' : 'bg-gray-800 text-gray-400 hover:bg-gray-700'}`}>
+                                        {s.charAt(0).toUpperCase() + s.slice(1)}
+                                    </button>
+                                ))}
+                            </div>
+
+                            {scenario === 'frottement' && (
+                                <div className="space-y-3 p-3 bg-gray-900/50 rounded-xl border border-white/5">
+                                    <div className="grid grid-cols-2 gap-2">
+                                        <div>
+                                            <label className="text-xs text-blue-300 font-bold block mb-1">Objet Mobile</label>
+                                            <select value={material1} onChange={e => setMaterial1(e.target.value)}
+                                                className="w-full bg-gray-800 rounded p-2 text-sm border border-gray-600 focus:border-blue-500 outline-none">
+                                                {Object.keys(materials).map(k => <option key={k} value={k}>{materials[k].name}</option>)}
+                                            </select>
+                                        </div>
+                                        <div>
+                                            <label className="text-xs text-blue-300 font-bold block mb-1">Frotteur</label>
+                                            <select value={material2} onChange={e => setMaterial2(e.target.value)}
+                                                className="w-full bg-gray-800 rounded p-2 text-sm border border-gray-600 focus:border-blue-500 outline-none">
+                                                {Object.keys(materials).map(k => <option key={k} value={k}>{materials[k].name}</option>)}
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <button
+                                        onMouseDown={() => setIsRubbing(true)}
+                                        onMouseUp={() => setIsRubbing(false)}
+                                        onMouseLeave={() => setIsRubbing(false)}
+                                        className={`w-full py-4 rounded-xl font-black text-lg transition-all transform active:scale-95 relative overflow-hidden group
+                                            ${isRubbing ? 'bg-gradient-to-r from-red-600 to-orange-600 shadow-inner' : 'bg-gradient-to-r from-blue-600 to-indigo-600 hover:scale-[1.02] shadow-lg'}`}
+                                    >
+                                        <span className="relative z-10 flex justify-center items-center gap-2">
+                                            {isRubbing ? '⚡ FROTTEMENT...' : '✋ MAINTENIR POUR FROTTER'}
+                                        </span>
+                                    </button>
                                 </div>
-                                <div>
-                                    <label className="text-xs text-gray-400 block mb-1">Objet B (Frotteur)</label>
-                                    <select value={material2} onChange={e => setMaterial2(e.target.value)} className="w-full bg-gray-800 rounded p-1 text-sm border border-gray-600">
-                                        {Object.keys(materials).map(k => <option key={k} value={k}>{materials[k].name}</option>)}
-                                    </select>
+                            )}
+
+                            {(scenario === 'contact' || scenario === 'influence') && (
+                                <div className="space-y-3 p-3 bg-gray-900/50 rounded-xl border border-white/5">
+                                    <div className="space-y-2">
+                                        <div className="flex justify-between text-xs">
+                                            <span className="text-gray-400">Charge initiale</span>
+                                            <span className="font-mono text-blue-300">{chargeRod}</span>
+                                        </div>
+                                        <input type="range" min="-100" max="100" value={chargeRod} onChange={e => setChargeRod(Number(e.target.value))}
+                                            className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-blue-500" />
+                                    </div>
+
+                                    <div className="space-y-2">
+                                        <div className="flex justify-between text-xs">
+                                            <span className="text-gray-400">Distance d'interaction</span>
+                                            <span className="font-mono text-green-300">{distance.toFixed(1)} m</span>
+                                        </div>
+                                        <input type="range" min="0.5" max="4" step="0.1" value={distance} onChange={e => setDistance(Number(e.target.value))}
+                                            className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-green-500" />
+                                    </div>
+
+                                    <div className="text-xs text-center p-2 bg-blue-900/20 rounded text-blue-200">
+                                        {scenario === 'contact' ? "Approche pour toucher et transférer la charge." : "Approche pour voir la polarisation (sans toucher)."}
+                                    </div>
+                                </div>
+                            )}
+
+                            {/* JAUGE DE CHARGE */}
+                            <div className="mt-4 p-3 bg-black/40 rounded-lg border border-white/10">
+                                <div className="flex justify-between items-center mb-2">
+                                    <div className="text-xs font-bold text-gray-300">ÉTAT DE CHARGE</div>
+                                    <div className={`text-xs font-bold ${chargeRod !== 0 ? (chargeRod > 0 ? 'text-red-400' : 'text-blue-400') : 'text-gray-500'}`}>
+                                        {chargeRod > 0 ? 'POSITIF (+)' : chargeRod < 0 ? 'NÉGATIF (-)' : 'NEUTRE'}
+                                    </div>
+                                </div>
+                                <div className="h-3 bg-gray-800 rounded-full overflow-hidden relative">
+                                    <div className="absolute top-0 bottom-0 left-1/2 w-0.5 bg-white/30 z-10"></div>
+                                    <div className={`absolute top-0 bottom-0 transition-all duration-300 ${chargeRod > 0 ? 'bg-red-500 left-1/2' : 'bg-blue-500 right-1/2'}`}
+                                        style={{ width: `${Math.abs(chargeRod) / 2}%` }} />
                                 </div>
                             </div>
+                        </>
+                    ) : (
+                        <div className="bg-gray-900/50 p-4 rounded-xl border border-purple-500/30">
+                            <div className="flex justify-between items-center mb-6">
+                                <h3 className="text-purple-300 font-bold flex items-center gap-2">
+                                    <span>🧠</span> Défi Électrique
+                                </h3>
+                                <XPBar current={score} nextLevel={100} />
+                            </div>
 
-                            <button
-                                onMouseDown={() => setIsRubbing(true)}
-                                onMouseUp={() => setIsRubbing(false)}
-                                onMouseLeave={() => setIsRubbing(false)}
-                                className={`w-full py-4 rounded-xl font-bold text-lg transition-all ${isRubbing ? 'bg-red-500 scale-95 shadow-inner' : 'bg-gradient-to-r from-orange-500 to-red-500 hover:scale-105 shadow-lg'}`}
-                            >
-                                {isRubbing ? '⚡ Frottement en cours...' : '👉 Maintenir pour Frotter'}
-                            </button>
-                        </div>
-                    )}
+                            {challenge ? (
+                                <div className="space-y-4 animate-in slide-in-from-right duration-300">
+                                    <div className="text-sm font-medium bg-black/20 p-4 rounded-lg border-l-2 border-purple-500">
+                                        {challenge.desc}
+                                        <div className="text-xs text-gray-400 mt-2 italic">Choisis les bons matériaux et frotte jusqu'à atteindre la cible !</div>
+                                    </div>
 
-                    {(scenario === 'contact' || scenario === 'influence') && (
-                        <div className="space-y-3">
-                            <div className="bg-black/20 p-2 rounded text-center">
-                                <label className="text-xs text-gray-400 block mb-1">Charge de la règle (pré-requise)</label>
-                                <input type="range" min="-100" max="100" value={chargeRod} onChange={e => setChargeRod(Number(e.target.value))} className="w-full accent-blue-500" />
-                                <div className="flex justify-between text-xs font-mono">
-                                    <span className="text-blue-400">-100</span>
-                                    <span>{chargeRod}</span>
-                                    <span className="text-red-400">+100</span>
+                                    <div className="grid grid-cols-2 gap-2">
+                                        <div className="p-2 bg-gray-800 rounded text-center">
+                                            <div className="text-xs text-gray-500">Actuel</div>
+                                            <div className={`font-bold ${chargeRod > 0 ? 'text-red-400' : 'text-blue-400'}`}>{Math.round(chargeRod)}</div>
+                                        </div>
+                                        <div className="p-2 bg-gray-800 rounded text-center">
+                                            <div className="text-xs text-gray-500">Cible</div>
+                                            <div className="font-bold text-white">{challenge.target}</div>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-
-                            <div className="bg-black/20 p-2 rounded text-center">
-                                <label className="text-xs text-gray-400 block mb-1">Distance Objet (Interaction)</label>
-                                <input type="range" min="0.5" max="4" step="0.1" value={distance} onChange={e => setDistance(Number(e.target.value))} className="w-full accent-green-500" />
-                            </div>
-
-                            <div className="text-xs text-gray-400 italic text-center">
-                                {scenario === 'contact' ? "Approche pour toucher et transférer la charge." : "Approche pour voir la polarisation (sans toucher)."}
-                            </div>
-                        </div>
-                    )}
-
-                    {/* Visualisation Charge */}
-                    <div className="mt-4 flex items-center gap-2 bg-black/40 p-2 rounded border border-white/10">
-                        <div className="text-xs font-bold text-gray-300 w-20">ÉTAT RÈGLE :</div>
-                        <div className="flex-1 h-2 bg-gray-700 rounded-full overflow-hidden relative">
-                            <div className="absolute top-0 bottom-0 left-1/2 w-0.5 bg-white/20"></div>
-                            {chargeRod !== 0 && (
-                                <div
-                                    className={`h-full absolute top-0 ${chargeRod > 0 ? 'bg-red-500 left-1/2' : 'bg-blue-500 right-1/2'}`}
-                                    style={{ width: `${Math.abs(chargeRod) / 2}%` }}
-                                ></div>
+                            ) : (
+                                <div className="text-center py-8">
+                                    <button onClick={startChallenge} className="px-6 py-3 bg-purple-600 hover:bg-purple-500 text-white rounded-full font-bold shadow-lg shadow-purple-900/20 transition-all transform hover:scale-105">
+                                        Lancer le Défi
+                                    </button>
+                                </div>
                             )}
                         </div>
-                        <div className="text-xs font-mono w-8 text-right">{chargeRod > 0 ? '+' : ''}{Math.round(chargeRod)}</div>
-                    </div>
+                    )}
                 </DraggableHtmlPanel>
             </Html>
 
-            {/* SCÈNE 3D */}
+            {/* SCÈNE 3D -inchangée sauf refs- */}
             <group>
-                {/* Règle / Baton */}
                 <group ref={rodRef} position={[-1, 2, 0]} rotation={[0, 0, -Math.PI / 6]}>
                     <Box args={[4, 0.3, 0.3]}>
                         <meshStandardMaterial color={materials[material1]?.color || 'white'} />
                     </Box>
-                    {/* Charges visuals */}
                     {Math.abs(chargeRod) > 10 && (
                         <group>
                             {Array.from({ length: Math.floor(Math.abs(chargeRod) / 10) }).map((_, i) => (
@@ -260,13 +300,11 @@ export function ElectrisationSimulation() {
                                     {chargeRod > 0 ? '+' : '-'}
                                 </Text>
                             ))}
-                            {/* Glow */}
                             <pointLight color={chargeRod > 0 ? '#EF4444' : '#3B82F6'} intensity={Math.abs(chargeRod) / 50} distance={2} />
                         </group>
                     )}
                 </group>
 
-                {/* Second Objet (Chiffon ou Electroscope) */}
                 {scenario === 'frottement' && (
                     <group position={[1, 1.5, 0]}>
                         <Box args={[2, 2, 0.5]}>
@@ -277,15 +315,13 @@ export function ElectrisationSimulation() {
                 )}
 
                 {(scenario === 'contact' || scenario === 'influence') && (
-                    <group position={[distance - 1, 2, 0]}> {/* Position relative */}
-                        {/* Électroscope simplifié (Sphère métallique sur tige) */}
+                    <group position={[distance - 1, 2, 0]}> /* Position relative */
                         <Sphere args={[0.5]} position={[0, 0, 0]}>
                             <meshStandardMaterial color="#9CA3AF" metalness={0.9} roughness={0.1} />
                         </Sphere>
                         <Cylinder args={[0.1, 0.1, 2]} position={[0, -1.2, 0]}>
                             <meshStandardMaterial color="#6B7280" />
                         </Cylinder>
-                        {/* Feuilles */}
                         <group position={[0, -2.2, 0]}>
                             <Box args={[0.05, 1, 0.4]} position={[-0.2, -0.4, 0]} rotation={[0, 0, Math.min(1.5, Math.abs(chargeObject) / 50 + (scenario === 'influence' && distance < 2 ? Math.abs(chargeRod) / (distance * 20) : 0))]}>
                                 <meshStandardMaterial color="gold" />
@@ -294,14 +330,11 @@ export function ElectrisationSimulation() {
                                 <meshStandardMaterial color="gold" />
                             </Box>
                         </group>
-
-                        {/* Visualisation Charges sur l'objet */}
                         {Math.abs(chargeObject) > 5 && (
                             <Text position={[0, 0.7, 0]} fontSize={0.3} color={chargeObject > 0 ? '#EF4444' : '#3B82F6'}>
                                 {chargeObject > 0 ? '+++' : '---'}
                             </Text>
                         )}
-                        {/* Influence Visualisation */}
                         {scenario === 'influence' && distance < 2 && Math.abs(chargeRod) > 20 && (
                             <group>
                                 <Text position={[-0.6, 0.3, 0]} fontSize={0.2} color={chargeRod > 0 ? '#3B82F6' : '#EF4444'}>
@@ -437,47 +470,109 @@ export function CircuitElectriqueSeconde() {
             </group>
 
             <Html transform={false}>
-                <DraggableHtmlPanel title="🔌 Circuit Avancé" showCloseButton={false} defaultPosition="bottom-center" className="w-[350px] border-yellow-500/30 text-white">
-                    <div className="flex justify-between items-center mb-4">
-                        <div className="flex gap-2">
-                            <button onClick={() => setMode('explore')} className={`text-xs px-2 py-1 rounded ${mode === 'explore' ? 'bg-yellow-600' : 'bg-gray-700'}`}>Labo</button>
-                            <button onClick={startChallenge} className={`text-xs px-2 py-1 rounded ${mode === 'challenge' ? 'bg-orange-600' : 'bg-gray-700'}`}>Mission 🎯</button>
-                        </div>
-                        {mode === 'challenge' && <div className="font-bold text-orange-400 font-mono">Cible: {targetCurrent} mA</div>}
+                <DraggableHtmlPanel title="🔌 Circuits Électriques" showCloseButton={false} defaultPosition="bottom-center" className="w-[380px] border-yellow-500/30 text-white">
+                    {/* MODE SELECTOR */}
+                    <div className="mb-4">
+                        <PhaseSelector currentPhase={mode} onSelect={setMode} />
                     </div>
 
-                    <div className="space-y-4">
-                        <div className="bg-gray-800 p-3 rounded-lg">
-                            <label className="text-xs text-gray-400 block mb-1">Générateur (V)</label>
-                            <input type="range" min="1" max="12" step="0.5" value={voltage} onChange={e => setVoltage(Number(e.target.value))} className="w-full accent-yellow-500" />
-                            <div className="text-right text-xs font-bold text-yellow-400">{voltage} V</div>
+                    {/* HEADER INFO */}
+                    <div className="flex justify-between items-end mb-4 pb-2 border-b border-white/10">
+                        <div>
+                            <div className="text-xs text-yellow-500 font-bold uppercase tracking-wider mb-1">Module Physique</div>
+                            <div className="text-xl font-black text-white leading-none">CIRCUITS</div>
                         </div>
+                        <GradeBadge score={score} />
+                    </div>
 
-                        {components.includes('R') && (
-                            <div className="bg-gray-800 p-3 rounded-lg">
-                                <label className="text-xs text-gray-400 block mb-1">Résistance (Ω)</label>
-                                <input type="range" min="10" max="500" step="10" value={resistance} onChange={e => setResistance(Number(e.target.value))} className="w-full accent-orange-500" />
-                                <div className="text-right text-xs font-bold text-orange-400">{resistance} Ω</div>
+                    {mode === 'explore' ? (
+                        <>
+                            <div className="mb-4">
+                                <MissionObjective objective="Maîtrisez la tension et l'intensité !" icon="💡" />
                             </div>
-                        )}
 
-                        <div className="flex gap-2">
-                            <button onClick={() => setCircuitClosed(!circuitClosed)} className={`flex-1 py-2 rounded font-bold transition-all ${circuitClosed ? 'bg-green-600' : 'bg-red-600'}`}>
-                                {circuitClosed ? 'OUVERT (ON)' : 'FERMÉ (OFF)'}
-                            </button>
+                            <div className="space-y-4 p-3 bg-gray-900/50 rounded-xl border border-white/5">
+                                <div className="bg-gray-800 p-3 rounded-lg">
+                                    <label className="text-xs text-yellow-400 font-bold block mb-1">Générateur (Tension)</label>
+                                    <div className="flex items-center gap-3">
+                                        <input type="range" min="1" max="12" step="0.5" value={voltage} onChange={e => setVoltage(Number(e.target.value))}
+                                            className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-yellow-500" />
+                                        <div className="w-16 text-right font-mono text-yellow-400 font-bold">{voltage} V</div>
+                                    </div>
+                                </div>
+
+                                {components.includes('R') && (
+                                    <div className="bg-gray-800 p-3 rounded-lg">
+                                        <label className="text-xs text-orange-400 font-bold block mb-1">Résistance</label>
+                                        <div className="flex items-center gap-3">
+                                            <input type="range" min="10" max="500" step="10" value={resistance} onChange={e => setResistance(Number(e.target.value))}
+                                                className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-orange-500" />
+                                            <div className="w-16 text-right font-mono text-orange-400 font-bold">{resistance} Ω</div>
+                                        </div>
+                                    </div>
+                                )}
+
+                                <div className="flex gap-2">
+                                    <button onClick={() => setCircuitClosed(!circuitClosed)}
+                                        className={`flex-1 py-3 rounded-lg font-black text-sm transition-all transform active:scale-95 shadow-lg ${circuitClosed ? 'bg-green-600 hover:bg-green-500 text-white shadow-green-900/30' : 'bg-red-600 hover:bg-red-500 text-white shadow-red-900/30'}`}>
+                                        {circuitClosed ? 'CIRCUIT FERMÉ (ON)' : 'CIRCUIT OUVERT (OFF)'}
+                                    </button>
+                                </div>
+
+                                <div className="bg-black/40 p-3 rounded-lg font-mono text-sm border-l-4 border-blue-500 flex justify-between items-center">
+                                    <div className="text-gray-400">Intensité (I)</div>
+                                    <div className="text-2xl font-bold text-blue-400">{current.toFixed(1)} <span className="text-sm">mA</span></div>
+                                </div>
+                            </div>
+                        </>
+                    ) : (
+                        <div className="bg-gray-900/50 p-4 rounded-xl border border-orange-500/30">
+                            <div className="flex justify-between items-center mb-6">
+                                <h3 className="text-orange-300 font-bold flex items-center gap-2">
+                                    <span>🧠</span> Mission Ingénieur
+                                </h3>
+                                <XPBar current={score} nextLevel={100} />
+                            </div>
+
+                            {targetCurrent ? (
+                                <div className="space-y-4 animate-in slide-in-from-right duration-300">
+                                    <div className="bg-black/30 p-4 rounded-lg border border-orange-500/30 text-center">
+                                        <div className="text-gray-400 text-xs uppercase tracking-widest mb-2">CIBLE À ATTEINDRE</div>
+                                        <div className="text-4xl font-black text-orange-500 mb-1">{targetCurrent} mA</div>
+                                        <div className="text-xs text-gray-500">Ajuste la tension et la résistance pour obtenir cette intensité !</div>
+                                    </div>
+
+                                    <div className="space-y-4">
+                                        <div className="bg-gray-800 p-2 rounded-lg">
+                                            <label className="text-xs text-yellow-400 block mb-1">Générateur</label>
+                                            <input type="range" min="1" max="12" step="0.5" value={voltage} onChange={e => setVoltage(Number(e.target.value))} className="w-full accent-yellow-500" />
+                                        </div>
+
+                                        <div className="bg-gray-800 p-2 rounded-lg">
+                                            <label className="text-xs text-orange-400 block mb-1">Résistance</label>
+                                            <input type="range" min="10" max="500" step="10" value={resistance} onChange={e => setResistance(Number(e.target.value))} className="w-full accent-orange-500" />
+                                        </div>
+
+                                        <div className="flex justify-between items-center bg-black/40 p-2 rounded">
+                                            <span className="text-gray-400 text-xs">Actuel :</span>
+                                            <span className={`font-mono font-bold ${Math.abs(current - targetCurrent) < 2 ? 'text-green-500' : 'text-white'}`}>{current.toFixed(1)} mA</span>
+                                        </div>
+
+                                        <button onClick={checkChallenge}
+                                            className="w-full py-3 bg-gradient-to-r from-orange-600 to-red-600 hover:from-orange-500 hover:to-red-500 rounded-lg font-bold text-white shadow-lg shadow-orange-900/20 transform transition-all hover:scale-[1.02]">
+                                            Vérifier le Circuit
+                                        </button>
+                                    </div>
+                                </div>
+                            ) : (
+                                <div className="text-center py-8">
+                                    <button onClick={startChallenge} className="px-8 py-3 bg-orange-600 hover:bg-orange-500 text-white rounded-full font-bold shadow-lg shadow-orange-900/20 transition-all transform hover:scale-105">
+                                        Recevoir ma Mission
+                                    </button>
+                                </div>
+                            )}
                         </div>
-
-                        {mode === 'challenge' && (
-                            <button onClick={checkChallenge} className="w-full py-2 bg-orange-600 hover:bg-orange-500 rounded font-bold animate-pulse">
-                                Vérifier l'Intensité
-                            </button>
-                        )}
-
-                        <div className="bg-black/40 p-2 rounded font-mono text-sm border-l-4 border-blue-500">
-                            <div>Intensité (I): <span className="text-blue-400">{current.toFixed(1)} mA</span></div>
-                            <div>Loi d'Ohm: U = R.I</div>
-                        </div>
-                    </div>
+                    )}
                 </DraggableHtmlPanel>
             </Html>
         </group>
@@ -499,7 +594,7 @@ export function LoiOhmSeconde() {
     // Gamification
     const [mode, setMode] = useState('explore'); // explore, challenge
     const [mysteryR, setMysteryR] = useState(null);
-    const [guessR, setGuessR] = useState(100);
+    const [guessR, setGuessR] = useState('');
     const [score, setScore] = useState(0);
     const [showSuccess, setShowSuccess] = useState(false);
 
@@ -510,7 +605,6 @@ export function LoiOhmSeconde() {
 
     const addDataPoint = () => {
         if (voltage > 0) {
-            // Add some noise in challenge mode for realism? No, keep it simple for 2nd S.
             setDataPoints(prev => [...prev, { U: voltage, I: currentmA }]);
         }
     };
@@ -526,12 +620,13 @@ export function LoiOhmSeconde() {
         setVoltage(0);
         setDataPoints([]);
         setShowSuccess(false);
+        setGuessR('');
     };
 
     const checkAnswer = () => {
         if (!mysteryR) return;
         // 5% tolerance
-        if (Math.abs(guessR - mysteryR) / mysteryR < 0.1) {
+        if (Math.abs(Number(guessR) - mysteryR) / mysteryR < 0.1) {
             setShowSuccess(true);
             setScore(s => s + 100);
         }
@@ -594,9 +689,6 @@ export function LoiOhmSeconde() {
 
                     {/* Plot Points */}
                     {dataPoints.map((point, i) => {
-                        // Normalize: I max ~120mA (12V/100Ohm), U max 12V
-                        // Map I (0..200) -> x (-1.5 .. 1.5)
-                        // Map U (0..12) -> y (-1 .. 1.5)
                         const x = -1.5 + (point.I / 200) * 3;
                         const y = -1 + (point.U / 12) * 2.5;
                         return (
@@ -614,68 +706,111 @@ export function LoiOhmSeconde() {
             )}
 
             <Html transform={false}>
-                <DraggableHtmlPanel title="📈 Loi d'Ohm - Analyse" showCloseButton={false} defaultPosition="bottom-center" className="w-[350px] border-purple-500/30 text-white">
-                    <div className="flex justify-between items-center mb-4">
-                        <div className="flex gap-2">
-                            <button onClick={() => setMode('explore')} className={`text-xs px-2 py-1 rounded ${mode === 'explore' ? 'bg-purple-600' : 'bg-gray-700'}`}>Labo</button>
-                            <button onClick={startChallenge} className={`text-xs px-2 py-1 rounded ${mode === 'challenge' ? 'bg-pink-600' : 'bg-gray-700'}`}>Défis 🏆</button>
-                        </div>
-                        {mode === 'challenge' && <div className="font-bold text-pink-400">{score} XP</div>}
+                <DraggableHtmlPanel title="📈 Loi d'Ohm" showCloseButton={false} defaultPosition="bottom-center" className="w-[380px] border-purple-500/30 text-white">
+                    <div className="mb-4">
+                        <PhaseSelector currentPhase={mode} onSelect={setMode} />
                     </div>
 
-                    {mode === 'challenge' && (
-                        <div className="bg-pink-900/40 p-2 rounded mb-4 border border-pink-500/30 text-sm">
-                            <span className="font-bold">Mission:</span> Détermine la valeur de la résistance mystère.
-                            Fais varier U, note I, et déduis R !
+                    <div className="flex justify-between items-end mb-4 pb-2 border-b border-white/10">
+                        <div>
+                            <div className="text-xs text-purple-400 font-bold uppercase tracking-wider mb-1">Module Physique</div>
+                            <div className="text-xl font-black text-white leading-none">LOI D'OHM</div>
                         </div>
-                    )}
+                        <GradeBadge score={score} />
+                    </div>
 
-                    <div className="space-y-4">
-                        <div className="bg-gray-800 p-3 rounded-lg">
-                            <label className="text-xs text-gray-400 block mb-1">Source de Tension (U)</label>
-                            <input type="range" min="0" max="12" step="0.1" value={voltage} onChange={e => setVoltage(Number(e.target.value))} className="w-full accent-purple-500" />
-                            <div className="text-right text-xs font-bold text-purple-400">{voltage.toFixed(1)} V</div>
-                        </div>
+                    {mode === 'explore' ? (
+                        <>
+                            <MissionObjective objective="Tracez la caractéristique U=f(I) !" icon="📈" />
 
-                        {mode === 'explore' && (
-                            <div className="bg-gray-800 p-3 rounded-lg">
-                                <label className="text-xs text-gray-400 block mb-1">Résistance (R)</label>
-                                <input type="range" min="50" max="500" step="10" value={resistance} onChange={e => setResistance(Number(e.target.value))} className="w-full accent-orange-500" />
-                                <div className="text-right text-xs font-bold text-orange-400">{resistance} Ω</div>
-                            </div>
-                        )}
+                            <div className="space-y-4 p-3 bg-gray-900/50 rounded-xl border border-white/5">
+                                <div className="bg-gray-800 p-3 rounded-lg">
+                                    <label className="text-xs text-purple-400 font-bold block mb-1">Source de Tension (U)</label>
+                                    <div className="flex items-center gap-3">
+                                        <input type="range" min="0" max="12" step="0.1" value={voltage} onChange={e => setVoltage(Number(e.target.value))}
+                                            className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-purple-500" />
+                                        <div className="w-16 text-right font-mono text-purple-400 font-bold">{voltage.toFixed(1)} V</div>
+                                    </div>
+                                </div>
 
-                        <div className="flex gap-2">
-                            <button onClick={addDataPoint} className="flex-1 py-2 bg-blue-600 hover:bg-blue-500 rounded font-bold text-xs">
-                                + Mesure (U, I)
-                            </button>
-                            <button onClick={clearData} className="flex-1 py-2 bg-gray-700 hover:bg-gray-600 rounded font-bold text-xs">
-                                Effacer
-                            </button>
-                            <button onClick={() => setShowGraph(!showGraph)} className={`flex-1 py-2 rounded font-bold text-xs ${showGraph ? 'bg-green-600' : 'bg-gray-700'}`}>
-                                Graphique
-                            </button>
-                        </div>
+                                <div className="bg-gray-800 p-3 rounded-lg">
+                                    <label className="text-xs text-orange-400 font-bold block mb-1">Résistance (R)</label>
+                                    <div className="flex items-center gap-3">
+                                        <input type="range" min="50" max="500" step="10" value={resistance} onChange={e => setResistance(Number(e.target.value))}
+                                            className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-orange-500" />
+                                        <div className="w-16 text-right font-mono text-orange-400 font-bold">{resistance} Ω</div>
+                                    </div>
+                                </div>
 
-                        {mode === 'challenge' && (
-                            <div className="border-t border-gray-600 pt-3">
-                                <label className="text-xs text-pink-300 block mb-1">Ta réponse R (Ω) :</label>
-                                <div className="flex gap-2">
-                                    <input type="number" value={guessR} onChange={e => setGuessR(Number(e.target.value))} className="w-20 bg-gray-900 border border-pink-500 rounded px-2" />
-                                    <button onClick={checkAnswer} className="flex-1 bg-pink-600 hover:bg-pink-500 rounded font-bold text-xs">Valider</button>
+                                <div className="grid grid-cols-2 gap-2">
+                                    <button onClick={addDataPoint} className="py-2 bg-blue-600 hover:bg-blue-500 rounded-lg font-bold text-xs shadow-lg shadow-blue-900/40">
+                                        + Mesure (U, I)
+                                    </button>
+                                    <button onClick={clearData} className="py-2 bg-gray-700 hover:bg-gray-600 rounded-lg font-bold text-xs">
+                                        Effacer Points
+                                    </button>
+                                </div>
+                                <button onClick={() => setShowGraph(!showGraph)} className={`w-full py-2 rounded-lg font-bold text-xs transition-all ${showGraph ? 'bg-green-600/20 text-green-400 border border-green-500/50' : 'bg-gray-800 text-gray-400'}`}>
+                                    {showGraph ? 'Graphe Visible' : 'Afficher Graphe'}
+                                </button>
+
+                                <div className="bg-black/40 p-2 rounded-lg font-mono text-xs border-l-4 border-yellow-500">
+                                    <div className="flex justify-between">
+                                        <span>Points mesurés : {dataPoints.length}</span>
+                                        {dataPoints.length > 1 && (
+                                            <span className="text-yellow-400">
+                                                R ≈ {(dataPoints[dataPoints.length - 1].U / (dataPoints[dataPoints.length - 1].I / 1000)).toFixed(0)} Ω
+                                            </span>
+                                        )}
+                                    </div>
                                 </div>
                             </div>
-                        )}
+                        </>
+                    ) : (
+                        <div className="bg-gray-900/50 p-4 rounded-xl border border-pink-500/30">
+                            <div className="flex justify-between items-center mb-6">
+                                <h3 className="text-pink-300 font-bold flex items-center gap-2">
+                                    <span>🕵️</span> Résistance Mystère
+                                </h3>
+                                <XPBar current={score} nextLevel={100} />
+                            </div>
 
-                        <div className="bg-black/40 p-2 rounded font-mono text-xs border-l-4 border-yellow-500">
-                            <div>Points: {dataPoints.length}</div>
-                            {dataPoints.length > 1 && (
-                                <div className="text-gray-400 mt-1">
-                                    Pente estimée (U/I) ≈ {(dataPoints[dataPoints.length - 1].U / (dataPoints[dataPoints.length - 1].I / 1000)).toFixed(0)} Ω
+                            {mysteryR ? (
+                                <div className="space-y-4 animate-in slide-in-from-right duration-300">
+                                    <div className="text-sm bg-black/30 p-3 rounded-lg border-l-2 border-pink-500 text-gray-300">
+                                        Une résistance inconnue est connectée. Fais varier la tension, observe l'intensité, et déduis sa valeur (R = U/I) !
+                                    </div>
+
+                                    <div className="bg-gray-800 p-3 rounded-lg">
+                                        <label className="text-xs text-purple-400 font-bold block mb-1">Voltage (U)</label>
+                                        <input type="range" min="0" max="12" step="0.5" value={voltage} onChange={e => setVoltage(Number(e.target.value))}
+                                            className="w-full accent-purple-500" />
+                                        <div className="flex justify-between text-xs mt-2 font-mono">
+                                            <span className="text-purple-400">U = {voltage.toFixed(1)} V</span>
+                                            <span className="text-blue-400">I = {currentmA.toFixed(1)} mA</span>
+                                        </div>
+                                    </div>
+
+                                    <div className="space-y-2">
+                                        <label className="text-xs text-pink-300 font-bold block">Ta réponse (en Ω) :</label>
+                                        <div className="flex gap-2">
+                                            <input type="number" value={guessR} onChange={e => setGuessR(e.target.value)}
+                                                className="w-full bg-gray-900 border border-pink-500 rounded-lg px-3 py-2 text-white outline-none focus:ring-2 focus:ring-pink-500" placeholder="ex: 200" />
+                                            <button onClick={checkAnswer} className="px-4 bg-pink-600 hover:bg-pink-500 rounded-lg font-bold text-white shadow-lg shadow-pink-900/30">
+                                                Valider
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            ) : (
+                                <div className="text-center py-8">
+                                    <button onClick={startChallenge} className="px-8 py-3 bg-pink-600 hover:bg-pink-500 text-white rounded-full font-bold shadow-lg shadow-pink-900/20 transition-all transform hover:scale-105">
+                                        Commencer l'Enquête
+                                    </button>
                                 </div>
                             )}
                         </div>
-                    </div>
+                    )}
                 </DraggableHtmlPanel>
             </Html>
         </group>
@@ -692,36 +827,60 @@ export function GenerateurSeconde() {
     const [fem, setFem] = useState(9); // Force électromotrice
     const [rInterne, setRInterne] = useState(2); // Résistance interne
     const [rExterne, setRExterne] = useState(50); // Résistance externe
-    const [showHeat, setShowHeat] = useState(true);
 
-    const iTot = fem / (rInterne + rExterne);
-    const uBornes = fem - rInterne * iTot;
+    // Gamification
+    const [mode, setMode] = useState('explore');
+    const [mysteryParams, setMysteryParams] = useState(null); // {E, r}
+    const [guessE, setGuessE] = useState('');
+    const [guessr, setGuessr] = useState('');
+    const [score, setScore] = useState(0);
+    const [showSuccess, setShowSuccess] = useState(false);
+
+    // Physics
+    const activeE = mode === 'challenge' && mysteryParams ? mysteryParams.E : fem;
+    const active_r = mode === 'challenge' && mysteryParams ? mysteryParams.r : rInterne;
+
+    const iTot = activeE / (active_r + rExterne);
+    const uBornes = activeE - active_r * iTot;
     const pUtile = uBornes * iTot;
-    const pPerdue = rInterne * iTot * iTot;
-    const rendement = (pUtile / (pUtile + pPerdue)) * 100;
+    const pPerdue = active_r * iTot * iTot;
+    const rendement = pUtile > 0 ? (pUtile / (pUtile + pPerdue)) * 100 : 0;
 
     // Heat Color Interpolation
-    // Max heating when short circuit (R -> 0). Power ~ E^2/r.
-    // If E=12, r=1 => P = 144 Watts (huge). 
-    // Let's visual scale: 0 W -> Normal, 50 W -> Red Hot.
     const heatLevel = Math.min(pPerdue / 20, 1); // 0 to 1
     const batteryColor = new THREE.Color('#333333').lerp(new THREE.Color('#FF4500'), heatLevel);
 
-    // Particles for energy flow?
-    const particles = useRef([]);
-    useFrame((state) => {
-        // Animate particles flow speed prop to current
-        if (particles.current) {
-            // ... simple visual update could go here
+    const startChallenge = () => {
+        setMode('challenge');
+        setMysteryParams({
+            E: Math.floor(Math.random() * 8 + 4), // 4 to 12 V
+            r: Math.floor(Math.random() * 5 + 1) // 1 to 6 Ohm
+        });
+        setRExterne(50);
+        setGuessE('');
+        setGuessr('');
+        setShowSuccess(false);
+    };
+
+    const checkAnswer = () => {
+        if (!mysteryParams) return;
+        const correctE = Math.abs(Number(guessE) - mysteryParams.E) < 0.5;
+        const correctr = Math.abs(Number(guessr) - mysteryParams.r) < 0.5;
+
+        if (correctE && correctr) {
+            setShowSuccess(true);
+            setScore(s => s + 100);
         }
-    });
+    };
 
     return (
         <group>
+            <SuccessOverlay show={showSuccess} message={`Expert Batterie ! E=${mysteryParams?.E}V, r=${mysteryParams?.r}Ω`} points={100} onNext={startChallenge} />
+            <ConfettiExplosion active={showSuccess} />
+
             {/* Battery representation */}
             <group position={[-2, 0, 0]}>
                 <Box args={[1.5, 2, 1]}>
-                    {/* Dynamic material color for heat */}
                     <meshStandardMaterial color={batteryColor} emissive={heatLevel > 0.5 ? "#FF0000" : "black"} emissiveIntensity={heatLevel} />
                 </Box>
                 {/* Positive terminal */}
@@ -734,9 +893,13 @@ export function GenerateurSeconde() {
                     <Box args={[1.2, 1.8, 0.01]}>
                         <meshBasicMaterial color="black" opacity={0.5} transparent />
                     </Box>
-                    <Text position={[0, 0.5, 0.05]} fontSize={0.2} color="#4caf50">E = {fem}V</Text>
+                    <Text position={[0, 0.5, 0.05]} fontSize={0.2} color="#4caf50">
+                        {mode === 'challenge' ? 'E = ?' : `E = ${fem}V`}
+                    </Text>
                     <Box args={[0.6, 0.2, 0.05]} position={[0, 0, 0.05]} material-color="#ff9800" />
-                    <Text position={[0, 0, 0.1]} fontSize={0.15} color="white">r = {rInterne}Ω</Text>
+                    <Text position={[0, 0, 0.1]} fontSize={0.15} color="white">
+                        {mode === 'challenge' ? 'r = ?' : `r = ${rInterne}Ω`}
+                    </Text>
                 </group>
 
                 {heatLevel > 0.3 && (
@@ -749,8 +912,8 @@ export function GenerateurSeconde() {
             {/* External circuit Wires */}
             <Line
                 points={[[-1.2, 1, 0], [2, 1, 0], [2, -1, 0], [-1.2, -1, 0]]}
-                color={heatLevel > 0.8 ? "#FF4500" : "#ffc107"} // Wires glow too if high current
-                lineWidth={3 + iTot * 5} // Thicker line for more current
+                color={heatLevel > 0.8 ? "#FF4500" : "#ffc107"}
+                lineWidth={3 + iTot * 5}
             />
 
             {/* External Load */}
@@ -797,12 +960,14 @@ export function GenerateurSeconde() {
                 <Text position={[0, 2.7, 0]} fontSize={0.2} color="white">U</Text>
 
                 {/* The theoretical line */}
-                <Line
-                    points={[[0, fem / 6, 0], [3, (fem - rInterne * (3 * 2)) / 6, 0]]} // Scaling I (0-6A -> 0-3), U (0-12V -> 0-2)
-                    color="gray"
-                    dashed
-                    lineWidth={1}
-                />
+                {mode === 'explore' && (
+                    <Line
+                        points={[[0, fem / 6, 0], [3, (fem - rInterne * (3 * 2)) / 6, 0]]}
+                        color="gray"
+                        dashed
+                        lineWidth={1}
+                    />
+                )}
 
                 {/* Current Operating Point */}
                 <Sphere args={[0.1]} position={[iTot / 2, uBornes / 6, 0]}>
@@ -812,50 +977,121 @@ export function GenerateurSeconde() {
                 <Line points={[[0, uBornes / 6, 0], [iTot / 2, uBornes / 6, 0]]} color="gray" dashed />
             </group>
 
-
             <Html transform={false}>
-                <DraggableHtmlPanel title="🔋 Générateur Réel" showCloseButton={false} defaultPosition="bottom-center" className="w-[350px] border-green-500/30 text-white">
-                    <div className="space-y-4">
-                        <div className="bg-gray-800 p-3 rounded-lg border-l-4 border-green-500">
-                            <div className="font-bold text-sm mb-2">Caractéristiques du Générateur</div>
-                            <div className="grid grid-cols-2 gap-2">
-                                <div>
-                                    <label className="text-[10px] text-gray-400">Force Électromotrice E (V)</label>
-                                    <input type="number" value={fem} onChange={(e) => setFem(Number(e.target.value))} className="w-full bg-gray-900 border border-gray-600 rounded px-1 text-sm" />
-                                </div>
-                                <div>
-                                    <label className="text-[10px] text-gray-400">Résistance Interne r (Ω)</label>
-                                    <input type="number" value={rInterne} onChange={(e) => setRInterne(Number(e.target.value))} className="w-full bg-gray-900 border border-gray-600 rounded px-1 text-sm" />
-                                </div>
-                            </div>
-                        </div>
-
-                        <div className="bg-gray-800 p-3 rounded-lg border-l-4 border-brown-500">
-                            <label className="text-xs text-gray-400 block mb-1">Charge Externe R (Ω)</label>
-                            <input type="range" min="0" max="100" step="1" value={rExterne} onChange={e => setRExterne(Number(e.target.value))} className="w-full accent-orange-500" />
-                            <div className="flex justify-between text-xs">
-                                <span>Court-Circuit (0Ω)</span>
-                                <span className="font-bold text-orange-400">{rExterne} Ω</span>
-                            </div>
-                        </div>
-
-                        <div className="grid grid-cols-2 gap-2 text-xs">
-                            <div className="bg-blue-900/30 p-2 rounded">
-                                <div className="text-gray-400">Puissance Utile</div>
-                                <div className="text-lg font-bold text-blue-300">{(pUtile).toFixed(2)} W</div>
-                            </div>
-                            <div className="bg-red-900/30 p-2 rounded">
-                                <div className="text-gray-400">Pertes (Joule)</div>
-                                <div className="text-lg font-bold text-red-300">{(pPerdue).toFixed(2)} W</div>
-                            </div>
-                        </div>
-
-                        {rendement < 50 && (
-                            <div className="text-xs text-red-400 animate-pulse text-center font-bold">
-                                Attention : Rendement faible ({rendement.toFixed(0)}%) ! Le générateur chauffe.
-                            </div>
-                        )}
+                <DraggableHtmlPanel title="🔋 Générateur Réel" showCloseButton={false} defaultPosition="bottom-center" className="w-[380px] border-green-500/30 text-white">
+                    <div className="mb-4">
+                        <PhaseSelector currentPhase={mode} onSelect={setMode} />
                     </div>
+
+                    <div className="flex justify-between items-end mb-4 pb-2 border-b border-white/10">
+                        <div>
+                            <div className="text-xs text-green-400 font-bold uppercase tracking-wider mb-1">Module Physique</div>
+                            <div className="text-xl font-black text-white leading-none">GÉNÉRATEUR</div>
+                        </div>
+                        <GradeBadge score={score} />
+                    </div>
+
+                    {mode === 'explore' ? (
+                        <>
+                            <MissionObjective objective="Visualisez l'effet de la résistance interne !" icon="🔋" />
+                            <div className="space-y-4 p-3 bg-gray-900/50 rounded-xl border border-white/5">
+                                <div className="bg-gray-800 p-3 rounded-lg border-l-4 border-green-500">
+                                    <div className="font-bold text-sm mb-2 text-gray-300">Caractéristiques (Source)</div>
+                                    <div className="grid grid-cols-2 gap-2">
+                                        <div>
+                                            <label className="text-[10px] text-gray-400 font-bold">Force Électromotrice E (V)</label>
+                                            <input type="number" value={fem} onChange={(e) => setFem(Number(e.target.value))}
+                                                className="w-full bg-gray-900 border border-gray-600 rounded px-2 py-1 text-sm focus:border-green-500 outline-none" />
+                                        </div>
+                                        <div>
+                                            <label className="text-[10px] text-gray-400 font-bold">Résistance Interne r (Ω)</label>
+                                            <input type="number" value={rInterne} onChange={(e) => setRInterne(Number(e.target.value))}
+                                                className="w-full bg-gray-900 border border-gray-600 rounded px-2 py-1 text-sm focus:border-green-500 outline-none" />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div className="bg-gray-800 p-3 rounded-lg border-l-4 border-orange-500">
+                                    <label className="text-xs text-orange-400 block mb-1 font-bold">Charge Externe R (Ω)</label>
+                                    <div className="flex items-center gap-3">
+                                        <input type="range" min="0" max="100" step="1" value={rExterne} onChange={e => setRExterne(Number(e.target.value))}
+                                            className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-orange-500" />
+                                        <div className="w-16 text-right font-mono text-orange-400 font-bold">{rExterne} Ω</div>
+                                    </div>
+                                    <div className="mt-1 text-xs text-center text-gray-500">0Ω = Court-Circuit</div>
+                                </div>
+
+                                <div className="grid grid-cols-2 gap-2 text-xs">
+                                    <div className="bg-blue-900/30 p-2 rounded text-center">
+                                        <div className="text-blue-200 mb-1">Puissance Utile</div>
+                                        <div className="text-lg font-bold text-blue-300">{(pUtile).toFixed(2)} W</div>
+                                    </div>
+                                    <div className="bg-red-900/30 p-2 rounded text-center">
+                                        <div className="text-red-200 mb-1">Pertes (Joule)</div>
+                                        <div className="text-lg font-bold text-red-300">{(pPerdue).toFixed(2)} W</div>
+                                    </div>
+                                </div>
+
+                                {rendement > 0 && (
+                                    <div className="text-center text-xs">
+                                        <span className="text-gray-400">Rendement :</span>
+                                        <span className={`font-bold ml-1 ${rendement < 50 ? 'text-red-400' : 'text-green-400'}`}>{rendement.toFixed(1)}%</span>
+                                    </div>
+                                )}
+                            </div>
+                        </>
+                    ) : (
+                        <div className="bg-gray-900/50 p-4 rounded-xl border border-green-500/30">
+                            <div className="flex justify-between items-center mb-6">
+                                <h3 className="text-green-300 font-bold flex items-center gap-2">
+                                    <span>⚙️</span> Diagnostic Expert
+                                </h3>
+                                <XPBar current={score} nextLevel={100} />
+                            </div>
+
+                            {mysteryParams ? (
+                                <div className="space-y-4 animate-in slide-in-from-right duration-300">
+                                    <div className="text-sm bg-black/30 p-3 rounded-lg border-l-2 border-green-500 text-gray-300">
+                                        Ce générateur est défectueux (valeurs inconnues). <br />
+                                        Fais varier la charge R, relève U et I. <br />
+                                        Rappel : U = E - r.I  (donc E = U à vide)
+                                    </div>
+
+                                    <div className="bg-gray-800 p-3 rounded-lg">
+                                        <label className="text-xs text-orange-400 font-bold block mb-1">Charge Externe R</label>
+                                        <input type="range" min="0" max="100" step="1" value={rExterne} onChange={e => setRExterne(Number(e.target.value))}
+                                            className="w-full accent-orange-500" />
+                                        <div className="flex justify-between text-xs mt-2 font-mono">
+                                            <span className="text-blue-400">U = {uBornes.toFixed(2)} V</span>
+                                            <span className="text-green-400">I = {iTot.toFixed(2)} A</span>
+                                        </div>
+                                    </div>
+
+                                    <div className="grid grid-cols-2 gap-2">
+                                        <div>
+                                            <label className="text-xs text-green-300 font-bold block">E (Volts) ?</label>
+                                            <input type="number" value={guessE} onChange={e => setGuessE(e.target.value)}
+                                                className="w-full bg-gray-900 border border-green-500 rounded px-2 py-1 text-white" />
+                                        </div>
+                                        <div>
+                                            <label className="text-xs text-green-300 font-bold block">r (Ohms) ?</label>
+                                            <input type="number" value={guessr} onChange={e => setGuessr(e.target.value)}
+                                                className="w-full bg-gray-900 border border-green-500 rounded px-2 py-1 text-white" />
+                                        </div>
+                                    </div>
+                                    <button onClick={checkAnswer} className="w-full py-2 bg-green-600 hover:bg-green-500 rounded-lg font-bold text-white shadow-lg shadow-green-900/30">
+                                        Valider le Diagnostic
+                                    </button>
+                                </div>
+                            ) : (
+                                <div className="text-center py-8">
+                                    <button onClick={startChallenge} className="px-8 py-3 bg-green-600 hover:bg-green-500 text-white rounded-full font-bold shadow-lg shadow-green-900/20 transition-all transform hover:scale-105">
+                                        Diagnostiquer
+                                    </button>
+                                </div>
+                            )}
+                        </div>
+                    )}
                 </DraggableHtmlPanel>
             </Html>
         </group>
@@ -865,16 +1101,18 @@ export function GenerateurSeconde() {
 // ============================================================
 // P7. AMPLIFICATEUR OPÉRATIONNEL (AOP) - IDÉAL ET RÉEL
 // ============================================================
+// ============================================================
+// P7. AMPLIFICATEUR OPÉRATIONNEL (AOP) - IDÉAL ET RÉEL (ENRICHI)
+// ============================================================
 export function AOPSimulation() {
-    const [mode, setMode] = useState('inverter'); // inverter, non-inverter, comparator, follower
+    const [aopMode, setAopMode] = useState('inverter');
     const [ve, setVe] = useState(1); // Input voltage
     const [r1, setR1] = useState(1000); // 1k
     const [r2, setR2] = useState(2000); // 2k for Gain 2
     const [vsat, setVsat] = useState(15);
-    const [showSchema, setShowSchema] = useState(true);
 
     // Gamification
-    const [challengeMode, setChallengeMode] = useState(false);
+    const [mode, setMode] = useState('explore'); // explore, challenge
     const [targetGain, setTargetGain] = useState(null);
     const [score, setScore] = useState(0);
     const [showSuccess, setShowSuccess] = useState(false);
@@ -883,17 +1121,17 @@ export function AOPSimulation() {
     let vs = 0;
     let gain = 0;
 
-    if (mode === 'inverter') {
+    // Logic based on aopMode
+    if (aopMode === 'inverter') {
         gain = -r2 / r1;
         vs = gain * ve;
-    } else if (mode === 'non-inverter') {
+    } else if (aopMode === 'non-inverter') {
         gain = 1 + (r2 / r1);
         vs = gain * ve;
-    } else if (mode === 'follower') {
+    } else if (aopMode === 'follower') {
         gain = 1;
         vs = ve;
-    } else if (mode === 'comparator') {
-        // Simple comparator with Vref = 0 for now
+    } else if (aopMode === 'comparator') {
         vs = ve > 0 ? vsat : -vsat;
         gain = null;
     }
@@ -903,18 +1141,18 @@ export function AOPSimulation() {
     if (isSaturated) vs = Math.sign(vs) * vsat;
 
     const startChallenge = () => {
-        setChallengeMode(true);
+        setMode('challenge');
+        setAopMode('inverter');
         const targets = [-2, -5, -10, 2, 5, 11];
         setTargetGain(targets[Math.floor(Math.random() * targets.length)]);
         setScore(0);
         setShowSuccess(false);
-        // Reset R so user has to find it
         setR1(1000);
         setR2(1000);
     };
 
     const checkChallenge = () => {
-        if (!targetGain || !gain) return;
+        if (!targetGain || gain === null) return;
         if (Math.abs(gain - targetGain) < 0.1) {
             setShowSuccess(true);
             setScore(s => s + 100);
@@ -942,20 +1180,14 @@ export function AOPSimulation() {
                 ))}
             </group>
 
-            {/* Circuit Visualization based on Mode */}
+            {/* Circuit Visualization based on aopMode */}
             <group position={[0, 1.5, 0]}>
-                {mode === 'inverter' && (
-                    <Text position={[0, 0, 0]} fontSize={0.3} color="#4fc3f7">Montage Inverseur</Text>
-                )}
-                {mode === 'non-inverter' && (
-                    <Text position={[0, 0, 0]} fontSize={0.3} color="#4fc3f7">Montage Non-Inverseur</Text>
-                )}
-                {mode === 'follower' && (
-                    <Text position={[0, 0, 0]} fontSize={0.3} color="#4fc3f7">Suiveur de Tension</Text>
-                )}
-                {mode === 'comparator' && (
-                    <Text position={[0, 0, 0]} fontSize={0.3} color="#4fc3f7">Comparateur</Text>
-                )}
+                <Text position={[0, 0, 0]} fontSize={0.3} color="#4fc3f7">
+                    {aopMode === 'inverter' && "Montage Inverseur"}
+                    {aopMode === 'non-inverter' && "Montage Non-Inverseur"}
+                    {aopMode === 'follower' && "Suiveur de Tension"}
+                    {aopMode === 'comparator' && "Comparateur"}
+                </Text>
             </group>
 
             {/* Oscilloscope View (Simplified) */}
@@ -973,7 +1205,7 @@ export function AOPSimulation() {
                     color="#ffeb3b"
                     lineWidth={2}
                 />
-                <Text position={[-1.7, (ve / 10) + 0.2, 0.2]} fontSize={0.15} color="#ffeb3b">Ve</Text>
+                <Text position={[-1.7, Math.min(1.2, (ve / 10) + 0.2), 0.2]} fontSize={0.15} color="#ffeb3b">Ve</Text>
 
                 {/* Output Signal Trace (Blue) */}
                 <Line
@@ -981,7 +1213,7 @@ export function AOPSimulation() {
                     color="#2196f3"
                     lineWidth={3}
                 />
-                <Text position={[1.7, (vs / 10) + 0.2, 0.2]} fontSize={0.15} color="#2196f3">Vs</Text>
+                <Text position={[1.7, Math.min(1.2, (vs / 10) + 0.2), 0.2]} fontSize={0.15} color="#2196f3">Vs</Text>
 
                 {isSaturated && (
                     <Text position={[0, -1.2, 0.2]} fontSize={0.2} color="red">SATURATION !</Text>
@@ -994,72 +1226,139 @@ export function AOPSimulation() {
                 <Text position={[-1, 0.5, 0]} fontSize={0.2} color="white">Ve = {ve}V</Text>
 
                 {/* Resistors */}
-                {mode !== 'follower' && mode !== 'comparator' && (
+                {aopMode !== 'follower' && aopMode !== 'comparator' && (
                     <>
                         <Box args={[1, 0.3, 0.3]} position={[0, 1, 0]} material-color="#795548" />
-                        <Text position={[0, 1.3, 0]} fontSize={0.15} color="#fff">R2 = {r2}Ω</Text>
+                        <Text position={[0, 1.3, 0]} fontSize={0.15} color="white">R2 = {r2}Ω</Text>
 
                         <Box args={[1, 0.3, 0.3]} position={[0, -1, 0]} material-color="#795548" />
-                        <Text position={[0, -0.7, 0]} fontSize={0.15} color="#fff">R1 = {r1}Ω</Text>
+                        <Text position={[0, -0.7, 0]} fontSize={0.15} color="white">R1 = {r1}Ω</Text>
                     </>
                 )}
             </group>
 
             <Html transform={false}>
-                <DraggableHtmlPanel title="📟 Contrôle AOP" showCloseButton={false} defaultPosition="bottom-center" className="w-[350px] border-cyan-500/30 text-white">
-                    <div className="flex justify-between items-center mb-4">
-                        <div className="flex gap-2">
-                            <button onClick={() => setChallengeMode(false)} className={`text-xs px-2 py-1 rounded ${!challengeMode ? 'bg-cyan-600' : 'bg-gray-700'}`}>Labo</button>
-                            <button onClick={startChallenge} className={`text-xs px-2 py-1 rounded ${challengeMode ? 'bg-pink-600' : 'bg-gray-700'}`}>Défi Gain 🏆</button>
-                        </div>
-                        {challengeMode && <div className="font-bold text-pink-400">Objectif: Gain {targetGain}</div>}
+                <DraggableHtmlPanel title="🎛️ Amplificateur Opérationnel" showCloseButton={false} defaultPosition="bottom-center" className="w-[400px] border-blue-500/30 text-white">
+                    <div className="mb-4">
+                        <PhaseSelector currentPhase={mode} onSelect={setMode} />
                     </div>
 
-                    <div className="space-y-4">
-                        {!challengeMode && (
-                            <div className="grid grid-cols-2 gap-2">
-                                <button onClick={() => setMode('inverter')} className={`text-[10px] p-1 rounded ${mode === 'inverter' ? 'bg-blue-600' : 'bg-gray-700'}`}>Inverseur</button>
-                                <button onClick={() => setMode('non-inverter')} className={`text-[10px] p-1 rounded ${mode === 'non-inverter' ? 'bg-blue-600' : 'bg-gray-700'}`}>Non-Inv.</button>
-                                <button onClick={() => setMode('follower')} className={`text-[10px] p-1 rounded ${mode === 'follower' ? 'bg-blue-600' : 'bg-gray-700'}`}>Suiveur</button>
-                                <button onClick={() => setMode('comparator')} className={`text-[10px] p-1 rounded ${mode === 'comparator' ? 'bg-blue-600' : 'bg-gray-700'}`}>Comparateur</button>
-                            </div>
-                        )}
-
-                        <div className="bg-gray-800 p-3 rounded border-l-4 border-yellow-500">
-                            <label className="text-xs text-gray-400 block mb-1">Tension d'entrée Ve (V)</label>
-                            <input type="range" min="-10" max="10" step="0.5" value={ve} onChange={e => setVe(Number(e.target.value))} className="w-full accent-yellow-400" />
-                            <div className="text-right text-xs text-yellow-400 font-mono">{ve} V</div>
+                    <div className="flex justify-between items-end mb-4 pb-2 border-b border-white/10">
+                        <div>
+                            <div className="text-xs text-blue-400 font-bold uppercase tracking-wider mb-1">Module Électronique</div>
+                            <div className="text-xl font-black text-white leading-none">A.O.P.</div>
                         </div>
-
-                        {(mode === 'inverter' || mode === 'non-inverter') && (
-                            <div className="bg-gray-800 p-3 rounded">
-                                <label className="text-xs text-gray-400 block mb-1">Résistance R1 (Ω)</label>
-                                <input type="range" min="100" max="5000" step="100" value={r1} onChange={e => setR1(Number(e.target.value))} className="w-full accent-gray-400" />
-                                <div className="text-right text-xs text-gray-400 font-mono">{r1} Ω</div>
-
-                                <label className="text-xs text-gray-400 block mt-2 mb-1">Résistance R2 (Ω)</label>
-                                <input type="range" min="100" max="10000" step="100" value={r2} onChange={e => setR2(Number(e.target.value))} className="w-full accent-gray-400" />
-                                <div className="text-right text-xs text-gray-400 font-mono">{r2} Ω</div>
-                            </div>
-                        )}
-
-                        <div className="bg-blue-900/30 p-2 rounded border border-blue-500/30">
-                            <div className="flex justify-between text-sm">
-                                <span>Gain Calc:</span>
-                                <span className="font-bold">{gain ? gain.toFixed(2) : 'N/A'}</span>
-                            </div>
-                            <div className="flex justify-between text-sm mt-1">
-                                <span>Sortie Vs:</span>
-                                <span className={`font-bold ${isSaturated ? 'text-red-400' : 'text-blue-300'}`}>{vs.toFixed(2)} V</span>
-                            </div>
-                        </div>
-
-                        {challengeMode && (
-                            <button onClick={checkChallenge} className="w-full py-2 bg-pink-600 hover:bg-pink-500 rounded font-bold text-sm">
-                                Vérifier Gain
-                            </button>
-                        )}
+                        <GradeBadge score={score} />
                     </div>
+
+                    {mode === 'explore' ? (
+                        <>
+                            <MissionObjective objective="Explorez les différents montages de l'AOP !" icon="🎛️" />
+
+                            <div className="flex gap-2 mb-4 overflow-x-auto pb-2 no-scrollbar">
+                                {['inverter', 'non-inverter', 'follower', 'comparator'].map(m => (
+                                    <button key={m} onClick={() => setAopMode(m)}
+                                        className={`px-3 py-1 rounded-full text-[10px] font-bold whitespace-nowrap transition-all border ${aopMode === m ? 'bg-blue-600 text-white border-blue-400 shadow-lg' : 'bg-gray-800 text-gray-400 border-gray-700 hover:bg-gray-700'}`}>
+                                        {m === 'inverter' ? "Inverseur" : m === 'non-inverter' ? "Non-Inverseur" : m === 'follower' ? "Suiveur" : "Comparateur"}
+                                    </button>
+                                ))}
+                            </div>
+
+                            <div className="space-y-4 p-3 bg-gray-900/50 rounded-xl border border-white/5">
+                                <div className="bg-gray-800 p-3 rounded-lg">
+                                    <label className="text-xs text-yellow-400 font-bold block mb-1">Tension d'Entrée Ve</label>
+                                    <div className="flex items-center gap-3">
+                                        <input type="range" min="-5" max="5" step="0.1" value={ve} onChange={e => setVe(Number(e.target.value))}
+                                            className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-yellow-500" />
+                                        <div className="w-16 text-right font-mono text-yellow-400 font-bold">{ve} V</div>
+                                    </div>
+                                </div>
+
+                                {(aopMode === 'inverter' || aopMode === 'non-inverter') && (
+                                    <div className="grid grid-cols-2 gap-3">
+                                        <div className="bg-gray-800 p-2 rounded-lg">
+                                            <label className="text-[10px] text-gray-400 block mb-1">R1 (Entrée)</label>
+                                            <input type="number" value={r1} onChange={e => setR1(Number(e.target.value))}
+                                                className="w-full bg-gray-900 border border-gray-600 rounded px-2 py-1 text-xs outline-none focus:border-blue-500" />
+                                        </div>
+                                        <div className="bg-gray-800 p-2 rounded-lg">
+                                            <label className="text-[10px] text-gray-400 block mb-1">R2 (Contre-réaction)</label>
+                                            <input type="number" value={r2} onChange={e => setR2(Number(e.target.value))}
+                                                className="w-full bg-gray-900 border border-gray-600 rounded px-2 py-1 text-xs outline-none focus:border-blue-500" />
+                                        </div>
+                                    </div>
+                                )}
+
+                                <div className="bg-black/40 p-3 rounded-lg font-mono text-sm border-l-4 border-blue-500">
+                                    <div className="flex justify-between items-center mb-1">
+                                        <span className="text-gray-400">Gain (G)</span>
+                                        <span className="font-bold text-white">{gain !== null ? gain.toFixed(2) : 'N/A'}</span>
+                                    </div>
+                                    <div className="flex justify-between items-center">
+                                        <span className="text-gray-400">Sortie (Vs)</span>
+                                        <span className={`font-bold ${isSaturated ? 'text-red-500 animate-pulse' : 'text-blue-400'}`}>
+                                            {vs.toFixed(2)} V
+                                            {isSaturated && <span className="ml-2 text-[10px] uppercase bg-red-900/50 px-1 rounded">Sat</span>}
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </>
+                    ) : (
+                        <div className="bg-gray-900/50 p-4 rounded-xl border border-blue-500/30">
+                            <div className="flex justify-between items-center mb-6">
+                                <h3 className="text-blue-300 font-bold flex items-center gap-2">
+                                    <span>🎯</span> Maître du Gain
+                                </h3>
+                                <XPBar current={score} nextLevel={100} />
+                            </div>
+
+                            {targetGain ? (
+                                <div className="space-y-4 animate-in slide-in-from-right duration-300">
+                                    <div className="bg-black/30 p-4 rounded-lg border border-blue-500/30 text-center">
+                                        <div className="text-gray-400 text-xs uppercase tracking-widest mb-2">OBJECTIF</div>
+                                        <div className="text-4xl font-black text-blue-500 mb-1">G = {targetGain}</div>
+                                        <div className="text-xs text-gray-500">Ajuste R1 et R2 pour obtenir ce gain !</div>
+                                    </div>
+
+                                    <div className="flex gap-2 justify-center mb-2">
+                                        <button onClick={() => setAopMode('inverter')} className={`px-3 py-1 text-xs rounded-full ${aopMode === 'inverter' ? 'bg-blue-600' : 'bg-gray-700'}`}>Inverseur</button>
+                                        <button onClick={() => setAopMode('non-inverter')} className={`px-3 py-1 text-xs rounded-full ${aopMode === 'non-inverter' ? 'bg-blue-600' : 'bg-gray-700'}`}>Non-Inverseur</button>
+                                    </div>
+
+                                    <div className="grid grid-cols-2 gap-3">
+                                        <div className="bg-gray-800 p-2 rounded-lg">
+                                            <label className="text-[10px] text-gray-400 block mb-1">R1</label>
+                                            <input type="range" min="100" max="10000" step="100" value={r1} onChange={e => setR1(Number(e.target.value))} className="w-full accent-blue-500" />
+                                            <div className="text-right text-[10px] font-mono">{r1} Ω</div>
+                                        </div>
+                                        <div className="bg-gray-800 p-2 rounded-lg">
+                                            <label className="text-[10px] text-gray-400 block mb-1">R2</label>
+                                            <input type="range" min="100" max="10000" step="100" value={r2} onChange={e => setR2(Number(e.target.value))} className="w-full accent-blue-500" />
+                                            <div className="text-right text-[10px] font-mono">{r2} Ω</div>
+                                        </div>
+                                    </div>
+
+                                    <div className="bg-black/40 p-2 rounded text-center">
+                                        <div className="text-xs text-gray-400">Gain Actuel</div>
+                                        <div className={`text-xl font-bold ${Math.abs(gain - targetGain) < 0.1 ? 'text-green-500' : 'text-white'}`}>
+                                            {gain ? gain.toFixed(2) : '??'}
+                                        </div>
+                                    </div>
+
+                                    <button onClick={checkChallenge} className="w-full py-2 bg-blue-600 hover:bg-blue-500 rounded-lg font-bold text-white shadow-lg shadow-blue-900/30">
+                                        Vérifier
+                                    </button>
+                                </div>
+                            ) : (
+                                <div className="text-center py-8">
+                                    <button onClick={startChallenge} className="px-8 py-3 bg-blue-600 hover:bg-blue-500 text-white rounded-full font-bold shadow-lg shadow-blue-900/20 transition-all transform hover:scale-105">
+                                        Démarrer le Défi
+                                    </button>
+                                </div>
+                            )}
+                        </div>
+                    )}
                 </DraggableHtmlPanel>
             </Html>
         </group>

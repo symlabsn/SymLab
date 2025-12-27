@@ -3,11 +3,13 @@
  * High-quality 3D simulations for Seconde curriculum
  */
 import React, { useState, useRef, useEffect, useMemo } from 'react';
+
 import { useFrame } from '@react-three/fiber';
 import { Html, Sphere, Box, Cylinder, Line, Text, Cone } from '@react-three/drei';
 import * as THREE from 'three';
 import DraggableHtmlPanel from './DraggableHtmlPanel';
 import { SuccessOverlay, ConfettiExplosion } from './PC4eSimulations';
+import { PhaseSelector, GradeBadge, MissionObjective, XPBar } from './GamificationUtils';
 
 // ============================================================
 // P8. GÉNÉRALITÉS SUR LE MOUVEMENT - Référentiel et Trajectoire
@@ -177,66 +179,113 @@ export function MouvementSeconde() {
 
             {/* Control Panel */}
             <Html position={[7, 2, 0]} transform={false}>
-                <DraggableHtmlPanel title="🚂 Labo Mouvement" className="w-[320px] text-white">
-                    <div className="flex justify-between items-center mb-4">
-                        <div className="flex gap-2">
-                            <button onClick={() => setMode('explore')} className={`text-xs px-2 py-1 rounded ${mode === 'explore' ? 'bg-cyan-600' : 'bg-gray-700'}`}>Labo</button>
-                            <button onClick={startChallenge} className={`text-xs px-2 py-1 rounded ${mode === 'challenge' ? 'bg-pink-600' : 'bg-gray-700'}`}>Défi Vitesse 🏆</button>
-                        </div>
-                    </div>
-
-                    {mode === 'challenge' && (
-                        <div className="bg-pink-900/40 p-2 rounded mb-4 border border-pink-500/30 text-sm animate-pulse">
-                            <div className="font-bold text-pink-300">MISSION:</div>
-                            Atteindre la cible ({targetDistance}m) en exactement {targetTime} secondes.
-                            <br />Règle ta vitesse !
-                        </div>
-                    )}
-
+                <DraggableHtmlPanel title="🚂 Labo Mouvement" className="w-[320px] border-cyan-500/30 text-white">
                     <div className="mb-4">
-                        <label className="block text-sm mb-1 text-gray-300">
-                            Vitesse: <span className="text-cyan-400 font-bold">{vitesse} m/s</span>
-                        </label>
-                        <input
-                            type="range"
-                            min="0.5"
-                            max="10"
-                            step="0.5"
-                            value={vitesse}
-                            onChange={(e) => setVitesse(parseFloat(e.target.value))}
-                            className="w-full accent-cyan-500"
-                        />
+                        <PhaseSelector currentPhase={mode} onSelect={setMode} />
                     </div>
 
-                    <div className="flex gap-2 mb-4">
-                        <button
-                            onClick={() => setIsPlaying(!isPlaying)}
-                            className={`flex-1 py-2 rounded font-bold ${isPlaying ? 'bg-red-500 hover:bg-red-600' : 'bg-green-500 hover:bg-green-600'}`}
-                        >
-                            {isPlaying ? '⏸️ Stop' : '▶️ Go'}
-                        </button>
-                        <button
-                            onClick={handleReset}
-                            className="flex-1 py-2 bg-gray-600 hover:bg-gray-500 rounded font-bold"
-                        >
-                            🔄 Reset
-                        </button>
+                    <div className="flex justify-between items-end mb-4 pb-2 border-b border-white/10">
+                        <div>
+                            <div className="text-xs text-cyan-400 font-bold uppercase tracking-wider mb-1">Module Mécanique</div>
+                            <div className="text-xl font-black text-white leading-none">MOUVEMENT</div>
+                        </div>
+                        <GradeBadge score={score} />
                     </div>
 
-                    {!mode === 'challenge' && (
-                        <div className="mb-4">
-                            <label className="block text-sm mb-1 text-gray-300">Référentiel:</label>
-                            <div className="flex gap-2">
-                                <button onClick={() => setReferentiel('sol')} className={`flex-1 py-1 rounded text-xs ${referentiel === 'sol' ? 'bg-purple-600' : 'bg-gray-700'}`}>Sol</button>
-                                <button onClick={() => setReferentiel('train')} className={`flex-1 py-1 rounded text-xs ${referentiel === 'train' ? 'bg-purple-600' : 'bg-gray-700'}`}>Train</button>
+                    {mode === 'explore' ? (
+                        <>
+                            <MissionObjective objective="Explorez le mouvement et les référentiels !" icon="🚂" />
+                            <div className="space-y-4">
+                                <div className="bg-gray-800 p-3 rounded">
+                                    <label className="text-xs text-secondary block mb-2">Référentiel</label>
+                                    <div className="flex gap-2">
+                                        <button onClick={() => setReferentiel('sol')} className={`flex-1 py-1 rounded text-xs ${referentiel === 'sol' ? 'bg-purple-600' : 'bg-gray-700'}`}>🌍 Sol</button>
+                                        <button onClick={() => setReferentiel('train')} className={`flex-1 py-1 rounded text-xs ${referentiel === 'train' ? 'bg-purple-600' : 'bg-gray-700'}`}>🚆 Train</button>
+                                    </div>
+                                </div>
+                                <div className="mb-4">
+                                    <label className="block text-sm mb-1 text-gray-300">
+                                        Vitesse: <span className="text-cyan-400 font-bold">{vitesse} m/s</span>
+                                    </label>
+                                    <input
+                                        type="range"
+                                        min="0.5"
+                                        max="10"
+                                        step="0.5"
+                                        value={vitesse}
+                                        onChange={(e) => setVitesse(parseFloat(e.target.value))}
+                                        className="w-full h-1 accent-cyan-500"
+                                    />
+                                </div>
+                                <div className="flex gap-2">
+                                    <button
+                                        onClick={() => setIsPlaying(!isPlaying)}
+                                        className={`flex-1 py-2 rounded font-bold ${isPlaying ? 'bg-red-500 hover:bg-red-600' : 'bg-green-500 hover:bg-green-600'}`}
+                                    >
+                                        {isPlaying ? '⏸️ Stop' : '▶️ Go'}
+                                    </button>
+                                    <button
+                                        onClick={handleReset}
+                                        className="flex-1 py-2 bg-gray-600 hover:bg-gray-500 rounded font-bold"
+                                    >
+                                        🔄 Reset
+                                    </button>
+                                </div>
+                                <div className="bg-green-900/20 p-3 rounded border border-green-500/20 font-mono text-xs">
+                                    <div className="flex justify-between"><span>Temps:</span> <strong>{time.toFixed(2)} s</strong></div>
+                                    <div className="flex justify-between"><span>Dist:</span> <strong>{(vitesse * time).toFixed(2)} m</strong></div>
+                                </div>
                             </div>
+                        </>
+                    ) : (
+                        <div className="bg-gray-900/50 p-4 rounded-xl border border-cyan-500/30">
+                            <div className="flex justify-between items-center mb-6">
+                                <h3 className="text-cyan-300 font-bold flex items-center gap-2">
+                                    <span>⏱️</span> Défi Vitesse
+                                </h3>
+                                <XPBar current={score} nextLevel={100} />
+                            </div>
+
+                            {targetDistance ? (
+                                <div className="space-y-4 animate-in slide-in-from-right duration-300">
+                                    <div className="bg-pink-900/30 p-3 rounded border border-pink-500/30 text-center">
+                                        <div className="text-pink-200 text-xs uppercase mb-1">Mission</div>
+                                        <div className="font-bold text-white text-sm">
+                                            Avance de <span className="text-xl text-yellow-400">{targetDistance}m</span> en <span className="text-xl text-yellow-400">{targetTime}s</span>.
+                                        </div>
+                                    </div>
+
+                                    <div className="bg-gray-800 p-3 rounded-lg">
+                                        <label className="text-xs text-cyan-400 block mb-1">Règle la Vitesse (v = d/t)</label>
+                                        <input
+                                            type="range"
+                                            min="0.5"
+                                            max="10"
+                                            step="0.5"
+                                            value={vitesse}
+                                            onChange={(e) => setVitesse(parseFloat(e.target.value))}
+                                            className="w-full accent-cyan-500"
+                                        />
+                                        <div className="text-center font-bold text-lg mt-1">{vitesse} m/s</div>
+                                    </div>
+
+                                    <button
+                                        onClick={() => setIsPlaying(true)}
+                                        disabled={isPlaying}
+                                        className="w-full py-2 bg-pink-600 hover:bg-pink-500 rounded-lg font-bold text-white shadow-lg shadow-pink-900/30"
+                                    >
+                                        {isPlaying ? 'En cours...' : 'Lancer le Mobile 🚀'}
+                                    </button>
+                                </div>
+                            ) : (
+                                <div className="text-center py-8">
+                                    <button onClick={startChallenge} className="px-8 py-3 bg-cyan-600 hover:bg-cyan-500 text-white rounded-full font-bold shadow-lg shadow-cyan-900/20 transition-all transform hover:scale-105">
+                                        Relever le Défi
+                                    </button>
+                                </div>
+                            )}
                         </div>
                     )}
-
-                    <div className="bg-green-900/20 p-3 rounded border border-green-500/20 font-mono text-xs">
-                        <div className="flex justify-between"><span>Temps:</span> <strong>{time.toFixed(2)} s</strong></div>
-                        <div className="flex justify-between"><span>Dist:</span> <strong>{(vitesse * time).toFixed(2)} m</strong></div>
-                    </div>
                 </DraggableHtmlPanel>
             </Html>
         </group>
@@ -251,15 +300,22 @@ export function MouvementSeconde() {
 // ============================================================
 // P9-P10. FORCES ET POIDS - Mission Cargaison Interstellaire
 // ============================================================
+// ============================================================
+// P9-P10. FORCES ET POIDS - Représentation vectorielle (ENRICHI)
+// ============================================================
+// P9-P10. FORCES ET POIDS - Mission Cargaison Interstellaire
+// ============================================================
 export function ForcesPoidsSeconde() {
     const [masse, setMasse] = useState(10);
     const [planete, setPlanete] = useState('terre');
-    const [mode, setMode] = useState('explore'); // 'explore', 'mission'
+    // Renaming 'mission' mode to 'challenge' for consistency, but keeping 'mission' functionality
+    const [mode, setMode] = useState('explore'); // 'explore', 'challenge'
 
-    // Mission State
+    // Mission State -> Challenge State
     const [targetPoids, setTargetPoids] = useState(null);
     const [missionStatus, setMissionStatus] = useState('idle'); // idle, checking, success, fail
     const [craneHeight, setCraneHeight] = useState(3);
+    const [score, setScore] = useState(0);
 
     const planetes = {
         terre: { g: 9.8, color: '#2196f3', name: 'Terre', sky: '#87CEEB', ground: '#4CAF50' },
@@ -284,8 +340,8 @@ export function ForcesPoidsSeconde() {
         }
     });
 
-    const startMission = () => {
-        setMode('mission');
+    const startChallenge = () => {
+        setMode('challenge');
         const keys = Object.keys(planetes);
         const p = keys[Math.floor(Math.random() * keys.length)];
         const m = Math.floor(Math.random() * 20 + 5); // 5-25kg
@@ -295,23 +351,32 @@ export function ForcesPoidsSeconde() {
         setTargetPoids(tP);
         setMasse(1);
         setMissionStatus('idle');
+        setScore(0);
     };
 
-    const checkMission = () => {
+    const checkChallenge = () => {
         setMissionStatus('checking');
         setTimeout(() => {
             if (Math.abs(poids - targetPoids) < 1.0) {
                 setMissionStatus('success');
                 triggerSuccess();
+                setScore(s => s + 100);
             } else {
                 setMissionStatus('fail');
             }
         }, 1500);
     };
 
+    const triggerSuccess = () => {
+        // Just for consistency with other components that might rely on this.
+        // But here we use missionStatus to trigger UI effects.
+    };
+
     return (
         <group>
-            <OrbitControls />
+            {/* <OrbitControls /> Removed as it's usually outside or passed down, but assuming it's available in context or parent. Actually usually inserted inside Canvas. I'll leave it if it was there, but usually I shouldn't add it if not imported. It was in previous code? No, line 316 says <OrbitControls />. I need to make sure it's imported. Part2 imports don't show OrbitControls. I'll remove it to be safe, DraggableHtmlPanel handles UI interaction. */}
+            <SuccessOverlay show={missionStatus === 'success'} message="Cargaison chargée !" points={100} onNext={startChallenge} />
+            <ConfettiExplosion active={missionStatus === 'success'} />
 
             {/* Environnement Dynamique */}
             <mesh position={[0, -2, 0]} rotation={[-Math.PI / 2, 0, 0]}>
@@ -354,63 +419,90 @@ export function ForcesPoidsSeconde() {
             </group>
 
             {/* Overlay Mission */}
-            {mode === 'mission' && (
+            {mode === 'challenge' && (
                 <Text position={[0, 4, 0]} fontSize={0.4} color="white" outlineWidth={0.02} outlineColor="black">
-                    CIBLE CHARGE: {targetPoids.toFixed(1)} N
+                    CIBLE P = {targetPoids ? targetPoids.toFixed(1) : '?'} N
                 </Text>
             )}
 
-            <Html transform={false}>
-                <DraggableHtmlPanel title={mode === 'explore' ? "⚖️ Poids & Masse" : "🚀 Mission Cargaison"}>
-                    <div className="p-4 w-72 text-white">
-                        <div className="flex gap-2 mb-4 border-b border-gray-600 pb-2">
-                            <button onClick={() => { setMode('explore'); setPlanete('terre'); }} className={`flex-1 py-1 rounded text-xs ${mode === 'explore' ? 'bg-blue-600' : 'bg-gray-700'}`}>Labo</button>
-                            <button onClick={startMission} className={`flex-1 py-1 rounded text-xs ${mode === 'mission' ? 'bg-orange-600' : 'bg-gray-700'}`}>Mission 🚀</button>
-                        </div>
+            <Html position={[6, 2, 0]} transform={false}>
+                <DraggableHtmlPanel title={mode === 'explore' ? "⚖️ Poids & Masse" : "🚀 Mission Cargaison"} className="w-[320px] border-orange-500/30 text-white">
+                    <div className="mb-4">
+                        <PhaseSelector currentPhase={mode} onSelect={setMode} />
+                    </div>
 
-                        {mode === 'explore' && (
-                            <div className="mb-4">
-                                <label className="text-xs">Planète:</label>
-                                <div className="grid grid-cols-2 gap-1 mt-1">
-                                    {Object.keys(planetes).map(p => (
-                                        <button key={p} onClick={() => setPlanete(p)} className={`text-xs p-1 rounded ${planete === p ? 'bg-gray-500 ring-1 ring-white' : 'bg-gray-800'}`}>
-                                            {planetes[p].name} (g={planetes[p].g})
-                                        </button>
-                                    ))}
+                    <div className="flex justify-between items-end mb-4 pb-2 border-b border-white/10">
+                        <div>
+                            <div className="text-xs text-orange-400 font-bold uppercase tracking-wider mb-1">Module Mécanique</div>
+                            <div className="text-xl font-black text-white leading-none">POIDS & MASSE</div>
+                        </div>
+                        <GradeBadge score={score} />
+                    </div>
+
+                    {mode === 'explore' ? (
+                        <>
+                            <MissionObjective objective="Testez la gravité sur différentes planètes !" icon="🪐" />
+                            <div className="space-y-4">
+                                <div className="bg-gray-800 p-3 rounded">
+                                    <label className="text-xs text-secondary block mb-2">Planète</label>
+                                    <div className="grid grid-cols-2 gap-1 mt-1">
+                                        {Object.keys(planetes).map(p => (
+                                            <button key={p} onClick={() => setPlanete(p)} className={`text-xs p-1 rounded ${planete === p ? 'bg-orange-600' : 'bg-gray-700'}`}>
+                                                {planetes[p].name}
+                                            </button>
+                                        ))}
+                                    </div>
+                                    <div className="text-center text-xs text-gray-400 mt-1">g = {planetes[planete].g} N/kg</div>
+                                </div>
+                                <div className="mb-4 bg-gray-800 p-3 rounded">
+                                    <label className="text-xs text-gray-400">Masse de la cargaison: <span className="text-orange-400 font-bold">{masse} kg</span></label>
+                                    <input type="range" min="1" max="50" step="1" value={masse} onChange={e => setMasse(Number(e.target.value))} className="w-full accent-orange-500" />
+                                </div>
+                                <div className="text-center bg-orange-900/20 p-2 rounded">
+                                    <div className="text-xs text-orange-200">Poids (Force)</div>
+                                    <div className="font-bold text-xl text-white">{poids.toFixed(1)} Newtons</div>
+                                    <div className="text-[10px] text-gray-400">P = m × g</div>
                                 </div>
                             </div>
-                        )}
-
-                        <div className="mb-4 bg-gray-800 p-3 rounded">
-                            <label className="text-xs">Masse de la cargaison:</label>
-                            <div className="flex items-center gap-2 mt-1">
-                                <input type="range" min="1" max="50" step="1" value={masse} onChange={e => setMasse(Number(e.target.value))} className="flex-1 accent-[#00F5D4]" disabled={missionStatus === 'checking' || missionStatus === 'success'} />
-                                <span className="font-bold text-[#00F5D4] w-12 text-right">{masse} kg</span>
+                        </>
+                    ) : (
+                        <div className="bg-gray-900/50 p-4 rounded-xl border border-orange-500/30">
+                            <div className="flex justify-between items-center mb-6">
+                                <h3 className="text-orange-300 font-bold flex items-center gap-2">
+                                    <span>🏗️</span> Cargaison Spatiale
+                                </h3>
+                                <XPBar current={score} nextLevel={100} />
                             </div>
-                        </div>
 
-                        <div className="text-center bg-black/40 p-2 rounded">
-                            <div className="text-xs text-gray-400">Poids (Force)</div>
-                            <div className="font-bold text-xl text-yellow-400">{poids.toFixed(1)} Newtons</div>
-                            <div className="text-[10px] text-gray-500">P = m × g</div>
-                        </div>
+                            {targetPoids ? (
+                                <div className="space-y-4 animate-in slide-in-from-right duration-300">
+                                    <div className="bg-gray-800 p-3 rounded border border-gray-600 text-center">
+                                        <div className="text-gray-400 text-xs uppercase mb-1">Commande Client</div>
+                                        <div className="font-bold text-xl text-white">Poids Requis: {targetPoids.toFixed(1)} N</div>
+                                        <div className="text-xs text-orange-400 mt-1">Planète: {planetes[planete].name} (g={planetes[planete].g})</div>
+                                    </div>
 
-                        {mode === 'mission' && (
-                            <div className="mt-4">
-                                {missionStatus === 'fail' && <div className="text-red-500 font-bold text-center mb-2 animate-bounce">CHARGE INCORRECTE !</div>}
-                                {missionStatus === 'success' && <div className="text-green-500 font-bold text-center mb-2 animate-bounce">DÉCOLLAGE AUTORISÉ ! 🚀</div>}
+                                    <div className="bg-gray-800 p-3 rounded-lg">
+                                        <label className="text-xs text-gray-400 block mb-1">Ajuste la Masse</label>
+                                        <input type="range" min="1" max="50" step="1" value={masse} onChange={(e) => setMasse(Number(e.target.value))} className="w-full accent-orange-500" />
+                                        <div className="text-center font-bold text-lg mt-1">{masse} kg</div>
+                                    </div>
 
-                                <button onClick={checkMission} disabled={missionStatus !== 'idle' && missionStatus !== 'fail'} className="w-full py-2 bg-orange-600 hover:bg-orange-500 rounded font-bold">
-                                    VERIFIER CHARGEMENT
-                                </button>
-                                {missionStatus === 'success' && (
-                                    <button onClick={startMission} className="w-full mt-2 py-1 bg-gray-600 hover:bg-gray-500 rounded text-xs">
+                                    <div className="text-center text-xs text-gray-400">Poids Actuel: {(masse * planetes[planete].g).toFixed(1)} N</div>
+
+                                    <button onClick={checkChallenge} disabled={missionStatus !== 'idle' && missionStatus !== 'fail'} className="w-full py-2 bg-orange-600 hover:bg-orange-500 rounded-lg font-bold text-white shadow-lg shadow-orange-900/30">
+                                        {missionStatus === 'checking' ? 'Vérification...' : 'Charger la Caisse'}
+                                    </button>
+                                </div>
+                            ) : (
+                                <div className="text-center py-8">
+                                    <button onClick={startChallenge} className="px-8 py-3 bg-orange-600 hover:bg-orange-500 text-white rounded-full font-bold shadow-lg shadow-orange-900/20 transition-all transform hover:scale-105">
                                         Nouvelle Mission
                                     </button>
-                                )}
-                            </div>
-                        )}
-                    </div>
+                                </div>
+                            )}
+                        </div>
+                    )}
                 </DraggableHtmlPanel>
             </Html>
         </group>
@@ -491,7 +583,7 @@ export function Equilibre3ForcesSeconde() {
 
             {/* Central point */}
             <Sphere args={[0.2, 16, 16]} position={[0, 0, 0]}>
-                <meshStandardMaterial color="#fff" />
+                <meshStandardMaterial color={isEquilibrium ? "#4caf50" : "#fff"} emissive={isEquilibrium ? "#4caf50" : "#000"} emissiveIntensity={0.5} />
             </Sphere>
 
             {/* Force 1 */}
@@ -527,7 +619,7 @@ export function Equilibre3ForcesSeconde() {
             </Text>
 
             {/* Triangle des forces (Optional visualization) */}
-            {mode === 'explore' && (
+            {mode === 'explore' && showResultante && (
                 <group position={[3, 0, -2]}>
                     <Text position={[0, 2, 0]} fontSize={0.2} color="#fff">Triangle des forces</Text>
                     <Line points={[[0, 0, 0], [f1x * scale, f1y * scale, 0]]} color="#f44336" lineWidth={2} />
@@ -538,71 +630,126 @@ export function Equilibre3ForcesSeconde() {
 
             {/* Control Panel */}
             <Html position={[6, 2, 0]} transform={false}>
-                <DraggableHtmlPanel title="⚖️ Équilibre 3 Forces" className="w-[300px] text-white">
-                    <div className="flex justify-between items-center mb-4">
-                        <div className="flex gap-2">
-                            <button onClick={() => setMode('explore')} className={`text-xs px-2 py-1 rounded ${mode === 'explore' ? 'bg-cyan-600' : 'bg-gray-700'}`}>Labo</button>
-                            <button onClick={startChallenge} className={`text-xs px-2 py-1 rounded ${mode === 'challenge' ? 'bg-pink-600' : 'bg-gray-700'}`}>Défi Équilibre 🏆</button>
-                        </div>
+                <DraggableHtmlPanel title="⚖️ Équilibre 3 Forces" className="w-[300px] border-purple-500/30 text-white">
+                    <div className="mb-4">
+                        <PhaseSelector currentPhase={mode} onSelect={setMode} />
                     </div>
 
-                    {mode === 'challenge' && (
-                        <div className="bg-pink-900/40 p-2 rounded mb-4 border border-pink-500/30 text-sm animate-pulse">
-                            <div className="font-bold text-pink-300">MISSION:</div>
-                            Ajuste F₃ (Force et Angle) pour annuler F₁ et F₂.
+                    <div className="flex justify-between items-end mb-4 pb-2 border-b border-white/10">
+                        <div>
+                            <div className="text-xs text-purple-400 font-bold uppercase tracking-wider mb-1">Module Mécanique</div>
+                            <div className="text-xl font-black text-white leading-none">ÉQUILIBRE</div>
+                        </div>
+                        <GradeBadge score={score} />
+                    </div>
+
+                    {mode === 'explore' ? (
+                        <>
+                            <MissionObjective objective="Visualisez l'équilibre de 3 forces !" icon="⚖️" />
+                            <div className="space-y-4">
+                                {/* F1 Controls */}
+                                <div className="mb-2 p-2 rounded border border-red-500/30 bg-red-900/10">
+                                    <label className="text-xs text-red-300 font-bold block mb-1">Force F₁</label>
+                                    <div className="flex items-center gap-2 mb-1">
+                                        <input type="range" min="10" max="100" value={force1} onChange={e => setForce1(Number(e.target.value))} className="w-full h-1 accent-red-500" />
+                                        <span className="text-[10px] w-6">{force1}N</span>
+                                    </div>
+                                    <div className="flex items-center gap-2">
+                                        <input type="range" min="0" max="360" value={angle1} onChange={e => setAngle1(Number(e.target.value))} className="w-full h-1 accent-red-500" />
+                                        <span className="text-[10px] w-6">{angle1}°</span>
+                                    </div>
+                                </div>
+
+                                {/* F2 Controls */}
+                                <div className="mb-2 p-2 rounded border border-green-500/30 bg-green-900/10">
+                                    <label className="text-xs text-green-300 font-bold block mb-1">Force F₂</label>
+                                    <div className="flex items-center gap-2 mb-1">
+                                        <input type="range" min="10" max="100" value={force2} onChange={e => setForce2(Number(e.target.value))} className="w-full h-1 accent-green-500" />
+                                        <span className="text-[10px] w-6">{force2}N</span>
+                                    </div>
+                                    <div className="flex items-center gap-2">
+                                        <input type="range" min="0" max="360" value={angle2} onChange={e => setAngle2(Number(e.target.value))} className="w-full h-1 accent-green-500" />
+                                        <span className="text-[10px] w-6">{angle2}°</span>
+                                    </div>
+                                </div>
+
+                                <div className="p-2 text-xs bg-gray-800 rounded">
+                                    <label className="flex items-center gap-2">
+                                        <input type="checkbox" checked={showResultante} onChange={e => setShowResultante(e.target.checked)} className="accent-purple-500" />
+                                        <span>Voir Triangle des Forces</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </>
+                    ) : (
+                        <div className="bg-gray-900/50 p-4 rounded-xl border border-purple-500/30">
+                            <div className="flex justify-between items-center mb-6">
+                                <h3 className="text-purple-300 font-bold flex items-center gap-2">
+                                    <span>🎯</span> Défi Équilibre
+                                </h3>
+                                <XPBar current={score} nextLevel={100} />
+                            </div>
+
+                            {showSuccess ? (
+                                <div className="space-y-4 animate-in slide-in-from-right duration-300">
+                                    <div className="bg-green-900/30 p-3 rounded border border-green-500/30 text-center">
+                                        <div className="text-xl font-bold text-green-300">ÉQUILIBRE ATTEINT !</div>
+                                        <div className="text-xs text-gray-300 mt-1">Excellent travail ingénieur.</div>
+                                    </div>
+                                    <button onClick={startChallenge} className="w-full py-2 bg-purple-600 hover:bg-purple-500 rounded-lg font-bold text-white shadow-lg shadow-purple-900/30">
+                                        Nouveau Défi
+                                    </button>
+                                </div>
+                            ) : (
+                                <div className="space-y-4">
+                                    <div className="bg-purple-900/20 p-2 rounded text-xs text-purple-200">
+                                        Ajuste F₃ (Bleu) pour annuler F₁ et F₂ et réussir l'équilibre (point central Vert).
+                                    </div>
+
+                                    {/* F1 & F2 Info */}
+                                    <div className="grid grid-cols-2 gap-2 text-[10px] text-gray-400">
+                                        <div className="bg-gray-800 p-1 rounded">F₁: {force1}N à {angle1}°</div>
+                                        <div className="bg-gray-800 p-1 rounded">F₂: {force2}N à {angle2}°</div>
+                                    </div>
+
+                                    {/* F3 Controls */}
+                                    <div className="p-3 rounded border border-blue-500/30 bg-blue-900/10">
+                                        <label className="text-xs text-blue-300 font-bold block mb-2">Ton Action (F₃)</label>
+
+                                        <div className="mb-2">
+                                            <div className="flex justify-between text-[10px] text-blue-200"><span>Force</span> <span>{userForce} N</span></div>
+                                            <input type="range" min="10" max="150" value={userForce} onChange={e => setUserForce(Number(e.target.value))} className="w-full h-1 accent-blue-500" />
+                                        </div>
+
+                                        <div>
+                                            <div className="flex justify-between text-[10px] text-blue-200"><span>Angle</span> <span>{userAngle}°</span></div>
+                                            <input type="range" min="-180" max="180" value={userAngle} onChange={e => setUserAngle(Number(e.target.value))} className="w-full h-1 accent-blue-500" />
+                                        </div>
+                                    </div>
+
+                                    <div className="text-center text-xs font-mono text-gray-400">
+                                        Résiduel actuel: {residual.toFixed(1)} N
+                                    </div>
+
+                                    <button onClick={checkChallenge} className="w-full py-2 bg-purple-600 hover:bg-purple-500 rounded-lg font-bold text-white shadow-lg shadow-purple-900/30">
+                                        Vérifier l'Équilibre
+                                    </button>
+                                </div>
+                            )}
                         </div>
                     )}
-
-                    {/* F1 Controls */}
-                    <div className="mb-2 p-2 rounded border border-red-500/30 bg-red-900/10">
-                        <label className="text-xs text-red-400 block">F₁: {force1}N à {angle1}°</label>
-                        {mode === 'explore' && (
-                            <>
-                                <input type="range" min="10" max="100" value={force1} onChange={e => setForce1(Number(e.target.value))} className="w-full h-1 accent-red-500" />
-                                <input type="range" min="0" max="360" value={angle1} onChange={e => setAngle1(Number(e.target.value))} className="w-full h-1 accent-red-500" />
-                            </>
-                        )}
-                    </div>
-
-                    {/* F2 Controls */}
-                    <div className="mb-2 p-2 rounded border border-green-500/30 bg-green-900/10">
-                        <label className="text-xs text-green-400 block">F₂: {force2}N à {angle2}°</label>
-                        {mode === 'explore' && (
-                            <>
-                                <input type="range" min="10" max="100" value={force2} onChange={e => setForce2(Number(e.target.value))} className="w-full h-1 accent-green-500" />
-                                <input type="range" min="0" max="360" value={angle2} onChange={e => setAngle2(Number(e.target.value))} className="w-full h-1 accent-green-500" />
-                            </>
-                        )}
-                    </div>
-
-                    {/* F3 Controls (Always editable in Challenge, computed in Explore) */}
-                    <div className="mb-2 p-2 rounded border border-blue-500/30 bg-blue-900/10">
-                        <label className="text-xs text-blue-400 block">F₃ {mode === 'explore' ? '(Calculée)' : '(Ajustable)'}: {activeF3.toFixed(1)}N à {activeAngle3.toFixed(0)}°</label>
-                        {mode === 'challenge' && (
-                            <>
-                                <input type="range" min="10" max="150" value={userForce} onChange={e => setUserForce(Number(e.target.value))} className="w-full h-1 accent-blue-500" />
-                                <input type="range" min="-180" max="180" value={userAngle} onChange={e => setUserAngle(Number(e.target.value))} className="w-full h-1 accent-blue-500" />
-                            </>
-                        )}
-                    </div>
-
-                    {mode === 'challenge' && (
-                        <button onClick={checkChallenge} className="w-full py-2 bg-pink-600 hover:bg-pink-500 rounded font-bold text-sm mb-3">
-                            Vérifier
-                        </button>
-                    )}
-
-                    <div className="bg-purple-900/20 p-2 rounded text-xs text-purple-300">
-                        ΣFx = {sumX.toFixed(1)}, ΣFy = {sumY.toFixed(1)}
-                    </div>
                 </DraggableHtmlPanel>
             </Html>
         </group>
     );
 }
 
+
 // ============================================================
 // P12. MOMENT D'UNE FORCE - Équilibre autour d'un axe
+// ============================================================
+// ============================================================
+// P12. MOMENT D'UNE FORCE - Équilibre autour d'un axe (ENRICHI)
 // ============================================================
 export function MomentForceSeconde() {
     const [force1, setForce1] = useState(20);
@@ -611,6 +758,12 @@ export function MomentForceSeconde() {
     const [distance2, setDistance2] = useState(2);
     const [showMoments, setShowMoments] = useState(true);
     const leverRef = useRef();
+
+    // Gamification
+    const [mode, setMode] = useState('explore');
+    const [targetMoment, setTargetMoment] = useState(null);
+    const [score, setScore] = useState(0);
+    const [showSuccess, setShowSuccess] = useState(false);
 
     const moment1 = force1 * distance1;
     const moment2 = force2 * distance2;
@@ -626,8 +779,35 @@ export function MomentForceSeconde() {
         }
     });
 
+    const startChallenge = () => {
+        setMode('challenge');
+        // Randomize F1, d1 (Target side)
+        const f1 = Math.floor(Math.random() * 40 + 10);
+        const d1 = Number((Math.random() * 2 + 0.5).toFixed(1));
+        setForce1(f1);
+        setDistance1(d1);
+        setTargetMoment(f1 * d1);
+
+        // Reset User side F2, d2
+        setForce2(10);
+        setDistance2(1);
+
+        setScore(0);
+        setShowSuccess(false);
+    };
+
+    const checkChallenge = () => {
+        if (isEquilibrium) {
+            setShowSuccess(true);
+            setScore(s => s + 100);
+        }
+    };
+
     return (
         <group>
+            <SuccessOverlay show={showSuccess} message="Équilibre Parfait !" points={100} onNext={startChallenge} />
+            <ConfettiExplosion active={showSuccess} />
+
             {/* Pivot point */}
             <Cylinder args={[0.2, 0.3, 0.5, 16]} position={[0, -0.5, 0]}>
                 <meshStandardMaterial color="#795548" />
@@ -645,10 +825,10 @@ export function MomentForceSeconde() {
                     <meshStandardMaterial color="#607d8b" />
                 </Box>
 
-                {/* Force 1 (left) - causes clockwise rotation */}
+                {/* Force 1 (left) */}
                 <group position={[-distance1, 0, 0]}>
                     <Box args={[0.4, 0.4, 0.4]} position={[0, -0.3, 0]}>
-                        <meshStandardMaterial color="#f44336" />
+                        <meshStandardMaterial color={mode === 'challenge' ? "#f44336" : "#f44336"} />
                     </Box>
                     <Line points={[[0, 0, 0], [0, -force1 / 30, 0]]} color="#f44336" lineWidth={4} />
                     <Text position={[0.5, -force1 / 60, 0]} fontSize={0.15} color="#f44336">
@@ -659,10 +839,10 @@ export function MomentForceSeconde() {
                     </Text>
                 </group>
 
-                {/* Force 2 (right) - causes counter-clockwise rotation */}
+                {/* Force 2 (right) */}
                 <group position={[distance2, 0, 0]}>
                     <Box args={[0.4, 0.4, 0.4]} position={[0, -0.3, 0]}>
-                        <meshStandardMaterial color="#2196f3" />
+                        <meshStandardMaterial color={mode === 'challenge' ? "#2196f3" : "#2196f3"} />
                     </Box>
                     <Line points={[[0, 0, 0], [0, -force2 / 30, 0]]} color="#2196f3" lineWidth={4} />
                     <Text position={[0.5, -force2 / 60, 0]} fontSize={0.15} color="#2196f3">
@@ -687,111 +867,110 @@ export function MomentForceSeconde() {
                 {isEquilibrium ? '⚖️ ÉQUILIBRE' : '↻ Rotation...'}
             </Text>
 
-            {/* Control Panel */}
             <Html position={[5, 2, 0]} transform={false}>
-                <DraggableHtmlPanel title="🔄 Moment d'une Force">
-                    <div style={{ padding: '15px', minWidth: '300px' }}>
-                        <div style={{
-                            background: 'rgba(244,67,54,0.2)',
-                            padding: '10px',
-                            borderRadius: '8px',
-                            marginBottom: '15px'
-                        }}>
-                            <label style={{ color: '#ef9a9a', display: 'block', marginBottom: '5px' }}>
-                                Force F₁: {force1} N
-                            </label>
-                            <input
-                                type="range"
-                                min="5"
-                                max="50"
-                                value={force1}
-                                onChange={(e) => setForce1(parseFloat(e.target.value))}
-                                style={{ width: '100%', marginBottom: '10px' }}
-                            />
-                            <label style={{ color: '#ef9a9a', display: 'block', marginBottom: '5px' }}>
-                                Distance d₁: {distance1} m
-                            </label>
-                            <input
-                                type="range"
-                                min="0.5"
-                                max="2.5"
-                                step="0.1"
-                                value={distance1}
-                                onChange={(e) => setDistance1(parseFloat(e.target.value))}
-                                style={{ width: '100%' }}
-                            />
-                            <p style={{ color: '#fff', margin: '5px 0', fontSize: '12px' }}>
-                                M₁ = F₁ × d₁ = <strong style={{ color: '#f44336' }}>{moment1.toFixed(1)} N·m</strong>
-                            </p>
-                        </div>
-
-                        <div style={{
-                            background: 'rgba(33,150,243,0.2)',
-                            padding: '10px',
-                            borderRadius: '8px',
-                            marginBottom: '15px'
-                        }}>
-                            <label style={{ color: '#90caf9', display: 'block', marginBottom: '5px' }}>
-                                Force F₂: {force2} N
-                            </label>
-                            <input
-                                type="range"
-                                min="5"
-                                max="50"
-                                value={force2}
-                                onChange={(e) => setForce2(parseFloat(e.target.value))}
-                                style={{ width: '100%', marginBottom: '10px' }}
-                            />
-                            <label style={{ color: '#90caf9', display: 'block', marginBottom: '5px' }}>
-                                Distance d₂: {distance2} m
-                            </label>
-                            <input
-                                type="range"
-                                min="0.5"
-                                max="2.5"
-                                step="0.1"
-                                value={distance2}
-                                onChange={(e) => setDistance2(parseFloat(e.target.value))}
-                                style={{ width: '100%' }}
-                            />
-                            <p style={{ color: '#fff', margin: '5px 0', fontSize: '12px' }}>
-                                M₂ = F₂ × d₂ = <strong style={{ color: '#2196f3' }}>{moment2.toFixed(1)} N·m</strong>
-                            </p>
-                        </div>
-
-                        <div style={{
-                            background: isEquilibrium ? 'rgba(76,175,80,0.3)' : 'rgba(255,152,0,0.3)',
-                            padding: '12px',
-                            borderRadius: '8px',
-                            marginBottom: '10px'
-                        }}>
-                            <p style={{ color: '#fff', margin: '0 0 8px 0', fontWeight: 'bold' }}>
-                                📊 Bilan des moments:
-                            </p>
-                            <p style={{ color: '#fff', margin: '3px 0', fontSize: '13px' }}>
-                                ΣM = M₁ - M₂ = {moment1.toFixed(1)} - {moment2.toFixed(1)} = <strong>{momentNet.toFixed(1)} N·m</strong>
-                            </p>
-                            <p style={{
-                                color: isEquilibrium ? '#4caf50' : '#ff9800',
-                                margin: '8px 0 0 0',
-                                fontWeight: 'bold'
-                            }}>
-                                {isEquilibrium ? '✓ Équilibre (ΣM ≈ 0)' : '✗ Pas d\'équilibre'}
-                            </p>
-                        </div>
-
-                        <div style={{
-                            background: 'rgba(156,39,176,0.2)',
-                            padding: '10px',
-                            borderRadius: '8px',
-                            fontSize: '11px',
-                            color: '#ce93d8'
-                        }}>
-                            <strong>🔧 Théorème des moments:</strong><br />
-                            À l'équilibre: ΣM = 0<br />
-                            Plus le bras de levier est grand, plus l'effet de rotation est important!
-                        </div>
+                <DraggableHtmlPanel title="🔄 Moment d'une Force" className="w-[350px] border-orange-500/30 text-white">
+                    <div className="mb-4">
+                        <PhaseSelector currentPhase={mode} onSelect={setMode} />
                     </div>
+
+                    <div className="flex justify-between items-end mb-4 pb-2 border-b border-white/10">
+                        <div>
+                            <div className="text-xs text-orange-400 font-bold uppercase tracking-wider mb-1">Module Mécanique</div>
+                            <div className="text-xl font-black text-white leading-none">MOMENTS</div>
+                        </div>
+                        <GradeBadge score={score} />
+                    </div>
+
+                    {mode === 'explore' ? (
+                        <>
+                            <MissionObjective objective="Testez la loi des moments !" icon="⚖️" />
+                            <div className="space-y-4">
+                                <div className="bg-red-900/20 p-3 rounded border-l-4 border-red-500">
+                                    <label className="text-xs text-red-400 font-bold block mb-1">Force Gauche (F₁)</label>
+                                    <div className="grid grid-cols-2 gap-2">
+                                        <div>
+                                            <span className="text-[10px] text-gray-400">Force (N)</span>
+                                            <input type="range" min="5" max="50" value={force1} onChange={e => setForce1(Number(e.target.value))} className="w-full accent-red-500" />
+                                        </div>
+                                        <div>
+                                            <span className="text-[10px] text-gray-400">Dist (m)</span>
+                                            <input type="range" min="0.5" max="2.5" step="0.1" value={distance1} onChange={e => setDistance1(Number(e.target.value))} className="w-full accent-red-500" />
+                                        </div>
+                                    </div>
+                                    <div className="text-right text-xs text-red-300 mt-1">M₁ = {moment1.toFixed(1)} N·m</div>
+                                </div>
+
+                                <div className="bg-blue-900/20 p-3 rounded border-l-4 border-blue-500">
+                                    <label className="text-xs text-blue-400 font-bold block mb-1">Force Droite (F₂)</label>
+                                    <div className="grid grid-cols-2 gap-2">
+                                        <div>
+                                            <span className="text-[10px] text-gray-400">Force (N)</span>
+                                            <input type="range" min="5" max="50" value={force2} onChange={e => setForce2(Number(e.target.value))} className="w-full accent-blue-500" />
+                                        </div>
+                                        <div>
+                                            <span className="text-[10px] text-gray-400">Dist (m)</span>
+                                            <input type="range" min="0.5" max="2.5" step="0.1" value={distance2} onChange={e => setDistance2(Number(e.target.value))} className="w-full accent-blue-500" />
+                                        </div>
+                                    </div>
+                                    <div className="text-right text-xs text-blue-300 mt-1">M₂ = {moment2.toFixed(1)} N·m</div>
+                                </div>
+
+                                <div className={`text-center p-2 rounded ${isEquilibrium ? 'bg-green-500/20 text-green-400' : 'bg-orange-500/20 text-orange-400'}`}>
+                                    <div className="font-bold text-sm">ΣM = {(momentNet).toFixed(1)} N·m</div>
+                                    <div className="text-[10px]">{isEquilibrium ? 'ÉQUILIBRE STABLE' : 'DÉSÉQUILIBRE'}</div>
+                                </div>
+                            </div>
+                        </>
+                    ) : (
+                        <div className="bg-gray-900/50 p-4 rounded-xl border border-orange-500/30">
+                            <div className="flex justify-between items-center mb-6">
+                                <h3 className="text-orange-300 font-bold flex items-center gap-2">
+                                    <span>🏗️</span> Défi Architecte
+                                </h3>
+                                <XPBar current={score} nextLevel={100} />
+                            </div>
+
+                            {targetMoment ? (
+                                <div className="space-y-4 animate-in slide-in-from-right duration-300">
+                                    <div className="bg-red-900/30 p-3 rounded border border-red-500/30 text-center">
+                                        <div className="text-red-200 text-xs uppercase mb-1">Cible (Gauche)</div>
+                                        <div className="font-bold text-lg text-white">M₁ = {targetMoment.toFixed(1)} N·m</div>
+                                        <div className="text-[10px] text-gray-400">F₁={force1}N × d₁={distance1}m</div>
+                                    </div>
+
+                                    <div className="bg-blue-900/20 p-3 rounded border border-blue-500/50">
+                                        <label className="text-xs text-blue-300 font-bold block mb-2">Ajuste le Contrepoids (Droite)</label>
+
+                                        <div className="mb-2">
+                                            <label className="text-[10px] text-gray-400 block">Force F₂</label>
+                                            <div className="flex items-center gap-2">
+                                                <input type="range" min="5" max="50" value={force2} onChange={e => setForce2(Number(e.target.value))} className="flex-1 accent-blue-500" />
+                                                <span className="text-xs font-mono w-12 text-right">{force2}N</span>
+                                            </div>
+                                        </div>
+
+                                        <div>
+                                            <label className="text-[10px] text-gray-400 block">Distance d₂</label>
+                                            <div className="flex items-center gap-2">
+                                                <input type="range" min="0.5" max="2.5" step="0.1" value={distance2} onChange={e => setDistance2(Number(e.target.value))} className="flex-1 accent-blue-500" />
+                                                <span className="text-xs font-mono w-12 text-right">{distance2}m</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <button onClick={checkChallenge} className="w-full py-2 bg-orange-600 hover:bg-orange-500 rounded-lg font-bold text-white shadow-lg shadow-orange-900/30">
+                                        Vérifier l'Équilibre
+                                    </button>
+                                </div>
+                            ) : (
+                                <div className="text-center py-8">
+                                    <button onClick={startChallenge} className="px-8 py-3 bg-orange-600 hover:bg-orange-500 text-white rounded-full font-bold shadow-lg shadow-orange-900/20 transition-all transform hover:scale-105">
+                                        Relever le Défi
+                                    </button>
+                                </div>
+                            )}
+                        </div>
+                    )}
                 </DraggableHtmlPanel>
             </Html>
         </group>
