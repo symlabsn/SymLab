@@ -8,24 +8,13 @@ import confetti from 'canvas-confetti';
 // ==========================================
 // SHARED UTILS
 // ==========================================
-function triggerSuccess() {
-    confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 }, colors: ['#00F5D4', '#FF0055', '#FFFF00'] });
-}
+import { SuccessOverlay, ConfettiExplosion, ChallengeTimer, GradeBadge, XPBar, PhaseSelector, MissionObjective } from './GamificationUtils';
 
-function SuccessOverlay({ show, message, onClose }) {
-    if (!show) return null;
-    return (
-        <Html fullscreen>
-            <div className="fixed inset-0 flex items-center justify-center pointer-events-none z-50">
-                <div className="bg-black/95 p-8 rounded-3xl border-2 border-[#00F5D4] text-center pointer-events-auto animate-bounce shadow-2xl">
-                    <h2 className="text-4xl mb-4">🎉 Bravo !</h2>
-                    <p className="text-xl text-white mb-6">{message}</p>
-                    <button onClick={onClose} className="bg-[#00F5D4] text-black px-8 py-3 rounded-full font-bold hover:scale-105 transition-transform">Continuer ➡️</button>
-                </div>
-            </div>
-        </Html>
-    );
-}
+// ==========================================
+// SHARED UTILS REMOVED (Now using GamificationUtils)
+// ==========================================
+
+// SuccessOverlay removed (imported from GamificationUtils)
 
 function Grid() {
     return <gridHelper args={[30, 30, '#333', '#111']} position={[0, -2, 0]} />;
@@ -50,21 +39,40 @@ export function TravailPuissanceSim() {
     const travailF = force * distance * Math.cos(angle * Math.PI / 180);
     const travailP = -10 * 9.81 * distance * Math.sin(incline * Math.PI / 180); // m=10kg
     const puissance = travailF / 5; // Suppose t=5s pour simplifier
+    const [phase, setPhase] = useState('explore');
+    const [timeLeft, setTimeLeft] = useState(45);
+    const [mission, setMission] = useState(null);
 
-    const startChallenge = () => {
-        const targetW = Math.round(Math.random() * 300 + 100);
-        setChallenge({ targetW, tries: 0 });
-        setMode('challenge');
-    };
+    const missions = useMemo(() => [
+        { id: 1, title: 'Travail Moteur', objective: 'Obtenez un travail positif > 500J.', targetMin: 500, type: 'moteur' },
+        { id: 2, title: 'Force Nulle', objective: 'Annulez le travail (W=0) avec un angle de 90°.', targetW: 0, angle: 90 },
+        { id: 3, title: 'Puissance Max', objective: 'Atteignez une puissance de 100W.', targetP: 100 }
+    ], []);
 
-    const checkAnswer = () => {
-        if (challenge && Math.abs(travailF - challenge.targetW) < 20) {
-            triggerSuccess();
-            setScore(s => s + 10);
+    useEffect(() => {
+        if (phase === 'mission' && !mission) {
+            setMission(missions[Math.floor(Math.random() * missions.length)]);
+            setTimeLeft(45);
+        }
+    }, [phase, mission, missions]);
+
+    useEffect(() => {
+        if (phase === 'mission' && timeLeft > 0 && !showSuccess) {
+            const timer = setTimeout(() => setTimeLeft(t => t - 1), 1000);
+            return () => clearTimeout(timer);
+        }
+    }, [timeLeft, phase, showSuccess]);
+
+    const checkMission = () => {
+        if (!mission) return;
+        let success = false;
+        if (mission.id === 1 && travailF > mission.targetMin) success = true;
+        if (mission.id === 2 && Math.abs(travailF) < 1 && angle === 90) success = true;
+        if (mission.id === 3 && puissance >= mission.targetP) success = true;
+
+        if (success) {
+            setScore(s => s + 500);
             setShowSuccess(true);
-            setChallenge(null);
-        } else {
-            setChallenge(c => ({ ...c, tries: c.tries + 1 }));
         }
     };
 
@@ -138,24 +146,24 @@ export function TravailPuissanceSim() {
 
 
             <Html transform={false}>
-                <DraggableHtmlPanel title="🔧 Travail & Puissance">
-                    <div className="p-4 w-80 text-white">
-                        <div className="flex gap-2 mb-4">
-                            <button onClick={() => setMode('explore')} className={`flex-1 py-2 rounded-lg font-bold transition-all ${mode === 'explore' ? 'bg-blue-500' : 'bg-gray-700'}`}>📚 Explorer</button>
-                            <button onClick={startChallenge} className={`flex-1 py-2 rounded-lg font-bold transition-all ${mode === 'challenge' ? 'bg-orange-500' : 'bg-gray-700'}`}>🎯 Défi</button>
+                <DraggableHtmlPanel title="🔧 Travail & Puissance" className="w-[400px] border-blue-500/30">
+                    <div className="text-white">
+                        <div className="flex justify-between items-center mb-4">
+                            <GradeBadge score={score} />
+                            {phase === 'mission' && <ChallengeTimer timeLeft={timeLeft} maxTime={45} />}
                         </div>
-                        {mode === 'challenge' && challenge && (
-                            <div className="mb-4 p-3 bg-orange-900/40 rounded-lg border border-orange-500 animate-pulse">
-                                <p className="text-sm">🎯 Objectif: W(F) ≈ <span className="text-xl font-bold text-orange-400">{challenge.targetW} J</span></p>
-                            </div>
-                        )}
-                        <div className="space-y-3">
+                        <XPBar current={score} nextLevel={1000} />
+                        <div className="h-[1px] bg-gradient-to-r from-transparent via-blue-500/50 to-transparent my-4" />
+                        <PhaseSelector currentPhase={phase} onSelect={setPhase} />
+                        {phase === 'mission' && mission && <MissionObjective objective={mission.objective} icon="🎯" />}
+
+                        <div className="space-y-3 mt-4">
                             <div><label className="text-xs font-bold text-yellow-400">Force F: {force} N</label><input type="range" min="10" max="150" value={force} onChange={e => setForce(Number(e.target.value))} className="w-full accent-yellow-500" /></div>
-                            <div><label className="text-xs font-bold text-cyan-400">Angle α: {angle}°</label><input type="range" min="0" max="60" value={angle} onChange={e => setAngle(Number(e.target.value))} className="w-full accent-cyan-500" /></div>
+                            <div><label className="text-xs font-bold text-cyan-400">Angle α: {angle}°</label><input type="range" min="0" max="90" value={angle} onChange={e => setAngle(Number(e.target.value))} className="w-full accent-cyan-500" /></div>
                             <div><label className="text-xs font-bold text-green-400">Distance d: {distance} m</label><input type="range" min="1" max="10" value={distance} onChange={e => setDistance(Number(e.target.value))} className="w-full accent-green-500" /></div>
                             <div><label className="text-xs font-bold text-gray-400">Inclinaison: {incline}°</label><input type="range" min="-30" max="30" value={incline} onChange={e => setIncline(Number(e.target.value))} className="w-full accent-gray-500" /></div>
                         </div>
-                        <div className="mt-4 p-3 bg-gradient-to-br from-black/60 to-black/40 rounded-lg border border-white/20">
+                        <div className="mt-4 p-3 bg-black/40 rounded-xl border border-white/10">
                             <div className="flex justify-between items-center mb-1">
                                 <span className="text-xs text-yellow-500">W(F) = F·d·cos(α)</span>
                                 <span className="text-xl font-bold text-[#00F5D4]">{travailF.toFixed(0)} J</span>
@@ -170,13 +178,14 @@ export function TravailPuissanceSim() {
                             </div>
                         </div>
                         <div className="flex gap-2 mt-4">
-                            <button onClick={startAnimation} className="flex-1 py-2 bg-green-600 rounded-lg font-bold hover:bg-green-500">▶️ GO</button>
-                            {mode === 'challenge' && <button onClick={checkAnswer} className="flex-1 py-2 bg-orange-600 rounded-lg font-bold hover:bg-orange-500">Vérifier</button>}
+                            <button onClick={startAnimation} className="flex-1 py-3 bg-green-600 rounded-xl font-bold hover:bg-green-500 transition-all text-xs">▶️ LANCER</button>
+                            {phase === 'mission' && <button onClick={checkMission} className="flex-1 py-3 bg-orange-600 rounded-xl font-bold hover:bg-orange-500 transition-all text-xs">VÉRIFIER</button>}
                         </div>
                     </div>
                 </DraggableHtmlPanel>
             </Html>
-            {showSuccess && <SuccessOverlay show={showSuccess} message="Excellent ! Tu maîtrises le Travail !" onClose={() => setShowSuccess(false)} />}
+            <SuccessOverlay show={showSuccess} message="Mission Réussie !" points={500} onNext={() => { setShowSuccess(false); setMission(null); setPhase('explore'); }} />
+            <ConfettiExplosion active={showSuccess} />
         </group >
     );
 }
@@ -258,28 +267,38 @@ export function EnergieCinetiqueSim() {
             </group>
 
             <Html transform={false}>
-                <DraggableHtmlPanel title="🚗 Énergie Cinétique">
-                    <div className="p-4 w-80 text-white">
+                <DraggableHtmlPanel title="🚗 Énergie Cinétique" className="w-[400px] border-red-500/30">
+                    <div className="text-white">
+                        <div className="bg-black/40 p-2 rounded-lg mb-3">
+                            <div className="flex justify-between text-xs"><span>Vitesse</span><span className="font-bold text-green-400">{(velocity * 3.6).toFixed(0)} km/h</span></div>
+                            <div className="flex justify-between text-xs mt-1"><span>Distance Freinage</span><span className={`font-bold ${willCrash ? 'text-red-500' : 'text-blue-400'}`}>{distanceFreinage.toFixed(1)} m</span></div>
+                        </div>
                         <div className="space-y-3">
-                            <div><label className="text-xs font-bold text-blue-400">Masse: {mass} kg</label><input type="range" min="500" max="2500" step="100" value={mass} onChange={e => { setMass(Number(e.target.value)); reset(); }} className="w-full accent-blue-500" /></div>
-                            <div><label className="text-xs font-bold text-green-400">Vitesse: {velocity} m/s ({(velocity * 3.6).toFixed(0)} km/h)</label><input type="range" min="5" max="50" value={velocity} onChange={e => { setVelocity(Number(e.target.value)); reset(); }} className="w-full accent-green-500" /></div>
-                            <div><label className="text-xs font-bold text-red-400">Force freinage: {brakeForce} N</label><input type="range" min="1000" max="15000" step="500" value={brakeForce} onChange={e => { setBrakeForce(Number(e.target.value)); reset(); }} className="w-full accent-red-500" /></div>
+                            <div><label className="text-[10px] font-bold text-blue-400 uppercase">Masse (kg)</label><input type="range" min="500" max="2500" step="100" value={mass} onChange={e => { setMass(Number(e.target.value)); reset(); }} className="w-full accent-blue-500 h-1 bg-gray-700" /></div>
+                            <div><label className="text-[10px] font-bold text-green-400 uppercase">Vitesse (m/s)</label><input type="range" min="5" max="45" value={velocity} onChange={e => { setVelocity(Number(e.target.value)); reset(); }} className="w-full accent-green-500 h-1 bg-gray-700" /></div>
+                            <div><label className="text-[10px] font-bold text-red-400 uppercase">Freinage (N)</label><input type="range" min="1000" max="15000" step="500" value={brakeForce} onChange={e => { setBrakeForce(Number(e.target.value)); reset(); }} className="w-full accent-red-500 h-1 bg-gray-700" /></div>
                         </div>
-                        <div className="mt-4 p-3 bg-gradient-to-br from-green-900/30 to-black/50 rounded-lg border border-green-500/30">
-                            <p className="text-xs text-gray-400">Ec = ½mv²</p>
-                            <p className="text-2xl font-bold text-green-400">Ec = {(ec / 1000).toFixed(1)} kJ</p>
+
+                        <div className="grid grid-cols-2 gap-2 mt-4">
+                            <div className="p-2 bg-gray-800 rounded border border-gray-600 text-center">
+                                <div className="text-[9px] text-gray-400">ÉNERGIE CINÉTIQUE</div>
+                                <div className="text-lg font-bold text-white">{(ec / 1000).toFixed(0)} kJ</div>
+                            </div>
+                            <div className="p-2 bg-gray-800 rounded border border-gray-600 text-center">
+                                <div className="text-[9px] text-gray-400">MUR À</div>
+                                <div className="text-lg font-bold text-white">{(WALL_POS - START_POS).toFixed(0)} m</div>
+                            </div>
                         </div>
-                        <div className={`mt-2 p-3 bg-gradient-to-br ${willCrash ? 'from-red-900/50 border-red-500' : 'from-blue-900/30 border-blue-500/30'} rounded-lg border`}>
-                            <p className="text-xs text-gray-400">Distance d'arrêt requis:</p>
-                            <p className={`text-xl font-bold ${willCrash ? 'text-red-500' : 'text-blue-400'}`}>{distanceFreinage.toFixed(1)} m</p>
-                            <p className="text-xs text-gray-500 mt-1">Distance au mur: {(WALL_POS - START_POS).toFixed(0)} m</p>
-                        </div>
-                        <button onClick={() => { reset(); setTimeout(() => setIsMoving(true), 100); }} className={`w-full mt-4 py-2 ${willCrash ? 'bg-red-600 hover:bg-red-500' : 'bg-green-600 hover:bg-green-500'} rounded-lg font-bold`}>
-                            {willCrash ? '⚠️ TESTER LE CRASH' : '▶️ TESTER FREINAGE'}
+
+                        <button onClick={() => { reset(); setTimeout(() => setIsMoving(true), 100); }}
+                            className={`w-full mt-4 py-3 ${willCrash ? 'bg-red-600 hover:bg-red-500 shadow-red-600/20' : 'bg-green-600 hover:bg-green-500 shadow-green-600/20'} rounded-xl font-bold shadow-lg transition-all text-xs uppercase tracking-wider`}>
+                            {willCrash ? '⚠️ Impact Imminent' : '✅ Test Sécurisé'}
                         </button>
                     </div>
                 </DraggableHtmlPanel>
             </Html>
+            <SuccessOverlay show={crashed} message="CRASH ! L'énergie cinétique était trop grande." points={0} onNext={reset} />
+            <ConfettiExplosion active={crashed} />
         </group>
     );
 }
@@ -324,19 +343,26 @@ export function EnergieMecaniqueSim() {
             <Text position={[4.5, 4.5 - L, 0]} fontSize={0.25} color="cyan">Ep = 0</Text>
 
             <Html transform={false}>
-                <DraggableHtmlPanel title="🎢 Énergie Mécanique">
-                    <div className="p-4 w-80 text-white">
-                        <div className="mb-4"><label className="text-xs font-bold">Angle initial: {angleInit}°</label><input type="range" min="15" max="80" value={angleInit} onChange={e => { setAngleInit(Number(e.target.value)); reset(); }} className="w-full" disabled={isPlaying} /></div>
-                        <div className="flex gap-2 mb-4">
-                            <button onClick={() => setIsPlaying(!isPlaying)} className={`flex-1 py-2 rounded-lg font-bold ${isPlaying ? 'bg-red-500' : 'bg-green-500'}`}>{isPlaying ? '⏸ Pause' : '▶️ Lâcher'}</button>
-                            <button onClick={reset} className="px-4 bg-gray-600 rounded-lg font-bold">↺ Reset</button>
+                <DraggableHtmlPanel title="🎢 Énergie Mécanique" className="w-[380px] border-yellow-500/30">
+                    <div className="text-white">
+                        <div className="grid grid-cols-3 gap-2 text-center mb-4">
+                            <div className="bg-green-500/10 p-2 rounded-xl border border-green-500/20"><div className="text-green-400 text-[9px] font-bold uppercase">Cinétique</div><div className="text-sm font-bold">{ec.toFixed(0)} J</div></div>
+                            <div className="bg-blue-500/10 p-2 rounded-xl border border-blue-500/20"><div className="text-blue-400 text-[9px] font-bold uppercase">Potentielle</div><div className="text-sm font-bold">{ep.toFixed(0)} J</div></div>
+                            <div className="bg-yellow-500/10 p-2 rounded-xl border border-yellow-500/20"><div className="text-yellow-400 text-[9px] font-bold uppercase">Mécanique</div><div className="text-sm font-bold">{(ec + ep).toFixed(0)} J</div></div>
                         </div>
-                        <div className="grid grid-cols-3 gap-2 text-center">
-                            <div className="bg-green-900/50 p-3 rounded-lg border border-green-500/30"><div className="text-green-400 text-xs font-bold">Ec</div><div className="text-lg font-bold">{ec.toFixed(1)} J</div></div>
-                            <div className="bg-blue-900/50 p-3 rounded-lg border border-blue-500/30"><div className="text-blue-400 text-xs font-bold">Ep</div><div className="text-lg font-bold">{ep.toFixed(1)} J</div></div>
-                            <div className="bg-yellow-900/50 p-3 rounded-lg border border-yellow-500/30"><div className="text-yellow-400 text-xs font-bold">Em</div><div className="text-lg font-bold">{(ec + ep).toFixed(1)} J</div></div>
+
+                        <div className="mb-4">
+                            <label className="text-[10px] text-gray-400 uppercase font-bold">Angle Initial</label>
+                            <div className="flex items-center gap-2">
+                                <input type="range" min="15" max="80" value={angleInit} onChange={e => { setAngleInit(Number(e.target.value)); reset(); }} className="w-full h-1 bg-gray-700 accent-yellow-500" disabled={isPlaying} />
+                                <span className="text-xs font-mono w-8">{angleInit}°</span>
+                            </div>
                         </div>
-                        <div className="mt-4 text-xs text-gray-400 text-center">Em = Ec + Ep = constante (sans frottements)</div>
+
+                        <div className="flex gap-2">
+                            <button onClick={() => setIsPlaying(!isPlaying)} className={`flex-1 py-3 rounded-xl font-bold text-xs uppercase transition-all ${isPlaying ? 'bg-red-500 shadow-lg shadow-red-500/30' : 'bg-green-500 shadow-lg shadow-green-500/30 hover:scale-105'}`}>{isPlaying ? '⏸ PAUSE' : '▶️ LÂCHER'}</button>
+                            <button onClick={reset} className="px-4 bg-gray-700 rounded-xl font-bold text-xs uppercase hover:bg-gray-600">↺ Reset</button>
+                        </div>
                     </div>
                 </DraggableHtmlPanel>
             </Html>
@@ -351,8 +377,46 @@ export function EnergiePotentielleSim() {
     const [mass, setMass] = useState(10);
     const [height, setHeight] = useState(2); // Hauteur
     const [gravity, setGravity] = useState(9.81); // Terre par défaut
+    const [phase, setPhase] = useState('explore');
+    const [score, setScore] = useState(0);
+    const [showSuccess, setShowSuccess] = useState(false);
+    const [mission, setMission] = useState(null);
+    const [timeLeft, setTimeLeft] = useState(45);
 
     const epp = mass * gravity * height;
+
+    const missions = useMemo(() => [
+        { id: 1, title: 'Ascension Everest', objective: 'Atteignez une Epp > 3000 J.', targetMin: 3000 },
+        { id: 2, title: 'Gravité Lunaire', objective: 'Simulez sur la Lune avec une Epp entre 100 et 200 J.', targetMin: 100, targetMax: 200, grav: 1.62 },
+        { id: 3, title: 'Poids Lourds', objective: 'Utilisez la masse maximale pour dépasser 4000 J.', targetMin: 4000, minMass: 45 }
+    ], []);
+
+    useEffect(() => {
+        if (phase === 'mission' && !mission) {
+            setMission(missions[Math.floor(Math.random() * missions.length)]);
+            setTimeLeft(45);
+        }
+    }, [phase, mission, missions]);
+
+    useEffect(() => {
+        if (phase === 'mission' && timeLeft > 0 && !showSuccess) {
+            const timer = setTimeout(() => setTimeLeft(t => t - 1), 1000);
+            return () => clearTimeout(timer);
+        }
+    }, [timeLeft, phase, showSuccess]);
+
+    const checkMission = () => {
+        if (!mission) return;
+        let success = false;
+        if (mission.id === 1 && epp > mission.targetMin) success = true;
+        if (mission.id === 2 && epp >= mission.targetMin && epp <= mission.targetMax && gravity === 1.62) success = true;
+        if (mission.id === 3 && epp > mission.targetMin && mass >= mission.minMass) success = true;
+
+        if (success) {
+            setScore(s => s + 300);
+            setShowSuccess(true);
+        }
+    };
 
     return (
         <group>
@@ -376,11 +440,20 @@ export function EnergiePotentielleSim() {
             <Text position={[0.6, height / 2, 0]} fontSize={0.3} color="white">h={height}m</Text>
 
             <Html transform={false}>
-                <DraggableHtmlPanel title="🏗️ Énergie Potentielle">
-                    <div className="p-4 w-72 text-white">
-                        <div className="space-y-3">
-                            <div><label className="text-xs font-bold text-yellow-400">Masse m: {mass} kg</label><input type="range" min="1" max="50" value={mass} onChange={e => setMass(Number(e.target.value))} className="w-full" /></div>
-                            <div><label className="text-xs font-bold text-blue-400">Hauteur h: {height} m</label><input type="range" min="0" max="10" step="0.5" value={height} onChange={e => setHeight(Number(e.target.value))} className="w-full" /></div>
+                <DraggableHtmlPanel title="🏗️ Énergie Potentielle" className="w-[380px] border-yellow-500/30">
+                    <div className="text-white">
+                        <div className="flex justify-between items-center mb-4">
+                            <GradeBadge score={score} />
+                            {phase === 'mission' && <ChallengeTimer timeLeft={timeLeft} maxTime={45} />}
+                        </div>
+                        <XPBar current={score} nextLevel={1000} />
+                        <div className="h-[1px] bg-gradient-to-r from-transparent via-yellow-500/50 to-transparent my-4" />
+                        <PhaseSelector currentPhase={phase} onSelect={setPhase} />
+                        {phase === 'mission' && mission && <MissionObjective objective={mission.objective} icon="🏗️" />}
+
+                        <div className="space-y-3 mt-4">
+                            <div><label className="text-xs font-bold text-yellow-400">Masse m: {mass} kg</label><input type="range" min="1" max="50" value={mass} onChange={e => setMass(Number(e.target.value))} className="w-full accent-yellow-500" /></div>
+                            <div><label className="text-xs font-bold text-blue-400">Hauteur h: {height} m</label><input type="range" min="0" max="10" step="0.5" value={height} onChange={e => setHeight(Number(e.target.value))} className="w-full accent-blue-500" /></div>
                             <div>
                                 <label className="text-xs font-bold text-gray-400">Astre (g):</label>
                                 <select value={gravity} onChange={e => setGravity(Number(e.target.value))} className="w-full bg-gray-800 rounded p-1 text-sm border border-gray-600">
@@ -395,9 +468,12 @@ export function EnergiePotentielleSim() {
                             <p className="text-xs text-gray-400">Epp = m × g × z</p>
                             <p className="text-2xl font-bold text-yellow-400">Epp = {epp.toFixed(1)} J</p>
                         </div>
+                        {phase === 'mission' && <button onClick={checkMission} className="w-full mt-4 py-3 bg-orange-600 rounded-xl font-bold hover:bg-orange-500 transition-all text-xs uppercase">VÉRIFIER MISSION</button>}
                     </div>
                 </DraggableHtmlPanel>
             </Html>
+            <SuccessOverlay show={showSuccess} message="Objectif Atteint !" points={300} onNext={() => { setShowSuccess(false); setMission(null); setPhase('explore'); }} />
+            <ConfettiExplosion active={showSuccess} />
         </group>
     );
 }
@@ -406,6 +482,44 @@ export function EnergiePotentielleSim() {
 export function ElectrostatiqueSim() {
     const [charges, setCharges] = useState([{ x: 2, y: 0, q: 5 }, { x: -2, y: 0, q: -5 }]);
     const [showFieldLines, setShowFieldLines] = useState(true);
+    const [phase, setPhase] = useState('explore');
+    const [score, setScore] = useState(0);
+    const [showSuccess, setShowSuccess] = useState(false);
+    const [mission, setMission] = useState(null);
+    const [timeLeft, setTimeLeft] = useState(45);
+
+    const missions = useMemo(() => [
+        { id: 1, title: 'Dipôle Parfait', objective: 'Placez 2 charges opposées symétriques.', type: 'dipole' },
+        { id: 2, title: 'Monopôle', objective: 'Ne gardez qu\'une seule charge positive.', count: 1, sign: 1 },
+        { id: 3, title: 'Condensateur', objective: 'Placez au moins 4 charges (2+, 2-).', minCount: 4 }
+    ], []);
+
+    useEffect(() => {
+        if (phase === 'mission' && !mission) {
+            setMission(missions[Math.floor(Math.random() * missions.length)]);
+            setTimeLeft(45);
+        }
+    }, [phase, mission, missions]);
+
+    useEffect(() => {
+        if (phase === 'mission' && timeLeft > 0 && !showSuccess) {
+            const timer = setTimeout(() => setTimeLeft(t => t - 1), 1000);
+            return () => clearTimeout(timer);
+        }
+    }, [timeLeft, phase, showSuccess]);
+
+    const checkMission = () => {
+        if (!mission) return;
+        let success = false;
+        if (mission.id === 1 && charges.length === 2 && charges[0].q === -charges[1].q) success = true;
+        if (mission.id === 2 && charges.length === 1 && charges[0].q > 0) success = true;
+        if (mission.id === 3 && charges.length >= 4 && charges.some(c => c.q > 0) && charges.some(c => c.q < 0)) success = true;
+
+        if (success) {
+            setScore(s => s + 300);
+            setShowSuccess(true);
+        }
+    };
 
     const addCharge = (q) => setCharges([...charges, { x: (Math.random() - 0.5) * 4, y: (Math.random() - 0.5) * 4, q }]);
 
@@ -437,21 +551,36 @@ export function ElectrostatiqueSim() {
             {charges.map((c, i) => (<group key={i} position={[c.x, c.y, 0]}><Sphere args={[0.35]}><meshStandardMaterial color={c.q > 0 ? "#FF4444" : "#4444FF"} /></Sphere><Text fontSize={0.3} color="white">{c.q > 0 ? '+' : '-'}</Text></group>))}
             {showFieldLines && fieldLines.map((pts, i) => (<Line key={i} points={pts} color="#00F5D4" lineWidth={1.5} transparent opacity={0.7} />))}
             <Html transform={false}>
-                <DraggableHtmlPanel title="⚡ Champ Électrique" >
-                    <div className="p-4 w-72 text-white">
-                        <div className="flex gap-2 mb-4">
-                            <button onClick={() => addCharge(5)} className="flex-1 bg-red-600 py-2 rounded-lg font-bold hover:bg-red-500">+ Positive</button>
-                            <button onClick={() => addCharge(-5)} className="flex-1 bg-blue-600 py-2 rounded-lg font-bold hover:bg-blue-500">- Négative</button>
+                <DraggableHtmlPanel title="⚡ Champ Électrique" className="w-[380px] border-blue-500/30">
+                    <div className="text-white">
+                        <div className="flex justify-between items-center mb-4">
+                            <GradeBadge score={score} />
+                            {phase === 'mission' && <ChallengeTimer timeLeft={timeLeft} maxTime={45} />}
                         </div>
-                        <button onClick={() => setCharges([])} className="w-full mb-4 py-2 bg-gray-700 rounded-lg">🗑️ Effacer tout</button>
-                        <label className="flex items-center gap-2 text-sm"><input type="checkbox" checked={showFieldLines} onChange={e => setShowFieldLines(e.target.checked)} className="w-4 h-4" /> Lignes de champ</label>
-                        <div className="mt-4 p-3 bg-black/50 rounded-lg text-xs text-gray-400">
-                            <p className="mb-1">Loi de Coulomb: F = k·q₁·q₂/r²</p>
-                            <p>Champ: E = F/q (V/m)</p>
+                        <XPBar current={score} nextLevel={1000} />
+                        <div className="h-[1px] bg-gradient-to-r from-transparent via-blue-500/50 to-transparent my-4" />
+                        <PhaseSelector currentPhase={phase} onSelect={setPhase} />
+                        {phase === 'mission' && mission && <MissionObjective objective={mission.objective} icon="⚡" />}
+
+                        <div className="flex gap-2 mb-4 mt-4">
+                            <button onClick={() => addCharge(5)} className="flex-1 bg-red-600 py-2 rounded-lg font-bold hover:bg-red-500 text-xs uppercase shadow-lg shadow-red-600/20">+ Positive</button>
+                            <button onClick={() => addCharge(-5)} className="flex-1 bg-blue-600 py-2 rounded-lg font-bold hover:bg-blue-500 text-xs uppercase shadow-lg shadow-blue-600/20">- Négative</button>
                         </div>
+                        <button onClick={() => setCharges([])} className="w-full mb-4 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg text-xs uppercase font-bold">🗑️ Effacer tout</button>
+                        <label className="flex items-center gap-2 text-sm cursor-pointer p-2 bg-gray-800 rounded hover:bg-gray-700 transition">
+                            <input type="checkbox" checked={showFieldLines} onChange={e => setShowFieldLines(e.target.checked)} className="w-4 h-4 accent-cyan-500" />
+                            <span className="font-bold text-cyan-400">Voir Lignes de champ</span>
+                        </label>
+                        <div className="mt-4 p-3 bg-black/50 rounded-lg text-xs text-gray-400 border border-white/10">
+                            <p className="mb-1"><span className="text-yellow-400">Loi de Coulomb:</span> F = k·q₁·q₂/r²</p>
+                            <p><span className="text-cyan-400">Champ:</span> E = F/q (V/m)</p>
+                        </div>
+                        {phase === 'mission' && <button onClick={checkMission} className="w-full mt-4 py-3 bg-orange-600 rounded-xl font-bold hover:bg-orange-500 transition-all text-xs uppercase">VÉRIFIER CONFIGURATION</button>}
                     </div>
                 </DraggableHtmlPanel>
             </Html>
+            <SuccessOverlay show={showSuccess} message="Champ Maîtrisé !" points={300} onNext={() => { setShowSuccess(false); setMission(null); setPhase('explore'); }} />
+            <ConfettiExplosion active={showSuccess} />
         </group>
     );
 }
@@ -466,9 +595,47 @@ export function ElectroniqueSim() {
     const [time, setTime] = useState(0);
     const [running, setRunning] = useState(false);
     const electronsRef = useRef([]);
+    const [phase, setPhase] = useState('explore');
+    const [score, setScore] = useState(0);
+    const [showSuccess, setShowSuccess] = useState(false);
+    const [mission, setMission] = useState(null);
+    const [timeLeft, setTimeLeft] = useState(45);
 
     const tau = R * C;
-    const E = 5; // Tension générateur
+    const E = 5;
+
+    const missions = useMemo(() => [
+        { id: 1, title: 'Charge Rapide', objective: 'Obtenez une constante de temps τ < 0.5s.', tauMax: 0.5 },
+        { id: 2, title: 'Grande Capacité', objective: 'Utilisez C > 4mF et R > 2000Ω.', minC: 0.004, minR: 2000 },
+        { id: 3, title: 'Décharge Totale', objective: 'Passez en mode court-circuit avec une tension nulle.', mode: 'discharge' }
+    ], []);
+
+    useEffect(() => {
+        if (phase === 'mission' && !mission) {
+            setMission(missions[Math.floor(Math.random() * missions.length)]);
+            setTimeLeft(45);
+        }
+    }, [phase, mission, missions]);
+
+    useEffect(() => {
+        if (phase === 'mission' && timeLeft > 0 && !showSuccess) {
+            const timer = setTimeout(() => setTimeLeft(t => t - 1), 1000);
+            return () => clearTimeout(timer);
+        }
+    }, [timeLeft, phase, showSuccess]);
+
+    const checkMission = () => {
+        if (!mission) return;
+        let success = false;
+        if (mission.id === 1 && tau < mission.tauMax) success = true;
+        if (mission.id === 2 && C > mission.minC && R > mission.minR) success = true;
+        if (mission.id === 3 && mode === 'discharge' && time > 5 * tau) success = true;
+
+        if (success) {
+            setScore(s => s + 400);
+            setShowSuccess(true);
+        }
+    };
 
     // Calculs temps réel
     const uC = mode === 'charge' ? E * (1 - Math.exp(-time / tau)) : E * Math.exp(-time / tau);
@@ -546,39 +713,51 @@ export function ElectroniqueSim() {
             <Line points={[[-4, 0, 0], [-4, -2, 0], [4, -2, 0], [4, 0, 0]]} color="gold" lineWidth={2} /> {/* Bas */}
 
             <Html transform={false}>
-                <DraggableHtmlPanel title="📺 Circuit RC">
-                    <div className="p-4 w-80 text-white">
-                        <div className="flex gap-2 mb-4">
-                            <button onClick={() => { setMode('charge'); reset(); }} className={`flex-1 py-2 rounded-lg font-bold transition-all ${mode === 'charge' ? 'bg-green-500 scale-105' : 'bg-gray-700'}`}>⬆️ Charger</button>
-                            <button onClick={() => { setMode('discharge'); reset(); }} className={`flex-1 py-2 rounded-lg font-bold transition-all ${mode === 'discharge' ? 'bg-red-500 scale-105' : 'bg-gray-700'}`}>⬇️ Décharger</button>
+                <DraggableHtmlPanel title="📺 Circuit RC" className="w-[380px] border-cyan-500/30">
+                    <div className="text-white">
+                        <div className="flex justify-between items-center mb-4">
+                            <GradeBadge score={score} />
+                            {phase === 'mission' && <ChallengeTimer timeLeft={timeLeft} maxTime={45} />}
+                        </div>
+                        <XPBar current={score} nextLevel={1000} />
+                        <div className="h-[1px] bg-gradient-to-r from-transparent via-cyan-500/50 to-transparent my-4" />
+                        <PhaseSelector currentPhase={phase} onSelect={setPhase} />
+                        {phase === 'mission' && mission && <MissionObjective objective={mission.objective} icon="📺" />}
+
+                        <div className="flex gap-2 mb-4 mt-4">
+                            <button onClick={() => { setMode('charge'); reset(); }} className={`flex-1 py-3 rounded-lg font-bold text-xs uppercase transition-all ${mode === 'charge' ? 'bg-green-500 shadow-lg shadow-green-500/20' : 'bg-gray-700'}`}>⬆️ Charger</button>
+                            <button onClick={() => { setMode('discharge'); reset(); }} className={`flex-1 py-3 rounded-lg font-bold text-xs uppercase transition-all ${mode === 'discharge' ? 'bg-red-500 shadow-lg shadow-red-500/20' : 'bg-gray-700'}`}>⬇️ Décharger</button>
                         </div>
 
                         <div className="grid grid-cols-2 gap-4 mb-4 text-center">
-                            <div className="bg-cyan-900/40 p-2 rounded border border-cyan-500/30">
-                                <div className="text-xs text-cyan-400">Tension uC</div>
+                            <div className="bg-cyan-900/40 p-2 rounded-xl border border-cyan-500/30">
+                                <div className="text-[9px] text-cyan-400 uppercase font-bold">Tension uC</div>
                                 <div className="text-xl font-bold">{uC.toFixed(2)} V</div>
                                 <div className="w-full bg-gray-700 h-1 mt-1 rounded"><div className="bg-cyan-400 h-1 rounded transition-all" style={{ width: `${(uC / 5) * 100}%` }}></div></div>
                             </div>
-                            <div className="bg-yellow-900/40 p-2 rounded border border-yellow-500/30">
-                                <div className="text-xs text-yellow-400">Courant i</div>
+                            <div className="bg-yellow-900/40 p-2 rounded-xl border border-yellow-500/30">
+                                <div className="text-[9px] text-yellow-400 uppercase font-bold">Courant i</div>
                                 <div className="text-xl font-bold">{(i * 1000).toFixed(2)} mA</div>
-                                <div className="text-xs text-gray-400">Flux d'électrons</div>
+                                <div className="text-[8px] text-gray-400">Flux électrons</div>
                             </div>
                         </div>
 
-                        <div className="space-y-3 bg-black/30 p-3 rounded-lg">
+                        <div className="space-y-3 bg-black/30 p-3 rounded-lg border border-white/5">
                             <div><label className="text-xs font-bold text-orange-400">R = {R} Ω</label><input type="range" min="100" max="5000" step="100" value={R} onChange={e => { setR(Number(e.target.value)); reset(); }} className="w-full accent-orange-500" /></div>
                             <div><label className="text-xs font-bold text-cyan-400">C = {(C * 1000).toFixed(1)} mF</label><input type="range" min="0.1" max="5" step="0.1" value={C * 1000} onChange={e => { setC(Number(e.target.value) / 1000); reset(); }} className="w-full accent-cyan-500" /></div>
                         </div>
 
                         <div className="mt-3 text-center">
-                            <span className="text-gray-400 text-sm">Constante de temps τ = RC = </span><span className="text-xl font-bold text-[#00F5D4]">{tau.toFixed(2)} s</span>
-                            <div className="text-xs text-gray-500 mt-1">Le condensateur est chargé à 63% à t=τ</div>
+                            <span className="text-gray-400 text-xs uppercase font-bold">Constante τ = RC = </span><span className="text-xl font-bold text-[#00F5D4]">{tau.toFixed(2)} s</span>
                         </div>
+                        {phase === 'mission' && <button onClick={checkMission} className="w-full mt-4 py-3 bg-orange-600 rounded-xl font-bold hover:bg-orange-500 transition-all text-xs uppercase">VÉRIFIER MISSION</button>}
                     </div>
                 </DraggableHtmlPanel>
             </Html>
-        </group>
+            <SuccessOverlay show={showSuccess} message="Circuit Maîtrisé !" points={400} onNext={() => { setShowSuccess(false); setMission(null); setPhase('explore'); }} />
+            <ConfettiExplosion active={showSuccess} />
+        </Html>
+        </group >
     );
 }
 
@@ -588,7 +767,45 @@ export function ElectroniqueSim() {
 export function OndesSim() {
     const materialRef = useRef();
     const [freq, setFreq] = useState(3.0);
-    const [separation, setSeparation] = useState(0.4); // Distance entre sources relative (0 à 1)
+    const [separation, setSeparation] = useState(0.4);
+    const [phase, setPhase] = useState('explore');
+    const [score, setScore] = useState(0);
+    const [showSuccess, setShowSuccess] = useState(false);
+    const [mission, setMission] = useState(null);
+    const [timeLeft, setTimeLeft] = useState(45);
+
+    const missions = useMemo(() => [
+        { id: 1, title: 'Basse Fréquence', objective: 'Réglez f < 2Hz pour de longues ondes.', maxF: 2 },
+        { id: 2, title: 'Interférence Max', objective: 'Rapprochez les sources (separation < 0.2).', maxSep: 0.2 },
+        { id: 3, title: 'Haute Fréquence', objective: 'Poussez la fréquence au max (> 7Hz).', minF: 7 }
+    ], []);
+
+    useEffect(() => {
+        if (phase === 'mission' && !mission) {
+            setMission(missions[Math.floor(Math.random() * missions.length)]);
+            setTimeLeft(45);
+        }
+    }, [phase, mission, missions]);
+
+    useEffect(() => {
+        if (phase === 'mission' && timeLeft > 0 && !showSuccess) {
+            const timer = setTimeout(() => setTimeLeft(t => t - 1), 1000);
+            return () => clearTimeout(timer);
+        }
+    }, [timeLeft, phase, showSuccess]);
+
+    const checkMission = () => {
+        if (!mission) return;
+        let success = false;
+        if (mission.id === 1 && freq < mission.maxF) success = true;
+        if (mission.id === 2 && separation < mission.maxSep) success = true;
+        if (mission.id === 3 && freq > mission.minF) success = true;
+
+        if (success) {
+            setScore(s => s + 300);
+            setShowSuccess(true);
+        }
+    };
 
     // Shader amélioré pour interférences
     const WaveShader = useMemo(() => ({
@@ -662,9 +879,18 @@ export function OndesSim() {
             </mesh>
 
             <Html transform={false}>
-                <DraggableHtmlPanel title="🌊 Ondes : Interférences" >
-                    <div className="p-4 w-72 text-white">
-                        <div className="space-y-4">
+                <DraggableHtmlPanel title="🌊 Ondes : Interférences" className="w-[380px] border-blue-500/30">
+                    <div className="text-white">
+                        <div className="flex justify-between items-center mb-4">
+                            <GradeBadge score={score} />
+                            {phase === 'mission' && <ChallengeTimer timeLeft={timeLeft} maxTime={45} />}
+                        </div>
+                        <XPBar current={score} nextLevel={1000} />
+                        <div className="h-[1px] bg-gradient-to-r from-transparent via-blue-500/50 to-transparent my-4" />
+                        <PhaseSelector currentPhase={phase} onSelect={setPhase} />
+                        {phase === 'mission' && mission && <MissionObjective objective={mission.objective} icon="🌊" />}
+
+                        <div className="space-y-4 mt-4">
                             <div>
                                 <label className="flex justify-between text-xs font-bold mb-1">
                                     <span>Fréquence f</span>
@@ -682,21 +908,25 @@ export function OndesSim() {
                             </div>
                         </div>
 
-                        <div className="mt-4 p-3 bg-black/50 rounded-lg text-sm border border-white/10">
-                            <p className="text-gray-300 font-semibold mb-2">Conditions d'interférence :</p>
-                            <div className="flex items-center gap-2 text-xs">
-                                <div className="w-3 h-3 bg-white rounded-full"></div>
-                                <span className="text-gray-400">Constructive (Max) : Δ = k·λ</span>
+                        <div className="mt-4 p-3 bg-black/50 rounded-lg text-xs border border-white/10">
+                            <p className="text-gray-300 font-semibold mb-2 uppercase text-[10px]">LÉGENDE</p>
+                            <div className="flex items-center gap-2">
+                                <div className="w-2 h-2 bg-white rounded-full"></div>
+                                <span className="text-gray-400">Constructive (Max)</span>
                             </div>
-                            <div className="flex items-center gap-2 text-xs mt-1">
-                                <div className="w-3 h-3 bg-blue-900 rounded-full border border-blue-500"></div>
-                                <span className="text-gray-400">Destructive (Nul) : Δ = (k+½)·λ</span>
+                            <div className="flex items-center gap-2 mt-1">
+                                <div className="w-2 h-2 bg-blue-900 rounded-full border border-blue-500"></div>
+                                <span className="text-gray-400">Destructive (Min)</span>
                             </div>
                         </div>
+                        {phase === 'mission' && <button onClick={checkMission} className="w-full mt-4 py-3 bg-orange-600 rounded-xl font-bold hover:bg-orange-500 transition-all text-xs uppercase">VÉRIFIER ONDES</button>}
                     </div>
                 </DraggableHtmlPanel>
             </Html>
-        </group>
+            <SuccessOverlay show={showSuccess} message="Ondes Maîtrisées !" points={300} onNext={() => { setShowSuccess(false); setMission(null); setPhase('explore'); }} />
+            <ConfettiExplosion active={showSuccess} />
+        </Html>
+        </group >
     );
 }
 
@@ -707,6 +937,48 @@ export function OptiqueLentilleSim() {
     const [focalAbs, setFocalAbs] = useState(3);
     const [objPos, setObjPos] = useState(-6);
     const [lensType, setLensType] = useState('converging'); // converging, diverging
+    const [phase, setPhase] = useState('explore');
+    const [score, setScore] = useState(0);
+    const [showSuccess, setShowSuccess] = useState(false);
+    const [mission, setMission] = useState(null);
+    const [timeLeft, setTimeLeft] = useState(45);
+
+    const missions = useMemo(() => [
+        { id: 1, title: 'Image Réelle', objective: 'Créez une image réelle (OA\' > 0) avec une lentille convergente.', type: 'converging', real: true },
+        { id: 2, title: 'Loupe (Virtuelle)', objective: 'Placez l\'objet entre F et O pour une image virtuelle.', type: 'converging', real: false },
+        { id: 3, title: 'Divergence', objective: 'Utilisez une lentille divergente.', type: 'diverging' }
+    ], []);
+
+    useEffect(() => {
+        if (phase === 'mission' && !mission) {
+            setMission(missions[Math.floor(Math.random() * missions.length)]);
+            setTimeLeft(45);
+        }
+    }, [phase, mission, missions]);
+
+    useEffect(() => {
+        if (phase === 'mission' && timeLeft > 0 && !showSuccess) {
+            const timer = setTimeout(() => setTimeLeft(t => t - 1), 1000);
+            return () => clearTimeout(timer);
+        }
+    }, [timeLeft, phase, showSuccess]);
+
+    const checkMission = () => {
+        if (!mission) return;
+        const f = lensType === 'converging' ? focalAbs : -focalAbs;
+        const oaP = (objPos * f) / (objPos + f);
+        const virtual = oaP < 0;
+
+        let success = false;
+        if (mission.id === 1 && !virtual && lensType === 'converging') success = true;
+        if (mission.id === 2 && virtual && lensType === 'converging') success = true;
+        if (mission.id === 3 && lensType === 'diverging') success = true;
+
+        if (success) {
+            setScore(s => s + 300);
+            setShowSuccess(true);
+        }
+    };
 
     const f = lensType === 'converging' ? focalAbs : -focalAbs;
     const oa = objPos;
@@ -783,35 +1055,48 @@ export function OptiqueLentilleSim() {
             <Line points={[[oa, hObj, 0], [oaP, hImg, 0]]} color="cyan" lineWidth={2} />
 
             <Html transform={false}>
-                <DraggableHtmlPanel title="🔭 Lentilles Minces" >
-                    <div className="p-4 w-80 text-white">
-                        <div className="flex gap-2 mb-4">
-                            <button onClick={() => setLensType('converging')} className={`flex-1 py-1 rounded text-sm ${lensType === 'converging' ? 'bg-blue-600' : 'bg-gray-700'}`}>Convergente</button>
-                            <button onClick={() => setLensType('diverging')} className={`flex-1 py-1 rounded text-sm ${lensType === 'diverging' ? 'bg-orange-600' : 'bg-gray-700'}`}>Divergente</button>
+                <DraggableHtmlPanel title="🔭 Lentilles Minces" className="w-[380px] border-purple-500/30">
+                    <div className="text-white">
+                        <div className="flex justify-between items-center mb-4">
+                            <GradeBadge score={score} />
+                            {phase === 'mission' && <ChallengeTimer timeLeft={timeLeft} maxTime={45} />}
+                        </div>
+                        <XPBar current={score} nextLevel={1000} />
+                        <div className="h-[1px] bg-gradient-to-r from-transparent via-purple-500/50 to-transparent my-4" />
+                        <PhaseSelector currentPhase={phase} onSelect={setPhase} />
+                        {phase === 'mission' && mission && <MissionObjective objective={mission.objective} icon="🔭" />}
+
+                        <div className="flex gap-2 mb-4 mt-4">
+                            <button onClick={() => setLensType('converging')} className={`flex-1 py-1 rounded text-xs uppercase font-bold transition-all ${lensType === 'converging' ? 'bg-blue-600 shadow-lg shadow-blue-600/20' : 'bg-gray-700'}`}>Convergente</button>
+                            <button onClick={() => setLensType('diverging')} className={`flex-1 py-1 rounded text-xs uppercase font-bold transition-all ${lensType === 'diverging' ? 'bg-orange-600 shadow-lg shadow-orange-600/20' : 'bg-gray-700'}`}>Divergente</button>
                         </div>
 
                         <div className="space-y-3">
-                            <div><label className="text-xs font-bold">Position Objet OA = {objPos.toFixed(1)} cm</label><input type="range" min="-10" max="-2" step="0.1" value={objPos} onChange={e => setObjPos(Number(e.target.value))} className="w-full" /></div>
-                            <div><label className="text-xs font-bold">Focale |f'| = {focalAbs} cm</label><input type="range" min="1" max="5" step="0.5" value={focalAbs} onChange={e => setFocalAbs(Number(e.target.value))} className="w-full" /></div>
+                            <div><label className="text-xs font-bold text-gray-400 uppercase">Position Objet OA = {objPos.toFixed(1)} cm</label><input type="range" min="-10" max="-2" step="0.1" value={objPos} onChange={e => setObjPos(Number(e.target.value))} className="w-full accent-purple-500" /></div>
+                            <div><label className="text-xs font-bold text-gray-400 uppercase">Focale |f'| = {focalAbs} cm</label><input type="range" min="1" max="5" step="0.5" value={focalAbs} onChange={e => setFocalAbs(Number(e.target.value))} className="w-full accent-pink-500" /></div>
                         </div>
 
                         <div className="mt-4 grid grid-cols-2 gap-2 text-center text-xs">
-                            <div className="bg-gray-800 p-2 rounded">
+                            <div className="bg-gray-800 p-2 rounded border border-gray-700">
                                 <div className="text-gray-400">Grandissement γ</div>
                                 <div className="text-lg font-bold">{gamma.toFixed(2)}</div>
                             </div>
-                            <div className="bg-gray-800 p-2 rounded">
+                            <div className="bg-gray-800 p-2 rounded border border-gray-700">
                                 <div className="text-gray-400">Position Image OA'</div>
                                 <div className={`text-lg font-bold ${oaP > 0 ? 'text-green-400' : 'text-red-400'}`}>{Math.abs(oaP) > 50 ? '∞' : oaP.toFixed(1) + ' cm'}</div>
                             </div>
                         </div>
 
-                        <div className="mt-2 text-xs text-center text-gray-500">
+                        <div className={`mt-2 text-[10px] text-center uppercase font-bold py-1 rounded ${isVirtual ? 'bg-gray-700 text-gray-300' : 'bg-green-900/50 text-green-400'}`}>
                             {isVirtual ? "Image VIRTUELLE (ne peut être projetée)" : "Image RÉELLE (peut être projetée)"}
                         </div>
+                        {phase === 'mission' && <button onClick={checkMission} className="w-full mt-4 py-3 bg-orange-600 rounded-xl font-bold hover:bg-orange-500 transition-all text-xs uppercase">VÉRIFIER MISSION</button>}
                     </div>
                 </DraggableHtmlPanel>
             </Html>
-        </group>
+            <SuccessOverlay show={showSuccess} message="Optique Maîtrisée !" points={300} onNext={() => { setShowSuccess(false); setMission(null); setPhase('explore'); }} />
+            <ConfettiExplosion active={showSuccess} />
+        </Html>
+        </group >
     );
 }

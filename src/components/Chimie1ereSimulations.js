@@ -690,6 +690,40 @@ export function BenzeneSim() {
 export function ComposesOxygenesSim() {
     const [type, setType] = useState('alcool');
     const groupRef = useRef();
+    const [phase, setPhase] = useState('explore');
+    const [score, setScore] = useState(0);
+    const [showSuccess, setShowSuccess] = useState(false);
+    const [mission, setMission] = useState(null);
+    const [timeLeft, setTimeLeft] = useState(45);
+
+    const missions = useMemo(() => [
+        { id: 1, title: 'Identification Alcool', objective: 'Affichez la molécule d\'Alcool (Groupe -OH).', target: 'alcool' },
+        { id: 2, title: 'Fonction Carbonyle', objective: 'Trouvez la Cétone (C=O interne).', target: 'cetone' },
+        { id: 3, title: 'Groupement Aldéhyde', objective: 'Localisez l\'Aldéhyde en bout de chaîne.', target: 'aldehyde' }
+    ], []);
+
+    useEffect(() => {
+        if (phase === 'mission' && !mission) {
+            setMission(missions[Math.floor(Math.random() * missions.length)]);
+            setTimeLeft(45);
+        }
+    }, [phase, mission, missions]);
+
+    useEffect(() => {
+        if (phase === 'mission' && timeLeft > 0 && !showSuccess) {
+            const timer = setTimeout(() => setTimeLeft(t => t - 1), 1000);
+            return () => clearTimeout(timer);
+        }
+    }, [timeLeft, phase, showSuccess]);
+
+    const handleSelect = (t) => {
+        setType(t);
+        if (phase === 'mission' && mission && t === mission.target) {
+            setScore(s => s + 300);
+            setShowSuccess(true);
+        }
+    };
+
     useFrame(() => { if (groupRef.current) groupRef.current.rotation.y += 0.005; });
 
     return (
@@ -734,21 +768,32 @@ export function ComposesOxygenesSim() {
             </group>
 
             <Html transform={false}>
-                <DraggableHtmlPanel title="🧪 Composés Oxygénés">
-                    <div className="p-4 w-64 text-white">
-                        <div className="flex gap-1 mb-4">
-                            <button onClick={() => setType('alcool')} className={`flex-1 py-1 rounded text-xs ${type === 'alcool' ? 'bg-red-500' : 'bg-gray-700'}`}>Alcool</button>
-                            <button onClick={() => setType('aldehyde')} className={`flex-1 py-1 rounded text-xs ${type === 'aldehyde' ? 'bg-red-500' : 'bg-gray-700'}`}>Aldéhyde</button>
-                            <button onClick={() => setType('cetone')} className={`flex-1 py-1 rounded text-xs ${type === 'cetone' ? 'bg-red-500' : 'bg-gray-700'}`}>Cétone</button>
+                <DraggableHtmlPanel title="🧪 Composés Oxygénés" className="w-[380px] border-red-500/30">
+                    <div className="text-white">
+                        <div className="flex justify-between items-center mb-4">
+                            <GradeBadge score={score} />
+                            {phase === 'mission' && <ChallengeTimer timeLeft={timeLeft} maxTime={45} />}
                         </div>
-                        <div className="text-xs bg-black/30 p-2 rounded">
-                            {type === 'alcool' && <><p className="font-bold text-red-400">Groupe hydroxyle -OH</p><p>Oxydation → Aldéhyde ou Cétone</p></>}
-                            {type === 'aldehyde' && <><p className="font-bold text-red-400">Groupe -CHO</p><p>Test Fehling: Précipité rouge</p></>}
-                            {type === 'cetone' && <><p className="font-bold text-red-400">Groupe C=O (interne)</p><p>Test DNPH: Précipité jaune</p></>}
+                        <XPBar current={score} nextLevel={1000} />
+                        <div className="h-[1px] bg-gradient-to-r from-transparent via-red-500/50 to-transparent my-4" />
+                        <PhaseSelector currentPhase={phase} onSelect={setPhase} />
+                        {phase === 'mission' && mission && <MissionObjective objective={mission.objective} icon="🧪" />}
+
+                        <div className="flex gap-1 mb-4 mt-4">
+                            <button onClick={() => handleSelect('alcool')} className={`flex-1 py-2 rounded-lg text-xs uppercase font-bold transition-all ${type === 'alcool' ? 'bg-red-600 shadow-lg shadow-red-600/20' : 'bg-gray-700'}`}>Alcool</button>
+                            <button onClick={() => handleSelect('aldehyde')} className={`flex-1 py-2 rounded-lg text-xs uppercase font-bold transition-all ${type === 'aldehyde' ? 'bg-orange-600 shadow-lg shadow-orange-600/20' : 'bg-gray-700'}`}>Aldéhyde</button>
+                            <button onClick={() => handleSelect('cetone')} className={`flex-1 py-2 rounded-lg text-xs uppercase font-bold transition-all ${type === 'cetone' ? 'bg-purple-600 shadow-lg shadow-purple-600/20' : 'bg-gray-700'}`}>Cétone</button>
+                        </div>
+                        <div className="text-xs bg-black/30 p-3 rounded-xl border border-white/5">
+                            {type === 'alcool' && <><p className="font-bold text-red-400 uppercase mb-1">Groupe hydroxyle -OH</p><p className="text-gray-300">Oxydation → Aldéhyde ou Cétone. Soluble dans l'eau.</p></>}
+                            {type === 'aldehyde' && <><p className="font-bold text-orange-400 uppercase mb-1">Groupe -CHO (Extrémité)</p><p className="text-gray-300">Test Fehling: Précipité rouge brique.</p></>}
+                            {type === 'cetone' && <><p className="font-bold text-purple-400 uppercase mb-1">Groupe C=O (Interne)</p><p className="text-gray-300">Test DNPH: Précipité jaune-orangé.</p></>}
                         </div>
                     </div>
                 </DraggableHtmlPanel>
             </Html>
+            <SuccessOverlay show={showSuccess} message="Famille Identifiée !" points={300} onNext={() => { setShowSuccess(false); setMission(null); setPhase('explore'); }} />
+            <ConfettiExplosion active={showSuccess} />
         </group>
     );
 }
@@ -760,167 +805,135 @@ export function ComposesOxygenesSim() {
 // C6-C9: REDOX (Défi Corrosion)
 // ==========================================
 export function RedoxGammaSim() {
-    const [mode, setMode] = useState('explore'); // 'explore', 'game'
     const [metal, setMetal] = useState('Zn');
     const [solution, setSolution] = useState('CuSO4');
-    const [gameChoice, setGameChoice] = useState(null);
-    const [gameState, setGameState] = useState('playing'); // playing, win, lose
+    const [phase, setPhase] = useState('explore');
+    const [score, setScore] = useState(0);
+    const [showSuccess, setShowSuccess] = useState(false);
+    const [mission, setMission] = useState(null);
+    const [timeLeft, setTimeLeft] = useState(45);
 
     const E0 = { 'Ag': 0.80, 'Cu': 0.34, 'Fe': -0.44, 'Zn': -0.76, 'Mg': -2.37 };
     const ionE0 = { 'AgNO3': 0.80, 'CuSO4': 0.34, 'FeSO4': -0.44, 'ZnSO4': -0.76 };
 
-    // Exploration Logic
     const metalE = E0[metal];
     const solE = ionE0[solution];
     const reaction = solE > metalE;
 
-    // Game Logic: Protéger le Fer (Fe)
-    // Il faut une anode sacrificielle (E° < E°Fe = -0.44)
-    const checkGame = (choice) => {
-        setGameChoice(choice);
-        const isProtective = E0[choice] < E0['Fe'];
-        if (isProtective) {
-            setGameState('win');
-            triggerSuccess();
-        } else {
-            setGameState('lose');
-        }
-    };
+    const missions = useMemo(() => [
+        { id: 1, title: 'Réaction Spontanée', objective: 'Créez une pile avec ΔE > 1.0V.', minDelta: 1.0 },
+        { id: 2, title: 'Protection de Fer', objective: 'Trouvez un métal qui protège le Fer (Fe) de la corrosion.', target: 'Fe', protect: true },
+        { id: 3, title: 'Métal Noble', objective: 'Sélectionnez l\'Argent (Ag) et une solution qui NE RÉAGIT PAS.', metal: 'Ag', noReact: true }
+    ], []);
 
-    const resetGame = () => {
-        setGameState('playing');
-        setGameChoice(null);
+    useEffect(() => {
+        if (phase === 'mission' && !mission) {
+            setMission(missions[Math.floor(Math.random() * missions.length)]);
+            setTimeLeft(45);
+        }
+    }, [phase, mission, missions]);
+
+    useEffect(() => {
+        if (phase === 'mission' && timeLeft > 0 && !showSuccess) {
+            const timer = setTimeout(() => setTimeLeft(t => t - 1), 1000);
+            return () => clearTimeout(timer);
+        }
+    }, [timeLeft, phase, showSuccess]);
+
+    const checkMission = () => {
+        if (!mission) return;
+        let success = false;
+        const delta = solE - metalE;
+
+        if (mission.id === 1 && reaction && delta > mission.minDelta) success = true;
+
+        // Pour la protection cathodique, on simule que 'metal' est l'anode sacrificielle si E(metal) < E(Fe)
+        if (mission.id === 2 && E0[metal] < E0['Fe']) success = true;
+
+        if (mission.id === 3 && metal === 'Ag' && !reaction) success = true;
+
+        if (success) {
+            setScore(s => s + 350);
+            setShowSuccess(true);
+        }
     };
 
     return (
         <group>
             <OrbitControls />
 
-            {mode === 'explore' ? (
-                <group>
-                    {/* Bécher Simulation */}
-                    <mesh position={[0, -0.5, 0]}>
-                        <cylinderGeometry args={[1.5, 1.5, 3, 32, 1, true]} />
-                        <meshStandardMaterial color="#AAA" transparent opacity={0.3} side={THREE.DoubleSide} />
-                    </mesh>
-                    <mesh position={[0, -1, 0]}>
-                        <cylinderGeometry args={[1.4, 1.4, 1.8, 32]} />
-                        <meshStandardMaterial color={solution.includes('Cu') ? '#00AACC' : solution.includes('Fe') ? '#99DD99' : '#EEEEFF'} transparent opacity={0.6} />
-                    </mesh>
-                    <Box args={[0.4, 2.5, 0.1]} position={[0, 0.5, 0]}>
-                        <meshStandardMaterial color={metal === 'Cu' ? '#B87333' : metal === 'Zn' ? '#AFAFAF' : metal === 'Mg' ? '#DDDDDD' : '#555'} />
-                    </Box>
-                    {reaction && (
-                        <group>
-                            <Box args={[0.42, 1.2, 0.12]} position={[0, -0.3, 0.02]}><meshStandardMaterial color="#222" /></Box>
-                            {/* Particules réaction */}
-                            <group position={[0, -0.5, 0.2]}>
-                                {Array.from({ length: 5 }).map((_, i) => (
-                                    <Sphere key={i} args={[0.05]} position={[(Math.random() - 0.5) * 0.5, Math.random(), 0]}>
-                                        <meshBasicMaterial color="#FFFF00" />
-                                    </Sphere>
-                                ))}
-                            </group>
+            <group>
+                {/* Bécher Simulation */}
+                <mesh position={[0, -0.5, 0]}>
+                    <cylinderGeometry args={[1.5, 1.5, 3, 32, 1, true]} />
+                    <meshStandardMaterial color="#AAA" transparent opacity={0.3} side={THREE.DoubleSide} />
+                </mesh>
+                <mesh position={[0, -1, 0]}>
+                    <cylinderGeometry args={[1.4, 1.4, 1.8, 32]} />
+                    <meshStandardMaterial color={solution.includes('Cu') ? '#00AACC' : solution.includes('Fe') ? '#99DD99' : '#EEEEFF'} transparent opacity={0.6} />
+                </mesh>
+                <Box args={[0.4, 2.5, 0.1]} position={[0, 0.5, 0]}>
+                    <meshStandardMaterial color={metal === 'Cu' ? '#B87333' : metal === 'Zn' ? '#AFAFAF' : metal === 'Mg' ? '#DDDDDD' : '#555'} />
+                </Box>
+                {reaction && (
+                    <group>
+                        <Box args={[0.42, 1.2, 0.12]} position={[0, -0.3, 0.02]}><meshStandardMaterial color="#222" /></Box>
+                        {/* Particules réaction */}
+                        <group position={[0, -0.5, 0.2]}>
+                            {Array.from({ length: 5 }).map((_, i) => (
+                                <Sphere key={i} args={[0.05]} position={[(Math.random() - 0.5) * 0.5, Math.random(), 0]}>
+                                    <meshBasicMaterial color="#FFFF00" />
+                                </Sphere>
+                            ))}
                         </group>
-                    )}
-                </group>
-            ) : (
-                <group>
-                    {/* Scène Bateau */}
-                    <Text position={[0, 2.5, 0]} fontSize={0.5} color="white">MISSION : SAUVER LA COQUE !</Text>
-                    {/* Coque en Fer */}
-                    <group position={[0, 0, 0]}>
-                        <mesh rotation={[0, 0, Math.PI]}>
-                            <capsuleGeometry args={[1, 4, 4, 16]} />
-                            <meshStandardMaterial color={gameState === 'lose' ? '#8B4513' : '#777777'} roughness={0.6} />
-                        </mesh>
-                        <Text position={[0, 1.5, 1.1]} fontSize={0.3} color="black">Coque Acier (Fe)</Text>
-
-                        {/* Anode Sacrificielle */}
-                        {gameChoice && (
-                            <mesh position={[0.8, -1, 0.8]}>
-                                <boxGeometry args={[0.5, 0.5, 0.2]} />
-                                <meshStandardMaterial color={gameChoice === 'Zn' ? '#AFAFAF' : gameChoice === 'Mg' ? '#EEE' : '#B87333'} />
-                            </mesh>
-                        )}
-
-                        {/* Eau de mer */}
-                        <mesh position={[0, -1, 0]}>
-                            <cylinderGeometry args={[3, 3, 2, 32]} />
-                            <meshStandardMaterial color="#006994" transparent opacity={0.4} />
-                        </mesh>
-
-                        {/* Effets */}
-                        {gameState === 'lose' && (
-                            <group position={[0, 0, 1]}>
-                                <Text position={[0, 0, 0.2]} fontSize={0.4} color="#FF4400">ROUILLE ! 😱</Text>
-                            </group>
-                        )}
-                        {gameState === 'win' && (
-                            <group position={[1, -1, 1]}>
-                                <Text position={[0, 0.5, 0]} fontSize={0.3} color="#00FF00">Protection OK</Text>
-                            </group>
-                        )}
                     </group>
-                </group>
-            )}
+                )}
+            </group>
 
             <Html transform={false}>
-                <DraggableHtmlPanel title={mode === 'explore' ? "⚗️ Règle du Gamma" : "⚓ Défi Corrosion"}>
-                    <div className="p-4 w-72 text-white">
-                        <div className="flex gap-2 mb-4 border-b border-gray-600 pb-2">
-                            <button onClick={() => setMode('explore')} className={`flex-1 py-1 rounded text-xs ${mode === 'explore' ? 'bg-blue-600' : 'bg-gray-700'}`}>Labo</button>
-                            <button onClick={() => setMode('game')} className={`flex-1 py-1 rounded text-xs ${mode === 'game' ? 'bg-orange-600' : 'bg-gray-700'}`}>Jeu 🎮</button>
+                <DraggableHtmlPanel title="⚗️ Règle du Gamma" className="w-[380px] border-blue-500/30">
+                    <div className="text-white">
+                        <div className="flex justify-between items-center mb-4">
+                            <GradeBadge score={score} />
+                            {phase === 'mission' && <ChallengeTimer timeLeft={timeLeft} maxTime={45} />}
                         </div>
+                        <XPBar current={score} nextLevel={1000} />
+                        <div className="h-[1px] bg-gradient-to-r from-transparent via-blue-500/50 to-transparent my-4" />
+                        <PhaseSelector currentPhase={phase} onSelect={setPhase} />
+                        {phase === 'mission' && mission && <MissionObjective objective={mission.objective} icon="⚗️" />}
 
-                        {mode === 'explore' ? (
-                            <>
-                                <div className="mb-3">
-                                    <label className="text-xs font-bold">Lame métallique:</label>
-                                    <select value={metal} onChange={e => setMetal(e.target.value)} className="w-full bg-gray-700 rounded p-1 text-sm text-white">
-                                        <option value="Cu">Cuivre (E°=+0.34V)</option>
-                                        <option value="Zn">Zinc (E°=-0.76V)</option>
-                                        <option value="Fe">Fer (E°=-0.44V)</option>
-                                        <option value="Mg">Magnésium (E°=-2.37V)</option>
-                                    </select>
-                                </div>
-                                <div className="mb-4">
-                                    <label className="text-xs font-bold">Solution:</label>
-                                    <select value={solution} onChange={e => setSolution(e.target.value)} className="w-full bg-gray-700 rounded p-1 text-sm text-white">
-                                        <option value="CuSO4">Sulfate de Cuivre (Cu²⁺)</option>
-                                        <option value="ZnSO4">Sulfate de Zinc (Zn²⁺)</option>
-                                        <option value="FeSO4">Sulfate de Fer (Fe²⁺)</option>
-                                    </select>
-                                </div>
-                                <div className={`p-2 rounded text-xs border ${reaction ? 'bg-green-900/50 border-green-500' : 'bg-red-900/50 border-red-500'}`}>
-                                    <p className="font-bold">{reaction ? '✅ RÉACTION SPONTANÉE' : '❌ PAS DE RÉACTION'}</p>
-                                    <p className="mt-1">ΔE° = {(solE - metalE).toFixed(2)} V</p>
-                                    {reaction && <p className="italic mt-1 text-green-300">Dépôt métallique + Oxydation de la lame</p>}
-                                </div>
-                            </>
-                        ) : (
-                            <div className="space-y-3">
-                                <p className="text-sm">La coque en <span className="font-bold text-gray-400">Fer (E°=-0.44V)</span> est attaquée par l'eau de mer !</p>
-                                <p className="text-xs text-orange-300">Choisis une anode sacrificielle pour la protéger (protection cathodique).</p>
-
-                                <div className="grid grid-cols-2 gap-2 mt-2">
-                                    <button onClick={() => checkGame('Zn')} disabled={gameState !== 'playing'} className="p-2 bg-gray-600 rounded hover:bg-gray-500 text-xs">Zinc (E°=-0.76)</button>
-                                    <button onClick={() => checkGame('Cu')} disabled={gameState !== 'playing'} className="p-2 bg-yellow-900 rounded hover:bg-yellow-800 text-xs">Cuivre (E°=+0.34)</button>
-                                    <button onClick={() => checkGame('Mg')} disabled={gameState !== 'playing'} className="p-2 bg-gray-300 text-black rounded hover:bg-white text-xs">Magnésium (E°=-2.37)</button>
-                                    <button onClick={() => checkGame('Ag')} disabled={gameState !== 'playing'} className="p-2 bg-gray-400 text-black rounded hover:bg-gray-300 text-xs">Argent (E°=+0.80)</button>
-                                </div>
-
-                                {gameState !== 'playing' && (
-                                    <div className={`mt-2 p-2 rounded text-center animate-bounce ${gameState === 'win' ? 'bg-green-600' : 'bg-red-600'}`}>
-                                        {gameState === 'win' ? 'BRAVO ! Le Fer est protégé.' : 'CATASTROPHE ! La corrosion accélère.'}
-                                        <button onClick={resetGame} className="block w-full mt-2 text-[10px] underline">Recommencer</button>
-                                    </div>
-                                )}
-                            </div>
-                        )}
+                        <div className="mb-3 mt-4">
+                            <label className="text-xs font-bold text-gray-400">Lame métallique:</label>
+                            <select value={metal} onChange={e => setMetal(e.target.value)} className="w-full bg-gray-700 rounded p-1 text-sm text-white mt-1">
+                                <option value="Cu">Cuivre (E°=+0.34V)</option>
+                                <option value="Zn">Zinc (E°=-0.76V)</option>
+                                <option value="Fe">Fer (E°=-0.44V)</option>
+                                <option value="Mg">Magnésium (E°=-2.37V)</option>
+                                <option value="Ag">Argent (E°=+0.80V)</option>
+                            </select>
+                        </div>
+                        <div className="mb-4">
+                            <label className="text-xs font-bold text-gray-400">Solution:</label>
+                            <select value={solution} onChange={e => setSolution(e.target.value)} className="w-full bg-gray-700 rounded p-1 text-sm text-white mt-1">
+                                <option value="CuSO4">Sulfate de Cuivre (Cu²⁺)</option>
+                                <option value="ZnSO4">Sulfate de Zinc (Zn²⁺)</option>
+                                <option value="FeSO4">Sulfate de Fer (Fe²⁺)</option>
+                                <option value="AgNO3">Nitrate d'Argent (Ag⁺)</option>
+                            </select>
+                        </div>
+                        <div className={`p-3 rounded-xl text-xs border ${reaction ? 'bg-green-900/40 border-green-500/50' : 'bg-red-900/40 border-red-500/50'} transition-all`}>
+                            <p className="font-bold flex items-center gap-2">
+                                {reaction ? '✅ RÉACTION SPONTANÉE' : '❌ PAS DE RÉACTION'}
+                            </p>
+                            <p className="mt-2 text-lg font-mono font-bold text-white">ΔE° = {(solE - metalE).toFixed(2)} V</p>
+                            {reaction && <p className="italic mt-1 text-green-300">Oxydant le plus fort réagit avec Réducteur le plus fort.</p>}
+                        </div>
+                        {phase === 'mission' && <button onClick={checkMission} className="w-full mt-4 py-3 bg-orange-600 rounded-xl font-bold hover:bg-orange-500 transition-all text-xs uppercase">VÉRIFIER RÉACTION</button>}
                     </div>
                 </DraggableHtmlPanel>
             </Html>
+            <SuccessOverlay show={showSuccess} message="Chimiste Expert !" points={350} onNext={() => { setShowSuccess(false); setMission(null); setPhase('explore'); }} />
+            <ConfettiExplosion active={showSuccess} />
         </group>
     );
 }
@@ -932,14 +945,14 @@ export function RedoxGammaSim() {
 // C10: ÉLECTROLYSE (Atelier d'Orfèvre)
 // ==========================================
 export function ElectrolyseSim() {
-    const [mode, setMode] = useState('explore');
     const [current, setCurrent] = useState(2);
     const [time, setTime] = useState(600);
     const [metalType, setMetalType] = useState('Cu'); // Cu, Au, Ag
-
-    // Game Logic
-    const [targetMass, setTargetMass] = useState(0.5); // g
-    const [gameStatus, setGameStatus] = useState(null); // win, lose
+    const [phase, setPhase] = useState('explore');
+    const [score, setScore] = useState(0);
+    const [showSuccess, setShowSuccess] = useState(false);
+    const [mission, setMission] = useState(null);
+    const [timeLeft, setTimeLeft] = useState(45);
 
     const constants = {
         'Cu': { M: 63.5, n: 2, color: '#B87333', name: 'Cuivre' },
@@ -951,24 +964,40 @@ export function ElectrolyseSim() {
     const { M, n, color, name } = constants[metalType];
     const mass = (current * time * M) / (n * F);
 
-    const radius = Math.min(0.12 + (mass / 10) * 0.1, 0.25); // Epaisseur visible du dépôt
+    const radius = Math.min(0.12 + (mass / 10) * 0.1, 0.25);
 
-    const checkChallenge = () => {
-        // Tolérance 10%
-        const error = Math.abs(mass - targetMass) / targetMass;
-        if (error < 0.1) {
-            setGameStatus('win');
-            triggerSuccess();
-        } else {
-            setGameStatus('lose');
+    const missions = useMemo(() => [
+        { id: 1, title: 'Production de Cuivre', objective: 'Déposez > 0.5g de Cuivre.', metal: 'Cu', minMass: 0.5 },
+        { id: 2, title: 'Plaquage Or', objective: 'Déposez entre 0.2g et 0.3g d\'Or.', metal: 'Au', minMass: 0.2, maxMass: 0.3 },
+        { id: 3, title: 'Argent Rapide', objective: 'Utilisez I > 4A pour déposer de l\'Argent.', metal: 'Ag', minI: 4 }
+    ], []);
+
+    useEffect(() => {
+        if (phase === 'mission' && !mission) {
+            setMission(missions[Math.floor(Math.random() * missions.length)]);
+            setTimeLeft(45);
         }
-    };
+    }, [phase, mission, missions]);
 
-    const resetChallenge = () => {
-        setTargetMass(Number((Math.random() * 0.8 + 0.2).toFixed(2))); // 0.2 à 1.0g
-        setGameStatus(null);
-        setMode('game');
-        setMetalType('Au'); // Or pour le challenge
+    useEffect(() => {
+        if (phase === 'mission' && timeLeft > 0 && !showSuccess) {
+            const timer = setTimeout(() => setTimeLeft(t => t - 1), 1000);
+            return () => clearTimeout(timer);
+        }
+    }, [timeLeft, phase, showSuccess]);
+
+    const checkMission = () => {
+        if (!mission) return;
+        let success = false;
+
+        if (mission.id === 1 && metalType === 'Cu' && mass > mission.minMass) success = true;
+        if (mission.id === 2 && metalType === 'Au' && mass >= mission.minMass && mass <= mission.maxMass) success = true;
+        if (mission.id === 3 && metalType === 'Ag' && current > mission.minI) success = true;
+
+        if (success) {
+            setScore(s => s + 400);
+            setShowSuccess(true);
+        }
     };
 
     return (
@@ -982,14 +1011,14 @@ export function ElectrolyseSim() {
             </mesh>
             <mesh position={[0, -1, 0]}>
                 <cylinderGeometry args={[1.4, 1.4, 1.8, 32]} />
-                <meshStandardMaterial color={mode === 'game' ? '#FFD70044' : '#00AACC44'} transparent opacity={0.6} />
+                <meshStandardMaterial color={phase === 'mission' ? '#FFD70044' : '#00AACC44'} transparent opacity={0.6} />
             </mesh>
 
             {/* Électrodes */}
             <Cylinder args={[0.08, 0.08, 2.5]} position={[-0.6, 0.3, 0]}><meshStandardMaterial color="#333" /></Cylinder>
             <Text position={[-0.6, 1.8, 0]} fontSize={0.2} color="red">Anode (+)</Text>
             {/* Bulles Anode simulées */}
-            {mode === 'explore' && Array.from({ length: 8 }).map((_, i) => (
+            {Array.from({ length: 8 }).map((_, i) => (
                 <Sphere key={i} args={[0.03]} position={[-0.6 + (Math.random() - 0.5) * 0.1, -0.5 + Math.random() * 1.5, (Math.random() - 0.5) * 0.1]}>
                     <meshStandardMaterial color="#FFF" opacity={0.5} transparent />
                 </Sphere>
@@ -1002,7 +1031,7 @@ export function ElectrolyseSim() {
                 <Text position={[0, 1.8, 0]} fontSize={0.2} color="blue">Cathode (-)</Text>
 
                 {/* Objet Plaquage (Bague ou Cylindre) */}
-                {mode === 'game' ? (
+                {phase === 'mission' ? (
                     <mesh position={[0, -0.5, 0]} rotation={[Math.PI / 2, 0, 0]}>
                         <torusGeometry args={[0.3, 0.08 + (mass / 5) * 0.05, 16, 32]} />
                         <meshStandardMaterial color={mass > 0 ? color : '#555'} metalness={0.8} roughness={0.2} />
@@ -1016,63 +1045,47 @@ export function ElectrolyseSim() {
             </group>
 
             <Html transform={false}>
-                <DraggableHtmlPanel title={mode === 'explore' ? "⚡ Électrolyse" : "👑 L'Orfèvre Royal"}>
-                    <div className="p-4 w-72 text-white">
-                        <div className="flex gap-2 mb-4 border-b border-gray-600 pb-2">
-                            <button onClick={() => setMode('explore')} className={`flex-1 py-1 rounded text-xs ${mode === 'explore' ? 'bg-purple-600' : 'bg-gray-700'}`}>Labo</button>
-                            <button onClick={resetChallenge} className={`flex-1 py-1 rounded text-xs ${mode === 'game' ? 'bg-yellow-600' : 'bg-gray-700'}`}>Défi 👑</button>
+                <DraggableHtmlPanel title={phase === 'mission' ? "👑 L'Orfèvre Royal" : "⚡ Électrolyse"} className="w-[380px] border-yellow-500/30">
+                    <div className="text-white">
+                        <div className="flex justify-between items-center mb-4">
+                            <GradeBadge score={score} />
+                            {phase === 'mission' && <ChallengeTimer timeLeft={timeLeft} maxTime={45} />}
                         </div>
+                        <XPBar current={score} nextLevel={1000} />
+                        <div className="h-[1px] bg-gradient-to-r from-transparent via-yellow-500/50 to-transparent my-4" />
+                        <PhaseSelector currentPhase={phase} onSelect={setPhase} />
+                        {phase === 'mission' && mission && <MissionObjective objective={mission.objective} icon="👑" />}
 
-                        <div className="mb-3">
-                            <label className="text-xs">Intensité I: <span className="font-bold text-yellow-400">{current.toFixed(1)} A</span></label>
+                        <div className="mb-3 mt-4">
+                            <label className="text-xs font-bold text-gray-300">Intensité I: <span className="font-bold text-yellow-400 text-lg ml-2">{current.toFixed(1)} A</span></label>
                             <input type="range" min="0.1" max="5" step="0.1" value={current} onChange={e => setCurrent(Number(e.target.value))} className="w-full accent-yellow-500" />
                         </div>
                         <div className="mb-4">
-                            <label className="text-xs">Durée t: <span className="font-bold text-blue-400">{(time / 60).toFixed(0)} min</span> ({time}s)</label>
+                            <label className="text-xs font-bold text-gray-300">Durée t: <span className="font-bold text-blue-400 text-lg ml-2">{(time / 60).toFixed(0)} min</span></label>
                             <input type="range" min="60" max="3600" step="60" value={time} onChange={e => setTime(Number(e.target.value))} className="w-full accent-blue-500" />
                         </div>
 
-                        {mode === 'explore' && (
-                            <div className="mb-2">
-                                <label className="text-xs">Métal déposé :</label>
-                                <div className="flex gap-1 mt-1">
-                                    {Object.entries(constants).map(([k, v]) => (
-                                        <button key={k} onClick={() => setMetalType(k)} className={`text-[10px] px-2 py-1 rounded ${metalType === k ? 'bg-gray-200 text-black' : 'bg-gray-700'}`}>
-                                            {v.name}
-                                        </button>
-                                    ))}
-                                </div>
-                            </div>
-                        )}
-
-                        <div className="bg-black/40 p-2 rounded text-xs relative overflow-hidden">
-                            {mode === 'explore' ? (
-                                <>
-                                    <p className="font-bold text-gray-400">Masse déposée (Faraday):</p>
-                                    <p className="text-xl font-bold text-[#00F5D4] mt-1">{mass.toFixed(3)} g</p>
-                                    <p className="text-[10px] text-gray-500">m = (I × t × M) / (n × F)</p>
-                                </>
-                            ) : (
-                                <>
-                                    <p className="font-bold text-yellow-400 mb-2">OBJECTIF COMMANDE :</p>
-                                    <p className="text-sm">Plaquer exactement <span className="text-xl font-bold text-white">{targetMass} g</span> d'Or.</p>
-                                    <p className="mt-2 text-gray-400">Actuel : {(mass).toFixed(3)} g</p>
-
-                                    {gameStatus && (
-                                        <div className={`absolute inset-0 flex items-center justify-center bg-black/80 ${gameStatus === 'win' ? 'text-green-400' : 'text-red-400'} font-bold text-lg`}>
-                                            {gameStatus === 'win' ? 'PARFAIT ! 💰' : 'RATÉ ! 😤'}
-                                        </div>
-                                    )}
-
-                                    <button onClick={checkChallenge} disabled={gameStatus !== null} className="w-full mt-3 py-1 bg-yellow-600 hover:bg-yellow-500 rounded font-bold text-black">
-                                        LIVRER LA COMMANDE
+                        <div className="mb-4">
+                            <div className="flex gap-2 justify-center">
+                                {Object.entries(constants).map(([k, v]) => (
+                                    <button key={k} onClick={() => setMetalType(k)} className={`flex-1 py-2 rounded text-xs font-bold uppercase transition-all ${metalType === k ? 'bg-white text-black shadow-lg scale-105' : 'bg-gray-700 hover:bg-gray-600'}`}>
+                                        {v.name}
                                     </button>
-                                </>
-                            )}
+                                ))}
+                            </div>
                         </div>
+
+                        <div className="bg-black/40 p-3 rounded-xl text-xs relative overflow-hidden border border-white/10">
+                            <p className="font-bold text-gray-400 uppercase">Masse déposée (Faraday):</p>
+                            <p className="text-2xl font-black text-[#00F5D4] mt-1 tracking-wider">{mass.toFixed(3)} g</p>
+                            <p className="text-[9px] text-gray-500 font-mono mt-1">m = (I × t × M) / (n × F)</p>
+                        </div>
+                        {phase === 'mission' && <button onClick={checkMission} className="w-full mt-4 py-3 bg-orange-600 rounded-xl font-bold hover:bg-orange-500 transition-all text-xs uppercase">VÉRIFIER DÉPÔT</button>}
                     </div>
                 </DraggableHtmlPanel>
             </Html>
+            <SuccessOverlay show={showSuccess} message="Plaquage Réussi !" points={400} onNext={() => { setShowSuccess(false); setMission(null); setPhase('explore'); }} />
+            <ConfettiExplosion active={showSuccess} />
         </group>
     );
 }
@@ -1083,6 +1096,38 @@ export function ElectrolyseSim() {
 export function VoieSecheSimulation() {
     const [isReacting, setIsReacting] = useState(false);
     const flameRef = useRef();
+    const [phase, setPhase] = useState('explore');
+    const [score, setScore] = useState(0);
+    const [showSuccess, setShowSuccess] = useState(false);
+    const [mission, setMission] = useState(null);
+    const [timeLeft, setTimeLeft] = useState(45);
+
+    const missions = useMemo(() => [
+        { id: 1, title: 'Déclenchement', objective: 'Amorcez la réaction d\'aluminothermie.', action: 'start' }
+    ], []);
+
+    useEffect(() => {
+        if (phase === 'mission' && !mission) {
+            setMission(missions[Math.floor(Math.random() * missions.length)]);
+            setTimeLeft(45);
+        }
+    }, [phase, mission, missions]);
+
+    useEffect(() => {
+        if (phase === 'mission' && timeLeft > 0 && !showSuccess) {
+            const timer = setTimeout(() => setTimeLeft(t => t - 1), 1000);
+            return () => clearTimeout(timer);
+        }
+    }, [timeLeft, phase, showSuccess]);
+
+    const handleReaction = () => {
+        setIsReacting(true);
+        setTimeout(() => setIsReacting(false), 5000);
+        if (phase === 'mission' && mission?.action === 'start') {
+            setScore(s => s + 500);
+            setShowSuccess(true);
+        }
+    };
 
     useFrame((state) => {
         if (flameRef.current && isReacting) {
@@ -1122,24 +1167,38 @@ export function VoieSecheSimulation() {
             </Text>
 
             <Html transform={false}>
-                <DraggableHtmlPanel title="🔥 Voie Sèche">
-                    <div className="p-4 w-64 text-white">
-                        <p className="text-sm mb-4">Réduction par l'aluminium à haute température.</p>
-                        <button
-                            onClick={() => { setIsReacting(true); setTimeout(() => setIsReacting(false), 5000); }}
-                            className="w-full py-2 bg-orange-600 hover:bg-orange-500 rounded font-bold"
-                            disabled={isReacting}
-                        >
-                            {isReacting ? '🔥 Réaction en cours...' : 'Déclencher la réaction'}
-                        </button>
-                        <div className="mt-4 text-xs bg-black/30 p-2 rounded">
-                            <p className="font-bold text-orange-400">Aluminothermie:</p>
-                            <p>Fe₂O₃ + 2Al → 2Fe + Al₂O₃</p>
-                            <p className="mt-2 text-gray-400">T° ≈ 2500°C</p>
+                <DraggableHtmlPanel title="🔥 Voie Sèche" className="w-[380px] border-orange-600/30">
+                    <div className="text-white">
+                        <div className="flex justify-between items-center mb-4">
+                            <GradeBadge score={score} />
+                            {phase === 'mission' && <ChallengeTimer timeLeft={timeLeft} maxTime={45} />}
+                        </div>
+                        <XPBar current={score} nextLevel={1000} />
+                        <div className="h-[1px] bg-gradient-to-r from-transparent via-orange-500/50 to-transparent my-4" />
+                        <PhaseSelector currentPhase={phase} onSelect={setPhase} />
+                        {phase === 'mission' && mission && <MissionObjective objective={mission.objective} icon="🔥" />}
+
+                        <div className="mt-4 p-4 text-center">
+                            <p className="text-sm mb-4 text-gray-300">Réduction par l'aluminium à haute température.</p>
+                            <button
+                                onClick={handleReaction}
+                                className={`w-full py-4 rounded-xl font-bold uppercase transition-all shadow-lg ${isReacting ? 'bg-orange-800 text-orange-200 cursor-not-allowed' : 'bg-gradient-to-r from-red-600 to-orange-500 hover:from-red-500 hover:to-orange-400 shadow-orange-500/30 text-white'}`}
+                                disabled={isReacting}
+                            >
+                                {isReacting ? '🔥 Réaction en cours...' : 'Déclencher la réaction'}
+                            </button>
+                        </div>
+
+                        <div className="mt-4 text-xs bg-black/40 p-3 rounded-xl border border-white/10">
+                            <p className="font-bold text-orange-400 uppercase mb-2">Aluminothermie:</p>
+                            <p className="font-mono text-gray-300">Fe₂O₃ + 2Al → 2Fe + Al₂O₃</p>
+                            <p className="mt-2 text-gray-500 flex items-center gap-1 justify-center"><span className="text-lg">🌡️</span> T° ≈ 2500°C</p>
                         </div>
                     </div>
                 </DraggableHtmlPanel>
             </Html>
+            <SuccessOverlay show={showSuccess} message="Fusion Réussie !" points={500} onNext={() => { setShowSuccess(false); setMission(null); setPhase('explore'); }} />
+            <ConfettiExplosion active={showSuccess} />
         </group>
     );
 }
