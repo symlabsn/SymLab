@@ -177,7 +177,7 @@ export function MouvementSeconde() {
 
             {/* Control Panel */}
             <Html position={[7, 2, 0]} transform={false}>
-                <DraggableHtmlPanel title="🚂 Labo Mouvement" usePortal={false} className="w-[320px] text-white">
+                <DraggableHtmlPanel title="🚂 Labo Mouvement" className="w-[320px] text-white">
                     <div className="flex justify-between items-center mb-4">
                         <div className="flex gap-2">
                             <button onClick={() => setMode('explore')} className={`text-xs px-2 py-1 rounded ${mode === 'explore' ? 'bg-cyan-600' : 'bg-gray-700'}`}>Labo</button>
@@ -361,7 +361,7 @@ export function ForcesPoidsSeconde() {
             )}
 
             <Html transform={false}>
-                <DraggableHtmlPanel usePortal={false} title={mode === 'explore' ? "⚖️ Poids & Masse" : "🚀 Mission Cargaison"}>
+                <DraggableHtmlPanel title={mode === 'explore' ? "⚖️ Poids & Masse" : "🚀 Mission Cargaison"}>
                     <div className="p-4 w-72 text-white">
                         <div className="flex gap-2 mb-4 border-b border-gray-600 pb-2">
                             <button onClick={() => { setMode('explore'); setPlanete('terre'); }} className={`flex-1 py-1 rounded text-xs ${mode === 'explore' ? 'bg-blue-600' : 'bg-gray-700'}`}>Labo</button>
@@ -538,7 +538,7 @@ export function Equilibre3ForcesSeconde() {
 
             {/* Control Panel */}
             <Html position={[6, 2, 0]} transform={false}>
-                <DraggableHtmlPanel title="⚖️ Équilibre 3 Forces" usePortal={false} className="w-[300px] text-white">
+                <DraggableHtmlPanel title="⚖️ Équilibre 3 Forces" className="w-[300px] text-white">
                     <div className="flex justify-between items-center mb-4">
                         <div className="flex gap-2">
                             <button onClick={() => setMode('explore')} className={`text-xs px-2 py-1 rounded ${mode === 'explore' ? 'bg-cyan-600' : 'bg-gray-700'}`}>Labo</button>
@@ -689,7 +689,7 @@ export function MomentForceSeconde() {
 
             {/* Control Panel */}
             <Html position={[5, 2, 0]} transform={false}>
-                <DraggableHtmlPanel title="🔄 Moment d'une Force" usePortal={false}>
+                <DraggableHtmlPanel title="🔄 Moment d'une Force">
                     <div style={{ padding: '15px', minWidth: '300px' }}>
                         <div style={{
                             background: 'rgba(244,67,54,0.2)',

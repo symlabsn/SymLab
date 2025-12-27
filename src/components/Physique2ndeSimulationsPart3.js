@@ -205,7 +205,7 @@ export function PropagationLumiereSeconde() {
 
             {/* Control Panel */}
             <Html position={[6, 2, 0]} transform={false}>
-                <DraggableHtmlPanel title="💡 Propagation de la Lumière" usePortal={false}>
+                <DraggableHtmlPanel title="💡 Propagation de la Lumière">
                     <div className="p-4 w-[300px] text-white">
                         <div className="flex justify-between items-center mb-4">
                             <div className="flex gap-2">
@@ -488,7 +488,7 @@ export function ReflexionLumiereSeconde() {
 
             {/* Control Panel */}
             <Html position={[5, 3, 0]} transform={false}>
-                <DraggableHtmlPanel title="🪞 Réflexion de la Lumière" usePortal={false}>
+                <DraggableHtmlPanel title="🪞 Réflexion de la Lumière">
                     <div className="p-4 w-[300px] text-white">
                         <div className="flex justify-between items-center mb-4">
                             <div className="flex gap-2">
@@ -764,7 +764,7 @@ export function RefractionDispersionSeconde() {
 
             {/* Control Panel */}
             <Html position={[6, 2, 0]} transform={false}>
-                <DraggableHtmlPanel title="🔬 Réfraction & Dispersion" usePortal={false}>
+                <DraggableHtmlPanel title="🔬 Réfraction & Dispersion">
                     <div style={{ padding: '15px', minWidth: '300px' }}>
                         <div style={{ marginBottom: '15px' }}>
                             <label style={{ color: '#fff', display: 'block', marginBottom: '5px' }}>

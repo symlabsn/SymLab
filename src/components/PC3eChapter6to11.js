@@ -50,7 +50,7 @@ export function Chap6LoiOhm() {
     return (
         <group>
             <Html transform={false}>
-                <DraggableHtmlPanel title="⚡ Loi d'Ohm" showCloseButton={false} defaultPosition="bottom-center" className="w-[340px] text-white" usePortal={false}>
+                <DraggableHtmlPanel title="⚡ Loi d'Ohm" showCloseButton={false} defaultPosition="bottom-center" className="w-[340px] text-white">
                     <div className="flex justify-between items-center mb-3 border-b border-white/10 pb-2">
                         <div className="flex gap-2">
                             <button onClick={() => setMode('explore')} className={`text-xs px-2 py-1 rounded ${mode === 'explore' ? 'bg-yellow-600' : 'bg-gray-700'}`}>Labo</button>
@@ -150,7 +150,7 @@ export function Chap7TransformationsEnergie() {
     return (
         <group>
             <Html transform={false}>
-                <DraggableHtmlPanel title="🔄 Transformations d'Énergie" showCloseButton={false} defaultPosition="bottom-center" className="w-[340px] text-white" usePortal={false}>
+                <DraggableHtmlPanel title="🔄 Transformations d'Énergie" showCloseButton={false} defaultPosition="bottom-center" className="w-[340px] text-white">
                     <div className="flex justify-between items-center mb-3 border-b border-white/10 pb-2">
                         <div className="flex gap-2">
                             <button onClick={() => setMode('explore')} className={`text-xs px-2 py-1 rounded ${mode === 'explore' ? 'bg-green-600' : 'bg-gray-700'}`}>Explorer</button>
@@ -250,7 +250,7 @@ export function Chap8SolutionsAqueuses() {
     return (
         <group>
             <Html transform={false}>
-                <DraggableHtmlPanel title="🧪 Solutions Aqueuses" showCloseButton={false} defaultPosition="bottom-center" className="w-[340px] text-white" usePortal={false}>
+                <DraggableHtmlPanel title="🧪 Solutions Aqueuses" showCloseButton={false} defaultPosition="bottom-center" className="w-[340px] text-white">
                     <div className="flex justify-between items-center mb-3 border-b border-white/10 pb-2">
                         <div className="flex gap-2">
                             <button onClick={() => setMode('explore')} className={`text-xs px-2 py-1 rounded ${mode === 'explore' ? 'bg-cyan-600' : 'bg-gray-700'}`}>Labo</button>
@@ -345,7 +345,7 @@ export function Chap9AcidesBasesPH() {
     return (
         <group>
             <Html transform={false}>
-                <DraggableHtmlPanel title="🧪 Acides, Bases et pH" showCloseButton={false} defaultPosition="bottom-center" className="w-[340px] text-white" usePortal={false}>
+                <DraggableHtmlPanel title="🧪 Acides, Bases et pH" showCloseButton={false} defaultPosition="bottom-center" className="w-[340px] text-white">
                     <div className="flex justify-between items-center mb-3 border-b border-white/10 pb-2">
                         <div className="flex gap-2">
                             <button onClick={() => setMode('explore')} className={`text-xs px-2 py-1 rounded ${mode === 'explore' ? 'bg-green-600' : 'bg-gray-700'}`}>Explorer</button>
@@ -434,7 +434,7 @@ export function Chap10Metaux() {
     return (
         <group>
             <Html transform={false}>
-                <DraggableHtmlPanel title="⚙️ Propriétés des Métaux" showCloseButton={false} defaultPosition="bottom-center" className="w-[340px] text-white" usePortal={false}>
+                <DraggableHtmlPanel title="⚙️ Propriétés des Métaux" showCloseButton={false} defaultPosition="bottom-center" className="w-[340px] text-white">
                     <div className="flex justify-between items-center mb-3 border-b border-white/10 pb-2">
                         <div className="flex gap-2">
                             <button onClick={() => setMode('explore')} className={`text-xs px-2 py-1 rounded ${mode === 'explore' ? 'bg-gray-600' : 'bg-gray-700'}`}>Labo</button>
@@ -521,7 +521,7 @@ export function Chap11Combustion() {
     return (
         <group>
             <Html transform={false}>
-                <DraggableHtmlPanel title="🔥 Hydrocarbures" showCloseButton={false} defaultPosition="bottom-center" className="w-[340px] text-white" usePortal={false}>
+                <DraggableHtmlPanel title="🔥 Hydrocarbures" showCloseButton={false} defaultPosition="bottom-center" className="w-[340px] text-white">
                     <div className="flex justify-between items-center mb-3 border-b border-white/10 pb-2">
                         <div className="flex gap-2">
                             <button onClick={() => setMode('explore')} className={`text-xs px-2 py-1 rounded ${mode === 'explore' ? 'bg-orange-600' : 'bg-gray-700'}`}>Labo</button>

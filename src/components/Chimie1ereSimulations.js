@@ -734,7 +734,7 @@ export function ComposesOxygenesSim() {
             </group>
 
             <Html transform={false}>
-                <DraggableHtmlPanel usePortal={false} title="🧪 Composés Oxygénés">
+                <DraggableHtmlPanel title="🧪 Composés Oxygénés">
                     <div className="p-4 w-64 text-white">
                         <div className="flex gap-1 mb-4">
                             <button onClick={() => setType('alcool')} className={`flex-1 py-1 rounded text-xs ${type === 'alcool' ? 'bg-red-500' : 'bg-gray-700'}`}>Alcool</button>
@@ -866,7 +866,7 @@ export function RedoxGammaSim() {
             )}
 
             <Html transform={false}>
-                <DraggableHtmlPanel usePortal={false} title={mode === 'explore' ? "⚗️ Règle du Gamma" : "⚓ Défi Corrosion"}>
+                <DraggableHtmlPanel title={mode === 'explore' ? "⚗️ Règle du Gamma" : "⚓ Défi Corrosion"}>
                     <div className="p-4 w-72 text-white">
                         <div className="flex gap-2 mb-4 border-b border-gray-600 pb-2">
                             <button onClick={() => setMode('explore')} className={`flex-1 py-1 rounded text-xs ${mode === 'explore' ? 'bg-blue-600' : 'bg-gray-700'}`}>Labo</button>
@@ -1016,7 +1016,7 @@ export function ElectrolyseSim() {
             </group>
 
             <Html transform={false}>
-                <DraggableHtmlPanel usePortal={false} title={mode === 'explore' ? "⚡ Électrolyse" : "👑 L'Orfèvre Royal"}>
+                <DraggableHtmlPanel title={mode === 'explore' ? "⚡ Électrolyse" : "👑 L'Orfèvre Royal"}>
                     <div className="p-4 w-72 text-white">
                         <div className="flex gap-2 mb-4 border-b border-gray-600 pb-2">
                             <button onClick={() => setMode('explore')} className={`flex-1 py-1 rounded text-xs ${mode === 'explore' ? 'bg-purple-600' : 'bg-gray-700'}`}>Labo</button>
@@ -1122,7 +1122,7 @@ export function VoieSecheSimulation() {
             </Text>
 
             <Html transform={false}>
-                <DraggableHtmlPanel usePortal={false} title="🔥 Voie Sèche">
+                <DraggableHtmlPanel title="🔥 Voie Sèche">
                     <div className="p-4 w-64 text-white">
                         <p className="text-sm mb-4">Réduction par l'aluminium à haute température.</p>
                         <button

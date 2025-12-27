@@ -173,7 +173,7 @@ export function DilutionSimulation() {
             <arrowHelper args={[new THREE.Vector3(1, 0, 0), new THREE.Vector3(1, 0, 0), 1.5, 0xFFFFFF, 0.2, 0.15]} />
 
             <Html transform={false}>
-                <DraggableHtmlPanel usePortal={false} title="💧 Dilution (Ci·Vi = Cf·Vf)" className="w-[340px]" defaultPosition="bottom-center">
+                <DraggableHtmlPanel title="💧 Dilution (Ci·Vi = Cf·Vf)" className="w-[340px]" defaultPosition="bottom-center">
                     <div className="space-y-4 text-white">
                         {challengeMode && (
                             <div className="bg-yellow-900/50 border border-yellow-500 p-3 rounded-lg text-center">
@@ -357,7 +357,7 @@ export function TitrageAcideBase() {
             </group>
 
             <Html transform={false}>
-                <DraggableHtmlPanel usePortal={false} title="⚗️ Titrage Acide-Base" className="w-[320px]" defaultPosition="bottom-right">
+                <DraggableHtmlPanel title="⚗️ Titrage Acide-Base" className="w-[320px]" defaultPosition="bottom-right">
                     <div className="space-y-4 text-white">
                         <div className="flex items-center gap-4">
                             <button
@@ -517,7 +517,7 @@ export function DissolutionSimulation() {
             })}
 
             <Html transform={false}>
-                <DraggableHtmlPanel usePortal={false} title="💠 Dissolution (Soluté → Ions)" className="w-[300px]" defaultPosition="bottom-left">
+                <DraggableHtmlPanel title="💠 Dissolution (Soluté → Ions)" className="w-[300px]" defaultPosition="bottom-left">
                     <div className="space-y-4 text-white">
                         <div className="flex gap-2">
                             {Object.keys(solutes).map(key => (
@@ -728,7 +728,7 @@ export function EquationBalancer() {
             </group>
 
             <Html transform={false}>
-                <DraggableHtmlPanel usePortal={false} title="🚀 Centre de Contrôle" className="w-[360px]">
+                <DraggableHtmlPanel title="🚀 Centre de Contrôle" className="w-[360px]">
                     <div className="p-4 text-white">
                         <div className="bg-gray-800 p-2 rounded mb-4 text-center border-l-4 border-blue-500">
                             <div className="text-xs text-gray-400">Mission:</div>
@@ -911,7 +911,7 @@ export function LewisStructure() {
             </group>
 
             <Html transform={false}>
-                <DraggableHtmlPanel usePortal={false} title="🔬 Formule de Lewis" className="w-[280px]" defaultPosition="bottom-right">
+                <DraggableHtmlPanel title="🔬 Formule de Lewis" className="w-[280px]" defaultPosition="bottom-right">
                     <div className="space-y-4 text-white">
                         <div className="grid grid-cols-4 gap-1">
                             {Object.keys(molecules).map(key => (
@@ -1072,7 +1072,7 @@ export function ChemicalTestsGamified() {
             )}
 
             <Html transform={false}>
-                <DraggableHtmlPanel usePortal={false} title="🔬 Tests Chimiques" className="w-[340px]" defaultPosition="bottom-center">
+                <DraggableHtmlPanel title="🔬 Tests Chimiques" className="w-[340px]" defaultPosition="bottom-center">
                     <div className="space-y-4 text-white">
                         <div className="flex justify-between items-center">
                             <span className="text-gray-400">Score</span>

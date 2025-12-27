@@ -54,7 +54,7 @@ export function Chap6SourcesLumiere() {
         <group>
 
             <Html transform={false}>
-                <DraggableHtmlPanel title="💡 Sources de Lumière" showCloseButton={false} defaultPosition="bottom-center" className="w-[300px] border-yellow-500/30 text-white" usePortal={false}>
+                <DraggableHtmlPanel title="💡 Sources de Lumière" showCloseButton={false} defaultPosition="bottom-center" className="w-[300px] border-yellow-500/30 text-white">
                     <div className="flex justify-between items-center mb-4 border-b border-white/10 pb-2">
                         <div className="flex gap-2">
                             <button onClick={() => setMode('explore')} className={`text-xs px-2 py-1 rounded ${mode === 'explore' ? 'bg-yellow-600' : 'bg-gray-700'}`}>Obs.</button>
@@ -197,7 +197,7 @@ export function Chap7PropagationLumiere() {
         <group>
 
             <Html transform={false}>
-                <DraggableHtmlPanel title="🌑 Ombres & Propagation" showCloseButton={false} defaultPosition="bottom-center" className="w-[300px] border-white/30 text-white" usePortal={false}>
+                <DraggableHtmlPanel title="🌑 Ombres & Propagation" showCloseButton={false} defaultPosition="bottom-center" className="w-[300px] border-white/30 text-white">
                     <div className="flex justify-between items-center mb-4 border-b border-white/10 pb-2">
                         <div className="flex gap-2">
                             <button onClick={() => setMode('explore')} className={`text-xs px-2 py-1 rounded ${mode === 'explore' ? 'bg-gray-600' : 'bg-gray-700'}`}>Labo</button>
@@ -360,7 +360,7 @@ export function Chap8Refraction() {
     return (
         <group>
             <Html transform={false}>
-                <DraggableHtmlPanel title="🌈 Réfraction (Snell-Descartes)" showCloseButton={false} defaultPosition="bottom-center" className="w-[320px] border-cyan-500/30 text-white" usePortal={false}>
+                <DraggableHtmlPanel title="🌈 Réfraction (Snell-Descartes)" showCloseButton={false} defaultPosition="bottom-center" className="w-[320px] border-cyan-500/30 text-white">
                     <div className="flex justify-between items-center mb-4 border-b border-white/10 pb-2">
                         <div className="flex gap-2">
                             <button onClick={() => setMode('explore')} className={`text-xs px-2 py-1 rounded ${mode === 'explore' ? 'bg-cyan-600' : 'bg-gray-700'}`}>Labo</button>

@@ -81,7 +81,7 @@ export function MixtureSeparationPC4() {
         <>
             <SuccessOverlay show={showSuccess} message={`Bravo ! Tu as séparé : ${mixtures[challengeTarget || 'mud'].name}`} points={50 * level} onNext={startChallenge} />
 
-            <Html>
+            <Html transform={false}>
                 <DraggableHtmlPanel title={`⚗️ Séparation - Niveaux ${level}`} showCloseButton={false} defaultPosition="bottom-center" className="w-[350px] border-orange-500/30 text-white">
                     <div className="flex justify-between items-center mb-4">
                         <div className="bg-gray-900 rounded-lg px-3 py-1 border border-orange-500/30">
@@ -324,7 +324,7 @@ export function AtomBuilderSim() {
         <>
             <SuccessOverlay show={success} message={`Atome Créé : ${mission?.name}`} points={mission?.points} onNext={startMission} />
 
-            <Html>
+            <Html transform={false}>
                 <DraggableHtmlPanel title="⚛️ Constructeur Atomique" showCloseButton={false} defaultPosition="bottom-center" className="w-[350px] border-pink-500/30 text-white">
                     <div className="flex justify-between items-center mb-4">
                         <div className="bg-gray-900 rounded-lg px-3 py-1 border border-pink-500/30">
@@ -607,7 +607,7 @@ export function MoleConceptPC4() {
         <>
             <SuccessOverlay show={showSuccess} message={`Parfait ! ${mass.toFixed(1)}g de ${el.name}`} points={50} onNext={startChallenge} />
 
-            <Html>
+            <Html transform={false}>
                 <DraggableHtmlPanel title="⚖️ La Mole - Laboratoire" showCloseButton={false} defaultPosition="bottom-center" className="w-[350px] border-green-500/30 text-white">
                     <div className="flex justify-between items-center mb-4">
                         <div className="bg-gray-900 rounded-lg px-3 py-1 border border-green-500/30">
