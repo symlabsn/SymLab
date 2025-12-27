@@ -3,7 +3,7 @@ import { useState, useRef, useEffect, useMemo } from 'react';
 import { useFrame } from '@react-three/fiber';
 import { Text, Html, Sphere, Box, Cylinder, Line, Float } from '@react-three/drei';
 import DraggableHtmlPanel from './DraggableHtmlPanel';
-import { SuccessOverlay, ConfettiExplosion } from './PC4eSimulations';
+import { SuccessOverlay, ConfettiExplosion, ChallengeTimer, GradeBadge, XPBar, PhaseSelector, MissionObjective } from './GamificationUtils';
 import * as THREE from 'three';
 
 // ============================================================
@@ -74,25 +74,37 @@ export function Chap1LentillesMCE() {
         <group>
             <Html transform={false}>
                 <DraggableHtmlPanel title="🔭 Lentilles Minces" showCloseButton={false} defaultPosition="bottom-center" className="w-[360px] border-cyan-500/30 text-white">
-                    <div className="flex justify-between items-center mb-4 border-b border-white/10 pb-2">
-                        <div className="flex gap-2">
-                            <button onClick={() => setMode('explore')} className={`text-xs px-2 py-1 rounded ${mode === 'explore' ? 'bg-cyan-600' : 'bg-gray-700'}`}>Exploration</button>
-                            <button onClick={startChallenge} className={`text-xs px-2 py-1 rounded ${mode === 'challenge' ? 'bg-purple-600' : 'bg-gray-700'}`}>Quiz 🏆</button>
+                    {/* MODE SELECTOR */}
+                    <div className="mb-4">
+                        <PhaseSelector currentPhase={mode} onSelect={setMode} />
+                    </div>
+
+                    {/* HEADER INFO */}
+                    <div className="flex justify-between items-end mb-4 pb-2 border-b border-white/10">
+                        <div>
+                            <div className="text-xs text-cyan-300 font-bold uppercase tracking-wider mb-1">Module Optique</div>
+                            <div className="text-xl font-black text-white leading-none">LENTILLES</div>
                         </div>
-                        {mode === 'challenge' && <div className="font-bold text-yellow-400">{score} XP</div>}
+                        <div className="text-right">
+                            <GradeBadge score={score} />
+                        </div>
                     </div>
 
                     {mode === 'explore' ? (
                         <>
+                            <div className="mb-4">
+                                <MissionObjective objective="Simulez l'œil humain ou corrigez une myopie !" icon="👁️" />
+                            </div>
+
                             {/* Scénarios */}
                             <div className="mb-4">
-                                <div className="text-xs text-gray-400 uppercase mb-2">Scénarios</div>
+                                <div className="text-xs text-gray-400 uppercase mb-2">Modes de Vision</div>
                                 <div className="grid grid-cols-2 gap-2">
                                     {Object.entries(scenarios).map(([key, sc]) => (
                                         <button key={key} onClick={() => applyScenario(key)}
-                                            className="p-2 bg-gray-800 rounded-lg text-xs hover:bg-gray-700 text-left">
-                                            <div className="font-bold">{sc.name}</div>
-                                            <div className="text-gray-400 text-[10px]">{sc.desc}</div>
+                                            className="p-2 bg-white/5 hover:bg-white/10 border border-white/10 rounded-lg text-xs text-left transition-all group">
+                                            <div className="font-bold group-hover:text-cyan-400 transition-colors">{sc.name}</div>
+                                            <div className="text-gray-500 text-[10px]">{sc.desc}</div>
                                         </button>
                                     ))}
                                 </div>
@@ -155,23 +167,46 @@ export function Chap1LentillesMCE() {
                             </div>
                         </>
                     ) : (
-                        <div className="bg-gray-800 p-4 rounded-xl border border-purple-500/50">
-                            <h3 className="text-purple-300 font-bold mb-4 flex items-center gap-2">
-                                <span>🧠</span> Quiz Optique
-                            </h3>
+                        <div className="bg-gray-900/50 p-4 rounded-xl border border-purple-500/30">
+                            <div className="flex justify-between items-center mb-6">
+                                <h3 className="text-purple-300 font-bold flex items-center gap-2">
+                                    <span>🧠</span> Quiz Optique
+                                </h3>
+                                <XPBar current={score} nextLevel={100} />
+                            </div>
+
+                            {!challenge && (
+                                <div className="text-center py-8">
+                                    <button onClick={startChallenge} className="px-6 py-3 bg-purple-600 hover:bg-purple-500 text-white rounded-full font-bold shadow-lg shadow-purple-900/20 transition-all transform hover:scale-105">
+                                        Commencer le Défi
+                                    </button>
+                                </div>
+                            )}
+
                             {challenge && (
-                                <div className="space-y-4">
-                                    <div className="text-sm font-medium">{challenge.q}</div>
+                                <div className="space-y-4 animate-in slide-in-from-right duration-300">
+                                    <div className="text-sm font-medium bg-black/20 p-3 rounded-lg border-l-2 border-purple-500">
+                                        {challenge.q}
+                                    </div>
                                     <div className="space-y-2">
                                         {challenge.options.map((opt, idx) => (
                                             <button key={idx} onClick={() => checkAnswer(idx)}
-                                                className="w-full text-left p-3 rounded bg-gray-700 hover:bg-gray-600 transition-colors text-sm">
-                                                {['A', 'B', 'C'][idx]}. {opt}
+                                                disabled={challenge.answered}
+                                                className={`w-full text-left p-3 rounded transition-all text-sm flex justify-between items-center
+                                                    ${challenge.answered
+                                                        ? idx === challenge.ans
+                                                            ? 'bg-green-500/20 text-green-300 border border-green-500/50'
+                                                            : 'bg-gray-800/50 text-gray-500'
+                                                        : 'bg-white/5 hover:bg-white/10'
+                                                    }
+                                                `}>
+                                                <span><span className="opacity-50 mr-2">{['A', 'B', 'C'][idx]}.</span> {opt}</span>
+                                                {challenge.answered && idx === challenge.ans && <span>✅</span>}
                                             </button>
                                         ))}
                                     </div>
                                     {challenge.answered && (
-                                        <button onClick={nextQuestion} className="w-full py-2 bg-purple-600 rounded font-bold">
+                                        <button onClick={nextQuestion} className="w-full py-3 bg-gradient-to-r from-purple-600 to-indigo-600 rounded-lg font-bold shadow-lg mt-4 hover:shadow-purple-500/20 transition-all">
                                             Question suivante →
                                         </button>
                                     )}
@@ -295,25 +330,37 @@ export function Chap2DispersionLumiere() {
         <group>
             <Html transform={false}>
                 <DraggableHtmlPanel title="🌈 Dispersion de la Lumière" showCloseButton={false} defaultPosition="bottom-center" className="w-[360px] border-purple-500/30 text-white">
-                    <div className="flex justify-between items-center mb-4 border-b border-white/10 pb-2">
-                        <div className="flex gap-2">
-                            <button onClick={() => setMode('explore')} className={`text-xs px-2 py-1 rounded ${mode === 'explore' ? 'bg-purple-600' : 'bg-gray-700'}`}>Exploration</button>
-                            <button onClick={startChallenge} className={`text-xs px-2 py-1 rounded ${mode === 'challenge' ? 'bg-indigo-600' : 'bg-gray-700'}`}>Quiz 🏆</button>
+                    {/* MODE SELECTOR */}
+                    <div className="mb-4">
+                        <PhaseSelector currentPhase={mode} onSelect={setMode} />
+                    </div>
+
+                    {/* HEADER INFO */}
+                    <div className="flex justify-between items-end mb-4 pb-2 border-b border-white/10">
+                        <div>
+                            <div className="text-xs text-purple-300 font-bold uppercase tracking-wider mb-1">Module Lumière</div>
+                            <div className="text-xl font-black text-white leading-none">DISPERSION</div>
                         </div>
-                        {mode === 'challenge' && <div className="font-bold text-yellow-400">{score} XP</div>}
+                        <div className="text-right">
+                            <GradeBadge score={score} />
+                        </div>
                     </div>
 
                     {mode === 'explore' ? (
                         <>
+                            <div className="mb-4">
+                                <MissionObjective objective="Décomposez la lumière et observez le spectre !" icon="🌈" />
+                            </div>
+
                             {/* Scénarios */}
                             <div className="mb-4">
-                                <div className="text-xs text-gray-400 uppercase mb-2">Scénarios</div>
+                                <div className="text-xs text-gray-400 uppercase mb-2">Expériences</div>
                                 <div className="grid grid-cols-2 gap-2">
                                     {Object.entries(scenarios).map(([key, sc]) => (
                                         <button key={key} onClick={() => applyScenario(key)}
-                                            className="p-2 bg-gray-800 rounded-lg text-xs hover:bg-gray-700 text-left">
-                                            <div className="font-bold">{sc.name}</div>
-                                            <div className="text-gray-400 text-[10px]">{sc.desc}</div>
+                                            className="p-2 bg-white/5 hover:bg-white/10 border border-white/10 rounded-lg text-xs text-left transition-all group">
+                                            <div className="font-bold group-hover:text-purple-400 transition-colors">{sc.name}</div>
+                                            <div className="text-gray-500 text-[10px]">{sc.desc}</div>
                                         </button>
                                     ))}
                                 </div>
@@ -368,21 +415,46 @@ export function Chap2DispersionLumiere() {
                             )}
                         </>
                     ) : (
-                        <div className="bg-gray-800 p-4 rounded-xl border border-indigo-500/50">
-                            <h3 className="text-indigo-300 font-bold mb-4">🧠 Quiz Lumière</h3>
+                        <div className="bg-gray-900/50 p-4 rounded-xl border border-indigo-500/30">
+                            <div className="flex justify-between items-center mb-6">
+                                <h3 className="text-indigo-300 font-bold flex items-center gap-2">
+                                    <span>🧠</span> Quiz Lumière
+                                </h3>
+                                <XPBar current={score} nextLevel={100} />
+                            </div>
+
+                            {!challenge && (
+                                <div className="text-center py-8">
+                                    <button onClick={startChallenge} className="px-6 py-3 bg-indigo-600 hover:bg-indigo-500 text-white rounded-full font-bold shadow-lg shadow-indigo-900/20 transition-all transform hover:scale-105">
+                                        Commencer le Défi
+                                    </button>
+                                </div>
+                            )}
+
                             {challenge && (
-                                <div className="space-y-4">
-                                    <div className="text-sm font-medium">{challenge.q}</div>
+                                <div className="space-y-4 animate-in slide-in-from-right duration-300">
+                                    <div className="text-sm font-medium bg-black/20 p-3 rounded-lg border-l-2 border-indigo-500">
+                                        {challenge.q}
+                                    </div>
                                     <div className="space-y-2">
                                         {challenge.options.map((opt, idx) => (
                                             <button key={idx} onClick={() => checkAnswer(idx)}
-                                                className="w-full text-left p-3 rounded bg-gray-700 hover:bg-gray-600 text-sm">
-                                                {['A', 'B', 'C'][idx]}. {opt}
+                                                disabled={challenge.answered}
+                                                className={`w-full text-left p-3 rounded transition-all text-sm flex justify-between items-center
+                                                    ${challenge.answered
+                                                        ? idx === challenge.ans
+                                                            ? 'bg-green-500/20 text-green-300 border border-green-500/50'
+                                                            : 'bg-gray-800/50 text-gray-500'
+                                                        : 'bg-white/5 hover:bg-white/10'
+                                                    }
+                                                `}>
+                                                <span><span className="opacity-50 mr-2">{['A', 'B', 'C'][idx]}.</span> {opt}</span>
+                                                {challenge.answered && idx === challenge.ans && <span>✅</span>}
                                             </button>
                                         ))}
                                     </div>
                                     {challenge.answered && (
-                                        <button onClick={nextQuestion} className="w-full py-2 bg-indigo-600 rounded font-bold">
+                                        <button onClick={nextQuestion} className="w-full py-3 bg-gradient-to-r from-indigo-600 to-blue-600 rounded-lg font-bold shadow-lg mt-4 hover:shadow-indigo-500/20 transition-all">
                                             Suivant →
                                         </button>
                                     )}
@@ -496,25 +568,37 @@ export function Chap3ForcesVecteurs() {
         <group>
             <Html transform={false}>
                 <DraggableHtmlPanel title="💪 Forces et Vecteurs" showCloseButton={false} defaultPosition="bottom-center" className="w-[360px] border-green-500/30 text-white">
-                    <div className="flex justify-between items-center mb-4 border-b border-white/10 pb-2">
-                        <div className="flex gap-2">
-                            <button onClick={() => setMode('explore')} className={`text-xs px-2 py-1 rounded ${mode === 'explore' ? 'bg-green-600' : 'bg-gray-700'}`}>Exploration</button>
-                            <button onClick={startChallenge} className={`text-xs px-2 py-1 rounded ${mode === 'challenge' ? 'bg-orange-600' : 'bg-gray-700'}`}>Défi 🏆</button>
+                    {/* MODE SELECTOR */}
+                    <div className="mb-4">
+                        <PhaseSelector currentPhase={mode} onSelect={setMode} />
+                    </div>
+
+                    {/* HEADER INFO */}
+                    <div className="flex justify-between items-end mb-4 pb-2 border-b border-white/10">
+                        <div>
+                            <div className="text-xs text-green-300 font-bold uppercase tracking-wider mb-1">Module Mécanique</div>
+                            <div className="text-xl font-black text-white leading-none">POIDS & MASSE</div>
                         </div>
-                        {mode === 'challenge' && <div className="font-bold text-yellow-400">{score} XP</div>}
+                        <div className="text-right">
+                            <GradeBadge score={score} />
+                        </div>
                     </div>
 
                     {mode === 'explore' ? (
                         <>
+                            <div className="mb-4">
+                                <MissionObjective objective="Analysez le poids sur différentes planètes !" icon="🪐" />
+                            </div>
+
                             {/* Scénarios */}
                             <div className="mb-4">
-                                <div className="text-xs text-gray-400 uppercase mb-2">Scénarios</div>
+                                <div className="text-xs text-gray-400 uppercase mb-2">Expériences</div>
                                 <div className="grid grid-cols-2 gap-2">
                                     {Object.entries(scenarios).map(([key, sc]) => (
                                         <button key={key} onClick={() => applyScenario(key)}
-                                            className="p-2 bg-gray-800 rounded-lg text-xs hover:bg-gray-700 text-left">
-                                            <div className="font-bold">{sc.name}</div>
-                                            <div className="text-gray-400 text-[10px]">{sc.desc}</div>
+                                            className="p-2 bg-white/5 hover:bg-white/10 border border-white/10 rounded-lg text-xs text-left transition-all group">
+                                            <div className="font-bold group-hover:text-green-400 transition-colors">{sc.name}</div>
+                                            <div className="text-gray-500 text-[10px]">{sc.desc}</div>
                                         </button>
                                     ))}
                                 </div>
@@ -526,8 +610,8 @@ export function Chap3ForcesVecteurs() {
                                 <div className="flex flex-wrap gap-2">
                                     {Object.entries(planets).map(([key, p]) => (
                                         <button key={key} onClick={() => setPlanet(key)}
-                                            className={`px-3 py-1 rounded text-xs ${planet === key ? 'ring-2 ring-white' : ''}`}
-                                            style={{ backgroundColor: p.color + '40' }}>
+                                            className={`px-3 py-1 rounded-lg text-xs font-bold transition-all border ${planet === key ? 'border-white text-white shadow-lg' : 'border-transparent text-gray-400 hover:text-white'}`}
+                                            style={{ backgroundColor: planet === key ? p.color + '60' : 'rgba(255,255,255,0.05)' }}>
                                             {p.name}
                                         </button>
                                     ))}
@@ -548,30 +632,60 @@ export function Chap3ForcesVecteurs() {
                             </div>
 
                             {/* Résultats */}
-                            <div className="mt-4 p-3 bg-gray-900 rounded-lg border border-green-500/30">
+                            <div className="mt-4 p-4 bg-gradient-to-br from-gray-900 to-black rounded-lg border border-green-500/30">
                                 <div className="text-center">
-                                    <div className="text-gray-400 text-xs">g = {g} N/kg</div>
-                                    <div className="text-3xl font-bold text-green-400 my-2">P = {weight.toFixed(1)} N</div>
-                                    <div className="text-xs text-gray-400">P = m × g = {mass} × {g}</div>
+                                    <div className="text-gray-400 text-xs uppercase tracking-widest mb-1">INTENSITÉ DU POIDS</div>
+                                    <div className="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-emerald-500 my-2">
+                                        {weight.toFixed(1)} N
+                                    </div>
+                                    <div className="text-xs text-gray-400 flex justify-center gap-4">
+                                        <span>g = {g} N/kg</span>
+                                        <span>m = {mass} kg</span>
+                                    </div>
                                 </div>
                             </div>
                         </>
                     ) : (
-                        <div className="bg-gray-800 p-4 rounded-xl border border-orange-500/50">
-                            <h3 className="text-orange-300 font-bold mb-4">🧠 Quiz Forces</h3>
+                        <div className="bg-gray-900/50 p-4 rounded-xl border border-orange-500/30">
+                            <div className="flex justify-between items-center mb-6">
+                                <h3 className="text-orange-300 font-bold flex items-center gap-2">
+                                    <span>🧠</span> Quiz Forces
+                                </h3>
+                                <XPBar current={score} nextLevel={100} />
+                            </div>
+
+                            {!challenge && (
+                                <div className="text-center py-8">
+                                    <button onClick={startChallenge} className="px-6 py-3 bg-orange-600 hover:bg-orange-500 text-white rounded-full font-bold shadow-lg shadow-orange-900/20 transition-all transform hover:scale-105">
+                                        Commencer le Défi
+                                    </button>
+                                </div>
+                            )}
+
                             {challenge && (
-                                <div className="space-y-4">
-                                    <div className="text-sm font-medium">{challenge.q}</div>
+                                <div className="space-y-4 animate-in slide-in-from-right duration-300">
+                                    <div className="text-sm font-medium bg-black/20 p-3 rounded-lg border-l-2 border-orange-500">
+                                        {challenge.q}
+                                    </div>
                                     <div className="space-y-2">
                                         {challenge.options.map((opt, idx) => (
                                             <button key={idx} onClick={() => checkAnswer(idx)}
-                                                className="w-full text-left p-3 rounded bg-gray-700 hover:bg-gray-600 text-sm">
-                                                {['A', 'B', 'C'][idx]}. {opt}
+                                                disabled={challenge.answered}
+                                                className={`w-full text-left p-3 rounded transition-all text-sm flex justify-between items-center
+                                                    ${challenge.answered
+                                                        ? idx === challenge.ans
+                                                            ? 'bg-green-500/20 text-green-300 border border-green-500/50'
+                                                            : 'bg-gray-800/50 text-gray-500'
+                                                        : 'bg-white/5 hover:bg-white/10'
+                                                    }
+                                                `}>
+                                                <span><span className="opacity-50 mr-2">{['A', 'B', 'C'][idx]}.</span> {opt}</span>
+                                                {challenge.answered && idx === challenge.ans && <span>✅</span>}
                                             </button>
                                         ))}
                                     </div>
                                     {challenge.answered && (
-                                        <button onClick={nextQuestion} className="w-full py-2 bg-orange-600 rounded font-bold">
+                                        <button onClick={nextQuestion} className="w-full py-3 bg-gradient-to-r from-orange-600 to-red-600 rounded-lg font-bold shadow-lg mt-4 hover:shadow-orange-500/20 transition-all">
                                             Suivant →
                                         </button>
                                     )}
@@ -683,25 +797,37 @@ export function Chap4TravailPuissance() {
         <group>
             <Html transform={false}>
                 <DraggableHtmlPanel title="⚡ Travail et Puissance" showCloseButton={false} defaultPosition="bottom-center" className="w-[360px] border-yellow-500/30 text-white">
-                    <div className="flex justify-between items-center mb-4 border-b border-white/10 pb-2">
-                        <div className="flex gap-2">
-                            <button onClick={() => setMode('explore')} className={`text-xs px-2 py-1 rounded ${mode === 'explore' ? 'bg-yellow-600' : 'bg-gray-700'}`}>Exploration</button>
-                            <button onClick={startChallenge} className={`text-xs px-2 py-1 rounded ${mode === 'challenge' ? 'bg-red-600' : 'bg-gray-700'}`}>Défi 🏆</button>
+                    {/* MODE SELECTOR */}
+                    <div className="mb-4">
+                        <PhaseSelector currentPhase={mode} onSelect={setMode} />
+                    </div>
+
+                    {/* HEADER INFO */}
+                    <div className="flex justify-between items-end mb-4 pb-2 border-b border-white/10">
+                        <div>
+                            <div className="text-xs text-yellow-300 font-bold uppercase tracking-wider mb-1">Module Mécanique</div>
+                            <div className="text-xl font-black text-white leading-none">TRAVAIL - ÉNERGIE</div>
                         </div>
-                        {mode === 'challenge' && <div className="font-bold text-yellow-400">{score} XP</div>}
+                        <div className="text-right">
+                            <GradeBadge score={score} />
+                        </div>
                     </div>
 
                     {mode === 'explore' ? (
                         <>
+                            <div className="mb-4">
+                                <MissionObjective objective="Calculez le travail et la puissance mécanique !" icon="⚡" />
+                            </div>
+
                             {/* Scénarios */}
                             <div className="mb-4">
-                                <div className="text-xs text-gray-400 uppercase mb-2">Scénarios</div>
+                                <div className="text-xs text-gray-400 uppercase mb-2">Situations</div>
                                 <div className="grid grid-cols-2 gap-2">
                                     {Object.entries(scenarios).map(([key, sc]) => (
                                         <button key={key} onClick={() => applyScenario(key)}
-                                            className="p-2 bg-gray-800 rounded-lg text-xs hover:bg-gray-700 text-left">
-                                            <div className="font-bold">{sc.name}</div>
-                                            <div className="text-gray-400 text-[10px]">{sc.desc}</div>
+                                            className="p-2 bg-white/5 hover:bg-white/10 border border-white/10 rounded-lg text-xs text-left transition-all group">
+                                            <div className="font-bold group-hover:text-yellow-400 transition-colors">{sc.name}</div>
+                                            <div className="text-gray-500 text-[10px]">{sc.desc}</div>
                                         </button>
                                     ))}
                                 </div>
@@ -750,21 +876,46 @@ export function Chap4TravailPuissance() {
                             </div>
                         </>
                     ) : (
-                        <div className="bg-gray-800 p-4 rounded-xl border border-red-500/50">
-                            <h3 className="text-red-300 font-bold mb-4">🧠 Quiz Énergie</h3>
+                        <div className="bg-gray-900/50 p-4 rounded-xl border border-red-500/30">
+                            <div className="flex justify-between items-center mb-6">
+                                <h3 className="text-red-300 font-bold flex items-center gap-2">
+                                    <span>🧠</span> Quiz Énergie
+                                </h3>
+                                <XPBar current={score} nextLevel={100} />
+                            </div>
+
+                            {!challenge && (
+                                <div className="text-center py-8">
+                                    <button onClick={startChallenge} className="px-6 py-3 bg-red-600 hover:bg-red-500 text-white rounded-full font-bold shadow-lg shadow-red-900/20 transition-all transform hover:scale-105">
+                                        Commencer le Défi
+                                    </button>
+                                </div>
+                            )}
+
                             {challenge && (
-                                <div className="space-y-4">
-                                    <div className="text-sm font-medium">{challenge.q}</div>
+                                <div className="space-y-4 animate-in slide-in-from-right duration-300">
+                                    <div className="text-sm font-medium bg-black/20 p-3 rounded-lg border-l-2 border-red-500">
+                                        {challenge.q}
+                                    </div>
                                     <div className="space-y-2">
                                         {challenge.options.map((opt, idx) => (
                                             <button key={idx} onClick={() => checkAnswer(idx)}
-                                                className="w-full text-left p-3 rounded bg-gray-700 hover:bg-gray-600 text-sm">
-                                                {['A', 'B', 'C'][idx]}. {opt}
+                                                disabled={challenge.answered}
+                                                className={`w-full text-left p-3 rounded transition-all text-sm flex justify-between items-center
+                                                    ${challenge.answered
+                                                        ? idx === challenge.ans
+                                                            ? 'bg-green-500/20 text-green-300 border border-green-500/50'
+                                                            : 'bg-gray-800/50 text-gray-500'
+                                                        : 'bg-white/5 hover:bg-white/10'
+                                                    }
+                                                `}>
+                                                <span><span className="opacity-50 mr-2">{['A', 'B', 'C'][idx]}.</span> {opt}</span>
+                                                {challenge.answered && idx === challenge.ans && <span>✅</span>}
                                             </button>
                                         ))}
                                     </div>
                                     {challenge.answered && (
-                                        <button onClick={nextQuestion} className="w-full py-2 bg-red-600 rounded font-bold">
+                                        <button onClick={nextQuestion} className="w-full py-3 bg-gradient-to-r from-red-600 to-orange-600 rounded-lg font-bold shadow-lg mt-4 hover:shadow-red-500/20 transition-all">
                                             Suivant →
                                         </button>
                                     )}
@@ -877,22 +1028,34 @@ export function Chap5Electrisation() {
         <group>
             <Html transform={false}>
                 <DraggableHtmlPanel title="⚡ Électrisation" showCloseButton={false} defaultPosition="bottom-center" className="w-[360px] border-blue-500/30 text-white">
-                    <div className="flex justify-between items-center mb-4 border-b border-white/10 pb-2">
-                        <div className="flex gap-2">
-                            <button onClick={() => setMode('explore')} className={`text-xs px-2 py-1 rounded ${mode === 'explore' ? 'bg-blue-600' : 'bg-gray-700'}`}>Exploration</button>
-                            <button onClick={startChallenge} className={`text-xs px-2 py-1 rounded ${mode === 'challenge' ? 'bg-purple-600' : 'bg-gray-700'}`}>Quiz 🏆</button>
+                    {/* MODE SELECTOR */}
+                    <div className="mb-4">
+                        <PhaseSelector currentPhase={mode} onSelect={setMode} />
+                    </div>
+
+                    {/* HEADER INFO */}
+                    <div className="flex justify-between items-end mb-4 pb-2 border-b border-white/10">
+                        <div>
+                            <div className="text-xs text-blue-300 font-bold uppercase tracking-wider mb-1">Module Électricité</div>
+                            <div className="text-xl font-black text-white leading-none">CHARGES & ATOMES</div>
                         </div>
-                        {mode === 'challenge' && <div className="font-bold text-yellow-400">{score} XP</div>}
+                        <div className="text-right">
+                            <GradeBadge score={score} />
+                        </div>
                     </div>
 
                     {mode === 'explore' ? (
                         <>
+                            <div className="mb-4">
+                                <MissionObjective objective="Frottez les objets pour observer les charges !" icon="⚡" />
+                            </div>
+
                             {/* Choix objets */}
                             <div className="grid grid-cols-2 gap-3 mb-4">
                                 <div>
                                     <div className="text-xs text-gray-400 mb-1">Objet à charger</div>
                                     <select value={object1} onChange={(e) => { setObject1(e.target.value); resetCharges(); }}
-                                        className="w-full p-2 bg-gray-800 rounded text-sm">
+                                        className="w-full p-2 bg-gray-900 border border-blue-500/30 rounded-lg text-sm text-white focus:ring-2 focus:ring-blue-500 outline-none">
                                         {Object.entries(objects).map(([k, o]) => (
                                             <option key={k} value={k}>{o.name}</option>
                                         ))}
@@ -901,7 +1064,7 @@ export function Chap5Electrisation() {
                                 <div>
                                     <div className="text-xs text-gray-400 mb-1">Frotter avec</div>
                                     <select value={object2} onChange={(e) => { setObject2(e.target.value); resetCharges(); }}
-                                        className="w-full p-2 bg-gray-800 rounded text-sm">
+                                        className="w-full p-2 bg-gray-900 border border-blue-500/30 rounded-lg text-sm text-white focus:ring-2 focus:ring-blue-500 outline-none">
                                         {Object.entries(frictionMaterials).map(([k, o]) => (
                                             <option key={k} value={k}>{o.name}</option>
                                         ))}
@@ -911,52 +1074,83 @@ export function Chap5Electrisation() {
 
                             {/* Bouton frotter */}
                             <button onClick={doFriction}
-                                className="w-full py-4 mb-4 rounded-xl font-bold text-lg bg-gradient-to-r from-blue-600 to-purple-600 hover:scale-105 transition-transform active:scale-95">
-                                🤚 FROTTER ! ({frictionCount}/10)
+                                className="w-full py-4 mb-4 rounded-xl font-black text-lg bg-gradient-to-r from-blue-600 to-indigo-600 hover:scale-[1.02] active:scale-[0.98] transition-all shadow-lg shadow-blue-900/40 border border-white/10 relative overflow-hidden group">
+                                <span className="relative z-10 flex items-center justify-center gap-2">
+                                    ✋ FROTTER ! <span className="text-xs bg-black/30 px-2 py-1 rounded-full">{frictionCount}/10</span>
+                                </span>
+                                <div className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity" />
                             </button>
 
                             {/* Jauge de charge */}
-                            <div className="mb-4">
-                                <div className="flex justify-between text-xs mb-1">
-                                    <span>Niveau de charge</span>
-                                    <span className={isCharged ? 'text-yellow-400' : 'text-gray-400'}>
-                                        {isCharged ? `${objects[object1].charge === 'negative' ? '➖' : '➕'} Chargé !` : 'Neutre'}
+                            <div className="mb-4 bg-black/20 p-3 rounded-lg border border-white/5">
+                                <div className="flex justify-between text-xs mb-2">
+                                    <span className="text-gray-400">État de charge</span>
+                                    <span className={`font-bold ${isCharged ? 'text-yellow-400' : 'text-gray-500'}`}>
+                                        {isCharged ? `${objects[object1].charge === 'negative' ? '⚠️ EXCÈS D\'ÉLECTRONS' : '⚠️ DÉFICIT D\'ÉLECTRONS'}` : 'NEUTRE'}
                                     </span>
                                 </div>
-                                <div className="h-3 bg-gray-800 rounded-full overflow-hidden">
-                                    <div className="h-full bg-gradient-to-r from-blue-500 to-purple-500 transition-all"
+                                <div className="h-4 bg-gray-900 rounded-full overflow-hidden border border-white/10 relative">
+                                    <div className="h-full bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-500 transition-all duration-300"
                                         style={{ width: `${chargeLevel * 100}%` }} />
+                                    <div className="absolute inset-0 flex items-center justify-center text-[9px] font-bold tracking-wider text-white mix-blend-overlay">
+                                        {chargeLevel * 100}% CHARGÉE
+                                    </div>
                                 </div>
                             </div>
 
                             {isCharged && (
-                                <div className="p-3 bg-yellow-500/10 rounded-lg border border-yellow-500/30 text-center">
-                                    <div className="text-2xl mb-1">✨</div>
-                                    <div className="text-sm">L'objet peut maintenant attirer des petits papiers !</div>
+                                <div className="p-3 bg-yellow-400/10 rounded-lg border border-yellow-400/30 text-center animate-in fade-in zoom-in duration-300">
+                                    <div className="text-2xl mb-1">⚡</div>
+                                    <div className="text-xs text-yellow-200 font-medium">L'objet est électrisé et attire les isolants légers !</div>
                                 </div>
                             )}
 
                             <button onClick={resetCharges}
-                                className="w-full py-2 mt-3 rounded bg-gray-700 text-sm hover:bg-gray-600">
-                                🔄 Décharger (toucher le sol)
+                                className="w-full py-2 mt-3 rounded bg-gray-800 text-xs text-gray-400 hover:bg-gray-700 hover:text-white transition-colors flex items-center justify-center gap-2">
+                                <span>👇</span> Décharger (Mise à la terre)
                             </button>
                         </>
                     ) : (
-                        <div className="bg-gray-800 p-4 rounded-xl border border-purple-500/50">
-                            <h3 className="text-purple-300 font-bold mb-4">🧠 Quiz Électricité</h3>
+                        <div className="bg-gray-900/50 p-4 rounded-xl border border-purple-500/30">
+                            <div className="flex justify-between items-center mb-6">
+                                <h3 className="text-purple-300 font-bold flex items-center gap-2">
+                                    <span>🧠</span> Quiz Électricité
+                                </h3>
+                                <XPBar current={score} nextLevel={100} />
+                            </div>
+
+                            {!challenge && (
+                                <div className="text-center py-8">
+                                    <button onClick={startChallenge} className="px-6 py-3 bg-purple-600 hover:bg-purple-500 text-white rounded-full font-bold shadow-lg shadow-purple-900/20 transition-all transform hover:scale-105">
+                                        Commencer le Défi
+                                    </button>
+                                </div>
+                            )}
+
                             {challenge && (
-                                <div className="space-y-4">
-                                    <div className="text-sm font-medium">{challenge.q}</div>
+                                <div className="space-y-4 animate-in slide-in-from-right duration-300">
+                                    <div className="text-sm font-medium bg-black/20 p-3 rounded-lg border-l-2 border-purple-500">
+                                        {challenge.q}
+                                    </div>
                                     <div className="space-y-2">
                                         {challenge.options.map((opt, idx) => (
                                             <button key={idx} onClick={() => checkAnswer(idx)}
-                                                className="w-full text-left p-3 rounded bg-gray-700 hover:bg-gray-600 text-sm">
-                                                {['A', 'B', 'C'][idx]}. {opt}
+                                                disabled={challenge.answered}
+                                                className={`w-full text-left p-3 rounded transition-all text-sm flex justify-between items-center
+                                                    ${challenge.answered
+                                                        ? idx === challenge.ans
+                                                            ? 'bg-green-500/20 text-green-300 border border-green-500/50'
+                                                            : 'bg-gray-800/50 text-gray-500'
+                                                        : 'bg-white/5 hover:bg-white/10'
+                                                    }
+                                                `}>
+                                                <span><span className="opacity-50 mr-2">{['A', 'B', 'C'][idx]}.</span> {opt}</span>
+                                                {challenge.answered && idx === challenge.ans && <span>✅</span>}
                                             </button>
                                         ))}
                                     </div>
                                     {challenge.answered && (
-                                        <button onClick={nextQuestion} className="w-full py-2 bg-purple-600 rounded font-bold">
+                                        <button onClick={nextQuestion} className="w-full py-3 bg-gradient-to-r from-purple-600 to-pink-600 rounded-lg font-bold shadow-lg mt-4 hover:shadow-purple-500/20 transition-all">
                                             Suivant →
                                         </button>
                                     )}

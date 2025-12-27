@@ -3,7 +3,7 @@ import { useState, useRef, useEffect } from 'react';
 import { useFrame } from '@react-three/fiber';
 import { Text, Html, Sphere, Box, Cylinder, Line, Float } from '@react-three/drei';
 import DraggableHtmlPanel from './DraggableHtmlPanel';
-import { SuccessOverlay, ConfettiExplosion } from './PC4eSimulations';
+import { PhaseSelector, GradeBadge, MissionObjective, XPBar, SuccessOverlay, ConfettiExplosion } from './GamificationUtils';
 import * as THREE from 'three';
 
 // ============================================================
@@ -18,10 +18,10 @@ export function Chap6LoiOhm() {
     const [challenge, setChallenge] = useState(null);
 
     const scenarios = {
-        lampe: { name: '💡 Lampe 6V', U: 6, R: 3, desc: 'Éclairage' },
-        moteur: { name: '⚙️ Moteur 12V', U: 12, R: 6, desc: 'Mouvement' },
-        chauffage: { name: '🔥 Résistance', U: 24, R: 8, desc: 'Chauffage' },
-        led: { name: '🔴 LED', U: 3, R: 150, desc: 'Indicateur' }
+        lampe: { name: '💡 Lampe 6V', U: 6, R: 3, desc: 'Éclairage standard' },
+        moteur: { name: '⚙️ Moteur 12V', U: 12, R: 6, desc: 'Mouvement mécanique' },
+        chauffage: { name: '🔥 Résistance', U: 24, R: 8, desc: 'Chauffage électrique' },
+        led: { name: '🔴 LED', U: 3, R: 150, desc: 'Indicateur lumineux' }
     };
 
     const challenges = [
@@ -50,24 +50,44 @@ export function Chap6LoiOhm() {
     return (
         <group>
             <Html transform={false}>
-                <DraggableHtmlPanel title="⚡ Loi d'Ohm" showCloseButton={false} defaultPosition="bottom-center" className="w-[340px] text-white">
-                    <div className="flex justify-between items-center mb-3 border-b border-white/10 pb-2">
-                        <div className="flex gap-2">
-                            <button onClick={() => setMode('explore')} className={`text-xs px-2 py-1 rounded ${mode === 'explore' ? 'bg-yellow-600' : 'bg-gray-700'}`}>Labo</button>
-                            <button onClick={startChallenge} className={`text-xs px-2 py-1 rounded ${mode === 'challenge' ? 'bg-purple-600' : 'bg-gray-700'}`}>Quiz 🏆</button>
+                <DraggableHtmlPanel title="⚡ Loi d'Ohm" showCloseButton={false} defaultPosition="bottom-center" className="w-[360px] border-yellow-500/30 text-white">
+                    {/* MODE SELECTOR */}
+                    <div className="mb-4">
+                        <PhaseSelector currentPhase={mode} onSelect={setMode} />
+                    </div>
+
+                    {/* HEADER INFO */}
+                    <div className="flex justify-between items-end mb-4 pb-2 border-b border-white/10">
+                        <div>
+                            <div className="text-xs text-yellow-300 font-bold uppercase tracking-wider mb-1">Module Électricité</div>
+                            <div className="text-xl font-black text-white leading-none">RÉSISTANCE & TENSION</div>
                         </div>
-                        {mode === 'challenge' && <div className="font-bold text-yellow-400">{score} XP</div>}
+                        <div className="text-right">
+                            <GradeBadge score={score} />
+                        </div>
                     </div>
 
                     {mode === 'explore' ? (
                         <>
-                            <div className="grid grid-cols-2 gap-2 mb-3">
-                                {Object.entries(scenarios).map(([k, sc]) => (
-                                    <button key={k} onClick={() => applyScenario(k)} className="p-2 bg-gray-800 rounded text-xs hover:bg-gray-700">
-                                        <div className="font-bold">{sc.name}</div>
-                                    </button>
-                                ))}
+                            <div className="mb-4">
+                                <MissionObjective objective="Appliquez la loi d'Ohm U = R x I !" icon="⚡" />
                             </div>
+
+                            {/* Scénarios */}
+                            <div className="mb-4">
+                                <div className="text-xs text-gray-400 uppercase mb-2">Composants</div>
+                                <div className="grid grid-cols-2 gap-2">
+                                    {Object.entries(scenarios).map(([k, sc]) => (
+                                        <button key={k} onClick={() => applyScenario(k)}
+                                            className="p-2 bg-white/5 hover:bg-white/10 border border-white/10 rounded-lg text-xs text-left transition-all group">
+                                            <div className="font-bold group-hover:text-yellow-400 transition-colors">{sc.name}</div>
+                                            <div className="text-gray-500 text-[10px]">{sc.desc}</div>
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+
+                            {/* Contrôles */}
                             <div className="space-y-3">
                                 <div>
                                     <div className="flex justify-between text-xs"><span>Tension U</span><span className="text-yellow-400">{voltage} V</span></div>
@@ -78,22 +98,62 @@ export function Chap6LoiOhm() {
                                     <input type="range" min={1} max={100} value={resistance} onChange={(e) => setResistance(parseInt(e.target.value))} className="w-full accent-orange-500" />
                                 </div>
                             </div>
-                            <div className="mt-4 p-3 bg-gray-900 rounded-lg text-center">
-                                <div className="text-gray-400 text-xs">I = U / R</div>
-                                <div className="text-3xl font-bold text-green-400">{current.toFixed(2)} A</div>
+
+                            {/* Résultats */}
+                            <div className="mt-4 p-4 bg-gradient-to-br from-gray-900 to-black rounded-lg border border-yellow-500/30">
+                                <div className="text-center">
+                                    <div className="text-gray-400 text-xs uppercase tracking-widest mb-1">INTENSITÉ I</div>
+                                    <div className="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-orange-500 my-2">
+                                        {current.toFixed(2)} A
+                                    </div>
+                                    <div className="text-xs text-gray-400">I = U / R = {voltage} / {resistance}</div>
+                                </div>
                             </div>
                         </>
                     ) : (
-                        <div className="bg-gray-800 p-3 rounded-xl">
+                        <div className="bg-gray-900/50 p-4 rounded-xl border border-yellow-500/30">
+                            <div className="flex justify-between items-center mb-6">
+                                <h3 className="text-yellow-300 font-bold flex items-center gap-2">
+                                    <span>🧠</span> Quiz Loi d'Ohm
+                                </h3>
+                                <XPBar current={score} nextLevel={100} />
+                            </div>
+
+                            {!challenge && (
+                                <div className="text-center py-8">
+                                    <button onClick={startChallenge} className="px-6 py-3 bg-yellow-600 hover:bg-yellow-500 text-white rounded-full font-bold shadow-lg shadow-yellow-900/20 transition-all transform hover:scale-105">
+                                        Commencer le Défi
+                                    </button>
+                                </div>
+                            )}
+
                             {challenge && (
-                                <div className="space-y-3">
-                                    <div className="text-sm">{challenge.q}</div>
-                                    {challenge.options.map((opt, idx) => (
-                                        <button key={idx} onClick={() => checkAnswer(idx)} className="w-full text-left p-2 rounded bg-gray-700 hover:bg-gray-600 text-sm">
-                                            {['A', 'B', 'C'][idx]}. {opt}
+                                <div className="space-y-4 animate-in slide-in-from-right duration-300">
+                                    <div className="text-sm font-medium bg-black/20 p-3 rounded-lg border-l-2 border-yellow-500">
+                                        {challenge.q}
+                                    </div>
+                                    <div className="space-y-2">
+                                        {challenge.options.map((opt, idx) => (
+                                            <button key={idx} onClick={() => checkAnswer(idx)}
+                                                disabled={challenge.answered}
+                                                className={`w-full text-left p-3 rounded transition-all text-sm flex justify-between items-center
+                                                    ${challenge.answered
+                                                        ? idx === challenge.ans
+                                                            ? 'bg-green-500/20 text-green-300 border border-green-500/50'
+                                                            : 'bg-gray-800/50 text-gray-500'
+                                                        : 'bg-white/5 hover:bg-white/10'
+                                                    }
+                                                `}>
+                                                <span><span className="opacity-50 mr-2">{['A', 'B', 'C'][idx]}.</span> {opt}</span>
+                                                {challenge.answered && idx === challenge.ans && <span>✅</span>}
+                                            </button>
+                                        ))}
+                                    </div>
+                                    {challenge.answered && (
+                                        <button onClick={nextQuestion} className="w-full py-3 bg-gradient-to-r from-yellow-600 to-orange-600 rounded-lg font-bold shadow-lg mt-4 hover:shadow-yellow-500/20 transition-all">
+                                            Suivant →
                                         </button>
-                                    ))}
-                                    {challenge.answered && <button onClick={nextQuestion} className="w-full py-2 bg-purple-600 rounded font-bold">Suivant →</button>}
+                                    )}
                                 </div>
                             )}
                         </div>
@@ -122,10 +182,10 @@ export function Chap7TransformationsEnergie() {
     const [challenge, setChallenge] = useState(null);
 
     const devices = {
-        ampoule: { name: '💡 Ampoule', input: 'Électrique', outputs: ['Lumineuse', 'Thermique'], efficiency: 0.1 },
-        moteur: { name: '⚙️ Moteur', input: 'Électrique', outputs: ['Mécanique', 'Thermique'], efficiency: 0.85 },
-        panneau: { name: '☀️ Panneau Solaire', input: 'Lumineuse', outputs: ['Électrique'], efficiency: 0.2 },
-        voiture: { name: '🚗 Voiture', input: 'Chimique', outputs: ['Mécanique', 'Thermique'], efficiency: 0.25 }
+        ampoule: { name: '💡 Ampoule', input: 'Électrique', outputs: ['Lumineuse', 'Thermique'], efficiency: 0.1, desc: 'Eclaire mais chauffe beaucoup' },
+        moteur: { name: '⚙️ Moteur', input: 'Électrique', outputs: ['Mécanique', 'Thermique'], efficiency: 0.85, desc: 'Transforme élec en mouvement' },
+        panneau: { name: '☀️ Panneau Solaire', input: 'Lumineuse', outputs: ['Électrique'], efficiency: 0.2, desc: 'Conversion photovoltaïque' },
+        voiture: { name: '🚗 Voiture', input: 'Chimique', outputs: ['Mécanique', 'Thermique'], efficiency: 0.25, desc: 'Moteur à combustion' }
     };
 
     const challenges = [
@@ -150,53 +210,121 @@ export function Chap7TransformationsEnergie() {
     return (
         <group>
             <Html transform={false}>
-                <DraggableHtmlPanel title="🔄 Transformations d'Énergie" showCloseButton={false} defaultPosition="bottom-center" className="w-[340px] text-white">
-                    <div className="flex justify-between items-center mb-3 border-b border-white/10 pb-2">
-                        <div className="flex gap-2">
-                            <button onClick={() => setMode('explore')} className={`text-xs px-2 py-1 rounded ${mode === 'explore' ? 'bg-green-600' : 'bg-gray-700'}`}>Explorer</button>
-                            <button onClick={startChallenge} className={`text-xs px-2 py-1 rounded ${mode === 'challenge' ? 'bg-purple-600' : 'bg-gray-700'}`}>Quiz 🏆</button>
+                <DraggableHtmlPanel title="🔄 Transformations d'Énergie" showCloseButton={false} defaultPosition="bottom-center" className="w-[360px] border-green-500/30 text-white">
+                    {/* MODE SELECTOR */}
+                    <div className="mb-4">
+                        <PhaseSelector currentPhase={mode} onSelect={setMode} />
+                    </div>
+
+                    {/* HEADER INFO */}
+                    <div className="flex justify-between items-end mb-4 pb-2 border-b border-white/10">
+                        <div>
+                            <div className="text-xs text-green-300 font-bold uppercase tracking-wider mb-1">Module Énergie</div>
+                            <div className="text-xl font-black text-white leading-none">RENDEMENT & PERTES</div>
                         </div>
-                        {mode === 'challenge' && <div className="font-bold text-yellow-400">{score} XP</div>}
+                        <div className="text-right">
+                            <GradeBadge score={score} />
+                        </div>
                     </div>
 
                     {mode === 'explore' ? (
                         <>
-                            <div className="grid grid-cols-2 gap-2 mb-3">
-                                {Object.entries(devices).map(([k, d]) => (
-                                    <button key={k} onClick={() => setDevice(k)} className={`p-2 rounded text-xs ${device === k ? 'bg-green-600' : 'bg-gray-800'}`}>
-                                        {d.name}
-                                    </button>
-                                ))}
+                            <div className="mb-4">
+                                <MissionObjective objective="Analysez les transferts et le rendement !" icon="🔄" />
                             </div>
-                            <div className="p-3 bg-gray-900 rounded-lg">
-                                <div className="text-center mb-2">
-                                    <span className="text-cyan-400">{dev.input}</span> → <span className="text-yellow-400">{dev.outputs.join(' + ')}</span>
+
+                            {/* Scénarios */}
+                            <div className="mb-4">
+                                <div className="text-xs text-gray-400 uppercase mb-2">Dispositifs</div>
+                                <div className="grid grid-cols-2 gap-2">
+                                    {Object.entries(devices).map(([k, d]) => (
+                                        <button key={k} onClick={() => setDevice(k)}
+                                            className={`p-2 bg-white/5 hover:bg-white/10 border border-white/10 rounded-lg text-xs text-left transition-all group ${device === k ? 'border-green-500/50 bg-green-900/20' : ''}`}>
+                                            <div className="font-bold group-hover:text-green-400 transition-colors">{d.name}</div>
+                                            <div className="text-gray-500 text-[10px]">{d.desc}</div>
+                                        </button>
+                                    ))}
                                 </div>
-                                <div className="flex justify-between text-sm">
-                                    <span>Rendement</span>
-                                    <span className="text-green-400 font-bold">{(dev.efficiency * 100).toFixed(0)}%</span>
+                            </div>
+
+                            <div className="p-4 bg-gradient-to-br from-gray-900 to-black rounded-lg border border-green-500/30">
+                                <div className="text-center mb-4">
+                                    <div className="flex items-center justify-center gap-2 text-sm font-bold">
+                                        <span className="text-cyan-400">{dev.input}</span>
+                                        <span className="text-gray-500">→</span>
+                                        <span className="text-yellow-400">{dev.outputs.join(' + ')}</span>
+                                    </div>
                                 </div>
-                                <div className="mt-2 h-4 bg-gray-700 rounded overflow-hidden flex">
-                                    <div className="bg-green-500" style={{ width: `${dev.efficiency * 100}%` }} />
-                                    <div className="bg-red-500" style={{ width: `${(1 - dev.efficiency) * 100}%` }} />
+
+                                <div className="mb-4">
+                                    <div className="flex justify-between text-xs mb-1">
+                                        <span className="text-gray-400">Rendement Énergétique</span>
+                                        <span className={`font-bold ${dev.efficiency > 0.5 ? 'text-green-400' : 'text-orange-400'}`}>
+                                            {(dev.efficiency * 100).toFixed(0)}%
+                                        </span>
+                                    </div>
+                                    <div className="h-4 bg-gray-800 rounded-full overflow-hidden flex shadow-inner">
+                                        <div className="bg-green-500 transition-all duration-500" style={{ width: `${dev.efficiency * 100}%` }} title="Énergie Utile" />
+                                        <div className="bg-red-500 transition-all duration-500" style={{ width: `${(1 - dev.efficiency) * 100}%` }} title="Énergie Perdue (Chaleur)" />
+                                    </div>
                                 </div>
-                                <div className="flex justify-between text-xs mt-1">
-                                    <span className="text-green-400">Utile: {usefulEnergy.toFixed(0)} J</span>
-                                    <span className="text-red-400">Perdue: {wastedEnergy.toFixed(0)} J</span>
+
+                                <div className="grid grid-cols-2 gap-3 text-center">
+                                    <div className="p-2 bg-green-500/10 rounded border border-green-500/20">
+                                        <div className="text-xs text-green-300">Énergie Utile</div>
+                                        <div className="text-xl font-bold text-white">{usefulEnergy.toFixed(0)} J</div>
+                                    </div>
+                                    <div className="p-2 bg-red-500/10 rounded border border-red-500/20">
+                                        <div className="text-xs text-red-300">Pertes (Th.)</div>
+                                        <div className="text-xl font-bold text-white">{wastedEnergy.toFixed(0)} J</div>
+                                    </div>
                                 </div>
                             </div>
                         </>
                     ) : (
-                        <div className="bg-gray-800 p-3 rounded-xl">
+                        <div className="bg-gray-900/50 p-4 rounded-xl border border-green-500/30">
+                            <div className="flex justify-between items-center mb-6">
+                                <h3 className="text-green-300 font-bold flex items-center gap-2">
+                                    <span>🧠</span> Quiz Énergie
+                                </h3>
+                                <XPBar current={score} nextLevel={100} />
+                            </div>
+
+                            {!challenge && (
+                                <div className="text-center py-8">
+                                    <button onClick={startChallenge} className="px-6 py-3 bg-green-600 hover:bg-green-500 text-white rounded-full font-bold shadow-lg shadow-green-900/20 transition-all transform hover:scale-105">
+                                        Commencer le Défi
+                                    </button>
+                                </div>
+                            )}
+
                             {challenge && (
-                                <div className="space-y-3">
-                                    <div className="text-sm">{challenge.q}</div>
-                                    {challenge.options.map((opt, idx) => (
-                                        <button key={idx} onClick={() => checkAnswer(idx)} className="w-full text-left p-2 rounded bg-gray-700 hover:bg-gray-600 text-sm">
-                                            {['A', 'B', 'C'][idx]}. {opt}
+                                <div className="space-y-4 animate-in slide-in-from-right duration-300">
+                                    <div className="text-sm font-medium bg-black/20 p-3 rounded-lg border-l-2 border-green-500">
+                                        {challenge.q}
+                                    </div>
+                                    <div className="space-y-2">
+                                        {challenge.options.map((opt, idx) => (
+                                            <button key={idx} onClick={() => checkAnswer(idx)}
+                                                disabled={challenge.answered}
+                                                className={`w-full text-left p-3 rounded transition-all text-sm flex justify-between items-center
+                                                    ${challenge.answered
+                                                        ? idx === challenge.ans
+                                                            ? 'bg-green-500/20 text-green-300 border border-green-500/50'
+                                                            : 'bg-gray-800/50 text-gray-500'
+                                                        : 'bg-white/5 hover:bg-white/10'
+                                                    }
+                                                `}>
+                                                <span><span className="opacity-50 mr-2">{['A', 'B', 'C'][idx]}.</span> {opt}</span>
+                                                {challenge.answered && idx === challenge.ans && <span>✅</span>}
+                                            </button>
+                                        ))}
+                                    </div>
+                                    {challenge.answered && (
+                                        <button onClick={nextQuestion} className="w-full py-3 bg-gradient-to-r from-green-600 to-emerald-600 rounded-lg font-bold shadow-lg mt-4 hover:shadow-green-500/20 transition-all">
+                                            Suivant →
                                         </button>
-                                    ))}
-                                    {challenge.answered && <button onClick={nextQuestion} className="w-full py-2 bg-purple-600 rounded font-bold">Suivant →</button>}
+                                    )}
                                 </div>
                             )}
                         </div>
@@ -223,9 +351,9 @@ export function Chap8SolutionsAqueuses() {
     const [challenge, setChallenge] = useState(null);
 
     const scenarios = {
-        the: { name: '🍵 Thé sucré', m: 30, v: 250, desc: 'Ataya' },
-        serum: { name: '💉 Sérum', m: 9, v: 1000, desc: 'NaCl 0.9%' },
-        sirop: { name: '🧃 Sirop', m: 500, v: 1000, desc: 'Concentré' },
+        the: { name: '🍵 Thé sucré', m: 30, v: 250, desc: 'Ataya traditionnel' },
+        serum: { name: '💉 Sérum', m: 9, v: 1000, desc: 'NaCl 0.9% médical' },
+        sirop: { name: '🧃 Sirop', m: 500, v: 1000, desc: 'Boisson concentrée' },
         eau: { name: '💧 Eau salée', m: 35, v: 1000, desc: 'Eau de mer' }
     };
 
@@ -250,51 +378,110 @@ export function Chap8SolutionsAqueuses() {
     return (
         <group>
             <Html transform={false}>
-                <DraggableHtmlPanel title="🧪 Solutions Aqueuses" showCloseButton={false} defaultPosition="bottom-center" className="w-[340px] text-white">
-                    <div className="flex justify-between items-center mb-3 border-b border-white/10 pb-2">
-                        <div className="flex gap-2">
-                            <button onClick={() => setMode('explore')} className={`text-xs px-2 py-1 rounded ${mode === 'explore' ? 'bg-cyan-600' : 'bg-gray-700'}`}>Labo</button>
-                            <button onClick={startChallenge} className={`text-xs px-2 py-1 rounded ${mode === 'challenge' ? 'bg-purple-600' : 'bg-gray-700'}`}>Quiz 🏆</button>
+                <DraggableHtmlPanel title="🧪 Solutions Aqueuses" showCloseButton={false} defaultPosition="bottom-center" className="w-[360px] border-cyan-500/30 text-white">
+                    {/* MODE SELECTOR */}
+                    <div className="mb-4">
+                        <PhaseSelector currentPhase={mode} onSelect={setMode} />
+                    </div>
+
+                    {/* HEADER INFO */}
+                    <div className="flex justify-between items-end mb-4 pb-2 border-b border-white/10">
+                        <div>
+                            <div className="text-xs text-cyan-300 font-bold uppercase tracking-wider mb-1">Module Chimie</div>
+                            <div className="text-xl font-black text-white leading-none">CONCENTRATION</div>
                         </div>
-                        {mode === 'challenge' && <div className="font-bold text-yellow-400">{score} XP</div>}
+                        <div className="text-right">
+                            <GradeBadge score={score} />
+                        </div>
                     </div>
 
                     {mode === 'explore' ? (
                         <>
-                            <div className="grid grid-cols-2 gap-2 mb-3">
-                                {Object.entries(scenarios).map(([k, sc]) => (
-                                    <button key={k} onClick={() => applyScenario(k)} className="p-2 bg-gray-800 rounded text-xs hover:bg-gray-700">
-                                        <div className="font-bold">{sc.name}</div>
-                                        <div className="text-gray-400 text-[10px]">{sc.desc}</div>
-                                    </button>
-                                ))}
+                            <div className="mb-4">
+                                <MissionObjective objective="Préparez des solutions et calculez C !" icon="🧪" />
                             </div>
+
+                            {/* Scénarios */}
+                            <div className="mb-4">
+                                <div className="text-xs text-gray-400 uppercase mb-2">Exemples</div>
+                                <div className="grid grid-cols-2 gap-2">
+                                    {Object.entries(scenarios).map(([k, sc]) => (
+                                        <button key={k} onClick={() => applyScenario(k)}
+                                            className="p-2 bg-white/5 hover:bg-white/10 border border-white/10 rounded-lg text-xs text-left transition-all group">
+                                            <div className="font-bold group-hover:text-cyan-400 transition-colors">{sc.name}</div>
+                                            <div className="text-gray-500 text-[10px]">{sc.desc}</div>
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+
+                            {/* Contrôles */}
                             <div className="space-y-3">
                                 <div>
                                     <div className="flex justify-between text-xs"><span>Masse soluté m</span><span className="text-cyan-400">{mass} g</span></div>
                                     <input type="range" min={1} max={200} value={mass} onChange={(e) => setMass(parseInt(e.target.value))} className="w-full accent-cyan-500" />
                                 </div>
                                 <div>
-                                    <div className="flex justify-between text-xs"><span>Volume V</span><span className="text-blue-400">{volume} mL</span></div>
+                                    <div className="flex justify-between text-xs"><span>Volume solvant V</span><span className="text-blue-400">{volume} mL</span></div>
                                     <input type="range" min={100} max={2000} step={50} value={volume} onChange={(e) => setVolume(parseInt(e.target.value))} className="w-full accent-blue-500" />
                                 </div>
                             </div>
-                            <div className="mt-4 p-3 bg-gray-900 rounded-lg text-center">
-                                <div className="text-gray-400 text-xs">C = m / V</div>
-                                <div className="text-3xl font-bold text-cyan-400">{concentration.toFixed(1)} g/L</div>
+
+                            {/* Résultats */}
+                            <div className="mt-4 p-4 bg-gradient-to-br from-gray-900 to-black rounded-lg border border-cyan-500/30">
+                                <div className="text-center">
+                                    <div className="text-gray-400 text-xs uppercase tracking-widest mb-1">CONCENTRATION MASSIQUE</div>
+                                    <div className="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500 my-2">
+                                        {concentration.toFixed(1)} g/L
+                                    </div>
+                                    <div className="text-xs text-gray-400">C = m / V = {mass}g / {(volume / 1000).toFixed(1)}L</div>
+                                </div>
                             </div>
                         </>
                     ) : (
-                        <div className="bg-gray-800 p-3 rounded-xl">
+                        <div className="bg-gray-900/50 p-4 rounded-xl border border-cyan-500/30">
+                            <div className="flex justify-between items-center mb-6">
+                                <h3 className="text-cyan-300 font-bold flex items-center gap-2">
+                                    <span>🧠</span> Quiz Solutions
+                                </h3>
+                                <XPBar current={score} nextLevel={100} />
+                            </div>
+
+                            {!challenge && (
+                                <div className="text-center py-8">
+                                    <button onClick={startChallenge} className="px-6 py-3 bg-cyan-600 hover:bg-cyan-500 text-white rounded-full font-bold shadow-lg shadow-cyan-900/20 transition-all transform hover:scale-105">
+                                        Commencer le Défi
+                                    </button>
+                                </div>
+                            )}
+
                             {challenge && (
-                                <div className="space-y-3">
-                                    <div className="text-sm">{challenge.q}</div>
-                                    {challenge.options.map((opt, idx) => (
-                                        <button key={idx} onClick={() => checkAnswer(idx)} className="w-full text-left p-2 rounded bg-gray-700 hover:bg-gray-600 text-sm">
-                                            {['A', 'B', 'C'][idx]}. {opt}
+                                <div className="space-y-4 animate-in slide-in-from-right duration-300">
+                                    <div className="text-sm font-medium bg-black/20 p-3 rounded-lg border-l-2 border-cyan-500">
+                                        {challenge.q}
+                                    </div>
+                                    <div className="space-y-2">
+                                        {challenge.options.map((opt, idx) => (
+                                            <button key={idx} onClick={() => checkAnswer(idx)}
+                                                disabled={challenge.answered}
+                                                className={`w-full text-left p-3 rounded transition-all text-sm flex justify-between items-center
+                                                    ${challenge.answered
+                                                        ? idx === challenge.ans
+                                                            ? 'bg-green-500/20 text-green-300 border border-green-500/50'
+                                                            : 'bg-gray-800/50 text-gray-500'
+                                                        : 'bg-white/5 hover:bg-white/10'
+                                                    }
+                                                `}>
+                                                <span><span className="opacity-50 mr-2">{['A', 'B', 'C'][idx]}.</span> {opt}</span>
+                                                {challenge.answered && idx === challenge.ans && <span>✅</span>}
+                                            </button>
+                                        ))}
+                                    </div>
+                                    {challenge.answered && (
+                                        <button onClick={nextQuestion} className="w-full py-3 bg-gradient-to-r from-cyan-600 to-blue-600 rounded-lg font-bold shadow-lg mt-4 hover:shadow-cyan-500/20 transition-all">
+                                            Suivant →
                                         </button>
-                                    ))}
-                                    {challenge.answered && <button onClick={nextQuestion} className="w-full py-2 bg-purple-600 rounded font-bold">Suivant →</button>}
+                                    )}
                                 </div>
                             )}
                         </div>
@@ -302,7 +489,7 @@ export function Chap8SolutionsAqueuses() {
                 </DraggableHtmlPanel>
             </Html>
             <Cylinder args={[0.8, 0.8, 2, 32]} position={[0, 0, 0]}><meshStandardMaterial color="#4488ff" transparent opacity={0.6} /></Cylinder>
-            <SuccessOverlay show={showSuccess} message="Super !" points={25} onNext={nextQuestion} />
+            <SuccessOverlay show={showSuccess} message="Excellent !" points={25} onNext={nextQuestion} />
             <ConfettiExplosion active={showSuccess} />
         </group>
     );
@@ -345,44 +532,103 @@ export function Chap9AcidesBasesPH() {
     return (
         <group>
             <Html transform={false}>
-                <DraggableHtmlPanel title="🧪 Acides, Bases et pH" showCloseButton={false} defaultPosition="bottom-center" className="w-[340px] text-white">
-                    <div className="flex justify-between items-center mb-3 border-b border-white/10 pb-2">
-                        <div className="flex gap-2">
-                            <button onClick={() => setMode('explore')} className={`text-xs px-2 py-1 rounded ${mode === 'explore' ? 'bg-green-600' : 'bg-gray-700'}`}>Explorer</button>
-                            <button onClick={startChallenge} className={`text-xs px-2 py-1 rounded ${mode === 'challenge' ? 'bg-purple-600' : 'bg-gray-700'}`}>Quiz 🏆</button>
+                <DraggableHtmlPanel title="🧪 Acides, Bases et pH" showCloseButton={false} defaultPosition="bottom-center" className="w-[360px] border-purple-500/30 text-white">
+                    {/* MODE SELECTOR */}
+                    <div className="mb-4">
+                        <PhaseSelector currentPhase={mode} onSelect={setMode} />
+                    </div>
+
+                    {/* HEADER INFO */}
+                    <div className="flex justify-between items-end mb-4 pb-2 border-b border-white/10">
+                        <div>
+                            <div className="text-xs text-purple-300 font-bold uppercase tracking-wider mb-1">Module Chimie</div>
+                            <div className="text-xl font-black text-white leading-none">ÉCHELLE pH</div>
                         </div>
-                        {mode === 'challenge' && <div className="font-bold text-yellow-400">{score} XP</div>}
+                        <div className="text-right">
+                            <GradeBadge score={score} />
+                        </div>
                     </div>
 
                     {mode === 'explore' ? (
                         <>
-                            <div className="flex flex-wrap gap-1 mb-3">
+                            <div className="mb-4">
+                                <MissionObjective objective="Testez le pH de différentes solutions !" icon="🧪" />
+                            </div>
+
+                            <div className="flex flex-wrap gap-2 mb-4 justify-center">
                                 {Object.entries(solutions).map(([k, s]) => (
-                                    <button key={k} onClick={() => setPh(s.ph)} className={`px-2 py-1 rounded text-xs ${ph === s.ph ? 'ring-2 ring-white' : 'bg-gray-800'}`}>
+                                    <button key={k} onClick={() => setPh(s.ph)}
+                                        className={`px-3 py-2 rounded-full text-xs font-bold transition-all transform hover:scale-105 ${ph === s.ph ? 'ring-2 ring-white scale-110 shadow-lg' : 'bg-gray-800 hover:bg-gray-700'}`}
+                                        style={{ backgroundColor: ph === s.ph ? getColor(s.ph) : undefined, color: ph === s.ph ? 'black' : 'white' }}>
                                         {s.name}
                                     </button>
                                 ))}
                             </div>
-                            <div className="text-center mb-3">
-                                <div className="text-5xl font-bold" style={{ color: getColor(ph) }}>{ph}</div>
-                                <div className="text-lg">{getType(ph)}</div>
+
+                            <div className="text-center mb-6 p-4 bg-gray-900/80 rounded-xl border border-white/10 shadow-inner">
+                                <div className="text-6xl font-black mb-1 transition-colors duration-500" style={{ color: getColor(ph) }}>{ph}</div>
+                                <div className="text-lg font-bold uppercase tracking-widest text-white">{getType(ph)}</div>
                             </div>
-                            <div className="h-6 rounded-full flex overflow-hidden">
-                                {[...Array(15)].map((_, i) => <div key={i} className="flex-1" style={{ backgroundColor: getColor(i) }} />)}
+
+                            <div className="space-y-2">
+                                <div className="h-8 rounded-full flex overflow-hidden border border-white/20 shadow-lg relative">
+                                    {[...Array(15)].map((_, i) => <div key={i} className="flex-1 transition-all hover:opacity-100 opacity-80" style={{ backgroundColor: getColor(i) }} />)}
+                                    <div className="absolute top-0 bottom-0 w-1 bg-white shadow-[0_0_10px_white] transition-all duration-300"
+                                        style={{ left: `${(ph / 14) * 100}%` }} />
+                                </div>
+                                <input type="range" min={0} max={14} value={ph} onChange={(e) => setPh(parseInt(e.target.value))}
+                                    className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer" />
+                                <div className="flex justify-between text-[10px] text-gray-400 font-mono uppercase">
+                                    <span>Acidité max</span>
+                                    <span>Neutralité</span>
+                                    <span>Basicité max</span>
+                                </div>
                             </div>
-                            <input type="range" min={0} max={14} value={ph} onChange={(e) => setPh(parseInt(e.target.value))} className="w-full mt-2" />
                         </>
                     ) : (
-                        <div className="bg-gray-800 p-3 rounded-xl">
+                        <div className="bg-gray-900/50 p-4 rounded-xl border border-purple-500/30">
+                            <div className="flex justify-between items-center mb-6">
+                                <h3 className="text-purple-300 font-bold flex items-center gap-2">
+                                    <span>🧠</span> Quiz pH
+                                </h3>
+                                <XPBar current={score} nextLevel={100} />
+                            </div>
+
+                            {!challenge && (
+                                <div className="text-center py-8">
+                                    <button onClick={startChallenge} className="px-6 py-3 bg-purple-600 hover:bg-purple-500 text-white rounded-full font-bold shadow-lg shadow-purple-900/20 transition-all transform hover:scale-105">
+                                        Commencer le Défi
+                                    </button>
+                                </div>
+                            )}
+
                             {challenge && (
-                                <div className="space-y-3">
-                                    <div className="text-sm">{challenge.q}</div>
-                                    {challenge.options.map((opt, idx) => (
-                                        <button key={idx} onClick={() => checkAnswer(idx)} className="w-full text-left p-2 rounded bg-gray-700 hover:bg-gray-600 text-sm">
-                                            {['A', 'B', 'C'][idx]}. {opt}
+                                <div className="space-y-4 animate-in slide-in-from-right duration-300">
+                                    <div className="text-sm font-medium bg-black/20 p-3 rounded-lg border-l-2 border-purple-500">
+                                        {challenge.q}
+                                    </div>
+                                    <div className="space-y-2">
+                                        {challenge.options.map((opt, idx) => (
+                                            <button key={idx} onClick={() => checkAnswer(idx)}
+                                                disabled={challenge.answered}
+                                                className={`w-full text-left p-3 rounded transition-all text-sm flex justify-between items-center
+                                                    ${challenge.answered
+                                                        ? idx === challenge.ans
+                                                            ? 'bg-green-500/20 text-green-300 border border-green-500/50'
+                                                            : 'bg-gray-800/50 text-gray-500'
+                                                        : 'bg-white/5 hover:bg-white/10'
+                                                    }
+                                                `}>
+                                                <span><span className="opacity-50 mr-2">{['A', 'B', 'C'][idx]}.</span> {opt}</span>
+                                                {challenge.answered && idx === challenge.ans && <span>✅</span>}
+                                            </button>
+                                        ))}
+                                    </div>
+                                    {challenge.answered && (
+                                        <button onClick={nextQuestion} className="w-full py-3 bg-gradient-to-r from-purple-600 to-pink-600 rounded-lg font-bold shadow-lg mt-4 hover:shadow-purple-500/20 transition-all">
+                                            Suivant →
                                         </button>
-                                    ))}
-                                    {challenge.answered && <button onClick={nextQuestion} className="w-full py-2 bg-purple-600 rounded font-bold">Suivant →</button>}
+                                    )}
                                 </div>
                             )}
                         </div>
@@ -401,7 +647,6 @@ export function Chap9AcidesBasesPH() {
 // ============================================================
 export function Chap10Metaux() {
     const [metal, setMetal] = useState('fer');
-    const [reagent, setReagent] = useState('acide');
     const [reacting, setReacting] = useState(false);
     const [mode, setMode] = useState('explore');
     const [score, setScore] = useState(0);
@@ -409,10 +654,10 @@ export function Chap10Metaux() {
     const [challenge, setChallenge] = useState(null);
 
     const metals = {
-        fer: { name: '🔩 Fer', color: '#888888', reactive: true },
-        zinc: { name: '⬜ Zinc', color: '#aaaaaa', reactive: true },
-        or: { name: '👑 Or', color: '#ffd700', reactive: false },
-        sodium: { name: '🔥 Sodium', color: '#ff6600', reactive: true }
+        fer: { name: '🔩 Fer', color: '#888888', reactive: true, desc: 'Attiré par aimant' },
+        zinc: { name: '⬜ Zinc', color: '#aaaaaa', reactive: true, desc: 'Gris bleuté' },
+        or: { name: '👑 Or', color: '#ffd700', reactive: false, desc: 'Jaune brillant' },
+        sodium: { name: '🔥 Sodium', color: '#ff6600', reactive: true, desc: 'Très réactif' }
     };
 
     const challenges = [
@@ -423,6 +668,7 @@ export function Chap10Metaux() {
     ];
 
     const doReaction = () => { if (metals[metal].reactive) { setReacting(true); setTimeout(() => setReacting(false), 2000); } };
+
     const startChallenge = () => { setMode('challenge'); setScore(0); nextQuestion(); };
     const nextQuestion = () => { setChallenge({ ...challenges[Math.floor(Math.random() * challenges.length)], answered: false }); setShowSuccess(false); };
     const checkAnswer = (idx) => {
@@ -434,41 +680,107 @@ export function Chap10Metaux() {
     return (
         <group>
             <Html transform={false}>
-                <DraggableHtmlPanel title="⚙️ Propriétés des Métaux" showCloseButton={false} defaultPosition="bottom-center" className="w-[340px] text-white">
-                    <div className="flex justify-between items-center mb-3 border-b border-white/10 pb-2">
-                        <div className="flex gap-2">
-                            <button onClick={() => setMode('explore')} className={`text-xs px-2 py-1 rounded ${mode === 'explore' ? 'bg-gray-600' : 'bg-gray-700'}`}>Labo</button>
-                            <button onClick={startChallenge} className={`text-xs px-2 py-1 rounded ${mode === 'challenge' ? 'bg-purple-600' : 'bg-gray-700'}`}>Quiz 🏆</button>
+                <DraggableHtmlPanel title="⚙️ Propriétés des Métaux" showCloseButton={false} defaultPosition="bottom-center" className="w-[360px] border-gray-500/30 text-white">
+                    {/* MODE SELECTOR */}
+                    <div className="mb-4">
+                        <PhaseSelector currentPhase={mode} onSelect={setMode} />
+                    </div>
+
+                    {/* HEADER INFO */}
+                    <div className="flex justify-between items-end mb-4 pb-2 border-b border-white/10">
+                        <div>
+                            <div className="text-xs text-gray-400 font-bold uppercase tracking-wider mb-1">Module Chimie</div>
+                            <div className="text-xl font-black text-white leading-none">RÉACTIONS ACIDES</div>
                         </div>
-                        {mode === 'challenge' && <div className="font-bold text-yellow-400">{score} XP</div>}
+                        <div className="text-right">
+                            <GradeBadge score={score} />
+                        </div>
                     </div>
 
                     {mode === 'explore' ? (
                         <>
-                            <div className="grid grid-cols-2 gap-2 mb-3">
+                            <div className="mb-4">
+                                <MissionObjective objective="Testez la réaction des métaux aux acides !" icon="🧪" />
+                            </div>
+
+                            <div className="grid grid-cols-2 gap-2 mb-4">
                                 {Object.entries(metals).map(([k, m]) => (
-                                    <button key={k} onClick={() => setMetal(k)} className={`p-2 rounded text-xs ${metal === k ? 'ring-2 ring-white' : 'bg-gray-800'}`}>
-                                        {m.name} {!m.reactive && '(noble)'}
+                                    <button key={k} onClick={() => setMetal(k)}
+                                        className={`p-3 rounded-lg text-left transition-all group border border-white/5 hover:border-white/20 ${metal === k ? 'bg-white/10 ring-1 ring-white/50' : 'bg-gray-800'}`}>
+                                        <div className="font-bold group-hover:text-blue-400 transition-colors flex items-center justify-between">
+                                            {m.name}
+                                            <div className="w-3 h-3 rounded-full" style={{ backgroundColor: m.color }} />
+                                        </div>
+                                        <div className="text-gray-500 text-[10px] mt-1">{m.desc}</div>
                                     </button>
                                 ))}
                             </div>
+
                             <button onClick={doReaction} disabled={!metals[metal].reactive || reacting}
-                                className={`w-full py-3 rounded-lg font-bold ${metals[metal].reactive ? 'bg-red-600 hover:bg-red-500' : 'bg-gray-600 cursor-not-allowed'}`}>
-                                {reacting ? '💨 Réaction en cours...' : metals[metal].reactive ? '🧪 Ajouter Acide' : '❌ Métal noble - pas de réaction'}
+                                className={`w-full py-4 rounded-xl font-black text-lg shadow-lg transition-all transform active:scale-95 flex items-center justify-center gap-2
+                                    ${metals[metal].reactive
+                                        ? reacting ? 'bg-red-500 animate-pulse cursor-wait' : 'bg-gradient-to-r from-red-600 to-orange-600 hover:scale-[1.02]'
+                                        : 'bg-gray-700 cursor-not-allowed opacity-50'}`}>
+                                {reacting ? (
+                                    <><span>⚠️</span> RÉACTION EN COURS...</>
+                                ) : metals[metal].reactive ? (
+                                    <><span>💧</span> VERSER ACIDE (HCl)</>
+                                ) : (
+                                    <><span>🚫</span> PAS DE RÉACTION</>
+                                )}
                             </button>
-                            {reacting && <div className="mt-2 p-2 bg-yellow-500/20 rounded text-center animate-pulse">H₂ ↑ Bulles de dihydrogène !</div>}
+
+                            {reacting && (
+                                <div className="mt-3 p-3 bg-red-500/10 rounded-lg border border-red-500/20 text-center animate-in fade-in zoom-in">
+                                    <div className="text-2xl mb-1">🫧 POP !</div>
+                                    <div className="text-xs text-red-200 font-mono">Dégagement de Dihydrogène (H₂)</div>
+                                </div>
+                            )}
                         </>
                     ) : (
-                        <div className="bg-gray-800 p-3 rounded-xl">
+                        <div className="bg-gray-900/50 p-4 rounded-xl border border-gray-500/30">
+                            <div className="flex justify-between items-center mb-6">
+                                <h3 className="text-gray-300 font-bold flex items-center gap-2">
+                                    <span>🧠</span> Quiz Métaux
+                                </h3>
+                                <XPBar current={score} nextLevel={100} />
+                            </div>
+
+                            {!challenge && (
+                                <div className="text-center py-8">
+                                    <button onClick={startChallenge} className="px-6 py-3 bg-gray-600 hover:bg-gray-500 text-white rounded-full font-bold shadow-lg shadow-gray-900/20 transition-all transform hover:scale-105">
+                                        Commencer le Défi
+                                    </button>
+                                </div>
+                            )}
+
                             {challenge && (
-                                <div className="space-y-3">
-                                    <div className="text-sm">{challenge.q}</div>
-                                    {challenge.options.map((opt, idx) => (
-                                        <button key={idx} onClick={() => checkAnswer(idx)} className="w-full text-left p-2 rounded bg-gray-700 hover:bg-gray-600 text-sm">
-                                            {['A', 'B', 'C'][idx]}. {opt}
+                                <div className="space-y-4 animate-in slide-in-from-right duration-300">
+                                    <div className="text-sm font-medium bg-black/20 p-3 rounded-lg border-l-2 border-gray-500">
+                                        {challenge.q}
+                                    </div>
+                                    <div className="space-y-2">
+                                        {challenge.options.map((opt, idx) => (
+                                            <button key={idx} onClick={() => checkAnswer(idx)}
+                                                disabled={challenge.answered}
+                                                className={`w-full text-left p-3 rounded transition-all text-sm flex justify-between items-center
+                                                    ${challenge.answered
+                                                        ? idx === challenge.ans
+                                                            ? 'bg-green-500/20 text-green-300 border border-green-500/50'
+                                                            : 'bg-gray-800/50 text-gray-500'
+                                                        : 'bg-white/5 hover:bg-white/10'
+                                                    }
+                                                `}>
+                                                <span><span className="opacity-50 mr-2">{['A', 'B', 'C'][idx]}.</span> {opt}</span>
+                                                {challenge.answered && idx === challenge.ans && <span>✅</span>}
+                                            </button>
+                                        ))}
+                                    </div>
+                                    {challenge.answered && (
+                                        <button onClick={nextQuestion} className="w-full py-3 bg-gradient-to-r from-gray-600 to-gray-500 rounded-lg font-bold shadow-lg mt-4 hover:shadow-gray-500/20 transition-all">
+                                            Suivant →
                                         </button>
-                                    ))}
-                                    {challenge.answered && <button onClick={nextQuestion} className="w-full py-2 bg-purple-600 rounded font-bold">Suivant →</button>}
+                                    )}
                                 </div>
                             )}
                         </div>
@@ -497,9 +809,9 @@ export function Chap11Combustion() {
     const [challenge, setChallenge] = useState(null);
 
     const fuels = {
-        methane: { name: '🔥 Méthane CH₄', formula: 'CH₄ + 2O₂ → CO₂ + 2H₂O', color: '#00aaff' },
-        butane: { name: '🧯 Butane C₄H₁₀', formula: '2C₄H₁₀ + 13O₂ → 8CO₂ + 10H₂O', color: '#ffaa00' },
-        essence: { name: '⛽ Octane C₈H₁₈', formula: '2C₈H₁₈ + 25O₂ → 16CO₂ + 18H₂O', color: '#ff4400' }
+        methane: { name: '🔥 Méthane CH₄', formula: 'CH₄ + 2O₂ → CO₂ + 2H₂O', color: '#00aaff', desc: 'Gaz de ville' },
+        butane: { name: '🧯 Butane C₄H₁₀', formula: '2C₄H₁₀ + 13O₂ → 8CO₂ + 10H₂O', color: '#ffaa00', desc: 'Gaz en bouteille' },
+        essence: { name: '⛽ Octane C₈H₁₈', formula: '2C₈H₁₈ + 25O₂ → 16CO₂ + 18H₂O', color: '#ff4400', desc: 'Carburant voiture' }
     };
 
     const challenges = [
@@ -521,44 +833,106 @@ export function Chap11Combustion() {
     return (
         <group>
             <Html transform={false}>
-                <DraggableHtmlPanel title="🔥 Hydrocarbures" showCloseButton={false} defaultPosition="bottom-center" className="w-[340px] text-white">
-                    <div className="flex justify-between items-center mb-3 border-b border-white/10 pb-2">
-                        <div className="flex gap-2">
-                            <button onClick={() => setMode('explore')} className={`text-xs px-2 py-1 rounded ${mode === 'explore' ? 'bg-orange-600' : 'bg-gray-700'}`}>Labo</button>
-                            <button onClick={startChallenge} className={`text-xs px-2 py-1 rounded ${mode === 'challenge' ? 'bg-purple-600' : 'bg-gray-700'}`}>Quiz 🏆</button>
+                <DraggableHtmlPanel title="🔥 Hydrocarbures" showCloseButton={false} defaultPosition="bottom-center" className="w-[360px] border-orange-500/30 text-white">
+                    {/* MODE SELECTOR */}
+                    <div className="mb-4">
+                        <PhaseSelector currentPhase={mode} onSelect={setMode} />
+                    </div>
+
+                    {/* HEADER INFO */}
+                    <div className="flex justify-between items-end mb-4 pb-2 border-b border-white/10">
+                        <div>
+                            <div className="text-xs text-orange-300 font-bold uppercase tracking-wider mb-1">Module Chimie</div>
+                            <div className="text-xl font-black text-white leading-none">COMBUSTIONS</div>
                         </div>
-                        {mode === 'challenge' && <div className="font-bold text-yellow-400">{score} XP</div>}
+                        <div className="text-right">
+                            <GradeBadge score={score} />
+                        </div>
                     </div>
 
                     {mode === 'explore' ? (
                         <>
-                            <div className="space-y-2 mb-3">
+                            <div className="mb-4">
+                                <MissionObjective objective="Faites brûler des hydrocarbures !" icon="🔥" />
+                            </div>
+
+                            <div className="space-y-2 mb-4">
                                 {Object.entries(fuels).map(([k, f]) => (
-                                    <button key={k} onClick={() => setFuel(k)} className={`w-full p-2 rounded text-left text-sm ${fuel === k ? 'bg-orange-600' : 'bg-gray-800'}`}>
-                                        {f.name}
+                                    <button key={k} onClick={() => setFuel(k)}
+                                        className={`w-full p-3 rounded-lg text-left text-sm transition-all flex justify-between items-center group ${fuel === k ? 'bg-orange-600 shadow-lg shadow-orange-900/30' : 'bg-gray-800 hover:bg-gray-700'}`}>
+                                        <div>
+                                            <div className="font-bold">{f.name}</div>
+                                            <div className="text-xs text-orange-200/70">{f.desc}</div>
+                                        </div>
+                                        {fuel === k && <span className="text-xl">👈</span>}
                                     </button>
                                 ))}
                             </div>
+
                             <button onClick={startBurn} disabled={burning}
-                                className={`w-full py-3 rounded-lg font-bold ${burning ? 'bg-red-500 animate-pulse' : 'bg-orange-600 hover:bg-orange-500'}`}>
-                                {burning ? '🔥 COMBUSTION EN COURS' : '🔥 Allumer'}
+                                className={`w-full py-4 rounded-xl font-bold text-lg shadow-lg transition-all transform active:scale-95 group relative overflow-hidden
+                                    ${burning ? 'bg-red-600 animate-pulse' : 'bg-gradient-to-r from-orange-600 to-red-600 hover:scale-[1.02]'}`}>
+                                <span className="relative z-10 flex items-center justify-center gap-2">
+                                    {burning ? '🔥 COMBUSTION EN COURS' : '🧨 ALLUMER LE FEU'}
+                                </span>
+                                {!burning && <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform" />}
                             </button>
-                            <div className="mt-3 p-2 bg-gray-900 rounded text-xs font-mono text-center">
-                                {fuels[fuel].formula}
+
+                            <div className="mt-4 p-3 bg-gray-900 rounded-lg text-xs font-mono text-center border border-white/10">
+                                <div className="text-gray-500 mb-1">Équation de réaction :</div>
+                                <div className="text-orange-300 font-bold text-sm tracking-wide">{fuels[fuel].formula}</div>
                             </div>
-                            {burning && <div className="mt-2 text-center text-sm">→ CO₂ + H₂O + Énergie 🔥</div>}
+
+                            {burning && (
+                                <div className="mt-2 text-center p-2 bg-orange-500/10 rounded border border-orange-500/20 animate-in fade-in slide-in-from-bottom">
+                                    <div className="text-amber-300 font-bold">Produits : CO₂ + H₂O + Énergie 🔥</div>
+                                </div>
+                            )}
                         </>
                     ) : (
-                        <div className="bg-gray-800 p-3 rounded-xl">
+                        <div className="bg-gray-900/50 p-4 rounded-xl border border-orange-500/30">
+                            <div className="flex justify-between items-center mb-6">
+                                <h3 className="text-orange-300 font-bold flex items-center gap-2">
+                                    <span>🧠</span> Quiz Feu
+                                </h3>
+                                <XPBar current={score} nextLevel={100} />
+                            </div>
+
+                            {!challenge && (
+                                <div className="text-center py-8">
+                                    <button onClick={startChallenge} className="px-6 py-3 bg-orange-600 hover:bg-orange-500 text-white rounded-full font-bold shadow-lg shadow-orange-900/20 transition-all transform hover:scale-105">
+                                        Commencer le Défi
+                                    </button>
+                                </div>
+                            )}
+
                             {challenge && (
-                                <div className="space-y-3">
-                                    <div className="text-sm">{challenge.q}</div>
-                                    {challenge.options.map((opt, idx) => (
-                                        <button key={idx} onClick={() => checkAnswer(idx)} className="w-full text-left p-2 rounded bg-gray-700 hover:bg-gray-600 text-sm">
-                                            {['A', 'B', 'C'][idx]}. {opt}
+                                <div className="space-y-4 animate-in slide-in-from-right duration-300">
+                                    <div className="text-sm font-medium bg-black/20 p-3 rounded-lg border-l-2 border-orange-500">
+                                        {challenge.q}
+                                    </div>
+                                    <div className="space-y-2">
+                                        {challenge.options.map((opt, idx) => (
+                                            <button key={idx} onClick={() => checkAnswer(idx)}
+                                                disabled={challenge.answered}
+                                                className={`w-full text-left p-3 rounded transition-all text-sm flex justify-between items-center
+                                                    ${challenge.answered
+                                                        ? idx === challenge.ans
+                                                            ? 'bg-green-500/20 text-green-300 border border-green-500/50'
+                                                            : 'bg-gray-800/50 text-gray-500'
+                                                        : 'bg-white/5 hover:bg-white/10'
+                                                    }
+                                                `}>
+                                                <span><span className="opacity-50 mr-2">{['A', 'B', 'C'][idx]}.</span> {opt}</span>
+                                                {challenge.answered && idx === challenge.ans && <span>✅</span>}
+                                            </button>
+                                        ))}
+                                    </div>
+                                    {challenge.answered && (
+                                        <button onClick={nextQuestion} className="w-full py-3 bg-gradient-to-r from-orange-600 to-red-600 rounded-lg font-bold shadow-lg mt-4 hover:shadow-orange-500/20 transition-all">
+                                            Suivant →
                                         </button>
-                                    ))}
-                                    {challenge.answered && <button onClick={nextQuestion} className="w-full py-2 bg-purple-600 rounded font-bold">Suivant →</button>}
+                                    )}
                                 </div>
                             )}
                         </div>
