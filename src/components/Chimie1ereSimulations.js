@@ -93,6 +93,9 @@ export function ChimieOrgaGeneralSim() {
         <group>
             <OrbitControls />
 
+            <ambientLight intensity={0.7} />
+            <pointLight position={[10, 10, 10]} intensity={1} />
+
             {/* Scène 3D Améliorée */}
             <Float speed={2} rotationIntensity={0.5} floatIntensity={0.5}>
                 <group ref={groupRef} scale={2}>
@@ -101,7 +104,7 @@ export function ChimieOrgaGeneralSim() {
                         <sphereGeometry args={[ATOM.C.r, 32, 32]} />
                         <meshStandardMaterial color={ATOM.C.color} metalness={0.8} roughness={0.2} />
                     </mesh>
-                    {showLabels && <Text position={[0, 0.6, 0]} fontSize={0.2} color="#00F5D4" font="/fonts/Geist-Black.ttf">C</Text>}
+                    {showLabels && <Text position={[0, 0.6, 0]} fontSize={0.2} color="#00F5D4">C</Text>}
 
                     {/* 4 Hydrogènes avec liaisons holographiques */}
                     {hPos.map((p, i) => (
