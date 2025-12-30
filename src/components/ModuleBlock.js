@@ -5,60 +5,62 @@ import Link from 'next/link';
 export default function ModuleBlock({ href, title, description, accentColor, icon, tag, className = '' }) {
   return (
     <div
-      className={`sci-card group relative block w-full max-w-xl mx-auto p-6 sm:p-10 transition-all duration-500 hover:shadow-[0_0_50px_var(--glow-color)] ${className}`}
+      className={`sci-card group relative block w-full max-w-xl mx-auto p-8 sm:p-12 transition-all duration-700 hover:shadow-[0_0_80px_var(--glow-color)] border border-white/5 hover:border-white/20 overflow-hidden ${className}`}
       style={{
         '--accent-color': accentColor,
-        '--glow-color': `${accentColor}20`
+        '--glow-color': `${accentColor}30`
       }}
     >
-      {/* Background patterns */}
-      <div className="absolute inset-0 bg-gradient-to-br from-white/[0.02] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+      {/* Background Layer Effects */}
+      <div className="absolute inset-0 bg-gradient-to-br from-white/[0.03] via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-1000" />
+      <div className="shimmer-sweep" />
       <div
-        className="absolute inset-0 opacity-5 group-hover:opacity-10 transition-opacity duration-500"
+        className="absolute inset-0 opacity-[0.03] group-hover:opacity-[0.07] transition-opacity duration-1000"
         style={{
-          backgroundImage: `radial-gradient(${accentColor} 1px, transparent 1px)`,
-          backgroundSize: '24px 24px'
+          backgroundImage: `linear-gradient(${accentColor} 1px, transparent 1px), linear-gradient(90deg, ${accentColor} 1px, transparent 1px)`,
+          backgroundSize: '30px 30px'
         }}
       />
 
       <div className="relative z-10 flex flex-col items-center text-center">
-        {/* Tag - if exists */}
+        {/* Dynamic Tag */}
         {tag && (
-          <span className="absolute top-0 right-0 px-3 py-1 text-[10px] font-black uppercase tracking-widest rounded-bl-xl border-l border-b border-white/10 bg-white/5 text-white/50 group-hover:text-white group-hover:border-white/20 transition-all">
-            {tag}
-          </span>
+          <div className="absolute top-0 right-0 overflow-hidden rounded-bl-2xl">
+            <div className="px-4 py-1.5 text-[9px] font-black uppercase tracking-[0.3em] bg-white/5 backdrop-blur-md border-l border-b border-white/10 text-white/40 group-hover:text-white group-hover:bg-white/10 transition-all duration-500">
+              {tag}
+            </div>
+          </div>
         )}
 
-        {/* Dynamic Icon Container */}
+        {/* High-Quality Icon Container */}
         <div
-          className="mb-8 p-5 rounded-[2rem] bg-white/5 backdrop-blur-xl border border-white/10 transition-all duration-700 group-hover:scale-110 group-hover:bg-white/10 group-hover:rotate-[10deg] shadow-2xl relative"
+          className="mb-10 p-6 rounded-[2.5rem] bg-black/40 backdrop-blur-2xl border border-white/10 transition-all duration-1000 group-hover:scale-110 group-hover:rotate-[15deg] group-hover:border-current shadow-[0_0_40px_rgba(0,0,0,0.5)] relative"
           style={{ color: accentColor }}
         >
-          {/* Inner Glow */}
-          <div className="absolute inset-0 bg-current opacity-0 group-hover:opacity-20 blur-2xl transition-opacity" />
-          <div className="relative">
+          {/* Pulsing Aura */}
+          <div className="absolute inset-0 bg-current opacity-10 group-hover:opacity-30 blur-3xl animate-pulse transition-opacity" />
+          <div className="relative filter drop-shadow-[0_0_8px_currentColor]">
             {icon}
           </div>
         </div>
 
         <h3
-          className="text-2xl sm:text-4xl font-black mb-4 text-white uppercase tracking-tighter"
-          style={{ textShadow: `0 0 30px ${accentColor}40` }}
+          className="text-3xl sm:text-5xl font-black mb-4 text-white uppercase tracking-tighter transition-all duration-700 group-hover:tracking-normal group-hover:scale-105"
+          style={{ textShadow: `0 10px 40px ${accentColor}40` }}
         >
           {title}
         </h3>
 
-        <p className="text-gray-400 text-base sm:text-lg font-medium leading-relaxed max-w-sm mb-8 opacity-80 group-hover:opacity-100 transition-opacity">
+        <p className="text-gray-400 text-lg sm:text-xl font-medium leading-relaxed max-w-sm mb-10 opacity-70 group-hover:opacity-100 transition-all duration-700">
           {description}
         </p>
 
-        {/* Action Button Style Footer */}
+        {/* Interactive Button */}
         <div
-          className="px-8 py-3 rounded-full border border-white/10 bg-white/5 text-xs font-black uppercase tracking-[0.2em] flex items-center gap-3 transition-all duration-500 group-hover:bg-white group-hover:text-black group-hover:gap-5"
-          style={{ '--hover-color': accentColor }}
+          className="relative px-12 py-4 rounded-2xl overflow-hidden border border-white/10 bg-white/5 text-[10px] font-black uppercase tracking-[0.4em] flex items-center gap-4 transition-all duration-700 group-hover:bg-white group-hover:text-black group-hover:gap-6 group-hover:scale-105 group-hover:shadow-[0_10px_30px_rgba(255,255,255,0.2)]"
         >
-          <span>Explorer</span>
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <span className="relative z-10">Entrer dans le labo</span>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="relative z-10 transition-transform duration-700 group-hover:translate-x-2">
             <path d="M5 12H19" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
             <path d="M12 5L19 12L12 19" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
           </svg>

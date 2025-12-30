@@ -69,19 +69,21 @@ export default function Home() {
             <div className="noise-overlay" />
 
             {/* HERO SECTION - REFINED */}
-            <section className="center-xy mb-20 sm:mb-32 relative z-10 max-w-5xl mx-auto fade-in-up text-center px-4">
-                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-[#00F5D4]/20 bg-[#00F5D4]/5 backdrop-blur-xl mb-10 group hover:border-[#00F5D4]/50 transition-all duration-500">
-                    <Zap size={14} className="text-[#00F5D4] animate-pulse" />
-                    <span className="text-[10px] sm:text-xs uppercase tracking-[0.3em] font-black text-gray-400 group-hover:text-white transition-colors">Plateforme STEM de Nouvelle Génération</span>
+            <section className="center-xy mb-24 sm:mb-40 relative z-10 max-w-5xl mx-auto fade-in-up text-center px-4">
+                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-[#00F5D4]/20 bg-[#00F5D4]/10 backdrop-blur-3xl mb-12 group hover:border-[#00F5D4]/50 transition-all duration-500 shadow-[0_0_30px_rgba(0,245,212,0.1)]">
+                    <Zap size={16} className="text-[#00F5D4] animate-pulse" />
+                    <span className="text-[10px] sm:text-xs uppercase tracking-[0.4em] font-black text-white/50 group-hover:text-white transition-colors">Système Éducatif de Pointe</span>
                 </div>
 
-                <h1 className="text-7xl sm:text-9xl md:text-[12rem] font-black tracking-tighter leading-none mb-8">
-                    <span className="inline-block text-transparent bg-clip-text bg-gradient-to-b from-white to-white/10 hover:to-white/40 transition-all duration-700">SYM</span>
-                    <span className="inline-block text-transparent bg-clip-text bg-gradient-to-tr from-[#00F5D4] via-white to-[#7C3AED] glow-text">LAB</span>
+                <h1 className="text-8xl sm:text-9xl md:text-[14rem] font-black tracking-tighter leading-none mb-10">
+                    <span className="logo-glitch inline-block">
+                        <span className="text-transparent bg-clip-text bg-gradient-to-b from-white to-white/20">SYM</span>
+                        <span className="text-transparent bg-clip-text bg-gradient-to-tr from-[#00F5D4] via-white to-[#7C3AED] glow-text">LAB</span>
+                    </span>
                 </h1>
 
-                <p className="text-xl sm:text-3xl text-gray-400 font-light max-w-3xl mx-auto leading-tight px-4 opacity-70 hover:opacity-100 transition-opacity duration-700 italic">
-                    L'écosystème numérique <span className="text-white font-bold not-italic">immersif</span> pour les futurs bâtisseurs de demain.
+                <p className="text-2xl sm:text-4xl text-gray-400 font-light max-w-4xl mx-auto leading-tight px-4 opacity-80 hover:opacity-100 transition-opacity duration-1000 italic drop-shadow-lg">
+                    L'écosystème numérique <span className="text-white font-black not-italic border-b-2 border-[#00F5D4]">immersif</span> révolutionnant l'apprentissage scientifique.
                 </p>
 
                 {/* Scroll hint with tech aesthetic */}
