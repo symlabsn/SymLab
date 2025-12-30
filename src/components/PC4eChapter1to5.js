@@ -20,67 +20,74 @@ export function Chap1ScienceIntro() {
     const [step, setStep] = useState(0);
     const [experimentDone, setExperimentDone] = useState(false);
     const [observationLog, setObservationLog] = useState([]);
+    const [phase, setPhase] = useState('explore'); // 'explore' | 'challenge'
+    const [score, setScore] = useState(0);
+    const [showSuccess, setShowSuccess] = useState(false);
+    const [challenge, setChallenge] = useState(null);
 
-    // Refs pour animation
     const groupRef = useRef();
 
     const scenarios = {
         chimie: {
-            title: 'Vinaigre + Bicarbonate',
-            desc: 'Que se passe-t-il lors du mélange ?',
+            id: 'mission-volcan',
+            title: '🌋 L\'Éruption Chimique',
+            desc: 'Découvrez la réaction Acide-Base.',
+            objectives: ['Observer les réactifs', 'Formuler une hypothèse', 'Réaliser le mélange', 'Conclure sur le gaz'],
             steps: [
-                { name: 'Observer', text: 'On a du liquide (Acide) et de la poudre (Base).', color: '#3B82F6' },
-                { name: 'Hypothèse', text: 'Je pense que ça va exploser ou mousser !', color: '#F59E0B' },
-                { name: 'Expérience', text: 'Versons le vinaigre sur la poudre...', color: '#10B981', action: 'Verser' },
-                { name: 'Conclusion', text: 'Une réaction chimique crée du gaz (CO₂).', color: '#8B5CF6' }
+                { name: 'Observer', text: 'On a du vinaigre (Acide) et du bicarbonate (Base).', color: '#3B82F6', icon: '🔍' },
+                { name: 'Hypothèse', text: 'Je pense que le mélange va produire une mousse effervescente !', color: '#F59E0B', icon: '💡' },
+                { name: 'Expérience', text: 'Mélangeons les poudres avec le liquide...', color: '#10B981', action: 'Lancer Réaction', icon: '🧪' },
+                { name: 'Conclusion', text: 'Une réaction chimique a eu lieu, créant du dioxyde de carbone (CO₂).', color: '#8B5CF6', icon: '✅' }
             ],
-            color: '#60A5FA'
+            color: '#ef4444'
         },
         plante: {
-            title: 'Plante & Lumière',
+            id: 'mission-vie',
+            title: '🌿 Le Secret de la Croissance',
             desc: 'De quoi la plante a-t-elle besoin ?',
+            objectives: ['Observer la plante saine', 'Hypothèse sur la lumière', 'Priver de lumière', 'Conclure sur la photosynthèse'],
             steps: [
-                { name: 'Observer', text: 'La plante est verte et vivante.', color: '#22C55E' },
-                { name: 'Hypothèse', text: 'Sans lumière, elle va mourir.', color: '#F59E0B' },
-                { name: 'Expérience', text: 'Cachons la plante sous une boîte noire...', color: '#10B981', action: 'Cacher' },
-                { name: 'Conclusion', text: 'La photosynthèse nécessite de la lumière.', color: '#8B5CF6' }
+                { name: 'Observer', text: 'La plante est verte et en pleine santé.', color: '#22C55E', icon: '🔍' },
+                { name: 'Hypothèse', text: 'Sans lumière, la plante ne pourra pas se nourrir.', color: '#F59E0B', icon: '💡' },
+                { name: 'Expérience', text: 'Plaçons la plante dans une boîte noire...', color: '#10B981', action: 'Mettre sous boîte', icon: '📦' },
+                { name: 'Conclusion', text: 'La lumière est indispensable à la survie du végétal.', color: '#8B5CF6', icon: '✅' }
             ],
-            color: '#4ADE80'
+            color: '#22c55e'
         },
         flotte: {
-            title: 'Œuf & Eau Salée',
-            desc: 'Pourquoi l\'œuf flotte-t-il parfois ?',
+            id: 'mission-mer',
+            title: '⚓ Le Mystère de Flottaison',
+            desc: 'Pourquoi certains objets flottent-ils ?',
+            objectives: ['Observer l\'œuf qui coule', 'Hypothèse sur le sel', 'Ajouter du sel', 'Conclure sur la densité'],
             steps: [
-                { name: 'Observer', text: 'L\'œuf coule dans l\'eau du robinet.', color: '#3B82F6' },
-                { name: 'Hypothèse', text: 'Le sel rend l\'eau plus "porteuse" (dense).', color: '#F59E0B' },
-                { name: 'Expérience', text: 'Ajoutons beaucoup de sel dans l\'eau...', color: '#10B981', action: 'Saler' },
-                { name: 'Conclusion', text: 'L\'eau salée est plus dense que l\'œuf.', color: '#8B5CF6' }
+                { name: 'Observer', text: 'L\'œuf coule directement au fond de l\'eau douce.', color: '#3B82F6', icon: '🔍' },
+                { name: 'Hypothèse', text: 'L\'ajout de sel va augmenter la poussée de l\'eau.', color: '#F59E0B', icon: '💡' },
+                { name: 'Expérience', text: 'Versons le sel dans le bécher...', color: '#10B981', action: 'Saler l\'eau', icon: '🧂' },
+                { name: 'Conclusion', text: 'L\'eau salée est plus dense et fait flotter l\'œuf.', color: '#8B5CF6', icon: '✅' }
             ],
-            color: '#A78BFA'
+            color: '#3b82f6'
         }
     };
 
     const currentScenario = scenarios[scenario];
 
     const handleNextStep = () => {
-        if (step < 3) setStep(step + 1);
-        if (step === 1) setExperimentDone(true); // Lance l'anim au moment de l'expérience
+        if (step < 3) {
+            setStep(s => s + 1);
+            if (step === 1) setExperimentDone(true);
+            setObservationLog(prev => [...prev, currentScenario.steps[step].text]);
+        }
     };
 
-    const [mode, setMode] = useState('explore'); // 'explore' | 'challenge'
-    const [challenge, setChallenge] = useState(null);
-    const [score, setScore] = useState(0);
-    const [showSuccess, setShowSuccess] = useState(false);
-
     const challenges = [
-        { q: "Quelle est la 1ère étape de la démarche ?", options: ["Hypothèse", "Observation", "Conclusion"], ans: 1 },
-        { q: "L'hypothèse est...", options: ["Une certitude", "Une supposition", "Un fait"], ans: 1 },
-        { q: "Pour valider une idée, il faut...", options: ["Expérimenter", "Deviner", "Attendre"], ans: 0 },
-        { q: "Si l'expérience échoue, je...", options: ["Abandonne", "Change les faits", "Revois mon hypothèse"], ans: 2 }
+        { q: "Quelle étape consiste à proposer une explication ?", options: ["Analyse", "Hypothèse", "Expérience"], ans: 1 },
+        { q: "L'observation se fait généralement avec...", options: ["Les yeux", "Le hasard", "La conclusion"], ans: 0 },
+        { q: "Une expérience sert à vérifier...", options: ["Le titre", "La météo", "L'hypothèse"], ans: 2 },
+        { q: "La conclusion vient...", options: ["Au début", "Après l'analyse", "Avant l'hypothèse"], ans: 1 }
     ];
 
     const startChallenge = () => {
-        setMode('challenge');
+        setPhase('challenge');
         setScore(0);
         nextQuestion();
     };
@@ -94,121 +101,132 @@ export function Chap1ScienceIntro() {
     const checkAnswer = (idx) => {
         if (!challenge) return;
         if (idx === challenge.ans) {
-            setScore(s => s + 20);
+            setScore(s => s + 25);
             setShowSuccess(true);
-            // Auto next after delay handled by user clicking "Next" in success overlay or similar
         } else {
-            // Wrong answer feedback?
-            alert("Ce n'est pas la bonne réponse, essaie encore !");
+            alert("Réessaie, ce n'est pas tout à fait ça !");
         }
     };
 
     const reset = () => {
         setStep(0);
         setExperimentDone(false);
+        setObservationLog([]);
     };
 
     return (
         <group ref={groupRef}>
-
-
             <Html transform={false}>
-                <DraggableHtmlPanel title="🔬 Démarche Scientifique" showCloseButton={false} defaultPosition="bottom-center" className="w-[400px] border-blue-500/30 text-white">
-                    {/* Header Controls */}
-                    <div className="flex justify-between items-center mb-4 border-b border-white/10 pb-2">
-                        <div className="flex gap-2">
-                            <button onClick={() => setMode('explore')} className={`text-xs px-2 py-1 rounded ${mode === 'explore' ? 'bg-blue-600' : 'bg-gray-700'}`}>Exploration</button>
-                            <button onClick={startChallenge} className={`text-xs px-2 py-1 rounded ${mode === 'challenge' ? 'bg-purple-600' : 'bg-gray-700'}`}>Quiz Défi 🏆</button>
-                        </div>
-                        {mode === 'explore' && <button onClick={reset} className="text-xs px-2 py-1 bg-white/10 rounded hover:bg-white/20">🔄 Reset</button>}
-                        {mode === 'challenge' && <div className="font-bold text-yellow-400">{score} XP</div>}
+                <DraggableHtmlPanel title="🔬 Mission: Démarche Scientifique" showCloseButton={false} defaultPosition="bottom-center" className="w-[420px] border-blue-500/30 text-white">
+                    <div className="mb-4">
+                        <PhaseSelector currentPhase={phase} onSelect={(p) => { setPhase(p); if (p === 'challenge') startChallenge(); }} />
                     </div>
 
-                    {mode === 'explore' ? (
+                    <div className="flex justify-between items-center mb-4 border-b border-white/10 pb-2">
+                        <div className="flex flex-col">
+                            <span className="text-[10px] text-blue-400 font-bold tracking-widest uppercase leading-tight">Expert Scientifique</span>
+                            <span className="text-lg font-black tracking-tight">{currentScenario.title}</span>
+                        </div>
+                        <GradeBadge score={score} />
+                    </div>
+
+                    {phase === 'explore' ? (
                         <>
-                            {/* Choix du scénario */}
-                            <div className="grid grid-cols-3 gap-2 mb-6">
+                            <div className="grid grid-cols-3 gap-2 mb-4">
                                 {Object.entries(scenarios).map(([key, sc]) => (
                                     <button key={key} onClick={() => { setScenario(key); reset(); }}
-                                        className={`p-2 rounded-lg text-xs font-bold transition-all ${scenario === key ? 'bg-blue-600 ring-2 ring-white' : 'bg-gray-800 hover:bg-gray-700'}`}>
-                                        {key === 'chimie' && '🧪 Chimie'}
-                                        {key === 'plante' && '🌿 SVT'}
-                                        {key === 'flotte' && '🥚 Densité'}
+                                        className={`py-2 rounded-xl text-[10px] font-black transition-all border-2 ${scenario === key ? 'bg-blue-600 border-white shadow-lg' : 'bg-gray-800 border-transparent hover:bg-gray-700'}`}>
+                                        {key.toUpperCase()}
                                     </button>
                                 ))}
                             </div>
 
-                            {/* Étapes de la démarche */}
-                            <div className="space-y-4">
-                                <div className="flex justify-between text-xs font-mono text-gray-400 mb-2">
-                                    <span>ÉTAPE {step + 1}/4</span>
-                                    <span>{currentScenario.steps[step].name.toUpperCase()}</span>
-                                </div>
+                            <MissionObjective objective={currentScenario.objectives[step]} icon={currentScenario.steps[step].icon} />
 
-                                <div className="bg-gray-900/80 p-4 rounded-xl border border-white/5 min-h-[80px] flex items-center justify-center text-center">
-                                    <p className="text-lg font-medium" style={{ color: currentScenario.steps[step].color }}>
-                                        {currentScenario.steps[step].text}
-                                    </p>
-                                </div>
+                            <div className="mt-4 bg-black/40 p-4 rounded-xl border border-white/5 min-h-[100px] flex flex-col justify-center relative overflow-hidden">
+                                <div className="absolute top-2 right-2 text-[10px] font-mono text-gray-600">STEP {step + 1}/4</div>
+                                <p className="text-base font-medium leading-relaxed" style={{ color: currentScenario.steps[step].color }}>
+                                    {currentScenario.steps[step].text}
+                                </p>
+                            </div>
 
-                                {/* Barre de progression */}
-                                <div className="flex gap-1 h-2 mb-4">
-                                    {[0, 1, 2, 3].map(i => (
-                                        <div key={i} className={`flex-1 rounded-full transition-colors duration-500 ${i <= step ? 'bg-blue-500' : 'bg-gray-800'}`} />
-                                    ))}
-                                </div>
+                            {/* Progress bar with labels */}
+                            <div className="mt-4 flex gap-1 h-1.5">
+                                {[0, 1, 2, 3].map(i => (
+                                    <div key={i} className={`flex-1 rounded-full transition-all duration-500 ${i <= step ? 'bg-blue-500 shadow-[0_0_8px_rgba(59,130,246,0.5)]' : 'bg-gray-800'}`} />
+                                ))}
+                            </div>
 
+                            <div className="mt-6">
                                 {step < 3 ? (
                                     <button onClick={handleNextStep}
-                                        className="w-full py-4 rounded-xl font-bold text-lg shadow-lg transform transition-all hover:scale-105 active:scale-95"
+                                        className="w-full py-4 rounded-xl font-black text-lg shadow-xl transform transition-all hover:scale-[1.02] active:scale-95 flex items-center justify-center gap-3"
                                         style={{ backgroundColor: currentScenario.steps[step].color, color: 'black' }}>
-                                        {step === 2 ? `🚀 ${currentScenario.steps[step].action}` : 'Suivant ➡️'}
+                                        {step === 2 ? `🚀 ${currentScenario.steps[step].action.toUpperCase()}` : 'Étape Suivante ➡️'}
                                     </button>
                                 ) : (
-                                    <div className="p-3 bg-green-500/20 rounded-xl border border-green-500/50 text-center">
-                                        <div className="text-3xl mb-2">🎉</div>
-                                        <div className="font-bold text-green-400">Conclusion Validée !</div>
+                                    <div className="p-4 bg-green-500/20 rounded-xl border border-green-500/50 text-center animate-in zoom-in">
+                                        <div className="text-4xl mb-2">🎉</div>
+                                        <div className="font-black text-green-400 uppercase tracking-widest text-sm mb-1">Mission Accomplie !</div>
+                                        <div className="text-xs text-green-200/70 italic">Vous avez validé la démarche scientifique.</div>
+                                        <button onClick={reset} className="mt-3 text-xs text-white/50 hover:text-white underline font-bold">Refaire la mission</button>
                                     </div>
                                 )}
                             </div>
-                        </>
-                    ) : (
-                        <div className="bg-gray-800 p-4 rounded-xl border border-purple-500/50">
-                            <h3 className="text-purple-300 font-bold mb-4 flex items-center gap-2">
-                                <span>🧠</span> Quiz Scientifique
-                            </h3>
-                            {challenge && (
-                                <div className="space-y-4">
-                                    <div className="text-sm font-medium">{challenge.q}</div>
-                                    <div className="space-y-2">
-                                        {challenge.options.map((opt, idx) => (
-                                            <button key={idx} onClick={() => checkAnswer(idx)}
-                                                className="w-full text-left p-3 rounded bg-gray-700 hover:bg-gray-600 transition-colors text-sm">
-                                                {['A', 'B', 'C'][idx]}. {opt}
-                                            </button>
+
+                            {/* Logbook snippet */}
+                            {observationLog.length > 0 && (
+                                <div className="mt-4 p-3 bg-white/5 rounded-lg border border-white/10">
+                                    <div className="text-[10px] text-gray-500 font-bold uppercase mb-2">Journal d'observation</div>
+                                    <div className="space-y-1">
+                                        {observationLog.map((log, i) => (
+                                            <div key={i} className="text-[10px] text-blue-300 flex items-start gap-2">
+                                                <span>•</span> <span className="truncate">{log}</span>
+                                            </div>
                                         ))}
                                     </div>
                                 </div>
                             )}
+                        </>
+                    ) : (
+                        <div className="space-y-6">
+                            <XPBar current={score} nextLevel={100} />
+                            <div className="bg-gray-900/80 p-5 rounded-2xl border border-blue-500/30 shadow-2xl">
+                                <h3 className="text-blue-300 font-black mb-4 flex items-center gap-2 text-sm uppercase tracking-wider">
+                                    <span>🧠</span> Évaluation des connaissances
+                                </h3>
+                                {challenge && (
+                                    <div className="space-y-5">
+                                        <div className="text-lg font-bold leading-tight">{challenge.q}</div>
+                                        <div className="grid gap-3">
+                                            {challenge.options.map((opt, idx) => (
+                                                <button key={idx} onClick={() => checkAnswer(idx)}
+                                                    className="w-full text-left p-4 rounded-xl bg-white/5 hover:bg-blue-600/20 border border-white/10 hover:border-blue-500/50 transition-all text-sm font-medium group">
+                                                    <span className="opacity-0 group-hover:opacity-100 mr-2 transition-opacity">➡️</span>
+                                                    {opt}
+                                                </button>
+                                            ))}
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
                         </div>
                     )}
                 </DraggableHtmlPanel>
             </Html>
 
-
-
-            <Text position={[0, 3.5, 0]} fontSize={0.5} anchorX="center" color="white" outlineWidth={0.02} outlineColor="black">
-                {currentScenario.title.toUpperCase()}
+            <Text position={[0, 4, 0]} fontSize={0.3} anchorX="center" color="white" font="/fonts/Inter-Bold.ttf">
+                MISSION : {currentScenario.id.toUpperCase()}
             </Text>
 
-            {/* SCÈNE 3D DYNAMIQUE SELON SCÉNARIO */}
+            {/* SCÈNE 3D DYNAMIQUE */}
             <group position={[0, -1, 0]}>
                 {scenario === 'chimie' && <ChimieScene active={experimentDone && step >= 2} />}
                 {scenario === 'plante' && <PlanteScene active={experimentDone && step >= 2} step={step} />}
                 {scenario === 'flotte' && <FlotteScene active={experimentDone && step >= 2} />}
             </group>
 
-            <SuccessOverlay show={showSuccess} message="Bonne réponse ! Continue comme ça !" points={20} onNext={nextQuestion} />
+            <SuccessOverlay show={showSuccess} message="Analyse Correcte !" points={25} onNext={nextQuestion} />
             <ConfettiExplosion active={showSuccess} />
         </group>
     );
@@ -350,27 +368,31 @@ export function Chap2Mesures() {
     const [tool, setTool] = useState('ruler');
     const [object, setObject] = useState('block');
     const [measurement, setMeasurement] = useState(null);
-    const [precision, setPrecision] = useState(false); // Mode précision
-
-    // Mode Défi
-    const [mode, setMode] = useState('explore');
-    const [mission, setMission] = useState(null); // { target: X, unit: 'g', type: 'mass' }
+    const [precision, setPrecision] = useState(false);
+    const [phase, setPhase] = useState('explore');
+    const [mission, setMission] = useState(null);
     const [score, setScore] = useState(0);
     const [showSuccess, setShowSuccess] = useState(false);
 
     const tools = {
-        ruler: { name: 'Règle', unit: 'cm', color: '#F59E0B', error: 0.1 },
-        balance: { name: 'Balance', unit: 'g', color: '#3B82F6', error: 0.5 },
-        cylinder: { name: 'Éprouvette', unit: 'mL', color: '#10B981', error: 1 },
-        chrono: { name: 'Chronomètre', unit: 's', color: '#8B5CF6', error: 0.01 }
+        ruler: { name: 'Règle', unit: 'cm', color: '#F59E0B', error: 0.1, icon: '📏' },
+        balance: { name: 'Balance', unit: 'g', color: '#3B82F6', error: 0.5, icon: '⚖️' },
+        cylinder: { name: 'Éprouvette', unit: 'mL', color: '#10B981', error: 1, icon: '🧪' },
+        chrono: { name: 'Chrono', unit: 's', color: '#8B5CF6', error: 0.01, icon: '⏱️' }
     };
 
     const objects = {
-        block: { name: 'Bloc de Bois', dim: 12.5, mass: 150, vol: 250 },
-        apple: { name: 'Pomme', dim: 8.2, mass: 120, vol: 130 },
-        key: { name: 'Clé en Fer', dim: 5.5, mass: 25, vol: 3.2 },
-        water: { name: 'Eau (100mL)', dim: 10, mass: 100, vol: 100 } // Spécial éprouvette
+        block: { name: 'Bloc de Bois', dim: 12.5, mass: 150, vol: 250, color: '#92400E' },
+        apple: { name: 'Pomme Rouge', dim: 8.2, mass: 120, vol: 130, color: '#EF4444' },
+        key: { name: 'Clé en Fer', dim: 5.5, mass: 25, vol: 3.2, color: '#9CA3AF' },
+        water: { name: 'Fiole d\'Eau', dim: 10, mass: 100, vol: 100, color: '#3B82F6' }
     };
+
+    const missions = [
+        { id: 'archéo', text: "Trouve un objet de ~150 g", target: 150, tolerance: 5, unit: 'g', icon: '🏺', color: '#fbbf24' },
+        { id: 'bricolage', text: "Mesure un objet de ~12.5 cm", target: 12.5, tolerance: 0.5, unit: 'cm', icon: '🔨', color: '#60a5fa' },
+        { id: 'chimie', text: "Isole exactement 100 mL", target: 100, tolerance: 2, unit: 'mL', icon: '🧪', color: '#34d399' },
+    ];
 
     const handleMeasure = () => {
         const obj = objects[object];
@@ -378,136 +400,172 @@ export function Chap2Mesures() {
         if (tool === 'ruler') baseVal = obj.dim;
         if (tool === 'balance') baseVal = obj.mass;
         if (tool === 'cylinder') baseVal = obj.vol;
-        if (tool === 'chrono') baseVal = 10.5; // Temps de chute fictif
+        if (tool === 'chrono') baseVal = 10.5;
 
-        // Simulation d'erreur réaliste
         const errorMargin = precision ? tools[tool].error / 2 : tools[tool].error * 2;
         const randomError = (Math.random() - 0.5) * errorMargin;
         const val = parseFloat((baseVal + randomError).toFixed(precision ? 2 : 1));
         setMeasurement(val);
 
-        if (mode === 'challenge' && mission) {
-            checkMission(val, obj, tools[tool].unit);
+        if (phase === 'challenge' && mission) {
+            if (tools[tool].unit === mission.unit && Math.abs(val - mission.target) <= mission.tolerance) {
+                setScore(s => s + 50);
+                setShowSuccess(true);
+            }
         }
     };
 
-    const startMission = () => {
-        const missions = [
-            { text: "Trouve un objet de ~150 g", target: 150, tolerance: 5, unit: 'g' },
-            { text: "Trouve un objet de ~12.5 cm", target: 12.5, tolerance: 0.5, unit: 'cm' },
-            { text: "Mesure 100 mL de liquide", target: 100, tolerance: 5, unit: 'mL' },
-        ];
+    const nextMission = () => {
         const m = missions[Math.floor(Math.random() * missions.length)];
         setMission(m);
-        setMode('challenge');
         setShowSuccess(false);
         setMeasurement(null);
     };
 
-    const checkMission = (val, obj, unit) => {
-        if (!mission) return;
-        // Check unit matching
-        if (unit !== mission.unit) return; // Wrong tool
-
-        if (Math.abs(val - mission.target) <= mission.tolerance) {
-            setScore(s => s + 50);
-            setShowSuccess(true);
-        }
+    const startChallenge = () => {
+        setPhase('challenge');
+        nextMission();
     };
 
     return (
         <group>
-
             <Html transform={false}>
-                <DraggableHtmlPanel title="📏 Laboratoire de Mesure" showCloseButton={false} defaultPosition="bottom-center" className="w-[380px] border-cyan-500/30 text-white">
-
-                    {/* Choix Objet */}
+                <DraggableHtmlPanel title="📏 Expert en Mesures" showCloseButton={false} defaultPosition="bottom-center" className="w-[400px] border-cyan-500/30 text-white">
                     <div className="mb-4">
-                        <label className="text-xs text-gray-400 uppercase font-bold">1. Choisir l'objet</label>
-                        <div className="grid grid-cols-2 gap-2 mt-1">
-                            {Object.entries(objects).map(([k, o]) => (
-                                <button key={k} onClick={() => { setObject(k); setMeasurement(null); }}
-                                    className={`px-3 py-2 rounded-lg text-sm text-left ${object === k ? 'bg-cyan-600 text-white' : 'bg-gray-800 text-gray-400'}`}>
-                                    {o.name}
-                                </button>
-                            ))}
+                        <PhaseSelector currentPhase={phase} onSelect={(p) => p === 'challenge' ? startChallenge() : setPhase('explore')} />
+                    </div>
+
+                    <div className="flex justify-between items-center mb-4 border-b border-white/10 pb-2">
+                        <div className="flex flex-col">
+                            <span className="text-[10px] text-cyan-400 font-bold uppercase tracking-widest leading-tight">Contrôle Labo</span>
+                            <span className="text-lg font-black">{phase === 'explore' ? 'Exploration Libre' : 'Mission : ' + mission?.id.toUpperCase()}</span>
                         </div>
+                        <GradeBadge score={score} />
                     </div>
 
-                    {/* Choix Outil */}
-                    <div className="mb-4">
-                        <label className="text-xs text-gray-400 uppercase font-bold">2. Choisir l'instrument</label>
-                        <div className="flex gap-2 mt-1 overflow-x-auto pb-2">
-                            {Object.entries(tools).map(([k, t]) => (
-                                <button key={k} onClick={() => { setTool(k); setMeasurement(null); }}
-                                    className={`flex-shrink-0 px-3 py-2 rounded-lg text-sm font-bold ${tool === k ? 'bg-white text-black' : 'bg-gray-800 text-gray-400'}`}
-                                    style={{ borderBottom: tool === k ? `4px solid ${t.color}` : 'none' }}>
-                                    {t.name}
-                                </button>
-                            ))}
+                    {phase === 'explore' ? (
+                        <div className="space-y-4">
+                            <div>
+                                <label className="text-[10px] text-gray-500 font-bold uppercase mb-2 block">1. Objet d'étude</label>
+                                <div className="grid grid-cols-2 gap-2">
+                                    {Object.entries(objects).map(([k, o]) => (
+                                        <button key={k} onClick={() => { setObject(k); setMeasurement(null); }}
+                                            className={`px-3 py-2 rounded-xl text-xs font-black transition-all border-2 ${object === k ? 'bg-cyan-600 border-white shadow-lg' : 'bg-gray-800 border-transparent hover:bg-gray-700'}`}>
+                                            {o.name}
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+
+                            <div>
+                                <label className="text-[10px] text-gray-500 font-bold uppercase mb-2 block">2. Instrument</label>
+                                <div className="grid grid-cols-4 gap-2">
+                                    {Object.entries(tools).map(([k, t]) => (
+                                        <button key={k} onClick={() => { setTool(k); setMeasurement(null); }}
+                                            className={`p-2 rounded-xl flex flex-col items-center gap-1 transition-all border-2 ${tool === k ? 'bg-white text-black border-cyan-400 scale-105 shadow-xl' : 'bg-gray-800 text-gray-400 border-transparent hover:bg-gray-750'}`}>
+                                            <span className="text-xl">{t.icon}</span>
+                                            <span className="text-[8px] uppercase font-black">{t.name}</span>
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
                         </div>
-                    </div>
+                    ) : (
+                        <div className="space-y-4">
+                            {mission && <MissionObjective objective={mission.text} icon={mission.icon} />}
+                        </div>
+                    )}
 
-                    <div className="flex items-center gap-2 mb-4">
-                        <input type="checkbox" checked={precision} onChange={() => setPrecision(!precision)} className="w-4 h-4" />
-                        <span className="text-sm text-gray-300">Mode Précision (Instrument Pro)</span>
-                    </div>
+                    <div className="mt-4 p-4 bg-black/40 rounded-xl border border-white/5">
+                        <div className="flex items-center justify-between mb-2">
+                            <div className="flex items-center gap-2">
+                                <input type="checkbox" checked={precision} onChange={() => setPrecision(!precision)}
+                                    className="w-4 h-4 rounded bg-gray-800 border-gray-700 text-cyan-500 focus:ring-cyan-500" />
+                                <span className="text-xs font-bold text-gray-300">Mode Haute Précision</span>
+                            </div>
+                            <span className="text-[10px] font-mono text-gray-500">± {precision ? tools[tool].error / 2 : tools[tool].error * 2} {tools[tool].unit}</span>
+                        </div>
 
-                    <button onClick={handleMeasure} className="w-full py-4 rounded-xl font-bold text-lg bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 shadow-lg transition-all">
-                        MESURER
-                    </button>
+                        <button onClick={handleMeasure}
+                            className="w-full py-4 rounded-xl font-black text-lg bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 shadow-[0_0_20px_rgba(8,145,178,0.3)] transform transition-active group">
+                            MESURER L'OBJET
+                            <span className="ml-2 transition-transform group-hover:translate-x-1 inline-block">➡️</span>
+                        </button>
+                    </div>
 
                     {measurement && (
-                        <div className="mt-4 p-4 bg-white/10 rounded-xl border border-white/20 text-center animate-in zoom-in duration-300">
-                            <div className="text-xs text-gray-400 uppercase">Résultat</div>
-                            <div className="text-4xl font-mono font-bold text-cyan-300 my-2">
-                                {measurement} <span className="text-xl">{tools[tool].unit}</span>
-                            </div>
-                            <div className="text-xs text-red-300">
-                                Incertitude: ± {tools[tool].error} {tools[tool].unit}
+                        <div className="mt-4 p-5 bg-cyan-950/30 rounded-2xl border border-cyan-500/40 text-center animate-in zoom-in slide-in-from-bottom-2 duration-300">
+                            <div className="text-[10px] text-cyan-400 font-black uppercase tracking-[0.2em] mb-1">Affichage Digital</div>
+                            <div className="text-5xl font-mono font-black text-white drop-shadow-[0_0_15px_rgba(255,255,255,0.3)]">
+                                {measurement} <span className="text-2xl text-cyan-400">{tools[tool].unit}</span>
                             </div>
                         </div>
                     )}
                 </DraggableHtmlPanel>
             </Html>
 
+            <XPBar current={score % 100} nextLevel={100} />
 
-            <Text position={[0, 4, 0]} fontSize={0.6} color="#22D3EE" anchorX="center">MESURES & INCERTITUDES</Text>
+            <Text position={[0, 4, 0]} fontSize={0.4} color="#22D3EE" font="/fonts/Inter-Bold.ttf" outlineWidth={0.02} outlineColor="black">
+                LABO DE MÉTROLOGIE
+            </Text>
 
             {/* Visualisation 3D */}
             <group position={[0, -1, 0]}>
-                {/* Objet affiché */}
+                {/* L'Objet */}
                 <group position={[0, 0.5, 0]}>
-                    {object === 'block' && <Box args={[2, 2, 2]} material-color="#92400E" />}
-                    {object === 'apple' && <Sphere args={[1]} material-color="#EF4444" />}
-                    {object === 'key' && <Box args={[0.5, 0.2, 1.5]} material-color="#9CA3AF" />}
-                    {object === 'water' && (
-                        <group>
-                            <Cylinder args={[1, 1, 2, 32]} material-color="#3B82F6" material-transparent material-opacity={0.6} />
-                            <Cylinder args={[1.1, 1.1, 2.1, 32, 1, true]} material-color="white" material-transparent material-opacity={0.3} />
-                        </group>
-                    )}
+                    <Float speed={2} rotationIntensity={0.5} floatIntensity={0.5}>
+                        {object === 'block' && <Box args={[2, 2, 2]}><meshStandardMaterial color={objects.block.color} roughness={0.7} /></Box>}
+                        {object === 'apple' && <Sphere args={[0.8, 32, 32]}><meshStandardMaterial color={objects.apple.color} roughness={0.3} /></Sphere>}
+                        {object === 'key' && <Box args={[0.8, 0.2, 1.8]}><meshStandardMaterial color={objects.key.color} metalness={0.8} roughness={0.2} /></Box>}
+                        {object === 'water' && (
+                            <group>
+                                <Cylinder args={[0.7, 0.7, 2, 32]} position={[0, 0, 0]}>
+                                    <meshPhysicalMaterial color="#3B82F6" transmission={0.5} opacity={0.6} transparent roughness={0} />
+                                </Cylinder>
+                                <Cylinder args={[0.75, 0.75, 2.1, 32, 1, true]}>
+                                    <meshPhysicalMaterial color="white" transmission={0.9} opacity={0.3} transparent thickness={0.2} />
+                                </Cylinder>
+                            </group>
+                        )}
+                    </Float>
                 </group>
 
-                {/* Instrument affiché */}
+                {/* Instrument */}
                 <group position={[-3, 0.5, 0]}>
                     {tool === 'ruler' && (
-                        <group rotation={[0, 0, Math.PI / 2]}>
-                            <Box args={[4, 0.5, 0.1]} material-color="#F59E0B" />
-                            <Text position={[-1.5, 0, 0.1]} fontSize={0.2} color="black">0</Text>
-                            <Text position={[1.5, 0, 0.1]} fontSize={0.2} color="black">30</Text>
+                        <group rotation={[0, 0, Math.PI / 2]} position={[2, 0, 1.2]}>
+                            <Box args={[5, 0.5, 0.1]}><meshStandardMaterial color="#F59E0B" /></Box>
+                            {Array.from({ length: 11 }).map((_, i) => (
+                                <group key={i} position={[-2.5 + i * 0.5, 0.25, 0.06]}>
+                                    <Box args={[0.02, 0.1, 0.01]} material-color="black" />
+                                    {i % 2 === 0 && <Text position={[0, 0.15, 0]} fontSize={0.1} color="black">{i * 5}</Text>}
+                                </group>
+                            ))}
                         </group>
                     )}
+
                     {tool === 'balance' && (
-                        <group position={[3, -1.5, 0]}> {/* Balance sous l'objet */}
-                            <Box args={[4, 0.2, 3]} material-color="#1F2937" />
-                            <Text position={[0, 0.11, 1]} rotation={[-Math.PI / 2, 0, 0]} fontSize={0.3} color="red">
-                                {measurement ? measurement : '00.0'}
+                        <group position={[3, -1.2, 0]}>
+                            <Box args={[3.5, 0.4, 3]}><meshStandardMaterial color="#1f2937" /></Box>
+                            <Box args={[3.2, 0.1, 2.8]} position={[0, 0.25, 0]}><meshStandardMaterial color="#9ca3af" metalness={0.8} /></Box>
+                            <Text position={[0, 0.1, 1.2]} rotation={[-Math.PI / 2, 0, 0]} fontSize={0.4} color="#00ff00" font="/fonts/Digital.ttf">
+                                {measurement && tool === 'balance' ? measurement : '0.00'}
                             </Text>
+                        </group>
+                    )}
+
+                    {tool === 'cylinder' && (
+                        <group position={[3, 0.5, 0]}>
+                            <Cylinder args={[0.8, 0.8, 3, 32, 1, true]}><meshPhysicalMaterial color="white" transmission={0.9} opacity={0.2} transparent /></Cylinder>
+                            <Cylinder args={[0.78, 0.78, 1.5, 32]} position={[0, -0.75, 0]}><meshStandardMaterial color="#3b82f6" opacity={0.6} transparent /></Cylinder>
                         </group>
                     )}
                 </group>
             </group>
+
+            <SuccessOverlay show={showSuccess} message="Mesure Précise !" points={50} onNext={nextMission} />
+            <ConfettiExplosion active={showSuccess} />
         </group>
     );
 }
@@ -519,41 +577,36 @@ export function Chap3Densite() {
     const [liquid, setLiquid] = useState('water');
     const [object, setObject] = useState('wood');
     const [showForces, setShowForces] = useState(false);
-
-    // Mode Défi
-    const [mode, setMode] = useState('explore'); // explore, challenge
-    const [mysteryMaterial, setMysteryMaterial] = useState(null); // 'gold', 'iron', etc.
+    const [mode, setMode] = useState('explore');
+    const [mysteryMaterial, setMysteryMaterial] = useState(null);
     const [score, setScore] = useState(0);
     const [showSuccess, setShowSuccess] = useState(false);
+    const [history, setHistory] = useState([]);
 
-    // Données physiques
     const liquids = {
-        water: { name: 'Eau', density: 1.0, color: '#3B82F6' },
-        oil: { name: 'Huile', density: 0.9, color: '#FBBF24' },
-        honey: { name: 'Miel', density: 1.4, color: '#D97706' },
-        mercury: { name: 'Mercure', density: 13.6, color: '#9CA3AF' }
+        water: { name: 'Eau Distillée', density: 1.0, color: '#3B82F6', icon: '💧' },
+        oil: { name: 'Huile Végétale', density: 0.9, color: '#FBBF24', icon: '🌻' },
+        honey: { name: 'Miel Liquide', density: 1.4, color: '#D97706', icon: '🍯' },
+        mercury: { name: 'Mercure Pur', density: 13.6, color: '#9CA3AF', icon: '🧪' }
     };
 
     const objects = {
-        wood: { name: 'Bois', density: 0.6, color: '#92400E' },
-        ice: { name: 'Glaçon', density: 0.92, color: '#A5F3FC' },
-        plastic: { name: 'Plastique', density: 1.1, color: '#EF4444' },
-        iron: { name: 'Fer', density: 7.8, color: '#4B5563' },
-        gold: { name: 'Or', density: 19.3, color: '#FFD700' }
+        wood: { name: 'Bois Chêne', density: 0.6, color: '#92400E', icon: '🪵' },
+        ice: { name: 'Glace Vive', density: 0.92, color: '#A5F3FC', icon: '🧊' },
+        plastic: { name: 'PVC Rouge', density: 1.1, color: '#EF4444', icon: '🔴' },
+        iron: { name: 'Acier Brut', density: 7.8, color: '#4B5563', icon: '🔩' },
+        gold: { name: 'Or Pur', density: 19.3, color: '#FFD700', icon: '👑' }
     };
 
-    // Mode Challenge Setup
     const startDetective = () => {
         const mats = Object.keys(objects);
         const secret = mats[Math.floor(Math.random() * mats.length)];
-        setMysteryMaterial(secret); // The object is visually random or generic? No, visually generic but physically specific for now? 
-        // Actually let's use the 'mystery' object key
+        setMysteryMaterial(secret);
         setObject('mystery');
         setMode('challenge');
         setShowSuccess(false);
     };
 
-    // Use selected object OR mystery properties
     const currentObjKey = object === 'mystery' ? mysteryMaterial : object;
     const currentObjProps = object === 'mystery' ?
         { name: 'Bloc Mystère', density: objects[mysteryMaterial]?.density, color: '#333' }
@@ -567,191 +620,129 @@ export function Chap3Densite() {
             setScore(s => s + 100);
             setShowSuccess(true);
         } else {
-            alert("Ce n'est pas cette matière. Regarde si ça flotte !");
+            alert("Erreur d'analyse ! Cette matière ne correspond pas à la densité observée.");
         }
     };
 
-    // Calcul flottaison
-    // Si d_obj < d_liq : Flotte (fraction immergée = d_obj / d_liq)
-    // Si d_obj > d_liq : Coule
     const densityRatio = obj.density / liq.density;
-    let immersionLevel = 0;
-
-    if (densityRatio < 1) {
-        // Flotte : position Y positive, partie immergée
-        immersionLevel = 1.5 - (densityRatio * 1.0); // Simple approx visuelle
-    } else {
-        // Coule au fond
-        immersionLevel = -1.5;
-    }
-
-    // --- DATA LOGGING & GRAPH ---
-    const [history, setHistory] = useState([]);
+    let immersionLevel = densityRatio < 1 ? 1.5 - (densityRatio * 1.0) : -1.5;
 
     const logMeasurement = () => {
-        // Prevent duplicate logs for same state
         const last = history[history.length - 1];
         if (last && last.obj === obj.name && last.liq === liq.name) return;
-
-        setHistory(prev => [...prev.slice(-4), { // Keep last 5
-            obj: obj.name,
-            liq: liq.name,
-            dObj: obj.density,
-            dLiq: liq.density,
-            floats: obj.density < liq.density
+        setHistory(prev => [...prev.slice(-4), {
+            obj: obj.name, liq: liq.name, dObj: obj.density, dLiq: liq.density, floats: obj.density < liq.density
         }]);
     };
 
     return (
         <group>
-
             <Html transform={false}>
-                <DraggableHtmlPanel title="⚖️ Densité & Archimède PRO" showCloseButton={false} defaultPosition="bottom-center" className="w-[400px] border-blue-500/30 text-white max-h-[85vh] overflow-y-auto custom-scrollbar">
-
-                    <div className="flex justify-between items-center mb-4 border-b border-white/10 pb-2">
-                        <div className="flex gap-2">
-                            <button onClick={() => { setMode('explore'); setObject('wood'); }} className={`text-xs px-2 py-1 rounded ${mode === 'explore' ? 'bg-blue-600' : 'bg-gray-700'}`}>Labo</button>
-                            <button onClick={startDetective} className={`text-xs px-2 py-1 rounded ${mode === 'challenge' ? 'bg-orange-600' : 'bg-gray-700'}`}>Détective 🕵️</button>
-                        </div>
-                        {mode === 'challenge' && <div className="font-bold text-yellow-400">{score} XP</div>}
+                <DraggableHtmlPanel title="🧪 Expert en Densité" showCloseButton={false} defaultPosition="bottom-center" className="w-[420px] border-blue-500/30 text-white">
+                    <div className="mb-4">
+                        <PhaseSelector currentPhase={mode} onSelect={(m) => m === 'challenge' ? startDetective() : setMode('explore')} />
                     </div>
 
-                    {mode === 'challenge' && (
-                        <div className="mb-4 bg-orange-900/40 p-3 rounded-xl border border-orange-500/50">
-                            <div className="text-xs text-orange-300 uppercase mb-2">Enquête</div>
-                            <div className="text-sm mb-2">Plonge le bloc mystère dans les liquides pour deviner sa matière !</div>
-                            <div className="grid grid-cols-2 gap-1">
+                    <div className="flex justify-between items-center mb-4 border-b border-white/10 pb-2">
+                        <div className="flex flex-col">
+                            <span className="text-[10px] text-blue-400 font-bold uppercase tracking-widest">Laboratoire d'Archimède</span>
+                            <span className="text-lg font-black">{mode === 'explore' ? 'Simulateur de Flottaison' : 'Enquête de Matière 🕵️'}</span>
+                        </div>
+                        <GradeBadge score={score} />
+                    </div>
+
+                    {mode === 'challenge' ? (
+                        <div className="space-y-4">
+                            <MissionObjective objective="Identifiez la matière cachée en observant comment elle flotte dans différents liquides." icon="🔍" />
+                            <div className="grid grid-cols-3 gap-2">
                                 {Object.entries(objects).map(([k, o]) => (
-                                    <button key={k} onClick={() => guessMaterial(k)} className="text-xs bg-gray-800 hover:bg-orange-700 p-1 rounded border border-gray-600">
-                                        C'est du {o.name} ?
+                                    <button key={k} onClick={() => guessMaterial(k)}
+                                        className="p-3 bg-gray-900 border border-white/5 rounded-xl flex flex-col items-center gap-1 hover:bg-blue-900/40 transition-all">
+                                        <span className="text-xl">{o.icon}</span>
+                                        <span className="text-[10px] font-black uppercase text-center leading-none">{o.name}</span>
                                     </button>
                                 ))}
                             </div>
                         </div>
-                    )}
-
-                    <div className="space-y-4">
-                        <div className="bg-gray-800/50 p-2 rounded-lg">
-                            <label className="block text-xs uppercase text-gray-400 mb-2">1. Liquide (Milieu)</label>
-                            <div className="grid grid-cols-2 gap-2">
-                                {Object.entries(liquids).map(([k, l]) => (
-                                    <button key={k} onClick={() => setLiquid(k)}
-                                        className={`p-2 rounded-lg text-sm border transition-all ${liquid === k ? 'border-blue-400 bg-blue-900/50 shadow-[0_0_10px_rgba(59,130,246,0.5)]' : 'border-gray-700 bg-gray-800'}`}>
-                                        {l.name} <span className="text-xs text-gray-400 block">d={l.density}</span>
-                                    </button>
-                                ))}
-                            </div>
-                        </div>
-
-                        {mode === 'explore' && (
-                            <div className="bg-gray-800/50 p-2 rounded-lg">
-                                <label className="block text-xs uppercase text-gray-400 mb-2">2. Objet</label>
-                                <div className="grid grid-cols-3 gap-2">
-                                    {Object.entries(objects).map(([k, o]) => (
-                                        <button key={k} onClick={() => setObject(k)}
-                                            className={`p-2 rounded-lg text-sm border transition-all ${object === k ? 'border-white bg-white/20' : 'border-gray-700 bg-gray-800'}`}>
-                                            {o.name}
+                    ) : (
+                        <div className="space-y-4">
+                            <div>
+                                <label className="text-[10px] text-gray-500 font-bold uppercase mb-2 block tracking-widest">1. Sélection du Liquide</label>
+                                <div className="grid grid-cols-4 gap-2">
+                                    {Object.entries(liquids).map(([k, l]) => (
+                                        <button key={k} onClick={() => setLiquid(k)}
+                                            className={`p-2 rounded-xl flex flex-col items-center gap-1 transition-all border ${liquid === k ? 'bg-blue-600 border-blue-400 shadow-lg scale-105' : 'bg-gray-900 border-white/5 opacity-50'}`}>
+                                            <span className="text-xl">{l.icon}</span>
+                                            <span className="text-[8px] font-black uppercase text-center leading-none">{l.name}</span>
                                         </button>
                                     ))}
                                 </div>
                             </div>
-                        )}
-
-                        <div className="flex gap-2">
-                            <button onClick={() => setShowForces(!showForces)} className={`flex-1 py-2 rounded-lg text-xs font-bold transition-colors ${showForces ? 'bg-purple-600 text-white' : 'bg-gray-700 text-gray-400'}`}>
-                                {showForces ? '👁️ Forces Visibles' : 'Forces Cachées'}
-                            </button>
-                            <button onClick={logMeasurement} className="flex-1 py-2 rounded-lg text-xs font-bold bg-green-600/20 text-green-400 hover:bg-green-600/40 border border-green-600/30">
-                                📝 Noter Observation
-                            </button>
-                        </div>
-
-                        {/* DATA DISPLAY */}
-                        <div className="bg-black/40 p-3 rounded-lg font-mono text-sm border-l-4 border-blue-500">
-                            <div className="flex justify-between">
-                                <span>Densité Objet:</span>
-                                <span className={mode === 'challenge' ? 'blur-sm' : ''}>{obj.density}</span>
-                            </div>
-                            <div className="flex justify-between">
-                                <span>Densité Liquide:</span>
-                                <span>{liq.density}</span>
-                            </div>
-                            <div className={`mt-2 font-bold text-center p-1 rounded ${densityRatio < 1 ? 'bg-green-500/20 text-green-400' : 'bg-red-500/20 text-red-400'}`}>
-                                {densityRatio < 1 ? 'FLOTTAISON' : 'COULE'}
-                            </div>
-                        </div>
-
-                        {/* HISTORY LOG & GRAPH */}
-                        {history.length > 0 && (
-                            <div className="mt-4 border-t border-white/10 pt-4">
-                                <div className="text-xs font-bold text-gray-400 mb-2">HISTORIQUE & COMPARAISON</div>
-                                <div className="space-y-1 max-h-[100px] overflow-y-auto text-[10px] bg-black/20 p-2 rounded mb-2">
-                                    {history.map((h, i) => (
-                                        <div key={i} className="flex justify-between items-center border-b border-white/5 pb-1">
-                                            <span>{h.obj} dans {h.liq}</span>
-                                            <span className={h.floats ? "text-green-400" : "text-red-400"}>{h.floats ? "Flotte" : "Coule"}</span>
-                                        </div>
-                                    ))}
-                                </div>
-                                {/* Mini Bar Chart */}
-                                <div className="h-24 flex items-end gap-2 bg-black/20 p-2 rounded relative">
-                                    <div className="absolute top-0 left-0 text-[8px] text-gray-500 w-full text-center border-b border-white/10 border-dashed" style={{ top: '50%' }}>d=1.0 (Eau)</div>
-                                    {history.slice(-5).map((h, i) => (
-                                        <div key={i} className="flex-1 flex flex-col items-center group relative">
-                                            <div className="w-full bg-blue-500/50 hover:bg-blue-400 transition-all rounded-t"
-                                                style={{ height: `${Math.min(100, (h.dObj / 20) * 100)}%`, backgroundColor: h.dObj < h.dLiq ? '#4ADE80' : '#EF4444' }}>
-                                            </div>
-                                            <div className="text-[8px] mt-1 truncate w-full text-center">{h.obj.slice(0, 3)}</div>
-                                            {/* Tooltip */}
-                                            <div className="absolute bottom-full mb-1 hidden group-hover:block bg-black text-white text-xs p-1 rounded z-10 whitespace-nowrap">
-                                                d={h.dObj}
-                                            </div>
-                                        </div>
+                            <div>
+                                <label className="text-[10px] text-gray-500 font-bold uppercase mb-2 block tracking-widest">2. Choix de l'Échantillon</label>
+                                <div className="grid grid-cols-5 gap-2">
+                                    {Object.entries(objects).map(([k, o]) => (
+                                        <button key={k} onClick={() => setObject(k)}
+                                            className={`p-2 rounded-xl flex flex-col items-center gap-1 transition-all border ${object === k ? 'bg-white text-black border-white shadow-lg scale-105' : 'bg-gray-900 border-white/5 opacity-50'}`}>
+                                            <span className="text-xl">{o.icon}</span>
+                                            <span className="text-[8px] font-black uppercase text-center leading-none">{o.name}</span>
+                                        </button>
                                     ))}
                                 </div>
                             </div>
-                        )}
+                        </div>
+                    )}
+
+                    <div className="mt-6 flex gap-2">
+                        <button onClick={() => setShowForces(!showForces)} className={`flex-1 py-4 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${showForces ? 'bg-purple-600 shadow-lg shadow-purple-900/40' : 'bg-gray-800 text-gray-400 hover:bg-gray-700'}`}>
+                            {showForces ? '👁️ Forces Visibles' : 'Afficher les Forces'}
+                        </button>
+                        <button onClick={logMeasurement} className="flex-1 py-4 rounded-xl text-[10px] font-black uppercase tracking-widest bg-emerald-600/20 text-emerald-400 border border-emerald-500/30 hover:bg-emerald-600 hover:text-white transition-all">
+                            📓 Noter Résultat
+                        </button>
+                    </div>
+
+                    <div className="mt-4 bg-black/40 p-4 rounded-xl border border-white/5 relative overflow-hidden">
+                        <div className="flex justify-between items-center text-[10px] font-black uppercase tracking-widest mb-2">
+                            <span className="text-gray-500">Ratio de Densité (ρo/ρl)</span>
+                            <span className={densityRatio < 1 ? 'text-emerald-400' : 'text-rose-400'}>{densityRatio.toFixed(2)}</span>
+                        </div>
+                        <div className="w-full bg-gray-800 h-1.5 rounded-full overflow-hidden mb-4">
+                            <div className={`h-full transition-all duration-1000 ${densityRatio < 1 ? 'bg-emerald-500' : 'bg-rose-500'}`} style={{ width: `${Math.min(100, densityRatio * 50)}%` }} />
+                        </div>
+                        <div className={`py-3 rounded-2xl font-black text-center text-xs uppercase tracking-[0.2em] shadow-inner ${densityRatio < 1 ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/20' : 'bg-rose-500/20 text-rose-400 border border-rose-500/20'}`}>
+                            {densityRatio < 1 ? 'L\'objet Flotte 🫧' : 'L\'objet Coule ⚓'}
+                        </div>
                     </div>
                 </DraggableHtmlPanel>
             </Html>
 
-            <SuccessOverlay show={showSuccess} message={`Bravo ! C'était bien du ${objects[mysteryMaterial]?.name} !`} points={100} onNext={startDetective} />
+            <XPBar current={score % 100} nextLevel={100} />
+            <SuccessOverlay show={showSuccess} message={`Eurêka ! La matière était bien : ${objects[mysteryMaterial]?.name}`} points={100} onNext={startDetective} />
             <ConfettiExplosion active={showSuccess} />
 
-            {/* Aquarium */}
             <group position={[0, -1, 0]}>
-                <Box args={[4, 4, 3]} material-color="#1E3A5F" material-width={0.5} material-transmission={0.5} material-transparent material-opacity={0.1}>
-                    <meshPhysicalMaterial color="#88CCFF" transmission={0.9} thickness={0.5} roughness={0} />
-                </Box>
+                {/* Cuve */}
+                <Box args={[4.2, 4.2, 3.2]}><meshPhysicalMaterial color="#30507a" transmission={0.9} thickness={0.2} roughness={0} transparent opacity={0.2} side={THREE.BackSide} /></Box>
+                <Box args={[4, 4, 3]} position={[0, 0, 0]}><meshPhysicalMaterial color="#88CCFF" transmission={0.7} thickness={0.5} roughness={0.1} transparent opacity={0.3} /></Box>
+
                 {/* Liquide */}
-                <Box position={[0, -0.5, 0]} args={[3.8, 2.8, 2.8]}>
-                    <meshStandardMaterial color={liq.color} transparent opacity={0.6} />
+                <Box position={[0, -0.5, 0]} args={[3.9, 2.9, 2.9]}>
+                    <meshStandardMaterial color={liq.color} transparent opacity={0.5} emissive={liq.color} emissiveIntensity={0.2} />
                 </Box>
 
-                {/* Objet */}
-                <Float speed={densityRatio < 1 ? 2 : 0} rotationIntensity={densityRatio < 1 ? 0.5 : 0} floatIntensity={densityRatio < 1 ? 0.5 : 0}>
-                    <mesh position={[0, immersionLevel, 0]}>
+                <Float speed={densityRatio < 1 ? 2 : 0} rotationIntensity={0.2} floatIntensity={0.5} position={[0, immersionLevel, 0]}>
+                    <mesh>
                         <boxGeometry args={[1, 1, 1]} />
-                        <meshStandardMaterial color={obj.color} />
+                        <meshStandardMaterial color={obj.color} metalness={object === 'iron' || object === 'gold' ? 0.8 : 0} roughness={0.4} />
                     </mesh>
 
-                    {/* Vecteurs Forces améliorés */}
                     {showForces && (
-                        <group position={[0, immersionLevel, 0]}>
-                            {/* Poids */}
-                            <group position={[0, 0, 0]}>
-                                <arrowHelper args={[new THREE.Vector3(0, -1, 0), new THREE.Vector3(0, 0, 0), 1.5 + obj.density / 10, 0xFF0000]} />
-                                <Html position={[0.5, -1, 0]} center>
-                                    <div className="text-red-500 font-bold text-xs bg-black/50 px-1 rounded">Poids</div>
-                                </Html>
-                            </group>
-                            {/* Poussée Archimède */}
-                            <group position={[0, 0, 0]}>
-                                <arrowHelper args={[new THREE.Vector3(0, 1, 0), new THREE.Vector3(0, 0, 0), 1.5 + (densityRatio < 1 ? obj.density : liq.density) / 10, 0x00FF00]} />
-                                <Html position={[0.5, 1, 0]} center>
-                                    <div className="text-green-400 font-bold text-xs bg-black/50 px-1 rounded">Archimède</div>
-                                </Html>
-                            </group>
+                        <group>
+                            {/* Poids (Gravité) */}
+                            <arrowHelper args={[new THREE.Vector3(0, -1, 0), new THREE.Vector3(0, 0, 0), 1.2 + obj.density / 10, 0xef4444, 0.2, 0.1]} />
+                            {/* Poussée d'Archimède */}
+                            <arrowHelper args={[new THREE.Vector3(0, 1, 0), new THREE.Vector3(0, 0, 0), 1.2 + (densityRatio < 1 ? obj.density : liq.density) / 10, 0x22c55e, 0.2, 0.1]} />
                         </group>
                     )}
                 </Float>
@@ -766,209 +757,166 @@ export function Chap3Densite() {
 export function Chap4PoidsMasse() {
     const [planet, setPlanet] = useState('earth');
     const [mass, setMass] = useState(50);
-    const astronautRef = useRef();
-
-    // Mode Défi
-    const [mode, setMode] = useState('explore');
+    const [phase, setPhase] = useState('explore');
     const [targetWeight, setTargetWeight] = useState(null);
     const [score, setScore] = useState(0);
     const [showSuccess, setShowSuccess] = useState(false);
+    const [useCustomG, setUseCustomG] = useState(false);
+    const [customG, setCustomG] = useState(9.8);
 
     const planets = {
-        mercury: { name: 'Mercure', g: 3.7, color: '#9CA3AF', size: 0.38 },
-        venus: { name: 'Vénus', g: 8.87, color: '#FCD34D', size: 0.95 },
-        earth: { name: 'Terre', g: 9.81, color: '#3B82F6', size: 1 },
-        moon: { name: 'Lune', g: 1.62, color: '#D1D5DB', size: 0.27 },
-        mars: { name: 'Mars', g: 3.71, color: '#EF4444', size: 0.53 },
-        jupiter: { name: 'Jupiter', g: 24.79, color: '#D97706', size: 11.2 },
-        saturn: { name: 'Saturne', g: 10.44, color: '#FDE047', size: 9.45 },
-        void: { name: 'Espace', g: 0, color: '#111827', size: 0 }
+        mercury: { name: 'Mercure', g: 3.7, color: '#9CA3AF', icon: '🪐' },
+        venus: { name: 'Vénus', g: 8.87, color: '#FCD34D', icon: '✨' },
+        earth: { name: 'Terre', g: 9.81, color: '#3B82F6', icon: '🌍' },
+        moon: { name: 'Lune', g: 1.62, color: '#D1D5DB', icon: '🌙' },
+        mars: { name: 'Mars', g: 3.71, color: '#EF4444', icon: '🔴' },
+        jupiter: { name: 'Jupiter', g: 24.79, color: '#D97706', icon: '🌀' },
+        saturn: { name: 'Saturne', g: 10.44, color: '#FDE047', icon: '🪐' },
+        void: { name: 'Espace', g: 0.1, color: '#111827', icon: '🌌' }
     };
 
-
-
     const startMission = () => {
-        // Find a planet other than current or earth to make it interesting
         const keys = Object.keys(planets).filter(k => k !== 'void');
         const targetPKey = keys[Math.floor(Math.random() * keys.length)];
         const targetP = planets[targetPKey];
-        const randomMass = Math.floor(Math.random() * 50 + 50); // 50-100kg
+        const randomMass = 50 + Math.floor(Math.random() * 50);
         const w = Math.round(randomMass * targetP.g);
 
         setMass(randomMass);
         setTargetWeight({ val: w, planetKey: targetPKey });
-        setMode('challenge');
-        setPlanet('earth'); // Reset pos
+        setPhase('challenge');
+        setPlanet('earth');
+        setUseCustomG(false);
         setShowSuccess(false);
     };
 
     useEffect(() => {
-        if (mode === 'challenge' && targetWeight) {
-            // Check if current weight is close to target (meaning we are on the right planet with right mass)
-            // Actually, mass is fixed in the mission description? 
-            // "Une masse de X kg pèse Y Newtons. Où sommes nous ?"
-            // So user changes Planet.
-            if (planet === targetWeight.planetKey) {
-                setScore(s => s + 50);
-                setShowSuccess(true);
-            }
+        if (phase === 'challenge' && targetWeight && planet === targetWeight.planetKey) {
+            setScore(s => s + 50);
+            setShowSuccess(true);
         }
-    }, [planet, mode, targetWeight]);
+    }, [planet, phase, targetWeight]);
 
-
-    // Custom planet mode
-    const [useCustomG, setUseCustomG] = useState(false);
-    const [customG, setCustomG] = useState(9.8);
-
-    // Effective G
     const g = useCustomG ? customG : planets[planet].g;
     const weight = mass * g;
 
-    // Data for Graph used below
-    const graphMaxWeight = 150 * 25; // approx max weight (Jupiter)
-
     return (
         <group>
-
             <Html transform={false}>
-                <DraggableHtmlPanel title="⚖️ Poids (N) vs Masse (kg) PRO" showCloseButton={false} defaultPosition="bottom-center" className="w-[380px] border-purple-500/30 text-white max-h-[85vh] overflow-y-auto custom-scrollbar">
-
-                    <div className="flex justify-between items-center mb-4 border-b border-white/10 pb-2">
-                        <div className="flex gap-2">
-                            <button onClick={() => setMode('explore')} className={`text-xs px-2 py-1 rounded ${mode === 'explore' ? 'bg-purple-600' : 'bg-gray-700'}`}>Exploration</button>
-                            <button onClick={startMission} className={`text-xs px-2 py-1 rounded ${mode === 'challenge' ? 'bg-indigo-600' : 'bg-gray-700'}`}>Mission 🚀</button>
-                        </div>
-                        {mode === 'challenge' && <div className="font-bold text-yellow-400">{score} XP</div>}
+                <DraggableHtmlPanel title="🚀 Mission Gravité" showCloseButton={false} defaultPosition="bottom-center" className="w-[400px] border-indigo-500/30 text-white">
+                    <div className="mb-4">
+                        <PhaseSelector currentPhase={phase} onSelect={(p) => p === 'challenge' ? startMission() : setPhase('explore')} />
                     </div>
 
-                    {mode === 'challenge' && targetWeight && (
-                        <div className="mb-4 bg-indigo-900/50 p-3 rounded-xl border border-indigo-500/50 text-center animate-pulse">
-                            <div className="text-xs text-indigo-300 uppercase">Alerte Système</div>
-                            <div className="text-sm">Localise la planète où ta masse de</div>
-                            <div className="font-bold text-white">{mass} kg</div>
-                            <div className="text-sm">pèse exactement</div>
-                            <div className="font-bold text-xl text-yellow-400">{targetWeight.val} N</div>
+                    <div className="flex justify-between items-center mb-4 border-b border-white/10 pb-2">
+                        <div className="flex flex-col">
+                            <span className="text-[10px] text-indigo-400 font-bold uppercase tracking-widest leading-tight">Astrophysique Interactive</span>
+                            <span className="text-lg font-black">{phase === 'explore' ? 'Simulateur de Poids' : 'Défi Interstellaire 🌌'}</span>
+                        </div>
+                        <GradeBadge score={score} />
+                    </div>
+
+                    {phase === 'challenge' && targetWeight && (
+                        <div className="mb-4">
+                            <MissionObjective objective={`Sur quel astre un objet de ${mass} kg pèse-t-il environ ${targetWeight.val} N ?`} icon="📡" />
                         </div>
                     )}
 
-                    <div className="mb-6">
-                        <div className="flex justify-between items-center mb-2">
-                            <label className="block text-sm text-gray-400">Choisir un astre :</label>
-                            <div className="flex items-center gap-2">
-                                <label className="text-xs text-purple-300">Mode Créateur</label>
-                                <input type="checkbox" checked={useCustomG} onChange={() => setUseCustomG(!useCustomG)} className="w-4 h-4 accent-purple-500" />
-                            </div>
+                    <div className="space-y-4">
+                        <div className="grid grid-cols-4 gap-2">
+                            {Object.entries(planets).map(([k, p]) => (
+                                <button key={k} onClick={() => setPlanet(k)}
+                                    className={`p-2 rounded-xl flex flex-col items-center gap-1 transition-all border-2 ${planet === k && !useCustomG ? 'border-indigo-500 bg-indigo-500/20 scale-105' : 'border-gray-800 bg-gray-900/50 hover:bg-gray-800'}`}>
+                                    <span className="text-xl">{p.icon}</span>
+                                    <span className="text-[8px] font-black uppercase text-center">{p.name}</span>
+                                </button>
+                            ))}
                         </div>
 
-                        {!useCustomG ? (
-                            <>
-                                <div className="grid grid-cols-4 gap-2">
-                                    {Object.entries(planets).map(([k, pl]) => (
-                                        <button key={k} onClick={() => setPlanet(k)}
-                                            title={pl.name}
-                                            className={`aspect-square rounded-full border-2 flex items-center justify-center transition-all ${planet === k ? 'border-purple-500 scale-110' : 'border-transparent bg-gray-800'}`}
-                                            style={{ backgroundColor: planet === k ? pl.color + '40' : '' }}>
-                                            <div className="w-4 h-4 rounded-full" style={{ backgroundColor: pl.color }}></div>
-                                        </button>
-                                    ))}
-                                </div>
-                                <div className="text-center mt-2 font-bold text-lg">{planets[planet].name}</div>
-                            </>
-                        ) : (
-                            <div className="bg-purple-900/20 p-3 rounded-xl border border-purple-500/30">
-                                <label className="block text-xs mb-1">Gravité Personnalisée (g)</label>
-                                <input type="range" min="0" max="30" step="0.1" value={customG} onChange={(e) => setCustomG(parseFloat(e.target.value))} className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-purple-500" />
-                                <div className="text-center font-bold font-mono mt-1 text-purple-300">{customG} N/kg</div>
-                            </div>
-                        )}
-                    </div>
-
-                    <div className="mb-6 bg-gray-800 p-4 rounded-xl">
-                        <label className="block text-sm text-gray-400 mb-2">Masse de l'astronaute (kg)</label>
-                        <input type="range" min="30" max="150" value={mass} onChange={(e) => mode === 'explore' && setMass(Number(e.target.value))}
-                            disabled={mode === 'challenge'}
-                            className={`w-full h-3 bg-gray-700 rounded-lg accent-purple-500 appearance-none ${mode === 'challenge' ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}`} />
-                        <div className="text-right font-mono text-xl">{mass} kg</div>
-                    </div>
-
-                    <div className="space-y-3 font-mono">
-                        <div className="flex justify-between p-3 bg-white/5 rounded-lg">
-                            <span className="text-gray-400">Intensité g:</span>
-                            <span>{g.toFixed(2)} N/kg</span>
-                        </div>
-                        <div className="flex justify-between items-center p-4 bg-purple-900/30 border border-purple-500/50 rounded-xl relative overflow-hidden">
-                            {/* Live mini-graph background */}
-                            <div className="absolute left-0 bottom-0 h-1 bg-purple-500/30 transition-all duration-300" style={{ width: `${(weight / graphMaxWeight) * 100}%` }}></div>
-
-                            <span className="text-purple-300 z-10">Poids P = m × g</span>
-                            <span className="text-2xl font-bold text-purple-400 z-10">{weight.toFixed(1)} N</span>
-                        </div>
-                        {/* Interactive Graph Box */}
-                        <div className="h-24 bg-black/40 rounded-lg relative flex items-end p-2 gap-1 border border-white/10">
-                            <div className="absolute top-2 left-2 text-[8px] text-gray-500">Poids (y) vs Masse (x)</div>
-                            {/* Simple visualization of slope */}
-                            {Array.from({ length: 10 }).map((_, i) => {
-                                const m = (i + 1) * 15; // 15 to 150
-                                const w = m * g;
-                                const isActive = Math.abs(m - mass) < 8; // Highlight bar close to current mass
-                                return (
-                                    <div key={i} className="flex-1 flex flex-col items-center justify-end h-full">
-                                        <div
-                                            className={`w-full rounded-t transition-all duration-300 ${isActive ? 'bg-purple-500' : 'bg-purple-900/50'}`}
-                                            style={{ height: `${Math.min(100, (w / graphMaxWeight) * 100)}%` }}>
-                                        </div>
+                        <div className="bg-black/40 p-4 rounded-xl border border-white/5 space-y-4">
+                            <div className="flex items-center justify-between gap-4">
+                                <div className="flex-1">
+                                    <div className="flex justify-between text-[10px] font-bold text-gray-500 mb-2">
+                                        <span>MASSE (Constant)</span>
+                                        <span className="text-white">{mass} KG</span>
                                     </div>
-                                );
-                            })}
+                                    <input type="range" min="10" max="200" value={mass} disabled={phase === 'challenge'} onChange={(e) => setMass(Number(e.target.value))}
+                                        className="w-full h-2 bg-gray-800 rounded-lg appearance-none cursor-pointer accent-indigo-500 disabled:opacity-50" />
+                                </div>
+                                <div className="w-px h-10 bg-white/10" />
+                                <div className="flex flex-col items-center">
+                                    <button onClick={() => setUseCustomG(!useCustomG)} disabled={phase === 'challenge'}
+                                        className={`p-2 rounded-lg border flex flex-col items-center gap-1 transition-all ${useCustomG ? 'border-purple-500 bg-purple-500/20' : 'border-gray-700 opacity-50'}`}>
+                                        <span className="text-sm">🛠️</span>
+                                        <span className="text-[8px] font-bold uppercase">Manuel g</span>
+                                    </button>
+                                </div>
+                            </div>
+
+                            {useCustomG && (
+                                <div className="animate-in slide-in-from-top-2">
+                                    <div className="flex justify-between text-[10px] font-bold text-purple-400 mb-2">
+                                        <span>ACCÉLÉRATION GRAVITATIONNELLE (G)</span>
+                                        <span className="text-white">{customG.toFixed(2)} N/KG</span>
+                                    </div>
+                                    <input type="range" min="0.1" max="25" step="0.1" value={customG} onChange={(e) => setCustomG(Number(e.target.value))}
+                                        className="w-full h-2 bg-gray-800 rounded-lg appearance-none cursor-pointer accent-purple-500" />
+                                </div>
+                            )}
+
+                            <div className="p-3 bg-indigo-950/30 rounded-lg border border-indigo-500/30 text-center relative overflow-hidden group">
+                                <div className="relative z-10">
+                                    <div className="text-[10px] text-indigo-400 font-black mb-1">DYNAMOMÈTRE DIGITAL</div>
+                                    <div className="text-4xl font-mono font-black text-white">
+                                        {weight.toFixed(1)} <span className="text-xl text-indigo-400">N</span>
+                                    </div>
+                                </div>
+                                <div className={`absolute inset-0 bg-indigo-500/5 transition-all ${weight > 1000 ? 'opacity-20 animate-pulse' : 'opacity-0'}`} />
+                                <div className="absolute top-0 right-0 p-1">
+                                    <div className={`w-2 h-2 rounded-full ${weight > 1000 ? 'bg-red-500 animate-pulse' : 'bg-green-500'}`} />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="flex justify-between items-center text-[10px] font-bold text-gray-400 bg-gray-900/50 p-2 rounded-lg">
+                            <span>FORMULE : P = m × g</span>
+                            <span className="text-indigo-400">G LOCAL : {g.toFixed(2)} N/kg</span>
                         </div>
                     </div>
                 </DraggableHtmlPanel>
             </Html>
 
-            <SuccessOverlay show={showSuccess} message={`Planète identifiée ! Bienvenue sur ${planets[targetWeight?.planetKey]?.name} !`} points={100} onNext={startMission} />
+            <XPBar current={score % 100} nextLevel={100} />
+
+            <SuccessOverlay show={showSuccess} message="Succès ! La gravité correspond exactement aux mesures." points={50} onNext={startMission} />
             <ConfettiExplosion active={showSuccess} />
 
-            {/* Sol de la planète */}
-            <mesh position={[0, -10, 0]} rotation={[-Math.PI / 2, 0, 0]}>
-                <sphereGeometry args={[10, 64, 64]} />
-                <meshStandardMaterial color={p.color} roughness={0.8} />
-            </mesh>
+            <Text position={[0, 4, 0]} fontSize={0.4} color="#818CF8" font="/fonts/Inter-Bold.ttf" outlineWidth={0.02} outlineColor="black">
+                STATION DE PESAGE SPATIALE
+            </Text>
 
-            {/* Atmosphère si Terre/Mars/Jupiter */}
-            {['earth', 'venus', 'jupiter', 'saturn'].includes(planet) && (
-                <mesh position={[0, -10, 0]}>
-                    <sphereGeometry args={[12, 32, 32]} />
-                    <meshBasicMaterial color={p.color} transparent opacity={0.1} side={THREE.BackSide} />
+            <group position={[0, -2, 0]}>
+                {/* Surface de la planète */}
+                <mesh rotation={[-Math.PI / 2, 0, 0]}>
+                    <planeGeometry args={[25, 25]} />
+                    <meshStandardMaterial color={planets[planet].color} roughness={0.8} />
                 </mesh>
-            )}
+                <gridHelper args={[25, 15, planets[planet].color, '#333']} rotation={[0, 0, 0]} />
 
-            {/* Astronaute */}
-            <group position={[0, 0.8, 0]}>
-                <Float speed={2} rotationIntensity={0.2} floatIntensity={planet === 'void' ? 2 : (planet === 'moon' ? 1 : 0.1)}>
-                    {/* Corps simple astronaute */}
-                    <Box args={[0.5, 0.8, 0.3]} position={[0, 0.4, 0]} material-color="white" />
-                    <Sphere args={[0.3]} position={[0, 1, 0]}>
-                        <meshStandardMaterial color="#FFD700" metalness={0.9} roughness={0.1} />
-                    </Sphere>
-                    <Box args={[0.2, 0.8, 0.2]} position={[-0.2, -0.4, 0]} material-color="white" />
-                    <Box args={[0.2, 0.8, 0.2]} position={[0.2, -0.4, 0]} material-color="white" />
-                    <Box args={[0.2, 0.6, 0.2]} position={[-0.4, 0.6, 0]} rotation={[0, 0, 0.5]} material-color="white" />
-                    <Box args={[0.2, 0.6, 0.2]} position={[0.4, 0.6, 0]} rotation={[0, 0, -0.5]} material-color="white" />
+                <Float speed={1.5} rotationIntensity={0.5} floatIntensity={0.5}>
+                    <group position={[0, 2, 0]}>
+                        <mesh>
+                            <boxGeometry args={[1, 1, 1]} />
+                            <meshStandardMaterial color="#374151" metalness={0.8} roughness={0.2} />
+                        </mesh>
+                        <Text position={[0, 0.7, 0]} fontSize={0.25} color="white" font="/fonts/Inter-Bold.ttf">{mass}kg</Text>
 
-                    {/* Vecteur Poids dynamique */}
-                    {planet !== 'void' && (
-                        <group position={[0, 0, 0]}>
-                            <arrowHelper args={[
-                                new THREE.Vector3(0, -1, 0),
-                                new THREE.Vector3(0, 0, 2),
-                                1 + (weight / 500), // Longueur proportionnelle au poids
-                                0xFF00FF
-                            ]} />
-                            <Text position={[0.5, -1 - (weight / 1000), 2]} fontSize={0.3} color="#FF00FF">
-                                P = {weight.toFixed(0)} N
-                            </Text>
+                        {/* Vecteur Poids */}
+                        <group position={[0, -0.6, 0]}>
+                            <arrowHelper args={[new THREE.Vector3(0, -1, 0), new THREE.Vector3(0, 0, 0), 0.5 + weight / 500, 0xef4444, 0.2, 0.1]} />
+                            <Text position={[0.4, -0.5, 0]} fontSize={0.2} color="#ef4444">P</Text>
                         </group>
-                    )}
+                    </group>
                 </Float>
             </group>
         </group>
@@ -987,8 +935,8 @@ export function Chap5Electricite() {
     const [switchState, setSwitchState] = useState(false);
     const [showMenu, setShowMenu] = useState(null); // Slot ID being edited
 
-    // Mode Défi
-    const [mode, setMode] = useState('explore'); // 'explore' | 'challenge'
+    // Gamification
+    const [phase, setPhase] = useState('explore'); // 'explore' | 'challenge'
     const [challenge, setChallenge] = useState(null);
     const [score, setScore] = useState(0);
     const [showSuccess, setShowSuccess] = useState(false);
@@ -1005,11 +953,10 @@ export function Chap5Electricite() {
             setSlots({ 0: 'lamp', 1: 'wire', 2: 'motor', 3: 'wire' });
         }
         setSwitchState(false);
-        setMode('explore');
+        setPhase('explore');
     };
 
     // --- DATA COMPONENTS ---
-    // Resistors format: resistor_{value}
     const standardComponents = [
         { id: 'wire', name: 'Fil', icon: '➖', r: 0.1, type: 'basic' },
         { id: 'lamp', name: 'Lampe', icon: '💡', r: 10, type: 'basic' },
@@ -1018,10 +965,10 @@ export function Chap5Electricite() {
     ];
 
     const resistorsList = [
-        { val: 10, colors: ['🟤', '⚫', '⚫'] }, // Brown Black Black (10) - Correction norm: Brown(1) Black(0) Black(x1) = 10
-        { val: 100, colors: ['🟤', '⚫', '🟤'] }, // Brown(1) Black(0) Brown(x10) = 100
-        { val: 220, colors: ['🔴', '🔴', '🟤'] }, // Red(2) Red(2) Brown(x10) = 220
-        { val: 1000, colors: ['🟤', '⚫', '🔴'] }, // Brown(1) Black(0) Red(x100) = 1k
+        { val: 10, colors: ['🟤', '⚫', '⚫'] },
+        { val: 100, colors: ['🟤', '⚫', '🟤'] },
+        { val: 220, colors: ['🔴', '🔴', '🟤'] },
+        { val: 1000, colors: ['🟤', '⚫', '🔴'] },
     ];
 
     const getCompInfo = (id) => {
@@ -1062,15 +1009,13 @@ export function Chap5Electricite() {
         }
 
         // Check Challenge Success
-        if (mode === 'challenge' && challenge && !showSuccess) {
+        if (phase === 'challenge' && challenge && !showSuccess) {
             if (challenge.type === 'color_code') {
-                // Player must place the specific resistor
                 if (Object.values(slots).includes(`resistor_${challenge.targetVal}`)) {
                     triggerSuccess();
                 }
             }
             if (challenge.type === 'target_current') {
-                // Tolerance 10%
                 if (status === 'ok' && Math.abs(current - challenge.targetI) < 0.01) {
                     triggerSuccess();
                 }
@@ -1078,7 +1023,7 @@ export function Chap5Electricite() {
         }
 
         return { status, msg, current };
-    }, [topology, slots, switchState, mode, challenge]);
+    }, [topology, slots, switchState, phase, challenge]);
 
     const triggerSuccess = () => {
         setScore(s => s + 100);
@@ -1100,18 +1045,15 @@ export function Chap5Electricite() {
                 targetVal: r.val
             });
         } else {
-            // Target Current
-            // Pick a random setup solvable with one resistor swap
-            // Keep it simple: Series, target 0.04A (approx 100 ohm) or 0.02A (220 ohm)
             const targets = [
                 { i: 0.04, val: 100, txt: "~0.04 A" },
                 { i: 0.02, val: 220, txt: "~0.02 A" },
-                { i: 0.45, val: 0, txt: "Maximize (0.45 A)" } // No resistor
+                { i: 0.45, val: 0, txt: "Maximize (0.45 A)" }
             ];
             const t = targets[Math.floor(Math.random() * targets.length)];
             setSwitchState(true);
             setTopology('series');
-            setSlots({ 0: 'lamp', 1: 'wire', 2: 'wire' }); // Reset
+            setSlots({ 0: 'lamp', 1: 'wire', 2: 'wire' });
             setChallenge({
                 type,
                 header: "Défi : Ingénieur",
@@ -1123,7 +1065,7 @@ export function Chap5Electricite() {
     };
 
     const startChallengeMode = () => {
-        setMode('challenge');
+        setPhase('challenge');
         setScore(0);
         nextChallenge();
     };
@@ -1135,134 +1077,147 @@ export function Chap5Electricite() {
 
     return (
         <group>
-
             <Html transform={false}>
-                <DraggableHtmlPanel title="⚡ Circuit Électrique" showCloseButton={false} defaultPosition="bottom-center" className="w-[380px] border-yellow-500/30 text-white">
-                    {/* Header */}
-                    <div className="flex justify-between items-center mb-4 border-b border-white/10 pb-2">
-                        <div className="flex gap-2">
-                            <button onClick={() => { setMode('explore'); setChallenge(null); }} className={`text-xs px-2 py-1 rounded ${mode === 'explore' ? 'bg-yellow-600' : 'bg-gray-700'}`}>Labo Libre</button>
-                            <button onClick={startChallengeMode} className={`text-xs px-2 py-1 rounded ${mode === 'challenge' ? 'bg-purple-600' : 'bg-gray-700'}`}>Mode Défi 🏆</button>
-                        </div>
-                        {mode === 'challenge' && <div className="font-bold text-yellow-400">{score} XP</div>}
+                <DraggableHtmlPanel title="⚡ Expert en Électricité" showCloseButton={false} defaultPosition="bottom-center" className="w-[400px] border-yellow-500/30 text-white">
+                    <div className="mb-4">
+                        <PhaseSelector currentPhase={phase} onSelect={(p) => p === 'challenge' ? startChallengeMode() : setPhase('explore')} />
                     </div>
 
-                    {/* Challenge Box */}
-                    {mode === 'challenge' && challenge && (
-                        <div className="mb-4 bg-purple-900/50 p-3 rounded-xl border border-purple-500 animate-in fade-in slide-in-from-top-4">
-                            <div className="text-xs text-purple-300 uppercase font-bold">{challenge.header}</div>
-                            <div className="font-bold text-lg">{challenge.text}</div>
-                            <div className="text-xs text-gray-400 mt-1 italic">Indices : {challenge.hint}</div>
+                    <div className="flex justify-between items-center mb-4 border-b border-white/10 pb-2">
+                        <div className="flex flex-col">
+                            <span className="text-[10px] text-yellow-400 font-bold uppercase tracking-widest leading-tight">Génie Électrique</span>
+                            <span className="text-lg font-black">{phase === 'explore' ? 'Laboratoire Ouvert' : 'Maintenance Critique 🛠️'}</span>
+                        </div>
+                        <GradeBadge score={score} />
+                    </div>
+
+                    {phase === 'challenge' && challenge && (
+                        <div className="mb-4">
+                            <MissionObjective objective={challenge.text} icon="📟" />
+                            <div className="mt-1 text-[10px] text-white/50 italic px-2">Indice : {challenge.hint}</div>
                         </div>
                     )}
 
-                    {/* Controls */}
-                    <div className="space-y-2 mb-4">
-                        <div className="flex gap-2 p-1 bg-gray-900 rounded-lg">
-                            <button onClick={() => setTopology('series')} className={`flex-1 py-1 text-xs rounded ${topology === 'series' ? 'bg-blue-600' : 'bg-gray-800'}`}>SÉRIE</button>
-                            <button onClick={() => setTopology('parallel')} className={`flex-1 py-1 text-xs rounded ${topology === 'parallel' ? 'bg-blue-600' : 'bg-gray-800'}`}>DÉRIVATION</button>
+                    <div className="space-y-4">
+                        <div className="flex gap-2 p-1 bg-gray-900/50 rounded-xl border border-white/5">
+                            <button onClick={() => setTopology('series')}
+                                className={`flex-1 py-2 text-[10px] font-bold rounded-lg transition-all ${topology === 'series' ? 'bg-yellow-600 text-white shadow-lg' : 'text-gray-400 hover:bg-white/5'}`}>
+                                CIRCUIT SÉRIE
+                            </button>
+                            <button onClick={() => setTopology('parallel')}
+                                className={`flex-1 py-2 text-[10px] font-bold rounded-lg transition-all ${topology === 'parallel' ? 'bg-yellow-600 text-white shadow-lg' : 'text-gray-400 hover:bg-white/5'}`}>
+                                CIRCUIT DÉRIVATION
+                            </button>
                         </div>
 
                         <button onClick={() => setSwitchState(!switchState)}
-                            className={`w-full py-3 rounded-xl font-bold text-lg shadow-lg ${switchState ? 'bg-green-600' : 'bg-red-600'}`}>
-                            {switchState ? 'ON (Fermé)' : 'OFF (Ouvert)'}
+                            className={`w-full py-3 rounded-xl font-black text-lg shadow-xl transform transition-all active:scale-95 ${switchState ? 'bg-green-600 hover:bg-green-500 shadow-green-900/20' : 'bg-red-600 hover:bg-red-500 shadow-red-900/20'}`}>
+                            {switchState ? '🔌 CIRCUIT FERMÉ (ON)' : '⭕ CIRCUIT OUVERT (OFF)'}
                         </button>
+
+                        <div className="grid grid-cols-2 gap-3">
+                            <div className="bg-gray-800/80 p-3 rounded-xl border border-white/5 text-center">
+                                <div className="text-[10px] text-gray-400 uppercase font-black mb-1 tracking-tighter">Diagnostic</div>
+                                <div className={`font-mono text-sm font-bold ${analysis.status === 'short' ? 'text-red-500 animate-pulse' : 'text-green-400'}`}>
+                                    {analysis.msg}
+                                </div>
+                            </div>
+                            <div className="bg-gray-800/80 p-3 rounded-xl border border-white/5 text-center">
+                                <div className="text-[10px] text-gray-400 uppercase font-black mb-1 tracking-tighter">Ampèremètre</div>
+                                <div className="font-mono text-lg font-black text-cyan-400">
+                                    {(analysis.current ?? 0).toFixed(3)} <span className="text-xs">A</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        {showMenu !== null && (
+                            <div className="absolute top-1/2 left-4 right-4 -translate-y-1/2 bg-gray-900/95 border border-white/10 p-4 rounded-2xl shadow-2xl z-50 backdrop-blur-xl animate-in zoom-in duration-200">
+                                <div className="text-[10px] text-gray-500 text-center uppercase font-black mb-3 tracking-widest">Choisir un composant</div>
+                                <div className="grid grid-cols-4 gap-2 mb-4">
+                                    {standardComponents.map(c => (
+                                        <button key={c.id} onClick={() => setSlotComponent(showMenu, c.id)}
+                                            className="flex flex-col items-center gap-1 bg-white/5 p-2 rounded-xl border border-transparent hover:border-yellow-500/50 hover:bg-white/10 transition-all">
+                                            <span className="text-xl">{c.icon}</span>
+                                            <span className="text-[8px] font-bold uppercase">{c.name}</span>
+                                        </button>
+                                    ))}
+                                </div>
+
+                                <div className="text-[10px] text-gray-500 text-center uppercase font-black border-t border-white/10 pt-3 mb-3 tracking-widest">Résistances Ohmiques</div>
+                                <div className="grid grid-cols-4 gap-2">
+                                    {resistorsList.map(r => (
+                                        <button key={r.val} onClick={() => setSlotComponent(showMenu, `resistor_${r.val}`)}
+                                            className="flex flex-col items-center gap-1 bg-white/5 p-2 rounded-xl border border-transparent hover:border-yellow-500/50 hover:bg-white/10 transition-all">
+                                            <div className="flex gap-[1px] h-2 w-6 bg-[#D2B48C] items-center justify-center rounded-sm overflow-hidden">
+                                                {r.colors.map((c, i) => <div key={i} className="w-1 h-full" style={{ backgroundColor: colorEmojiToHex(c) }}></div>)}
+                                            </div>
+                                            <span className="text-[8px] font-mono font-bold">{r.val}Ω</span>
+                                        </button>
+                                    ))}
+                                </div>
+                                <button onClick={() => setShowMenu(null)} className="w-full mt-4 py-2 bg-gray-800 rounded-lg text-xs font-bold text-red-400 hover:bg-gray-750">ANNULER</button>
+                            </div>
+                        )}
                     </div>
-
-                    {/* Status Feedback */}
-                    <div className="grid grid-cols-2 gap-2 bg-gray-800 p-3 rounded-xl border border-gray-600">
-                        <div>
-                            <div className="text-xs text-gray-400">État</div>
-                            <div className={`font-bold ${analysis.status === 'short' ? 'text-red-500 animate-pulse' : 'text-green-400'}`}>
-                                {analysis.msg}
-                            </div>
-                        </div>
-                        <div>
-                            <div className="text-xs text-gray-400">Intensité</div>
-                            <div className="font-mono text-xl text-cyan-300">{(analysis.current ?? 0).toFixed(3)} A</div>
-                        </div>
-                    </div>
-
-                    {/* Context Menu for Component Selection */}
-                    {showMenu !== null && (
-                        <div className="absolute top-10 left-2 right-2 bg-gray-900 border border-white/20 p-3 rounded-xl shadow-2xl z-50 flex flex-col gap-3">
-                            <div className="text-xs text-gray-400 text-center uppercase font-bold">Composants de base</div>
-                            <div className="grid grid-cols-4 gap-2">
-                                {standardComponents.map(c => (
-                                    <button key={c.id} onClick={() => setSlotComponent(showMenu, c.id)} className="flex flex-col items-center bg-gray-800 p-2 rounded hover:bg-white/10">
-                                        <div className="text-xl">{c.icon}</div>
-                                        <div className="text-[9px]">{c.name}</div>
-                                    </button>
-                                ))}
-                            </div>
-
-                            <div className="text-xs text-gray-400 text-center uppercase font-bold border-t border-white/10 pt-2">Résistances (Code Couleur)</div>
-                            <div className="grid grid-cols-4 gap-2">
-                                {resistorsList.map(r => (
-                                    <button key={r.val} onClick={() => setSlotComponent(showMenu, `resistor_${r.val}`)} className="flex flex-col items-center bg-gray-800 p-2 rounded hover:bg-white/10">
-                                        {/* Mini representation of resistor color bands */}
-                                        <div className="flex gap-[1px] mb-1 h-3 w-8 bg-[#D2B48C] items-center justify-center border border-black/30">
-                                            {r.colors.map((c, i) => <div key={i} className="w-1 h-full" style={{ backgroundColor: colorEmojiToHex(c) }}></div>)}
-                                        </div>
-                                        <div className="text-[9px] font-mono">{r.val}Ω</div>
-                                    </button>
-                                ))}
-                            </div>
-                            <button onClick={() => setShowMenu(null)} className="w-full text-xs text-red-400 mt-1">Fermer</button>
-                        </div>
-                    )}
                 </DraggableHtmlPanel>
             </Html>
 
-
-            <SuccessOverlay show={showSuccess} message="C'est exact ! Excellent travail d'ingénieur !" points={100} onNext={nextChallenge} />
+            <XPBar current={score % 100} nextLevel={100} />
+            <SuccessOverlay show={showSuccess} message="C'est exact ! Le circuit est parfaitement équilibré." points={100} onNext={nextChallenge} />
             <ConfettiExplosion active={showSuccess} />
 
-            {/* SCÈNE 3D DYNAMIQUE */}
+            {/* SCÈNE 3D */}
             <group position={[0, 0, 0]}>
-                {/* Générateur */}
-                <group position={[-3, 0, 0]}>
+                <group position={[-3.5, 0, 0]}>
                     <Box args={[1, 1.5, 1]} material-color="#111" />
                     <Box args={[0.9, 1.4, 0.9]} material-color="#333" />
-                    <Text position={[0, 0, 0.6]} fontSize={0.5} color="#EF4444">+</Text>
-                    <Text position={[0, 0, -0.6]} rotation={[0, Math.PI, 0]} fontSize={0.5} color="#3B82F6">-</Text>
+                    <Text position={[0, 0.2, 0.6]} fontSize={0.5} color="#EF4444" font="/fonts/Inter-Bold.ttf">+</Text>
+                    <Text position={[0, -0.2, 0.6]} fontSize={0.5} color="#3B82F6" font="/fonts/Inter-Bold.ttf">-</Text>
+                    <Text position={[0, 1.1, 0]} fontSize={0.2} color="white">GÉNÉRATEUR</Text>
                 </group>
 
                 {topology === 'series' && (
                     <group>
-                        <CircuitSegment p1={[-2.5, 0.5, 0]} p2={[-1.5, 0.5, 0]} active={analysis.status === 'ok'} />
-                        <Slot3D id={0} pos={[-1, 0.5, 0]} type={slots[0]} active={analysis.status === 'ok'} onClick={() => setShowMenu(0)} error={analysis.status === 'short'} />
-                        <CircuitSegment p1={[-0.5, 0.5, 0]} p2={[0.5, 0.5, 0]} active={analysis.status === 'ok'} />
-                        <Slot3D id={1} pos={[1, 0.5, 0]} type={slots[1]} active={analysis.status === 'ok'} onClick={() => setShowMenu(1)} error={analysis.status === 'short'} />
-                        <CircuitSegment p1={[1.5, 0.5, 0]} p2={[2.5, 0.5, 0]} active={analysis.status === 'ok'} />
-                        <Slot3D id={2} pos={[3, 0.5, 0]} type={slots[2]} active={analysis.status === 'ok'} onClick={() => setShowMenu(2)} error={analysis.status === 'short'} />
+                        <CircuitSegment p1={[-3, 0, 0]} p2={[-1.5, 0, 0]} active={analysis.status === 'ok'} />
+                        <Slot3D id={0} pos={[-1, 0, 0]} type={slots[0]} active={analysis.status === 'ok'} onClick={() => setShowMenu(0)} error={analysis.status === 'short'} />
+                        <CircuitSegment p1={[-0.5, 0, 0]} p2={[0.5, 0, 0]} active={analysis.status === 'ok'} />
+                        <Slot3D id={1} pos={[1, 0, 0]} type={slots[1]} active={analysis.status === 'ok'} onClick={() => setShowMenu(1)} error={analysis.status === 'short'} />
+                        <CircuitSegment p1={[1.5, 0, 0]} p2={[2.5, 0, 0]} active={analysis.status === 'ok'} />
+                        <Slot3D id={2} pos={[3, 0, 0]} type={slots[2]} active={analysis.status === 'ok'} onClick={() => setShowMenu(2)} error={analysis.status === 'short'} />
 
                         <group position={[0, -1, 0]}>
-                            <CircuitSegment p1={[3, 1, 0]} p2={[3, 0.5, 0]} vertical active={analysis.status === 'ok'} />
-                            <CircuitSegment p1={[3, 0, 0]} p2={[0, 0, 0]} active={analysis.status === 'ok'} />
+                            <CircuitSegment p1={[3.5, 1, 0]} p2={[3.5, 0, 0]} vertical active={analysis.status === 'ok'} />
+                            <CircuitSegment p1={[3.5, 0, 0]} p2={[0.2, 0, 0]} active={analysis.status === 'ok'} />
                             <Switch3D position={[0, 0, 0]} closed={switchState} />
-                            <CircuitSegment p1={[-0.5, 0, 0]} p2={[-3, 0, 0]} active={analysis.status === 'ok'} />
-                            <CircuitSegment p1={[-3, 0, 0]} p2={[-3, 0.5, 0]} vertical active={analysis.status === 'ok'} />
+                            <CircuitSegment p1={[-0.2, 0, 0]} p2={[-3.5, 0, 0]} active={analysis.status === 'ok'} />
+                            <CircuitSegment p1={[-3.5, 0, 0]} p2={[-3.5, 0.5, 0]} vertical active={analysis.status === 'ok'} />
                         </group>
                     </group>
                 )}
 
                 {topology === 'parallel' && (
                     <group>
-                        <CircuitSegment p1={[-2.5, 1, 0]} p2={[2, 1, 0]} active={analysis.status === 'ok'} />
-                        <CircuitSegment p1={[-1, 1, 0]} p2={[-1, 0.5, 0]} vertical active={analysis.status === 'ok'} />
-                        <Slot3D id={0} pos={[-1, 0, 0]} type={slots[0]} active={analysis.status === 'ok'} onClick={() => setShowMenu(0)} error={analysis.status === 'short'} />
-                        <Slot3D id={1} pos={[-1, -1, 0]} type={slots[1]} active={analysis.status === 'ok'} onClick={() => setShowMenu(1)} error={analysis.status === 'short'} />
-                        <CircuitSegment p1={[-1, -1.5, 0]} p2={[-1, -2, 0]} vertical active={analysis.status === 'ok'} />
+                        <CircuitSegment p1={[-3, 0, 0]} p2={[-1, 0, 0]} active={analysis.status === 'ok'} />
+                        <CircuitSegment p1={[-1, 1, 0]} p2={[-1, -1, 0]} vertical active={analysis.status === 'ok'} />
 
-                        <CircuitSegment p1={[2, 1, 0]} p2={[2, 0.5, 0]} vertical active={analysis.status === 'ok'} />
-                        <Slot3D id={2} pos={[2, 0, 0]} type={slots[2]} active={analysis.status === 'ok'} onClick={() => setShowMenu(2)} error={analysis.status === 'short'} />
-                        <Slot3D id={3} pos={[2, -1, 0]} type={slots[3]} active={analysis.status === 'ok'} onClick={() => setShowMenu(3)} error={analysis.status === 'short'} />
-                        <CircuitSegment p1={[2, -1.5, 0]} p2={[2, -2, 0]} vertical active={analysis.status === 'ok'} />
+                        <Slot3D id={0} pos={[0, 1, 0]} type={slots[0]} active={analysis.status === 'ok'} onClick={() => setShowMenu(0)} error={analysis.status === 'short'} />
+                        <Slot3D id={1} pos={[0, -1, 0]} type={slots[1]} active={analysis.status === 'ok'} onClick={() => setShowMenu(1)} error={analysis.status === 'short'} />
 
-                        <CircuitSegment p1={[2, -2, 0]} p2={[-3, -2, 0]} active={analysis.status === 'ok'} />
-                        <Switch3D position={[-2, -2, 0]} closed={switchState} />
-                        <CircuitSegment p1={[-3, -2, 0]} p2={[-3, -0.75, 0]} vertical active={analysis.status === 'ok'} />
+                        <CircuitSegment p1={[1, 1, 0]} p2={[1, -1, 0]} vertical active={analysis.status === 'ok'} />
+                        <CircuitSegment p1={[1, 1, 0]} p2={[2.5, 1, 0]} active={analysis.status === 'ok'} />
+                        <CircuitSegment p1={[1, -1, 0]} p2={[2.5, -1, 0]} active={analysis.status === 'ok'} />
+
+                        <Slot3D id={2} pos={[3, 1, 0]} type={slots[2]} active={analysis.status === 'ok'} onClick={() => setShowMenu(2)} error={analysis.status === 'short'} />
+                        <Slot3D id={3} pos={[3, -1, 0]} type={slots[3]} active={analysis.status === 'ok'} onClick={() => setShowMenu(3)} error={analysis.status === 'short'} />
+
+                        <CircuitSegment p1={[3.5, 1, 0]} p2={[3.5, -1, 0]} vertical active={analysis.status === 'ok'} />
+                        <group position={[0, -2.5, 0]}>
+                            <CircuitSegment p1={[3.5, 1.5, 0]} p2={[3.5, 0, 0]} vertical active={analysis.status === 'ok'} />
+                            <CircuitSegment p1={[3.5, 0, 0]} p2={[0, 0, 0]} active={analysis.status === 'ok'} />
+                            <Switch3D position={[0, 0, 0]} closed={switchState} />
+                            <CircuitSegment p1={[-0.5, 0, 0]} p2={[-3.5, 0, 0]} active={analysis.status === 'ok'} />
+                            <CircuitSegment p1={[-3.5, 0, 0]} p2={[-3.5, 2.5, 0]} vertical active={analysis.status === 'ok'} />
+                        </group>
                     </group>
                 )}
             </group>

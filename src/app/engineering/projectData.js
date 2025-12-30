@@ -1,6 +1,6 @@
 ﻿export const engineeringProjects = [
     // ==================================================================================
-    // 📐 MATHÉMATIQUES (10 projets)
+    // 📐 MATHÉMATIQUES (20 projets)
     // ==================================================================================
     {
         id: 'math-crypto-rsa',
@@ -30,7 +30,7 @@
 p = randprime(100, 200)
 q = randprime(100, 200)
 n = p * q
-φ(n) = (p−1)(q−1)
+phi_n = (p-1)*(q-1)
 # Choix de e (exposant public)
 e = 65537
 print(f"Clé publique (n, e) : ({n}, {e})")`
@@ -61,7 +61,7 @@ print(f"Message chiffré : {C}")`
         },
         problemStatement: {
             context: "Pourquoi les tournesols ont-ils des spirales parfaites ? La nature optimise l'espace pour capter la lumière.",
-            objective: "Calculer la limite du rapport F_{n+1}/F_n quand n tend vers l'infini.",
+            objective: "Calculer la limite du rapport $F_{n+1}/F_n$ quand $n \to \infty$.",
             analogy: "Arranger des graines pour qu'elles ne se fassent pas d'ombre, c'est comme garer des voitures dans un parking circulaire optimal."
         },
         steps: [
@@ -75,7 +75,7 @@ for i in range(10):
             },
             {
                 title: "2. Limite vers Phi",
-                explanation: "Le rapport tend vers (1+√5)/2.",
+                explanation: "Le rapport tend vers $\Phi = \frac{1+\sqrt{5}}{2}$.",
                 code: `from sympy import solve, sqrt, Symbol
 x = Symbol('x')
 phi = solve(x**2 - x - 1, x)[1]
@@ -107,7 +107,7 @@ print(f"Valeur approchée : {phi.evalf()}")`
         steps: [
             {
                 title: "1. Périmètre",
-                explanation: "À chaque étape, on multiplie le périmètre par 4/3.",
+                explanation: "À chaque étape, on multiplie le périmètre par $4/3$.",
                 code: `from sympy import Symbol, limit, oo
 n = Symbol('n')
 P0 = Symbol('P0')
@@ -134,7 +134,7 @@ print(f"Limite du périmètre : {limite_P}")`
         },
         problemStatement: {
             context: "Comment votre téléphone transmet-il votre voix ? Il la décompose en fréquences.",
-            objective: "Calculer les coefficients aₙ et bₙ pour un signal carré.",
+            objective: "Calculer les coefficients $a_n$ et $b_n$ pour un signal carré.",
             analogy: "Créer n'importe quelle couleur de peinture en mélangeant juste du rouge, du vert et du bleu (les sinus de base)."
         },
         steps: [
@@ -146,7 +146,7 @@ x = symbols('x')
 f = Piecewise((-1, x < 0), (1, x >= 0))
 s = fourier_series(f, (x, -pi, pi))
 print("Série de Fourier (3 premiers termes) :")
-display(s.truncate(3))`
+s.truncate(3)`
             }
         ]
     },
@@ -167,7 +167,7 @@ display(s.truncate(3))`
         },
         problemStatement: {
             context: "Dans une classe de 30 élèves, pariez-vous qu'il y a une paire d'anniversaires ?",
-            objective: "Calculer ℗(au moins une paire) = 1 - ℗(tous différents).",
+            objective: "Calculer $P(\text{au moins une paire}) = 1 - P(\text{tous différents})$.",
             analogy: "Serrer la main à tout le monde : avec 23 personnes, il y a 253 poignées de main possibles, donc beaucoup de chances de 'collision'."
         },
         steps: [
@@ -215,7 +215,7 @@ x, y, z = symbols('x y z')
 A = Matrix([[2, 1, -1], [-3, -1, 2], [-2, 1, 2]])
 b = Matrix([8, -11, -3])
 print("Matrice A :")
-display(A)`
+A`
             },
             {
                 title: "2. Résolution",
@@ -251,7 +251,7 @@ print(f"Égalité : {verification == b}")`
         },
         problemStatement: {
             context: "Un fermier veut clôturer un champ rectangulaire avec 100m de grillage. Quelle dimension maximise la surface ?",
-            objective: "Trouver le maximum de f(x) en résolvant f'(x) = 0.",
+            objective: "Trouver le maximum de $f(x)$ en résolvant $f'(x) = 0$.",
             analogy: "Trouver le sommet d'une colline : là où la pente est nulle."
         },
         steps: [
@@ -263,17 +263,17 @@ x = symbols('x')
 # y = 50 - x (de la contrainte)
 S = x * (50 - x)
 print("Fonction surface :")
-display(S)`
+S`
             },
             {
                 title: "2. Dérivée et Point Critique",
                 explanation: "On cherche où dS/dx = 0.",
                 code: `dS = diff(S, x)
 print("Dérivée dS/dx :")
-display(dS)
 x_opt = solve(dS, x)[0]
 print(f"Dimension optimale : x = {x_opt}m")
-print(f"Surface maximale : {S.subs(x, x_opt)}m²")`
+print(f"Surface maximale : {S.subs(x, x_opt)}m²")
+dS`
             }
         ]
     },
@@ -344,14 +344,14 @@ t, k = symbols('t k')
 y = Function('y')(t)
 eq = Eq(y.diff(t) + k*y, 0)
 print("Équation différentielle :")
-display(eq)`
+eq`
             },
             {
                 title: "2. Solution Générale",
                 explanation: "y(t) = C·e^(-kt).",
                 code: `solution = dsolve(eq, y)
 print("Solution :")
-display(solution)`
+solution`
             }
         ]
     },
@@ -372,7 +372,7 @@ display(solution)`
         },
         problemStatement: {
             context: "Analyser les signaux électriques en courant alternatif (impédances complexes).",
-            objective: "Calculer avec z = a + bi et utiliser e^(iθ) = cos(θ) + i·sin(θ).",
+            objective: "Calculer avec $z = a + bi$ et utiliser $e^{i\theta} = \cos(\theta) + i\sin(\theta)$.",
             analogy: "Comme les vecteurs 2D : on peut additionner, tourner, agrandir."
         },
         steps: [
@@ -414,7 +414,7 @@ print(f"e^(iπ) + 1 = {simplify(euler)}")`
         },
         problemStatement: {
             context: "Calculer la distance entre deux villes connaissant leurs distances à une troisième et l'angle.",
-            objective: "c² = a² + b² - 2ab·cos(γ).",
+            objective: "$c^2 = a^2 + b^2 - 2ab\cos(\gamma)$.",
             analogy: "Pythagore marche pour les angles droits. La loi des cosinus marche pour TOUS les triangles."
         },
         steps: [
@@ -484,7 +484,7 @@ print(f"Forme factorisée : {factorise}")`
         },
         problemStatement: {
             context: "Un test de dépistage est positif. Quelle est la vraie probabilité d'être malade ?",
-            objective: "P(A|B) = P(B|A)·P(A) / P(B).",
+            objective: "$P(A|B) = \frac{P(B|A) \cdot P(A)}{P(B)}$.",
             analogy: "Comme un détective qui ajuste ses soupçons au fur et à mesure des indices."
         },
         steps: [
@@ -556,7 +556,7 @@ else:
         },
         problemStatement: {
             context: "Une usine fabrique des chaises et des tables. Maximiser le profit sous contraintes de matériaux et temps.",
-            objective: "Maximiser z = 3x + 5y sous contraintes.",
+            objective: "Maximiser $z = 3x + 5y$ sous contraintes.",
             analogy: "Trouver le meilleur compromis dans un budget limité."
         },
         steps: [
@@ -587,7 +587,183 @@ print(f"Profit maximal : {max_profit}")`
             }
         ]
     },
+    {
+        id: 'math-prime-sieve',
+        category: 'Mathématiques',
+        title: "Crible d'Ératosthène",
+        level: "Lycée (Seconde)",
+        domain: "Arithmétique",
+        icon: "🔢",
+        difficulty: "Débutant",
+        duration: "45min",
+        description: "Trouver tous les nombres premiers jusqu'à N.",
+        history: {
+            year: "-240",
+            people: ["Ératosthène de Cyrène"],
+            context: "Ératosthène, directeur de la Bibliothèque d'Alexandrie, invente un algorithme simple pour 'tamiser' les nombres et ne garder que les premiers."
+        },
+        problemStatement: {
+            context: "Sécuriser un système avec des petits nombres premiers avant de passer au RSA.",
+            objective: "Implémenter le crible pour trouver les premiers < 100.",
+            analogy: "Comme une passoire : on laisse passer les multiples de 2, puis de 3, etc. Ce qui reste est premier."
+        },
+        steps: [
+            {
+                title: "1. Algorithme du Crible",
+                explanation: "On élimine les multiples de chaque nombre trouvé.",
+                code: `def crible(n):
+    premiers = [True] * (n + 1)
+    p = 2
+    while (p * p <= n):
+        if (premiers[p] == True):
+            for i in range(p * p, n + 1, p):
+                premiers[i] = False
+        p += 1
+    return [p for p in range(2, n + 1) if premiers[p]]
 
+print(f"Nombres premiers jusqu'à 100 :")
+print(crible(100))`
+            }
+        ]
+    },
+    {
+        id: 'math-monte-carlo',
+        category: 'Mathématiques',
+        title: "Méthode de Monte Carlo",
+        level: "Université (L1)",
+        domain: "Probabilités",
+        icon: "🎯",
+        difficulty: "Intermédiaire",
+        duration: "1h",
+        description: "Calculer la valeur de π en lançant des fléchettes virtuelles.",
+        history: {
+            year: "1946",
+            people: ["Stanisław Ulam", "John von Neumann"],
+            context: "Ulam invente cette méthode alors qu'il jouait au solitaire pendant sa convalescence. Utilisée pour le projet Manhattan (bombe atomique)."
+        },
+        problemStatement: {
+            context: "Calculer une aire complexe qu'on ne sait pas intégrer analytiquement.",
+            objective: "Rapport des points dans le cercle / total = $\pi/4$.",
+            analogy: "Lancer des grains de riz sur une table avec un cercle dessiné et compter ceux qui tombent dedans."
+        },
+        steps: [
+            {
+                title: "1. Simulation",
+                explanation: "Génération de points aléatoires $(x, y)$ dans un carré.",
+                code: `import random
+n = 10000
+interieur = 0
+for _ in range(n):
+    x, y = random.random(), random.random()
+    if x**2 + y**2 <= 1:
+        interieur += 1
+
+pi_approx = 4 * interieur / n
+print(f"Estimation de π pour {n} points : {pi_approx}")`
+            }
+        ]
+    },
+    {
+        id: 'math-bezier',
+        category: 'Mathématiques',
+        title: "Courbes de Bézier",
+        level: "Université (L2)",
+        domain: "Géométrie Algébrique",
+        icon: "🖊️",
+        difficulty: "Intermédiaire",
+        duration: "1h30",
+        description: "Les courbes qui dessinent le monde numérique (polices, design, CAO).",
+        history: {
+            year: "1962",
+            people: ["Pierre Bézier"],
+            context: "Ingénieur chez Renault, Bézier développe ces courbes pour concevoir les carrosseries de voitures par ordinateur."
+        },
+        problemStatement: {
+            context: "Dessiner une courbe lisse passant par des points de contrôle.",
+            objective: "Calculer le polynôme de Bernstein : $B(t) = \sum \binom{n}{i} (1-t)^{n-i} t^i P_i$.",
+            analogy: "Comme un élastique tiré par des aimants (points de contrôle)."
+        },
+        steps: [
+            {
+                title: "1. Courbe Quadratique",
+                explanation: "$P(t) = (1-t)^2 P_0 + 2(1-t)t P_1 + t^2 P_2$.",
+                code: `from sympy import symbols, simplify
+t = symbols('t')
+P0, P1, P2 = 0, 10, 5 # Points de contrôle
+P_t = (1-t)**2 * P0 + 2*(1-t)*t * P1 + t**2 * P2
+print("Équation de la courbe :")
+simplify(P_t)`
+            }
+        ]
+    },
+    {
+        id: 'math-laplace',
+        category: 'Mathématiques',
+        title: "Transformée de Laplace",
+        level: "Université (L2)",
+        domain: "Analyse",
+        icon: "🌀",
+        difficulty: "Avancé",
+        duration: "2h",
+        description: "Transformer des équations différentielles en équations algébriques simples.",
+        history: {
+            year: "1812",
+            people: ["Pierre-Simon de Laplace"],
+            context: "Laplace introduit cette transformée pour ses travaux en mécanique céleste. C'est aujourd'hui l'outil n°1 des automaticiens pour stabiliser des systèmes."
+        },
+        problemStatement: {
+            context: "Résoudre un système masse-ressort-amortisseur complexe.",
+            objective: "Passer du domaine temporel $t$ au domaine fréquentiel $s$.",
+            analogy: "Comme passer un ingrédient au mixeur : ça change de forme, mais c'est plus facile à manipuler."
+        },
+        steps: [
+            {
+                title: "1. Transformée",
+                explanation: "$F(s) = \int_0^\infty f(t) e^{-st} dt$.",
+                code: `from sympy import symbols, laplace_transform, exp, sin
+t, s = symbols('t s')
+f = exp(-t) * sin(t)
+L_f = laplace_transform(f, t, s)
+print("Transformée de Laplace de e^-t * sin(t) :")
+L_f[0]`
+            }
+        ]
+    },
+    {
+        id: 'math-chaos',
+        category: 'Mathématiques',
+        title: "Théorie du Chaos",
+        level: "Master",
+        domain: "Systèmes Dynamiques",
+        icon: "🦋",
+        difficulty: "Expert",
+        duration: "2h30",
+        description: "L'effet papillon : quand le déterminisme devient imprévisible.",
+        history: {
+            year: "1963",
+            people: ["Edward Lorenz"],
+            context: "Lorenz découvre qu'un modèle météo simple peut devenir chaotique à cause d'infimes variations initiales. Fin du rêve de Laplace d'un univers totalement prévisible."
+        },
+        problemStatement: {
+            context: "Comprendre pourquoi la météo est imprévisible à plus de 10 jours.",
+            objective: "Étudier la sensibilité aux conditions initiales.",
+            analogy: "Une bille au sommet d'un dôme : un souffle à gauche ou à droite change tout son futur."
+        },
+        steps: [
+            {
+                title: "1. Attracteur de Lorenz",
+                explanation: "Système de 3 équations non-linéaires.",
+                code: `from sympy import symbols, Function
+t, sigma, rho, beta = symbols('t sigma rho beta')
+x, y, z = Function('x')(t), Function('y')(t), Function('z')(t)
+# Equations de Lorenz:
+# dx/dt = sigma * (y - x)
+# dy/dt = x * (rho - z) - y
+# dz/dt = x * y - beta * z
+print("Système de Lorenz défini.")`
+            }
+        ]
+    },
 
     // ==================================================================================
     // 🚀 PHYSIQUE (15 projets)
@@ -996,16 +1172,14 @@ print(f"Force : {F_val} N (attractive)")`
                 explanation: "Φ = B·A·cos(ωt).",
                 code: `from sympy import symbols, cos, diff, pi
 B, A, omega, t = symbols('B A omega t')
-Phi = B * A * cos(omega * t)
-print("Flux magnétique :")
-display(Phi)`
+Phi`
             },
             {
                 title: "2. Force Électromotrice",
                 explanation: "ε = -dΦ/dt.",
                 code: `epsilon = -diff(Phi, t)
 print("FEM induite :")
-display(epsilon)`
+epsilon`
             }
         ]
     },
@@ -1130,6 +1304,173 @@ else:
             }
         ]
     },
+    // NOUVEAUX PROJETS PHYSIQUE
+    {
+        id: 'phys-bernoulli',
+        category: 'Physique',
+        title: "Équation de Bernoulli",
+        level: "Université (L1)",
+        domain: "Mécanique des Fluides",
+        icon: "💨",
+        difficulty: "Intermédiaire",
+        duration: "1h30",
+        description: "Comprendre comment les avions volent grâce à la différence de pression.",
+        history: {
+            year: "1738",
+            people: ["Daniel Bernoulli"],
+            context: "Bernoulli publie 'Hydrodynamica', posant les bases de la mécanique des fluides. Son équation explique aussi bien les ailes d'avion que le fonctionnement d'un brumisateur."
+        },
+        problemStatement: {
+            context: "Calculer la force de portance sur une aile d'avion.",
+            objective: "$P + \frac{1}{2}\rho v^2 + \rho gh = \text{constante}$.",
+            analogy: "Comme une foule qui court : plus ils vont vite, moins ils peuvent pousser sur les côtés."
+        },
+        steps: [
+            {
+                title: "1. Calcul de Différence de Pression",
+                explanation: "Lien entre vitesse et pression.",
+                code: `from sympy import symbols
+P1, P2, v1, v2, rho = symbols('P1 P2 v1 v2 rho')
+# Sur une aile : v_haut > v_bas -> P_bas > P_haut
+rho_air = 1.225  # kg/m³
+v_bas = 50  # m/s
+v_haut = 60  # m/s
+delta_P = 0.5 * rho_air * (v_haut**2 - v_bas**2)
+print(f"Différence de pression : {delta_P} Pa")`
+            }
+        ]
+    },
+    {
+        id: 'phys-ideal-gas',
+        category: 'Physique',
+        title: "Loi des Gaz Parfaits",
+        level: "Lycée (Terminale)",
+        domain: "Thermodynamique",
+        icon: "🎈",
+        difficulty: "Débutant",
+        duration: "1h",
+        description: "Relation entre pression, volume et température d'un gaz.",
+        history: {
+            year: "1834",
+            people: ["Émile Clapeyron"],
+            context: "Clapeyron combine les lois de Boyle, Charles et Gay-Lussac en une seule équation d'état, pilier de la thermodynamique."
+        },
+        problemStatement: {
+            context: "Prédire le volume d'un ballon qui monte en altitude.",
+            objective: "$PV = nRT$.",
+            analogy: "Des autos-tamponneuses : plus elles vont vite (T) ou plus il y en a (n), plus elles cognent les bords (P)."
+        },
+        steps: [
+            {
+                title: "1. Calcul du Volume",
+                explanation: "V = nRT/P.",
+                code: `from sympy import symbols
+P, V, n, R, T = symbols('P V n R T')
+# 1 mole à 25°C (298K) et 1 atm (101325 Pa)
+vals = {n: 1, R: 8.314, T: 298, P: 101325}
+V_val = n * R * T / P
+print(f"Volume molaire : {V_val.subs(vals).evalf() * 1000} Litres")`
+            }
+        ]
+    },
+    {
+        id: 'phys-biot-savart',
+        category: 'Physique',
+        title: "Loi de Biot-Savart",
+        level: "Université (L2)",
+        domain: "Électromagnétisme",
+        icon: "🧲",
+        difficulty: "Avancé",
+        duration: "2h",
+        description: "Calculer le champ magnétique créé par un courant.",
+        history: {
+            year: "1820",
+            people: ["Jean-Baptiste Biot", "Félix Savart"],
+            context: "Juste après la découverte d'Oersted, Biot et Savart quantifient mathématiquement le lien entre électricité et magnétisme."
+        },
+        problemStatement: {
+            context: "Calculer le champ magnétique au centre d'une bobine.",
+            objective: "$dB = \frac{\mu_0 I}{4\pi} \frac{dl \times \hat{r}}{r^2}$.",
+            analogy: "Comme la chaleur d'un feu : plus on est loin, moins on la sent. Plus le feu est gros, plus il chauffe."
+        },
+        steps: [
+            {
+                title: "1. Champ au centre d'une boucle",
+                explanation: "B = μ₀I / 2R.",
+                code: `from sympy import symbols, pi
+mu0, I, R = symbols('mu0 I R')
+B = (mu0 * I) / (2 * R)
+# Courant 10A, rayon 5cm
+mu0_val = 4 * pi * 1e-7
+print(f"Champ magnétique : {B.subs({mu0: mu0_val, I: 10, R: 0.05}).evalf()} Tesla")`
+            }
+        ]
+    },
+    {
+        id: 'phys-quantum-oscillator',
+        category: 'Physique',
+        title: "Oscillateur Harmonique Quantique",
+        level: "Master",
+        domain: "Physique Quantique",
+        icon: "⚛️",
+        difficulty: "Expert",
+        duration: "2h30",
+        description: "Le modèle fondamental pour les vibrations moléculaires.",
+        history: {
+            year: "1925",
+            people: ["Erwin Schrödinger"],
+            context: "Schrödinger résout son équation pour un potentiel parabolique, découvrant que l'énergie est quantifiée même pour un simple ressort."
+        },
+        problemStatement: {
+            context: "Modéliser la vibration d'une molécule de dihydrogène.",
+            objective: "$E_n = \hbar\omega (n + 1/2)$.",
+            analogy: "Une échelle dont les barreaux sont espacés régulièrement, mais le premier barreau n'est pas au sol."
+        },
+        steps: [
+            {
+                title: "1. Niveaux d'Énergie",
+                explanation: "Quantification de l'énergie.",
+                code: `from sympy import symbols, Rational
+n, hbar, omega = symbols('n hbar omega')
+En = hbar * omega * (n + Rational(1, 2))
+print("Énergie du niveau n :")
+En`
+            }
+        ]
+    },
+    {
+        id: 'phys-interference',
+        category: 'Physique',
+        title: "Interférences Lumineuses",
+        level: "Université (L2)",
+        domain: "Optique Ondulatoire",
+        icon: "🌊",
+        difficulty: "Avancé",
+        duration: "2h",
+        description: "Les franges d'interférence de Young : la preuve que la lumière est une onde.",
+        history: {
+            year: "1801",
+            people: ["Thomas Young"],
+            context: "Young réalise sa célèbre expérience des fentes, brisant des siècles de certitude sur la nature purement corpusculaire (Newton) de la lumière."
+        },
+        problemStatement: {
+            context: "Prédire l'espacement des franges sur un écran.",
+            objective: "$i = \frac{\lambda D}{a}$.",
+            analogy: "Deux cailloux jetés dans l'eau : les vagues s'additionnent ou s'annulent."
+        },
+        steps: [
+            {
+                title: "1. Interfrange",
+                explanation: "Distance entre deux maximums de lumière.",
+                code: `from sympy import symbols
+lam, D, a = symbols('lambda D a')
+i = (lam * D) / a
+# Laser rouge λ=633nm, D=2m, a=0.2mm
+vals = {lam: 633e-9, D: 2, a: 0.0002}
+print(f"Espacement des franges : {i.subs(vals).evalf() * 1000} mm")`
+            }
+        ]
+    },
 
 
     // ==================================================================================
@@ -1162,8 +1503,7 @@ else:
                 code: `from sympy import symbols, log
 pKa, A_minus, AH = symbols('pKa A_minus AH')
 pH = pKa + log₁₀(A_minus / AH, 10)
-print("Formule du pH :")
-display(pH)`
+pH`
             }
         ]
     },
@@ -1195,8 +1535,7 @@ display(pH)`
 A, B, C, D, K = symbols('A B C D K')
 # Exemple : A + B <=> C + D
 eq = K - (C * D) / (A * B)
-print("Expression de K :")
-display(eq)`
+eq`
             }
         ]
     },
@@ -1230,8 +1569,7 @@ A = Function('A')(t)
 # Ordre 1 : dA/dt = -k*A
 eq = Eq(A.diff(t), -k*A)
 sol = dsolve(eq)
-print("Solution pour ordre 1 :")
-display(sol)`
+sol`
             }
         ]
     },
@@ -1262,8 +1600,7 @@ display(sol)`
                 code: `from sympy import symbols, log
 E0, R, T, n, F, Q = symbols('E0 R T n F Q')
 E = E0 - (R*T / (n*F)) * log(Q)
-print("Potentiel de la pile :")
-display(E)`
+E`
             }
         ]
     },
@@ -1294,8 +1631,7 @@ display(E)`
                 code: `from sympy import symbols
 DH_prod, DH_react = symbols('DH_prod DH_react')
 DH_reaction = DH_prod - DH_react
-print("Enthalpie de réaction :")
-display(DH_reaction)`
+DH_reaction`
             }
         ]
     },
@@ -1747,9 +2083,7 @@ print("Objectif chimie verte : E < 1")`
 t, r, K = symbols('t r K')
 N = Function('N')(t)
 eq = Eq(N.diff(t), r*N*(1 - N/K))
-sol = dsolve(eq)
-print("Solution logistique :")
-display(sol)`
+sol`
             }
         ]
     },
@@ -1779,9 +2113,7 @@ display(sol)`
                 explanation: "Vitesse en fonction du substrat.",
                 code: `from sympy import symbols
 Vmax, S, Km = symbols('Vmax S Km')
-v = Vmax * S / (Km + S)
-print("Vitesse enzymatique :")
-display(v)`
+v`
             }
         ]
     },
@@ -1844,9 +2176,7 @@ print(f"℗(AA) = {P_AA}, ℗(Aa) = {P_Aa}, ℗(aa) = {P_aa}")`
                 explanation: "P = Pmax * I / (K + I).",
                 code: `from sympy import symbols
 Pmax, I, K = symbols('Pmax I K')
-P = Pmax * I / (K + I)
-print("Production en fonction de la lumière :")
-display(P)`
+P`
             }
         ]
     },
@@ -2250,8 +2580,7 @@ C = Function('C')(t)
 # dC/dt = libération - recapture
 eq = Eq(C.diff(t), k_lib - k_recap*C)
 sol = dsolve(eq)
-print("Concentration de neurotransmetteur :")
-display(sol)`
+sol`
             }
         ]
     },
@@ -2441,8 +2770,7 @@ w, x, y, y_pred = symbols('w x y y_pred')
 # y_pred = w*x (simplifié)
 E = (y - y_pred)**2
 gradient = diff(E, w)
-print("Gradient de l'erreur :")
-display(gradient)`
+gradient`
             }
         ]
     },
@@ -2588,8 +2916,7 @@ message = m * cos(omega_m * t)
 porteuse = cos(omega_p * t)
 # Signal AM
 s_AM = (1 + message) * porteuse
-print("Signal AM :")
-display(s_AM)`
+s_AM`
             }
         ]
     },
@@ -2770,8 +3097,7 @@ t, Kp, Ki, Kd = symbols('t Kp Ki Kd')
 e = Function('e')(t)  # Erreur
 # Commande PID
 u = Kp*e + Ki*integrate(e, t) + Kd*diff(e, t)
-print("Commande PID :")
-display(u)`
+u`
             }
         ]
     },
@@ -2883,8 +3209,7 @@ while True:
                 code: `from sympy import symbols, Function, dsolve
 x, E, I, M = symbols('x E I M')
 y = Function('y')(x)
-eq = E*I*y.diff(x, x) + M
-display(eq)`
+eq`
             }
         ]
     },
@@ -2915,8 +3240,7 @@ display(eq)`
                 code: `from sympy import symbols
 M, fyd, z = symbols('M fyd z')
 As = M / (fyd * z)
-print("Section d'acier nécessaire :")
-display(As)`
+As`
             }
         ]
     },
@@ -2947,8 +3271,7 @@ display(As)`
                 code: `from sympy import symbols
 f, L, D, rho, v = symbols('f L D rho v')
 ΔP = f * (L/D) * (rho*v**2/2)
-print("Perte de charge :")
-display(ΔP)`
+ΔP`
             }
         ]
     },
@@ -2980,8 +3303,7 @@ display(ΔP)`
 gamma, H, phi = symbols('gamma H phi')
 Ka = (1 - tan(phi)) / (1 + tan(phi))
 Pa = 0.5 * gamma * H**2 * Ka
-print("Poussée active :")
-display(Pa)`
+Pa`
             }
         ]
     },
@@ -3012,8 +3334,7 @@ display(Pa)`
                 code: `from sympy import symbols, sqrt, pi
 k, m = symbols('k m')
 f = (1/(2*pi)) * sqrt(k/m)
-print("Fréquence propre :")
-display(f)`
+f`
             }
         ]
     },
