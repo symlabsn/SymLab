@@ -1,10 +1,18 @@
 'use client';
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useMemo } from 'react';
 import { useFrame } from '@react-three/fiber';
-import { Html, Text, Float } from '@react-three/drei';
+import { Html, Text, Float, OrbitControls } from '@react-three/drei';
 import * as THREE from 'three';
 import DraggableHtmlPanel from './DraggableHtmlPanel';
-import { ConfettiExplosion as Confetti } from './GamificationUtils';
+import {
+    PhaseSelector,
+    GradeBadge,
+    MissionObjective,
+    XPBar,
+    ChallengeTimer,
+    SuccessOverlay,
+    ConfettiExplosion
+} from './GamificationUtils';
 
 // =========================================================
 // 🧪 LABORATOIRE VIRTUEL DE SÉPARATION - AVEC MODE DÉFI
@@ -141,43 +149,33 @@ const CHALLENGES = [
 ];
 
 export function SeparationLab() {
-    // États généraux
-    const [mode, setMode] = useState('libre'); // 'libre' ou 'defi'
+    // États Globaux & Gamification
+    const [phase, setPhase] = useState('mission');
+    const [score, setScore] = useState(0);
+    const [level, setLevel] = useState(1);
+    const [showSuccess, setShowSuccess] = useState(false);
+    const [mission, setMission] = useState(null);
+    const [timeLeft, setTimeLeft] = useState(45);
+    const [streak, setStreak] = useState(0);
+
+    // États Physiques & Expérience
     const [scenario, setScenario] = useState(null);
     const [isRunning, setIsRunning] = useState(false);
     const [progress, setProgress] = useState(0);
     const [currentStep, setCurrentStep] = useState(0);
-    const [score, setScore] = useState(0);
-    const [completed, setCompleted] = useState([]);
-    const [showSuccess, setShowSuccess] = useState(false);
-
-    // Mode Défi
-    const [currentChallenge, setCurrentChallenge] = useState(null);
-    const [challengeAnswer, setChallengeAnswer] = useState(null);
-    const [showHint, setShowHint] = useState(0);
-    const [timeLeft, setTimeLeft] = useState(0);
+    const [completedScenarios, setCompletedScenarios] = useState([]);
     const [challengeCompleted, setChallengeCompleted] = useState([]);
-    const [streak, setStreak] = useState(0);
 
-    // Timer pour le mode défi
+    // Timer pour le mode mission
     useEffect(() => {
         let timer;
-        if (mode === 'defi' && currentChallenge && timeLeft > 0 && !challengeAnswer) {
-            timer = setInterval(() => {
-                setTimeLeft(t => {
-                    if (t <= 1) {
-                        // Temps écoulé - mauvaise réponse
-                        handleChallengeAnswer('timeout');
-                        return 0;
-                    }
-                    return t - 1;
-                });
-            }, 1000);
+        if (phase === 'mission' && mission && timeLeft > 0 && !showSuccess) {
+            timer = setInterval(() => setTimeLeft(t => t - 1), 1000);
         }
         return () => clearInterval(timer);
-    }, [mode, currentChallenge, timeLeft, challengeAnswer]);
+    }, [phase, mission, timeLeft, showSuccess]);
 
-    // Animation
+    // Animation de progression
     useFrame((state, delta) => {
         if (isRunning && progress < 1) {
             const newProgress = Math.min(1, progress + delta * 0.15);
@@ -196,69 +194,64 @@ export function SeparationLab() {
     });
 
     const handleComplete = () => {
-        if (scenario && !completed.includes(scenario.id)) {
-            setCompleted(prev => [...prev, scenario.id]);
-            const points = scenario.basePoints || 100;
-            setScore(prev => prev + points);
-            setShowSuccess(true);
+        if (scenario) {
+            if (phase === 'explore') {
+                if (!completedScenarios.includes(scenario.id)) {
+                    setCompletedScenarios(prev => [...prev, scenario.id]);
+                    setScore(prev => prev + (scenario.basePoints || 100));
+                }
+                setShowSuccess(true);
+            } else if (phase === 'mission' && mission) {
+                // Validation de la mission
+                handleMissionSuccess();
+            }
         }
     };
 
-    // === MODE DÉFI ===
-    const startChallengeMode = () => {
-        setMode('defi');
-        nextChallenge();
+    const handleMissionSuccess = () => {
+        const bonusTime = Math.floor(timeLeft / 2);
+        const bonusStreak = streak * 20;
+        const totalPoints = (mission.points || 100) + bonusTime + bonusStreak;
+
+        setScore(prev => prev + totalPoints);
+        setStreak(prev => prev + 1);
+        setChallengeCompleted(prev => [...prev, mission.id]);
+        setShowSuccess(true);
     };
 
-    const nextChallenge = () => {
+    const nextMission = () => {
+        setShowSuccess(false);
         const available = CHALLENGES.filter(c => !challengeCompleted.includes(c.id));
+
         if (available.length === 0) {
-            // Tous les défis terminés
-            setCurrentChallenge(null);
+            setPhase('explore');
+            setMission(null);
+            setScenario(null);
             return;
         }
-        const challenge = available[Math.floor(Math.random() * available.length)];
-        setCurrentChallenge(challenge);
-        setChallengeAnswer(null);
-        setShowHint(0);
-        setTimeLeft(challenge.timeLimit);
 
-        // Sélectionner la technique correspondante
-        setScenario(BASE_SCENARIOS[challenge.technique]);
+        const next = available[Math.floor(Math.random() * available.length)];
+        setMission(next);
+        setScenario(BASE_SCENARIOS[next.technique]);
+        setTimeLeft(next.timeLimit || 45);
         resetExperiment();
     };
 
-    const handleChallengeAnswer = (answer) => {
-        setChallengeAnswer(answer);
+    const handleAnswer = (techniqueId) => {
+        if (phase !== 'mission' || !mission) return;
 
-        if (answer === currentChallenge.technique) {
-            // Bonne réponse !
-            const bonusTime = Math.floor(timeLeft / 2);
-            const bonusStreak = streak * 20;
-            const totalPoints = currentChallenge.points + bonusTime + bonusStreak;
-
-            setScore(prev => prev + totalPoints);
-            setStreak(prev => prev + 1);
-            setChallengeCompleted(prev => [...prev, currentChallenge.id]);
-
-            // Animation de succès
-            setTimeout(() => {
-                setShowSuccess(true);
-            }, 500);
+        if (techniqueId === mission.technique) {
+            // Bonne technique choisie, maintenant l'élève doit lancer l'expérience
+            // On peut soit valider directement, soit forcer le "Lancer"
+            // Ici on va forcer le "Lancer" pour voir l'animation 3D
+            setScenario(BASE_SCENARIOS[techniqueId]);
+            startExperiment();
         } else {
-            // Mauvaise réponse
             setStreak(0);
+            // On pourrait ajouter un feedback visuel d'erreur ici
         }
     };
 
-    const useHint = () => {
-        if (showHint < (currentChallenge?.hints?.length || 0)) {
-            setShowHint(prev => prev + 1);
-            setScore(prev => Math.max(0, prev - 10)); // Coût de l'indice
-        }
-    };
-
-    // === MODE LIBRE ===
     const startExperiment = () => {
         if (!scenario) return;
         setIsRunning(true);
@@ -273,17 +266,17 @@ export function SeparationLab() {
     };
 
     const selectScenario = (s) => {
+        if (phase === 'mission') return;
         setScenario(s);
         resetExperiment();
-        setShowSuccess(false);
     };
 
-    const backToMenu = () => {
-        setMode('libre');
-        setCurrentChallenge(null);
-        setScenario(null);
-        setChallengeAnswer(null);
-    };
+    // Initialisation Mission
+    useEffect(() => {
+        if (phase === 'mission' && !mission) {
+            nextMission();
+        }
+    }, [phase]);
 
     // Étapes pour chaque technique
     const getSteps = (technique) => {
@@ -607,353 +600,159 @@ export function SeparationLab() {
 
     return (
         <group>
+            <OrbitControls enableZoom={false} />
             <ambientLight intensity={0.6} />
-            <pointLight position={[5, 5, 5]} intensity={1} />
-            <pointLight position={[-3, 3, 2]} intensity={0.4} color="#93C5FD" />
-
-            <Confetti active={showSuccess} />
+            <pointLight position={[5, 5, 5]} intensity={1.5} />
+            <pointLight position={[-3, 3, 2]} intensity={0.5} color="#93C5FD" />
 
             {/* Paillasse */}
             <mesh position={[0, -0.75, 0]} rotation={[-Math.PI / 2, 0, 0]}>
                 <planeGeometry args={[6, 4]} />
-                <meshStandardMaterial color="#1E293B" />
+                <meshStandardMaterial color="#1E293B" metalness={0.4} roughness={0.6} />
             </mesh>
 
-            {/* Fond */}
-            <mesh position={[0, 1, -2]}>
-                <planeGeometry args={[6, 4]} />
-                <meshStandardMaterial color="#0F172A" />
+            {/* Fond Immersif */}
+            <mesh position={[0, 1.5, -3]}>
+                <planeGeometry args={[10, 6]} />
+                <meshStandardMaterial color="#0F172A" emissive="#111827" emissiveIntensity={0.5} />
             </mesh>
-
-            {/* Titre */}
-            <Text position={[0, 2.5, -1.5]} fontSize={0.22} color="#60A5FA" anchorX="center">
-                🔬 LABORATOIRE DE SÉPARATION
-            </Text>
-
-            {/* Mode indicator */}
-            {mode === 'defi' && (
-                <Text position={[0, 2.2, -1.5]} fontSize={0.12} color="#F59E0B" anchorX="center">
-                    🎯 MODE DÉFI - Streak: {streak} 🔥
-                </Text>
-            )}
 
             {/* Rendu du montage */}
-            {scenario?.id === 'filtration' && renderFiltration()}
-            {scenario?.id === 'decantation' && renderDecantation()}
-            {scenario?.id === 'distillation' && renderDistillation()}
-            {scenario?.id === 'chromatographie' && renderChromatographie()}
+            <Float speed={1.5} rotationIntensity={0.2} floatIntensity={0.2}>
+                <group scale={1.2}>
+                    {scenario?.id === 'filtration' && renderFiltration()}
+                    {scenario?.id === 'decantation' && renderDecantation()}
+                    {scenario?.id === 'distillation' && renderDistillation()}
+                    {scenario?.id === 'chromatographie' && renderChromatographie()}
+                </group>
+            </Float>
 
-            {/* Message initial */}
+            <ConfettiExplosion active={showSuccess} />
+
+            {/* Message initial si aucun scénario */}
             {!scenario && (
                 <Float speed={2} floatIntensity={0.5}>
-                    <Text position={[0, 0.5, 0]} fontSize={0.16} color="white" anchorX="center">
-                        👈 Choisis un mode pour commencer !
+                    <Text position={[0, 0.5, 0]} fontSize={0.16} color="#60A5FA" font="Inter" anchorX="center">
+                        {phase === 'mission' ? "Choisissez la technique adaptée au défi !" : "Sélectionnez une technique pour explorer"}
                     </Text>
                 </Float>
             )}
 
-            {/* Panneau de contrôle */}
             <Html transform={false}>
                 <DraggableHtmlPanel
-                    title="🧪 Laboratoire Virtuel"
-                    className="w-[380px]"
-                    defaultPosition="bottom-right"
+                    title="🧪 Expert en Séparation"
+                    className="w-[400px] border-blue-500/30"
                 >
-                    <div className="space-y-3 text-white">
-                        {/* Score et Stats */}
-                        <div className="flex justify-between items-center bg-gradient-to-r from-yellow-900/40 to-orange-900/40 p-3 rounded-xl border border-yellow-500/30">
-                            <div>
-                                <div className="text-xs text-yellow-400">Score</div>
-                                <div className="text-2xl font-black text-yellow-400">⭐ {score}</div>
-                            </div>
-                            {mode === 'defi' && (
-                                <div className="text-right">
-                                    <div className="text-xs text-orange-400">Streak</div>
-                                    <div className="text-xl font-bold text-orange-400">🔥 {streak}</div>
+                    <div className="text-white">
+                        <div className="flex justify-between items-center mb-4">
+                            <GradeBadge score={score} />
+                            {phase === 'mission' && <ChallengeTimer timeLeft={timeLeft} maxTime={45} />}
+                        </div>
+
+                        <XPBar current={score} nextLevel={level * 1000} />
+
+                        <div className="h-[1px] bg-gradient-to-r from-transparent via-blue-500/50 to-transparent my-4" />
+
+                        <PhaseSelector currentPhase={phase} onSelect={setPhase} />
+
+                        {phase === 'mission' && mission && (
+                            <MissionObjective objective={mission.question} icon="🎯" />
+                        )}
+
+                        {/* Contexte du défi en mode mission */}
+                        {phase === 'mission' && mission && !isRunning && progress === 0 && (
+                            <div className="bg-blue-900/30 border border-blue-500/20 p-3 rounded-xl mb-4 animate-in fade-in slide-in-from-top-2 duration-500">
+                                <div className="text-[10px] text-blue-400 font-bold uppercase tracking-widest mb-1 flex items-center gap-2">
+                                    <span className="w-2 h-2 bg-blue-500 rounded-full animate-pulse" />
+                                    Briefing de Mission
                                 </div>
-                            )}
-                            <div className="flex gap-1">
-                                {Object.values(BASE_SCENARIOS).map(s => (
-                                    <div
-                                        key={s.id}
-                                        className={`w-7 h-7 rounded-full flex items-center justify-center text-xs ${completed.includes(s.id) ? 'bg-green-500' : 'bg-gray-700'
-                                            }`}
-                                    >
-                                        {completed.includes(s.id) ? '✓' : '○'}
+                                <p className="text-sm text-gray-200 italic">"{mission.context}"</p>
+                            </div>
+                        )}
+
+                        {/* Protocole en mode explore */}
+                        {phase === 'explore' && scenario && !isRunning && (
+                            <div className="space-y-2 mb-4">
+                                <div className="text-[10px] text-gray-400 uppercase font-bold tracking-widest">📋 Protocole</div>
+                                {getSteps(scenario.id).map((step, i) => (
+                                    <div key={i} className="flex items-center gap-2 p-2 bg-white/5 rounded-lg text-xs border border-white/5">
+                                        <span className="w-4 h-4 rounded-full bg-blue-600/50 flex items-center justify-center text-[10px] font-bold">{i + 1}</span>
+                                        {step}
                                     </div>
                                 ))}
                             </div>
+                        )}
+
+                        {/* Barre de Progression pendant l'expérience */}
+                        {isRunning && (
+                            <div className="bg-black/40 p-4 rounded-xl border border-blue-500/20 mb-4">
+                                <div className="flex justify-between items-end mb-2">
+                                    <div>
+                                        <div className="text-[10px] text-blue-400 font-mono italic">DATA_LINK_ACTIVE</div>
+                                        <div className="text-xs font-bold">{getSteps(scenario?.id)[currentStep]}</div>
+                                    </div>
+                                    <div className="text-xl font-black text-blue-400">{Math.round(progress * 100)}%</div>
+                                </div>
+                                <div className="h-2 bg-gray-800 rounded-full overflow-hidden border border-white/5">
+                                    <div
+                                        className="h-full bg-gradient-to-r from-blue-600 via-cyan-400 to-emerald-500 transition-all duration-300 shadow-[0_0_10px_rgba(59,130,246,0.5)]"
+                                        style={{ width: `${progress * 100}%` }}
+                                    />
+                                </div>
+                            </div>
+                        )}
+
+                        {/* Grille de sélection des techniques */}
+                        <div className="grid grid-cols-2 gap-3 mt-4">
+                            {Object.values(BASE_SCENARIOS).map(s => (
+                                <button
+                                    key={s.id}
+                                    onClick={() => phase === 'mission' ? handleAnswer(s.id) : selectScenario(s)}
+                                    disabled={isRunning}
+                                    className={`p-3 rounded-xl text-left transition-all duration-300 border ${scenario?.id === s.id
+                                            ? 'bg-blue-600/20 border-blue-500 shadow-[0_0_15px_rgba(59,130,246,0.2)]'
+                                            : 'bg-white/5 border-white/10 hover:bg-white/10'
+                                        } ${isRunning ? 'opacity-50 cursor-not-allowed' : 'active:scale-95'}`}
+                                >
+                                    <div className="flex justify-between items-start mb-1">
+                                        <span className="text-base">{s.title.split(' ')[0]}</span>
+                                        {completedScenarios.includes(s.id) && <span className="text-emerald-400 text-[10px] font-bold">✓</span>}
+                                    </div>
+                                    <div className="font-bold text-xs">{s.title.split(' ')[1]}</div>
+                                    <div className="text-[9px] text-gray-500 mt-1 uppercase font-bold tracking-tighter">+{s.basePoints} XP</div>
+                                </button>
+                            ))}
                         </div>
 
-                        {/* Mode Selection */}
-                        {!scenario && !currentChallenge && (
-                            <div className="grid grid-cols-2 gap-3">
-                                <button
-                                    onClick={() => setMode('libre')}
-                                    className={`p-4 rounded-xl text-center transition-all ${mode === 'libre' ? 'bg-blue-600 border-2 border-blue-400' : 'bg-gray-800 hover:bg-gray-700'
-                                        }`}
-                                >
-                                    <div className="text-2xl mb-1">🔬</div>
-                                    <div className="font-bold">Mode Libre</div>
-                                    <div className="text-xs text-gray-400">Explore à ton rythme</div>
-                                </button>
-                                <button
-                                    onClick={startChallengeMode}
-                                    className={`p-4 rounded-xl text-center transition-all ${mode === 'defi' ? 'bg-orange-600 border-2 border-orange-400' : 'bg-gray-800 hover:bg-gray-700'
-                                        }`}
-                                >
-                                    <div className="text-2xl mb-1">🎯</div>
-                                    <div className="font-bold">Mode Défi</div>
-                                    <div className="text-xs text-gray-400">Défis chronométrés</div>
-                                </button>
-                            </div>
+                        {/* Actions Principales */}
+                        {scenario && !isRunning && progress === 0 && (
+                            <button
+                                onClick={startExperiment}
+                                className="w-full mt-4 py-4 rounded-xl font-black text-sm uppercase tracking-widest bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 shadow-lg shadow-blue-600/20 transition-all active:scale-95 flex items-center justify-center gap-3"
+                            >
+                                <span className="text-xl">▶</span>
+                                LANCER L'ANALYSE
+                            </button>
                         )}
 
-                        {/* MODE DÉFI - Challenge actuel */}
-                        {mode === 'defi' && currentChallenge && (
-                            <div className="space-y-3">
-                                {/* Timer */}
-                                <div className="flex items-center justify-between bg-gray-900/50 p-2 rounded-lg">
-                                    <span className="text-gray-400">⏱️ Temps</span>
-                                    <span className={`text-xl font-bold ${timeLeft <= 10 ? 'text-red-400 animate-pulse' : 'text-white'}`}>
-                                        {timeLeft}s
-                                    </span>
-                                </div>
-
-                                {/* Contexte du défi */}
-                                <div className="bg-orange-900/30 border border-orange-500/40 p-3 rounded-xl">
-                                    <div className="font-bold text-orange-400 mb-1">{currentChallenge.title}</div>
-                                    <p className="text-sm text-gray-300 italic mb-2">{currentChallenge.context}</p>
-                                    <p className="text-white font-medium">❓ {currentChallenge.question}</p>
-                                </div>
-
-                                {/* Indices */}
-                                {showHint > 0 && (
-                                    <div className="bg-blue-900/30 border border-blue-500/30 p-2 rounded-lg">
-                                        <div className="text-xs text-blue-400 mb-1">💡 Indices :</div>
-                                        {currentChallenge.hints.slice(0, showHint).map((hint, i) => (
-                                            <div key={i} className="text-sm text-gray-300">• {hint}</div>
-                                        ))}
-                                    </div>
-                                )}
-
-                                {/* Choix de réponse */}
-                                {!challengeAnswer && (
-                                    <>
-                                        <div className="text-xs text-gray-400">Choisis la bonne technique :</div>
-                                        <div className="grid grid-cols-2 gap-2">
-                                            {Object.values(BASE_SCENARIOS).map(s => (
-                                                <button
-                                                    key={s.id}
-                                                    onClick={() => handleChallengeAnswer(s.id)}
-                                                    className="p-2 bg-gray-800 hover:bg-gray-700 rounded-lg text-sm transition-all"
-                                                >
-                                                    {s.title}
-                                                </button>
-                                            ))}
-                                        </div>
-                                        <button
-                                            onClick={useHint}
-                                            disabled={showHint >= currentChallenge.hints.length}
-                                            className="w-full py-2 bg-blue-900/50 hover:bg-blue-800/50 rounded-lg text-sm disabled:opacity-50"
-                                        >
-                                            💡 Indice (-10 pts) ({showHint}/{currentChallenge.hints.length})
-                                        </button>
-                                    </>
-                                )}
-
-                                {/* Résultat */}
-                                {challengeAnswer && (
-                                    <div className={`p-3 rounded-xl text-center ${challengeAnswer === currentChallenge.technique
-                                        ? 'bg-green-900/50 border border-green-500'
-                                        : 'bg-red-900/50 border border-red-500'
-                                        }`}>
-                                        {challengeAnswer === currentChallenge.technique ? (
-                                            <>
-                                                <div className="text-2xl mb-1">🎉</div>
-                                                <div className="font-bold text-green-400">Correct !</div>
-                                                <div className="text-sm text-gray-300">+{currentChallenge.points} pts</div>
-                                            </>
-                                        ) : (
-                                            <>
-                                                <div className="text-2xl mb-1">❌</div>
-                                                <div className="font-bold text-red-400">
-                                                    {challengeAnswer === 'timeout' ? 'Temps écoulé !' : 'Incorrect'}
-                                                </div>
-                                                <div className="text-sm text-gray-300">
-                                                    La bonne réponse était : {BASE_SCENARIOS[currentChallenge.technique].title}
-                                                </div>
-                                            </>
-                                        )}
-                                    </div>
-                                )}
-
-                                {/* Boutons */}
-                                <div className="grid grid-cols-2 gap-2">
-                                    {challengeAnswer && (
-                                        <button
-                                            onClick={nextChallenge}
-                                            className="py-3 bg-gradient-to-r from-orange-600 to-amber-600 hover:from-orange-500 hover:to-amber-500 rounded-xl font-bold"
-                                        >
-                                            Suivant →
-                                        </button>
-                                    )}
-                                    <button
-                                        onClick={backToMenu}
-                                        className="py-3 bg-gray-700 hover:bg-gray-600 rounded-xl font-bold"
-                                    >
-                                        ← Menu
-                                    </button>
-                                </div>
-                            </div>
-                        )}
-
-                        {/* MODE LIBRE */}
-                        {mode === 'libre' && (
-                            <>
-                                {/* Contexte */}
-                                {scenario && (
-                                    <div className="bg-blue-900/30 border border-blue-500/30 p-3 rounded-xl">
-                                        <div className="font-bold text-blue-400 mb-1">{scenario.title}</div>
-                                        <p className="text-sm text-gray-300">{scenario.description}</p>
-                                    </div>
-                                )}
-
-                                {/* Protocole */}
-                                {scenario && (
-                                    <div className="space-y-1">
-                                        <div className="text-xs text-gray-400 uppercase">📋 Protocole :</div>
-                                        {getSteps(scenario.id).map((step, i) => (
-                                            <div
-                                                key={i}
-                                                className={`flex items-center gap-2 p-2 rounded-lg transition-all text-sm ${i < currentStep ? 'bg-green-900/40 border border-green-500/40' :
-                                                    i === currentStep && isRunning ? 'bg-blue-900/50 border border-blue-400' :
-                                                        'bg-gray-800/40'
-                                                    }`}
-                                            >
-                                                <span className={`w-5 h-5 rounded-full flex items-center justify-center text-xs font-bold ${i < currentStep ? 'bg-green-500' :
-                                                    i === currentStep && isRunning ? 'bg-blue-500' :
-                                                        'bg-gray-700'
-                                                    }`}>
-                                                    {i < currentStep ? '✓' : i + 1}
-                                                </span>
-                                                <span className="flex-1">{step}</span>
-                                            </div>
-                                        ))}
-                                    </div>
-                                )}
-
-                                {/* Progression */}
-                                {isRunning && (
-                                    <div>
-                                        <div className="flex justify-between text-xs text-gray-400 mb-1">
-                                            <span>Progression</span>
-                                            <span>{Math.round(progress * 100)}%</span>
-                                        </div>
-                                        <div className="h-3 bg-gray-800 rounded-full overflow-hidden">
-                                            <div
-                                                className="h-full bg-gradient-to-r from-cyan-500 via-blue-500 to-purple-500 transition-all"
-                                                style={{ width: `${progress * 100}%` }}
-                                            />
-                                        </div>
-                                    </div>
-                                )}
-
-                                {/* Sélection technique */}
-                                <div>
-                                    <div className="text-xs text-gray-400 mb-2">🔬 Techniques :</div>
-                                    <div className="grid grid-cols-2 gap-2">
-                                        {Object.values(BASE_SCENARIOS).map(s => (
-                                            <button
-                                                key={s.id}
-                                                onClick={() => selectScenario(s)}
-                                                disabled={isRunning}
-                                                className={`p-2 rounded-xl text-left text-sm transition-all ${scenario?.id === s.id
-                                                    ? 'bg-blue-600 border-2 border-blue-400'
-                                                    : completed.includes(s.id)
-                                                        ? 'bg-green-900/40 border border-green-500/40'
-                                                        : 'bg-gray-800 hover:bg-gray-700 border border-gray-700'
-                                                    } disabled:opacity-50`}
-                                            >
-                                                <div className="font-bold">{s.title}</div>
-                                                <div className="text-xs text-gray-400">+{s.basePoints} pts</div>
-                                                {completed.includes(s.id) && <span className="text-green-400 text-xs">✓</span>}
-                                            </button>
-                                        ))}
-                                    </div>
-                                </div>
-
-                                {/* Actions */}
-                                {scenario && (
-                                    <div className="grid grid-cols-2 gap-2">
-                                        <button
-                                            onClick={startExperiment}
-                                            disabled={isRunning || completed.includes(scenario.id)}
-                                            className="py-3 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-500 hover:to-emerald-500 rounded-xl font-bold disabled:opacity-50"
-                                        >
-                                            {isRunning ? '⏳ En cours...' : completed.includes(scenario.id) ? '✅ Fait' : '▶️ Lancer'}
-                                        </button>
-                                        <button
-                                            onClick={resetExperiment}
-                                            className="py-3 bg-gray-700 hover:bg-gray-600 rounded-xl font-bold"
-                                        >
-                                            🔄 Reset
-                                        </button>
-                                    </div>
-                                )}
-                            </>
-                        )}
-
-                        {/* Stats finales */}
-                        {challengeCompleted.length >= CHALLENGES.length && (
-                            <div className="bg-gradient-to-r from-purple-900/50 to-pink-900/50 border border-purple-500/50 p-4 rounded-xl text-center">
-                                <div className="text-3xl mb-2">🏆</div>
-                                <div className="font-bold text-purple-400">Tous les défis terminés !</div>
-                                <div className="text-sm text-gray-300">Score final : {score} pts</div>
-                            </div>
+                        {progress === 1 && (
+                            <button
+                                onClick={resetExperiment}
+                                className="w-full mt-4 py-3 rounded-xl font-bold text-xs uppercase tracking-widest bg-gray-800 hover:bg-gray-700 transition-all border border-white/10"
+                            >
+                                🔄 REFAIRE L'EXPÉRIENCE
+                            </button>
                         )}
                     </div>
                 </DraggableHtmlPanel>
             </Html>
 
-            {/* Overlay de succès */}
-            {showSuccess && (
-                <Html fullscreen>
-                    <div className="fixed inset-0 bg-black/85 flex items-center justify-center z-50">
-                        <div className="bg-gradient-to-br from-green-900 via-emerald-800 to-teal-900 p-8 rounded-3xl border-2 border-green-400 text-center max-w-md shadow-2xl">
-                            <div className="text-6xl mb-4">🎉</div>
-                            <h2 className="text-3xl font-black text-green-400 mb-2">BRAVO !</h2>
-                            <p className="text-xl text-white mb-2">{scenario?.title || currentChallenge?.title}</p>
-                            <p className="text-gray-300 mb-4">
-                                {mode === 'defi' ? 'Défi réussi !' : 'Séparation réussie !'}
-                            </p>
-                            <div className="bg-black/30 rounded-xl p-4 mb-6">
-                                <div className="text-yellow-400 text-2xl font-black">
-                                    +{scenario?.basePoints || currentChallenge?.points} points ⭐
-                                </div>
-                                {streak > 1 && (
-                                    <div className="text-orange-400 text-sm mt-1">
-                                        Bonus streak x{streak} 🔥
-                                    </div>
-                                )}
-                            </div>
-                            <button
-                                onClick={() => {
-                                    setShowSuccess(false);
-                                    if (mode === 'defi') {
-                                        nextChallenge();
-                                    } else {
-                                        setScenario(null);
-                                    }
-                                }}
-                                className="bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-400 hover:to-emerald-400 text-black font-bold px-8 py-4 rounded-xl text-lg transition-all hover:scale-105"
-                            >
-                                Continuer 🚀
-                            </button>
-                        </div>
-                    </div>
-                </Html>
-            )}
+            <SuccessOverlay
+                show={showSuccess}
+                message={phase === 'mission' ? `Mission réussie ! ${scenario?.title} effectuée.` : `Technique ${scenario?.title} maîtrisée !`}
+                points={phase === 'mission' ? (mission?.points || 150) : (scenario?.basePoints || 100)}
+                onNext={phase === 'mission' ? nextMission : () => { setShowSuccess(false); setScenario(null); }}
+            />
         </group>
     );
 }

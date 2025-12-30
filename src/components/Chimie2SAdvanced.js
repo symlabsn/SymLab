@@ -17,10 +17,12 @@ export function AtomicStructureAdvanced() {
     const [elementSymbol, setElementSymbol] = useState('C');
     const [showElectrons, setShowElectrons] = useState(true);
     const [showLabels, setShowLabels] = useState(true);
-    const [challengeMode, setChallengeMode] = useState(false);
-    const [currentChallenge, setCurrentChallenge] = useState(null);
+    const [phase, setPhase] = useState('mission');
     const [score, setScore] = useState(0);
     const [showSuccess, setShowSuccess] = useState(false);
+    const [mission, setMission] = useState(null);
+    const [timeLeft, setTimeLeft] = useState(60);
+    const [searchTerm, setSearchTerm] = useState('');
 
     // Données complètes pour les 30 premiers éléments
     const elementsData = useMemo(() => [
@@ -57,215 +59,179 @@ export function AtomicStructureAdvanced() {
     ], []);
 
     const el = elementsData.find(e => e.symbol === elementSymbol) || elementsData[0];
-    const neutrons = el.A - el.Z;
     const groupRef = useRef();
 
     useFrame((state, delta) => {
         if (groupRef.current) {
-            groupRef.current.rotation.y += delta * 0.1;
+            groupRef.current.rotation.y += delta * 0.2;
         }
     });
 
-    const startChallenge = () => {
-        setChallengeMode(true);
-        // Générer un défi aléatoire
-        const types = ['protons', 'neutrons', 'electrons_valence', 'couches', 'famille'];
-        const type = types[Math.floor(Math.random() * types.length)];
-        const targetEl = elementsData[Math.floor(Math.random() * elementsData.length)];
+    const missions = useMemo(() => [
+        { id: 1, title: 'Identité Atomique', objective: 'Trouvez le numéro atomique (Z) du Carbone.', type: 'Z', target: 6, element: 'C', points: 200 },
+        { id: 2, title: 'Cœur de l\'Atome', objective: 'Combien de neutrons possède le Sodium (A=23) ?', type: 'Neutrons', target: 12, element: 'Na', points: 300 },
+        { id: 3, title: 'Électrons de Valence', objective: 'Combien d\'électrons sur la couche externe de l\'Oxygène ?', type: 'Valence', target: 6, element: 'O', points: 400 },
+        { id: 4, title: 'Famille Noble', objective: 'Identifiez la famille de l\'Argon.', type: 'Family', target: 'Gaz Nobles', element: 'Ar', points: 500 }
+    ], []);
 
-        let question, answer, options;
-
-        switch (type) {
-            case 'protons':
-                question = `Combien de protons (Z) possède l'atome de ${targetEl.name} ?`;
-                answer = targetEl.Z;
-                break;
-            case 'neutrons':
-                question = `Combien de neutrons possède l'atome de ${targetEl.name} (${targetEl.symbol}, A=${targetEl.A}) ?`;
-                answer = targetEl.A - targetEl.Z;
-                break;
-            case 'electrons_valence':
-                const valence = targetEl.config[targetEl.config.length - 1];
-                question = `Combien d'électrons de valence pour ${targetEl.name} ?`;
-                answer = valence;
-                break;
-            case 'couches':
-                question = `Combien de couches électroniques occupées pour ${targetEl.name} ?`;
-                answer = targetEl.config.length;
-                break;
-            case 'famille':
-                question = `À quelle famille appartient l'élément ${targetEl.name} ?`;
-                answer = targetEl.family;
-                break;
-            default:
-                question = `Quel est le numéro atomique du ${targetEl.name} ?`;
-                answer = targetEl.Z;
+    useEffect(() => {
+        if (phase === 'mission' && !mission) {
+            setMission(missions[0]);
+            setTimeLeft(60);
+            setElementSymbol(missions[0].element);
         }
+    }, [phase, mission, missions]);
 
-        setCurrentChallenge({ question, answer, type, element: targetEl });
-        setElementSymbol(targetEl.symbol);
-    };
+    useEffect(() => {
+        let timer;
+        if (phase === 'mission' && timeLeft > 0 && !showSuccess && mission) {
+            timer = setInterval(() => setTimeLeft(prev => prev - 1), 1000);
+        }
+        return () => clearInterval(timer);
+    }, [phase, timeLeft, showSuccess, mission]);
 
     const checkAnswer = (userAns) => {
-        if (!currentChallenge) return;
-
-        const isCorrect = userAns === currentChallenge.answer;
-
+        if (!mission) return;
+        const isCorrect = userAns === mission.target;
         if (isCorrect) {
-            setScore(prev => prev + 50);
+            setScore(prev => prev + mission.points);
             setShowSuccess(true);
-            setTimeout(() => {
-                setShowSuccess(false);
-                startChallenge();
-            }, 2000);
         }
     };
 
-    // Helper pour générer des choix multiples pour le défi
-    const generateOptions = () => {
-        if (!currentChallenge) return [];
-        if (currentChallenge.type === 'famille') {
-            const families = [...new Set(elementsData.map(e => e.family))];
-            // Mélanger et prendre 4
-            return families.sort(() => 0.5 - Math.random()).slice(0, 4);
+    const nextMission = () => {
+        setShowSuccess(false);
+        const nextIdx = missions.findIndex(m => m.id === mission.id) + 1;
+        if (nextIdx < missions.length) {
+            setMission(missions[nextIdx]);
+            setElementSymbol(missions[nextIdx].element);
+            setTimeLeft(60);
+        } else {
+            setPhase('explore');
+            setMission(null);
         }
-        // Pour les nombres, générer des proches
-        const correct = currentChallenge.answer;
+    };
+
+    const options = useMemo(() => {
+        if (!mission) return [];
+        if (mission.type === 'Family') {
+            return ['Alcalins', 'Gaz Nobles', 'Halogènes', 'Métaux de transition'];
+        }
+        const correct = mission.target;
         const opts = new Set([correct]);
         while (opts.size < 4) {
-            const offset = Math.floor(Math.random() * 5) - 2;
-            const val = correct + offset;
-            if (val >= 0) opts.add(val);
+            const val = Math.max(1, correct + Math.floor(Math.random() * 7) - 3);
+            opts.add(val);
         }
-        return Array.from(opts).sort((a, b) => a - b);
-    };
+        return Array.from(opts).sort((a, b) => (typeof a === 'number' ? a - b : a.localeCompare(b)));
+    }, [mission]);
 
-    const options = useMemo(() => generateOptions(), [currentChallenge]);
+    const filteredElements = elementsData.filter(e =>
+        e.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        e.symbol.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        e.Z.toString().includes(searchTerm)
+    );
 
     return (
         <group>
-            <ambientLight intensity={0.5} />
-            <pointLight position={[5, 5, 5]} intensity={1} />
-            <Confetti active={showSuccess} />
+            <OrbitControls enableZoom={false} />
+            <ambientLight intensity={0.6} />
+            <pointLight position={[5, 10, 5]} intensity={1.5} />
 
-            <Text position={[0, 4, 0]} fontSize={0.3} color="#60A5FA" anchorX="center">
-                🔬 STRUCTURE DE L'ATOME (1-30)
-            </Text>
-            <Text position={[0, 3.5, 0]} fontSize={0.2} color="white" anchorX="center">
-                {el.name} ({el.symbol}) - Z={el.Z}, A={el.A}
-            </Text>
-            <Text position={[0, 3.2, 0]} fontSize={0.15} color={el.color} anchorX="center">
-                Famille : {el.family}
-            </Text>
+            <group position={[0, 0.5, 0]}>
+                <group ref={groupRef}>
+                    <mesh>
+                        <sphereGeometry args={[0.5, 32, 32]} />
+                        <meshStandardMaterial color="#EF4444" emissive="#7F1D1D" emissiveIntensity={0.5} />
+                    </mesh>
 
-            <group ref={groupRef} position={[0, 0, 0]}>
-                {/* Noyau */}
-                <mesh position={[0, 0, 0]}>
-                    <sphereGeometry args={[0.4, 32, 32]} />
-                    <meshStandardMaterial color="#EF4444" emissive="#7F1D1D" emissiveIntensity={0.5} />
-                </mesh>
+                    {/* Shells */}
+                    {showElectrons && el.config.map((count, i) => {
+                        const radius = 1.5 + i * 1.0;
+                        return (
+                            <group key={i}>
+                                <mesh rotation={[Math.PI / 2, 0, 0]}>
+                                    <torusGeometry args={[radius, 0.02, 16, 100]} />
+                                    <meshBasicMaterial color="white" transparent opacity={0.1} />
+                                </mesh>
+                                {Array(count).fill(0).map((_, eIdx) => {
+                                    const angle = (eIdx / count) * Math.PI * 2;
+                                    return (
+                                        <mesh key={eIdx} position={[Math.cos(angle) * radius, 0, Math.sin(angle) * radius]}>
+                                            <sphereGeometry args={[0.1, 16, 16]} />
+                                            <meshStandardMaterial color="#3B82F6" emissive="#3B82F6" emissiveIntensity={1} />
+                                        </mesh>
+                                    );
+                                })}
+                                {showLabels && (
+                                    <Text position={[radius, 0.3, 0]} fontSize={0.2} color="gray" font="/fonts/Inter-Bold.woff">
+                                        {['K', 'L', 'M', 'N'][i]}
+                                    </Text>
+                                )}
+                            </group>
+                        );
+                    })}
+                </group>
 
-                {/* Protons et Neutrons (Symboliques) */}
-                {/* On ne dessine pas tout pour éviter la surcharge, juste un nuage représentatif */}
-                {Array(Math.min(el.Z, 15)).fill(0).map((_, i) => {
-                    const r = 0.25;
-                    const theta = Math.random() * Math.PI * 2;
-                    const phi = Math.random() * Math.PI;
-                    const x = r * Math.sin(phi) * Math.cos(theta);
-                    const y = r * Math.sin(phi) * Math.sin(theta);
-                    const z = r * Math.cos(phi);
-                    return (
-                        <mesh key={`nuc-${i}`} position={[x, y, z]}>
-                            <sphereGeometry args={[0.08, 8, 8]} />
-                            <meshStandardMaterial color={i % 2 === 0 ? "#EF4444" : "#F59E0B"} />
-                        </mesh>
-                    )
-                })}
-
-                {/* Couches électroniques (K, L, M, N) */}
-                {showElectrons && el.config.map((count, layerIndex) => {
-                    const radius = 1.2 + layerIndex * 0.8;
-                    const layerName = ['K', 'L', 'M', 'N'][layerIndex];
-                    return (
-                        <group key={layerName}>
-                            {/* Orbite */}
-                            <mesh rotation={[Math.PI / 2, 0, 0]}>
-                                <torusGeometry args={[radius, 0.015, 16, 100]} />
-                                <meshBasicMaterial color="#4B5563" transparent opacity={0.3} />
-                            </mesh>
-
-                            {/* Électrons */}
-                            {Array(count).fill(0).map((_, eIndex) => {
-                                const angle = (eIndex / count) * Math.PI * 2 + (layerIndex * Math.PI / 4);
-                                const x = Math.cos(angle) * radius;
-                                const z = Math.sin(angle) * radius;
-                                return (
-                                    <mesh key={`e-${layerIndex}-${eIndex}`} position={[x, 0, z]}>
-                                        <sphereGeometry args={[0.08, 16, 16]} />
-                                        <meshStandardMaterial color="#3B82F6" emissive="#3B82F6" emissiveIntensity={0.8} />
-                                    </mesh>
-                                );
-                            })}
-
-                            {showLabels && (
-                                <Text position={[radius + 0.2, 0, 0]} fontSize={0.15} color="#9CA3AF" rotation={[-Math.PI / 2, 0, 0]}>
-                                    {layerName}
-                                </Text>
-                            )}
-                        </group>
-                    );
-                })}
+                <Float speed={2} floatIntensity={0.5}>
+                    <Text position={[0, 4, 0]} fontSize={0.5} color="white" font="/fonts/Inter-Bold.woff" anchorX="center">
+                        {el.symbol}
+                    </Text>
+                    <Text position={[0, 3.4, 0]} fontSize={0.25} color={el.color} font="/fonts/Inter-Bold.woff" anchorX="center">
+                        {el.name}
+                    </Text>
+                </Float>
             </group>
 
             <Html transform={false}>
-                <DraggableHtmlPanel title="⚛️ Tableau Périodique 3D" className="w-[400px]" defaultPosition="bottom-right">
-                    <div className="space-y-3 text-white max-h-[80vh] overflow-y-auto custom-scrollbar">
-                        {/* Score */}
-                        <div className="flex justify-between items-center bg-gray-900/50 p-2 rounded border border-gray-700">
-                            <div>
-                                <span className="text-gray-400 text-xs">Score</span>
-                                <div className="text-xl font-bold text-yellow-500">{score} 🏆</div>
-                            </div>
-                            {challengeMode && (
-                                <div className="text-right">
-                                    <div className="text-xs text-purple-400">Mode Défi Actif</div>
-                                    <div className="text-xs text-white animate-pulse">Réponds à la question !</div>
-                                </div>
-                            )}
+                <DraggableHtmlPanel title="⚛️ Atom Visualizer" className="w-[420px] border-blue-500/30 text-white" defaultPosition="bottom-right">
+                    <PhaseSelector currentPhase={phase} onSelect={setPhase} />
+
+                    <div className="flex justify-between items-center mb-4 border-b border-white/10 pb-2">
+                        <div className="flex flex-col">
+                            <span className="text-[10px] text-blue-400 font-black uppercase tracking-widest leading-tight">Physique Atomique</span>
+                            <span className="text-lg font-black">{phase === 'explore' ? 'Modèle de Bohr' : 'Mission Nucléaire 🎯'}</span>
                         </div>
+                        <GradeBadge score={score} />
+                    </div>
 
-                        {/* Zone de Question (Challenge Mode) */}
-                        {challengeMode && currentChallenge && (
-                            <div className="bg-purple-900/40 border border-purple-500/50 p-3 rounded-lg space-y-3">
-                                <div className="font-bold text-center text-sm">{currentChallenge.question}</div>
-                                <div className="grid grid-cols-2 gap-2">
-                                    {options.map((opt) => (
-                                        <button
-                                            key={opt}
-                                            onClick={() => checkAnswer(opt)}
-                                            className="px-3 py-2 bg-purple-700 hover:bg-purple-600 rounded text-sm font-bold transition-colors"
-                                        >
-                                            {opt}
-                                        </button>
-                                    ))}
-                                </div>
+                    {phase === 'mission' && mission && (
+                        <div className="mb-4 space-y-2">
+                            <ChallengeTimer timeLeft={timeLeft} />
+                            <MissionObjective objective={mission.objective} icon="🔍" />
+                        </div>
+                    )}
+
+                    <div className="space-y-4">
+                        {phase === 'mission' && mission ? (
+                            <div className="grid grid-cols-2 gap-2">
+                                {options.map(opt => (
+                                    <button
+                                        key={opt}
+                                        onClick={() => checkAnswer(opt)}
+                                        className="py-4 bg-blue-600 hover:bg-blue-500 rounded-2xl font-black text-sm shadow-xl transform active:scale-95 transition-all text-white border-b-4 border-blue-800"
+                                    >
+                                        {opt}
+                                    </button>
+                                ))}
                             </div>
-                        )}
-
-                        {/* Sélecteur d'éléments (Mode Explore) */}
-                        {!challengeMode && (
-                            <div className="bg-gray-800/50 p-2 rounded">
-                                <div className="text-xs text-gray-400 mb-2">Sélectionner un élément (Z=1 à 30) :</div>
-                                <div className="grid grid-cols-6 gap-1">
-                                    {elementsData.map(e => (
+                        ) : (
+                            <div className="space-y-4">
+                                <div className="relative">
+                                    <input
+                                        type="text"
+                                        placeholder="Rechercher (Nom, Symbole, Z)..."
+                                        value={searchTerm}
+                                        onChange={(e) => setSearchTerm(e.target.value)}
+                                        className="w-full bg-gray-900 border border-white/10 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/50"
+                                    />
+                                </div>
+                                <div className="grid grid-cols-6 gap-2 max-h-[150px] overflow-y-auto p-1 custom-scrollbar">
+                                    {filteredElements.map(e => (
                                         <button
                                             key={e.symbol}
                                             onClick={() => setElementSymbol(e.symbol)}
-                                            className={`p-1 text-[10px] font-bold rounded border transition-all ${elementSymbol === e.symbol
-                                                ? 'bg-blue-600 border-blue-400 text-white scale-110 z-10'
-                                                : 'bg-gray-700 border-gray-600 text-gray-300 hover:bg-gray-600'
-                                                }`}
-                                            title={e.name}
+                                            className={`p-2 rounded-lg text-[10px] font-black transition-all transform active:scale-90 ${elementSymbol === e.symbol ? 'bg-blue-600 shadow-lg shadow-blue-900/40 text-white ring-2 ring-blue-400' : 'bg-gray-800 text-gray-400 hover:bg-gray-700'}`}
                                         >
                                             {e.symbol}
                                         </button>
@@ -274,64 +240,44 @@ export function AtomicStructureAdvanced() {
                             </div>
                         )}
 
-                        {/* Détails de l'élément */}
-                        {!challengeMode && (
-                            <div className="space-y-2 text-sm bg-gray-900/30 p-2 rounded">
-                                <div className="grid grid-cols-2 gap-2">
-                                    <div className="bg-gray-800 p-2 rounded">
-                                        <div className="text-xs text-gray-500">Numéro Atomique</div>
-                                        <div className="text-lg font-bold text-red-400">Z = {el.Z}</div>
-                                    </div>
-                                    <div className="bg-gray-800 p-2 rounded">
-                                        <div className="text-xs text-gray-500">Masse Atomique</div>
-                                        <div className="text-lg font-bold text-yellow-400">A = {el.A}</div>
-                                    </div>
-                                </div>
-                                <div className="bg-gray-800 p-2 rounded flex justify-between items-center">
-                                    <span className="text-gray-400 text-xs">Configuration élec.</span>
-                                    <span className="font-mono text-blue-300 font-bold">
-                                        {el.config.map((n, i) => `${['K', 'L', 'M', 'N'][i]}(${n})`).join(' ')}
-                                    </span>
-                                </div>
-                                <div className="bg-gray-800 p-2 rounded">
-                                    <div className="text-xs text-gray-500">Famille Chimique</div>
-                                    <div className="font-bold" style={{ color: el.color }}>{el.family}</div>
-                                </div>
+                        <div className="grid grid-cols-3 gap-2">
+                            <div className="bg-gray-950 p-3 rounded-2xl border border-white/5 text-center">
+                                <div className="text-[9px] text-gray-500 font-black uppercase tracking-widest">Numéro Z</div>
+                                <div className="text-xl font-black font-mono text-red-500">{el.Z}</div>
                             </div>
-                        )}
-
-                        {/* Contrôles d'affichage */}
-                        <div className="flex gap-4 text-xs">
-                            <label className="flex items-center gap-1 cursor-pointer">
-                                <input type="checkbox" checked={showElectrons} onChange={e => setShowElectrons(e.target.checked)} />
-                                Voir Électrons
-                            </label>
-                            <label className="flex items-center gap-1 cursor-pointer">
-                                <input type="checkbox" checked={showLabels} onChange={e => setShowLabels(e.target.checked)} />
-                                Voir Couches
-                            </label>
+                            <div className="bg-gray-950 p-3 rounded-2xl border border-white/5 text-center">
+                                <div className="text-[9px] text-gray-500 font-black uppercase tracking-widest">Masse A</div>
+                                <div className="text-xl font-black font-mono text-yellow-500">{el.A}</div>
+                            </div>
+                            <div className="bg-gray-950 p-3 rounded-2xl border border-white/5 text-center">
+                                <div className="text-[9px] text-gray-500 font-black uppercase tracking-widest">Neutrons</div>
+                                <div className="text-xl font-black font-mono text-white">{el.A - el.Z}</div>
+                            </div>
                         </div>
 
-                        {/* Boutons Actions */}
-                        <div className="grid grid-cols-2 gap-2 mt-2">
-                            <button
-                                onClick={startChallenge}
-                                className="py-2 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 rounded font-bold text-sm shadow-lg"
-                            >
-                                🎯 Démarrer Défi
+                        <div className="bg-black/40 p-3 rounded-2xl border border-white/5 flex justify-between items-center px-4">
+                            <span className="text-[10px] text-gray-500 font-black uppercase tracking-widest">Configuration</span>
+                            <span className="font-mono text-xs font-black text-blue-400 bg-blue-500/10 px-3 py-1 rounded-full border border-blue-500/20">
+                                {el.config.join('-')}
+                            </span>
+                        </div>
+
+                        <div className="flex gap-4">
+                            <button onClick={() => setShowElectrons(!showElectrons)} className={`flex-1 py-3 rounded-xl font-black text-[10px] uppercase tracking-widest transition-all ${showElectrons ? 'bg-indigo-600/20 text-indigo-400 border border-indigo-500/30' : 'bg-gray-800 text-gray-500 border border-white/5'}`}>
+                                Electrons: {showElectrons ? 'ON' : 'OFF'}
                             </button>
-                            {challengeMode && (
-                                <button
-                                    onClick={() => { setChallengeMode(false); setCurrentChallenge(null); }}
-                                    className="py-2 bg-gray-600 hover:bg-gray-500 rounded font-bold text-sm"
-                                >
-                                    Fermer Défi
-                                </button>
-                            )}
+                            <button onClick={() => setShowLabels(!showLabels)} className={`flex-1 py-3 rounded-xl font-black text-[10px] uppercase tracking-widest transition-all ${showLabels ? 'bg-indigo-600/20 text-indigo-400 border border-indigo-500/30' : 'bg-gray-800 text-gray-500 border border-white/5'}`}>
+                                Couches: {showLabels ? 'ON' : 'OFF'}
+                            </button>
                         </div>
+
+                        <XPBar current={score % 1000} nextLevel={1000} />
                     </div>
                 </DraggableHtmlPanel>
             </Html>
+
+            <SuccessOverlay show={showSuccess} message="Succès Atomique !" points={mission?.points || 200} onNext={nextMission} />
+            <ConfettiExplosion active={showSuccess} />
         </group>
     );
 }
@@ -342,12 +288,12 @@ export function AtomicStructureAdvanced() {
 export function MoleScaleAdvanced() {
     const [substance, setSubstance] = useState('H2O');
     const [mass, setMass] = useState(18);
-    const [challengeMode, setChallengeMode] = useState(false);
-    const [currentChallenge, setCurrentChallenge] = useState(null);
-    const [userAnswer, setUserAnswer] = useState('');
+    const [phase, setPhase] = useState('mission');
     const [score, setScore] = useState(0);
     const [showSuccess, setShowSuccess] = useState(false);
-    const [showConfetti, setShowConfetti] = useState(false);
+    const [mission, setMission] = useState(null);
+    const [timeLeft, setTimeLeft] = useState(60);
+    const [userAnswer, setUserAnswer] = useState('');
 
     const substances = {
         H2O: { name: 'Eau', M: 18, formula: 'H₂O', color: '#60A5FA' },
@@ -361,242 +307,202 @@ export function MoleScaleAdvanced() {
 
     const sub = substances[substance];
     const n = mass / sub.M; // quantité de matière (mol)
-    const N = n * 6.02e23; // nombre d'entités
+    const N = n * 6.022e23; // nombre d'entités
 
-    const challenges = [
-        { question: "Quelle masse pour 2 mol d'eau (M=18) ?", answer: 36, unit: 'g' },
-        { question: "Combien de mol dans 58,5g de NaCl (M=58,5) ?", answer: 1, unit: 'mol' },
-        { question: "Quelle masse pour 0,5 mol de CO₂ (M=44) ?", answer: 22, unit: 'g' },
-        { question: "Combien de mol dans 36g de carbone (M=12) ?", answer: 3, unit: 'mol' },
-        { question: "Quelle masse pour 3 mol de glucose (M=180) ?", answer: 540, unit: 'g' },
-    ];
+    const missions = useMemo(() => [
+        { id: 1, title: 'Calcul de Masse', objective: 'Réglage : Trouvez la masse correspondant à 2.0 mol d\'eau (M=18).', targetN: 2.0, targetM: 36, element: 'H2O', points: 300 },
+        { id: 2, title: 'Quantité de Sel', objective: 'Trouvez la masse pour exactement 1.0 mol de NaCl (M=58.5).', targetN: 1.0, targetM: 58.5, element: 'NaCl', points: 400 },
+        { id: 3, title: 'Gaz Carbonique', objective: 'Ajustez la balance pour obtenir 0.5 mol de CO₂ (M=44).', targetN: 0.5, targetM: 22, element: 'CO2', points: 500 }
+    ], []);
 
-    const balanceRef = useRef();
+    useEffect(() => {
+        if (phase === 'mission' && !mission) {
+            setMission(missions[0]);
+            setTimeLeft(60);
+            setSubstance(missions[0].element);
+            setMass(10);
+        }
+    }, [phase, mission, missions]);
+
+    useEffect(() => {
+        let timer;
+        if (phase === 'mission' && timeLeft > 0 && !showSuccess && mission) {
+            timer = setInterval(() => setTimeLeft(prev => prev - 1), 1000);
+        }
+        return () => clearInterval(timer);
+    }, [phase, timeLeft, showSuccess, mission]);
+
+    const handleAction = () => {
+        if (phase === 'mission' && mission && Math.abs(mass - mission.targetM) < 1) {
+            setScore(s => s + mission.points);
+            setShowSuccess(true);
+        }
+    };
+
+    const nextMission = () => {
+        setShowSuccess(false);
+        const nextIdx = missions.findIndex(m => m.id === mission.id) + 1;
+        if (nextIdx < missions.length) {
+            setMission(missions[nextIdx]);
+            setSubstance(missions[nextIdx].element);
+            setMass(10);
+            setTimeLeft(60);
+        } else {
+            setPhase('explore');
+            setMission(null);
+        }
+    };
+
     const weightRef = useRef();
-
     useFrame((state, delta) => {
         if (weightRef.current) {
-            // Animation de la balance
-            const targetY = -0.5 - (mass / 100) * 0.3;
+            const targetY = -0.5 - (mass / 200) * 0.4;
             weightRef.current.position.y += (targetY - weightRef.current.position.y) * 0.1;
         }
     });
 
-    const startChallenge = () => {
-        setChallengeMode(true);
-        const challenge = challenges[Math.floor(Math.random() * challenges.length)];
-        setCurrentChallenge(challenge);
-        setUserAnswer('');
-    };
-
-    const checkAnswer = () => {
-        if (!currentChallenge) return;
-        const answer = parseFloat(userAnswer);
-        if (Math.abs(answer - currentChallenge.answer) < 0.1) {
-            setScore(prev => prev + 100);
-            setShowConfetti(true);
-            setShowSuccess(true);
-            setTimeout(() => {
-                setShowSuccess(false);
-                setShowConfetti(false);
-                startChallenge();
-            }, 2000);
-        }
-    };
-
     return (
         <group>
+            <OrbitControls enableZoom={false} />
             <ambientLight intensity={0.6} />
-            <pointLight position={[5, 5, 5]} intensity={1} />
+            <pointLight position={[5, 10, 5]} intensity={1.5} />
 
-            <Confetti active={showConfetti} />
-
-            <Text position={[0, 3.5, 0]} fontSize={0.35} color="#60A5FA" anchorX="center">
-                ⚖️ LA MOLE - QUANTITÉ DE MATIÈRE
-            </Text>
-
-            {/* Balance */}
-            <group ref={balanceRef} position={[0, 0, 0]}>
-                {/* Pied de la balance */}
+            <group position={[0, -0.5, 0]}>
+                {/* Structure Balance */}
                 <mesh position={[0, -2, 0]}>
-                    <cylinderGeometry args={[0.8, 1, 0.3, 32]} />
-                    <meshStandardMaterial color="#374151" metalness={0.8} />
+                    <cylinderGeometry args={[1.2, 1.5, 0.4, 32]} />
+                    <meshStandardMaterial color="#1F2937" metalness={0.8} roughness={0.2} />
                 </mesh>
-                <mesh position={[0, -1.5, 0]}>
-                    <cylinderGeometry args={[0.15, 0.15, 1, 16]} />
-                    <meshStandardMaterial color="#4B5563" metalness={0.7} />
+                <mesh position={[0, -1.2, 0]}>
+                    <cylinderGeometry args={[0.2, 0.2, 1.2, 16]} />
+                    <meshStandardMaterial color="#4B5563" metalness={1} roughness={0.1} />
                 </mesh>
 
-                {/* Plateau de la balance */}
+                {/* Plateau */}
                 <group ref={weightRef} position={[0, -0.5, 0]}>
                     <mesh>
-                        <cylinderGeometry args={[1.2, 1.2, 0.1, 32]} />
-                        <meshStandardMaterial color="#6B7280" metalness={0.6} />
+                        <cylinderGeometry args={[1.5, 1.5, 0.1, 32]} />
+                        <meshStandardMaterial color="#94A3B8" metalness={0.6} />
                     </mesh>
 
-                    {/* Substance sur le plateau */}
-                    <mesh position={[0, 0.3, 0]}>
-                        <sphereGeometry args={[0.3 + (mass / 100) * 0.4, 32, 32]} />
-                        <meshStandardMaterial color={sub.color} />
+                    {/* Substance */}
+                    <mesh position={[0, 0.4, 0]}>
+                        <sphereGeometry args={[0.4 + (mass / 200) * 0.6, 32, 32]} />
+                        <meshStandardMaterial color={sub.color} emissive={sub.color} emissiveIntensity={0.2} />
                     </mesh>
 
-                    {/* Particules représentatives */}
-                    {Array(Math.min(Math.floor(n * 3), 15)).fill(0).map((_, i) => {
-                        const angle = (i / 15) * Math.PI * 2;
-                        const r = 0.5 + Math.random() * 0.3;
-                        return (
-                            <mesh key={i} position={[Math.cos(angle) * r, 0.2 + Math.random() * 0.3, Math.sin(angle) * r]}>
+                    {/* Particules */}
+                    {Array(Math.min(Math.floor(n * 20), 30)).fill(0).map((_, i) => (
+                        <Float key={i} speed={2} rotationIntensity={0} floatIntensity={0.2}>
+                            <mesh position={[Math.cos(i) * 0.8, 0.5 + Math.random() * 0.5, Math.sin(i) * 0.8]}>
                                 <sphereGeometry args={[0.08, 16, 16]} />
                                 <meshStandardMaterial color={sub.color} />
                             </mesh>
-                        );
-                    })}
+                        </Float>
+                    ))}
                 </group>
 
-                {/* Écran de la balance */}
-                <mesh position={[0, 0.8, 0.5]}>
-                    <boxGeometry args={[1.5, 0.6, 0.1]} />
-                    <meshStandardMaterial color="#1F2937" />
-                </mesh>
-                <Text position={[0, 0.85, 0.56]} fontSize={0.2} color="#22C55E">
-                    {mass.toFixed(1)} g
-                </Text>
-                <Text position={[0, 0.65, 0.56]} fontSize={0.1} color="#9CA3AF">
-                    {n.toFixed(3)} mol
-                </Text>
+                {/* Affichage digital */}
+                <group position={[0, -1, 1.2]} rotation={[-0.4, 0, 0]}>
+                    <mesh>
+                        <boxGeometry args={[1.2, 0.6, 0.1]} />
+                        <meshStandardMaterial color="#000" />
+                    </mesh>
+                    <Text position={[0, 0, 0.06]} fontSize={0.2} color="#00FFCC" font="/fonts/Inter-Bold.woff">
+                        {mass.toFixed(1)}g
+                    </Text>
+                </group>
             </group>
 
-            {/* Formule visuelle */}
-            <Float speed={2} floatIntensity={0.3}>
-                <Text position={[-2.5, 2, 0]} fontSize={0.25} color="white">
-                    n = m / M
-                </Text>
-                <Text position={[-2.5, 1.6, 0]} fontSize={0.15} color="#9CA3AF">
-                    {n.toFixed(2)} = {mass} / {sub.M}
-                </Text>
-            </Float>
-
             <Html transform={false}>
-                <DraggableHtmlPanel title="⚖️ La Mole (n = m/M)" className="w-[350px]" defaultPosition="bottom-right">
-                    <div className="space-y-3 text-white">
-                        {/* Score */}
-                        <div className="flex justify-between items-center bg-yellow-900/30 p-2 rounded-lg border border-yellow-500/30">
-                            <span className="text-gray-400">Score</span>
-                            <span className="text-xl font-bold text-yellow-400">⭐ {score}</span>
-                        </div>
+                <DraggableHtmlPanel title="⚖️ Expert de la Mole" className="w-[380px] border-amber-500/30 text-white" defaultPosition="bottom-right">
+                    <PhaseSelector currentPhase={phase} onSelect={setPhase} />
 
-                        {/* Mode Défi */}
-                        {challengeMode && currentChallenge && (
-                            <div className="bg-orange-900/40 border border-orange-500/50 p-3 rounded-xl space-y-2">
-                                <div className="text-xs text-orange-400">🎯 CALCUL À FAIRE</div>
-                                <div className="font-bold text-sm">{currentChallenge.question}</div>
-                                <div className="flex gap-2">
-                                    <input
-                                        type="number"
-                                        value={userAnswer}
-                                        onChange={(e) => setUserAnswer(e.target.value)}
-                                        placeholder="Ta réponse"
-                                        className="flex-1 px-3 py-2 bg-gray-800 rounded-lg text-white"
-                                    />
-                                    <span className="py-2 px-3 bg-gray-700 rounded-lg">{currentChallenge.unit}</span>
-                                </div>
-                                <button
-                                    onClick={checkAnswer}
-                                    className="w-full py-2 bg-orange-600 hover:bg-orange-500 rounded-lg font-bold"
-                                >
-                                    Vérifier
-                                </button>
+                    <div className="flex justify-between items-center mb-4 border-b border-white/10 pb-2">
+                        <div className="flex flex-col">
+                            <span className="text-[10px] text-amber-400 font-black uppercase tracking-widest leading-tight">Analyse de Quantité</span>
+                            <span className="text-lg font-black">{phase === 'explore' ? 'Balance de Précision' : 'Calcul de Mole 🎯'}</span>
+                        </div>
+                        <GradeBadge score={score} />
+                    </div>
+
+                    {phase === 'mission' && mission && (
+                        <div className="mb-4 space-y-2">
+                            <ChallengeTimer timeLeft={timeLeft} />
+                            <MissionObjective objective={mission.objective} icon="⚖️" />
+                        </div>
+                    )}
+
+                    <div className="space-y-4">
+                        <div className="bg-gray-950 p-4 rounded-2xl border border-white/5 space-y-4">
+                            <div className="grid grid-cols-4 gap-1">
+                                {Object.keys(substances).map(key => (
+                                    <button
+                                        key={key}
+                                        onClick={() => setSubstance(key)}
+                                        disabled={phase === 'mission'}
+                                        className={`py-2 rounded-lg text-[10px] font-black tracking-tighter transition-all ${substance === key ? 'bg-amber-600 text-white' : 'bg-gray-800 text-gray-500 hover:bg-gray-700'}`}
+                                    >
+                                        {substances[key].formula}
+                                    </button>
+                                ))}
                             </div>
-                        )}
 
-                        {/* Mode Exploration */}
-                        {!challengeMode && (
-                            <>
-                                {/* Substance */}
-                                <div>
-                                    <div className="text-xs text-gray-400 mb-1">Substance :</div>
-                                    <div className="grid grid-cols-4 gap-1">
-                                        {Object.keys(substances).map(key => (
-                                            <button
-                                                key={key}
-                                                onClick={() => { setSubstance(key); setMass(substances[key].M); }}
-                                                className={`py-1 rounded text-xs ${substance === key ? 'bg-blue-600' : 'bg-gray-800 hover:bg-gray-700'}`}
-                                            >
-                                                {substances[key].formula}
-                                            </button>
-                                        ))}
-                                    </div>
+                            <div className="space-y-1 pt-2">
+                                <div className="flex justify-between text-[10px] font-black uppercase tracking-widest text-gray-500">
+                                    <span>Ajuster la Masse</span>
+                                    <span className="text-amber-400 font-mono">{mass} g</span>
                                 </div>
-
-                                {/* Masse */}
-                                <div>
-                                    <div className="text-xs text-gray-400 mb-1">Masse (g) :</div>
-                                    <input
-                                        type="range"
-                                        min="1"
-                                        max="200"
-                                        value={mass}
-                                        onChange={(e) => setMass(Number(e.target.value))}
-                                        className="w-full h-2 bg-gray-800 rounded accent-blue-500"
-                                    />
-                                    <div className="text-center text-lg font-bold">{mass} g</div>
-                                </div>
-
-                                {/* Résultats */}
-                                <div className="bg-gray-900/50 p-3 rounded-lg space-y-2">
-                                    <div className="flex justify-between text-sm">
-                                        <span className="text-gray-400">Masse molaire (M)</span>
-                                        <span className="font-bold">{sub.M} g/mol</span>
-                                    </div>
-                                    <div className="flex justify-between text-sm">
-                                        <span className="text-gray-400">Quantité (n)</span>
-                                        <span className="font-bold text-blue-400">{n.toFixed(3)} mol</span>
-                                    </div>
-                                    <div className="flex justify-between text-sm">
-                                        <span className="text-gray-400">Nombre d'entités</span>
-                                        <span className="font-bold text-green-400">{N.toExponential(2)}</span>
-                                    </div>
-                                </div>
-
-                                {/* Formule */}
-                                <div className="bg-blue-900/30 border border-blue-500/30 p-2 rounded-lg text-center">
-                                    <span className="text-blue-400 font-mono">n = m / M = {mass} / {sub.M} = </span>
-                                    <span className="text-white font-bold">{n.toFixed(3)} mol</span>
-                                </div>
-                            </>
-                        )}
-
-                        {/* Actions */}
-                        <div className="grid grid-cols-2 gap-2">
-                            <button
-                                onClick={startChallenge}
-                                className="py-3 bg-gradient-to-r from-orange-600 to-amber-600 hover:from-orange-500 hover:to-amber-500 rounded-xl font-bold"
-                            >
-                                🎯 Mode Défi
-                            </button>
-                            <button
-                                onClick={() => { setChallengeMode(false); setCurrentChallenge(null); }}
-                                className="py-3 bg-gray-700 hover:bg-gray-600 rounded-xl font-bold"
-                            >
-                                📚 Explorer
-                            </button>
+                                <input
+                                    type="range"
+                                    min="1"
+                                    max="200"
+                                    step="0.5"
+                                    value={mass}
+                                    onChange={(e) => setMass(Number(e.target.value))}
+                                    className="w-full h-2 bg-gray-800 rounded-full appearance-none cursor-pointer accent-amber-500"
+                                />
+                            </div>
                         </div>
+
+                        <div className="grid grid-cols-3 gap-2">
+                            <div className="bg-gray-900/50 p-3 rounded-xl border border-white/5 text-center">
+                                <div className="text-[9px] text-gray-500 font-black uppercase tracking-widest">Masse Molaire</div>
+                                <div className="text-xl font-black font-mono text-blue-400">{sub.M}</div>
+                                <div className="text-[8px] text-gray-600">g/mol</div>
+                            </div>
+                            <div className="bg-gray-900/50 p-3 rounded-xl border border-white/5 text-center">
+                                <div className="text-[9px] text-gray-500 font-black uppercase tracking-widest">Quantité n</div>
+                                <div className="text-xl font-black font-mono text-emerald-400">{n.toFixed(3)}</div>
+                                <div className="text-[8px] text-gray-600">mol</div>
+                            </div>
+                            <div className="bg-gray-900/50 p-3 rounded-xl border border-white/5 text-center">
+                                <div className="text-[9px] text-gray-500 font-black uppercase tracking-widest">Entités N</div>
+                                <div className="text-[10px] font-black font-mono text-purple-400 mt-2">{N.toExponential(1)}</div>
+                            </div>
+                        </div>
+
+                        <div className="p-4 bg-black/60 rounded-2xl border border-white/10 text-center animate-pulse-slow">
+                            <span className="text-gray-500 text-[10px] font-black uppercase tracking-widest">Relation n = m / M</span>
+                            <div className="text-lg font-black font-mono text-white mt-1">
+                                {n.toFixed(3)} = {mass} / {sub.M}
+                            </div>
+                        </div>
+
+                        <button
+                            onClick={handleAction}
+                            className={`w-full py-4 rounded-xl font-black text-xs uppercase tracking-widest transition-all shadow-xl active:scale-95 ${phase === 'mission' ? 'bg-gradient-to-r from-amber-600 to-orange-600 text-white shadow-amber-900/20' : 'bg-gray-800 text-gray-500'}`}
+                        >
+                            {phase === 'mission' ? 'Vérifier la Pesée ⚖️' : 'Mode Exploration Libre'}
+                        </button>
+
+                        <XPBar current={score % 1000} nextLevel={1000} />
                     </div>
                 </DraggableHtmlPanel>
             </Html>
 
-            {/* Success Overlay */}
-            {showSuccess && (
-                <Html fullscreen>
-                    <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50">
-                        <div className="bg-gradient-to-br from-green-900 to-emerald-800 p-6 rounded-2xl border-2 border-green-400 text-center">
-                            <div className="text-5xl mb-2">🎉</div>
-                            <div className="text-2xl font-bold text-green-400">Excellent !</div>
-                            <div className="text-yellow-400 text-lg">+100 pts</div>
-                        </div>
-                    </div>
-                </Html>
-            )}
+            <SuccessOverlay show={showSuccess} message="Pesée Parfaite !" points={mission?.points || 300} onNext={nextMission} />
+            <ConfettiExplosion active={showSuccess} />
         </group>
     );
 }
@@ -606,233 +512,220 @@ export function MoleScaleAdvanced() {
 // =========================================================
 export function LewisStructureAdvanced() {
     const [molecule, setMolecule] = useState('H2O');
-    const [challengeMode, setChallengeMode] = useState(false);
-    const [currentChallenge, setCurrentChallenge] = useState(null);
+    const [phase, setPhase] = useState('mission');
     const [score, setScore] = useState(0);
     const [showSuccess, setShowSuccess] = useState(false);
+    const [mission, setMission] = useState(null);
+    const [timeLeft, setTimeLeft] = useState(60);
 
     const molecules = {
-        H2: { name: 'Dihydrogène', atoms: [{ el: 'H', pos: [-0.5, 0, 0], color: '#FFFFFF' }, { el: 'H', pos: [0.5, 0, 0], color: '#FFFFFF' }], bonds: 1, nonBonding: 0 },
-        H2O: { name: 'Eau', atoms: [{ el: 'O', pos: [0, 0, 0], color: '#EF4444' }, { el: 'H', pos: [-0.8, -0.6, 0], color: '#FFFFFF' }, { el: 'H', pos: [0.8, -0.6, 0], color: '#FFFFFF' }], bonds: 2, nonBonding: 2, angle: '104.5°' },
-        CO2: { name: 'Dioxyde de carbone', atoms: [{ el: 'C', pos: [0, 0, 0], color: '#374151' }, { el: 'O', pos: [-1.2, 0, 0], color: '#EF4444' }, { el: 'O', pos: [1.2, 0, 0], color: '#EF4444' }], bonds: 4, nonBonding: 4, angle: '180°', doubleBonds: true },
-        NH3: { name: 'Ammoniac', atoms: [{ el: 'N', pos: [0, 0.3, 0], color: '#3B82F6' }, { el: 'H', pos: [-0.7, -0.4, 0.4], color: '#FFFFFF' }, { el: 'H', pos: [0.7, -0.4, 0.4], color: '#FFFFFF' }, { el: 'H', pos: [0, -0.4, -0.8], color: '#FFFFFF' }], bonds: 3, nonBonding: 1, angle: '107°' },
-        CH4: { name: 'Méthane', atoms: [{ el: 'C', pos: [0, 0, 0], color: '#374151' }, { el: 'H', pos: [0.6, 0.6, 0.6], color: '#FFFFFF' }, { el: 'H', pos: [-0.6, -0.6, 0.6], color: '#FFFFFF' }, { el: 'H', pos: [0.6, -0.6, -0.6], color: '#FFFFFF' }, { el: 'H', pos: [-0.6, 0.6, -0.6], color: '#FFFFFF' }], bonds: 4, nonBonding: 0, angle: '109.5°' },
-        O2: { name: 'Dioxygène', atoms: [{ el: 'O', pos: [-0.6, 0, 0], color: '#EF4444' }, { el: 'O', pos: [0.6, 0, 0], color: '#EF4444' }], bonds: 2, nonBonding: 4, doubleBonds: true },
-        N2: { name: 'Diazote', atoms: [{ el: 'N', pos: [-0.5, 0, 0], color: '#3B82F6' }, { el: 'N', pos: [0.5, 0, 0], color: '#3B82F6' }], bonds: 3, nonBonding: 2, tripleBonds: true },
-        HCl: { name: 'Chlorure d\'hydrogène', atoms: [{ el: 'H', pos: [-0.6, 0, 0], color: '#FFFFFF' }, { el: 'Cl', pos: [0.6, 0, 0], color: '#22C55E' }], bonds: 1, nonBonding: 3 },
+        H2: { name: 'Dihydrogène', formula: 'H₂', atoms: [{ el: 'H', pos: [-0.5, 0, 0], color: '#FFFFFF' }, { el: 'H', pos: [0.5, 0, 0], color: '#FFFFFF' }], bonds: 1, nonBonding: 0, geometry: 'Linéaire' },
+        H2O: { name: 'Eau', formula: 'H₂O', atoms: [{ el: 'O', pos: [0, 0, 0], color: '#EF4444' }, { el: 'H', pos: [-0.8, -0.6, 0], color: '#FFFFFF' }, { el: 'H', pos: [0.8, -0.6, 0], color: '#FFFFFF' }], bonds: 2, nonBonding: 2, angle: '104.5°', geometry: 'Coudée' },
+        CO2: { name: 'Dioxyde de carbone', formula: 'CO₂', atoms: [{ el: 'C', pos: [0, 0, 0], color: '#374151' }, { el: 'O', pos: [-1.2, 0, 0], color: '#EF4444' }, { el: 'O', pos: [1.2, 0, 0], color: '#EF4444' }], bonds: 4, nonBonding: 4, angle: '180°', geometry: 'Linéaire' },
+        NH3: { name: 'Ammoniac', formula: 'NH₃', atoms: [{ el: 'N', pos: [0, 0.3, 0], color: '#3B82F6' }, { el: 'H', pos: [-0.7, -0.4, 0.4], color: '#FFFFFF' }, { el: 'H', pos: [0.7, -0.4, 0.4], color: '#FFFFFF' }, { el: 'H', pos: [0, -0.4, -0.8], color: '#FFFFFF' }], bonds: 3, nonBonding: 1, angle: '107°', geometry: 'Pyramidale' },
+        CH4: { name: 'Méthane', formula: 'CH₄', atoms: [{ el: 'C', pos: [0, 0, 0], color: '#374151' }, { el: 'H', pos: [0.6, 0.6, 0.6], color: '#FFFFFF' }, { el: 'H', pos: [-0.6, -0.6, 0.6], color: '#FFFFFF' }, { el: 'H', pos: [0.6, -0.6, -0.6], color: '#FFFFFF' }, { el: 'H', pos: [-0.6, 0.6, -0.6], color: '#FFFFFF' }], bonds: 4, nonBonding: 0, angle: '109.5°', geometry: 'Tétraédrique' },
+        O2: { name: 'Dioxygène', formula: 'O₂', atoms: [{ el: 'O', pos: [-0.6, 0, 0], color: '#EF4444' }, { el: 'O', pos: [0.6, 0, 0], color: '#EF4444' }], bonds: 2, nonBonding: 4, geometry: 'Linéaire' },
+        N2: { name: 'Diazote', formula: 'N₂', atoms: [{ el: 'N', pos: [-0.5, 0, 0], color: '#3B82F6' }, { el: 'N', pos: [0.5, 0, 0], color: '#3B82F6' }], bonds: 3, nonBonding: 2, geometry: 'Linéaire' },
+        HCl: { name: 'Chlorure d\'hydrogène', formula: 'HCl', atoms: [{ el: 'H', pos: [-0.6, 0, 0], color: '#FFFFFF' }, { el: 'Cl', pos: [0.6, 0, 0], color: '#22C55E' }], bonds: 1, nonBonding: 3, geometry: 'Linéaire' },
     };
-
-    const challenges = [
-        { question: "Combien de doublets liants dans H₂O ?", answer: 2, molecule: 'H2O' },
-        { question: "Combien de doublets NON liants dans NH₃ ?", answer: 1, molecule: 'NH3' },
-        { question: "Quel angle de liaison dans CH₄ ?", answer: '109.5°', molecule: 'CH4', isText: true },
-        { question: "Combien de liaisons dans N₂ ?", answer: 3, molecule: 'N2' },
-        { question: "Combien de doublets non liants sur l'oxygène de H₂O ?", answer: 2, molecule: 'H2O' },
-    ];
 
     const mol = molecules[molecule];
+
+    const missions = useMemo(() => [
+        { id: 1, title: 'Doublets Liants', objective: 'Réponse : Combien de doublets liants dans la molécule d\'eau ?', target: 2, element: 'H2O', points: 250 },
+        { id: 2, title: 'Non Liants Mystère', objective: 'Combien de doublets non liants possède l\'atome d\'azote de NH₃ ?', target: 1, element: 'NH3', points: 300 },
+        { id: 3, title: 'Angle Tétraédrique', objective: 'Quel est l\'angle de liaison dans le méthane (CH₄) ?', target: '109.5°', element: 'CH4', points: 400, isText: true }
+    ], []);
+
+    useEffect(() => {
+        if (phase === 'mission' && !mission) {
+            setMission(missions[0]);
+            setTimeLeft(60);
+            setMolecule(missions[0].element);
+        }
+    }, [phase, mission, missions]);
+
+    useEffect(() => {
+        let timer;
+        if (phase === 'mission' && timeLeft > 0 && !showSuccess && mission) {
+            timer = setInterval(() => setTimeLeft(prev => prev - 1), 1000);
+        }
+        return () => clearInterval(timer);
+    }, [phase, timeLeft, showSuccess, mission]);
+
+    const checkAnswer = (userAns) => {
+        if (!mission) return;
+        const isCorrect = userAns === mission.target;
+        if (isCorrect) {
+            setScore(prev => prev + mission.points);
+            setShowSuccess(true);
+        }
+    };
+
+    const nextMission = () => {
+        setShowSuccess(false);
+        const nextIdx = missions.findIndex(m => m.id === mission.id) + 1;
+        if (nextIdx < missions.length) {
+            setMission(missions[nextIdx]);
+            setMolecule(missions[nextIdx].element);
+            setTimeLeft(60);
+        } else {
+            setPhase('explore');
+            setMission(null);
+        }
+    };
+
+    const options = useMemo(() => {
+        if (!mission) return [];
+        if (mission.isText) return ['90°', '104.5°', '109.5°', '180°'];
+        return [1, 2, 3, 4];
+    }, [mission]);
+
     const groupRef = useRef();
-
     useFrame((state, delta) => {
-        if (groupRef.current) {
-            groupRef.current.rotation.y += delta * 0.3;
-        }
+        if (groupRef.current) groupRef.current.rotation.y += delta * 0.3;
     });
-
-    const startChallenge = () => {
-        setChallengeMode(true);
-        const challenge = challenges[Math.floor(Math.random() * challenges.length)];
-        setCurrentChallenge(challenge);
-        setMolecule(challenge.molecule);
-    };
-
-    const checkAnswer = (answer) => {
-        if (currentChallenge) {
-            const isCorrect = currentChallenge.isText
-                ? answer === currentChallenge.answer
-                : Number(answer) === currentChallenge.answer;
-            if (isCorrect) {
-                setScore(prev => prev + 75);
-                setShowSuccess(true);
-                setTimeout(() => {
-                    setShowSuccess(false);
-                    startChallenge();
-                }, 2000);
-            }
-        }
-    };
 
     return (
         <group>
+            <OrbitControls enableZoom={false} />
             <ambientLight intensity={0.6} />
-            <pointLight position={[5, 5, 5]} intensity={1} />
+            <pointLight position={[5, 10, 5]} intensity={1.5} />
 
-            <Confetti active={showSuccess} />
+            <group position={[0, 0, 0]}>
+                <group ref={groupRef} scale={[1.5, 1.5, 1.5]}>
+                    {mol.atoms.map((atom, i) => (
+                        <group key={i} position={atom.pos}>
+                            <mesh>
+                                <sphereGeometry args={[atom.el === 'H' ? 0.25 : 0.45, 32, 32]} />
+                                <meshStandardMaterial color={atom.color} emissive={atom.color} emissiveIntensity={0.2} />
+                            </mesh>
+                            <Text position={[0, 0, 0.55]} fontSize={0.2} color="white" font="/fonts/Inter-Bold.woff" anchorX="center">
+                                {atom.el}
+                            </Text>
+                        </group>
+                    ))}
 
-            <Text position={[0, 3.5, 0]} fontSize={0.35} color="#60A5FA" anchorX="center">
-                🔬 STRUCTURE DE LEWIS
-            </Text>
-            <Text position={[0, 3, 0]} fontSize={0.25} color="white" anchorX="center">
-                {mol.name}
-            </Text>
+                    {/* Bonds */}
+                    {mol.atoms.length > 1 && mol.atoms.slice(1).map((atom, i) => {
+                        const start = new THREE.Vector3(...mol.atoms[0].pos);
+                        const end = new THREE.Vector3(...atom.pos);
+                        const mid = start.clone().add(end).multiplyScalar(0.5);
+                        const dir = end.clone().sub(start);
+                        const len = dir.length() * 0.7;
+                        return (
+                            <mesh key={i} position={mid.toArray()} quaternion={new THREE.Quaternion().setFromUnitVectors(new THREE.Vector3(0, 1, 0), dir.normalize())}>
+                                <cylinderGeometry args={[0.06, 0.06, len, 12]} />
+                                <meshStandardMaterial color="#64748B" metalness={0.5} roughness={0.3} />
+                            </mesh>
+                        );
+                    })}
 
-            <group ref={groupRef} scale={[1.8, 1.8, 1.8]}>
-                {/* Atomes */}
-                {mol.atoms.map((atom, i) => (
-                    <group key={i} position={atom.pos}>
-                        <mesh>
-                            <sphereGeometry args={[atom.el === 'H' ? 0.25 : 0.4, 32, 32]} />
-                            <meshStandardMaterial color={atom.color} />
-                        </mesh>
-                        <Text position={[0, 0, 0.5]} fontSize={0.2} color="white" anchorX="center">
-                            {atom.el}
-                        </Text>
-                    </group>
-                ))}
+                    {/* Non-Bonding Pairs */}
+                    {mol.nonBonding > 0 && mol.atoms[0] && (
+                        Array(Math.min(mol.nonBonding, 2)).fill(0).map((_, i) => (
+                            <group key={i} position={[0, 0.6, i === 0 ? 0.3 : -0.3]} rotation={[i === 0 ? 1 : -1, 0, 0]}>
+                                <mesh position={[-0.1, 0, 0]}>
+                                    <sphereGeometry args={[0.06, 16, 16]} />
+                                    <meshStandardMaterial color="#FACC15" emissive="#FACC15" emissiveIntensity={1} />
+                                </mesh>
+                                <mesh position={[0.1, 0, 0]}>
+                                    <sphereGeometry args={[0.06, 16, 16]} />
+                                    <meshStandardMaterial color="#FACC15" emissive="#FACC15" emissiveIntensity={1} />
+                                </mesh>
+                            </group>
+                        ))
+                    )}
+                </group>
 
-                {/* Liaisons (simplifiées) */}
-                {mol.atoms.length > 1 && mol.atoms.slice(1).map((atom, i) => {
-                    const start = new THREE.Vector3(...mol.atoms[0].pos);
-                    const end = new THREE.Vector3(...atom.pos);
-                    const mid = start.clone().add(end).multiplyScalar(0.5);
-                    const dir = end.clone().sub(start);
-                    const len = dir.length() * 0.6;
-
-                    return (
-                        <mesh key={`bond${i}`} position={mid.toArray()} quaternion={new THREE.Quaternion().setFromUnitVectors(new THREE.Vector3(0, 1, 0), dir.normalize())}>
-                            <cylinderGeometry args={[0.05, 0.05, len, 8]} />
-                            <meshStandardMaterial color="#888" />
-                        </mesh>
-                    );
-                })}
-
-                {/* Doublets non liants (sur l'atome central) */}
-                {mol.nonBonding > 0 && mol.atoms[0] && (
-                    <>
-                        {Array(Math.min(mol.nonBonding, 2)).fill(0).map((_, i) => {
-                            const angle = (i / 2) * Math.PI + Math.PI / 2;
-                            return (
-                                <group key={`nl${i}`} position={[mol.atoms[0].pos[0] + Math.cos(angle) * 0.6, mol.atoms[0].pos[1] + 0.5, mol.atoms[0].pos[2] + Math.sin(angle) * 0.3]}>
-                                    <mesh position={[-0.08, 0, 0]}>
-                                        <sphereGeometry args={[0.06, 16, 16]} />
-                                        <meshStandardMaterial color="#FCD34D" emissive="#FCD34D" emissiveIntensity={0.5} />
-                                    </mesh>
-                                    <mesh position={[0.08, 0, 0]}>
-                                        <sphereGeometry args={[0.06, 16, 16]} />
-                                        <meshStandardMaterial color="#FCD34D" emissive="#FCD34D" emissiveIntensity={0.5} />
-                                    </mesh>
-                                </group>
-                            );
-                        })}
-                    </>
-                )}
+                <Float speed={2} floatIntensity={0.5}>
+                    <Text position={[0, 3.5, 0]} fontSize={0.5} color="white" font="/fonts/Inter-Bold.woff" anchorX="center">
+                        {mol.formula}
+                    </Text>
+                    <Text position={[0, 3, 0]} fontSize={0.25} color="#60A5FA" font="/fonts/Inter-Bold.woff" anchorX="center">
+                        {mol.name}
+                    </Text>
+                </Float>
             </group>
 
             <Html transform={false}>
-                <DraggableHtmlPanel title="🔬 Formule de Lewis" className="w-[340px]" defaultPosition="bottom-right">
-                    <div className="space-y-3 text-white">
-                        {/* Score */}
-                        <div className="flex justify-between items-center bg-yellow-900/30 p-2 rounded-lg border border-yellow-500/30">
-                            <span className="text-gray-400">Score</span>
-                            <span className="text-xl font-bold text-yellow-400">⭐ {score}</span>
+                <DraggableHtmlPanel title="🧪 Expert en Lewis" className="w-[400px] border-blue-500/30 text-white" defaultPosition="bottom-right">
+                    <PhaseSelector currentPhase={phase} onSelect={setPhase} />
+
+                    <div className="flex justify-between items-center mb-4 border-b border-white/10 pb-2">
+                        <div className="flex flex-col">
+                            <span className="text-[10px] text-blue-400 font-black uppercase tracking-widest leading-tight">Géométrie Moléculaire</span>
+                            <span className="text-lg font-black">{phase === 'explore' ? 'Modèle VSEPR' : 'Défi de Valence 🎯'}</span>
                         </div>
+                        <GradeBadge score={score} />
+                    </div>
 
-                        {/* Mode Défi */}
-                        {challengeMode && currentChallenge && (
-                            <div className="bg-green-900/40 border border-green-500/50 p-3 rounded-xl space-y-2">
-                                <div className="text-xs text-green-400">🎯 QUESTION</div>
-                                <div className="font-bold">{currentChallenge.question}</div>
-                                <div className="grid grid-cols-4 gap-2">
-                                    {currentChallenge.isText
-                                        ? ['104.5°', '109.5°', '120°', '180°'].map(a => (
-                                            <button key={a} onClick={() => checkAnswer(a)} className="py-2 bg-gray-700 hover:bg-gray-600 rounded text-xs">{a}</button>
-                                        ))
-                                        : [0, 1, 2, 3, 4].map(n => (
-                                            <button key={n} onClick={() => checkAnswer(n)} className="py-2 bg-gray-700 hover:bg-gray-600 rounded font-bold">{n}</button>
-                                        ))
-                                    }
-                                </div>
+                    {phase === 'mission' && mission && (
+                        <div className="mb-4 space-y-2">
+                            <ChallengeTimer timeLeft={timeLeft} />
+                            <MissionObjective objective={mission.objective} icon="🔬" />
+                        </div>
+                    )}
+
+                    <div className="space-y-4">
+                        {phase === 'mission' ? (
+                            <div className="grid grid-cols-2 gap-2">
+                                {options.map(opt => (
+                                    <button
+                                        key={opt}
+                                        onClick={() => checkAnswer(opt)}
+                                        className="py-4 bg-blue-600 hover:bg-blue-500 rounded-2xl font-black text-sm shadow-xl transform active:scale-95 transition-all text-white border-b-4 border-blue-800"
+                                    >
+                                        {opt}
+                                    </button>
+                                ))}
                             </div>
-                        )}
-
-                        {/* Sélection molécule */}
-                        {!challengeMode && (
-                            <div>
-                                <div className="text-xs text-gray-400 mb-1">Molécule :</div>
+                        ) : (
+                            <div className="bg-gray-950 p-4 rounded-2xl border border-white/5 space-y-3">
+                                <div className="text-[10px] text-gray-500 font-black uppercase tracking-widest">Sélectionner une Molécule</div>
                                 <div className="grid grid-cols-4 gap-1">
                                     {Object.keys(molecules).map(key => (
                                         <button
                                             key={key}
                                             onClick={() => setMolecule(key)}
-                                            className={`py-2 rounded text-xs ${molecule === key ? 'bg-blue-600' : 'bg-gray-800 hover:bg-gray-700'}`}
+                                            className={`py-2 rounded-lg text-[10px] font-black transition-all ${molecule === key ? 'bg-blue-600 text-white' : 'bg-gray-800 text-gray-500 hover:bg-gray-700'}`}
                                         >
-                                            {key}
+                                            {molecules[key].formula}
                                         </button>
                                     ))}
                                 </div>
                             </div>
                         )}
 
-                        {/* Infos */}
-                        <div className="bg-gray-900/50 p-3 rounded-lg space-y-2 text-sm">
-                            <div className="flex justify-between">
-                                <span className="text-gray-400">Doublets liants</span>
-                                <span className="font-bold">{mol.bonds}</span>
+                        <div className="grid grid-cols-3 gap-2">
+                            <div className="bg-gray-900/50 p-3 rounded-xl border border-white/5 text-center">
+                                <div className="text-[9px] text-gray-500 font-black uppercase tracking-widest">Liaisons</div>
+                                <div className="text-xl font-black font-mono text-blue-400">{mol.bonds}</div>
                             </div>
-                            <div className="flex justify-between">
-                                <span className="text-gray-400">Doublets non liants</span>
-                                <span className="font-bold text-yellow-400">{mol.nonBonding}</span>
+                            <div className="bg-gray-900/50 p-3 rounded-xl border border-white/5 text-center">
+                                <div className="text-[9px] text-gray-500 font-black uppercase tracking-widest">Doublets NL</div>
+                                <div className="text-xl font-black font-mono text-yellow-400">{mol.nonBonding}</div>
                             </div>
-                            {mol.angle && (
-                                <div className="flex justify-between">
-                                    <span className="text-gray-400">Angle</span>
-                                    <span className="font-bold text-blue-400">{mol.angle}</span>
-                                </div>
-                            )}
-                        </div>
-
-                        {/* Légende */}
-                        <div className="text-xs space-y-1">
-                            <div className="flex items-center gap-2">
-                                <div className="w-3 h-3 rounded-full bg-gray-500" />
-                                <span className="text-gray-400">Liaison covalente</span>
-                            </div>
-                            <div className="flex items-center gap-2">
-                                <div className="w-3 h-3 rounded-full bg-yellow-400" />
-                                <span className="text-gray-400">Doublet non liant</span>
+                            <div className="bg-gray-900/50 p-3 rounded-xl border border-white/5 text-center">
+                                <div className="text-[9px] text-gray-500 font-black uppercase tracking-widest">Angle</div>
+                                <div className="text-sm font-black text-white mt-1">{mol.angle || '180°'}</div>
                             </div>
                         </div>
 
-                        {/* Actions */}
-                        <div className="grid grid-cols-2 gap-2">
-                            <button
-                                onClick={startChallenge}
-                                className="py-3 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-500 hover:to-emerald-500 rounded-xl font-bold"
-                            >
-                                🎯 Mode Défi
-                            </button>
-                            <button
-                                onClick={() => { setChallengeMode(false); setCurrentChallenge(null); }}
-                                className="py-3 bg-gray-700 hover:bg-gray-600 rounded-xl font-bold"
-                            >
-                                📚 Explorer
-                            </button>
+                        <div className="bg-black/60 p-4 rounded-2xl border border-white/10 text-center">
+                            <span className="text-gray-500 text-[10px] font-black uppercase tracking-widest leading-none">VSEPR Geometry info</span>
+                            <div className="text-xl font-black text-white mt-1 uppercase tracking-tight">
+                                {mol.geometry}
+                            </div>
                         </div>
+
+                        <XPBar current={score % 1000} nextLevel={1000} />
                     </div>
                 </DraggableHtmlPanel>
             </Html>
 
-            {showSuccess && (
-                <Html fullscreen>
-                    <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50">
-                        <div className="bg-gradient-to-br from-green-900 to-emerald-800 p-6 rounded-2xl border-2 border-green-400 text-center">
-                            <div className="text-5xl mb-2">🎉</div>
-                            <div className="text-2xl font-bold text-green-400">Bien joué !</div>
-                            <div className="text-yellow-400 text-lg">+75 pts</div>
-                        </div>
-                    </div>
-                </Html>
-            )}
+            <SuccessOverlay show={showSuccess} message="Le 구조가 Correcte !" points={mission?.points || 300} onNext={nextMission} />
+            <ConfettiExplosion active={showSuccess} />
         </group>
     );
 }
@@ -843,30 +736,29 @@ export function LewisStructureAdvanced() {
 export function EquationBalancerAdvanced() {
     const [coefficients, setCoefficients] = useState([1, 1, 1, 1]);
     const [currentEq, setCurrentEq] = useState(0);
+    const [phase, setPhase] = useState('mission');
     const [score, setScore] = useState(0);
     const [streak, setStreak] = useState(0);
     const [showSuccess, setShowSuccess] = useState(false);
     const [timeLeft, setTimeLeft] = useState(60);
-    const [gameStarted, setGameStarted] = useState(false);
 
-    const equations = [
-        { reactants: [{ f: 'H₂', a: { H: 2 } }, { f: 'O₂', a: { O: 2 } }], products: [{ f: 'H₂O', a: { H: 2, O: 1 } }], solution: [2, 1, 2] },
-        { reactants: [{ f: 'N₂', a: { N: 2 } }, { f: 'H₂', a: { H: 2 } }], products: [{ f: 'NH₃', a: { N: 1, H: 3 } }], solution: [1, 3, 2] },
-        { reactants: [{ f: 'CH₄', a: { C: 1, H: 4 } }, { f: 'O₂', a: { O: 2 } }], products: [{ f: 'CO₂', a: { C: 1, O: 2 } }, { f: 'H₂O', a: { H: 2, O: 1 } }], solution: [1, 2, 1, 2] },
-        { reactants: [{ f: 'Fe', a: { Fe: 1 } }, { f: 'O₂', a: { O: 2 } }], products: [{ f: 'Fe₂O₃', a: { Fe: 2, O: 3 } }], solution: [4, 3, 2] },
-        { reactants: [{ f: 'C', a: { C: 1 } }, { f: 'O₂', a: { O: 2 } }], products: [{ f: 'CO₂', a: { C: 1, O: 2 } }], solution: [1, 1, 1] },
-        { reactants: [{ f: 'Na', a: { Na: 1 } }, { f: 'Cl₂', a: { Cl: 2 } }], products: [{ f: 'NaCl', a: { Na: 1, Cl: 1 } }], solution: [2, 1, 2] },
-        { reactants: [{ f: 'Al', a: { Al: 1 } }, { f: 'O₂', a: { O: 2 } }], products: [{ f: 'Al₂O₃', a: { Al: 2, O: 3 } }], solution: [4, 3, 2] },
-    ];
+    const equations = useMemo(() => [
+        { id: 1, title: 'Synthèse de l\'Eau', objective: 'Équilibrez la réaction de formation de l\'eau à partir du dihydrogène et du dioxygène.', reactants: [{ f: 'H₂', a: { H: 2 } }, { f: 'O₂', a: { O: 2 } }], products: [{ f: 'H₂O', a: { H: 2, O: 1 } }], points: 200 },
+        { id: 2, title: 'Synthèse de l\'Ammoniac', objective: 'Équilibrez la synthèse industrielle de l\'ammoniac (Procédé Haber).', reactants: [{ f: 'N₂', a: { N: 2 } }, { f: 'H₂', a: { H: 2 } }], products: [{ f: 'NH₃', a: { N: 1, H: 3 } }], points: 250 },
+        { id: 3, title: 'Combustion du Méthane', objective: 'Équilibrez la combustion complète du méthane dans le dioxygène.', reactants: [{ f: 'CH₄', a: { C: 1, H: 4 } }, { f: 'O₂', a: { O: 2 } }], products: [{ f: 'CO₂', a: { C: 1, O: 2 } }, { f: 'H₂O', a: { H: 2, O: 1 } }], points: 300 },
+        { id: 4, title: 'Oxydation du Fer', objective: 'Équilibrez la formation de la rouille (oxyde de fer III).', reactants: [{ f: 'Fe', a: { Fe: 1 } }, { f: 'O₂', a: { O: 2 } }], products: [{ f: 'Fe₂O₃', a: { Fe: 2, O: 3 } }], points: 350 },
+        { id: 5, title: 'Formation du Chlorure de Sodium', objective: 'Équilibrez la réaction entre le sodium et le dichlore.', reactants: [{ f: 'Na', a: { Na: 1 } }, { f: 'Cl₂', a: { Cl: 2 } }], products: [{ f: 'NaCl', a: { Na: 1, Cl: 1 } }], points: 200 }
+    ], []);
 
     const eq = equations[currentEq];
 
     useEffect(() => {
-        if (gameStarted && timeLeft > 0) {
-            const timer = setInterval(() => setTimeLeft(t => t - 1), 1000);
-            return () => clearInterval(timer);
+        let timer;
+        if (phase === 'mission' && timeLeft > 0 && !showSuccess) {
+            timer = setInterval(() => setTimeLeft(t => t - 1), 1000);
         }
-    }, [gameStarted, timeLeft]);
+        return () => clearInterval(timer);
+    }, [phase, timeLeft, showSuccess]);
 
     const calcAtoms = (side, coeffs) => {
         const totals = {};
@@ -891,194 +783,188 @@ export function EquationBalancerAdvanced() {
 
     const validate = () => {
         if (isBalanced) {
-            const bonus = streak * 10;
-            setScore(prev => prev + 100 + bonus);
+            const bonus = streak * 50;
+            setScore(prev => prev + eq.points + bonus);
             setStreak(prev => prev + 1);
             setShowSuccess(true);
-            setTimeout(() => {
-                setShowSuccess(false);
-                nextEquation();
-            }, 1500);
         } else {
             setStreak(0);
         }
     };
 
-    const nextEquation = () => {
-        setCurrentEq((currentEq + 1) % equations.length);
-        setCoefficients([1, 1, 1, 1]);
-    };
-
-    const startGame = () => {
-        setGameStarted(true);
-        setTimeLeft(60);
-        setScore(0);
-        setStreak(0);
-        setCurrentEq(0);
-        setCoefficients([1, 1, 1, 1]);
+    const nextMission = () => {
+        setShowSuccess(false);
+        const nextIdx = (currentEq + 1);
+        if (nextIdx < equations.length) {
+            setCurrentEq(nextIdx);
+            setCoefficients([1, 1, 1, 1]);
+            setTimeLeft(60);
+        } else {
+            setPhase('explore');
+            setCurrentEq(0);
+            setCoefficients([1, 1, 1, 1]);
+        }
     };
 
     return (
         <group>
+            <OrbitControls enableZoom={false} />
             <ambientLight intensity={0.6} />
-            <pointLight position={[5, 5, 5]} />
+            <pointLight position={[5, 10, 5]} intensity={1.5} />
 
-            <Confetti active={showSuccess} />
-
-            <Text position={[0, 3.5, 0]} fontSize={0.35} color="#60A5FA" anchorX="center">
-                ⚖️ ÉQUILIBRAGE DES ÉQUATIONS
-            </Text>
-
-            {/* Affichage équation */}
-            <group position={[0, 1, 0]}>
-                {/* Réactifs */}
-                {eq.reactants.map((mol, i) => (
-                    <group key={`r${i}`} position={[-2 + i * 1.8, 0, 0]}>
-                        <mesh>
-                            <boxGeometry args={[1.4, 0.8, 0.3]} />
-                            <meshStandardMaterial color="#3B82F6" />
-                        </mesh>
-                        <Text position={[0, 0, 0.2]} fontSize={0.25} color="white">
-                            {coefficients[i] > 1 ? coefficients[i] : ''}{mol.f}
-                        </Text>
-                        {i < eq.reactants.length - 1 && (
-                            <Text position={[1, 0, 0]} fontSize={0.3} color="white">+</Text>
-                        )}
+            <group position={[0, 0, 0]}>
+                {/* Visual Representation of Molecules */}
+                <group position={[0, 1.5, 0]}>
+                    {/* Left Side (Reactants) */}
+                    <group position={[-2.5, 0, 0]}>
+                        {eq.reactants.map((mol, i) => (
+                            <group key={`r${i}`} position={[i * 2, 0, 0]}>
+                                <mesh>
+                                    <boxGeometry args={[1.5, 0.8, 0.4]} />
+                                    <meshStandardMaterial color="#3B82F6" metalness={0.6} roughness={0.2} emissive="#3B82F6" emissiveIntensity={0.2} />
+                                </mesh>
+                                <Text position={[0, 0, 0.25]} fontSize={0.3} color="white" font="/fonts/Inter-Bold.woff">
+                                    {coefficients[i] > 1 ? coefficients[i] : ''}{mol.f}
+                                </Text>
+                                {i < eq.reactants.length - 1 && (
+                                    <Text position={[1.1, 0, 0]} fontSize={0.4} color="gray" font="/fonts/Inter-Bold.woff">+</Text>
+                                )}
+                            </group>
+                        ))}
                     </group>
-                ))}
 
-                {/* Flèche */}
-                <Text position={[0.5, 0, 0]} fontSize={0.4} color="white">→</Text>
+                    <Text position={[0, 0, 0]} fontSize={0.5} color="white" font="/fonts/Inter-Bold.woff">→</Text>
 
-                {/* Produits */}
-                {eq.products.map((mol, i) => (
-                    <group key={`p${i}`} position={[2 + i * 1.8, 0, 0]}>
-                        <mesh>
-                            <boxGeometry args={[1.4, 0.8, 0.3]} />
-                            <meshStandardMaterial color="#22C55E" />
-                        </mesh>
-                        <Text position={[0, 0, 0.2]} fontSize={0.25} color="white">
-                            {coefficients[eq.reactants.length + i] > 1 ? coefficients[eq.reactants.length + i] : ''}{mol.f}
-                        </Text>
-                        {i < eq.products.length - 1 && (
-                            <Text position={[1, 0, 0]} fontSize={0.3} color="white">+</Text>
-                        )}
+                    {/* Right Side (Products) */}
+                    <group position={[1, 0, 0]}>
+                        {eq.products.map((mol, i) => (
+                            <group key={`p${i}`} position={[i * 2, 0, 0]}>
+                                <mesh>
+                                    <boxGeometry args={[1.5, 0.8, 0.4]} />
+                                    <meshStandardMaterial color="#22C55E" metalness={0.6} roughness={0.2} emissive="#22C55E" emissiveIntensity={0.2} />
+                                </mesh>
+                                <Text position={[0, 0, 0.25]} fontSize={0.3} color="white" font="/fonts/Inter-Bold.woff">
+                                    {coefficients[eq.reactants.length + i] > 1 ? coefficients[eq.reactants.length + i] : ''}{mol.f}
+                                </Text>
+                                {i < eq.products.length - 1 && (
+                                    <Text position={[1.1, 0, 0]} fontSize={0.4} color="gray" font="/fonts/Inter-Bold.woff">+</Text>
+                                )}
+                            </group>
+                        ))}
                     </group>
-                ))}
+                </group>
+
+                {isBalanced && (
+                    <Float speed={4} floatIntensity={0.5}>
+                        <Text position={[0, -0.5, 0]} fontSize={0.4} color="#22C55E" font="/fonts/Inter-Bold.woff">
+                            ✓ ÉQUATION ÉQUILIBRÉE
+                        </Text>
+                    </Float>
+                )}
             </group>
 
-            {/* Indicateur équilibré */}
-            {isBalanced && (
-                <Float speed={3} floatIntensity={0.5}>
-                    <Text position={[0, -0.5, 0]} fontSize={0.3} color="#22C55E">
-                        ✓ ÉQUILIBRÉE !
-                    </Text>
-                </Float>
-            )}
-
             <Html transform={false}>
-                <DraggableHtmlPanel title="⚖️ Lavoisier (Conservation)" className="w-[380px]" defaultPosition="bottom-right">
-                    <div className="space-y-3 text-white">
-                        {/* Stats */}
-                        <div className="flex justify-between items-center">
-                            <div className="bg-yellow-900/30 px-3 py-2 rounded-lg border border-yellow-500/30">
-                                <span className="text-yellow-400 font-bold">⭐ {score}</span>
+                <DraggableHtmlPanel title="⚖️ Expert de Lavoisier" className="w-[420px] border-emerald-500/30 text-white" defaultPosition="bottom-right">
+                    <PhaseSelector currentPhase={phase} onSelect={setPhase} />
+
+                    <div className="flex justify-between items-center mb-4 border-b border-white/10 pb-2">
+                        <div className="flex flex-col">
+                            <span className="text-[10px] text-emerald-400 font-black uppercase tracking-widest leading-tight">Conservation de la Masse</span>
+                            <span className="text-lg font-black">{phase === 'explore' ? 'Atelier d\'Équilibrage' : 'Défi de Lavoisier 🎯'}</span>
+                        </div>
+                        <GradeBadge score={score} />
+                    </div>
+
+                    {phase === 'mission' && eq && (
+                        <div className="mb-4 space-y-2">
+                            <ChallengeTimer timeLeft={timeLeft} />
+                            <MissionObjective objective={eq.objective} icon="⚖️" />
+                        </div>
+                    )}
+
+                    <div className="space-y-4">
+                        {/* Atom Counters */}
+                        <div className="grid grid-cols-2 gap-2">
+                            <div className="bg-blue-900/40 p-3 rounded-xl border border-blue-500/30">
+                                <span className="text-[9px] text-blue-400 font-black uppercase tracking-widest block mb-2">Réactifs (Gauche)</span>
+                                <div className="flex flex-wrap gap-2">
+                                    {Object.entries(leftAtoms).map(([atom, count]) => (
+                                        <div key={atom} className="flex items-center gap-1">
+                                            <span className="w-5 h-5 rounded flex items-center justify-center bg-gray-800 text-[10px] font-black">{atom}</span>
+                                            <span className={`text-sm font-black ${rightAtoms[atom] === count ? 'text-emerald-400' : 'text-red-400'}`}>{count}</span>
+                                        </div>
+                                    ))}
+                                </div>
                             </div>
-                            <div className="bg-orange-900/30 px-3 py-2 rounded-lg border border-orange-500/30">
-                                <span className="text-orange-400 font-bold">🔥 {streak}</span>
+                            <div className="bg-emerald-900/40 p-3 rounded-xl border border-emerald-500/30">
+                                <span className="text-[9px] text-emerald-400 font-black uppercase tracking-widest block mb-2">Produits (Droite)</span>
+                                <div className="flex flex-wrap gap-2">
+                                    {Object.entries(rightAtoms).map(([atom, count]) => (
+                                        <div key={atom} className="flex items-center gap-1">
+                                            <span className="w-5 h-5 rounded flex items-center justify-center bg-gray-800 text-[10px] font-black">{atom}</span>
+                                            <span className={`text-sm font-black ${leftAtoms[atom] === count ? 'text-emerald-400' : 'text-red-400'}`}>{count}</span>
+                                        </div>
+                                    ))}
+                                </div>
                             </div>
-                            {gameStarted && (
-                                <div className={`px-3 py-2 rounded-lg ${timeLeft <= 10 ? 'bg-red-900/50 animate-pulse' : 'bg-gray-800'}`}>
-                                    <span className={timeLeft <= 10 ? 'text-red-400' : 'text-white'}>⏱️ {timeLeft}s</span>
+                        </div>
+
+                        {/* Coefficient Controls */}
+                        <div className="grid grid-cols-2 gap-4">
+                            <div className="space-y-2">
+                                <span className="text-[9px] text-gray-500 font-black uppercase tracking-widest block text-center">Reactants</span>
+                                <div className="grid gap-2">
+                                    {eq.reactants.map((mol, i) => (
+                                        <div key={i} className="flex items-center justify-between bg-gray-900/50 p-2 rounded-lg border border-white/5">
+                                            <span className="text-xs font-black text-blue-400">{mol.f}</span>
+                                            <div className="flex items-center gap-2">
+                                                <button onClick={() => updateCoef(i, -1)} className="w-6 h-6 bg-gray-800 hover:bg-gray-700 rounded text-xs font-black">-</button>
+                                                <span className="w-4 text-center font-mono text-sm">{coefficients[i]}</span>
+                                                <button onClick={() => updateCoef(i, 1)} className="w-6 h-6 bg-gray-800 hover:bg-gray-700 rounded text-xs font-black">+</button>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                            <div className="space-y-2">
+                                <span className="text-[9px] text-gray-500 font-black uppercase tracking-widest block text-center">Products</span>
+                                <div className="grid gap-2">
+                                    {eq.products.map((mol, i) => (
+                                        <div key={i} className="flex items-center justify-between bg-gray-900/50 p-2 rounded-lg border border-white/5">
+                                            <span className="text-xs font-black text-emerald-400">{mol.f}</span>
+                                            <div className="flex items-center gap-2">
+                                                <button onClick={() => updateCoef(eq.reactants.length + i, -1)} className="w-6 h-6 bg-gray-800 hover:bg-gray-700 rounded text-xs font-black">-</button>
+                                                <span className="w-4 text-center font-mono text-sm">{coefficients[eq.reactants.length + i]}</span>
+                                                <button onClick={() => updateCoef(eq.reactants.length + i, 1)} className="w-6 h-6 bg-gray-800 hover:bg-gray-700 rounded text-xs font-black">+</button>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="flex gap-2">
+                            <button
+                                onClick={validate}
+                                className={`flex-1 py-4 rounded-xl font-black text-xs uppercase tracking-widest transition-all ${isBalanced ? 'bg-emerald-600 shadow-emerald-900/40 shadow-lg scale-105' : 'bg-gray-800 text-gray-400 shadow-xl border-b-4 border-gray-950 active:border-b-0'}`}
+                            >
+                                {isBalanced ? '✓ Valider l\'Équilibre' : 'Vérifier la Balance'}
+                            </button>
+                            {streak > 0 && (
+                                <div className="bg-orange-600/20 border border-orange-500/30 px-3 py-1 rounded-xl flex items-center gap-2">
+                                    <span className="text-orange-500 animate-pulse text-xs">🔥</span>
+                                    <span className="text-sm font-black text-orange-400">x{streak}</span>
                                 </div>
                             )}
                         </div>
 
-                        {/* Compteur d'atomes */}
-                        <div className="grid grid-cols-2 gap-2">
-                            <div className="bg-blue-900/40 p-2 rounded-lg border border-blue-600/40">
-                                <div className="text-xs text-blue-400 mb-1">Réactifs</div>
-                                <div className="flex gap-2 text-sm">
-                                    {Object.entries(leftAtoms).map(([a, c]) => (
-                                        <span key={a} className={rightAtoms[a] === c ? 'text-green-400' : 'text-red-400'}>
-                                            {a}:{c}
-                                        </span>
-                                    ))}
-                                </div>
-                            </div>
-                            <div className="bg-green-900/40 p-2 rounded-lg border border-green-600/40">
-                                <div className="text-xs text-green-400 mb-1">Produits</div>
-                                <div className="flex gap-2 text-sm">
-                                    {Object.entries(rightAtoms).map(([a, c]) => (
-                                        <span key={a} className={leftAtoms[a] === c ? 'text-green-400' : 'text-red-400'}>
-                                            {a}:{c}
-                                        </span>
-                                    ))}
-                                </div>
-                            </div>
-                        </div>
-
-                        {/* Contrôles coefficients */}
-                        <div className="grid grid-cols-4 gap-2">
-                            {[...eq.reactants, ...eq.products].map((mol, i) => (
-                                <div key={i} className="text-center bg-gray-800/50 p-2 rounded-lg">
-                                    <div className="text-xs text-gray-400 mb-1">{mol.f}</div>
-                                    <div className="flex items-center justify-center gap-1">
-                                        <button onClick={() => updateCoef(i, -1)} className="w-7 h-7 bg-gray-700 hover:bg-gray-600 rounded text-sm">-</button>
-                                        <span className="w-6 font-bold text-lg">{coefficients[i] || 1}</span>
-                                        <button onClick={() => updateCoef(i, 1)} className="w-7 h-7 bg-gray-700 hover:bg-gray-600 rounded text-sm">+</button>
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-
-                        {/* Actions */}
-                        <div className="grid grid-cols-2 gap-2">
-                            <button
-                                onClick={validate}
-                                className={`py-3 rounded-xl font-bold transition-all ${isBalanced
-                                    ? 'bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-500 hover:to-emerald-500'
-                                    : 'bg-gray-700 hover:bg-gray-600'
-                                    }`}
-                            >
-                                {isBalanced ? '✓ Valider' : 'Vérifier'}
-                            </button>
-                            <button
-                                onClick={nextEquation}
-                                className="py-3 bg-blue-600 hover:bg-blue-500 rounded-xl font-bold"
-                            >
-                                Suivant →
-                            </button>
-                        </div>
-
-                        {!gameStarted && (
-                            <button
-                                onClick={startGame}
-                                className="w-full py-3 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 rounded-xl font-bold"
-                            >
-                                🎮 Mode Défi (60s)
-                            </button>
-                        )}
-
-                        {/* Aide */}
-                        <div className="text-xs text-gray-500 text-center">
-                            💡 Même nombre d'atomes à gauche et à droite !
-                        </div>
+                        <XPBar current={score % 1000} nextLevel={1000} />
                     </div>
                 </DraggableHtmlPanel>
             </Html>
 
-            {showSuccess && (
-                <Html fullscreen>
-                    <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50">
-                        <div className="bg-gradient-to-br from-green-900 to-emerald-800 p-6 rounded-2xl border-2 border-green-400 text-center">
-                            <div className="text-5xl mb-2">⚖️</div>
-                            <div className="text-2xl font-bold text-green-400">Équilibrée !</div>
-                            <div className="text-yellow-400">+{100 + streak * 10} pts</div>
-                        </div>
-                    </div>
-                </Html>
-            )}
+            <SuccessOverlay show={showSuccess} message="Équation Parfaite !" points={eq.points + (streak * 50)} onNext={nextMission} />
+            <ConfettiExplosion active={showSuccess} />
         </group>
     );
 }

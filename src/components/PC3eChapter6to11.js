@@ -18,17 +18,17 @@ export function Chap6LoiOhm() {
     const [challenge, setChallenge] = useState(null);
 
     const scenarios = {
-        lampe: { name: '💡 Lampe 6V', U: 6, R: 3, desc: 'Éclairage standard' },
-        moteur: { name: '⚙️ Moteur 12V', U: 12, R: 6, desc: 'Mouvement mécanique' },
-        chauffage: { name: '🔥 Résistance', U: 24, R: 8, desc: 'Chauffage électrique' },
-        led: { name: '🔴 LED', U: 3, R: 150, desc: 'Indicateur lumineux' }
+        lampe: { name: 'Lampe', icon: '💡', U: 6, R: 3, desc: '6V Standard' },
+        moteur: { name: 'Moteur', icon: '⚙️', U: 12, R: 6, desc: '12V Puissant' },
+        chauffage: { name: 'Radiateur', icon: '🔥', U: 24, R: 8, desc: '24V Haute Résistance' },
+        led: { name: 'LED', icon: '🔴', U: 3, R: 150, desc: 'Basse Consommation' }
     };
 
     const challenges = [
-        { q: "U = R × I donne U en :", options: ["Ampère", "Volt", "Ohm"], ans: 1 },
-        { q: "Si U=12V et R=4Ω, I = ?", options: ["3 A", "8 A", "48 A"], ans: 0 },
-        { q: "2 résistances de 10Ω en série =", options: ["5 Ω", "10 Ω", "20 Ω"], ans: 2 },
-        { q: "L'ohmmètre mesure :", options: ["La tension", "Le courant", "La résistance"], ans: 2 }
+        { q: "Quelle est la formule correcte de la Loi d'Ohm ?", options: ["U = R / I", "U = R × I", "I = R × U"], ans: 1, icon: "⚡" },
+        { q: "Si la tension U augmente et R reste fixe, le courant I :", options: ["Augmente", "Diminue", "Reste fixe"], ans: 0, icon: "📈" },
+        { q: "Un appareil de 10 Ω branché sur 230V consomme environ :", options: ["23 A", "0.23 A", "2300 A"], ans: 0, icon: "🔌" },
+        { q: "L'unité de la résistance électrique est :", options: ["Le Volt (V)", "L'Ampère (A)", "L'Ohm (Ω)"], ans: 2, icon: "🧠" }
     ];
 
     const current = voltage / resistance;
@@ -39,133 +39,135 @@ export function Chap6LoiOhm() {
         setResistance(sc.R);
     };
 
-    const startChallenge = () => { setMode('challenge'); setScore(0); nextQuestion(); };
-    const nextQuestion = () => { setChallenge({ ...challenges[Math.floor(Math.random() * challenges.length)], answered: false }); setShowSuccess(false); };
+    const startChallenge = () => {
+        setMode('challenge');
+        setScore(0);
+        nextQuestion();
+    };
+
+    const nextQuestion = () => {
+        const rand = Math.floor(Math.random() * challenges.length);
+        setChallenge({ ...challenges[rand], answered: false });
+        setShowSuccess(false);
+    };
+
     const checkAnswer = (idx) => {
         if (!challenge || challenge.answered) return;
-        if (idx === challenge.ans) { setScore(s => s + 25); setShowSuccess(true); } else { alert("Réessaie !"); }
+        if (idx === challenge.ans) {
+            setScore(s => s + 25);
+            setShowSuccess(true);
+        } else {
+            alert("Court-circuit ! Révise tes formules.");
+        }
         setChallenge({ ...challenge, answered: true });
     };
 
     return (
         <group>
             <Html transform={false}>
-                <DraggableHtmlPanel title="⚡ Loi d'Ohm" showCloseButton={false} defaultPosition="bottom-center" className="w-[360px] border-yellow-500/30 text-white">
-                    {/* MODE SELECTOR */}
+                <DraggableHtmlPanel title="⚡ Expert Électrique" showCloseButton={false} defaultPosition="bottom-center" className="w-[400px] border-yellow-500/30 text-white">
                     <div className="mb-4">
-                        <PhaseSelector currentPhase={mode} onSelect={setMode} />
+                        <PhaseSelector currentPhase={mode} onSelect={(m) => m === 'challenge' ? startChallenge() : setMode('explore')} />
                     </div>
 
-                    {/* HEADER INFO */}
-                    <div className="flex justify-between items-end mb-4 pb-2 border-b border-white/10">
-                        <div>
-                            <div className="text-xs text-yellow-300 font-bold uppercase tracking-wider mb-1">Module Électricité</div>
-                            <div className="text-xl font-black text-white leading-none">RÉSISTANCE & TENSION</div>
+                    <div className="flex justify-between items-center mb-4 border-b border-white/10 pb-2">
+                        <div className="flex flex-col">
+                            <span className="text-[10px] text-yellow-400 font-bold uppercase tracking-widest">Maîtrise de la Résistance</span>
+                            <span className="text-lg font-black">{mode === 'explore' ? "Laboratoire d'Ohm" : 'Défi Haute Tension 🧠'}</span>
                         </div>
-                        <div className="text-right">
-                            <GradeBadge score={score} />
-                        </div>
+                        <GradeBadge score={score} />
                     </div>
 
                     {mode === 'explore' ? (
-                        <>
-                            <div className="mb-4">
-                                <MissionObjective objective="Appliquez la loi d'Ohm U = R x I !" icon="⚡" />
-                            </div>
+                        <div className="space-y-4">
+                            <MissionObjective objective="Équilibrez la tension et la résistance pour contrôler l'intensité." icon="⚡" />
 
-                            {/* Scénarios */}
-                            <div className="mb-4">
-                                <div className="text-xs text-gray-400 uppercase mb-2">Composants</div>
-                                <div className="grid grid-cols-2 gap-2">
-                                    {Object.entries(scenarios).map(([k, sc]) => (
-                                        <button key={k} onClick={() => applyScenario(k)}
-                                            className="p-2 bg-white/5 hover:bg-white/10 border border-white/10 rounded-lg text-xs text-left transition-all group">
-                                            <div className="font-bold group-hover:text-yellow-400 transition-colors">{sc.name}</div>
-                                            <div className="text-gray-500 text-[10px]">{sc.desc}</div>
-                                        </button>
-                                    ))}
-                                </div>
-                            </div>
-
-                            {/* Contrôles */}
-                            <div className="space-y-3">
-                                <div>
-                                    <div className="flex justify-between text-xs"><span>Tension U</span><span className="text-yellow-400">{voltage} V</span></div>
-                                    <input type="range" min={1} max={24} value={voltage} onChange={(e) => setVoltage(parseInt(e.target.value))} className="w-full accent-yellow-500" />
-                                </div>
-                                <div>
-                                    <div className="flex justify-between text-xs"><span>Résistance R</span><span className="text-orange-400">{resistance} Ω</span></div>
-                                    <input type="range" min={1} max={100} value={resistance} onChange={(e) => setResistance(parseInt(e.target.value))} className="w-full accent-orange-500" />
-                                </div>
-                            </div>
-
-                            {/* Résultats */}
-                            <div className="mt-4 p-4 bg-gradient-to-br from-gray-900 to-black rounded-lg border border-yellow-500/30">
-                                <div className="text-center">
-                                    <div className="text-gray-400 text-xs uppercase tracking-widest mb-1">INTENSITÉ I</div>
-                                    <div className="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-orange-500 my-2">
-                                        {current.toFixed(2)} A
-                                    </div>
-                                    <div className="text-xs text-gray-400">I = U / R = {voltage} / {resistance}</div>
-                                </div>
-                            </div>
-                        </>
-                    ) : (
-                        <div className="bg-gray-900/50 p-4 rounded-xl border border-yellow-500/30">
-                            <div className="flex justify-between items-center mb-6">
-                                <h3 className="text-yellow-300 font-bold flex items-center gap-2">
-                                    <span>🧠</span> Quiz Loi d'Ohm
-                                </h3>
-                                <XPBar current={score} nextLevel={100} />
-                            </div>
-
-                            {!challenge && (
-                                <div className="text-center py-8">
-                                    <button onClick={startChallenge} className="px-6 py-3 bg-yellow-600 hover:bg-yellow-500 text-white rounded-full font-bold shadow-lg shadow-yellow-900/20 transition-all transform hover:scale-105">
-                                        Commencer le Défi
+                            <div className="grid grid-cols-4 gap-2">
+                                {Object.entries(scenarios).map(([key, sc]) => (
+                                    <button key={key} onClick={() => applyScenario(key)}
+                                        className="p-2 bg-gray-900 border border-white/5 rounded-xl flex flex-col items-center gap-1 hover:bg-yellow-900/40 transition-all">
+                                        <span className="text-xl">{sc.icon}</span>
+                                        <span className="text-[8px] font-black uppercase text-center leading-none">{sc.name}</span>
                                     </button>
-                                </div>
-                            )}
+                                ))}
+                            </div>
 
-                            {challenge && (
-                                <div className="space-y-4 animate-in slide-in-from-right duration-300">
-                                    <div className="text-sm font-medium bg-black/20 p-3 rounded-lg border-l-2 border-yellow-500">
-                                        {challenge.q}
+                            <div className="space-y-4 bg-black/40 p-4 rounded-xl border border-white/5">
+                                <div>
+                                    <div className="flex justify-between text-[10px] font-bold text-gray-500 mb-2">
+                                        <span>TENSION (U)</span>
+                                        <span className="text-yellow-400">{voltage} VOLTS</span>
                                     </div>
-                                    <div className="space-y-2">
-                                        {challenge.options.map((opt, idx) => (
-                                            <button key={idx} onClick={() => checkAnswer(idx)}
-                                                disabled={challenge.answered}
-                                                className={`w-full text-left p-3 rounded transition-all text-sm flex justify-between items-center
-                                                    ${challenge.answered
-                                                        ? idx === challenge.ans
-                                                            ? 'bg-green-500/20 text-green-300 border border-green-500/50'
-                                                            : 'bg-gray-800/50 text-gray-500'
-                                                        : 'bg-white/5 hover:bg-white/10'
-                                                    }
-                                                `}>
-                                                <span><span className="opacity-50 mr-2">{['A', 'B', 'C'][idx]}.</span> {opt}</span>
-                                                {challenge.answered && idx === challenge.ans && <span>✅</span>}
-                                            </button>
-                                        ))}
-                                    </div>
-                                    {challenge.answered && (
-                                        <button onClick={nextQuestion} className="w-full py-3 bg-gradient-to-r from-yellow-600 to-orange-600 rounded-lg font-bold shadow-lg mt-4 hover:shadow-yellow-500/20 transition-all">
-                                            Suivant →
-                                        </button>
-                                    )}
+                                    <input type="range" min={1} max={24} value={voltage} onChange={(e) => setVoltage(parseInt(e.target.value))}
+                                        className="w-full h-2 bg-gray-800 rounded-lg appearance-none cursor-pointer accent-yellow-500" />
                                 </div>
+                                <div>
+                                    <div className="flex justify-between text-[10px] font-bold text-gray-500 mb-2">
+                                        <span>RÉSISTANCE (R)</span>
+                                        <span className="text-orange-400">{resistance} OHMS</span>
+                                    </div>
+                                    <input type="range" min={1} max={100} value={resistance} onChange={(e) => setResistance(parseInt(e.target.value))}
+                                        className="w-full h-2 bg-gray-800 rounded-lg appearance-none cursor-pointer accent-orange-500" />
+                                </div>
+                            </div>
+
+                            <div className="p-4 bg-yellow-950/30 rounded-xl border border-yellow-500/30 text-center relative overflow-hidden">
+                                <div className="text-[10px] text-yellow-400 font-black uppercase tracking-widest mb-1">Intensité du Courant (I)</div>
+                                <div className="text-4xl font-black text-white">{current.toFixed(2)} <span className="text-xl">A</span></div>
+                                <div className="mt-2 text-[10px] font-mono text-gray-500">I = {voltage}V / {resistance}Ω</div>
+                            </div>
+                        </div>
+                    ) : (
+                        <div className="space-y-4">
+                            {challenge && <MissionObjective objective={challenge.q} icon={challenge.icon} />}
+                            <div className="space-y-2">
+                                {challenge?.options.map((opt, idx) => (
+                                    <button key={idx} onClick={() => checkAnswer(idx)}
+                                        disabled={challenge.answered}
+                                        className={`w-full p-4 rounded-xl text-left text-sm font-bold transition-all flex justify-between items-center group
+                                            ${challenge.answered
+                                                ? idx === challenge.ans ? 'bg-green-500 text-white' : 'bg-gray-800/50 text-gray-500'
+                                                : 'bg-white/5 hover:bg-yellow-500 hover:text-white border border-white/10'
+                                            }`}>
+                                        {opt}
+                                        {challenge.answered && idx === challenge.ans ? '✅' : '➜'}
+                                    </button>
+                                ))}
+                            </div>
+                            {challenge?.answered && (
+                                <button onClick={nextQuestion} className="w-full py-4 bg-yellow-600 rounded-xl font-black uppercase text-xs tracking-widest shadow-lg shadow-yellow-900/40">
+                                    Défi Suivant ➜
+                                </button>
                             )}
                         </div>
                     )}
                 </DraggableHtmlPanel>
             </Html>
-            <Box args={[2, 0.3, 0.5]} position={[0, 0, 0]}><meshStandardMaterial color="#ff6600" /></Box>
-            <Text position={[0, 0.5, 0]} fontSize={0.3} color="white">R = {resistance} Ω</Text>
-            <Line points={[[-3, 0, 0], [-1, 0, 0]]} color="red" lineWidth={3} />
-            <Line points={[[1, 0, 0], [3, 0, 0]]} color="blue" lineWidth={3} />
-            <SuccessOverlay show={showSuccess} message="Bravo !" points={25} onNext={nextQuestion} />
+
+            <XPBar current={score % 100} nextLevel={100} />
+            <SuccessOverlay show={showSuccess} message="Succès Électrique ! La loi d'Ohm est parfaitement appliquée." points={25} onNext={nextQuestion} />
             <ConfettiExplosion active={showSuccess} />
+
+            {/* Circuit simple */}
+            <Box args={[2.5, 0.4, 0.6]} position={[0, 0, 0]}>
+                <meshStandardMaterial color="#F97316" metalness={0.8} roughness={0.1} />
+            </Box>
+            <Text position={[0, 0.6, 0]} fontSize={0.3} color="white" font="/fonts/Inter-Bold.ttf">R = {resistance} Ω</Text>
+
+            {/* Fils et courant */}
+            <Line points={[[-4, 0, 0], [-1.25, 0, 0]]} color="#EF4444" lineWidth={8} />
+            <Line points={[[1.25, 0, 0], [4, 0, 0]]} color="#3B82F6" lineWidth={8} />
+
+            {/* Electrons (courant) */}
+            {[...Array(5)].map((_, i) => (
+                <Float key={i} speed={2} floatIntensity={0.5}>
+                    <Sphere args={[0.08]} position={[-3 + (i * 1.5 + Date.now() * 0.001 * current) % 6, 0.3, 0]}>
+                        <meshStandardMaterial color="#FDE047" emissive="#FDE047" emissiveIntensity={2} />
+                    </Sphere>
+                </Float>
+            ))}
+
+            <Text position={[0, 1.5, 0]} fontSize={0.4} color="white" font="/fonts/Inter-Bold.ttf">I = {current.toFixed(2)} A</Text>
         </group>
     );
 }
@@ -182,159 +184,170 @@ export function Chap7TransformationsEnergie() {
     const [challenge, setChallenge] = useState(null);
 
     const devices = {
-        ampoule: { name: '💡 Ampoule', input: 'Électrique', outputs: ['Lumineuse', 'Thermique'], efficiency: 0.1, desc: 'Eclaire mais chauffe beaucoup' },
-        moteur: { name: '⚙️ Moteur', input: 'Électrique', outputs: ['Mécanique', 'Thermique'], efficiency: 0.85, desc: 'Transforme élec en mouvement' },
-        panneau: { name: '☀️ Panneau Solaire', input: 'Lumineuse', outputs: ['Électrique'], efficiency: 0.2, desc: 'Conversion photovoltaïque' },
-        voiture: { name: '🚗 Voiture', input: 'Chimique', outputs: ['Mécanique', 'Thermique'], efficiency: 0.25, desc: 'Moteur à combustion' }
+        ampoule: { name: 'Ampoule', icon: '💡', input: 'Électrique', outputs: ['Lumineuse', 'Thermique'], efficiency: 0.1, desc: 'Conversion basse intensité' },
+        moteur: { name: 'Moteur', icon: '⚙️', input: 'Électrique', outputs: ['Mécanique', 'Thermique'], efficiency: 0.85, desc: 'Mouvement fluide' },
+        panneau: { name: 'Solaire', icon: '☀️', input: 'Lumineuse', outputs: ['Électrique'], efficiency: 0.2, desc: 'Capture Photonique' },
+        voiture: { name: 'Véhicule', icon: '🚗', input: 'Chimique', outputs: ['Mécanique', 'Thermique'], efficiency: 0.25, desc: 'Cycle combustion' }
     };
 
     const challenges = [
-        { q: "L'énergie se mesure en :", options: ["Watt", "Joule", "Newton"], ans: 1 },
-        { q: "Rendement = E_utile / E_reçue en :", options: ["Joule", "Pourcentage", "Watt"], ans: 1 },
-        { q: "L'énergie peut être :", options: ["Créée", "Détruite", "Transformée"], ans: 2 },
-        { q: "Une LED a un meilleur rendement qu'une :", options: ["Pile", "Ampoule incandescente", "Batterie"], ans: 1 }
+        { q: "L'énergie ne peut être ni créée ni détruite, elle se :", options: ["Dissipe", "Transforme", "Stocke"], ans: 1, icon: "🔄" },
+        { q: "Le rendement est défini par le rapport :", options: ["E_utile / E_totale", "E_perdue / E_utile", "E_totale / E_utile"], ans: 0, icon: "📊" },
+        { q: "Une ampoule qui chauffe beaucoup a un rendement :", options: ["Excellent", "Moyen", "Faible"], ans: 2, icon: "🌡️" },
+        { q: "L'énergie 'perdue' sous forme de chaleur est dite :", options: ["Cinétique", "Mécanique", "Thermique"], ans: 2, icon: "🔥" }
     ];
 
     const dev = devices[device];
     const usefulEnergy = inputEnergy * dev.efficiency;
     const wastedEnergy = inputEnergy - usefulEnergy;
 
-    const startChallenge = () => { setMode('challenge'); setScore(0); nextQuestion(); };
-    const nextQuestion = () => { setChallenge({ ...challenges[Math.floor(Math.random() * challenges.length)], answered: false }); setShowSuccess(false); };
+    const startChallenge = () => {
+        setMode('challenge');
+        setScore(0);
+        nextQuestion();
+    };
+
+    const nextQuestion = () => {
+        const rand = Math.floor(Math.random() * challenges.length);
+        setChallenge({ ...challenges[rand], answered: false });
+        setShowSuccess(false);
+    };
+
     const checkAnswer = (idx) => {
         if (!challenge || challenge.answered) return;
-        if (idx === challenge.ans) { setScore(s => s + 25); setShowSuccess(true); } else { alert("Non !"); }
+        if (idx === challenge.ans) {
+            setScore(s => s + 25);
+            setShowSuccess(true);
+        } else {
+            alert("Énergie dispersée ! Analyse mieux les pertes.");
+        }
         setChallenge({ ...challenge, answered: true });
     };
 
     return (
         <group>
             <Html transform={false}>
-                <DraggableHtmlPanel title="🔄 Transformations d'Énergie" showCloseButton={false} defaultPosition="bottom-center" className="w-[360px] border-green-500/30 text-white">
-                    {/* MODE SELECTOR */}
+                <DraggableHtmlPanel title="🔄 Expert Énergie" showCloseButton={false} defaultPosition="bottom-center" className="w-[400px] border-emerald-500/30 text-white">
                     <div className="mb-4">
-                        <PhaseSelector currentPhase={mode} onSelect={setMode} />
+                        <PhaseSelector currentPhase={mode} onSelect={(m) => m === 'challenge' ? startChallenge() : setMode('explore')} />
                     </div>
 
-                    {/* HEADER INFO */}
-                    <div className="flex justify-between items-end mb-4 pb-2 border-b border-white/10">
-                        <div>
-                            <div className="text-xs text-green-300 font-bold uppercase tracking-wider mb-1">Module Énergie</div>
-                            <div className="text-xl font-black text-white leading-none">RENDEMENT & PERTES</div>
+                    <div className="flex justify-between items-center mb-4 border-b border-white/10 pb-2">
+                        <div className="flex flex-col">
+                            <span className="text-[10px] text-emerald-400 font-bold uppercase tracking-widest">Optimisation des Flux</span>
+                            <span className="text-lg font-black">{mode === 'explore' ? 'Analyseur de Cycles' : 'Défi Rendement 🧠'}</span>
                         </div>
-                        <div className="text-right">
-                            <GradeBadge score={score} />
-                        </div>
+                        <GradeBadge score={score} />
                     </div>
 
                     {mode === 'explore' ? (
-                        <>
-                            <div className="mb-4">
-                                <MissionObjective objective="Analysez les transferts et le rendement !" icon="🔄" />
+                        <div className="space-y-4">
+                            <MissionObjective objective="Visualisez la répartition de l'énergie et son rendement." icon="🔄" />
+
+                            <div className="grid grid-cols-4 gap-2">
+                                {Object.entries(devices).map(([key, d]) => (
+                                    <button key={key} onClick={() => setDevice(key)}
+                                        className={`p-2 rounded-xl flex flex-col items-center gap-1 transition-all border ${device === key ? 'bg-emerald-600 border-emerald-400 shadow-lg' : 'bg-gray-900 border-white/5 opacity-50'}`}>
+                                        <span className="text-xl">{d.icon}</span>
+                                        <span className="text-[8px] font-black uppercase text-center leading-none">{d.name}</span>
+                                    </button>
+                                ))}
                             </div>
 
-                            {/* Scénarios */}
-                            <div className="mb-4">
-                                <div className="text-xs text-gray-400 uppercase mb-2">Dispositifs</div>
-                                <div className="grid grid-cols-2 gap-2">
-                                    {Object.entries(devices).map(([k, d]) => (
-                                        <button key={k} onClick={() => setDevice(k)}
-                                            className={`p-2 bg-white/5 hover:bg-white/10 border border-white/10 rounded-lg text-xs text-left transition-all group ${device === k ? 'border-green-500/50 bg-green-900/20' : ''}`}>
-                                            <div className="font-bold group-hover:text-green-400 transition-colors">{d.name}</div>
-                                            <div className="text-gray-500 text-[10px]">{d.desc}</div>
-                                        </button>
-                                    ))}
-                                </div>
-                            </div>
-
-                            <div className="p-4 bg-gradient-to-br from-gray-900 to-black rounded-lg border border-green-500/30">
-                                <div className="text-center mb-4">
-                                    <div className="flex items-center justify-center gap-2 text-sm font-bold">
-                                        <span className="text-cyan-400">{dev.input}</span>
-                                        <span className="text-gray-500">→</span>
-                                        <span className="text-yellow-400">{dev.outputs.join(' + ')}</span>
+                            <div className="bg-black/40 p-4 rounded-2xl border border-white/10">
+                                <div className="flex justify-between items-center mb-4">
+                                    <div className="flex flex-col">
+                                        <span className="text-[8px] text-gray-500 font-black uppercase tracking-tighter">Entrée : {dev.input}</span>
+                                        <span className="text-xs font-black text-white">{inputEnergy} JOUIES</span>
                                     </div>
-                                </div>
-
-                                <div className="mb-4">
-                                    <div className="flex justify-between text-xs mb-1">
-                                        <span className="text-gray-400">Rendement Énergétique</span>
-                                        <span className={`font-bold ${dev.efficiency > 0.5 ? 'text-green-400' : 'text-orange-400'}`}>
-                                            {(dev.efficiency * 100).toFixed(0)}%
+                                    <div className="flex flex-col text-right">
+                                        <span className="text-[8px] text-gray-500 font-black uppercase tracking-tighter">Rendement : {(dev.efficiency * 100).toFixed(0)}%</span>
+                                        <span className={`text-xs font-black ${dev.efficiency > 0.5 ? 'text-emerald-400' : 'text-orange-400'}`}>
+                                            {dev.efficiency > 0.5 ? 'HAUT RENDEMENT' : 'PERTES ÉLEVÉES'}
                                         </span>
                                     </div>
-                                    <div className="h-4 bg-gray-800 rounded-full overflow-hidden flex shadow-inner">
-                                        <div className="bg-green-500 transition-all duration-500" style={{ width: `${dev.efficiency * 100}%` }} title="Énergie Utile" />
-                                        <div className="bg-red-500 transition-all duration-500" style={{ width: `${(1 - dev.efficiency) * 100}%` }} title="Énergie Perdue (Chaleur)" />
-                                    </div>
                                 </div>
 
-                                <div className="grid grid-cols-2 gap-3 text-center">
-                                    <div className="p-2 bg-green-500/10 rounded border border-green-500/20">
-                                        <div className="text-xs text-green-300">Énergie Utile</div>
-                                        <div className="text-xl font-bold text-white">{usefulEnergy.toFixed(0)} J</div>
+                                <div className="h-4 bg-gray-900 rounded-full overflow-hidden flex border border-white/5 p-[2px]">
+                                    <div className="bg-emerald-500 transition-all duration-700 rounded-l-full"
+                                        style={{ width: `${dev.efficiency * 100}%` }} />
+                                    <div className="bg-red-500 transition-all duration-700 rounded-r-full"
+                                        style={{ width: `${(1 - dev.efficiency) * 100}%` }} />
+                                </div>
+
+                                <div className="grid grid-cols-2 gap-2 mt-4">
+                                    <div className="p-3 bg-emerald-950/30 rounded-xl border border-emerald-500/20 text-center">
+                                        <div className="text-[8px] text-emerald-400 font-black uppercase mb-1">Énergie Utile</div>
+                                        <div className="text-xl font-black text-white">{usefulEnergy.toFixed(0)} J</div>
+                                        <div className="text-[8px] text-gray-500 mt-1 uppercase">{dev.outputs[0]}</div>
                                     </div>
-                                    <div className="p-2 bg-red-500/10 rounded border border-red-500/20">
-                                        <div className="text-xs text-red-300">Pertes (Th.)</div>
-                                        <div className="text-xl font-bold text-white">{wastedEnergy.toFixed(0)} J</div>
+                                    <div className="p-3 bg-red-950/30 rounded-xl border border-red-500/20 text-center">
+                                        <div className="text-[8px] text-red-400 font-black uppercase mb-1">Énergie Perdue</div>
+                                        <div className="text-xl font-black text-white">{wastedEnergy.toFixed(0)} J</div>
+                                        <div className="text-[8px] text-gray-500 mt-1 uppercase">Thermique</div>
                                     </div>
                                 </div>
                             </div>
-                        </>
+                        </div>
                     ) : (
-                        <div className="bg-gray-900/50 p-4 rounded-xl border border-green-500/30">
-                            <div className="flex justify-between items-center mb-6">
-                                <h3 className="text-green-300 font-bold flex items-center gap-2">
-                                    <span>🧠</span> Quiz Énergie
-                                </h3>
-                                <XPBar current={score} nextLevel={100} />
-                            </div>
-
-                            {!challenge && (
-                                <div className="text-center py-8">
-                                    <button onClick={startChallenge} className="px-6 py-3 bg-green-600 hover:bg-green-500 text-white rounded-full font-bold shadow-lg shadow-green-900/20 transition-all transform hover:scale-105">
-                                        Commencer le Défi
+                        <div className="space-y-4">
+                            {challenge && <MissionObjective objective={challenge.q} icon={challenge.icon} />}
+                            <div className="space-y-2">
+                                {challenge?.options.map((opt, idx) => (
+                                    <button key={idx} onClick={() => checkAnswer(idx)}
+                                        disabled={challenge.answered}
+                                        className={`w-full p-4 rounded-xl text-left text-sm font-bold transition-all flex justify-between items-center group
+                                            ${challenge.answered
+                                                ? idx === challenge.ans ? 'bg-green-500 text-white' : 'bg-gray-800/50 text-gray-500'
+                                                : 'bg-white/5 hover:bg-emerald-500 hover:text-white border border-white/10'
+                                            }`}>
+                                        {opt}
+                                        {challenge.answered && idx === challenge.ans ? '✅' : '➜'}
                                     </button>
-                                </div>
-                            )}
-
-                            {challenge && (
-                                <div className="space-y-4 animate-in slide-in-from-right duration-300">
-                                    <div className="text-sm font-medium bg-black/20 p-3 rounded-lg border-l-2 border-green-500">
-                                        {challenge.q}
-                                    </div>
-                                    <div className="space-y-2">
-                                        {challenge.options.map((opt, idx) => (
-                                            <button key={idx} onClick={() => checkAnswer(idx)}
-                                                disabled={challenge.answered}
-                                                className={`w-full text-left p-3 rounded transition-all text-sm flex justify-between items-center
-                                                    ${challenge.answered
-                                                        ? idx === challenge.ans
-                                                            ? 'bg-green-500/20 text-green-300 border border-green-500/50'
-                                                            : 'bg-gray-800/50 text-gray-500'
-                                                        : 'bg-white/5 hover:bg-white/10'
-                                                    }
-                                                `}>
-                                                <span><span className="opacity-50 mr-2">{['A', 'B', 'C'][idx]}.</span> {opt}</span>
-                                                {challenge.answered && idx === challenge.ans && <span>✅</span>}
-                                            </button>
-                                        ))}
-                                    </div>
-                                    {challenge.answered && (
-                                        <button onClick={nextQuestion} className="w-full py-3 bg-gradient-to-r from-green-600 to-emerald-600 rounded-lg font-bold shadow-lg mt-4 hover:shadow-green-500/20 transition-all">
-                                            Suivant →
-                                        </button>
-                                    )}
-                                </div>
+                                ))}
+                            </div>
+                            {challenge?.answered && (
+                                <button onClick={nextQuestion} className="w-full py-4 bg-emerald-600 rounded-xl font-black uppercase text-xs tracking-widest shadow-lg shadow-emerald-900/40">
+                                    Défi Suivant ➜
+                                </button>
                             )}
                         </div>
                     )}
                 </DraggableHtmlPanel>
             </Html>
-            <Sphere args={[1]} position={[0, 0, 0]}><meshStandardMaterial color="#ffaa00" emissive="#ffaa00" emissiveIntensity={0.5} /></Sphere>
-            <Text position={[0, 1.8, 0]} fontSize={0.3} color="white">{dev.name}</Text>
-            <SuccessOverlay show={showSuccess} message="Correct !" points={25} onNext={nextQuestion} />
+
+            <XPBar current={score % 100} nextLevel={100} />
+            <SuccessOverlay show={showSuccess} message="Succès Énergétique ! Tu maîtrises les flux de transformation." points={25} onNext={nextQuestion} />
             <ConfettiExplosion active={showSuccess} />
+
+            {/* Représentation centrale */}
+            <Float speed={2} rotationIntensity={0.5}>
+                <Sphere args={[1.2, 32, 32]} position={[0, 0, 0]}>
+                    <meshStandardMaterial color="#FACC15" emissive="#FACC15" emissiveIntensity={device === 'ampoule' ? 2 : 0.5} />
+                </Sphere>
+            </Float>
+
+            {/* Particules d'énergie utile */}
+            {[...Array(8)].map((_, i) => (
+                <Float key={`u-${i}`} speed={3 + i} floatIntensity={2}>
+                    <Sphere args={[0.08]} position={[Math.cos(i) * 2.5, Math.sin(i) * 2.5, 0]}>
+                        <meshStandardMaterial color="#34D399" emissive="#34D399" emissiveIntensity={2} />
+                    </Sphere>
+                </Float>
+            ))}
+
+            {/* Particules de chaleur (perdue) */}
+            {[...Array(8 * (1 - dev.efficiency))].map((_, i) => (
+                <Float key={`w-${i}`} speed={2} floatIntensity={1}>
+                    <Sphere args={[0.05]} position={[Math.cos(i + 2) * 2, Math.sin(i + 2) * 2, 0]}>
+                        <meshStandardMaterial color="#F87171" emissive="#F87171" emissiveIntensity={1} />
+                    </Sphere>
+                </Float>
+            ))}
+
+            <Text position={[0, 2, 0]} fontSize={0.4} color="white" font="/fonts/Inter-Bold.ttf">
+                {dev.name.toUpperCase()}
+            </Text>
         </group>
     );
 }
@@ -351,146 +364,158 @@ export function Chap8SolutionsAqueuses() {
     const [challenge, setChallenge] = useState(null);
 
     const scenarios = {
-        the: { name: '🍵 Thé sucré', m: 30, v: 250, desc: 'Ataya traditionnel' },
-        serum: { name: '💉 Sérum', m: 9, v: 1000, desc: 'NaCl 0.9% médical' },
-        sirop: { name: '🧃 Sirop', m: 500, v: 1000, desc: 'Boisson concentrée' },
-        eau: { name: '💧 Eau salée', m: 35, v: 1000, desc: 'Eau de mer' }
+        the: { name: 'Thé', icon: '🍵', m: 30, v: 250, desc: 'Ataya Traditionnel' },
+        serum: { name: 'Sérum', icon: '💉', m: 9, v: 1000, desc: 'Salé Médical' },
+        sirop: { name: 'Sirop', icon: '🧃', m: 500, v: 1000, desc: 'Concentré Sucré' },
+        mer: { name: 'Océan', icon: '🌊', m: 35, v: 1000, desc: 'Eau de Mer' }
     };
 
     const challenges = [
-        { q: "Le solvant dans l'eau salée est :", options: ["Le sel", "L'eau", "Les deux"], ans: 1 },
-        { q: "C = m/V donne C en :", options: ["kg", "g/L", "mL"], ans: 1 },
-        { q: "20g dans 500mL → C = ?", options: ["10 g/L", "40 g/L", "25 g/L"], ans: 1 },
-        { q: "Solution saturée = ", options: ["Diluée", "Ne peut plus dissoudre", "Vide"], ans: 1 }
+        { q: "Quelle est la formule de la concentration massique C ?", options: ["C = m × V", "C = m / V", "C = V / m"], ans: 1, icon: "🧪" },
+        { q: "Si on ajoute de l'eau à une solution, la concentration :", options: ["Augmente", "Diminue", "Reste pareille"], ans: 1, icon: "💧" },
+        { q: "Une solution qui ne peut plus dissoudre de soluté est :", options: ["Diluée", "Concentrée", "Saturée"], ans: 2, icon: "💎" },
+        { q: "Le constituant majoritaire de la solution est le :", options: ["Solvant", "Soluté", "Saturant"], ans: 0, icon: "🧠" }
     ];
 
     const concentration = mass / (volume / 1000);
 
-    const applyScenario = (key) => { const sc = scenarios[key]; setMass(sc.m); setVolume(sc.v); };
-    const startChallenge = () => { setMode('challenge'); setScore(0); nextQuestion(); };
-    const nextQuestion = () => { setChallenge({ ...challenges[Math.floor(Math.random() * challenges.length)], answered: false }); setShowSuccess(false); };
+    const applyScenario = (key) => {
+        const sc = scenarios[key];
+        setMass(sc.m);
+        setVolume(sc.v);
+    };
+
+    const startChallenge = () => {
+        setMode('challenge');
+        setScore(0);
+        nextQuestion();
+    };
+
+    const nextQuestion = () => {
+        const rand = Math.floor(Math.random() * challenges.length);
+        setChallenge({ ...challenges[rand], answered: false });
+        setShowSuccess(false);
+    };
+
     const checkAnswer = (idx) => {
         if (!challenge || challenge.answered) return;
-        if (idx === challenge.ans) { setScore(s => s + 25); setShowSuccess(true); } else { alert("Non !"); }
+        if (idx === challenge.ans) {
+            setScore(s => s + 25);
+            setShowSuccess(true);
+        } else {
+            alert("Mélange instable ! Vérifie tes calculs de concentration.");
+        }
         setChallenge({ ...challenge, answered: true });
     };
 
     return (
         <group>
             <Html transform={false}>
-                <DraggableHtmlPanel title="🧪 Solutions Aqueuses" showCloseButton={false} defaultPosition="bottom-center" className="w-[360px] border-cyan-500/30 text-white">
-                    {/* MODE SELECTOR */}
+                <DraggableHtmlPanel title="🧪 Maître des Solutions" showCloseButton={false} defaultPosition="bottom-center" className="w-[400px] border-cyan-500/30 text-white">
                     <div className="mb-4">
-                        <PhaseSelector currentPhase={mode} onSelect={setMode} />
+                        <PhaseSelector currentPhase={mode} onSelect={(m) => m === 'challenge' ? startChallenge() : setMode('explore')} />
                     </div>
 
-                    {/* HEADER INFO */}
-                    <div className="flex justify-between items-end mb-4 pb-2 border-b border-white/10">
-                        <div>
-                            <div className="text-xs text-cyan-300 font-bold uppercase tracking-wider mb-1">Module Chimie</div>
-                            <div className="text-xl font-black text-white leading-none">CONCENTRATION</div>
+                    <div className="flex justify-between items-center mb-4 border-b border-white/10 pb-2">
+                        <div className="flex flex-col">
+                            <span className="text-[10px] text-cyan-400 font-bold uppercase tracking-widest">Chimie Moléculaire</span>
+                            <span className="text-lg font-black">{mode === 'explore' ? 'Laboratoire de Mélange' : 'Défi Concentration 🧠'}</span>
                         </div>
-                        <div className="text-right">
-                            <GradeBadge score={score} />
-                        </div>
+                        <GradeBadge score={score} />
                     </div>
 
                     {mode === 'explore' ? (
-                        <>
-                            <div className="mb-4">
-                                <MissionObjective objective="Préparez des solutions et calculez C !" icon="🧪" />
-                            </div>
+                        <div className="space-y-4">
+                            <MissionObjective objective="Préparez des solutions précises en ajustant masse et volume." icon="🧪" />
 
-                            {/* Scénarios */}
-                            <div className="mb-4">
-                                <div className="text-xs text-gray-400 uppercase mb-2">Exemples</div>
-                                <div className="grid grid-cols-2 gap-2">
-                                    {Object.entries(scenarios).map(([k, sc]) => (
-                                        <button key={k} onClick={() => applyScenario(k)}
-                                            className="p-2 bg-white/5 hover:bg-white/10 border border-white/10 rounded-lg text-xs text-left transition-all group">
-                                            <div className="font-bold group-hover:text-cyan-400 transition-colors">{sc.name}</div>
-                                            <div className="text-gray-500 text-[10px]">{sc.desc}</div>
-                                        </button>
-                                    ))}
-                                </div>
-                            </div>
-
-                            {/* Contrôles */}
-                            <div className="space-y-3">
-                                <div>
-                                    <div className="flex justify-between text-xs"><span>Masse soluté m</span><span className="text-cyan-400">{mass} g</span></div>
-                                    <input type="range" min={1} max={200} value={mass} onChange={(e) => setMass(parseInt(e.target.value))} className="w-full accent-cyan-500" />
-                                </div>
-                                <div>
-                                    <div className="flex justify-between text-xs"><span>Volume solvant V</span><span className="text-blue-400">{volume} mL</span></div>
-                                    <input type="range" min={100} max={2000} step={50} value={volume} onChange={(e) => setVolume(parseInt(e.target.value))} className="w-full accent-blue-500" />
-                                </div>
-                            </div>
-
-                            {/* Résultats */}
-                            <div className="mt-4 p-4 bg-gradient-to-br from-gray-900 to-black rounded-lg border border-cyan-500/30">
-                                <div className="text-center">
-                                    <div className="text-gray-400 text-xs uppercase tracking-widest mb-1">CONCENTRATION MASSIQUE</div>
-                                    <div className="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500 my-2">
-                                        {concentration.toFixed(1)} g/L
-                                    </div>
-                                    <div className="text-xs text-gray-400">C = m / V = {mass}g / {(volume / 1000).toFixed(1)}L</div>
-                                </div>
-                            </div>
-                        </>
-                    ) : (
-                        <div className="bg-gray-900/50 p-4 rounded-xl border border-cyan-500/30">
-                            <div className="flex justify-between items-center mb-6">
-                                <h3 className="text-cyan-300 font-bold flex items-center gap-2">
-                                    <span>🧠</span> Quiz Solutions
-                                </h3>
-                                <XPBar current={score} nextLevel={100} />
-                            </div>
-
-                            {!challenge && (
-                                <div className="text-center py-8">
-                                    <button onClick={startChallenge} className="px-6 py-3 bg-cyan-600 hover:bg-cyan-500 text-white rounded-full font-bold shadow-lg shadow-cyan-900/20 transition-all transform hover:scale-105">
-                                        Commencer le Défi
+                            <div className="grid grid-cols-4 gap-2">
+                                {Object.entries(scenarios).map(([key, sc]) => (
+                                    <button key={key} onClick={() => applyScenario(key)}
+                                        className="p-2 bg-gray-900 border border-white/5 rounded-xl flex flex-col items-center gap-1 hover:bg-cyan-900/40 transition-all">
+                                        <span className="text-xl">{sc.icon}</span>
+                                        <span className="text-[8px] font-black uppercase text-center leading-none">{sc.name}</span>
                                     </button>
-                                </div>
-                            )}
+                                ))}
+                            </div>
 
-                            {challenge && (
-                                <div className="space-y-4 animate-in slide-in-from-right duration-300">
-                                    <div className="text-sm font-medium bg-black/20 p-3 rounded-lg border-l-2 border-cyan-500">
-                                        {challenge.q}
+                            <div className="space-y-4 bg-black/40 p-4 rounded-xl border border-white/5">
+                                <div>
+                                    <div className="flex justify-between text-[10px] font-bold text-gray-500 mb-2">
+                                        <span>MASSE SOLUTÉ (m)</span>
+                                        <span className="text-cyan-400">{mass} GRAMMES</span>
                                     </div>
-                                    <div className="space-y-2">
-                                        {challenge.options.map((opt, idx) => (
-                                            <button key={idx} onClick={() => checkAnswer(idx)}
-                                                disabled={challenge.answered}
-                                                className={`w-full text-left p-3 rounded transition-all text-sm flex justify-between items-center
-                                                    ${challenge.answered
-                                                        ? idx === challenge.ans
-                                                            ? 'bg-green-500/20 text-green-300 border border-green-500/50'
-                                                            : 'bg-gray-800/50 text-gray-500'
-                                                        : 'bg-white/5 hover:bg-white/10'
-                                                    }
-                                                `}>
-                                                <span><span className="opacity-50 mr-2">{['A', 'B', 'C'][idx]}.</span> {opt}</span>
-                                                {challenge.answered && idx === challenge.ans && <span>✅</span>}
-                                            </button>
-                                        ))}
-                                    </div>
-                                    {challenge.answered && (
-                                        <button onClick={nextQuestion} className="w-full py-3 bg-gradient-to-r from-cyan-600 to-blue-600 rounded-lg font-bold shadow-lg mt-4 hover:shadow-cyan-500/20 transition-all">
-                                            Suivant →
-                                        </button>
-                                    )}
+                                    <input type="range" min={1} max={200} value={mass} onChange={(e) => setMass(parseInt(e.target.value))}
+                                        className="w-full h-2 bg-gray-800 rounded-lg appearance-none cursor-pointer accent-cyan-500" />
                                 </div>
+                                <div>
+                                    <div className="flex justify-between text-[10px] font-bold text-gray-500 mb-2">
+                                        <span>VOLUME SOLVANT (V)</span>
+                                        <span className="text-blue-400">{volume} mL</span>
+                                    </div>
+                                    <input type="range" min={100} max={2000} step={50} value={volume} onChange={(e) => setVolume(parseInt(e.target.value))}
+                                        className="w-full h-2 bg-gray-800 rounded-lg appearance-none cursor-pointer accent-blue-500" />
+                                </div>
+                            </div>
+
+                            <div className="p-4 bg-cyan-950/30 rounded-xl border border-cyan-500/30 text-center relative overflow-hidden">
+                                <div className="text-[10px] text-cyan-400 font-black uppercase tracking-widest mb-1">Concentration Massique (Cm)</div>
+                                <div className="text-4xl font-black text-white">{concentration.toFixed(1)} <span className="text-xl">g/L</span></div>
+                                <div className="mt-2 text-[10px] font-mono text-gray-500">C = {mass}g / {(volume / 1000).toFixed(2)}L</div>
+                            </div>
+                        </div>
+                    ) : (
+                        <div className="space-y-4">
+                            {challenge && <MissionObjective objective={challenge.q} icon={challenge.icon} />}
+                            <div className="space-y-2">
+                                {challenge?.options.map((opt, idx) => (
+                                    <button key={idx} onClick={() => checkAnswer(idx)}
+                                        disabled={challenge.answered}
+                                        className={`w-full p-4 rounded-xl text-left text-sm font-bold transition-all flex justify-between items-center group
+                                            ${challenge.answered
+                                                ? idx === challenge.ans ? 'bg-green-500 text-white' : 'bg-gray-800/50 text-gray-500'
+                                                : 'bg-white/5 hover:bg-cyan-500 hover:text-white border border-white/10'
+                                            }`}>
+                                        {opt}
+                                        {challenge.answered && idx === challenge.ans ? '✅' : '➜'}
+                                    </button>
+                                ))}
+                            </div>
+                            {challenge?.answered && (
+                                <button onClick={nextQuestion} className="w-full py-4 bg-cyan-600 rounded-xl font-black uppercase text-xs tracking-widest shadow-lg shadow-cyan-900/40">
+                                    Défi Suivant ➜
+                                </button>
                             )}
                         </div>
                     )}
                 </DraggableHtmlPanel>
             </Html>
-            <Cylinder args={[0.8, 0.8, 2, 32]} position={[0, 0, 0]}><meshStandardMaterial color="#4488ff" transparent opacity={0.6} /></Cylinder>
-            <SuccessOverlay show={showSuccess} message="Excellent !" points={25} onNext={nextQuestion} />
+
+            <XPBar current={score % 100} nextLevel={100} />
+            <SuccessOverlay show={showSuccess} message="Solution Parfaite ! La concentration est exactement ce qu'il fallait." points={25} onNext={nextQuestion} />
             <ConfettiExplosion active={showSuccess} />
+
+            {/* Éprouvette graduée */}
+            <Cylinder args={[0.8, 0.8, 4, 32]} position={[0, 0, 0]}>
+                <meshStandardMaterial color="#E2E8F0" transparent opacity={0.2} metalness={0.9} roughness={0} />
+            </Cylinder>
+
+            {/* Liquide */}
+            <Cylinder args={[0.78, 0.78, (volume / 2000) * 3.8, 32]} position={[0, -1.9 + ((volume / 2000) * 3.8) / 2, 0]}>
+                <meshStandardMaterial color="#3B82F6" transparent opacity={0.6 + (concentration / 400) * 0.4} emissive="#3B82F6" emissiveIntensity={0.2} />
+            </Cylinder>
+
+            {/* Particules de soluté */}
+            {[...Array(Math.min(50, Math.floor(mass / 2)))].map((_, i) => (
+                <Float key={i} speed={2} floatIntensity={1}>
+                    <Sphere args={[0.04]} position={[(Math.random() - 0.5) * 1.2, (Math.random() - 0.5) * 3, (Math.random() - 0.5) * 1.2]}>
+                        <meshStandardMaterial color="#FFFFFF" />
+                    </Sphere>
+                </Float>
+            ))}
+
+            <Text position={[0, 2.5, 0]} fontSize={0.4} color="white" font="/fonts/Inter-Bold.ttf">
+                {concentration.toFixed(1)} g/L
+            </Text>
         </group>
     );
 }
@@ -506,138 +531,162 @@ export function Chap9AcidesBasesPH() {
     const [challenge, setChallenge] = useState(null);
 
     const solutions = {
-        citron: { name: '🍋 Citron', ph: 2 }, vinaigre: { name: '🍶 Vinaigre', ph: 3 },
-        eau: { name: '💧 Eau pure', ph: 7 }, savon: { name: '🧼 Savon', ph: 10 },
-        javel: { name: '🧴 Javel', ph: 12 }, soude: { name: '⚗️ Soude', ph: 14 }
+        citron: { name: 'Citron', icon: '🍋', ph: 2 },
+        vinaigre: { name: 'Vinaigre', icon: '🍶', ph: 3 },
+        eau: { name: 'Eau Pure', icon: '💧', ph: 7 },
+        savon: { name: 'Savon', icon: '🧼', ph: 10 },
+        javel: { name: 'Javel', icon: '🧴', ph: 12 },
+        soude: { name: 'Soude', icon: '⚗️', ph: 14 }
     };
 
     const challenges = [
-        { q: "pH < 7 = solution", options: ["Acide", "Basique", "Neutre"], ans: 0 },
-        { q: "pH = 7 = solution", options: ["Acide", "Basique", "Neutre"], ans: 2 },
-        { q: "Acide + Base →", options: ["Explosion", "Neutralisation", "Gaz"], ans: 1 },
-        { q: "Le citron a un pH d'environ", options: ["2", "7", "12"], ans: 0 }
+        { q: "Une solution avec un pH de 2 est :", options: ["Acide", "Basique", "Neutre"], ans: 0, icon: "🍋" },
+        { q: "Quelle valeur de pH correspond à la neutralité ?", options: ["0", "7", "14"], ans: 1, icon: "💧" },
+        { q: "Pour diminuer l'acidité d'une solution, on peut :", options: ["Ajouter un acide", "La diluer avec de l'eau", "La chauffer"], ans: 1, icon: "💧" },
+        { q: "Une solution basique a un pH compris entre :", options: ["0 et 7", "7 uniquement", "7 et 14"], ans: 2, icon: "🧼" }
     ];
 
-    const getColor = (p) => p < 4 ? '#ff0000' : p < 7 ? '#ff8800' : p === 7 ? '#00ff00' : p < 10 ? '#0088ff' : '#8800ff';
-    const getType = (p) => p < 7 ? 'ACIDE 🍋' : p === 7 ? 'NEUTRE 💧' : 'BASIQUE 🧼';
+    const getColor = (p) => {
+        if (p < 3) return '#F87171'; // Rouge (Acide fort)
+        if (p < 7) return '#FB923C'; // Orange (Acide faible)
+        if (p === 7) return '#4ADE80'; // Vert (Neutre)
+        if (p < 11) return '#60A5FA'; // Bleu (Base faible)
+        return '#818CF8'; // Violet (Base forte)
+    };
 
-    const startChallenge = () => { setMode('challenge'); setScore(0); nextQuestion(); };
-    const nextQuestion = () => { setChallenge({ ...challenges[Math.floor(Math.random() * challenges.length)], answered: false }); setShowSuccess(false); };
+    const getType = (p) => p < 7 ? 'ACIDE 🔥' : p === 7 ? 'NEUTRE ✨' : 'BASIQUE ❄️';
+
+    const startChallenge = () => {
+        setMode('challenge');
+        setScore(0);
+        nextQuestion();
+    };
+
+    const nextQuestion = () => {
+        const rand = Math.floor(Math.random() * challenges.length);
+        setChallenge({ ...challenges[rand], answered: false });
+        setShowSuccess(false);
+    };
+
     const checkAnswer = (idx) => {
         if (!challenge || challenge.answered) return;
-        if (idx === challenge.ans) { setScore(s => s + 25); setShowSuccess(true); } else { alert("Non !"); }
+        if (idx === challenge.ans) {
+            setScore(s => s + 25);
+            setShowSuccess(true);
+        } else {
+            alert("Réaction erronée ! Analyse mieux l'échelle de pH.");
+        }
         setChallenge({ ...challenge, answered: true });
     };
 
     return (
         <group>
             <Html transform={false}>
-                <DraggableHtmlPanel title="🧪 Acides, Bases et pH" showCloseButton={false} defaultPosition="bottom-center" className="w-[360px] border-purple-500/30 text-white">
-                    {/* MODE SELECTOR */}
+                <DraggableHtmlPanel title="🧪 Expert pH" showCloseButton={false} defaultPosition="bottom-center" className="w-[400px] border-purple-500/30 text-white">
                     <div className="mb-4">
-                        <PhaseSelector currentPhase={mode} onSelect={setMode} />
+                        <PhaseSelector currentPhase={mode} onSelect={(m) => m === 'challenge' ? startChallenge() : setMode('explore')} />
                     </div>
 
-                    {/* HEADER INFO */}
-                    <div className="flex justify-between items-end mb-4 pb-2 border-b border-white/10">
-                        <div>
-                            <div className="text-xs text-purple-300 font-bold uppercase tracking-wider mb-1">Module Chimie</div>
-                            <div className="text-xl font-black text-white leading-none">ÉCHELLE pH</div>
+                    <div className="flex justify-between items-center mb-4 border-b border-white/10 pb-2">
+                        <div className="flex flex-col">
+                            <span className="text-[10px] text-purple-400 font-bold uppercase tracking-widest">Équilibre Ionique</span>
+                            <span className="text-lg font-black">{mode === 'explore' ? 'Scanner de pH' : 'Défi Acidité 🧠'}</span>
                         </div>
-                        <div className="text-right">
-                            <GradeBadge score={score} />
-                        </div>
+                        <GradeBadge score={score} />
                     </div>
 
                     {mode === 'explore' ? (
-                        <>
-                            <div className="mb-4">
-                                <MissionObjective objective="Testez le pH de différentes solutions !" icon="🧪" />
-                            </div>
+                        <div className="space-y-4">
+                            <MissionObjective objective="Analysez le pH de diverses substances et observez leur nature." icon="🧪" />
 
-                            <div className="flex flex-wrap gap-2 mb-4 justify-center">
-                                {Object.entries(solutions).map(([k, s]) => (
-                                    <button key={k} onClick={() => setPh(s.ph)}
-                                        className={`px-3 py-2 rounded-full text-xs font-bold transition-all transform hover:scale-105 ${ph === s.ph ? 'ring-2 ring-white scale-110 shadow-lg' : 'bg-gray-800 hover:bg-gray-700'}`}
-                                        style={{ backgroundColor: ph === s.ph ? getColor(s.ph) : undefined, color: ph === s.ph ? 'black' : 'white' }}>
-                                        {s.name}
+                            <div className="grid grid-cols-3 gap-2">
+                                {Object.entries(solutions).map(([key, s]) => (
+                                    <button key={key} onClick={() => setPh(s.ph)}
+                                        className={`p-2 rounded-xl flex flex-col items-center gap-1 transition-all border ${ph === s.ph ? 'bg-purple-600 border-purple-400 shadow-lg scale-105' : 'bg-gray-900 border-white/5 opacity-50'}`}>
+                                        <span className="text-xl">{s.icon}</span>
+                                        <span className="text-[8px] font-black uppercase text-center leading-none">{s.name}</span>
                                     </button>
                                 ))}
                             </div>
 
-                            <div className="text-center mb-6 p-4 bg-gray-900/80 rounded-xl border border-white/10 shadow-inner">
-                                <div className="text-6xl font-black mb-1 transition-colors duration-500" style={{ color: getColor(ph) }}>{ph}</div>
-                                <div className="text-lg font-bold uppercase tracking-widest text-white">{getType(ph)}</div>
+                            <div className="bg-black/40 p-6 rounded-2xl border border-white/10 text-center relative overflow-hidden">
+                                <div className="absolute top-0 left-0 w-full h-1" style={{ backgroundColor: getColor(ph) }} />
+                                <div className="text-6xl font-black mb-2 transition-all duration-500" style={{ color: getColor(ph), textShadow: `0 0 20px ${getColor(ph)}44` }}>
+                                    {ph}
+                                </div>
+                                <div className="text-sm font-black text-white tracking-[0.2em]">{getType(ph)}</div>
                             </div>
 
                             <div className="space-y-2">
-                                <div className="h-8 rounded-full flex overflow-hidden border border-white/20 shadow-lg relative">
-                                    {[...Array(15)].map((_, i) => <div key={i} className="flex-1 transition-all hover:opacity-100 opacity-80" style={{ backgroundColor: getColor(i) }} />)}
-                                    <div className="absolute top-0 bottom-0 w-1 bg-white shadow-[0_0_10px_white] transition-all duration-300"
+                                <div className="h-4 rounded-full flex overflow-hidden border border-white/10 relative">
+                                    {[...Array(15)].map((_, i) => (
+                                        <div key={i} className="flex-1" style={{ backgroundColor: getColor(i) }} />
+                                    ))}
+                                    <div className="absolute top-[-4px] bottom-[-4px] w-1 bg-white shadow-[0_0_10px_white] transition-all duration-300 z-10"
                                         style={{ left: `${(ph / 14) * 100}%` }} />
                                 </div>
                                 <input type="range" min={0} max={14} value={ph} onChange={(e) => setPh(parseInt(e.target.value))}
-                                    className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer" />
-                                <div className="flex justify-between text-[10px] text-gray-400 font-mono uppercase">
-                                    <span>Acidité max</span>
-                                    <span>Neutralité</span>
-                                    <span>Basicité max</span>
+                                    className="w-full h-2 bg-gray-800 rounded-lg appearance-none cursor-pointer accent-purple-500" />
+                                <div className="flex justify-between text-[8px] text-gray-500 font-black uppercase">
+                                    <span>ACIDE FORT</span>
+                                    <span>NEUTRE</span>
+                                    <span>BASE FORTE</span>
                                 </div>
                             </div>
-                        </>
+                        </div>
                     ) : (
-                        <div className="bg-gray-900/50 p-4 rounded-xl border border-purple-500/30">
-                            <div className="flex justify-between items-center mb-6">
-                                <h3 className="text-purple-300 font-bold flex items-center gap-2">
-                                    <span>🧠</span> Quiz pH
-                                </h3>
-                                <XPBar current={score} nextLevel={100} />
-                            </div>
-
-                            {!challenge && (
-                                <div className="text-center py-8">
-                                    <button onClick={startChallenge} className="px-6 py-3 bg-purple-600 hover:bg-purple-500 text-white rounded-full font-bold shadow-lg shadow-purple-900/20 transition-all transform hover:scale-105">
-                                        Commencer le Défi
+                        <div className="space-y-4">
+                            {challenge && <MissionObjective objective={challenge.q} icon={challenge.icon} />}
+                            <div className="space-y-2">
+                                {challenge?.options.map((opt, idx) => (
+                                    <button key={idx} onClick={() => checkAnswer(idx)}
+                                        disabled={challenge.answered}
+                                        className={`w-full p-4 rounded-xl text-left text-sm font-bold transition-all flex justify-between items-center group
+                                            ${challenge.answered
+                                                ? idx === challenge.ans ? 'bg-green-500 text-white' : 'bg-gray-800/50 text-gray-500'
+                                                : 'bg-white/5 hover:bg-purple-500 hover:text-white border border-white/10'
+                                            }`}>
+                                        {opt}
+                                        {challenge.answered && idx === challenge.ans ? '✅' : '➜'}
                                     </button>
-                                </div>
-                            )}
-
-                            {challenge && (
-                                <div className="space-y-4 animate-in slide-in-from-right duration-300">
-                                    <div className="text-sm font-medium bg-black/20 p-3 rounded-lg border-l-2 border-purple-500">
-                                        {challenge.q}
-                                    </div>
-                                    <div className="space-y-2">
-                                        {challenge.options.map((opt, idx) => (
-                                            <button key={idx} onClick={() => checkAnswer(idx)}
-                                                disabled={challenge.answered}
-                                                className={`w-full text-left p-3 rounded transition-all text-sm flex justify-between items-center
-                                                    ${challenge.answered
-                                                        ? idx === challenge.ans
-                                                            ? 'bg-green-500/20 text-green-300 border border-green-500/50'
-                                                            : 'bg-gray-800/50 text-gray-500'
-                                                        : 'bg-white/5 hover:bg-white/10'
-                                                    }
-                                                `}>
-                                                <span><span className="opacity-50 mr-2">{['A', 'B', 'C'][idx]}.</span> {opt}</span>
-                                                {challenge.answered && idx === challenge.ans && <span>✅</span>}
-                                            </button>
-                                        ))}
-                                    </div>
-                                    {challenge.answered && (
-                                        <button onClick={nextQuestion} className="w-full py-3 bg-gradient-to-r from-purple-600 to-pink-600 rounded-lg font-bold shadow-lg mt-4 hover:shadow-purple-500/20 transition-all">
-                                            Suivant →
-                                        </button>
-                                    )}
-                                </div>
+                                ))}
+                            </div>
+                            {challenge?.answered && (
+                                <button onClick={nextQuestion} className="w-full py-4 bg-purple-600 rounded-xl font-black uppercase text-xs tracking-widest shadow-lg shadow-purple-900/40">
+                                    Défi Suivant ➜
+                                </button>
                             )}
                         </div>
                     )}
                 </DraggableHtmlPanel>
             </Html>
-            <Cylinder args={[0.5, 0.5, 1.5, 32]} position={[0, 0, 0]}><meshStandardMaterial color={getColor(ph)} transparent opacity={0.7} /></Cylinder>
-            <SuccessOverlay show={showSuccess} message="Exact !" points={25} onNext={nextQuestion} />
+
+            <XPBar current={score % 100} nextLevel={100} />
+            <SuccessOverlay show={showSuccess} message="Analyse Réussie ! Tu maîtrises parfaitement l'échelle de pH." points={25} onNext={nextQuestion} />
             <ConfettiExplosion active={showSuccess} />
+
+            {/* Bécher */}
+            <Cylinder args={[1.2, 1, 3, 32]} position={[0, 0, 0]}>
+                <meshStandardMaterial color="#E2E8F0" transparent opacity={0.3} metalness={0.9} roughness={0} />
+            </Cylinder>
+
+            {/* Liquide coloré par pH */}
+            <Cylinder args={[1.15, 0.95, 2.8, 32]} position={[0, -0.1, 0]}>
+                <meshStandardMaterial color={getColor(ph)} transparent opacity={0.7} emissive={getColor(ph)} emissiveIntensity={0.5} />
+            </Cylinder>
+
+            {/* Ions (bulles) */}
+            {[...Array(12)].map((_, i) => (
+                <Float key={i} speed={2 + i * 0.2} floatIntensity={1.5}>
+                    <Sphere args={[0.06]} position={[(Math.random() - 0.5) * 1.5, (Math.random() - 0.5) * 2.5, (Math.random() - 0.5) * 1.5]}>
+                        <meshStandardMaterial color="white" transparent opacity={0.4} />
+                    </Sphere>
+                </Float>
+            ))}
+
+            <Text position={[0, 2.2, 0]} fontSize={0.5} color="white" font="/fonts/Inter-Bold.ttf">
+                pH {ph}
+            </Text>
         </group>
     );
 }
@@ -654,145 +703,148 @@ export function Chap10Metaux() {
     const [challenge, setChallenge] = useState(null);
 
     const metals = {
-        fer: { name: '🔩 Fer', color: '#888888', reactive: true, desc: 'Attiré par aimant' },
-        zinc: { name: '⬜ Zinc', color: '#aaaaaa', reactive: true, desc: 'Gris bleuté' },
-        or: { name: '👑 Or', color: '#ffd700', reactive: false, desc: 'Jaune brillant' },
-        sodium: { name: '🔥 Sodium', color: '#ff6600', reactive: true, desc: 'Très réactif' }
+        fer: { name: 'Fer', icon: '🔩', color: '#888888', reactive: true, desc: 'Aimantée, rouille' },
+        zinc: { name: 'Zinc', icon: '⬜', color: '#aaaaaa', reactive: true, desc: 'Protège de corrosion' },
+        or: { name: 'Or', icon: '👑', color: '#ffd700', reactive: false, desc: 'Métal noble' },
+        sodium: { name: 'Sodium', icon: '🔥', color: '#ff6600', reactive: true, desc: 'Réactivité extrême' }
     };
 
     const challenges = [
-        { q: "Métal + Acide → Sel + ?", options: ["O₂", "H₂", "CO₂"], ans: 1 },
-        { q: "L'or est un métal :", options: ["Très réactif", "Noble", "Léger"], ans: 1 },
-        { q: "La rouille est :", options: ["Oxyde de fer", "Fer pur", "Sel"], ans: 0 },
-        { q: "Test du H₂ avec flamme →", options: ["Rien", "Pop !", "Fumée"], ans: 1 }
+        { q: "Métal + Acide → Sel + ?", options: ["Oxygène (O₂)", "Dihydrogène (H₂)", "Dioxyde de Carbone (CO₂)"], ans: 1, icon: "🧪" },
+        { q: "Quel test permet d'identifier le dihydrogène ?", options: ["Trouble l'eau de chaux", "Ralumme l'allumette", "Fait 'pop' à l'allumette"], ans: 2, icon: "👂" },
+        { q: "L'or ne réagit pas aux acides car il est dit :", options: ["Noble", "Lourd", "Magnétique"], ans: 0, icon: "👑" },
+        { q: "La réaction d'un métal avec un acide est une transformation :", options: ["Physique", "Chimique", "Nucléaire"], ans: 1, icon: "🧠" }
     ];
 
-    const doReaction = () => { if (metals[metal].reactive) { setReacting(true); setTimeout(() => setReacting(false), 2000); } };
+    const doReaction = () => {
+        if (metals[metal].reactive) {
+            setReacting(true);
+            setTimeout(() => setReacting(false), 2000);
+        }
+    };
 
-    const startChallenge = () => { setMode('challenge'); setScore(0); nextQuestion(); };
-    const nextQuestion = () => { setChallenge({ ...challenges[Math.floor(Math.random() * challenges.length)], answered: false }); setShowSuccess(false); };
+    const startChallenge = () => {
+        setMode('challenge');
+        setScore(0);
+        nextQuestion();
+    };
+
+    const nextQuestion = () => {
+        const rand = Math.floor(Math.random() * challenges.length);
+        setChallenge({ ...challenges[rand], answered: false });
+        setShowSuccess(false);
+    };
+
     const checkAnswer = (idx) => {
         if (!challenge || challenge.answered) return;
-        if (idx === challenge.ans) { setScore(s => s + 25); setShowSuccess(true); } else { alert("Non !"); }
+        if (idx === challenge.ans) {
+            setScore(s => s + 25);
+            setShowSuccess(true);
+        } else {
+            alert("Réaction ratée ! Analyse mieux les propriétés des métaux.");
+        }
         setChallenge({ ...challenge, answered: true });
     };
 
     return (
         <group>
             <Html transform={false}>
-                <DraggableHtmlPanel title="⚙️ Propriétés des Métaux" showCloseButton={false} defaultPosition="bottom-center" className="w-[360px] border-gray-500/30 text-white">
-                    {/* MODE SELECTOR */}
+                <DraggableHtmlPanel title="⚙️ Forge des Métaux" showCloseButton={false} defaultPosition="bottom-center" className="w-[400px] border-gray-500/30 text-white">
                     <div className="mb-4">
-                        <PhaseSelector currentPhase={mode} onSelect={setMode} />
+                        <PhaseSelector currentPhase={mode} onSelect={(m) => m === 'challenge' ? startChallenge() : setMode('explore')} />
                     </div>
 
-                    {/* HEADER INFO */}
-                    <div className="flex justify-between items-end mb-4 pb-2 border-b border-white/10">
-                        <div>
-                            <div className="text-xs text-gray-400 font-bold uppercase tracking-wider mb-1">Module Chimie</div>
-                            <div className="text-xl font-black text-white leading-none">RÉACTIONS ACIDES</div>
+                    <div className="flex justify-between items-center mb-4 border-b border-white/10 pb-2">
+                        <div className="flex flex-col">
+                            <span className="text-[10px] text-gray-400 font-bold uppercase tracking-widest">Métallurgie Appliquée</span>
+                            <span className="text-lg font-black">{mode === 'explore' ? 'Laboratoire d\'Analyse' : 'Défi Réactivité 🧠'}</span>
                         </div>
-                        <div className="text-right">
-                            <GradeBadge score={score} />
-                        </div>
+                        <GradeBadge score={score} />
                     </div>
 
                     {mode === 'explore' ? (
-                        <>
-                            <div className="mb-4">
-                                <MissionObjective objective="Testez la réaction des métaux aux acides !" icon="🧪" />
-                            </div>
+                        <div className="space-y-4">
+                            <MissionObjective objective="Testez la résistance et la réactivité des métaux face aux acides." icon="🧪" />
 
-                            <div className="grid grid-cols-2 gap-2 mb-4">
-                                {Object.entries(metals).map(([k, m]) => (
-                                    <button key={k} onClick={() => setMetal(k)}
-                                        className={`p-3 rounded-lg text-left transition-all group border border-white/5 hover:border-white/20 ${metal === k ? 'bg-white/10 ring-1 ring-white/50' : 'bg-gray-800'}`}>
-                                        <div className="font-bold group-hover:text-blue-400 transition-colors flex items-center justify-between">
-                                            {m.name}
-                                            <div className="w-3 h-3 rounded-full" style={{ backgroundColor: m.color }} />
-                                        </div>
-                                        <div className="text-gray-500 text-[10px] mt-1">{m.desc}</div>
+                            <div className="grid grid-cols-4 gap-2">
+                                {Object.entries(metals).map(([key, m]) => (
+                                    <button key={key} onClick={() => setMetal(key)}
+                                        className={`p-2 rounded-xl flex flex-col items-center gap-1 transition-all border ${metal === key ? 'bg-gray-600 border-white/50 shadow-lg scale-105' : 'bg-gray-900 border-white/5 opacity-50'}`}>
+                                        <span className="text-xl">{m.icon}</span>
+                                        <span className="text-[8px] font-black uppercase text-center leading-none">{m.name}</span>
                                     </button>
                                 ))}
                             </div>
 
-                            <button onClick={doReaction} disabled={!metals[metal].reactive || reacting}
-                                className={`w-full py-4 rounded-xl font-black text-lg shadow-lg transition-all transform active:scale-95 flex items-center justify-center gap-2
-                                    ${metals[metal].reactive
-                                        ? reacting ? 'bg-red-500 animate-pulse cursor-wait' : 'bg-gradient-to-r from-red-600 to-orange-600 hover:scale-[1.02]'
-                                        : 'bg-gray-700 cursor-not-allowed opacity-50'}`}>
-                                {reacting ? (
-                                    <><span>⚠️</span> RÉACTION EN COURS...</>
-                                ) : metals[metal].reactive ? (
-                                    <><span>💧</span> VERSER ACIDE (HCl)</>
-                                ) : (
-                                    <><span>🚫</span> PAS DE RÉACTION</>
-                                )}
-                            </button>
-
-                            {reacting && (
-                                <div className="mt-3 p-3 bg-red-500/10 rounded-lg border border-red-500/20 text-center animate-in fade-in zoom-in">
-                                    <div className="text-2xl mb-1">🫧 POP !</div>
-                                    <div className="text-xs text-red-200 font-mono">Dégagement de Dihydrogène (H₂)</div>
-                                </div>
-                            )}
-                        </>
-                    ) : (
-                        <div className="bg-gray-900/50 p-4 rounded-xl border border-gray-500/30">
-                            <div className="flex justify-between items-center mb-6">
-                                <h3 className="text-gray-300 font-bold flex items-center gap-2">
-                                    <span>🧠</span> Quiz Métaux
-                                </h3>
-                                <XPBar current={score} nextLevel={100} />
+                            <div className="bg-black/40 p-4 rounded-xl border border-white/5">
+                                <div className="text-[10px] text-gray-500 font-black uppercase mb-2">Propriétés : {metals[metal].desc}</div>
+                                <button onClick={doReaction} disabled={!metals[metal].reactive || reacting}
+                                    className={`w-full py-4 rounded-xl font-black text-xs tracking-widest shadow-lg transition-all transform active:scale-95 flex items-center justify-center gap-2
+                                        ${metals[metal].reactive
+                                            ? reacting ? 'bg-red-500 animate-pulse' : 'bg-gradient-to-r from-red-600 to-orange-600 hover:scale-[1.02]'
+                                            : 'bg-gray-800 cursor-not-allowed opacity-50'}`}>
+                                    {reacting ? '💨 DÉGAGEMENT GAZEUX...' : metals[metal].reactive ? '💧 VERSER ACIDE CHLORHYDRIQUE' : '🛡️ MÉTAL INERTE (PAS DE RÉACTION)'}
+                                </button>
                             </div>
 
-                            {!challenge && (
-                                <div className="text-center py-8">
-                                    <button onClick={startChallenge} className="px-6 py-3 bg-gray-600 hover:bg-gray-500 text-white rounded-full font-bold shadow-lg shadow-gray-900/20 transition-all transform hover:scale-105">
-                                        Commencer le Défi
-                                    </button>
+                            {reacting && (
+                                <div className="p-4 bg-red-950/30 rounded-xl border border-red-500/30 text-center animate-in zoom-in">
+                                    <div className="text-[10px] text-red-100 font-black uppercase mb-1">Production de Dihydrogène</div>
+                                    <div className="text-2xl font-black text-white">🫧 POP !</div>
+                                    <div className="text-[8px] text-red-300/70 font-mono mt-1">Zn + 2HCl → ZnCl₂ + H₂</div>
                                 </div>
                             )}
-
-                            {challenge && (
-                                <div className="space-y-4 animate-in slide-in-from-right duration-300">
-                                    <div className="text-sm font-medium bg-black/20 p-3 rounded-lg border-l-2 border-gray-500">
-                                        {challenge.q}
-                                    </div>
-                                    <div className="space-y-2">
-                                        {challenge.options.map((opt, idx) => (
-                                            <button key={idx} onClick={() => checkAnswer(idx)}
-                                                disabled={challenge.answered}
-                                                className={`w-full text-left p-3 rounded transition-all text-sm flex justify-between items-center
-                                                    ${challenge.answered
-                                                        ? idx === challenge.ans
-                                                            ? 'bg-green-500/20 text-green-300 border border-green-500/50'
-                                                            : 'bg-gray-800/50 text-gray-500'
-                                                        : 'bg-white/5 hover:bg-white/10'
-                                                    }
-                                                `}>
-                                                <span><span className="opacity-50 mr-2">{['A', 'B', 'C'][idx]}.</span> {opt}</span>
-                                                {challenge.answered && idx === challenge.ans && <span>✅</span>}
-                                            </button>
-                                        ))}
-                                    </div>
-                                    {challenge.answered && (
-                                        <button onClick={nextQuestion} className="w-full py-3 bg-gradient-to-r from-gray-600 to-gray-500 rounded-lg font-bold shadow-lg mt-4 hover:shadow-gray-500/20 transition-all">
-                                            Suivant →
-                                        </button>
-                                    )}
-                                </div>
+                        </div>
+                    ) : (
+                        <div className="space-y-4">
+                            {challenge && <MissionObjective objective={challenge.q} icon={challenge.icon} />}
+                            <div className="space-y-2">
+                                {challenge?.options.map((opt, idx) => (
+                                    <button key={idx} onClick={() => checkAnswer(idx)}
+                                        disabled={challenge.answered}
+                                        className={`w-full p-4 rounded-xl text-left text-sm font-bold transition-all flex justify-between items-center group
+                                            ${challenge.answered
+                                                ? idx === challenge.ans ? 'bg-green-500 text-white' : 'bg-gray-800/50 text-gray-500'
+                                                : 'bg-white/5 hover:bg-gray-400 hover:text-black border border-white/10'
+                                            }`}>
+                                        {opt}
+                                        {challenge.answered && idx === challenge.ans ? '✅' : '➜'}
+                                    </button>
+                                ))}
+                            </div>
+                            {challenge?.answered && (
+                                <button onClick={nextQuestion} className="w-full py-4 bg-gray-600 rounded-xl font-black uppercase text-xs tracking-widest shadow-lg shadow-gray-900/40">
+                                    Défi Suivant ➜
+                                </button>
                             )}
                         </div>
                     )}
                 </DraggableHtmlPanel>
             </Html>
-            <Box args={[1, 1, 1]} position={[0, 0, 0]}><meshStandardMaterial color={metals[metal].color} metalness={0.8} roughness={0.2} /></Box>
-            {reacting && [...Array(10)].map((_, i) => (
-                <Float key={i} speed={5} floatIntensity={2}><Sphere args={[0.1]} position={[Math.random() - 0.5, 0.5 + i * 0.2, Math.random() - 0.5]}><meshStandardMaterial color="white" transparent opacity={0.5} /></Sphere></Float>
-            ))}
-            <SuccessOverlay show={showSuccess} message="Bien joué !" points={25} onNext={nextQuestion} />
+
+            <XPBar current={score % 100} nextLevel={100} />
+            <SuccessOverlay show={showSuccess} message="Forgeron Expert ! Ta connaissance des métaux est solide." points={25} onNext={nextQuestion} />
             <ConfettiExplosion active={showSuccess} />
+
+            {/* Bloc de métal */}
+            <Float speed={1} rotationIntensity={0.5}>
+                <Box args={[1.5, 1.5, 1.5]} position={[0, 0, 0]}>
+                    <meshStandardMaterial color={metals[metal].color} metalness={0.9} roughness={0.1} />
+                </Box>
+            </Float>
+
+            {/* Bulles de réaction (H2) */}
+            {reacting && [...Array(15)].map((_, i) => (
+                <Float key={i} speed={4 + i * 0.1} floatIntensity={1}>
+                    <Sphere args={[0.08]} position={[(Math.random() - 0.5) * 1.8, 1 + i * 0.3, (Math.random() - 0.5) * 1.8]}>
+                        <meshStandardMaterial color="white" transparent opacity={0.6} />
+                    </Sphere>
+                </Float>
+            ))}
+
+            <Text position={[0, 2, 0]} fontSize={0.4} color="white" font="/fonts/Inter-Bold.ttf">
+                {metals[metal].name.toUpperCase()}
+            </Text>
         </group>
     );
 }
@@ -809,145 +861,139 @@ export function Chap11Combustion() {
     const [challenge, setChallenge] = useState(null);
 
     const fuels = {
-        methane: { name: '🔥 Méthane CH₄', formula: 'CH₄ + 2O₂ → CO₂ + 2H₂O', color: '#00aaff', desc: 'Gaz de ville' },
-        butane: { name: '🧯 Butane C₄H₁₀', formula: '2C₄H₁₀ + 13O₂ → 8CO₂ + 10H₂O', color: '#ffaa00', desc: 'Gaz en bouteille' },
-        essence: { name: '⛽ Octane C₈H₁₈', formula: '2C₈H₁₈ + 25O₂ → 16CO₂ + 18H₂O', color: '#ff4400', desc: 'Carburant voiture' }
+        methane: { name: 'Méthane', icon: '🔥', formula: 'CH₄ + 2O₂ → CO₂ + 2H₂O', color: '#00aaff', desc: 'Gaz Naturel' },
+        butane: { name: 'Butane', icon: '🧃', formula: '2C₄H₁₀ + 13O₂ → 8CO₂ + 10H₂O', color: '#ffaa00', desc: 'Gaz de Cuisine' },
+        essence: { name: 'Octane', icon: '⛽', formula: '2C₈H₁₈ + 25O₂ → 16CO₂ + 18H₂O', color: '#ff4400', desc: 'Carburant Supérieur' }
     };
 
     const challenges = [
-        { q: "Combustion complète produit :", options: ["CO", "CO₂ + H₂O", "C"], ans: 1 },
-        { q: "Le comburant est :", options: ["Le carburant", "L'oxygène", "Le CO₂"], ans: 1 },
-        { q: "Les hydrocarbures contiennent :", options: ["C et H", "C et O", "H et O"], ans: 0 },
-        { q: "Flamme bleue = combustion", options: ["Incomplète", "Complète", "Nulle"], ans: 1 }
+        { q: "La combustion complète d'un hydrocarbure produit du CO₂ et de :", options: ["L'Azote (N₂)", "L'Eau (H₂O)", "Le Monoxyde de Carbone (CO)"], ans: 1, icon: "💧" },
+        { q: "Dans une combustion, le dioxygène est appelé le :", options: ["Carburant", "Comburant", "Combustible"], ans: 1, icon: "🌬️" },
+        { q: "Un hydrocarbure est une molécule composée uniquement de :", options: ["Carbone et Hydrogène", "Carbone et Oxygène", "Oxygène et Hydrogène"], ans: 0, icon: "🧠" },
+        { q: "Une flamme bleue indique une combustion :", options: ["Complète", "Incomplète", "Partielle"], ans: 0, icon: "🔥" }
     ];
 
-    const startBurn = () => { setBurning(true); setTimeout(() => setBurning(false), 3000); };
-    const startChallenge = () => { setMode('challenge'); setScore(0); nextQuestion(); };
-    const nextQuestion = () => { setChallenge({ ...challenges[Math.floor(Math.random() * challenges.length)], answered: false }); setShowSuccess(false); };
+    const startBurn = () => {
+        setBurning(true);
+        setTimeout(() => setBurning(false), 3000);
+    };
+
+    const startChallenge = () => {
+        setMode('challenge');
+        setScore(0);
+        nextQuestion();
+    };
+
+    const nextQuestion = () => {
+        const rand = Math.floor(Math.random() * challenges.length);
+        setChallenge({ ...challenges[rand], answered: false });
+        setShowSuccess(false);
+    };
+
     const checkAnswer = (idx) => {
         if (!challenge || challenge.answered) return;
-        if (idx === challenge.ans) { setScore(s => s + 25); setShowSuccess(true); } else { alert("Non !"); }
+        if (idx === challenge.ans) {
+            setScore(s => s + 25);
+            setShowSuccess(true);
+        } else {
+            alert("Extinction ! Révise l'équilibre des combustions.");
+        }
         setChallenge({ ...challenge, answered: true });
     };
 
     return (
         <group>
             <Html transform={false}>
-                <DraggableHtmlPanel title="🔥 Hydrocarbures" showCloseButton={false} defaultPosition="bottom-center" className="w-[360px] border-orange-500/30 text-white">
-                    {/* MODE SELECTOR */}
+                <DraggableHtmlPanel title="🔥 Maître du Feu" showCloseButton={false} defaultPosition="bottom-center" className="w-[400px] border-orange-500/30 text-white">
                     <div className="mb-4">
-                        <PhaseSelector currentPhase={mode} onSelect={setMode} />
+                        <PhaseSelector currentPhase={mode} onSelect={(m) => m === 'challenge' ? startChallenge() : setMode('explore')} />
                     </div>
 
-                    {/* HEADER INFO */}
-                    <div className="flex justify-between items-end mb-4 pb-2 border-b border-white/10">
-                        <div>
-                            <div className="text-xs text-orange-300 font-bold uppercase tracking-wider mb-1">Module Chimie</div>
-                            <div className="text-xl font-black text-white leading-none">COMBUSTIONS</div>
+                    <div className="flex justify-between items-center mb-4 border-b border-white/10 pb-2">
+                        <div className="flex flex-col">
+                            <span className="text-[10px] text-orange-400 font-bold uppercase tracking-widest">Énergie Chimique</span>
+                            <span className="text-lg font-black">{mode === 'explore' ? 'Chambre de Combustion' : 'Défi Oxidation 🧠'}</span>
                         </div>
-                        <div className="text-right">
-                            <GradeBadge score={score} />
-                        </div>
+                        <GradeBadge score={score} />
                     </div>
 
                     {mode === 'explore' ? (
-                        <>
-                            <div className="mb-4">
-                                <MissionObjective objective="Faites brûler des hydrocarbures !" icon="🔥" />
-                            </div>
+                        <div className="space-y-4">
+                            <MissionObjective objective="Simulez la combustion d'hydrocarbures et étudiez le bilan énergétique." icon="🔥" />
 
-                            <div className="space-y-2 mb-4">
-                                {Object.entries(fuels).map(([k, f]) => (
-                                    <button key={k} onClick={() => setFuel(k)}
-                                        className={`w-full p-3 rounded-lg text-left text-sm transition-all flex justify-between items-center group ${fuel === k ? 'bg-orange-600 shadow-lg shadow-orange-900/30' : 'bg-gray-800 hover:bg-gray-700'}`}>
-                                        <div>
-                                            <div className="font-bold">{f.name}</div>
-                                            <div className="text-xs text-orange-200/70">{f.desc}</div>
-                                        </div>
-                                        {fuel === k && <span className="text-xl">👈</span>}
+                            <div className="grid grid-cols-3 gap-2">
+                                {Object.entries(fuels).map(([key, f]) => (
+                                    <button key={key} onClick={() => setFuel(key)}
+                                        className={`p-2 rounded-xl flex flex-col items-center gap-1 transition-all border ${fuel === key ? 'bg-orange-600 border-orange-400 shadow-lg scale-105' : 'bg-gray-900 border-white/5 opacity-50'}`}>
+                                        <span className="text-xl">{f.icon}</span>
+                                        <span className="text-[8px] font-black uppercase text-center leading-none">{f.name}</span>
                                     </button>
                                 ))}
                             </div>
 
-                            <button onClick={startBurn} disabled={burning}
-                                className={`w-full py-4 rounded-xl font-bold text-lg shadow-lg transition-all transform active:scale-95 group relative overflow-hidden
-                                    ${burning ? 'bg-red-600 animate-pulse' : 'bg-gradient-to-r from-orange-600 to-red-600 hover:scale-[1.02]'}`}>
-                                <span className="relative z-10 flex items-center justify-center gap-2">
-                                    {burning ? '🔥 COMBUSTION EN COURS' : '🧨 ALLUMER LE FEU'}
-                                </span>
-                                {!burning && <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform" />}
-                            </button>
-
-                            <div className="mt-4 p-3 bg-gray-900 rounded-lg text-xs font-mono text-center border border-white/10">
-                                <div className="text-gray-500 mb-1">Équation de réaction :</div>
-                                <div className="text-orange-300 font-bold text-sm tracking-wide">{fuels[fuel].formula}</div>
+                            <div className="bg-black/40 p-4 rounded-xl border border-white/5">
+                                <div className="text-[10px] text-gray-500 font-black uppercase mb-2">Carburant : {fuels[fuel].desc}</div>
+                                <button onClick={startBurn} disabled={burning}
+                                    className={`w-full py-4 rounded-xl font-black text-xs tracking-widest shadow-lg transition-all transform active:scale-95 flex items-center justify-center gap-2
+                                        ${burning ? 'bg-red-600 animate-pulse' : 'bg-gradient-to-r from-orange-600 to-red-600 hover:scale-[1.02]'}`}>
+                                    {burning ? '🔥RÉACTION EXOTHERMIQUE...' : '🧨 DÉCLENCHER LA COMBUSTION'}
+                                </button>
                             </div>
 
-                            {burning && (
-                                <div className="mt-2 text-center p-2 bg-orange-500/10 rounded border border-orange-500/20 animate-in fade-in slide-in-from-bottom">
-                                    <div className="text-amber-300 font-bold">Produits : CO₂ + H₂O + Énergie 🔥</div>
-                                </div>
-                            )}
-                        </>
+                            <div className="p-4 bg-gray-950 rounded-xl border border-orange-500/20 font-mono text-center">
+                                <div className="text-[8px] text-gray-500 uppercase mb-1">Équation Équilibrée</div>
+                                <div className="text-xs text-orange-300 font-bold">{fuels[fuel].formula}</div>
+                            </div>
+                        </div>
                     ) : (
-                        <div className="bg-gray-900/50 p-4 rounded-xl border border-orange-500/30">
-                            <div className="flex justify-between items-center mb-6">
-                                <h3 className="text-orange-300 font-bold flex items-center gap-2">
-                                    <span>🧠</span> Quiz Feu
-                                </h3>
-                                <XPBar current={score} nextLevel={100} />
-                            </div>
-
-                            {!challenge && (
-                                <div className="text-center py-8">
-                                    <button onClick={startChallenge} className="px-6 py-3 bg-orange-600 hover:bg-orange-500 text-white rounded-full font-bold shadow-lg shadow-orange-900/20 transition-all transform hover:scale-105">
-                                        Commencer le Défi
+                        <div className="space-y-4">
+                            {challenge && <MissionObjective objective={challenge.q} icon={challenge.icon} />}
+                            <div className="space-y-2">
+                                {challenge?.options.map((opt, idx) => (
+                                    <button key={idx} onClick={() => checkAnswer(idx)}
+                                        disabled={challenge.answered}
+                                        className={`w-full p-4 rounded-xl text-left text-sm font-bold transition-all flex justify-between items-center group
+                                            ${challenge.answered
+                                                ? idx === challenge.ans ? 'bg-green-500 text-white' : 'bg-gray-800/50 text-gray-500'
+                                                : 'bg-white/5 hover:bg-orange-500 hover:text-white border border-white/10'
+                                            }`}>
+                                        {opt}
+                                        {challenge.answered && idx === challenge.ans ? '✅' : '➜'}
                                     </button>
-                                </div>
-                            )}
-
-                            {challenge && (
-                                <div className="space-y-4 animate-in slide-in-from-right duration-300">
-                                    <div className="text-sm font-medium bg-black/20 p-3 rounded-lg border-l-2 border-orange-500">
-                                        {challenge.q}
-                                    </div>
-                                    <div className="space-y-2">
-                                        {challenge.options.map((opt, idx) => (
-                                            <button key={idx} onClick={() => checkAnswer(idx)}
-                                                disabled={challenge.answered}
-                                                className={`w-full text-left p-3 rounded transition-all text-sm flex justify-between items-center
-                                                    ${challenge.answered
-                                                        ? idx === challenge.ans
-                                                            ? 'bg-green-500/20 text-green-300 border border-green-500/50'
-                                                            : 'bg-gray-800/50 text-gray-500'
-                                                        : 'bg-white/5 hover:bg-white/10'
-                                                    }
-                                                `}>
-                                                <span><span className="opacity-50 mr-2">{['A', 'B', 'C'][idx]}.</span> {opt}</span>
-                                                {challenge.answered && idx === challenge.ans && <span>✅</span>}
-                                            </button>
-                                        ))}
-                                    </div>
-                                    {challenge.answered && (
-                                        <button onClick={nextQuestion} className="w-full py-3 bg-gradient-to-r from-orange-600 to-red-600 rounded-lg font-bold shadow-lg mt-4 hover:shadow-orange-500/20 transition-all">
-                                            Suivant →
-                                        </button>
-                                    )}
-                                </div>
+                                ))}
+                            </div>
+                            {challenge?.answered && (
+                                <button onClick={nextQuestion} className="w-full py-4 bg-orange-600 rounded-xl font-black uppercase text-xs tracking-widest shadow-lg shadow-orange-900/40">
+                                    Défi Suivant ➜
+                                </button>
                             )}
                         </div>
                     )}
                 </DraggableHtmlPanel>
             </Html>
-            <Cylinder args={[0.3, 0.3, 1, 32]} position={[0, -0.5, 0]}><meshStandardMaterial color="#333" /></Cylinder>
-            {burning && (
-                <group position={[0, 0.3, 0]}>
-                    <Sphere args={[0.4]}><meshStandardMaterial color={fuels[fuel].color} emissive={fuels[fuel].color} emissiveIntensity={2} transparent opacity={0.8} /></Sphere>
-                    <pointLight position={[0, 0.5, 0]} color={fuels[fuel].color} intensity={5} distance={5} />
-                </group>
-            )}
-            <SuccessOverlay show={showSuccess} message="Parfait !" points={25} onNext={nextQuestion} />
+
+            <XPBar current={score % 100} nextLevel={100} />
+            <SuccessOverlay show={showSuccess} message="Pyromane Expert ! Ton bilan carbone est impeccable." points={25} onNext={nextQuestion} />
             <ConfettiExplosion active={showSuccess} />
+
+            {/* Brûleur */}
+            <Cylinder args={[0.4, 0.4, 1.5, 32]} position={[0, -0.8, 0]}>
+                <meshStandardMaterial color="#374151" metalness={0.8} roughness={0.2} />
+            </Cylinder>
+
+            {/* Flamme */}
+            {burning && (
+                <Float speed={5} rotationIntensity={2} floatIntensity={1}>
+                    <Sphere args={[0.5, 16, 16]} position={[0, 0.5, 0]} scale={[1, 2, 1]}>
+                        <meshStandardMaterial color={fuels[fuel].color} emissive={fuels[fuel].color} emissiveIntensity={5} transparent opacity={0.6} />
+                    </Sphere>
+                    <pointLight position={[0, 0.5, 0]} color={fuels[fuel].color} intensity={8} distance={6} />
+                </Float>
+            )}
+
+            <Text position={[0, 2.2, 0]} fontSize={0.4} color="white" font="/fonts/Inter-Bold.ttf">
+                {fuels[fuel].name.toUpperCase()}
+            </Text>
         </group>
     );
 }
