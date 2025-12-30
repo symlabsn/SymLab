@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 
-export default function ModuleBlock({ href, title, description, accentColor, className = '' }) {
+export default function ModuleBlock({ href, title, description, accentColor, icon, className = '' }) {
   return (
     <div
       className={`sci-card group relative block w-full max-w-xl mx-auto p-4 sm:p-6 md:p-8 transition-all duration-300 active:scale-[0.98] ${className}`}
@@ -21,8 +21,18 @@ export default function ModuleBlock({ href, title, description, accentColor, cla
       />
 
       <div className="relative z-10 flex flex-col items-center text-center">
-        {/* Tech Header Line */}
-        <div className="w-8 sm:w-10 md:w-12 h-0.5 sm:h-1 mb-4 sm:mb-6" style={{ background: accentColor, boxShadow: `0 0 10px ${accentColor}` }} />
+        {/* Render Icon if provided */}
+        {icon && (
+          <div
+            className="mb-4 sm:mb-6 p-3 rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10 transition-transform group-hover:scale-110 group-hover:rotate-3"
+            style={{ color: accentColor }}
+          >
+            {icon}
+          </div>
+        )}
+
+        {/* Tech Header Line - Hidden if icon is present to avoid clutter */}
+        {!icon && <div className="w-8 sm:w-10 md:w-12 h-0.5 sm:h-1 mb-4 sm:mb-6" style={{ background: accentColor, boxShadow: `0 0 10px ${accentColor}` }} />}
 
         <h3
           className="text-xl sm:text-2xl md:text-3xl font-black mb-2 sm:mb-4 text-white uppercase tracking-wider sm:tracking-widest"
