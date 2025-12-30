@@ -4,10 +4,9 @@ import { useEffect } from 'react';
 import Link from 'next/link';
 import ModuleBlock from '@/components/ModuleBlock';
 import ThreeBackground from '@/components/ThreeBackground';
-import { Sparkles, Binary, Cpu, Atom, Rocket, GraduationCap, ChevronRight } from 'lucide-react';
+import { Sparkles, Binary, Cpu, Atom, Rocket, GraduationCap, ChevronRight, Zap } from 'lucide-react';
 
 export default function Home() {
-    // Scroll to top on mount
     useEffect(() => {
         window.scrollTo(0, 0);
     }, []);
@@ -18,127 +17,132 @@ export default function Home() {
             title: 'Programmation',
             description: 'Maîtrisez Python et l\'algorithmique scientifique.',
             href: '/programming',
-            accentColor: '#00F5D4', // Cyan
-            icon: <Binary />
+            accentColor: '#00F5D4',
+            icon: <Binary size={40} />,
+            tag: 'Populaire'
         },
         {
             id: 'sim',
             title: 'Simulations',
             description: 'Laboratoires virtuels 3D et physique interactive.',
             href: '/simulations',
-            accentColor: '#7C3AED', // Purple
-            icon: <Atom />
+            accentColor: '#7C3AED',
+            icon: <Atom size={40} />,
+            tag: 'Immersif'
         },
         {
             id: 'ing',
             title: 'Ingénierie',
             description: 'L\'ingénierie par la pratique.',
             href: '/engineering',
-            accentColor: '#FF9F1C', // Orange
-            icon: <Cpu />
+            accentColor: '#FF9F1C',
+            icon: <Cpu size={40} />,
+            tag: 'Nouveau'
         },
         {
             id: 'chal',
             title: 'Challenges',
             description: '100 jours pour maîtriser SymPy et le calcul symbolique.',
             href: '/challenges',
-            accentColor: '#F43F5E', // Rose
-            icon: <Rocket />
+            accentColor: '#F43F5E',
+            icon: <Rocket size={40} />,
+            tag: 'Daily'
         },
         {
             id: 'cours',
             title: 'Cours',
             description: 'Ressources pédagogiques conformes au programme.',
             href: '/courses',
-            accentColor: '#10B981', // Green
-            icon: <GraduationCap />
+            accentColor: '#10B981',
+            icon: <GraduationCap size={40} />,
+            tag: 'Certifié'
         }
     ];
 
-    // Helper to scroll to top on navigation
     const handleNavClick = () => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
     return (
-        <main className="min-h-screen flex flex-col items-center justify-start py-8 sm:py-12 md:py-20 px-3 sm:px-4 relative overflow-hidden bg-black selection:bg-[#00F5D4]/30">
-            {/* Immersive Background */}
+        <main className="min-h-screen flex flex-col items-center justify-start py-12 sm:py-20 px-3 sm:px-4 relative overflow-hidden bg-black selection:bg-[#00F5D4]/30">
             <ThreeBackground />
+            <div className="noise-overlay" />
 
-            {/* HEADER - Visual improvement */}
-            <section className="center-xy mb-12 sm:mb-16 md:mb-24 relative z-10 max-w-4xl mx-auto fade-in-up text-center px-2">
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-white/10 bg-white/5 backdrop-blur-md mb-6 animate-pulse-glow" style={{ color: '#00F5D4' }}>
-                    <Sparkles size={14} />
-                    <span className="text-[10px] uppercase tracking-widest font-bold">L'Innovation STEM au Sénégal</span>
+            {/* HERO SECTION - REFINED */}
+            <section className="center-xy mb-20 sm:mb-32 relative z-10 max-w-5xl mx-auto fade-in-up text-center px-4">
+                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-[#00F5D4]/20 bg-[#00F5D4]/5 backdrop-blur-xl mb-10 group hover:border-[#00F5D4]/50 transition-all duration-500">
+                    <Zap size={14} className="text-[#00F5D4] animate-pulse" />
+                    <span className="text-[10px] sm:text-xs uppercase tracking-[0.3em] font-black text-gray-400 group-hover:text-white transition-colors">Plateforme STEM de Nouvelle Génération</span>
                 </div>
 
-                <h1 className="text-6xl sm:text-7xl md:text-9xl font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-b from-white via-white to-white/20 mb-4 sm:mb-6"
-                    style={{
-                        textShadow: '0 0 40px rgba(0, 245, 212, 0.2), 0 0 80px rgba(124, 58, 237, 0.1)',
-                    }}
-                >
-                    SYMLAB
+                <h1 className="text-7xl sm:text-9xl md:text-[12rem] font-black tracking-tighter leading-none mb-8">
+                    <span className="inline-block text-transparent bg-clip-text bg-gradient-to-b from-white to-white/10 hover:to-white/40 transition-all duration-700">SYM</span>
+                    <span className="inline-block text-transparent bg-clip-text bg-gradient-to-tr from-[#00F5D4] via-white to-[#7C3AED] glow-text">LAB</span>
                 </h1>
 
-                <p className="text-lg sm:text-xl md:text-2xl text-gray-400 font-light max-w-2xl mx-auto leading-relaxed px-4 italic">
-                    La plateforme <span className="text-white font-medium not-italic">immersive</span> pour les sciences et l'ingénierie.
+                <p className="text-xl sm:text-3xl text-gray-400 font-light max-w-3xl mx-auto leading-tight px-4 opacity-70 hover:opacity-100 transition-opacity duration-700 italic">
+                    L'écosystème numérique <span className="text-white font-bold not-italic">immersif</span> pour les futurs bâtisseurs de demain.
                 </p>
 
-                {/* Decorative line */}
-                <div className="w-24 h-1 bg-gradient-to-r from-transparent via-[#00F5D4] to-transparent mx-auto mt-8 opacity-50" />
+                {/* Scroll hint with tech aesthetic */}
+                <div className="flex flex-col items-center gap-4 mt-16 opacity-30 animate-float">
+                    <span className="text-[10px] uppercase tracking-widest font-bold">Explorer l'Univers</span>
+                    <div className="w-0.5 h-16 bg-gradient-to-b from-[#00F5D4] to-transparent" />
+                </div>
             </section>
 
-            {/* CENTERED MODULE STACK - Restore original structure with better styling */}
-            <section className="w-full max-w-2xl flex flex-col gap-6 sm:gap-8 md:gap-10 relative z-10 px-2 mb-24">
+            {/* VERTICAL LIST - POLISHED */}
+            <section className="w-full max-w-2xl flex flex-col gap-8 sm:gap-12 relative z-10 px-2 mb-40">
                 {modules.map((module, index) => (
-                    <div key={module.id} onClick={handleNavClick} className="group cursor-pointer">
+                    <div key={module.id} onClick={handleNavClick} className="group">
                         <ModuleBlock
                             {...module}
-                            className="fade-in-up card-lift"
+                            className="fade-in-up hover:scale-[1.02] transition-all duration-500"
                             style={{ animationDelay: `${index * 150}ms` }}
                         />
                     </div>
                 ))}
             </section>
 
-            {/* RESSOURCES RAPIDES - Enhanced Footer Section */}
-            <section className="w-full max-w-6xl mt-12 sm:mt-16 md:mt-20 relative z-10 fade-in-up px-2 pb-20" style={{ animationDelay: '800ms' }}>
-                <div className="text-center mb-12">
-                    <h2 className="text-2xl sm:text-4xl font-black bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400">
-                        Ressources Thématiques
-                    </h2>
-                    <p className="text-gray-500 text-sm sm:text-base mt-3">Accès instantané aux modules spécialisés</p>
+            {/* DASHBOARD STYLE FOOTER GRID */}
+            <section className="w-full max-w-7xl mt-20 relative z-10 fade-in-up px-4 pb-32" style={{ animationDelay: '900ms' }}>
+                <div className="flex flex-col md:flex-row items-center justify-between mb-16 gap-6">
+                    <div className="text-left">
+                        <h2 className="text-3xl sm:text-5xl font-black text-white leading-none mb-4">
+                            ACCÈS <span className="text-[#00F5D4]">DIRECTS</span>
+                        </h2>
+                        <div className="h-1 w-24 bg-gradient-to-r from-[#00F5D4] to-transparent" />
+                    </div>
+                    <p className="text-gray-500 font-medium max-w-sm text-center md:text-right">Ressources spécialisées pour une immersion ciblée dans les disciplines clés.</p>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
-                    {/* Items styled like mini premium cards */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                     {[
-                        { title: 'Prog & Math', icon: '🐍', href: '/challenges/masterclass', color: '#F43F5E', desc: 'Python & SymPy Masterclass' },
-                        { title: 'Machine Learning', icon: '🤖', href: '/courses#ml-intro', color: '#7C3AED', desc: 'Intelligence Artificielle' },
-                        { title: 'Visualisations', icon: '📊', href: '/courses#vis-data', color: '#F472B6', desc: 'Analyse & Graphiques' },
-                        { title: 'Math Supérieur', icon: '♾️', href: '/courses#math-ml', color: '#00F5D4', desc: 'Mathématiques de l\'IA' }
+                        { title: 'Prog & Math', icon: '🐍', href: '/challenges/masterclass', color: '#F43F5E', tag: 'Python Sci' },
+                        { title: 'Machine Learning', icon: '🤖', href: '/courses#ml-intro', color: '#7C3AED', tag: 'IA / Deep Learning' },
+                        { title: 'Visualisations', icon: '📊', href: '/courses#vis-data', color: '#F472B6', tag: 'Data Science' },
+                        { title: 'Math Supérieur', icon: '♾️', href: '/courses#math-ml', color: '#00F5D4', tag: 'Théorie & Algèbre' }
                     ].map((res, i) => (
                         <Link key={i} href={res.href} onClick={handleNavClick}
-                            className="group p-6 rounded-3xl bg-[#0F1115] border border-white/5 hover:border-white/20 transition-all duration-500 relative overflow-hidden">
-                            {/* Hover background glow */}
-                            <div className="absolute inset-0 bg-gradient-to-br from-transparent to-white/5 opacity-0 group-hover:opacity-100 transition-opacity" />
+                            className="group p-8 rounded-[2.5rem] bg-[#0F1115] border border-white/5 hover:border-white/20 hover:bg-white/[0.02] transition-all duration-500 relative overflow-hidden">
+                            <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-20 transition-opacity">
+                                <Sparkles size={40} className="rotate-12" />
+                            </div>
 
-                            <div className="w-12 h-12 rounded-2xl bg-white/5 flex items-center justify-center text-3xl mb-6 group-hover:scale-110 transition-transform duration-500">
+                            <div className="w-16 h-16 rounded-3xl bg-white/5 flex items-center justify-center text-4xl mb-8 group-hover:scale-110 group-hover:bg-white/10 transition-all duration-500 shadow-2xl">
                                 {res.icon}
                             </div>
-                            <h3 className="text-lg font-bold text-white mb-2 leading-tight group-hover:text-white transition-colors">{res.title}</h3>
-                            <p className="text-xs text-gray-500 mb-6">{res.desc}</p>
 
-                            <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-all duration-300 translate-x-[-10px] group-hover:translate-x-0" style={{ color: res.color }}>
-                                Découvrir <ChevronRight size={12} />
+                            <span className="text-[10px] uppercase tracking-widest font-black mb-3 block opacity-50 group-hover:opacity-100" style={{ color: res.color }}>{res.tag}</span>
+                            <h3 className="text-xl font-bold text-white mb-8 group-hover:text-white transition-colors">{res.title}</h3>
+
+                            <div className="flex items-center gap-3 text-xs font-black uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-all duration-500 translate-x-[-10px] group-hover:translate-x-0">
+                                Explorer <ChevronRight size={14} />
                             </div>
                         </Link>
                     ))}
                 </div>
             </section>
-
-            {/* Final Footer Spacer */}
-            <div className="h-20" />
         </main>
     );
 }
