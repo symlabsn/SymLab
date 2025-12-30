@@ -48,9 +48,9 @@ body {
 /* Hover State */
 .sci-card:hover {
   transform: translateY(-5px);
-  background: rgba(20, 40, 60, 0.9);
-  box-shadow: 0 0 30px var(--glow-color);
-  border-color: var(--accent-color);
+  background: rgba(15, 25, 35, 0.95);
+  box-shadow: 0 0 40px var(--glow-color);
+  border-color: rgba(255, 255, 255, 0.2);
 }
 
 /* Tech Markers */
@@ -91,7 +91,8 @@ body {
 }
 
 .glow-text {
-  text-shadow: 0 0 20px currentColor;
+  text-shadow: 0 0 15px currentColor, 0 0 30px currentColor;
+  opacity: 0.9;
 }
 
 .fade-in-up {
@@ -130,13 +131,17 @@ body {
 .logo-glitch::before {
   color: #00F5D4;
   z-index: -1;
-  animation: glitch-1 3s infinite;
+  animation: glitch-1 5s infinite;
+  opacity: 0.4;
+  filter: blur(2px);
 }
 
 .logo-glitch::after {
   color: #7C3AED;
   z-index: -2;
-  animation: glitch-2 3s infinite;
+  animation: glitch-2 5s infinite;
+  opacity: 0.4;
+  filter: blur(2px);
 }
 
 @keyframes glitch-1 {

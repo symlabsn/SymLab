@@ -9,13 +9,13 @@ import * as THREE from 'three';
 function Starfield() {
     const ref = useRef();
     const [positions, setPositions] = useMemo(() => {
-        const pos = random.inSphere(new Float32Array(8000 * 3), { radius: 10 });
+        const pos = random.inSphere(new Float32Array(6000 * 3), { radius: 10 });
         return [pos, null];
     }, []);
 
     useFrame((state, delta) => {
-        ref.current.rotation.x -= delta / 30;
-        ref.current.rotation.y -= delta / 45;
+        ref.current.rotation.x -= delta / 50;
+        ref.current.rotation.y -= delta / 65;
     });
 
     return (
@@ -24,10 +24,10 @@ function Starfield() {
                 <PointMaterial
                     transparent
                     color="#ffffff"
-                    size={0.015}
+                    size={0.012}
                     sizeAttenuation={true}
                     depthWrite={false}
-                    opacity={0.4}
+                    opacity={0.2}
                 />
             </Points>
         </group>
@@ -37,12 +37,12 @@ function Starfield() {
 function TechGrid() {
     return (
         <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -2, 0]}>
-            <planeGeometry args={[100, 100, 50, 50]} />
+            <planeGeometry args={[100, 100, 40, 40]} />
             <meshBasicMaterial
-                color="#00F5D4"
+                color="#4FD1C5"
                 wireframe
                 transparent
-                opacity={0.05}
+                opacity={0.03}
             />
         </mesh>
     );
@@ -50,17 +50,19 @@ function TechGrid() {
 
 function FloatingCore() {
     return (
-        <Float speed={2} rotationIntensity={1} floatIntensity={1}>
-            <Sphere args={[1.5, 64, 64]} position={[0, 0, -5]}>
+        <Float speed={1.5} rotationIntensity={0.5} floatIntensity={0.5}>
+            <Sphere args={[1.2, 64, 64]} position={[0, 0, -6]}>
                 <MeshDistortMaterial
-                    color="#7C3AED"
-                    speed={3}
-                    distort={0.4}
+                    color="#A78BFA"
+                    speed={2}
+                    distort={0.3}
                     radius={1}
-                    emissive="#7C3AED"
-                    emissiveIntensity={0.2}
-                    roughness={0}
-                    metalness={1}
+                    emissive="#A78BFA"
+                    emissiveIntensity={0.1}
+                    roughness={0.2}
+                    metalness={0.8}
+                    transparent
+                    opacity={0.6}
                 />
             </Sphere>
         </Float>
@@ -77,26 +79,26 @@ function MouseFollower() {
         light.current.position.set(x, y, 2);
     });
 
-    return <pointLight ref={light} distance={10} intensity={2} color="#00F5D4" />;
+    return <pointLight ref={light} distance={8} intensity={1} color="#4FD1C5" transparent opacity={0.5} />;
 }
 
 export default function ThreeBackground() {
     return (
-        <div className="fixed inset-0 -z-10 pointer-events-none bg-black">
+        <div className="fixed inset-0 -z-10 pointer-events-none bg-[#050505]">
             <Canvas camera={{ position: [0, 0, 5], fov: 75 }} dpr={[1, 2]}>
-                <color attach="background" args={['#000000']} />
-                <fog attach="fog" args={['#000000', 5, 15]} />
-                <ambientLight intensity={0.2} />
-                <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} intensity={1} color="#7C3AED" />
+                <color attach="background" args={['#050505']} />
+                <fog attach="fog" args={['#050505', 5, 15]} />
+                <ambientLight intensity={0.1} />
+                <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} intensity={0.5} color="#A78BFA" />
 
                 <Starfield />
                 <TechGrid />
                 <FloatingCore />
                 <MouseFollower />
             </Canvas>
-            {/* Visual Overlays */}
-            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/20 to-black pointer-events-none" />
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(0,245,212,0.05)_0%,transparent_70%)]" />
+            {/* Soft Overlays */}
+            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/10 to-[#050505] pointer-events-none" />
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(79,209,197,0.03)_0%,transparent_80%)]" />
         </div>
     );
 }

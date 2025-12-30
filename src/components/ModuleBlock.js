@@ -8,17 +8,17 @@ export default function ModuleBlock({ href, title, description, accentColor, ico
       className={`sci-card group relative block w-full max-w-xl mx-auto p-8 sm:p-12 transition-all duration-700 hover:shadow-[0_0_80px_var(--glow-color)] border border-white/5 hover:border-white/20 overflow-hidden ${className}`}
       style={{
         '--accent-color': accentColor,
-        '--glow-color': `${accentColor}30`
+        '--glow-color': `${accentColor}15`
       }}
     >
       {/* Background Layer Effects */}
-      <div className="absolute inset-0 bg-gradient-to-br from-white/[0.03] via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-1000" />
-      <div className="shimmer-sweep" />
+      <div className="absolute inset-0 bg-gradient-to-br from-white/[0.01] via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-1000" />
+      <div className="shimmer-sweep opacity-30" />
       <div
-        className="absolute inset-0 opacity-[0.03] group-hover:opacity-[0.07] transition-opacity duration-1000"
+        className="absolute inset-0 opacity-[0.02] group-hover:opacity-[0.05] transition-opacity duration-1000"
         style={{
           backgroundImage: `linear-gradient(${accentColor} 1px, transparent 1px), linear-gradient(90deg, ${accentColor} 1px, transparent 1px)`,
-          backgroundSize: '30px 30px'
+          backgroundSize: '40px 40px'
         }}
       />
 
@@ -34,19 +34,19 @@ export default function ModuleBlock({ href, title, description, accentColor, ico
 
         {/* High-Quality Icon Container */}
         <div
-          className="mb-10 p-6 rounded-[2.5rem] bg-black/40 backdrop-blur-2xl border border-white/10 transition-all duration-1000 group-hover:scale-110 group-hover:rotate-[15deg] group-hover:border-current shadow-[0_0_40px_rgba(0,0,0,0.5)] relative"
+          className="mb-10 p-6 rounded-[2.5rem] bg-black/40 backdrop-blur-2xl border border-white/10 transition-all duration-1000 group-hover:scale-105 group-hover:bg-white/[0.02] shadow-[0_0_40px_rgba(0,0,0,0.3)] relative"
           style={{ color: accentColor }}
         >
-          {/* Pulsing Aura */}
-          <div className="absolute inset-0 bg-current opacity-10 group-hover:opacity-30 blur-3xl animate-pulse transition-opacity" />
-          <div className="relative filter drop-shadow-[0_0_8px_currentColor]">
+          {/* Pulsing Aura - Softer */}
+          <div className="absolute inset-0 bg-current opacity-5 group-hover:opacity-15 blur-3xl animate-pulse transition-opacity" />
+          <div className="relative filter drop-shadow-[0_0_5px_currentColor]">
             {icon}
           </div>
         </div>
 
         <h3
-          className="text-3xl sm:text-5xl font-black mb-4 text-white uppercase tracking-tighter transition-all duration-700 group-hover:tracking-normal group-hover:scale-105"
-          style={{ textShadow: `0 10px 40px ${accentColor}40` }}
+          className="text-3xl sm:text-5xl font-black mb-4 text-white uppercase tracking-tighter transition-all duration-1000 group-hover:tracking-normal group-hover:scale-105"
+          style={{ textShadow: `0 10px 40px ${accentColor}20` }}
         >
           {title}
         </h3>
