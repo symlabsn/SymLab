@@ -69,26 +69,26 @@ export default function Home() {
             <div className="noise-overlay" />
 
             {/* HERO SECTION - REFINED */}
-            <section className="center-xy mb-24 sm:mb-44 relative z-10 max-w-5xl mx-auto fade-in-up text-center px-4">
-                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-white/10 bg-white/5 backdrop-blur-3xl mb-12 group hover:border-white/20 transition-all duration-500 shadow-[0_0_40px_rgba(255,255,255,0.05)]">
-                    <Zap size={16} className="text-[#4FD1C5] opacity-70" />
-                    <span className="text-[10px] sm:text-xs uppercase tracking-[0.4em] font-black text-white/40 group-hover:text-white/70 transition-colors">Plateforme STEM Immersive</span>
+            <section className="center-xy mb-24 sm:mb-44 relative z-10 max-w-5xl mx-auto fade-in-up text-center px-4 pt-10 sm:pt-0">
+                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-white/10 bg-white/5 backdrop-blur-3xl mb-8 sm:mb-12 group hover:border-white/20 transition-all duration-500 shadow-[0_0_40px_rgba(255,255,255,0.05)] hover:shadow-[0_0_20px_rgba(79,209,197,0.2)]">
+                    <Zap size={16} className="text-[#4FD1C5] opacity-70 group-hover:text-[#4FD1C5] group-hover:opacity-100 transition-all" />
+                    <span className="text-[10px] sm:text-xs uppercase tracking-[0.4em] font-black text-white/40 group-hover:text-white/90 transition-colors">Plateforme STEM Immersive</span>
                 </div>
 
-                <h1 className="text-8xl sm:text-9xl md:text-[14rem] font-black tracking-tighter leading-none mb-10 select-none">
+                <h1 className="text-6xl sm:text-8xl md:text-9xl lg:text-[12rem] xl:text-[14rem] font-black tracking-tighter leading-[0.9] sm:leading-none mb-8 sm:mb-10 select-none relative z-20">
                     <span className="logo-glitch inline-block">
-                        <span className="text-transparent bg-clip-text bg-gradient-to-b from-white to-white/30">SYM</span>
-                        <span className="text-transparent bg-clip-text bg-gradient-to-tr from-[#4FD1C5] via-white to-[#A78BFA] glow-text">LAB</span>
+                        <span className="text-transparent bg-clip-text bg-gradient-to-b from-white to-white/30 block sm:inline">SYM</span>
+                        <span className="text-transparent bg-clip-text bg-gradient-to-tr from-[#4FD1C5] via-white to-[#A78BFA] glow-text block sm:inline">LAB</span>
                     </span>
                 </h1>
 
-                <p className="text-2xl sm:text-4xl text-gray-500 font-light max-w-4xl mx-auto leading-tight px-4 opacity-80 hover:opacity-100 transition-opacity duration-1000 italic drop-shadow-lg">
-                    L'écosystème numérique <span className="text-white font-black not-italic border-b border-[#4FD1C5]/30">fluide</span> pour explorer les sciences.
+                <p className="text-lg sm:text-2xl md:text-4xl text-gray-400 sm:text-gray-500 font-light max-w-4xl mx-auto leading-relaxed sm:leading-tight px-2 sm:px-4 opacity-90 sm:opacity-80 hover:opacity-100 transition-opacity duration-1000 italic drop-shadow-lg">
+                    L'écosystème numérique <span className="text-white font-black not-italic border-b border-[#4FD1C5]/30 hover:border-[#4FD1C5] transition-colors cursor-default">fluide</span> pour explorer les sciences.
                 </p>
 
-                {/* Scroll hint */}
-                <div className="flex flex-col items-center gap-4 mt-20 opacity-20 animate-float">
-                    <div className="w-px h-20 bg-gradient-to-b from-white via-white/50 to-transparent" />
+                {/* Scroll hint - Mobile optimized */}
+                <div className="flex flex-col items-center gap-4 mt-16 sm:mt-20 opacity-0 animate-fade-in" style={{ animationDelay: '1s', animationFillMode: 'forwards' }}>
+                    <div className="w-px h-16 sm:h-20 bg-gradient-to-b from-white via-white/50 to-transparent animate-pulse" />
                 </div>
             </section>
 

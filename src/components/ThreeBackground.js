@@ -35,8 +35,16 @@ function Starfield() {
 }
 
 function TechGrid() {
+    const ref = useRef();
+
+    useFrame((state, delta) => {
+        if (ref.current) {
+            ref.current.rotation.z += delta * 0.05;
+        }
+    });
+
     return (
-        <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -2, 0]}>
+        <mesh ref={ref} rotation={[-Math.PI / 2, 0, 0]} position={[0, -2, 0]}>
             <planeGeometry args={[100, 100, 40, 40]} />
             <meshBasicMaterial
                 color="#4FD1C5"

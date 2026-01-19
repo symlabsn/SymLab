@@ -34,7 +34,7 @@ export default function Navbar() {
       ${scrolled ? 'bg-black/80 backdrop-blur-xl border-b border-white/10 shadow-lg shadow-purple-500/5' : 'bg-transparent'}
     `}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
+        <div className="flex justify-between items-center h-14 sm:h-16">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-3 group">
             <div className="text-2xl font-extrabold bg-clip-text text-transparent group-hover:scale-105 transition-transform duration-300" style={{ background: 'linear-gradient(90deg, var(--accent), var(--accent-2))' }} aria-label="SymLab">
