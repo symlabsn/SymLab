@@ -1,7 +1,7 @@
 'use client';
 import { useRef, useState, useMemo, useEffect } from 'react';
 import { useFrame } from '@react-three/fiber';
-import { Html, Text, Float, useTexture, Billboard } from '@react-three/drei';
+import { Html, Text, Float, Billboard } from '@react-three/drei';
 import DraggableHtmlPanel from './DraggableHtmlPanel';
 import * as THREE from 'three';
 
@@ -11,6 +11,16 @@ import * as THREE from 'three';
 export function CellDiscovery() {
     const [cellType, setCellType] = useState('animal'); // 'animal' or 'plant'
     const [activeOrganelle, setActiveOrganelle] = useState(null);
+
+    // FIXED: Use useMemo to ensure random positions are stable during hydration
+    const mitoData = useMemo(() => [...Array(3)].map(() => ({
+        pos: new THREE.Vector3(Math.random() - 0.5, Math.random() - 0.5, Math.random() - 0.5).normalize().multiplyScalar(0.8),
+        rot: [Math.random(), Math.random(), 0]
+    })), []);
+
+    const chloroData = useMemo(() => [...Array(4)].map(() => ({
+        pos: new THREE.Vector3(Math.random() - 0.5, -0.8 + Math.random() * 0.5, Math.random() - 0.5).normalize().multiplyScalar(0.9)
+    })), []);
 
     const organelles = {
         nucleus: { name: "Noyau", desc: "Le 'cerveau' de la cellule. Contient l'ADN.", color: "#8B5CF6" },
@@ -102,17 +112,14 @@ export function CellDiscovery() {
                 </Float>
 
                 {/* Mitochondria (Shared) - Multiple instances */}
-                {[...Array(3)].map((_, i) => {
-                    const pos = new THREE.Vector3(Math.random() - 0.5, Math.random() - 0.5, Math.random() - 0.5).normalize().multiplyScalar(0.8);
-                    return (
-                        <Float key={i} speed={2} rotationIntensity={0.5} floatIntensity={0.5}>
-                            <mesh position={pos} rotation={[Math.random(), Math.random(), 0]} onPointerOver={(e) => { e.stopPropagation(); setActiveOrganelle('mitochondria'); }}>
-                                <capsuleGeometry args={[0.08, 0.3, 4, 8]} />
-                                <meshStandardMaterial color="#F59E0B" />
-                            </mesh>
-                        </Float>
-                    )
-                })}
+                {mitoData.map((data, i) => (
+                    <Float key={i} speed={2} rotationIntensity={0.5} floatIntensity={0.5}>
+                        <mesh position={data.pos} rotation={data.rot} onPointerOver={(e) => { e.stopPropagation(); setActiveOrganelle('mitochondria'); }}>
+                            <capsuleGeometry args={[0.08, 0.3, 4, 8]} />
+                            <meshStandardMaterial color="#F59E0B" />
+                        </mesh>
+                    </Float>
+                ))}
 
                 {/* Plant Specifics */}
                 {cellType === 'plant' && (
@@ -125,17 +132,14 @@ export function CellDiscovery() {
                         <Text position={[0, 0.8, 0]} fontSize={0.2} color="white">Vacuole</Text>
 
                         {/* Chloroplasts (Green beans) */}
-                        {[...Array(4)].map((_, i) => {
-                            const pos = new THREE.Vector3(Math.random() - 0.5, -0.8 + Math.random() * 0.5, Math.random() - 0.5).normalize().multiplyScalar(0.9);
-                            return (
-                                <Float key={`chloro-${i}`} speed={1.5} rotationIntensity={0.5} floatIntensity={0.5}>
-                                    <mesh position={pos} onPointerOver={(e) => { e.stopPropagation(); setActiveOrganelle('chloroplast'); }}>
-                                        <capsuleGeometry args={[0.1, 0.25, 4, 8]} />
-                                        <meshStandardMaterial color="#10B981" />
-                                    </mesh>
-                                </Float>
-                            )
-                        })}
+                        {chloroData.map((data, i) => (
+                            <Float key={`chloro-${i}`} speed={1.5} rotationIntensity={0.5} floatIntensity={0.5}>
+                                <mesh position={data.pos} onPointerOver={(e) => { e.stopPropagation(); setActiveOrganelle('chloroplast'); }}>
+                                    <capsuleGeometry args={[0.1, 0.25, 4, 8]} />
+                                    <meshStandardMaterial color="#10B981" />
+                                </mesh>
+                            </Float>
+                        ))}
                     </>
                 )}
             </group>
@@ -262,7 +266,6 @@ export function PlantGrowth() {
 // 3. FOOD CHAIN (CHAÎNE ALIMENTAIRE)
 // ============================================================================
 export function FoodChain() {
-    // Simplified 3D representation of trophic levels
     const levels = [
         { name: "Producteurs", icon: "🌱", color: "#4CAF50", height: 0 },
         { name: "Conso. 1 (Herbivores)", icon: "🐰", color: "#FFC107", height: 2 },
@@ -285,20 +288,17 @@ export function FoodChain() {
 
             {levels.map((lvl, index) => (
                 <group key={index} position={[0, lvl.height - 3, 0]}>
-                    {/* Pyramid Layer */}
                     <mesh position={[0, 0, 0]}>
                         <cylinderGeometry args={[2 - index * 0.5, 2.5 - index * 0.5, 1.8, 4]} />
                         <meshStandardMaterial color={lvl.color} transparent opacity={0.8} />
                     </mesh>
 
-                    {/* Label */}
                     <Billboard position={[0, 0, 2.5]} follow={true}>
                         <Text fontSize={0.4} color="white" outlineWidth={0.02} outlineColor="black">
                             {lvl.icon} {lvl.name}
                         </Text>
                     </Billboard>
 
-                    {/* Floating Particles illustrating energy */}
                     <Float speed={2} rotationIntensity={0} floatIntensity={1}>
                         <mesh position={[2, 0, 0]}>
                             <sphereGeometry args={[0.1]} />
@@ -373,6 +373,11 @@ export function VertebrateClassification() {
 // 5. PHOTOSYNTHESIS (LA PHOTOSYNTHÈSE)
 // ============================================================================
 export function Photosynthesis() {
+    // FIXED: Use useMemo for stable random positions
+    const stomataPos = useMemo(() => [...Array(5)].map(() => [
+        Math.random() * 3 - 1.5, 0.06, Math.random() * 4 - 2
+    ]), []);
+
     return (
         <group>
             <Html transform={false}>
@@ -405,9 +410,9 @@ export function Photosynthesis() {
                 </mesh>
                 <gridHelper args={[10, 10, '#2E7D32', '#2E7D32']} position={[0, 0.06, 0]} />
 
-                {/* Stomata (Pores) */}
-                {[...Array(5)].map((_, i) => (
-                    <mesh key={i} position={[Math.random() * 3 - 1.5, 0.06, Math.random() * 4 - 2]} rotation={[-Math.PI / 2, 0, 0]}>
+                {/* Stomata (Pores) using stable positions */}
+                {stomataPos.map((pos, i) => (
+                    <mesh key={i} position={pos} rotation={[-Math.PI / 2, 0, 0]}>
                         <torusGeometry args={[0.2, 0.05, 16, 32]} />
                         <meshStandardMaterial color="#1B5E20" />
                     </mesh>
