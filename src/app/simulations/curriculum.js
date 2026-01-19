@@ -21,6 +21,7 @@ export const simulationsCurriculum = {
                                 difficulty: "facile",
                                 duration: "15 min",
                                 icon: "🔬",
+                                image: "/simulations/cell-structure.png",
                                 tags: ["biologie", "cellule", "microscope"]
                             },
                             {
@@ -30,6 +31,7 @@ export const simulationsCurriculum = {
                                 difficulty: "facile",
                                 duration: "20 min",
                                 icon: "🌱",
+                                image: "/simulations/photosynthesis.png",
                                 tags: ["plantes", "énergie", "chlorophylle"]
                             },
                             {
@@ -39,6 +41,7 @@ export const simulationsCurriculum = {
                                 difficulty: "facile",
                                 duration: "15 min",
                                 icon: "🌻",
+                                image: "/simulations/plant-growth.png",
                                 tags: ["plantes", "germination", "nature"]
                             },
                             {
@@ -48,6 +51,7 @@ export const simulationsCurriculum = {
                                 difficulty: "facile",
                                 duration: "20 min",
                                 icon: "🦁",
+                                image: "/simulations/food-chain.png",
                                 tags: ["écologie", "animaux", "alimentation"]
                             },
                             {
@@ -57,6 +61,7 @@ export const simulationsCurriculum = {
                                 difficulty: "facile",
                                 duration: "25 min",
                                 icon: "🐢",
+                                image: "/simulations/vertebrate-classification.png",
                                 tags: ["animaux", "classification", "zoologie"]
                             }
                         ]

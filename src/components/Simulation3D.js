@@ -69,6 +69,7 @@ import { AlcoolsOxydation, AminesProprietes, Esterification, AcidesAminesChirali
 import { ChampMagnetiqueTS, LorentzTS, LaplaceTS, InductionRLTS, DipoleRCTS } from './PhysiqueTSAdvanced2';
 import { OscillationsLCTS, OscillationsMecaTS, InterferencesTS } from './PhysiqueTSAdvanced3';
 import { PhotoelectriqueTS, NiveauxEnergieTS, NucleaireTS } from './PhysiqueTSAdvanced4';
+import { CellDiscovery, PlantGrowth, FoodChain, VertebrateClassification, Photosynthesis } from './SVT6Simulations';
 
 
 
@@ -4496,6 +4497,19 @@ export default function Simulation3D({ type = 'atom', config = {} }) {
                 return <MoleConceptPC4 />;
             case 'chap12-conservation':
                 return <MassConservation />;
+
+            // === SVT 6ÈME - SIMULATIONS ===
+            case 'cell-structure':
+            case 'cell':
+                return <CellDiscovery />;
+            case 'plant-growth':
+                return <PlantGrowth />;
+            case 'photosynthesis':
+                return <Photosynthesis />;
+            case 'food-chain':
+                return <FoodChain />;
+            case 'vertebrate-classification':
+                return <VertebrateClassification />;
 
             // === PC 3ÈME - SIMULATIONS PROGRAMME BFEM ===
             case 'chap1-lentilles-3e':

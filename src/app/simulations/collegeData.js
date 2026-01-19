@@ -82,7 +82,7 @@ Cellule Animale
     'photosynthesis': {
         title: 'La Photosynthèse',
         description: 'Visualisez le processus de photosynthèse dans une feuille',
-        type: 'plant-cell',
+        type: 'photosynthesis',
         config: {},
         analogy: {
             title: 'La Photosynthèse comme une Cuisine Solaire',
@@ -143,6 +143,201 @@ Importance
             }
         ],
         relatedSimulations: ['cell-structure', 'ecosystem-dynamics', 'water-cycle']
+    },
+
+    'plant-growth': {
+        title: 'Croissance des Plantes',
+        description: 'Observez la germination et le développement d\'une plante',
+        type: 'plant-growth',
+        config: {},
+        analogy: {
+            title: 'La Croissance comme la Culture de l\'Arachide',
+            content: `La croissance d'une plante, c'est comme cultiver l'arachide au Saloum ! 🥜
+
+La graine (gerté) est comme un bébé qui dort. L'eau la réveille (germination).
+
+Les racines descendent chercher l'eau, comme on creuse un puits.
+
+La tige monte vers le soleil, comme on se lève le matin.
+
+Les feuilles s'ouvrent pour capter la lumière, comme des panneaux solaires.
+
+La fleur apparaît, puis se transforme en fruit.
+
+Il faut de la patience, de l'eau et du soleil, comme pour avoir une bonne récolte !`
+        },
+        theory: `La Croissance des Plantes
+
+Les plantes grandissent grâce à la division cellulaire (mitose) et à l'allongement des cellules.
+
+Étapes de la Croissance
+1. Germination
+- Réveil de la graine (eau + chaleur)
+- Sortie de la radicule (future racine)
+
+2. Croissance Végétative
+- Développement des racines, tiges, feuilles
+- Photosynthèse active
+
+3. Floraison
+- Apparition des fleurs
+- Organes reproducteurs
+
+4. Fructification
+- Transformation de la fleur en fruit
+- Production de nouvelles graines
+
+Besoins de la Plante
+- Eau (H₂O)
+- Lumière (Soleil)
+- Sels minéraux (Sol)
+- Dioxyde de carbone (CO₂)`,
+        exercises: [
+            {
+                question: 'Quel est le premier stade de développement ?',
+                options: ['Floraison', 'Germination', 'Fructification', 'Pollinisation'],
+                correct: 1,
+                explanation: 'Tout commence par la germination de la graine !'
+            },
+            {
+                question: 'De quoi la plante a-t-elle besoin pour grandir ?',
+                options: ['Juste de l\'eau', 'Juste du soleil', 'Eau, Soleil, Sol, Air', 'Rien'],
+                correct: 2,
+                explanation: 'La plante a besoin d\'eau, de soleil, de nutriments du sol et de CO₂.'
+            }
+        ],
+        relatedSimulations: ['photosynthesis', 'cell-structure', 'water-cycle']
+    },
+
+    'food-chain': {
+        title: 'Chaîne Alimentaire',
+        description: 'Construisez un écosystème équilibré',
+        type: 'food-chain',
+        config: {},
+        analogy: {
+            title: 'La Chaîne Alimentaire dans la Savane',
+            content: `La chaîne alimentaire, c'est "manger ou être mangé" dans la brousse ! 🦁
+
+Les Producteurs (Herbes) : C'est comme le riz, la base du repas. Ils fabriquent leur propre nourriture avec le soleil.
+
+Les Consommateurs 1 (Zèbre, Gazelle) : Les végétariens qui mangent l'herbe.
+
+Les Consommateurs 2 (Lion, Hyène) : Les carnivores qui mangent les herbivores.
+
+Les Décomposeurs (Vautours, Vers) : Les nettoyeurs qui recyclent tout à la fin.
+
+C'est un équilibre fragile : s'il n'y a plus d'herbe, les gazelles disparaissent, et les lions aussi !`
+        },
+        theory: `La Chaîne Alimentaire
+
+Une chaîne alimentaire représente les relations "qui mange qui" dans un écosystème.
+
+Niveaux Trophiques :
+
+1. Producteurs (Autotrophes)
+- Plantes vertes
+- Produisent leur matière organique (photosynthèse)
+- Base de la chaîne
+
+2. Consommateurs Primaires (Hétérotrophes)
+- Herbivores (mangent les plantes)
+- Ex: Lapin, Gazelle, Criquet
+
+3. Consommateurs Secondaires
+- Carnivores (mangent les herbivores)
+- Ex: Renard, Lion, Aigle
+
+4. Décomposeurs
+- Recyclent la matière morte
+- Ex: Bactéries, Champignons, Vers
+
+Réseau Trophique : Ensemble de chaînes alimentaires reliées entre elles.`,
+        exercises: [
+            {
+                question: 'Qui est à la base de toute chaîne alimentaire ?',
+                options: ['Les Lions', 'Les Plantes', 'Les Vautours', 'Les Hommes'],
+                correct: 1,
+                explanation: 'Les plantes (producteurs) sont toujours à la base car elles produisent l\'énergie initiale.'
+            },
+            {
+                question: 'Comment appelle-t-on un animal qui mange de l\'herbe ?',
+                options: ['Carnivore', 'Herbivore', 'Omnivore', 'Décomposeur'],
+                correct: 1,
+                explanation: 'Un herbivore mange des végétaux (herbe).'
+            }
+        ],
+        relatedSimulations: ['ecosystem-dynamics', 'photosynthesis', 'vertebrate-classification']
+    },
+
+    'vertebrate-classification': {
+        title: 'Classification des Vertébrés',
+        description: 'Apprenez à classer les animaux en 5 groupes',
+        type: 'vertebrate-classification',
+        config: {},
+        analogy: {
+            title: 'Les 5 Grandes Familles d\'Animaux',
+            content: `Classer les vertébrés, c'est comme trier les équipes de Navétanes ! 🏆
+
+Les Mammifères (Lions, Hommes) : Ils ont des poils et les mamans donnent du lait aux bébés.
+
+Les Oiseaux (Aigles, Poules) : Ils ont des plumes et un bec.
+
+Les Reptiles (Margouillats, Serpents) : Ils ont des écailles soudées et rampent souvent.
+
+Les Amphibiens (Crapauds) : Ils vivent sur terre et dans l'eau, et ont la peau nue.
+
+Les Poissons (Thiof, Yaboy) : Ils vivent dans l'eau, ont des écailles et des branchies pour respirer.
+
+Chaque équipe a son maillot (peau) et ses règles (habitat) !`
+        },
+        theory: `Classification des Vertébrés
+
+Les vertébrés sont des animaux possédant une colonne vertébrale. On les divise en 5 classes principales :
+
+1. Mammifères
+- Peau : Poils
+- Respiration : Pulmonaire
+- Reproduction : Vivipares (sauf ornithorynque), allaitement
+- Température : Constante (Sang chaud)
+
+2. Oiseaux
+- Peau : Plumes
+- Respiration : Pulmonaire
+- Reproduction : Ovipares (œufs durs)
+- Température : Constante
+
+3. Reptiles
+- Peau : Écailles soudées
+- Respiration : Pulmonaire
+- Reproduction : Ovipares (œufs mous)
+- Température : Variable (Sang froid)
+
+4. Amphibiens / Batraciens
+- Peau : Nue et humide
+- Respiration : Branchiale (larve) puis pulmonaire/cutanée (adulte)
+- Reproduction : Ovipares (dans l'eau)
+- Température : Variable
+
+5. Poissons
+- Peau : Écailles non soudées
+- Respiration : Branchiale
+- Reproduction : Ovipares
+- Température : Variable`,
+        exercises: [
+            {
+                question: 'Quelle classe d\'animaux a des plumes ?',
+                options: ['Mammifères', 'Reptiles', 'Oiseaux', 'Amphibiens'],
+                correct: 2,
+                explanation: 'Seuls les oiseaux possèdent des plumes !'
+            },
+            {
+                question: 'Comment respirent les poissons ?',
+                options: ['Avec des poumons', 'Avec des branchies', 'Par la peau', 'Ils ne respirent pas'],
+                correct: 1,
+                explanation: 'Les poissons utilisent leurs branchies pour extraire l\'oxygène de l\'eau.'
+            }
+        ],
+        relatedSimulations: ['food-chain', 'cell-structure', 'adaptation']
     },
 
     'states-of-matter': {
