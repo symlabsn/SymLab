@@ -688,36 +688,40 @@ function CoursesContent() {
 
 
                             {filteredCourses.length > 0 ? (
-                                <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 sm:gap-3 md:gap-4 lg:gap-6">
+                                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
                                     {filteredCourses.map((course) => (
                                         <div
                                             key={course.id}
-                                            className="group bg-[#0F1115] rounded-xl sm:rounded-2xl border border-white/10 p-3 sm:p-4 md:p-6 hover:border-blue-500/50 transition-all active:scale-[0.98] hover:-translate-y-1 hover:shadow-xl hover:shadow-blue-500/10"
+                                            className="group relative bg-[#0F1115]/80 backdrop-blur-md rounded-2xl border border-white/10 p-5 sm:p-6 hover:border-blue-500/50 transition-all duration-300 active:scale-[0.98] hover:-translate-y-1 hover:shadow-2xl hover:shadow-blue-500/10 overflow-hidden"
                                         >
-                                            <div className="flex items-start justify-between mb-2 sm:mb-4">
-                                                <div className={`w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 rounded-lg sm:rounded-xl flex items-center justify-center text-lg sm:text-xl md:text-2xl bg-${course.color}-500/10 text-${course.color}-500`}>
-                                                    {course.icon}
+                                            {/* Gradient Shine Effect */}
+                                            <div className="absolute inset-0 bg-gradient-to-br from-white/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+
+                                            <div className="relative z-10">
+                                                <div className="flex items-center justify-between mb-4">
+                                                    <div className={`w-12 h-12 rounded-xl flex items-center justify-center text-2xl bg-${course.color || 'blue'}-500/10 text-${course.color || 'blue'}-500 group-hover:scale-110 transition-transform duration-300 ring-1 ring-white/5 group-hover:ring-${course.color || 'blue'}-500/30`}>
+                                                        {course.icon}
+                                                    </div>
+                                                    <span className="px-2.5 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider bg-white/5 text-gray-400 border border-white/5 group-hover:bg-white/10 transition-colors">
+                                                        {course.subject}
+                                                    </span>
                                                 </div>
-                                                <span className="hidden sm:inline px-2 py-1 rounded text-[10px] font-bold uppercase tracking-wider bg-white/5 text-gray-400 border border-white/5">
-                                                    {course.subject}
-                                                </span>
+
+                                                <h3 className="text-lg font-bold mb-2 text-gray-100 group-hover:text-blue-400 transition-colors line-clamp-1">
+                                                    {course.title}
+                                                </h3>
+                                                <p className="text-sm text-gray-500 mb-6 line-clamp-2 h-10 group-hover:text-gray-400 transition-colors">
+                                                    {course.description}
+                                                </p>
+
+                                                <button
+                                                    onClick={() => handleCourseSelect(course)}
+                                                    className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 active:bg-blue-700 text-white text-sm font-bold transition-all shadow-lg shadow-blue-500/20 group-hover:shadow-blue-500/40"
+                                                >
+                                                    <Eye size={16} />
+                                                    <span>{structuredCourses[course.id] ? 'Commencer' : 'Aperçu'}</span>
+                                                </button>
                                             </div>
-
-                                            <h3 className="text-sm sm:text-base md:text-lg font-bold mb-1 sm:mb-2 group-hover:text-blue-400 transition-colors line-clamp-2">
-                                                {course.title}
-                                            </h3>
-                                            <p className="hidden sm:block text-xs sm:text-sm text-gray-500 mb-3 sm:mb-6 line-clamp-2">
-                                                {course.description}
-                                            </p>
-
-                                            <button
-                                                onClick={() => handleCourseSelect(course)}
-                                                className="w-full flex items-center justify-center gap-1 sm:gap-2 px-2 sm:px-4 py-1.5 sm:py-2 rounded-lg bg-blue-600 hover:bg-blue-500 active:scale-95 text-white text-xs sm:text-sm font-bold transition-all"
-                                            >
-                                                <Eye size={14} className="sm:w-4 sm:h-4" />
-                                                <span className="hidden sm:inline">{structuredCourses[course.id] ? 'Commencer' : 'Aperçu'}</span>
-                                                <span className="sm:hidden">Voir</span>
-                                            </button>
                                         </div>
                                     ))}
                                 </div>

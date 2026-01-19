@@ -34,12 +34,12 @@ export default function ModuleBlock({ href, title, description, accentColor, ico
 
         {/* High-Quality Icon Container */}
         <div
-          className="mb-10 p-6 rounded-[2.5rem] bg-black/40 backdrop-blur-2xl border border-white/10 transition-all duration-1000 group-hover:scale-105 group-hover:bg-white/[0.02] shadow-[0_0_40px_rgba(0,0,0,0.3)] relative"
+          className="mb-8 p-5 rounded-[2rem] bg-black/40 backdrop-blur-2xl border border-white/10 transition-all duration-1000 group-hover:scale-105 group-hover:bg-white/[0.02] shadow-[0_0_30px_rgba(0,0,0,0.3)] relative"
           style={{ color: accentColor }}
         >
           {/* Pulsing Aura - Softer */}
-          <div className="absolute inset-0 bg-current opacity-5 group-hover:opacity-15 blur-3xl animate-pulse transition-opacity" />
-          <div className="relative filter drop-shadow-[0_0_5px_currentColor]">
+          <div className="absolute inset-0 bg-current opacity-5 group-hover:opacity-15 blur-2xl animate-pulse transition-opacity" />
+          <div className="relative filter drop-shadow-[0_0_5px_currentColor] scale-90">
             {icon}
           </div>
         </div>

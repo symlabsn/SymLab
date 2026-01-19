@@ -5,12 +5,17 @@
    ======================================== */
 
 :root {
-  --bg-void: #000000;
-  --tech-border: rgba(0, 245, 212, 0.5);
-  --tech-surface: rgba(10, 20, 30, 0.8);
-  --accent: #00F5D4;
-  --accent-2: #7C3AED;
-  --glow-color: rgba(0, 245, 212, 0.5);
+  --bg-void: #020617;
+  /* Slate 950 - Richer than pure black */
+  --tech-border: rgba(45, 212, 191, 0.3);
+  /* Teal 400 based */
+  --tech-surface: rgba(15, 23, 42, 0.8);
+  /* Slate 900 based */
+  --accent: #2DD4BF;
+  /* Teal 400 - Fresh & Premium */
+  --accent-2: #818CF8;
+  /* Indigo 400 - Deep & Smooth */
+  --glow-color: rgba(45, 212, 191, 0.4);
 }
 
 @theme inline {
@@ -19,7 +24,7 @@
 }
 
 body {
-  background-color: #000000 !important;
+  background-color: #020617 !important;
   color: #ffffff;
   font-family: 'Inter', sans-serif;
   min-height: 100vh;
