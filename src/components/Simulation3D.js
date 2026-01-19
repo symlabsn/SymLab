@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 import { useRef, useMemo, useState, useEffect } from 'react';
 import * as THREE from 'three';
 
@@ -83,7 +83,7 @@ function WeightMass() {
         <>
             {/* Controls - Panneau Draggable - Rendu Portal */}
             <Html transform={false}>
-                <DraggableHtmlPanel title="⚖️ Poids vs Masse">
+                <DraggableHtmlPanel title="âš–ï¸ Poids vs Masse">
                     <div className="text-white">
                         <label className="block text-sm font-bold mb-2 text-[#00F5D4]">Masse : {mass} kg</label>
                         <input
@@ -100,11 +100,11 @@ function WeightMass() {
                         </div>
                         <div className="mt-3 pt-3 border-t border-white/10 grid grid-cols-2 gap-2 text-xs">
                             <div className="p-2 rounded bg-blue-500/20">
-                                <div className="text-blue-400">🌍 Terre</div>
+                                <div className="text-blue-400">ðŸŒ Terre</div>
                                 <div className="font-bold">{(mass * 9.8).toFixed(1)} N</div>
                             </div>
                             <div className="p-2 rounded bg-gray-500/20">
-                                <div className="text-gray-400">🌙 Lune</div>
+                                <div className="text-gray-400">ðŸŒ™ Lune</div>
                                 <div className="font-bold">{(mass * 1.6).toFixed(1)} N</div>
                             </div>
                         </div>
@@ -184,11 +184,11 @@ function WeightMass() {
     );
 }
 
-// Composant Théorème de Thalès
+// Composant ThÃ©orÃ¨me de ThalÃ¨s
 function ThalesTheorem() {
     const [ratio, setRatio] = useState(0.5); // k = AM/AB
 
-    // Coordonnées
+    // CoordonnÃ©es
     const A = new THREE.Vector3(0, 4, 0);
     const B = new THREE.Vector3(-1.5, 0, 0);
     const C = new THREE.Vector3(1.5, 0, 0);
@@ -201,7 +201,7 @@ function ThalesTheorem() {
         <>
             {/* Controls - Draggable - Rendu Portal */}
             <Html transform={false}>
-                <DraggableHtmlPanel title="📐 Théorème de Thalès">
+                <DraggableHtmlPanel title="ðŸ“ ThÃ©orÃ¨me de ThalÃ¨s">
                     <div className="text-white">
                         <label className="block text-sm mb-1">Position MN (Ratio : {ratio.toFixed(2)})</label>
                         <input
@@ -239,7 +239,7 @@ function ThalesTheorem() {
                 <Text position={[B.x - 0.3, B.y, B.z]} fontSize={0.4} color="white">B</Text>
                 <Text position={[C.x + 0.3, C.y, C.z]} fontSize={0.4} color="white">C</Text>
 
-                {/* Ligne Parallèle MN (Thalès) */}
+                {/* Ligne ParallÃ¨le MN (ThalÃ¨s) */}
                 <Line points={[M, N]} color="#EF4444" lineWidth={4} />
 
                 <mesh position={M}>
@@ -254,13 +254,13 @@ function ThalesTheorem() {
                 </mesh>
                 <Text position={[N.x + 0.4, N.y, N.z]} fontSize={0.4} color="white">N</Text>
 
-                <Text position={[0, -2, 0]} fontSize={0.5} color="white">Les rapports restent égaux !</Text>
+                <Text position={[0, -2, 0]} fontSize={0.5} color="white">Les rapports restent Ã©gaux !</Text>
             </group>
         </>
     );
 }
 
-// Composant Cercle Trigonométrique
+// Composant Cercle TrigonomÃ©trique
 function TrigUnitCircle() {
     const [angle, setAngle] = useState(0);
     const [autoPlay, setAutoPlay] = useState(true);
@@ -290,7 +290,7 @@ function TrigUnitCircle() {
         <>
             {/* Controls - Draggable - Rendu Portal */}
             <Html transform={false}>
-                <DraggableHtmlPanel title="⭕ Cercle Trigonométrique">
+                <DraggableHtmlPanel title="â­• Cercle TrigonomÃ©trique">
                     <div className="text-white">
                         <div className="flex items-center justify-between mb-4">
                             <span className="text-xs text-gray-400">Animation</span>
@@ -298,7 +298,7 @@ function TrigUnitCircle() {
                                 onClick={() => setAutoPlay(!autoPlay)}
                                 className={`px-3 py-1 rounded-lg text-xs font-bold ${autoPlay ? 'bg-red-500/20 text-red-400' : 'bg-green-500/20 text-green-400'}`}
                             >
-                                {autoPlay ? 'Pause ⏸' : 'Play ▶'}
+                                {autoPlay ? 'Pause â¸' : 'Play â–¶'}
                             </button>
                         </div>
 
@@ -328,7 +328,7 @@ function TrigUnitCircle() {
                             </div>
                             <div className="flex justify-between font-bold">
                                 <span className="text-gray-400">Angle :</span>
-                                <span>{((currentAngle * 180) / Math.PI).toFixed(0)}°</span>
+                                <span>{((currentAngle * 180) / Math.PI).toFixed(0)}Â°</span>
                             </div>
                         </div>
                     </div>
@@ -337,7 +337,7 @@ function TrigUnitCircle() {
 
             <group>
 
-                {/* Cercle Unité */}
+                {/* Cercle UnitÃ© */}
                 <mesh rotation={[Math.PI / 2, 0, 0]}>
                     <torusGeometry args={[2, 0.05, 64, 100]} />
                     <meshStandardMaterial color="white" opacity={0.5} transparent />
@@ -397,7 +397,7 @@ function LoadingScreen() {
     return (
         <div className="flex items-center justify-center h-full">
             <div className="text-center">
-                <div className="text-6xl mb-4 animate-spin">⚛️</div>
+                <div className="text-6xl mb-4 animate-spin">âš›ï¸</div>
                 <p className="text-xl text-gray-400">Chargement de la simulation...</p>
             </div>
         </div>
@@ -441,7 +441,7 @@ function Atom({ protons: initialProtons = 6, neutrons: initialNeutrons = 6, elec
                         </div>
                         <div>
                             <label className="flex justify-between text-xs text-cyan-400 mb-1">
-                                <span>Électrons (-)</span>
+                                <span>Ã‰lectrons (-)</span>
                                 <span>{electrons}</span>
                             </label>
                             <input type="range" min="1" max="10" value={electrons} onChange={(e) => setElectrons(parseInt(e.target.value))} className="w-full h-1 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-cyan-500" />
@@ -455,7 +455,7 @@ function Atom({ protons: initialProtons = 6, neutrons: initialNeutrons = 6, elec
                 {/* Protons (rouge) */}
                 {Array.from({ length: protons }).map((_, i) => {
                     const angle = (i / protons) * Math.PI * 2;
-                    const radius = 0.3 + (protons * 0.02); // Légère expansion
+                    const radius = 0.3 + (protons * 0.02); // LÃ©gÃ¨re expansion
                     return (
                         <mesh
                             key={`proton-${i}`}
@@ -491,7 +491,7 @@ function Atom({ protons: initialProtons = 6, neutrons: initialNeutrons = 6, elec
                 })}
             </group>
 
-            {/* Orbitales électroniques */}
+            {/* Orbitales Ã©lectroniques */}
             <ElectronOrbitals electrons={electrons} />
         </group>
     );
@@ -533,7 +533,7 @@ function ElectronOrbitals({ electrons }) {
                             <meshBasicMaterial color="#00F5D4" opacity={0.1} transparent />
                         </mesh>
 
-                        {/* Électron */}
+                        {/* Ã‰lectron */}
                         <SingleElectron speed={speed} offset={offset} orbitRadius={orbitRadius} />
                     </group>
                 );
@@ -543,9 +543,9 @@ function ElectronOrbitals({ electrons }) {
 }
 
 
-// Composant Molécule d'eau (Interactive)
+// Composant MolÃ©cule d'eau (Interactive)
 function WaterMolecule() {
-    const [temp, setTemp] = useState(25); // Température
+    const [temp, setTemp] = useState(25); // TempÃ©rature
     const hydrogenRef1 = useRef();
     const hydrogenRef2 = useRef();
 
@@ -568,22 +568,22 @@ function WaterMolecule() {
         <group>
             <Html position={[0, 3, 0]} center>
                 <div className="bg-black/90 p-4 rounded-xl text-white border border-white/20 min-w-[200px] backdrop-blur-md select-none">
-                    <h3 className="text-blue-400 font-bold mb-2">Molécule d'Eau (H₂O)</h3>
+                    <h3 className="text-blue-400 font-bold mb-2">Molécule d&apos;Eau (H₂O)</h3>
                     <div className="mb-2">
-                        <span className="text-xs text-gray-400">Température: {temp}°C</span>
+                        <span className="text-xs text-gray-400">TempÃ©rature: {temp}Â°C</span>
                         <input type="range" min="0" max="100" value={temp} onChange={(e) => setTemp(parseInt(e.target.value))} className="w-full h-1 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-blue-500" />
                     </div>
                 </div>
             </Html>
 
-            {/* Atome d'oxygène (rouge) */}
+            {/* Atome d'oxygÃ¨ne (rouge) */}
             <mesh position={[0, 0, 0]}>
                 <sphereGeometry args={[0.5, 32, 32]} />
                 <meshStandardMaterial color="#EF4444" metalness={0.2} roughness={0.1} />
             </mesh>
             <Text position={[-0.2, 0, 0]} fontSize={0.3} color="white">O</Text>
 
-            {/* Atomes d'hydrogène (blanc) */}
+            {/* Atomes d'hydrogÃ¨ne (blanc) */}
             <mesh ref={hydrogenRef1} position={[0.8, 0.6, 0]}>
                 <sphereGeometry args={[0.3, 32, 32]} />
                 <meshStandardMaterial color="#F3F4F6" metalness={0.1} roughness={0.1} />
@@ -606,12 +606,12 @@ function WaterMolecule() {
                 <meshStandardMaterial color="#9CA3AF" transparent opacity={0.5} />
             </mesh>
 
-            <Text position={[1.5, 0, 0]} fontSize={0.2} color="gray">104.5°</Text>
+            <Text position={[1.5, 0, 0]} fontSize={0.2} color="gray">104.5Â°</Text>
         </group>
     );
 }
 
-// Composant Interférences d'Ondes (Interactive)
+// Composant InterfÃ©rences d'Ondes (Interactive)
 function WaveInterference() {
     const [separation, setSeparation] = useState(3);
 
@@ -619,13 +619,13 @@ function WaveInterference() {
         <group>
             <Html position={[0, 3.5, 0]} center>
                 <div className="bg-black/90 p-4 rounded-xl text-white border border-white/20 min-w-[200px] backdrop-blur-md select-none">
-                    <h3 className="text-purple-400 font-bold mb-2">Interférences</h3>
-                    <label className="block text-xs mb-1">Séparation des sources</label>
+                    <h3 className="text-purple-400 font-bold mb-2">InterfÃ©rences</h3>
+                    <label className="block text-xs mb-1">SÃ©paration des sources</label>
                     <input type="range" min="1" max="5" step="0.1" value={separation} onChange={(e) => setSeparation(parseFloat(e.target.value))} className="w-full h-1 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-purple-500" />
                 </div>
             </Html>
 
-            <Text position={[0, 2.5, 0]} fontSize={0.5} color="white">INTERFÉRENCES (Fentes de Young)</Text>
+            <Text position={[0, 2.5, 0]} fontSize={0.5} color="white">INTERFÃ‰RENCES (Fentes de Young)</Text>
 
             {/* Source 1 */}
             <group position={[-separation / 2, 0, 0]}>
@@ -659,7 +659,7 @@ function WaveInterference() {
                 ))}
             </group>
 
-            {/* Zone d'interférence constructive (Symbolique - au milieu) */}
+            {/* Zone d'interfÃ©rence constructive (Symbolique - au milieu) */}
             <mesh position={[0, 0, 0]}>
                 <sphereGeometry args={[0.3, 32, 32]} />
                 <meshStandardMaterial color="#FCD34D" emissive="#FCD34D" emissiveIntensity={0.8} transparent opacity={Math.abs(Math.sin(separation)) + 0.2} />
@@ -669,13 +669,13 @@ function WaveInterference() {
     );
 }
 
-// Composant Circuit Électrique (Interactive)
+// Composant Circuit Ã‰lectrique (Interactive)
 function ElectricCircuit() {
     const [isClosed, setIsClosed] = useState(false);
     return (
         <group>
             <Html transform={false}>
-                <DraggableHtmlPanel title="⚡ Circuit Électrique" showCloseButton={false} defaultPosition="bottom-center" className="min-w-[200px] text-white">
+                <DraggableHtmlPanel title="âš¡ Circuit Ã‰lectrique" showCloseButton={false} defaultPosition="bottom-center" className="min-w-[200px] text-white">
                     <button
                         onClick={() => setIsClosed(!isClosed)}
                         className={`w-full py-2 rounded-lg font-bold transition-all ${isClosed ? 'bg-green-600 hover:bg-green-500 shadow-[0_0_20px_rgba(34,197,94,0.5)]' : 'bg-red-600 hover:bg-red-500'}`}
@@ -683,12 +683,12 @@ function ElectricCircuit() {
                         {isClosed ? "OUVRIR LE CIRCUIT" : "FERMER LE CIRCUIT"}
                     </button>
                     <div className="mt-2 text-center text-xs text-gray-400">
-                        {isClosed ? "Le courant circule ! ⚡" : "Circuit ouvert, pas de courant."}
+                        {isClosed ? "Le courant circule ! âš¡" : "Circuit ouvert, pas de courant."}
                     </div>
                 </DraggableHtmlPanel>
             </Html>
 
-            <Text position={[0, 3.5, 0]} fontSize={0.5} color="white">CIRCUIT ÉLECTRIQUE</Text>
+            <Text position={[0, 3.5, 0]} fontSize={0.5} color="white">CIRCUIT Ã‰LECTRIQUE</Text>
 
             {/* Batterie/Pile */}
             <group position={[-2, 0, 0]}>
@@ -741,7 +741,7 @@ function ElectricCircuit() {
                 <Text position={[0, 1, 0]} fontSize={0.3} color="#10B981">Interrupteur</Text>
             </group>
 
-            {/* Électrons en mouvement */}
+            {/* Ã‰lectrons en mouvement */}
             {isClosed && Array.from({ length: 8 }).map((_, i) => (
                 <Electron key={i} offset={i} />
             ))}
@@ -754,7 +754,7 @@ function Electron({ offset }) {
     useFrame(({ clock }) => {
         const t = (clock.getElapsedTime() * 2 + offset) % 8;
         if (ref.current) {
-            // Trajectoire rectangulaire simplifiée
+            // Trajectoire rectangulaire simplifiÃ©e
             if (t < 2) ref.current.position.set(-2 + t * 2, 1, 0); // Haut: Gauche -> Droite
             else if (t < 3) ref.current.position.set(2, 1 - (t - 2) * 2, 0); // Droite: Haut -> Bas
             else if (t < 5) ref.current.position.set(2 - (t - 3) * 2, -1, 0); // Bas: Droite -> Gauche
@@ -796,10 +796,10 @@ function Cell() {
     }, []);
 
     const parts = [
-        { id: 'nucleus', name: "Noyau", desc: "Centre de contrôle (ADN)", color: "#7C3AED", pos: [0, 0, 1] },
-        { id: 'mito', name: "Mitochondrie", desc: "Centrale énergétique (ATP)", color: "#F59E0B", pos: [1.5, 0, 0] },
-        { id: 'ribo', name: "Ribosomes", desc: "Usines à protéines", color: "#FCD34D", pos: [-1, 1, 0] },
-        { id: 'membrane', name: "Membrane", desc: "Barrière protectrice", color: "#10B981", pos: [0, 2.2, 0] },
+        { id: 'nucleus', name: "Noyau", desc: "Centre de contrÃ´le (ADN)", color: "#7C3AED", pos: [0, 0, 1] },
+        { id: 'mito', name: "Mitochondrie", desc: "Centrale Ã©nergÃ©tique (ATP)", color: "#F59E0B", pos: [1.5, 0, 0] },
+        { id: 'ribo', name: "Ribosomes", desc: "Usines Ã  protÃ©ines", color: "#FCD34D", pos: [-1, 1, 0] },
+        { id: 'membrane', name: "Membrane", desc: "BarriÃ¨re protectrice", color: "#10B981", pos: [0, 2.2, 0] },
     ];
 
     return (
@@ -892,7 +892,7 @@ const generateChloroplastPositions = (count) => {
     }));
 };
 
-// Composant Cellule Végétale (Amélioré : Photosynthèse animée)
+// Composant Cellule VÃ©gÃ©tale (AmÃ©liorÃ© : PhotosynthÃ¨se animÃ©e)
 function PlantCell() {
     const [chloroplasts, setChloroplasts] = useState([]);
 
@@ -901,7 +901,7 @@ function PlantCell() {
     }, []);
     return (
         <group>
-            <Text position={[0, 3.5, 0]} fontSize={0.5} color="#10B981">LA PHOTOSYNTHÈSE</Text>
+            <Text position={[0, 3.5, 0]} fontSize={0.5} color="#10B981">LA PHOTOSYNTHÃˆSE</Text>
 
             {/* Paroi cellulaire (Verte et rigide) */}
             <mesh>
@@ -931,13 +931,13 @@ function PlantCell() {
                 <sphereGeometry args={[0.6, 32, 32]} />
                 <meshStandardMaterial color="#FCD34D" emissive="#FCD34D" emissiveIntensity={2} />
             </mesh>
-            <Text position={[2.5, 3.3, 1]} fontSize={0.3} color="#FCD34D">Lumière</Text>
+            <Text position={[2.5, 3.3, 1]} fontSize={0.3} color="#FCD34D">LumiÃ¨re</Text>
 
             {/* Intrants (CO2 + H2O) */}
-            <Text position={[-2.5, 1, 0]} fontSize={0.4} color="white">CO2 + H2O →</Text>
+            <Text position={[-2.5, 1, 0]} fontSize={0.4} color="white">CO2 + H2O â†’</Text>
 
             {/* Extrants (O2 + Sucre) */}
-            <Text position={[2.5, -1, 0]} fontSize={0.4} color="white">→ Sucre + O2</Text>
+            <Text position={[2.5, -1, 0]} fontSize={0.4} color="white">â†’ Sucre + O2</Text>
 
             {/* Rayons lumineux */}
             <mesh position={[1.5, 1.5, 0.5]} rotation={[0, 0, Math.PI / 4]}>
@@ -970,7 +970,7 @@ const generateGasParticles = (count) => {
     }));
 };
 
-// Composant États de la Matière (Amélioré : 3 états + Température)
+// Composant Ã‰tats de la MatiÃ¨re (AmÃ©liorÃ© : 3 Ã©tats + TempÃ©rature)
 function StatesOfMatter() {
     const [temperature, setTemperature] = useState(0); // 0 (Solide) -> 1 (Liquide) -> 2 (Gaz)
 
@@ -987,7 +987,7 @@ function StatesOfMatter() {
             <Html position={[0, 3.5, 0]} center>
                 <div className="bg-black/90 p-4 rounded-xl text-white border border-white/20 min-w-[250px] backdrop-blur-md">
                     <label className="block text-sm font-bold mb-2 text-[#00F5D4]">
-                        Température : {temperature < 33 ? 'Froid (Solide)' : temperature < 66 ? 'Tiède (Liquide)' : 'Chaud (Gaz)'}
+                        TempÃ©rature : {temperature < 33 ? 'Froid (Solide)' : temperature < 66 ? 'TiÃ¨de (Liquide)' : 'Chaud (Gaz)'}
                     </label>
                     <input
                         type="range"
@@ -998,8 +998,8 @@ function StatesOfMatter() {
                         className="w-full h-2 bg-gradient-to-r from-blue-500 via-yellow-500 to-red-500 rounded-lg appearance-none cursor-pointer"
                     />
                     <div className="flex justify-between text-xs text-gray-400 mt-1">
-                        <span>-20°C</span>
-                        <span>100°C</span>
+                        <span>-20Â°C</span>
+                        <span>100Â°C</span>
                     </div>
                 </div>
             </Html>
@@ -1076,7 +1076,7 @@ function Particle({ index, temperature }) {
 }
 
 
-// Composant Neurone (Système Nerveux) - INTERACTIF
+// Composant Neurone (SystÃ¨me Nerveux) - INTERACTIF
 function Neuron() {
     const [isStimulated, setIsStimulated] = useState(false);
     const [impulseProgress, setImpulseProgress] = useState(0);
@@ -1118,19 +1118,19 @@ function Neuron() {
     };
 
     const getPhase = () => {
-        if (impulseProgress === 0) return '⏸️ Au repos';
-        if (impulseProgress < 30) return '⚡ Dépolarisation (Dendrites)';
-        if (impulseProgress < 80) return '🔥 Influx nerveux (Axone)';
-        if (impulseProgress < 100) return '📡 Transmission (Synapse)';
-        return '✅ Signal transmis !';
+        if (impulseProgress === 0) return 'â¸ï¸ Au repos';
+        if (impulseProgress < 30) return 'âš¡ DÃ©polarisation (Dendrites)';
+        if (impulseProgress < 80) return 'ðŸ”¥ Influx nerveux (Axone)';
+        if (impulseProgress < 100) return 'ðŸ“¡ Transmission (Synapse)';
+        return 'âœ… Signal transmis !';
     };
 
     return (
         <group>
-            {/* Panneau de Contrôle */}
+            {/* Panneau de ContrÃ´le */}
             <Html position={[0, 3.5, 0]} center>
                 <div className="bg-black/90 p-4 rounded-xl text-white border border-white/20 min-w-[260px] backdrop-blur-md select-none">
-                    <h3 className="text-[#FCD34D] font-bold mb-3 text-center">🧠 Neurone</h3>
+                    <h3 className="text-[#FCD34D] font-bold mb-3 text-center">ðŸ§  Neurone</h3>
 
                     <div className="space-y-3">
                         <div>
@@ -1155,13 +1155,13 @@ function Neuron() {
                                     : 'bg-yellow-600 hover:bg-yellow-500'
                                     }`}
                             >
-                                ⚡ Stimuler
+                                âš¡ Stimuler
                             </button>
                             <button
                                 onClick={reset}
                                 className="px-3 py-2 rounded-lg bg-gray-700 hover:bg-gray-600 transition-colors"
                             >
-                                🔄
+                                ðŸ”„
                             </button>
                         </div>
 
@@ -1216,14 +1216,14 @@ function Neuron() {
             </mesh>
             <Text position={[2.5, 0.5, 0]} fontSize={0.25} color="#FCD34D">Axone</Text>
 
-            {/* Gaine de myéline (segments) */}
+            {/* Gaine de myÃ©line (segments) */}
             {[0, 1, 2].map((i) => (
                 <mesh key={i} position={[1.2 + i * 1.2, 0, 0]} rotation={[0, 0, Math.PI / 2]}>
                     <cylinderGeometry args={[0.25, 0.25, 0.8, 16]} />
                     <meshStandardMaterial color="#60A5FA" transparent opacity={0.6} />
                 </mesh>
             ))}
-            <Text position={[2.5, -0.8, 0]} fontSize={0.15} color="#60A5FA">Gaine de Myéline</Text>
+            <Text position={[2.5, -0.8, 0]} fontSize={0.15} color="#60A5FA">Gaine de MyÃ©line</Text>
 
             {/* Dendrites (Ramifications) */}
             {Array.from({ length: 6 }).map((_, i) => {
@@ -1293,7 +1293,7 @@ const generateWBC = (count) => {
     }));
 };
 
-// Composant Vaisseau Sanguin (Circulation) - AMÉLIORÉ
+// Composant Vaisseau Sanguin (Circulation) - AMÃ‰LIORÃ‰
 function BloodStream() {
     const [flowSpeed, setFlowSpeed] = useState(1);
     const [heartRate, setHeartRate] = useState(70);
@@ -1315,7 +1315,7 @@ function BloodStream() {
                     // Mouvement ondulatoire le long du vaisseau
                     const offset = i * 0.5;
                     child.position.x = Math.sin(time * flowSpeed + offset) * 3;
-                    // Légère ondulation verticale (pulsation)
+                    // LÃ©gÃ¨re ondulation verticale (pulsation)
                     child.position.y += Math.sin(time * (heartRate / 30) + offset) * 0.002;
                 }
             });
@@ -1324,10 +1324,10 @@ function BloodStream() {
 
     return (
         <group>
-            {/* Panneau de Contrôle */}
+            {/* Panneau de ContrÃ´le */}
             <Html position={[0, 3.5, 0]} center>
                 <div className="bg-black/90 p-4 rounded-xl text-white border border-white/20 min-w-[280px] backdrop-blur-md select-none">
-                    <h3 className="text-[#EF4444] font-bold mb-3 text-center">💓 Circulation Sanguine</h3>
+                    <h3 className="text-[#EF4444] font-bold mb-3 text-center">ðŸ’“ Circulation Sanguine</h3>
 
                     <div className="space-y-3">
                         <div>
@@ -1344,7 +1344,7 @@ function BloodStream() {
                         </div>
 
                         <div>
-                            <label className="block text-xs mb-1">Fréquence Cardiaque : {heartRate} BPM</label>
+                            <label className="block text-xs mb-1">FrÃ©quence Cardiaque : {heartRate} BPM</label>
                             <input
                                 type="range"
                                 min="40"
@@ -1358,7 +1358,7 @@ function BloodStream() {
 
                         <div className="text-xs text-center pt-2 border-t border-white/10">
                             <span className={heartRate < 60 ? 'text-blue-400' : heartRate > 100 ? 'text-red-400' : 'text-green-400'}>
-                                {heartRate < 60 ? '💤 Bradycardie' : heartRate > 100 ? '🏃 Tachycardie' : '✓ Normal'}
+                                {heartRate < 60 ? 'ðŸ’¤ Bradycardie' : heartRate > 100 ? 'ðŸƒ Tachycardie' : 'âœ“ Normal'}
                             </span>
                         </div>
                     </div>
@@ -1371,7 +1371,7 @@ function BloodStream() {
                 <meshStandardMaterial color="#EF4444" side={2} transparent opacity={0.3} />
             </mesh>
 
-            {/* Groupe animé */}
+            {/* Groupe animÃ© */}
             <group ref={groupRef}>
                 {/* Globules Rouges */}
                 {rbc.map((data, i) => (
@@ -1399,266 +1399,26 @@ function BloodStream() {
                 ))}
             </group>
 
-            <Text position={[-3, 1.5, 0]} fontSize={0.3} color="#DC2626">Globules Rouges (O₂)</Text>
-            <Text position={[3, -1.5, 0]} fontSize={0.3} color="white">Globules Blancs (Défense)</Text>
-        </group>
-    );
-}
-
-// Composant Croissance Végétale - AMÉLIORÉ
-function PlantGrowth() {
-    const [growthStage, setGrowthStage] = useState(0); // 0-100
-    const [water, setWater] = useState(50);
-    const [sunlight, setSunlight] = useState(50);
-    const plantRef = useRef();
-
-    // Croissance calculée basée sur conditions
-    const effectiveGrowth = Math.min(100, growthStage * (water / 50) * (sunlight / 50));
-    const plantScale = 0.1 + (effectiveGrowth / 100) * 0.9; // 0.1 à 1.0
-    const stemHeight = 0.5 + (effectiveGrowth / 100) * 2.5;
-    const flowerVisible = effectiveGrowth > 80;
-
-    // Animation légère de balancement
-    useFrame((state) => {
-        if (plantRef.current) {
-            plantRef.current.rotation.z = Math.sin(state.clock.elapsedTime) * 0.05 * plantScale;
-        }
-    });
-
-    // État de santé
-    const healthStatus = water < 30 || sunlight < 20
-        ? { text: '🥀 Manque de ressources', color: 'text-red-400' }
-        : water > 80 && sunlight > 80
-            ? { text: '🌟 Conditions optimales !', color: 'text-green-400' }
-            : { text: '🌱 Croissance normale', color: 'text-yellow-400' };
-
-    return (
-        <group>
-            {/* Panneau de Contrôle */}
-            <Html position={[0, 4, 0]} center>
-                <div className="bg-black/90 p-4 rounded-xl text-white border border-white/20 min-w-[280px] backdrop-blur-md select-none">
-                    <h3 className="text-[#10B981] font-bold mb-3 text-center">🌱 Croissance Végétale</h3>
-
-                    <div className="space-y-3">
-                        <div>
-                            <label className="block text-xs mb-1">⏱️ Temps (jours) : {Math.round(growthStage / 10)} / 10</label>
-                            <input
-                                type="range"
-                                min="0"
-                                max="100"
-                                value={growthStage}
-                                onChange={(e) => setGrowthStage(parseInt(e.target.value))}
-                                className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-[#10B981]"
-                            />
-                        </div>
-
-                        <div>
-                            <label className="block text-xs mb-1">💧 Eau : {water}%</label>
-                            <input
-                                type="range"
-                                min="0"
-                                max="100"
-                                value={water}
-                                onChange={(e) => setWater(parseInt(e.target.value))}
-                                className="w-full h-2 bg-gradient-to-r from-yellow-600 to-blue-500 rounded-lg appearance-none cursor-pointer"
-                            />
-                        </div>
-
-                        <div>
-                            <label className="block text-xs mb-1">☀️ Lumière : {sunlight}%</label>
-                            <input
-                                type="range"
-                                min="0"
-                                max="100"
-                                value={sunlight}
-                                onChange={(e) => setSunlight(parseInt(e.target.value))}
-                                className="w-full h-2 bg-gradient-to-r from-gray-600 to-yellow-400 rounded-lg appearance-none cursor-pointer"
-                            />
-                        </div>
-
-                        <div className="pt-2 border-t border-white/10 text-center">
-                            <div className="text-sm font-bold text-[#10B981]">Croissance: {Math.round(effectiveGrowth)}%</div>
-                            <div className={`text-xs ${healthStatus.color}`}>{healthStatus.text}</div>
-                        </div>
-                    </div>
-                </div>
-            </Html>
-
-            {/* Soleil (intensité variable) */}
-            <mesh position={[3, 3, 0]}>
-                <sphereGeometry args={[0.5 + sunlight / 200]} />
-                <meshStandardMaterial
-                    color="#FCD34D"
-                    emissive="#FCD34D"
-                    emissiveIntensity={sunlight / 50}
-                />
-            </mesh>
-
-            {/* Pluie (si eau élevée) */}
-            {water > 60 && (
-                <group>
-                    {[...Array(5)].map((_, i) => (
-                        <mesh key={i} position={[-1 + i * 0.5, 2 - (i % 3) * 0.3, 0]}>
-                            <sphereGeometry args={[0.05]} />
-                            <meshStandardMaterial color="#3B82F6" transparent opacity={0.8} />
-                        </mesh>
-                    ))}
-                </group>
-            )}
-
-            {/* Sol */}
-            <mesh position={[0, -2, 0]} rotation={[-Math.PI / 2, 0, 0]}>
-                <planeGeometry args={[5, 5]} />
-                <meshStandardMaterial color={water > 50 ? "#5D4037" : "#8B4513"} />
-            </mesh>
-
-            {/* Plante animée */}
-            <group ref={plantRef} position={[0, -2, 0]} scale={[1, plantScale, 1]}>
-                {/* Graine/Racines */}
-                {growthStage > 5 && (
-                    <mesh position={[0, 0.1, 0]}>
-                        <sphereGeometry args={[0.15]} />
-                        <meshStandardMaterial color="#8B4513" />
-                    </mesh>
-                )}
-
-                {/* Tige */}
-                {growthStage > 15 && (
-                    <mesh position={[0, stemHeight / 2, 0]}>
-                        <cylinderGeometry args={[0.08, 0.12, stemHeight, 8]} />
-                        <meshStandardMaterial color="#10B981" />
-                    </mesh>
-                )}
-
-                {/* Feuilles (apparaissent progressivement) */}
-                {growthStage > 40 && (
-                    <>
-                        <mesh position={[0.4, stemHeight * 0.5, 0]} rotation={[0, 0, -Math.PI / 4]} scale={[plantScale, 0.3, 0.5]}>
-                            <sphereGeometry args={[0.4]} />
-                            <meshStandardMaterial color="#22C55E" />
-                        </mesh>
-                        <mesh position={[-0.4, stemHeight * 0.3, 0]} rotation={[0, 0, Math.PI / 4]} scale={[plantScale, 0.3, 0.5]}>
-                            <sphereGeometry args={[0.35]} />
-                            <meshStandardMaterial color="#22C55E" />
-                        </mesh>
-                    </>
-                )}
-
-                {growthStage > 60 && (
-                    <>
-                        <mesh position={[0.3, stemHeight * 0.7, 0]} rotation={[0, 0, -Math.PI / 5]} scale={[plantScale * 0.8, 0.25, 0.4]}>
-                            <sphereGeometry args={[0.3]} />
-                            <meshStandardMaterial color="#16A34A" />
-                        </mesh>
-                        <mesh position={[-0.35, stemHeight * 0.6, 0]} rotation={[0, 0, Math.PI / 5]} scale={[plantScale * 0.8, 0.25, 0.4]}>
-                            <sphereGeometry args={[0.3]} />
-                            <meshStandardMaterial color="#16A34A" />
-                        </mesh>
-                    </>
-                )}
-
-                {/* Fleur (stade final) */}
-                {flowerVisible && (
-                    <group position={[0, stemHeight + 0.3, 0]}>
-                        {/* Pétales */}
-                        {[0, 1, 2, 3, 4].map((i) => (
-                            <mesh key={i} position={[Math.cos(i * Math.PI * 2 / 5) * 0.2, 0, Math.sin(i * Math.PI * 2 / 5) * 0.2]} rotation={[Math.PI / 4, 0, i * Math.PI * 2 / 5]}>
-                                <sphereGeometry args={[0.15]} scale={[1, 0.3, 0.5]} />
-                                <meshStandardMaterial color="#EC4899" />
-                            </mesh>
-                        ))}
-                        {/* Centre */}
-                        <mesh>
-                            <sphereGeometry args={[0.1]} />
-                            <meshStandardMaterial color="#FCD34D" />
-                        </mesh>
-                    </group>
-                )}
-            </group>
-
-            <Text position={[0, -3, 0]} fontSize={0.25} color="white">
-                Photosynthèse: CO₂ + H₂O + Lumière → Glucose + O₂
-            </Text>
-        </group>
-    );
-}
-
-// Composant Chaîne Alimentaire
-function FoodChain() {
-    return (
-        <group>
-            <Text position={[0, 3, 0]} fontSize={0.5} color="white">Chaîne Alimentaire</Text>
-
-            {/* Producteur (Herbe) */}
-            <group position={[-3, -1, 0]}>
-                <mesh position={[0, 0.5, 0]}>
-                    <cylinderGeometry args={[0.05, 0.05, 1, 8]} />
-                    <meshStandardMaterial color="#10B981" />
-                </mesh>
-                <Text position={[0, -1, 0]} fontSize={0.3} color="#10B981">Producteur (Herbe)</Text>
-            </group>
-
-            {/* Consommateur 1 (Vache/Lapin - Cube Blanc) */}
-            <group position={[0, -1, 0]}>
-                <mesh position={[0, 0.5, 0]}>
-                    <boxGeometry args={[1, 1, 1]} />
-                    <meshStandardMaterial color="white" />
-                </mesh>
-                <Text position={[0, -1, 0]} fontSize={0.3} color="white">Consommateur I (Herbivore)</Text>
-            </group>
-
-            {/* Consommateur 2 (Lion - Cube Rouge) */}
-            <group position={[3, -1, 0]}>
-                <mesh position={[0, 0.5, 0]}>
-                    <boxGeometry args={[1.2, 1.2, 1.2]} />
-                    <meshStandardMaterial color="#EF4444" />
-                </mesh>
-                <Text position={[0, -1, 0]} fontSize={0.3} color="#EF4444">Consommateur II (Carnivore)</Text>
-            </group>
-
-            {/* Flèches */}
-            <Text position={[-1.5, 0, 0]} fontSize={0.5} color="white">→</Text>
-            <Text position={[1.5, 0, 0]} fontSize={0.5} color="white">→</Text>
-            <Text position={[0, -3, 0]} fontSize={0.3} color="gray">&quot;Est mangé par&quot;</Text>
-        </group>
-    );
-}
-
-// Composant Classification des Vertébrés
-function VertebrateClassification() {
-    const groups = [
-        { name: "Mammifères", color: "#FCD34D", pos: [-4, 0, 0] },
-        { name: "Oiseaux", color: "#60A5FA", pos: [-2, 0, 0] },
-        { name: "Reptiles", color: "#10B981", pos: [0, 0, 0] },
-        { name: "Amphibiens", color: "#8B5CF6", pos: [2, 0, 0] },
-        { name: "Poissons", color: "#EF4444", pos: [4, 0, 0] }
-    ];
-
-    return (
-        <group>
-            <Text position={[0, 3, 0]} fontSize={0.5} color="white">Classification des Vertébrés</Text>
-            {groups.map((g, i) => (
-                <group key={i} position={g.pos}>
-                    <mesh>
-                        <sphereGeometry args={[0.6]} />
-                        <meshStandardMaterial color={g.color} />
-                    </mesh>
-                    <Text position={[0, -1, 0]} fontSize={0.3} color="white">{g.name}</Text>
-                </group>
-            ))}
+            <Text position={[-3, 1.5, 0]} fontSize={0.3} color="#DC2626">Globules Rouges (Oâ‚‚)</Text>
+            <Text position={[3, -1.5, 0]} fontSize={0.3} color="white">Globules Blancs (DÃ©fense)</Text>
         </group>
     );
 }
 
 
+// Composant ChaÃ®ne Alimentaire
+
+// Composant Classification des VertÃ©brÃ©s
 
 
 
 
 
-// Composant Conservation de l'Énergie - INTERACTIF (Pendule)
+
+
+// Composant Conservation de l'Ã‰nergie - INTERACTIF (Pendule)
 function EnergyConservation() {
-    const [initialAngle, setInitialAngle] = useState(60); // Angle initial en degrés
+    const [initialAngle, setInitialAngle] = useState(60); // Angle initial en degrÃ©s
     const [isSwinging, setIsSwinging] = useState(true);
     const [damping, setDamping] = useState(0); // 0 = pas d'amortissement
     const pendulumRef = useRef();
@@ -1672,7 +1432,7 @@ function EnergyConservation() {
     useFrame((state, delta) => {
         if (!isSwinging) return;
 
-        // Équation du pendule simple
+        // Ã‰quation du pendule simple
         const angularAcceleration = -(gravity / length) * Math.sin(angleRef.current);
         velocityRef.current += angularAcceleration * delta;
         velocityRef.current *= (1 - damping * 0.01); // Amortissement
@@ -1689,7 +1449,7 @@ function EnergyConservation() {
         setIsSwinging(true);
     };
 
-    // Calcul des énergies (pour affichage)
+    // Calcul des Ã©nergies (pour affichage)
     const height = length * (1 - Math.cos(angleRef.current));
     const velocity = velocityRef.current * length;
     const mass = 1; // kg
@@ -1699,14 +1459,14 @@ function EnergyConservation() {
 
     return (
         <group>
-            {/* Panneau de Contrôle */}
+            {/* Panneau de ContrÃ´le */}
             <Html transform={false}>
-                <DraggableHtmlPanel title="⚡ Conservation de l'Énergie" showCloseButton={false} defaultPosition="bottom-center" className="min-w-[260px] text-white">
-                    <h3 className="text-[#FCD34D] font-bold mb-3 text-center">⚡ Conservation de l'Énergie</h3>
+                <DraggableHtmlPanel title="âš¡ Conservation de l'Ã‰nergie" showCloseButton={false} defaultPosition="bottom-center" className="min-w-[260px] text-white">
+                    <h3 className="text-[#FCD34D] font-bold mb-3 text-center">⚡ Conservation de l&apos;Énergie</h3>
 
                     <div className="space-y-3">
                         <div>
-                            <label className="block text-xs mb-1">Angle Initial : {initialAngle}°</label>
+                            <label className="block text-xs mb-1">Angle Initial : {initialAngle}Â°</label>
                             <input
                                 type="range"
                                 min="10"
@@ -1735,24 +1495,24 @@ function EnergyConservation() {
                                 className={`flex-1 py-2 rounded-lg font-bold transition-colors ${isSwinging ? 'bg-red-600' : 'bg-green-600'
                                     }`}
                             >
-                                {isSwinging ? '⏸️ Pause' : '▶️ Lancer'}
+                                {isSwinging ? 'â¸ï¸ Pause' : 'â–¶ï¸ Lancer'}
                             </button>
                             <button
                                 onClick={resetPendulum}
                                 className="px-4 py-2 rounded-lg bg-gray-700 hover:bg-gray-600 transition-colors"
                             >
-                                🔄
+                                ðŸ”„
                             </button>
                         </div>
 
-                        {/* Affichage des énergies */}
+                        {/* Affichage des Ã©nergies */}
                         <div className="text-xs font-mono space-y-1 p-2 bg-white/5 rounded-lg">
                             <div className="flex justify-between">
                                 <span className="text-yellow-400">Ep (Potentielle):</span>
                                 <span>{potentialEnergy.toFixed(2)} J</span>
                             </div>
                             <div className="flex justify-between">
-                                <span className="text-red-400">Ec (Cinétique):</span>
+                                <span className="text-red-400">Ec (CinÃ©tique):</span>
                                 <span>{kineticEnergy.toFixed(2)} J</span>
                             </div>
                             <div className="flex justify-between border-t border-white/20 pt-1">
@@ -1762,7 +1522,7 @@ function EnergyConservation() {
                         </div>
 
                         <div className="text-center text-xs">
-                            <span className="text-[#00F5D4]">Ep + Ec = Constante ✓</span>
+                            <span className="text-[#00F5D4]">Ep + Ec = Constante âœ“</span>
                         </div>
                     </div>
                 </DraggableHtmlPanel>
@@ -1809,7 +1569,7 @@ function EnergyConservation() {
                 <meshStandardMaterial color="#00F5D4" transparent opacity={0.3} />
             </mesh>
 
-            {/* Légende */}
+            {/* LÃ©gende */}
             <group position={[-3, -1, 0]}>
                 <mesh position={[0, 0.5, 0]}>
                     <sphereGeometry args={[0.1]} />
@@ -1827,18 +1587,18 @@ function EnergyConservation() {
     );
 }
 
-// Composant Cycle de l'Eau (Amélioré)
+// Composant Cycle de l'Eau (AmÃ©liorÃ©)
 function WaterCycle() {
     return (
         <group>
             <Text position={[0, 3.5, 0]} fontSize={0.5} color="#3B82F6">CYCLE DE L&apos;EAU</Text>
 
-            {/* Océan */}
+            {/* OcÃ©an */}
             <mesh position={[0, -2, 0]} rotation={[-Math.PI / 2, 0, 0]}>
                 <planeGeometry args={[6, 3]} />
                 <meshStandardMaterial color="#3B82F6" transparent opacity={0.6} />
             </mesh>
-            <Text position={[-2, -1.5, 0]} fontSize={0.3} color="#3B82F6">Océan</Text>
+            <Text position={[-2, -1.5, 0]} fontSize={0.3} color="#3B82F6">OcÃ©an</Text>
 
             {/* Soleil */}
             <mesh position={[3, 2, 0]}>
@@ -1847,12 +1607,12 @@ function WaterCycle() {
             </mesh>
             <Text position={[3, 2.8, 0]} fontSize={0.3} color="#FCD34D">Soleil</Text>
 
-            {/* Évaporation (flèches montantes) */}
+            {/* Ã‰vaporation (flÃ¨ches montantes) */}
             <mesh position={[0, -0.5, 0]}>
                 <coneGeometry args={[0.1, 0.5, 8]} />
                 <meshStandardMaterial color="#60A5FA" transparent opacity={0.7} />
             </mesh>
-            <Text position={[0.5, -0.5, 0]} fontSize={0.25} color="white">Évaporation</Text>
+            <Text position={[0.5, -0.5, 0]} fontSize={0.25} color="white">Ã‰vaporation</Text>
 
             {/* Nuages */}
             <group position={[0, 1.5, 0]}>
@@ -1878,7 +1638,7 @@ function WaterCycle() {
                     <meshStandardMaterial color="#3B82F6" />
                 </mesh>
             ))}
-            <Text position={[-1.5, 0.8, 0]} fontSize={0.25} color="#3B82F6">Précipitations</Text>
+            <Text position={[-1.5, 0.8, 0]} fontSize={0.25} color="#3B82F6">PrÃ©cipitations</Text>
 
             {/* Montagne */}
             <mesh position={[-2, -1, 0]}>
@@ -1890,7 +1650,7 @@ function WaterCycle() {
     );
 }
 
-// Composant Système Digestif - INTERACTIF
+// Composant SystÃ¨me Digestif - INTERACTIF
 function DigestiveSystem() {
     const [digestionProgress, setDigestionProgress] = useState(0);
     const [isDigesting, setIsDigesting] = useState(false);
@@ -1900,23 +1660,23 @@ function DigestiveSystem() {
     // Position du bol alimentaire en fonction de la progression
     const getFoodPosition = (progress) => {
         if (progress < 15) return { y: 2.5 - (progress / 15) * 0.5, scale: 1, stage: 'Bouche' };
-        if (progress < 30) return { y: 2 - ((progress - 15) / 15) * 2, scale: 0.9, stage: 'Œsophage' };
+        if (progress < 30) return { y: 2 - ((progress - 15) / 15) * 2, scale: 0.9, stage: 'Å’sophage' };
         if (progress < 50) return { y: 0, scale: 0.7 + Math.sin(progress * 0.3) * 0.1, stage: 'Estomac' };
-        if (progress < 75) return { y: -1 + Math.sin(progress * 0.2) * 0.3, scale: 0.5, stage: 'Intestin Grêle' };
+        if (progress < 75) return { y: -1 + Math.sin(progress * 0.2) * 0.3, scale: 0.5, stage: 'Intestin GrÃªle' };
         if (progress < 95) return { y: -2, scale: 0.3, stage: 'Gros Intestin' };
-        return { y: -2.5, scale: 0.2, stage: 'Élimination' };
+        return { y: -2.5, scale: 0.2, stage: 'Ã‰limination' };
     };
 
     const currentStage = getFoodPosition(digestionProgress);
 
-    // Descriptions par étape
+    // Descriptions par Ã©tape
     const stageDescriptions = {
-        'Bouche': '🦷 Mastication + Salive (Amylase)',
-        'Œsophage': '🔻 Péristaltisme (contraction)',
-        'Estomac': '⚗️ Brassage + Acide gastrique',
-        'Intestin Grêle': '🔬 Absorption des nutriments',
-        'Gros Intestin': '💧 Absorption de l\'eau',
-        'Élimination': '✅ Digestion complète !'
+        'Bouche': 'ðŸ¦· Mastication + Salive (Amylase)',
+        'Å’sophage': 'ðŸ”» PÃ©ristaltisme (contraction)',
+        'Estomac': 'âš—ï¸ Brassage + Acide gastrique',
+        'Intestin GrÃªle': 'ðŸ”¬ Absorption des nutriments',
+        'Gros Intestin': 'ðŸ’§ Absorption de l\'eau',
+        'Ã‰limination': 'âœ… Digestion complÃ¨te !'
     };
 
     // Animation
@@ -1944,10 +1704,10 @@ function DigestiveSystem() {
 
     return (
         <group>
-            {/* Panneau de Contrôle */}
+            {/* Panneau de ContrÃ´le */}
             <Html position={[2.5, 1, 0]} center>
                 <div className="bg-black/90 p-4 rounded-xl text-white border border-white/20 min-w-[260px] backdrop-blur-md select-none">
-                    <h3 className="text-[#EF4444] font-bold mb-3 text-center">🍽️ Système Digestif</h3>
+                    <h3 className="text-[#EF4444] font-bold mb-3 text-center">ðŸ½ï¸ SystÃ¨me Digestif</h3>
 
                     <div className="space-y-3">
                         <div>
@@ -1972,13 +1732,13 @@ function DigestiveSystem() {
                                     : 'bg-green-600 hover:bg-green-500'
                                     }`}
                             >
-                                {isDigesting ? '⏳ En cours...' : '🍎 Manger !'}
+                                {isDigesting ? 'â³ En cours...' : 'ðŸŽ Manger !'}
                             </button>
                             <button
                                 onClick={resetDigestion}
                                 className="px-3 py-2 rounded-lg bg-gray-700 hover:bg-gray-600 transition-colors"
                             >
-                                🔄
+                                ðŸ”„
                             </button>
                         </div>
 
@@ -2004,9 +1764,9 @@ function DigestiveSystem() {
                 </div>
             </Html>
 
-            <Text position={[0, 3.5, 0]} fontSize={0.5} color="white">SYSTÈME DIGESTIF</Text>
+            <Text position={[0, 3.5, 0]} fontSize={0.5} color="white">SYSTÃˆME DIGESTIF</Text>
 
-            {/* Bol alimentaire animé */}
+            {/* Bol alimentaire animÃ© */}
             <mesh ref={foodRef} position={[0, 2.5, 0.3]}>
                 <sphereGeometry args={[0.25]} />
                 <meshStandardMaterial
@@ -2029,7 +1789,7 @@ function DigestiveSystem() {
                 <Text position={[-0.7, 0, 0]} fontSize={0.2} color="#EC4899">Bouche</Text>
             </group>
 
-            {/* Œsophage */}
+            {/* Å’sophage */}
             <mesh position={[0, 1, 0]}>
                 <cylinderGeometry args={[0.12, 0.15, 1.5, 16]} />
                 <meshStandardMaterial
@@ -2056,9 +1816,9 @@ function DigestiveSystem() {
                 )}
             </group>
 
-            {/* Intestin grêle */}
+            {/* Intestin grÃªle */}
             <group position={[0, -1.2, 0]}>
-                {/* Représentation en serpentin */}
+                {/* ReprÃ©sentation en serpentin */}
                 <mesh position={[0.3, 0, 0]} rotation={[Math.PI / 2, 0, 0]}>
                     <torusGeometry args={[0.35, 0.08, 16, 32]} />
                     <meshStandardMaterial
@@ -2075,7 +1835,7 @@ function DigestiveSystem() {
                     <torusGeometry args={[0.25, 0.08, 16, 32]} />
                     <meshStandardMaterial color="#10B981" transparent opacity={0.5} />
                 </mesh>
-                <Text position={[-1, -0.2, 0]} fontSize={0.2} color="#10B981">Intestin Grêle</Text>
+                <Text position={[-1, -0.2, 0]} fontSize={0.2} color="#10B981">Intestin GrÃªle</Text>
             </group>
 
             {/* Gros intestin */}
@@ -2091,9 +1851,9 @@ function DigestiveSystem() {
                 <Text position={[-1, 0, 0]} fontSize={0.2} color="#8B5CF6">Gros Intestin</Text>
             </group>
 
-            {/* Temps total estimé */}
+            {/* Temps total estimÃ© */}
             <Text position={[0, -3.2, 0]} fontSize={0.2} color="gray">
-                Durée réelle : 24-72 heures
+                DurÃ©e rÃ©elle : 24-72 heures
             </Text>
         </group>
     );
@@ -2121,7 +1881,7 @@ function ForcePhysics() {
     // Animation
     useFrame((state, delta) => {
         if (objectRef.current) {
-            // Mise à jour de la physique
+            // Mise Ã  jour de la physique
             if (isApplying || velocityRef.current > 0.01) {
                 velocityRef.current += acceleration * delta;
                 velocityRef.current = Math.max(0, velocityRef.current); // Pas de recul
@@ -2140,16 +1900,16 @@ function ForcePhysics() {
     // Vitesse et mouvement
     const isMoving = velocityRef.current > 0.01;
     const status = isApplying
-        ? (netForce > 0 ? '🚀 Accélération !' : '⚠️ Friction > Force')
-        : (isMoving ? '🛑 Décélération...' : '⏸️ Au repos');
+        ? (netForce > 0 ? 'ðŸš€ AccÃ©lÃ©ration !' : 'âš ï¸ Friction > Force')
+        : (isMoving ? 'ðŸ›‘ DÃ©cÃ©lÃ©ration...' : 'â¸ï¸ Au repos');
 
     return (
         <>
-            {/* Panneau de Contrôle - Draggable - Rendu Portal */}
+            {/* Panneau de ContrÃ´le - Draggable - Rendu Portal */}
             <Html transform={false}>
-                <DraggableHtmlPanel title="⚡ Forces et Mouvement" showCloseButton={false} defaultPosition="bottom-center" className="min-w-[300px]">
+                <DraggableHtmlPanel title="âš¡ Forces et Mouvement" showCloseButton={false} defaultPosition="bottom-center" className="min-w-[300px]">
                     <div className="text-white space-y-3">
-                        {/* Le reste du contenu sera inséré par le contexte, mais je dois m'assurer d'inclure tout le contenu du div original */}
+                        {/* Le reste du contenu sera insÃ©rÃ© par le contexte, mais je dois m'assurer d'inclure tout le contenu du div original */}
                         <div>
                             <label className="block text-xs mb-1">Masse : {mass} kg</label>
                             <input
@@ -2163,7 +1923,7 @@ function ForcePhysics() {
                         </div>
 
                         <div>
-                            <label className="block text-xs mb-1">Force Appliquée : {appliedForce} N</label>
+                            <label className="block text-xs mb-1">Force AppliquÃ©e : {appliedForce} N</label>
                             <input
                                 type="range"
                                 min="0"
@@ -2196,14 +1956,14 @@ function ForcePhysics() {
                                 : 'bg-green-600 hover:bg-green-500'
                                 }`}
                         >
-                            {isApplying ? '↠ POUSSÉE EN COURS...' : '👆 Maintenir pour Pousser'}
+                            {isApplying ? 'â†  POUSSÃ‰E EN COURS...' : 'ðŸ‘† Maintenir pour Pousser'}
                         </button>
 
                         <div className="grid grid-cols-2 gap-2 text-xs font-mono bg-black/50 p-2 rounded-lg">
                             <div>Poids (P) : <span className="text-green-400">{weight.toFixed(1)} N</span></div>
                             <div>Friction : <span className="text-yellow-400">{frictionForce.toFixed(1)} N</span></div>
                             <div>Force Nette : <span className={netForce > 0 ? 'text-blue-400' : 'text-red-400'}>{netForce.toFixed(1)} N</span></div>
-                            <div>Accélération : <span className="text-purple-400">{acceleration.toFixed(2)} m/s²</span></div>
+                            <div>AccÃ©lÃ©ration : <span className="text-purple-400">{acceleration.toFixed(2)} m/sÂ²</span></div>
                         </div>
 
                         <div className={`text-center font-bold ${netForce > 0 ? 'text-green-400' : 'text-yellow-400'}`}>
@@ -2245,7 +2005,7 @@ function ForcePhysics() {
                         m = {mass} kg
                     </Text>
 
-                    {/* Force appliquée (vecteur rouge) */}
+                    {/* Force appliquÃ©e (vecteur rouge) */}
                     {isApplying && (
                         <group position={[-(0.5 + mass / 30), -0.5, 0]}>
                             <mesh rotation={[0, 0, Math.PI / 2]}>
@@ -2275,7 +2035,7 @@ function ForcePhysics() {
 
             {/* Formule */}
             <Text position={[0, -2.5, 0]} fontSize={0.3} color="#FCD34D">
-                F = m × a | {appliedForce}N = {mass}kg × {(appliedForce / mass).toFixed(1)}m/s²
+                F = m Ã— a | {appliedForce}N = {mass}kg Ã— {(appliedForce / mass).toFixed(1)}m/sÂ²
             </Text>
 
         </>
@@ -2292,9 +2052,9 @@ function TectonicPlates() {
     const volcanoRef = useRef();
 
     const movementTypes = {
-        convergent: { name: 'Convergence', desc: 'Les plaques se rapprochent → Montagnes, Volcans', icon: '🏔️' },
-        divergent: { name: 'Divergence', desc: 'Les plaques s\'éloignent → Rifts, Océans', icon: '🌊' },
-        transform: { name: 'Coulissement', desc: 'Les plaques glissent → Failles, Séismes', icon: '⚡' }
+        convergent: { name: 'Convergence', desc: 'Les plaques se rapprochent â†’ Montagnes, Volcans', icon: 'ðŸ”ï¸' },
+        divergent: { name: 'Divergence', desc: 'Les plaques s\'Ã©loignent â†’ Rifts, OcÃ©ans', icon: 'ðŸŒŠ' },
+        transform: { name: 'Coulissement', desc: 'Les plaques glissent â†’ Failles, SÃ©ismes', icon: 'âš¡' }
     };
 
     // Animation
@@ -2304,7 +2064,7 @@ function TectonicPlates() {
 
         if (plate1Ref.current && plate2Ref.current) {
             if (movementType === 'divergent') {
-                // Les plaques s'éloignent
+                // Les plaques s'Ã©loignent
                 const offset = Math.sin(time * 0.5) * 0.5;
                 plate1Ref.current.position.x = -1.5 - offset;
                 plate2Ref.current.position.x = 1.5 + offset;
@@ -2334,9 +2094,9 @@ function TectonicPlates() {
 
     return (
         <>
-            {/* Panneau de Contrôle - Draggable - Rendu Portal */}
+            {/* Panneau de ContrÃ´le - Draggable - Rendu Portal */}
             <Html transform={false}>
-                <DraggableHtmlPanel title="🌍 Tectonique des Plaques">
+                <DraggableHtmlPanel title="ðŸŒ Tectonique des Plaques">
                     <div className="bg-transparent text-white min-w-[280px]">
 
                         <div className="space-y-3">
@@ -2376,7 +2136,7 @@ function TectonicPlates() {
                                 className={`w-full py-2 rounded-lg font-bold transition-colors ${isAnimating ? 'bg-red-600' : 'bg-green-600'
                                     }`}
                             >
-                                {isAnimating ? '⏸️ Pause' : '▶️ Animer'}
+                                {isAnimating ? 'â¸ï¸ Pause' : 'â–¶ï¸ Animer'}
                             </button>
 
                             <div className="p-2 bg-white/5 rounded-lg text-center">
@@ -2419,7 +2179,7 @@ function TectonicPlates() {
                         emissiveIntensity={isAnimating ? 0.5 + Math.random() * 0.2 : 0.3}
                     />
                 </mesh>
-                <Text position={[0, -2.5, 0]} fontSize={0.25} color="#FF4500">Asthénosphère (Magma)</Text>
+                <Text position={[0, -2.5, 0]} fontSize={0.25} color="#FF4500">AsthÃ©nosphÃ¨re (Magma)</Text>
 
                 {/* Volcan (visible en mode convergent) */}
                 {movementType === 'convergent' && (
@@ -2429,7 +2189,7 @@ function TectonicPlates() {
                             <meshStandardMaterial color="#654321" />
                         </mesh>
                         <pointLight position={[0, 1, 0]} color="#FF4500" intensity={2} distance={3} />
-                        <Text position={[0, 1.2, 0]} fontSize={0.2} color="#FF4500">🌋 Volcan</Text>
+                        <Text position={[0, 1.2, 0]} fontSize={0.2} color="#FF4500">ðŸŒ‹ Volcan</Text>
                     </group>
                 )}
 
@@ -2448,7 +2208,7 @@ function TectonicPlates() {
                             <boxGeometry args={[0.1, 0.6, 3]} />
                             <meshStandardMaterial color="#EF4444" />
                         </mesh>
-                        <Text position={[0, 0.7, 0]} fontSize={0.2} color="#EF4444">⚡ Faille</Text>
+                        <Text position={[0, 0.7, 0]} fontSize={0.2} color="#EF4444">âš¡ Faille</Text>
                     </group>
                 )}
             </group>
@@ -2467,7 +2227,7 @@ function TectonicPlates() {
 
 
 
-// Composant Séparation des Mélanges - INTERACTIF
+// Composant SÃ©paration des MÃ©langes - INTERACTIF
 function MixtureSeparation() {
     const [technique, setTechnique] = useState('decantation'); // decantation, filtration
     const [isAnimating, setIsAnimating] = useState(false);
@@ -2516,7 +2276,7 @@ function MixtureSeparation() {
     return (
         <>
             <Html transform={false}>
-                <DraggableHtmlPanel title="🧪 Séparation des Mélanges">
+                <DraggableHtmlPanel title="ðŸ§ª SÃ©paration des MÃ©langes">
                     <div className="text-white min-w-[280px]">
                         <div className="space-y-3">
                             <div>
@@ -2529,7 +2289,7 @@ function MixtureSeparation() {
                                             : 'bg-gray-700 hover:bg-gray-600'
                                             }`}
                                     >
-                                        🏺 Décantation
+                                        ðŸº DÃ©cantation
                                     </button>
                                     <button
                                         onClick={() => { setTechnique('filtration'); reset(); }}
@@ -2538,7 +2298,7 @@ function MixtureSeparation() {
                                             : 'bg-gray-700 hover:bg-gray-600'
                                             }`}
                                     >
-                                        📄 Filtration
+                                        ðŸ“„ Filtration
                                     </button>
                                 </div>
                             </div>
@@ -2548,13 +2308,13 @@ function MixtureSeparation() {
                                 className={`w-full py-2 rounded-lg font-bold transition-colors ${isAnimating ? 'bg-red-600' : 'bg-blue-600 hover:bg-blue-500'
                                     }`}
                             >
-                                {isAnimating ? '🔄 Reset' : '▶️ Démarrer'}
+                                {isAnimating ? 'ðŸ”„ Reset' : 'â–¶ï¸ DÃ©marrer'}
                             </button>
 
                             {/* Barre de progression */}
                             <div>
                                 <div className="flex justify-between text-xs mb-1">
-                                    <span className="text-gray-400">Séparation</span>
+                                    <span className="text-gray-400">SÃ©paration</span>
                                     <span>{Math.round(progress)}%</span>
                                 </div>
                                 <div className="w-full bg-gray-700 rounded-full h-2">
@@ -2571,7 +2331,7 @@ function MixtureSeparation() {
                             <div className="text-xs text-center text-gray-400">
                                 {technique === 'decantation'
                                     ? 'Les particules lourdes tombent au fond'
-                                    : 'L\'eau passe, les impuretés restent'}
+                                    : 'L\'eau passe, les impuretÃ©s restent'}
                             </div>
                         </div>
                     </div>
@@ -2580,10 +2340,10 @@ function MixtureSeparation() {
             <group>
 
                 <Text position={[0, 3, 0]} fontSize={0.5} color="white">
-                    {technique === 'decantation' ? 'DÉCANTATION' : 'FILTRATION'}
+                    {technique === 'decantation' ? 'DÃ‰CANTATION' : 'FILTRATION'}
                 </Text>
 
-                {/* Décantation */}
+                {/* DÃ©cantation */}
                 {
                     technique === 'decantation' && (
                         <group position={[0, 0, 0]}>
@@ -2619,14 +2379,14 @@ function MixtureSeparation() {
                                 </mesh>
                             ))}
 
-                            {/* Sédiment au fond */}
+                            {/* SÃ©diment au fond */}
                             <mesh position={[0, -1, 0]}>
                                 <cylinderGeometry args={[0.95, 0.95, 0.3 + (progress / 200)]} />
                                 <meshStandardMaterial color="#8B4513" />
                             </mesh>
 
                             <Text position={[0, -2, 0]} fontSize={0.25} color="#8B4513">
-                                Sable déposé : {Math.round(progress)}%
+                                Sable dÃ©posÃ© : {Math.round(progress)}%
                             </Text>
                         </group>
                     )
@@ -2655,7 +2415,7 @@ function MixtureSeparation() {
                             </mesh>
                             <Text position={[1.2, 1.5, 0]} fontSize={0.2} color="white">Papier Filtre</Text>
 
-                            {/* Mélange sale sur le filtre */}
+                            {/* MÃ©lange sale sur le filtre */}
                             {progress < 80 && (
                                 <mesh position={[0, 1.8, 0]}>
                                     <cylinderGeometry args={[0.6, 0.4, 0.3, 32]} />
@@ -2663,19 +2423,19 @@ function MixtureSeparation() {
                                 </mesh>
                             )}
 
-                            {/* Becher de récupération */}
+                            {/* Becher de rÃ©cupÃ©ration */}
                             <mesh position={[0, -1, 0]}>
                                 <cylinderGeometry args={[0.8, 0.8, 1.8, 32]} />
                                 <meshStandardMaterial color="white" transparent opacity={0.3} />
                             </mesh>
 
-                            {/* Eau filtrée */}
+                            {/* Eau filtrÃ©e */}
                             <mesh position={[0, -1.3, 0]}>
                                 <cylinderGeometry args={[0.75, 0.75, progress / 100 * 1]} />
                                 <meshStandardMaterial color="#60A5FA" transparent opacity={0.8} />
                             </mesh>
 
-                            {/* Goutte animée */}
+                            {/* Goutte animÃ©e */}
                             {isAnimating && (
                                 <mesh ref={dropRef} position={[0, -0.3, 0]}>
                                     <sphereGeometry args={[0.1]} />
@@ -2700,14 +2460,14 @@ function MassVolume() {
         <group>
             <Text position={[0, 3.5, 0]} fontSize={0.5} color="white">MASSE vs VOLUME</Text>
 
-            {/* Balance à fléau */}
+            {/* Balance Ã  flÃ©au */}
             <group position={[0, -1, 0]}>
                 {/* Socle */}
                 <mesh position={[0, -1, 0]}>
                     <cylinderGeometry args={[0.2, 0.5, 2, 16]} />
                     <meshStandardMaterial color="#4B5563" />
                 </mesh>
-                {/* Fléau */}
+                {/* FlÃ©au */}
                 <mesh position={[0, 0, 0]} rotation={[0, 0, -0.1]}>
                     <boxGeometry args={[6, 0.2, 0.2]} />
                     <meshStandardMaterial color="#9CA3AF" />
@@ -2728,13 +2488,13 @@ function MassVolume() {
                     <Text position={[0, 1.3, 0]} fontSize={0.25} color="gray">Petit Volume</Text>
                 </group>
 
-                {/* Plateau Droit (Léger, Gros) */}
+                {/* Plateau Droit (LÃ©ger, Gros) */}
                 <group position={[2.8, -0.3, 0]} rotation={[0, 0, -0.1]}>
                     <mesh position={[0, -0.5, 0]}>
                         <cylinderGeometry args={[1, 1, 0.1, 32]} />
                         <meshStandardMaterial color="#E5E7EB" />
                     </mesh>
-                    {/* Objet Léger (Ballon) */}
+                    {/* Objet LÃ©ger (Ballon) */}
                     <mesh position={[0, 0.8, 0]}>
                         <sphereGeometry args={[1.2, 32, 32]} />
                         <meshStandardMaterial color="#FCD34D" />
@@ -2801,7 +2561,7 @@ function WaterPurification() {
     );
 }
 
-// Composant Formes Géométriques
+// Composant Formes GÃ©omÃ©triques
 function GeometricShapes() {
     const groupRef = useRef();
     useFrame((state) => {
@@ -2812,7 +2572,7 @@ function GeometricShapes() {
 
     return (
         <group ref={groupRef}>
-            <Text position={[0, 3.5, 0]} fontSize={0.5} color="white">SOLIDES GÉOMÉTRIQUES</Text>
+            <Text position={[0, 3.5, 0]} fontSize={0.5} color="white">SOLIDES GÃ‰OMÃ‰TRIQUES</Text>
 
             {/* Cube */}
             <group position={[-3, 0, 0]}>
@@ -2827,7 +2587,7 @@ function GeometricShapes() {
                 <Text position={[0, -1.5, 0]} fontSize={0.3} color="white">Cube</Text>
             </group>
 
-            {/* Sphère */}
+            {/* SphÃ¨re */}
             <group position={[-1, 0, 0]}>
                 <mesh>
                     <sphereGeometry args={[0.9, 32, 32]} />
@@ -2837,7 +2597,7 @@ function GeometricShapes() {
                     <sphereGeometry args={[0.85, 32, 32]} />
                     <meshStandardMaterial color="#3B82F6" transparent opacity={0.3} />
                 </mesh>
-                <Text position={[0, -1.5, 0]} fontSize={0.3} color="white">Sphère</Text>
+                <Text position={[0, -1.5, 0]} fontSize={0.3} color="white">SphÃ¨re</Text>
             </group>
 
             {/* Cylindre */}
@@ -2853,7 +2613,7 @@ function GeometricShapes() {
                 <Text position={[0, -1.5, 0]} fontSize={0.3} color="white">Cylindre</Text>
             </group>
 
-            {/* Cône */}
+            {/* CÃ´ne */}
             <group position={[3, 0, 0]}>
                 <mesh>
                     <coneGeometry args={[0.8, 1.5, 32]} />
@@ -2863,7 +2623,7 @@ function GeometricShapes() {
                     <coneGeometry args={[0.75, 1.4, 32]} />
                     <meshStandardMaterial color="#F59E0B" transparent opacity={0.3} />
                 </mesh>
-                <Text position={[0, -1.5, 0]} fontSize={0.3} color="white">Cône</Text>
+                <Text position={[0, -1.5, 0]} fontSize={0.3} color="white">CÃ´ne</Text>
             </group>
         </group>
     );
@@ -2890,7 +2650,7 @@ function AngleMeasurement() {
                     <torusGeometry args={[0.5, 0.02, 16, 32, 1]} rotation={[0, 0, -0.5]} />
                     <meshStandardMaterial color="white" />
                 </mesh>
-                <Text position={[0, -1.5, 0]} fontSize={0.3} color="white">Aigu (&lt;90°)</Text>
+                <Text position={[0, -1.5, 0]} fontSize={0.3} color="white">Aigu (&lt;90Â°)</Text>
             </group>
 
             {/* Angle Droit */}
@@ -2903,7 +2663,7 @@ function AngleMeasurement() {
                     <cylinderGeometry args={[0.02, 0.02, 2, 8]} />
                     <meshStandardMaterial color="#EF4444" />
                 </mesh>
-                {/* Carré angle droit */}
+                {/* CarrÃ© angle droit */}
                 <mesh position={[0.3, 0.3, 0]}>
                     <boxGeometry args={[0.5, 0.02, 0.02]} position={[0, 0.25, 0]} />
                     <meshStandardMaterial color="white" />
@@ -2912,7 +2672,7 @@ function AngleMeasurement() {
                     <boxGeometry args={[0.02, 0.5, 0.02]} />
                     <meshStandardMaterial color="white" />
                 </mesh>
-                <Text position={[0, -1.5, 0]} fontSize={0.3} color="white">Droit (90°)</Text>
+                <Text position={[0, -1.5, 0]} fontSize={0.3} color="white">Droit (90Â°)</Text>
             </group>
 
             {/* Angle Obtus */}
@@ -2925,7 +2685,7 @@ function AngleMeasurement() {
                     <cylinderGeometry args={[0.02, 0.02, 2, 8]} />
                     <meshStandardMaterial color="#3B82F6" />
                 </mesh>
-                <Text position={[0, -1.5, 0]} fontSize={0.3} color="white">Obtus (&gt;90°)</Text>
+                <Text position={[0, -1.5, 0]} fontSize={0.3} color="white">Obtus (&gt;90Â°)</Text>
             </group>
         </group>
     );
@@ -2946,7 +2706,7 @@ function HumanRespiration() {
         <group>
             <Text position={[0, 3.5, 0]} fontSize={0.5} color="#FCA5A5">RESPIRATION</Text>
 
-            {/* Trachée */}
+            {/* TrachÃ©e */}
             <mesh position={[0, 2, 0]}>
                 <cylinderGeometry args={[0.2, 0.2, 1.5, 16]} />
                 <meshStandardMaterial color="#FCA5A5" />
@@ -2985,18 +2745,18 @@ function EarthMovement() {
 
     useFrame((state) => {
         if (earthRef.current) {
-            // Rotation sur elle-même
+            // Rotation sur elle-mÃªme
             earthRef.current.rotation.y += 0.02;
         }
         if (groupRef.current) {
-            // Révolution autour du soleil
+            // RÃ©volution autour du soleil
             groupRef.current.rotation.y += 0.005;
         }
     });
 
     return (
         <group>
-            <Text position={[0, 3.5, 0]} fontSize={0.5} color="white">ROTATION ET RÉVOLUTION</Text>
+            <Text position={[0, 3.5, 0]} fontSize={0.5} color="white">ROTATION ET RÃ‰VOLUTION</Text>
 
             {/* Soleil */}
             <mesh position={[0, 0, 0]}>
@@ -3005,11 +2765,11 @@ function EarthMovement() {
             </mesh>
             <Text position={[0, 1.8, 0]} fontSize={0.3} color="#F59E0B">Soleil</Text>
 
-            {/* axe de révolution */}
+            {/* axe de rÃ©volution */}
             <group ref={groupRef}>
                 {/* Terre */}
                 <group position={[4, 0, 0]}>
-                    <mesh ref={earthRef} rotation={[0, 0, 23.5 * Math.PI / 180]}> {/* Axe incliné */}
+                    <mesh ref={earthRef} rotation={[0, 0, 23.5 * Math.PI / 180]}> {/* Axe inclinÃ© */}
                         <sphereGeometry args={[0.5, 32, 32]} />
                         <meshStandardMaterial color="#3B82F6" roughness={0.5} />
                         {/* Patch vert pour continent */}
@@ -3037,18 +2797,18 @@ function EarthMovement() {
 }
 
 
-// Composant Densité et Flottabilité
+// Composant DensitÃ© et FlottabilitÃ©
 function DensityBuoyancy() {
     return (
         <group>
-            <Text position={[0, 3.5, 0]} fontSize={0.5} color="white">DENSITÉ ET FLOTTABILITÉ</Text>
+            <Text position={[0, 3.5, 0]} fontSize={0.5} color="white">DENSITÃ‰ ET FLOTTABILITÃ‰</Text>
 
             {/* Bassin d'eau */}
             <mesh position={[0, -1, 0]}>
                 <boxGeometry args={[6, 2, 4]} />
                 <meshStandardMaterial color="#3B82F6" transparent opacity={0.5} />
             </mesh>
-            <Text position={[0, -2.2, 0]} fontSize={0.3} color="#3B82F6">Eau (Densité = 1)</Text>
+            <Text position={[0, -2.2, 0]} fontSize={0.3} color="#3B82F6">Eau (DensitÃ© = 1)</Text>
 
             {/* Objet qui coule (Pierre) */}
             <group position={[-1.5, -1.8, 0]}>
@@ -3070,7 +2830,7 @@ function DensityBuoyancy() {
                 <Text position={[0, 1.1, 0]} fontSize={0.25} color="#10B981">Flotte</Text>
             </group>
 
-            {/* Flèches Poussée Archimède */}
+            {/* FlÃ¨ches PoussÃ©e ArchimÃ¨de */}
             <mesh position={[1.5, -0.8, 0]} rotation={[0, 0, 0]}>
                 <cylinderGeometry args={[0.05, 0.05, 0.5, 8]} />
                 <meshStandardMaterial color="#10B981" />
@@ -3079,17 +2839,17 @@ function DensityBuoyancy() {
                 <coneGeometry args={[0.1, 0.2, 8]} />
                 <meshStandardMaterial color="#10B981" />
             </mesh>
-            <Text position={[2.5, -0.8, 0]} fontSize={0.2} color="#10B981">Poussée d&apos;Archimède</Text>
+            <Text position={[2.5, -0.8, 0]} fontSize={0.2} color="#10B981">PoussÃ©e d&apos;ArchimÃ¨de</Text>
 
         </group>
     );
 }
 
-// Composant Réflexion Lumière
+// Composant RÃ©flexion LumiÃ¨re
 function LightReflection() {
     return (
         <group>
-            <Text position={[0, 3.5, 0]} fontSize={0.5} color="white">RÉFLEXION DE LA LUMIÈRE</Text>
+            <Text position={[0, 3.5, 0]} fontSize={0.5} color="white">RÃ‰FLEXION DE LA LUMIÃˆRE</Text>
 
             {/* Miroir */}
             <mesh position={[0, -1, 0]} rotation={[-Math.PI / 2, 0, 0]}>
@@ -3105,12 +2865,12 @@ function LightReflection() {
             </mesh>
             <Text position={[-2.5, 2, 0]} fontSize={0.25} color="#FFFF00">Rayon Incident</Text>
 
-            {/* Rayon Réfléchi */}
+            {/* Rayon RÃ©flÃ©chi */}
             <mesh position={[2, 1, 0]} rotation={[0, 0, Math.PI / 4]}>
                 <cylinderGeometry args={[0.05, 0.05, 4, 8]} />
                 <meshStandardMaterial color="#FFFF00" emissive="#FFFF00" />
             </mesh>
-            <Text position={[2.5, 2, 0]} fontSize={0.25} color="#FFFF00">Rayon Réfléchi</Text>
+            <Text position={[2.5, 2, 0]} fontSize={0.25} color="#FFFF00">Rayon RÃ©flÃ©chi</Text>
 
             {/* Normale */}
             <mesh position={[0, 1, 0]}>
@@ -3120,8 +2880,8 @@ function LightReflection() {
             <Text position={[0.2, 1, 0]} fontSize={0.2} color="white">Normale</Text>
 
             {/* Angles */}
-            <Text position={[-0.5, -0.5, 0]} fontSize={0.2} color="white">i = 45°</Text>
-            <Text position={[0.5, -0.5, 0]} fontSize={0.2} color="white">r = 45°</Text>
+            <Text position={[-0.5, -0.5, 0]} fontSize={0.2} color="white">i = 45Â°</Text>
+            <Text position={[0.5, -0.5, 0]} fontSize={0.2} color="white">r = 45Â°</Text>
         </group>
     );
 }
@@ -3138,7 +2898,7 @@ function BloodGroups() {
                     <sphereGeometry args={[0.6, 32, 32]} />
                     <meshStandardMaterial color="#EF4444" />
                 </mesh>
-                {/* Antigène A (Triangles) */}
+                {/* AntigÃ¨ne A (Triangles) */}
                 <mesh position={[0.5, 0.3, 0]}>
                     <boxGeometry args={[0.2, 0.2, 0.2]} />
                     <meshStandardMaterial color="#60A5FA" />
@@ -3156,7 +2916,7 @@ function BloodGroups() {
                     <sphereGeometry args={[0.6, 32, 32]} />
                     <meshStandardMaterial color="#EF4444" />
                 </mesh>
-                {/* Antigène B (Sphères) */}
+                {/* AntigÃ¨ne B (SphÃ¨res) */}
                 <mesh position={[0.5, 0.3, 0]}>
                     <sphereGeometry args={[0.15]} />
                     <meshStandardMaterial color="#FCD34D" />
@@ -3174,7 +2934,7 @@ function BloodGroups() {
                     <sphereGeometry args={[0.6, 32, 32]} />
                     <meshStandardMaterial color="#EF4444" />
                 </mesh>
-                {/* Antigène A et B */}
+                {/* AntigÃ¨ne A et B */}
                 <mesh position={[0.5, 0.3, 0]}>
                     <boxGeometry args={[0.2, 0.2, 0.2]} />
                     <meshStandardMaterial color="#60A5FA" />
@@ -3192,7 +2952,7 @@ function BloodGroups() {
                     <sphereGeometry args={[0.6, 32, 32]} />
                     <meshStandardMaterial color="#EF4444" />
                 </mesh>
-                {/* Pas d'antigène */}
+                {/* Pas d'antigÃ¨ne */}
                 <Text position={[0, -1, 0]} fontSize={0.3} color="white">Groupe O</Text>
             </group>
 
@@ -3205,7 +2965,7 @@ function BloodGroups() {
 function HumanReproduction() {
     return (
         <group>
-            <Text position={[0, 3.5, 0]} fontSize={0.5} color="#F472B6">FÉCONDATION</Text>
+            <Text position={[0, 3.5, 0]} fontSize={0.5} color="#F472B6">FÃ‰CONDATION</Text>
 
             {/* Ovule */}
             <group position={[0, 0, 0]}>
@@ -3220,7 +2980,7 @@ function HumanReproduction() {
                 <Text position={[0, 1.8, 0]} fontSize={0.3} color="#F472B6">Ovule (Maman)</Text>
             </group>
 
-            {/* Spermatozoïdes */}
+            {/* SpermatozoÃ¯des */}
             <group position={[-2.5, 0.5, 0]} rotation={[0, 0, -0.5]}>
                 <mesh>
                     <sphereGeometry args={[0.15]} />
@@ -3241,18 +3001,18 @@ function HumanReproduction() {
                     <meshStandardMaterial color="white" />
                 </mesh>
             </group>
-            <Text position={[-3.5, 0, 0]} fontSize={0.3} color="white">Spermatozoïdes (Papa)</Text>
+            <Text position={[-3.5, 0, 0]} fontSize={0.3} color="white">SpermatozoÃ¯des (Papa)</Text>
 
             <mesh position={[-1.7, 0.2, 0]} rotation={[0, 0, -0.5]}>
                 <cylinderGeometry args={[0.05, 0.05, 1]} />
                 <meshStandardMaterial color="#F472B6" />
             </mesh>
-            <Text position={[0, -2, 0]} fontSize={0.3} color="#F472B6">Rencontre = Zygote (Bébé)</Text>
+            <Text position={[0, -2, 0]} fontSize={0.3} color="#F472B6">Rencontre = Zygote (BÃ©bÃ©)</Text>
         </group>
     );
 }
 
-// Composant Propagation Lumière
+// Composant Propagation LumiÃ¨re
 function LightPropagation() {
     return (
         <group>
@@ -3273,47 +3033,47 @@ function LightPropagation() {
                 <meshStandardMaterial color="#1F2937" />
             </mesh>
 
-            {/* Écran */}
+            {/* Ã‰cran */}
             <mesh position={[3, 0, 0]} rotation={[0, -Math.PI / 2, 0]}>
                 <planeGeometry args={[4, 4]} />
                 <meshStandardMaterial color="white" side={2} />
             </mesh>
 
-            {/* Ombre sur l'écran (Disque noir) */}
+            {/* Ombre sur l'Ã©cran (Disque noir) */}
             <mesh position={[2.95, 0, 0]} rotation={[0, -Math.PI / 2, 0]}>
                 <circleGeometry args={[1.2, 32]} />
                 <meshBasicMaterial color="black" opacity={0.8} transparent />
             </mesh>
 
-            {/* Cône d'ombre */}
+            {/* CÃ´ne d'ombre */}
             <mesh position={[1.5, 0, 0]} rotation={[0, 0, -Math.PI / 2]}>
                 <coneGeometry args={[0.8, 3, 32, 1, true]} />
                 <meshBasicMaterial color="black" transparent opacity={0.1} />
             </mesh>
 
             <Text position={[3, -2.5, 0]} fontSize={0.3} color="white">Zone d&apos;Ombre</Text>
-            <Text position={[-1, -2.5, 0]} fontSize={0.25} color="#FFFF00">La lumière ne contourne pas l&apos;obstacle !</Text>
+            <Text position={[-1, -2.5, 0]} fontSize={0.25} color="#FFFF00">La lumiÃ¨re ne contourne pas l&apos;obstacle !</Text>
         </group>
     );
 }
 
-// Composant Atome vs Molécule
+// Composant Atome vs MolÃ©cule
 function AtomMoleculeIntro() {
     return (
         <group>
-            <Text position={[0, 3.5, 0]} fontSize={0.5} color="white">ATOMES vs MOLÉCULES</Text>
+            <Text position={[0, 3.5, 0]} fontSize={0.5} color="white">ATOMES vs MOLÃ‰CULES</Text>
 
-            {/* Atomes isolés */}
+            {/* Atomes isolÃ©s */}
             <group position={[-2.5, 0, 0]}>
                 <Text position={[0, 2, 0]} fontSize={0.3} color="#FCA5A5">Atomes (Briques)</Text>
-                {/* Oxygène */}
+                {/* OxygÃ¨ne */}
                 <mesh position={[-0.8, 0, 0]}>
                     <sphereGeometry args={[0.5]} />
                     <meshStandardMaterial color="#EF4444" />
                 </mesh>
                 <Text position={[-0.8, -0.8, 0]} fontSize={0.3} color="white">O</Text>
 
-                {/* Hydrogène */}
+                {/* HydrogÃ¨ne */}
                 <mesh position={[0.8, 0.5, 0]}>
                     <sphereGeometry args={[0.3]} />
                     <meshStandardMaterial color="white" />
@@ -3328,9 +3088,9 @@ function AtomMoleculeIntro() {
                 <Text position={[0.8, -1.6, 0]} fontSize={0.3} color="white">C</Text>
             </group>
 
-            {/* Molécule (Construction) */}
+            {/* MolÃ©cule (Construction) */}
             <group position={[2.5, 0, 0]}>
-                <Text position={[0, 2, 0]} fontSize={0.3} color="#60A5FA">Molécule (Maison)</Text>
+                <Text position={[0, 2, 0]} fontSize={0.3} color="#60A5FA">MolÃ©cule (Maison)</Text>
                 {/* H2O */}
                 <group>
                     <mesh>
@@ -3345,7 +3105,7 @@ function AtomMoleculeIntro() {
                         <sphereGeometry args={[0.3]} />
                         <meshStandardMaterial color="white" />
                     </mesh>
-                    <Text position={[0, -1, 0]} fontSize={0.3} color="#60A5FA">H₂O (Eau)</Text>
+                    <Text position={[0, -1, 0]} fontSize={0.3} color="#60A5FA">Hâ‚‚O (Eau)</Text>
                 </group>
             </group>
 
@@ -3376,7 +3136,7 @@ function FractionVisualizer() {
                     <cylinderGeometry args={[1, 1, 0.1, 32, 1, false, 0, Math.PI]} />
                     <meshStandardMaterial color="#F59E0B" />
                 </mesh>
-                <Text position={[0, -1.5, 0]} fontSize={0.2} color="gray">La moitié</Text>
+                <Text position={[0, -1.5, 0]} fontSize={0.2} color="gray">La moitiÃ©</Text>
             </group>
 
             {/* 1/4 */}
@@ -3414,38 +3174,38 @@ function FractionVisualizer() {
     );
 }
 
-// Composant Théorème Pythagore
+// Composant ThÃ©orÃ¨me Pythagore
 function PythagorasTheorem() {
     return (
         <group>
-            <Text position={[0, 3.5, 0]} fontSize={0.5} color="white">THÉORÈME DE PYTHAGORE</Text>
-            <Text position={[0, 2.8, 0]} fontSize={0.3} color="#FCD34D">a² + b² = c²</Text>
+            <Text position={[0, 3.5, 0]} fontSize={0.5} color="white">THÃ‰ORÃˆME DE PYTHAGORE</Text>
+            <Text position={[0, 2.8, 0]} fontSize={0.3} color="#FCD34D">aÂ² + bÂ² = cÂ²</Text>
 
             {/* Triangle Rectangle */}
             <group position={[0, -0.5, 0]}>
 
-                {/* Coté a (3) */}
+                {/* CotÃ© a (3) */}
                 <mesh position={[0, 1.5, 0]}>
                     <boxGeometry args={[0.1, 3, 0.1]} />
                     <meshStandardMaterial color="#EF4444" />
                 </mesh>
                 <Text position={[-0.5, 1.5, 0]} fontSize={0.3} color="#EF4444">a (3)</Text>
 
-                {/* Coté b (4) */}
+                {/* CotÃ© b (4) */}
                 <mesh position={[2, 0, 0]}>
                     <boxGeometry args={[4, 0.1, 0.1]} />
                     <meshStandardMaterial color="#3B82F6" />
                 </mesh>
                 <Text position={[2, -0.5, 0]} fontSize={0.3} color="#3B82F6">b (4)</Text>
 
-                {/* Hypoténuse c (5) */}
+                {/* HypotÃ©nuse c (5) */}
                 <mesh position={[2, 1.5, 0]} rotation={[0, 0, -0.6435]}> {/* atan(3/4) */}
                     <boxGeometry args={[0.1, 5, 0.1]} />
                     <meshStandardMaterial color="#10B981" />
                 </mesh>
                 <Text position={[2.5, 2.5, 0]} fontSize={0.3} color="#10B981">c (5)</Text>
 
-                {/* Carrés Visuels */}
+                {/* CarrÃ©s Visuels */}
                 <mesh position={[-1.5, 1.5, 0]}>
                     <boxGeometry args={[3, 3, 0.05]} />
                     <meshStandardMaterial color="#EF4444" transparent opacity={0.2} />
@@ -3470,20 +3230,20 @@ function PythagorasTheorem() {
     );
 }
 
-// Composant Échelle pH
+// Composant Ã‰chelle pH
 function PHScale() {
     return (
         <group>
-            <Text position={[0, 3.5, 0]} fontSize={0.5} color="white">ÉCHELLE DE pH</Text>
+            <Text position={[0, 3.5, 0]} fontSize={0.5} color="white">Ã‰CHELLE DE pH</Text>
 
-            {/* Barre de dégradé */}
+            {/* Barre de dÃ©gradÃ© */}
             <mesh position={[0, 0, 0]}>
                 <boxGeometry args={[10, 1, 0.1]} />
                 <meshStandardMaterial vertexColors={true} /> {/* Simplification : Material couleur unique pour l'instant si vertexColors complexe */}
                 <meshStandardMaterial color="white" />
             </mesh>
 
-            {/* Segments colorés manuels car vertexColors complexe en JSX pur */}
+            {/* Segments colorÃ©s manuels car vertexColors complexe en JSX pur */}
             <mesh position={[-4.5, 0, 0]}>
                 <boxGeometry args={[1, 1.2, 0.1]} />
                 <meshStandardMaterial color="#EF4444" /> {/* Rouge Acide */}
@@ -3502,7 +3262,7 @@ function PHScale() {
             </mesh>
             <Text position={[4.5, 1, 0]} fontSize={0.3} color="#3B82F6">14</Text>
 
-            {/* Flèche curseur */}
+            {/* FlÃ¨che curseur */}
             <mesh position={[-2, -1, 0]}>
                 <coneGeometry args={[0.2, 0.5, 4]} />
                 <meshStandardMaterial color="white" />
@@ -3527,7 +3287,7 @@ function PHScale() {
     );
 }
 
-// Composant Propriétés Triangles
+// Composant PropriÃ©tÃ©s Triangles
 function TrianglesProperties() {
     return (
         <group>
@@ -3537,11 +3297,11 @@ function TrianglesProperties() {
             <line>
                 <bufferGeometry />
                 {/* Sommets : A(0, 2), B(-2, -1), C(2, -1) */}
-                {/* Rendu simplifié par des tubes */}
+                {/* Rendu simplifiÃ© par des tubes */}
             </line>
 
             <group position={[0, 0, 0]}>
-                {/* Côtés */}
+                {/* CÃ´tÃ©s */}
                 <mesh position={[-1, 0.5, 0]} rotation={[0, 0, 0.98]}>
                     <cylinderGeometry args={[0.05, 0.05, 3.6, 8]} />
                     <meshStandardMaterial color="white" />
@@ -3562,24 +3322,24 @@ function TrianglesProperties() {
                 </mesh>
                 <Text position={[0.2, 0.5, 0]} fontSize={0.2} color="#EF4444">Hauteur</Text>
 
-                {/* Médiane (Vert) */}
+                {/* MÃ©diane (Vert) */}
                 <mesh position={[1, 0.5, 0]} rotation={[0, 0, -0.5]}>
                     <cylinderGeometry args={[0.03, 0.03, 3.5, 8]} />
                     <meshStandardMaterial color="#10B981" />
                 </mesh>
-                <Text position={[1.2, 0.8, 0]} fontSize={0.2} color="#10B981">Médiane</Text>
+                <Text position={[1.2, 0.8, 0]} fontSize={0.2} color="#10B981">MÃ©diane</Text>
 
-                <Text position={[0, -2, 0]} fontSize={0.25} color="gray">Somme des Angles = 180°</Text>
+                <Text position={[0, -2, 0]} fontSize={0.25} color="gray">Somme des Angles = 180Â°</Text>
             </group>
         </group>
     );
 }
 
-// Composant Équations Linéaires
+// Composant Ã‰quations LinÃ©aires
 function LinearEquations() {
     return (
         <group>
-            <Text position={[0, 3.5, 0]} fontSize={0.5} color="white">ÉQUATION = BALANCE</Text>
+            <Text position={[0, 3.5, 0]} fontSize={0.5} color="white">Ã‰QUATION = BALANCE</Text>
             <Text position={[0, 2.5, 0]} fontSize={0.4} color="#FCD34D">2x + 1 = 5</Text>
 
             {/* Balance */}
@@ -3641,13 +3401,13 @@ function LinearEquations() {
                 <Text position={[0, 1.5, 0]} fontSize={0.3} color="white">5</Text>
             </group>
 
-            <Text position={[0, -2.5, 0]} fontSize={0.3} color="#10B981">Si on enlève 1 de chaque côté...</Text>
+            <Text position={[0, -2.5, 0]} fontSize={0.3} color="#10B981">Si on enlÃ¨ve 1 de chaque cÃ´tÃ©...</Text>
             <Text position={[0, -3, 0]} fontSize={0.3} color="#10B981">2x = 4 donc x = 2 !</Text>
         </group>
     );
 }
 
-// Composant Solutions et Solubilité
+// Composant Solutions et SolubilitÃ©
 function SolutionsSolubility() {
     return (
         <group>
@@ -3666,7 +3426,7 @@ function SolutionsSolubility() {
             </mesh>
             <Text position={[2, 0, 0]} fontSize={0.3} color="#93C5FD">Solvant (Eau)</Text>
 
-            {/* Soluté (Sucre - Particules dispersées) */}
+            {/* SolutÃ© (Sucre - Particules dispersÃ©es) */}
             <group>
                 {[...Array(20)].map((_, i) => (
                     <mesh key={i} position={[(Math.random() - 0.5) * 2, (Math.random() - 0.5) * 2, (Math.random() - 0.5) * 2]}>
@@ -3675,9 +3435,9 @@ function SolutionsSolubility() {
                     </mesh>
                 ))}
             </group>
-            <Text position={[-2, 1, 0]} fontSize={0.3} color="white">Soluté (Sucre)</Text>
+            <Text position={[-2, 1, 0]} fontSize={0.3} color="white">SolutÃ© (Sucre)</Text>
 
-            {/* Dépôt saturé au fond */}
+            {/* DÃ©pÃ´t saturÃ© au fond */}
             <group position={[0, -1.4, 0]}>
                 {[...Array(10)].map((_, i) => (
                     <mesh key={i} position={[(Math.random() - 0.5), 0, (Math.random() - 0.5)]}>
@@ -3686,19 +3446,19 @@ function SolutionsSolubility() {
                     </mesh>
                 ))}
             </group>
-            <Text position={[0, -2, 0]} fontSize={0.25} color="white">Saturation (Dépôt)</Text>
+            <Text position={[0, -2, 0]} fontSize={0.25} color="white">Saturation (DÃ©pÃ´t)</Text>
         </group>
     );
 }
 
 
-// Composant Microbes et Bactéries
+// Composant Microbes et BactÃ©ries
 function MicrobesBacteria() {
     return (
         <group>
             <Text position={[0, 3.5, 0]} fontSize={0.5} color="#10B981">MONDE MICROBIEN</Text>
 
-            {/* Bactérie (Bacille) */}
+            {/* BactÃ©rie (Bacille) */}
             <group position={[-2.5, 0, 0]}>
                 <mesh>
                     <capsuleGeometry args={[0.5, 1.5, 4, 16]} />
@@ -3715,7 +3475,7 @@ function MicrobesBacteria() {
                         <meshStandardMaterial color="#065F46" />
                     </mesh>
                 </group>
-                <Text position={[0, -1.8, 0]} fontSize={0.3} color="white">Bactérie (Bacille)</Text>
+                <Text position={[0, -1.8, 0]} fontSize={0.3} color="white">BactÃ©rie (Bacille)</Text>
                 <Text position={[0, -2.2, 0]} fontSize={0.2} color="gray">Vivant (1 Cellule)</Text>
             </group>
 
@@ -3771,7 +3531,7 @@ function ChromosomesDivision() {
                     <capsuleGeometry args={[0.3, 2, 4, 16]} />
                     <meshStandardMaterial color="#EC4899" />
                 </mesh>
-                {/* Centromère */}
+                {/* CentromÃ¨re */}
                 <mesh position={[0, 0, 0]}>
                     <sphereGeometry args={[0.4]} />
                     <meshStandardMaterial color="#DB2777" />
@@ -3779,7 +3539,7 @@ function ChromosomesDivision() {
                 <Text position={[0, -2, 0]} fontSize={0.3} color="white">Chromosome Simple</Text>
             </group>
 
-            {/* Chromosome Dupliqué (X shape) */}
+            {/* Chromosome DupliquÃ© (X shape) */}
             <group position={[2, 0, 0]}>
                 <group rotation={[0, 0, 0.3]}>
                     <mesh position={[0, 1, 0]}>
@@ -3805,10 +3565,10 @@ function ChromosomesDivision() {
                     <sphereGeometry args={[0.4]} />
                     <meshStandardMaterial color="#2563EB" />
                 </mesh>
-                <Text position={[0, -2, 0]} fontSize={0.3} color="white">Chromosome Dupliqué</Text>
+                <Text position={[0, -2, 0]} fontSize={0.3} color="white">Chromosome DupliquÃ©</Text>
             </group>
 
-            <Text position={[0, 2.5, 0]} fontSize={0.3} color="#F472B6">Contient l&apos;Information Génétique (ADN)</Text>
+            <Text position={[0, 2.5, 0]} fontSize={0.3} color="#F472B6">Contient l&apos;Information GÃ©nÃ©tique (ADN)</Text>
         </group>
     );
 }
@@ -3851,7 +3611,7 @@ function AtomicStructure() {
                 <Text position={[0, -0.8, 0]} fontSize={0.25} color="white">Noyau (Protons + Neutrons)</Text>
             </group>
 
-            {/* Électrons (Orbites) */}
+            {/* Ã‰lectrons (Orbites) */}
             <group ref={electronRef}>
                 {/* Orbite 1 */}
                 <group rotation={[Math.PI / 3, 0, 0]}>
@@ -3877,8 +3637,8 @@ function AtomicStructure() {
                     </mesh>
                 </group>
             </group>
-            <Text position={[0, 2.5, 0]} fontSize={0.25} color="#3B82F6">Électrons (-)</Text>
-            <Text position={[0, -2.5, 0]} fontSize={0.3} color="white">La majorité de l&apos;atome est du VIDE !</Text>
+            <Text position={[0, 2.5, 0]} fontSize={0.25} color="#3B82F6">Ã‰lectrons (-)</Text>
+            <Text position={[0, -2.5, 0]} fontSize={0.3} color="white">La majoritÃ© de l&apos;atome est du VIDE !</Text>
         </group>
     );
 }
@@ -3896,15 +3656,15 @@ function IonsFormation() {
                     <sphereGeometry args={[0.8]} />
                     <meshStandardMaterial color="#9CA3AF" />
                 </mesh>
-                {/* Électron périphérique */}
+                {/* Ã‰lectron pÃ©riphÃ©rique */}
                 <mesh position={[1, 0.5, 0]}>
                     <sphereGeometry args={[0.15]} />
                     <meshStandardMaterial color="#3B82F6" />
                 </mesh>
-                <Text position={[0, -1.5, 0]} fontSize={0.25} color="gray">Perd 1 électron</Text>
+                <Text position={[0, -1.5, 0]} fontSize={0.25} color="gray">Perd 1 Ã©lectron</Text>
             </group>
 
-            {/* Flèche transfert */}
+            {/* FlÃ¨che transfert */}
             <group position={[0, 0.5, 0]}>
                 <mesh rotation={[0, 0, -Math.PI / 2]}>
                     <coneGeometry args={[0.2, 1, 32]} />
@@ -3919,18 +3679,18 @@ function IonsFormation() {
                     <sphereGeometry args={[0.9]} />
                     <meshStandardMaterial color="#10B981" />
                 </mesh>
-                {/* Électron gagné */}
-                <mesh position={[-1, 0.5, 0]} visible={true}> {/* Simulé comme arrivant */}
+                {/* Ã‰lectron gagnÃ© */}
+                <mesh position={[-1, 0.5, 0]} visible={true}> {/* SimulÃ© comme arrivant */}
                     <sphereGeometry args={[0.15]} />
                     <meshStandardMaterial color="#3B82F6" />
                 </mesh>
-                <Text position={[0, -1.5, 0]} fontSize={0.25} color="gray">Gagne 1 électron</Text>
+                <Text position={[0, -1.5, 0]} fontSize={0.25} color="gray">Gagne 1 Ã©lectron</Text>
             </group>
 
-            {/* Résultat Ions */}
+            {/* RÃ©sultat Ions */}
             <group position={[0, -3, 0]}>
-                <Text position={[-2, 0, 0]} fontSize={0.4} color="#F59E0B">Na⁺ (Cation)</Text>
-                <Text position={[2, 0, 0]} fontSize={0.4} color="#059669">Cl⁻ (Anion)</Text>
+                <Text position={[-2, 0, 0]} fontSize={0.4} color="#F59E0B">Naâº (Cation)</Text>
+                <Text position={[2, 0, 0]} fontSize={0.4} color="#059669">Clâ» (Anion)</Text>
                 <Text position={[0, -0.6, 0]} fontSize={0.3} color="white">Ils s&apos;attirent = Sel (NaCl)</Text>
             </group>
         </group>
@@ -3985,10 +3745,10 @@ function CombustionReaction() {
                         <meshStandardMaterial color="#3B82F6" />
                     </mesh>
                 ))}
-                <Text position={[2, 2, 0]} fontSize={0.3} color="#3B82F6">2. Comburant (O₂)</Text>
+                <Text position={[2, 2, 0]} fontSize={0.3} color="#3B82F6">2. Comburant (Oâ‚‚)</Text>
             </group>
 
-            <Text position={[0, -3, 0]} fontSize={0.25} color="white">Si on enlève un élément, le feu s&apos;éteint !</Text>
+            <Text position={[0, -3, 0]} fontSize={0.25} color="white">Si on enlÃ¨ve un Ã©lÃ©ment, le feu s&apos;Ã©teint !</Text>
         </group>
     );
 }
@@ -4008,7 +3768,7 @@ function WaterCycleSim() {
                 <boxGeometry args={[3, 1, 3]} />
                 <meshStandardMaterial color="#2563EB" transparent opacity={0.8} />
             </mesh>
-            <Text position={[2, -2.2, 1.6]} fontSize={0.3} color="white">Océan</Text>
+            <Text position={[2, -2.2, 1.6]} fontSize={0.3} color="white">OcÃ©an</Text>
 
             {/* Terre/Montagne */}
             <mesh position={[-2, -1, 0]}>
@@ -4043,30 +3803,30 @@ function WaterCycleSim() {
                 </mesh>
             </group>
 
-            {/* Flèches (Simplifiées par texte pour l'instant) */}
-            <Text position={[3, 0.5, 0]} fontSize={0.25} color="#FBBF24">Évaporation ⬆</Text>
-            <Text position={[-1, 1, 0]} fontSize={0.25} color="#3B82F6">Pluie ⬇</Text>
-            <Text position={[-0.5, -1.5, 0]} fontSize={0.25} color="#60A5FA">Ruissellement ➡</Text>
+            {/* FlÃ¨ches (SimplifiÃ©es par texte pour l'instant) */}
+            <Text position={[3, 0.5, 0]} fontSize={0.25} color="#FBBF24">Ã‰vaporation â¬†</Text>
+            <Text position={[-1, 1, 0]} fontSize={0.25} color="#3B82F6">Pluie â¬‡</Text>
+            <Text position={[-0.5, -1.5, 0]} fontSize={0.25} color="#60A5FA">Ruissellement âž¡</Text>
         </group>
     );
 }
 
 // Composant Levier (Machines Simples)
 function SimpleMachinesLever() {
-    // État
+    // Ã‰tat
     const [forceDist, setForceDist] = useState(2); // Distance de la force (bras de levier)
     const loadMass = 20; // Charge fixe (kg)
     const loadDist = 1.5; // Distance charge fixe (m)
     const forceMass = 10; // Passe fixe (kg)
 
     // Calculs Physiques
-    const momentLoad = loadMass * loadDist; // Couple résistant
+    const momentLoad = loadMass * loadDist; // Couple rÃ©sistant
     const momentForce = forceMass * forceDist; // Couple moteur
     const netMoment = momentForce - momentLoad;
 
-    // Angle de rotation (simulé)
-    // Si Couple Moteur > Couple Résistant => Rotation vers le bas (dans le sens horaire ici, ou lève la charge)
-    // Convention : Positif lève la charge (rotation négative en Z)
+    // Angle de rotation (simulÃ©)
+    // Si Couple Moteur > Couple RÃ©sistant => Rotation vers le bas (dans le sens horaire ici, ou lÃ¨ve la charge)
+    // Convention : Positif lÃ¨ve la charge (rotation nÃ©gative en Z)
     const targetRotation = netMoment > 0 ? -0.3 : (netMoment < -5 ? 0.3 : 0);
 
     // Animation douce de la rotation
@@ -4081,7 +3841,7 @@ function SimpleMachinesLever() {
         <>
             {/* Controls - Draggable - Rendu Portal */}
             <Html transform={false}>
-                <DraggableHtmlPanel title="🔧 Le Levier">
+                <DraggableHtmlPanel title="ðŸ”§ Le Levier">
                     <div className="text-white min-w-[250px]">
                         <label className="block text-sm mb-1">Longueur du Bras de Force : {forceDist} m</label>
                         <input
@@ -4103,7 +3863,7 @@ function SimpleMachinesLever() {
                                 <span className={netMoment > 0 ? "text-green-400" : "text-red-400"}>{momentForce.toFixed(0)} N.m</span>
                             </div>
                             <div className="text-center mt-2 font-bold text-[#F59E0B]">
-                                {netMoment > 0 ? "ÇA SOULÈVE ! 🚀" : "TROP LOURD... 😫"}
+                                {netMoment > 0 ? "Ã‡A SOULÃˆVE ! ðŸš€" : "TROP LOURD... ðŸ˜«"}
                             </div>
                         </div>
                     </div>
@@ -4195,13 +3955,13 @@ function VolcanoEruption() {
     return (
         <>
             <Html transform={false}>
-                <DraggableHtmlPanel title="🌋 Contrôle Volcan">
+                <DraggableHtmlPanel title="ðŸŒ‹ ContrÃ´le Volcan">
                     <div className="text-white">
                         <button
                             onClick={() => setErupting(!erupting)}
                             className={`w-full py-2 rounded-lg font-bold mb-3 transition-colors ${erupting ? 'bg-red-600 animate-pulse' : 'bg-green-600 hover:bg-green-500'}`}
                         >
-                            {erupting ? "ARRÊTER !" : "DÉCLENCHER"}
+                            {erupting ? "ARRÃŠTER !" : "DÃ‰CLENCHER"}
                         </button>
 
                         <label className="block text-sm mb-1">Pression Magmatique</label>
@@ -4219,7 +3979,7 @@ function VolcanoEruption() {
 
             <group>
 
-                <Text position={[0, 3.5, 0]} fontSize={0.5} color="#EF4444">ÉRUPTION VOLCANIQUE</Text>
+                <Text position={[0, 3.5, 0]} fontSize={0.5} color="#EF4444">Ã‰RUPTION VOLCANIQUE</Text>
 
                 {/* Montagne Volcan */}
                 <mesh position={[0, -1.5, 0]}>
@@ -4233,7 +3993,7 @@ function VolcanoEruption() {
                     <meshStandardMaterial color="#EF4444" emissive="#EF4444" emissiveIntensity={erupting ? 2 : 0.5} />
                 </mesh>
 
-                {/* Cheminée */}
+                {/* CheminÃ©e */}
                 <mesh position={[0, -1, 0]}>
                     <cylinderGeometry args={[0.2, 0.5, 3]} />
                     <meshStandardMaterial color="#EF4444" emissive="#EF4444" emissiveIntensity={erupting ? 1 : 0.2} />
@@ -4442,7 +4202,7 @@ export default function Simulation3D({ type = 'atom', config = {} }) {
             case 'immune': // Fallback generique
                 return <ImmuneSystem type="infection" />;
 
-            // === PC 4ÈME - SIMULATIONS IMMERSIVES ===
+            // === PC 4ÃˆME - SIMULATIONS IMMERSIVES ===
             case 'density-explorer':
                 return <DensityExplorer />;
             case 'refraction-simulator':
@@ -4498,7 +4258,7 @@ export default function Simulation3D({ type = 'atom', config = {} }) {
             case 'chap12-conservation':
                 return <MassConservation />;
 
-            // === SVT 6ÈME - SIMULATIONS ===
+            // === SVT 6ÃˆME - SIMULATIONS ===
             case 'cell-structure':
             case 'cell':
                 return <CellDiscovery />;
@@ -4511,7 +4271,7 @@ export default function Simulation3D({ type = 'atom', config = {} }) {
             case 'vertebrate-classification':
                 return <VertebrateClassification />;
 
-            // === PC 3ÈME - SIMULATIONS PROGRAMME BFEM ===
+            // === PC 3ÃˆME - SIMULATIONS PROGRAMME BFEM ===
             case 'chap1-lentilles-3e':
                 return <Chap1LentillesMCE />;
             case 'chap2-dispersion-3e':
@@ -4572,7 +4332,7 @@ export default function Simulation3D({ type = 'atom', config = {} }) {
             case 'combustion-3d':
                 return <Chap11Combustion />;
 
-            // === SIMULATIONS SECONDE (LYCÉE) ===
+            // === SIMULATIONS SECONDE (LYCÃ‰E) ===
             case 'forces-inertia':
                 return <ForcesInertia />;
             case 'sound-waves':
@@ -4585,7 +4345,7 @@ export default function Simulation3D({ type = 'atom', config = {} }) {
                 return <DistillationSetup />;
 
             // === NOUVELLES SIMULATIONS PHYSIQUE 2NDE ===
-            // Électricité (P1-P7)
+            // Ã‰lectricitÃ© (P1-P7)
             case 'electrisation-2nde':
                 return <ElectrisationSimulation />;
             case 'circuit-electrique-2nde':
@@ -4596,7 +4356,7 @@ export default function Simulation3D({ type = 'atom', config = {} }) {
                 return <GenerateurSeconde />;
             case 'aop-simulation':
                 return <AOPSimulation />;
-            // Mécanique (P8-P12)
+            // MÃ©canique (P8-P12)
             case 'mouvement-2nde':
                 return <MouvementSeconde />;
             case 'forces-poids-2nde':
@@ -4613,7 +4373,7 @@ export default function Simulation3D({ type = 'atom', config = {} }) {
             case 'refraction-dispersion-2nde':
                 return <RefractionDispersionSeconde />;
 
-            // === CHIMIE 2NDE S - SIMULATIONS GAMIFIÉES ===
+            // === CHIMIE 2NDE S - SIMULATIONS GAMIFIÃ‰ES ===
             case 'separation-lab':
                 return <SeparationLab />;
             case 'chromatography':
@@ -4633,7 +4393,7 @@ export default function Simulation3D({ type = 'atom', config = {} }) {
             case 'chemical-tests-gamified':
                 return <ChemicalTestsGamified />;
 
-            // === CHIMIE 2NDE S - SIMULATIONS AVANCÉES (Mode Défi) ===
+            // === CHIMIE 2NDE S - SIMULATIONS AVANCÃ‰ES (Mode DÃ©fi) ===
             case 'atomic-structure-seconde':
             case 'atomic-structure-advanced':
                 return <AtomicStructureAdvanced />;
@@ -4644,7 +4404,7 @@ export default function Simulation3D({ type = 'atom', config = {} }) {
             case 'equation-balancer-advanced':
                 return <EquationBalancerAdvanced />;
 
-            // === CHIMIE 2NDE S - SIMULATIONS AVANCÉES C6-C10 ===
+            // === CHIMIE 2NDE S - SIMULATIONS AVANCÃ‰ES C6-C10 ===
             case 'dilution-advanced':
             case 'dilution-simulation':
                 return <DilutionAdvanced />;
@@ -4717,7 +4477,7 @@ export default function Simulation3D({ type = 'atom', config = {} }) {
             case 'c1s-voieseche': // C11
                 return <VoieSecheSimulation />;
 
-            // === PHYSIQUE TERMINALE S - SIMULATIONS AVANCÉES (Partie 1) ===
+            // === PHYSIQUE TERMINALE S - SIMULATIONS AVANCÃ‰ES (Partie 1) ===
             case 'pts-cinematique':
                 return <CinematiquePointAdvanced />;
             case 'pts-dynamique':
@@ -4778,10 +4538,10 @@ export default function Simulation3D({ type = 'atom', config = {} }) {
         <div className="w-full h-[calc(100vh-140px)] rounded-2xl overflow-hidden bg-gradient-to-br from-black to-slate-900 border border-white/20 relative">
             <Canvas>
                 <Suspense fallback={null}>
-                    {/* Caméra - Centrée et reculée pour voir toute la cellule */}
+                    {/* CamÃ©ra - CentrÃ©e et reculÃ©e pour voir toute la cellule */}
                     <PerspectiveCamera makeDefault position={[5, 4, 5]} />
 
-                    {/* Contrôles */}
+                    {/* ContrÃ´les */}
                     <OrbitControls
                         enableZoom={true}
                         enablePan={true}
@@ -4790,7 +4550,7 @@ export default function Simulation3D({ type = 'atom', config = {} }) {
                         autoRotateSpeed={0.5}
                     />
 
-                    {/* Lumières */}
+                    {/* LumiÃ¨res */}
                     <ambientLight intensity={0.5} />
                     <pointLight position={[10, 10, 10]} intensity={1} />
                     <pointLight position={[-10, -10, -10]} intensity={0.5} color="#00F5D4" />
@@ -4802,7 +4562,7 @@ export default function Simulation3D({ type = 'atom', config = {} }) {
                     {/* Simulation */}
                     {renderSimulation()}
 
-                    {/* Grille de référence */}
+                    {/* Grille de rÃ©fÃ©rence */}
                     <gridHelper args={[10, 10, '#00F5D4', '#1F2937']} position={[0, -3, 0]} />
                 </Suspense>
             </Canvas>

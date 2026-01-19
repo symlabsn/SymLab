@@ -1,10 +1,10 @@
 'use client';
 import React, { useState, useRef, useEffect, useMemo } from 'react';
 import { useFrame } from '@react-three/fiber';
-import { Html, Text, Float } from '@react-three/drei';
+import { Html, Text, Float, OrbitControls } from '@react-three/drei';
 import * as THREE from 'three';
 import DraggableHtmlPanel from './DraggableHtmlPanel';
-import { ConfettiExplosion as Confetti } from './GamificationUtils';
+import { ConfettiExplosion, PhaseSelector, GradeBadge, ChallengeTimer, MissionObjective, XPBar, SuccessOverlay } from './GamificationUtils';
 
 
 // =========================================================

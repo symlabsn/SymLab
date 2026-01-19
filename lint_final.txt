@@ -1,0 +1,257 @@
+
+> symlabsn_final@0.1.0 lint
+> eslint
+
+
+C:\Users\Jules Sambou\Desktop\SymLab\MOBILE_FIX.js
+  50:0  error  Parsing error: Adjacent JSX elements must be wrapped in an enclosing tag. Did you want a JSX fragment <>...</>? (50:0)
+
+C:\Users\Jules Sambou\Desktop\SymLab\curriculum_original.js
+  1:0  error  Parsing error: Unexpected character '�'. (1:0)
+
+C:\Users\Jules Sambou\Desktop\SymLab\src\app\challenges\[day]\page.js
+  42:28  error  `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+  42:34  error  `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+
+C:\Users\Jules Sambou\Desktop\SymLab\src\app\challenges\page.js
+  130:55   error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+  130:105  error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+  150:73   error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+  150:99   error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+  168:30   error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+
+C:\Users\Jules Sambou\Desktop\SymLab\src\app\code\page.js
+  428:8  warning  React Hook useEffect has a missing dependency: 'pyodide'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+C:\Users\Jules Sambou\Desktop\SymLab\src\app\courses\page.js
+   537:8   warning  React Hook useEffect has a missing dependency: 'selectedCourse'. Either include it or remove the dependency array                                                                                                                                               react-hooks/exhaustive-deps
+  1086:65  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+C:\Users\Jules Sambou\Desktop\SymLab\src\app\engineering\page.js
+   77:26  error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+  205:57  error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+  208:53  error  `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+  208:96  error  `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+
+C:\Users\Jules Sambou\Desktop\SymLab\src\app\exams\page.js
+  257:98  error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+
+C:\Users\Jules Sambou\Desktop\SymLab\src\app\page.js
+  86:22  error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+
+C:\Users\Jules Sambou\Desktop\SymLab\src\app\simulations\[id]\page.js
+   143:58   error    `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`                                                                                                                                                                                                 react/no-unescaped-entities
+   306:17   warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+  1096:34   error    'EnhancedQuiz' is not defined                                                                                                                                                                                                                                   react/jsx-no-undef
+  1112:100  error    `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`                                                                                                                                                                                                 react/no-unescaped-entities
+
+C:\Users\Jules Sambou\Desktop\SymLab\src\app\simulations\page.js
+  322:87  error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+
+C:\Users\Jules Sambou\Desktop\SymLab\src\components\Analytics\AnalyticsDashboard.js
+   82:42   error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+  118:30   error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+  302:81   error  `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+  302:108  error  `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+
+C:\Users\Jules Sambou\Desktop\SymLab\src\components\Analytics\AnalyticsProvider.js
+  93:8  warning  React Hook useEffect has a missing dependency: 'saveSessionData'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+C:\Users\Jules Sambou\Desktop\SymLab\src\components\Chimie1ereSimulations.js
+   588:101  error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+   798:33   error  `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+   798:174  error  `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+   978:169  error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+   978:212  error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+   997:103  error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+  1405:53   error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+
+C:\Users\Jules Sambou\Desktop\SymLab\src\components\Chimie2SAdvanced.js
+  137:14  error  'OrbitControls' is not defined      react/jsx-no-undef
+  188:22  error  'PhaseSelector' is not defined      react/jsx-no-undef
+  195:26  error  'GradeBadge' is not defined         react/jsx-no-undef
+  200:30  error  'ChallengeTimer' is not defined     react/jsx-no-undef
+  201:30  error  'MissionObjective' is not defined   react/jsx-no-undef
+  274:26  error  'XPBar' is not defined              react/jsx-no-undef
+  279:14  error  'SuccessOverlay' is not defined     react/jsx-no-undef
+  280:14  error  'ConfettiExplosion' is not defined  react/jsx-no-undef
+  366:14  error  'OrbitControls' is not defined      react/jsx-no-undef
+  419:22  error  'PhaseSelector' is not defined      react/jsx-no-undef
+  426:26  error  'GradeBadge' is not defined         react/jsx-no-undef
+  431:30  error  'ChallengeTimer' is not defined     react/jsx-no-undef
+  432:30  error  'MissionObjective' is not defined   react/jsx-no-undef
+  499:26  error  'XPBar' is not defined              react/jsx-no-undef
+  504:14  error  'SuccessOverlay' is not defined     react/jsx-no-undef
+  505:14  error  'ConfettiExplosion' is not defined  react/jsx-no-undef
+  591:14  error  'OrbitControls' is not defined      react/jsx-no-undef
+  653:22  error  'PhaseSelector' is not defined      react/jsx-no-undef
+  660:26  error  'GradeBadge' is not defined         react/jsx-no-undef
+  665:30  error  'ChallengeTimer' is not defined     react/jsx-no-undef
+  666:30  error  'MissionObjective' is not defined   react/jsx-no-undef
+  722:26  error  'XPBar' is not defined              react/jsx-no-undef
+  727:14  error  'SuccessOverlay' is not defined     react/jsx-no-undef
+  728:14  error  'ConfettiExplosion' is not defined  react/jsx-no-undef
+  811:14  error  'OrbitControls' is not defined      react/jsx-no-undef
+  868:22  error  'PhaseSelector' is not defined      react/jsx-no-undef
+  875:26  error  'GradeBadge' is not defined         react/jsx-no-undef
+  880:30  error  'ChallengeTimer' is not defined     react/jsx-no-undef
+  881:30  error  'MissionObjective' is not defined   react/jsx-no-undef
+  961:26  error  'XPBar' is not defined              react/jsx-no-undef
+  966:14  error  'SuccessOverlay' is not defined     react/jsx-no-undef
+  967:14  error  'ConfettiExplosion' is not defined  react/jsx-no-undef
+
+C:\Users\Jules Sambou\Desktop\SymLab\src\components\Chimie2SAdvancedPart2.js
+  909:110  error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+
+C:\Users\Jules Sambou\Desktop\SymLab\src\components\Chimie2SImmersive.js
+  279:8   warning  React Hook useEffect has missing dependencies: 'mission' and 'nextMission'. Either include them or remove the dependency array  react-hooks/exhaustive-deps
+  669:77  error    `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`                                                                 react/no-unescaped-entities
+  669:95  error    `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`                                                                 react/no-unescaped-entities
+  734:41  error    `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`                                                                 react/no-unescaped-entities
+  743:45  error    `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`                                                                 react/no-unescaped-entities
+
+C:\Users\Jules Sambou\Desktop\SymLab\src\components\Chimie2SSimulations.js
+   467:98   error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+   486:48   error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+   886:26   error  'Sphere' is not defined                                          react/jsx-no-undef
+  1559:133  error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+  1573:44   error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+  1586:18   error  'Box' is not defined                                             react/jsx-no-undef
+
+C:\Users\Jules Sambou\Desktop\SymLab\src\components\ChimieTSSimulations.js
+   135:128  error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+   252:94   error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+   258:94   error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+   258:95   error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+   293:128  error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+   648:33   error  `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+   648:78   error  `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+  1138:109  error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+
+C:\Users\Jules Sambou\Desktop\SymLab\src\components\DraggableHtmlPanel.js
+  51:8  warning  React Hook useEffect has a missing dependency: 'defaultPosition'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+C:\Users\Jules Sambou\Desktop\SymLab\src\components\GamificationUtils.js
+  39:40  error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+
+C:\Users\Jules Sambou\Desktop\SymLab\src\components\PC3eChapter1to5.js
+   82:122  error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+  202:108  error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+  228:120  error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+  363:131  error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+  929:90   error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+
+C:\Users\Jules Sambou\Desktop\SymLab\src\components\PC4eChapter1to5.js
+   180:114  error    `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`                                                                   react/no-unescaped-entities
+   449:119  error    `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`                                                                   react/no-unescaped-entities
+   491:38   error    `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`                                                                   react/no-unescaped-entities
+   648:122  error    `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`                                                                   react/no-unescaped-entities
+   682:138  error    `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`                                                                   react/no-unescaped-entities
+   947:8    warning  React Hook useEffect has a missing dependency: 'resetCircuit'. Either include it or remove the dependency array                   react-hooks/exhaustive-deps
+  1026:8    warning  React Hook useMemo has missing dependencies: 'getCompInfo' and 'showSuccess'. Either include them or remove the dependency array  react-hooks/exhaustive-deps
+
+C:\Users\Jules Sambou\Desktop\SymLab\src\components\PC4eChapter6to8.js
+  213:109  error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+  227:91   error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+  227:98   error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+  260:115  error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+
+C:\Users\Jules Sambou\Desktop\SymLab\src\components\PC4eSimulations.js
+   199:138  error    `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`                                                                                                   react/no-unescaped-entities
+   345:8    warning  React Hook useEffect has missing dependencies: 'collection', 'element.symbol', 'showSuccess', and 'timeLeft'. Either include them or remove the dependency array  react-hooks/exhaustive-deps
+   465:89   error    `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`                                                                                                   react/no-unescaped-entities
+  1309:51   error    `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`                                                                                                   react/no-unescaped-entities
+  1323:53   error    `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`                                                                                                   react/no-unescaped-entities
+  1361:40   error    `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`                                                                                                   react/no-unescaped-entities
+  1512:137  error    `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`                                                                                                   react/no-unescaped-entities
+  1703:134  error    `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`                                                                                                   react/no-unescaped-entities
+  1844:8    warning  React Hook useEffect has a missing dependency: 'isLit'. Either include it or remove the dependency array                                                          react-hooks/exhaustive-deps
+  1856:34   error    `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`                                                                                                   react/no-unescaped-entities
+  2191:8    warning  React Hook useEffect has missing dependencies: 'shadowRadius', 'showSuccess', and 'umbraRadius'. Either include them or remove the dependency array               react-hooks/exhaustive-deps
+  2203:38   error    `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`                                                                                                   react/no-unescaped-entities
+  2338:143  error    `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`                                                                                                   react/no-unescaped-entities
+
+C:\Users\Jules Sambou\Desktop\SymLab\src\components\Physique1ereSimulations.js
+  1021:71   error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+  1038:102  error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+  1039:128  error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+  1074:104  error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+  1083:81   error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+
+C:\Users\Jules Sambou\Desktop\SymLab\src\components\Physique2ndeSimulations.js
+   130:8    warning  React Hook useEffect has a missing dependency: 'success'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+   222:87   error    `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`                                             react/no-unescaped-entities
+   263:134  error    `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`                                             react/no-unescaped-entities
+   317:60   error    Comments inside children section of tag should be placed inside braces                                      react/jsx-no-comment-textnodes
+   716:94   error    `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`                                             react/no-unescaped-entities
+   780:113  error    `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`                                             react/no-unescaped-entities
+   807:52   error    `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`                                             react/no-unescaped-entities
+  1268:110  error    `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`                                             react/no-unescaped-entities
+  1367:1    warning  Assign object to a variable before exporting as module default                                              import/no-anonymous-default-export
+
+C:\Users\Jules Sambou\Desktop\SymLab\src\components\Physique2ndeSimulationsPart2.js
+  705:92  error    `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+  734:51  error    `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+  961:51  error    `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+  979:1   warning  Assign object to a variable before exporting as module default   import/no-anonymous-default-export
+
+C:\Users\Jules Sambou\Desktop\SymLab\src\components\Physique2ndeSimulationsPart3.js
+  218:103  error    `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+  418:98   error    `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+  454:103  error    `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+  454:111  error    `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+  641:98   error    `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+  679:93   error    `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+  679:111  error    `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+  683:102  error    `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+  721:1    warning  Assign object to a variable before exporting as module default   import/no-anonymous-default-export
+
+C:\Users\Jules Sambou\Desktop\SymLab\src\components\PhysiqueTSAdvanced.js
+  118:8   warning  React Hook useEffect has a missing dependency: 'startMission'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+  183:8   warning  React Hook useEffect has a missing dependency: 'startMission'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+  383:8   warning  React Hook useEffect has a missing dependency: 'missions'. Either include it or remove the dependency array      react-hooks/exhaustive-deps
+  598:8   warning  React Hook useEffect has a missing dependency: 'missions'. Either include it or remove the dependency array      react-hooks/exhaustive-deps
+  804:8   warning  React Hook useEffect has a missing dependency: 'missions'. Either include it or remove the dependency array      react-hooks/exhaustive-deps
+  849:8   warning  React Hook useEffect has a missing dependency: 'showSuccess'. Either include it or remove the dependency array   react-hooks/exhaustive-deps
+  922:37  error    `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`                                                  react/no-unescaped-entities
+  922:86  error    `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`                                                  react/no-unescaped-entities
+
+C:\Users\Jules Sambou\Desktop\SymLab\src\components\PhysiqueTSAdvanced2.js
+  116:8  warning  React Hook useEffect has a missing dependency: 'handleSuccess'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+  790:8  warning  React Hook useEffect has a missing dependency: 'handleSuccess'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+C:\Users\Jules Sambou\Desktop\SymLab\src\components\PhysiqueTSAdvanced4.js
+  292:8  warning  React Hook useEffect has a missing dependency: 'getTransitionWavelength'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+C:\Users\Jules Sambou\Desktop\SymLab\src\components\SecondeSimulations.js
+   98:29   error  `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+   98:85   error  `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+  365:39   error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+  469:98   error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+  469:112  error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+  474:45   error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+
+C:\Users\Jules Sambou\Desktop\SymLab\src\components\SecondeSimulationsPart2.js
+   84:29   error  `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+   84:125  error  `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+  147:77   error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+  208:117  error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+  214:30   error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+  214:58   error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+  214:81   error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+  391:56   error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+  391:74   error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+
+C:\Users\Jules Sambou\Desktop\SymLab\src\components\SecondeSimulationsPart3.js
+  122:63  error    `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`                                              react/no-unescaped-entities
+  125:43  error    `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`                                              react/no-unescaped-entities
+  210:74  error    `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`                                              react/no-unescaped-entities
+  325:65  error    `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`                                              react/no-unescaped-entities
+  371:8   warning  React Hook useEffect has a missing dependency: 'realTime'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+C:\Users\Jules Sambou\Desktop\SymLab\src\components\VirtualChemLab.js
+  536:45  error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+  548:44  error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+
+✖ 178 problems (152 errors, 26 warnings)
+

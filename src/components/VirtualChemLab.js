@@ -509,8 +509,8 @@ export function VirtualChemLab({ scenario = 'C1' }) {
                                     <div
                                         key={i}
                                         className={`flex items-center gap-2 p-2 rounded text-sm ${i < currentStep ? 'bg-green-900/30 text-green-400' :
-                                                i === currentStep ? 'bg-blue-900/50 text-white border border-blue-500' :
-                                                    'bg-gray-800/50 text-gray-500'
+                                            i === currentStep ? 'bg-blue-900/50 text-white border border-blue-500' :
+                                                'bg-gray-800/50 text-gray-500'
                                             }`}
                                     >
                                         <span>{i < currentStep ? '✓' : i === currentStep ? '→' : '○'}</span>
@@ -533,7 +533,7 @@ export function VirtualChemLab({ scenario = 'C1' }) {
                                 onClick={() => performAction(scenarioData.steps[currentStep]?.action)}
                                 className="py-2 bg-green-600 hover:bg-green-500 rounded font-bold text-sm"
                             >
-                                ▶ Exécuter l'étape
+                                ▶ Exécuter l&apos;étape
                             </button>
                             <button
                                 onClick={resetLab}
@@ -545,7 +545,7 @@ export function VirtualChemLab({ scenario = 'C1' }) {
 
                         {/* Aide */}
                         <div className="text-xs text-gray-500 text-center">
-                            💡 Clique sur l'équipement pour interagir
+                            💡 Clique sur l&apos;équipement pour interagir
                         </div>
                     </div>
                 </DraggableHtmlPanel>

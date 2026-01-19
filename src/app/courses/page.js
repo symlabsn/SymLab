@@ -516,7 +516,7 @@ function CoursesContent() {
             if (course && course.id !== selectedCourse?.id) {
                 // Determine layout based on course type
                 if (structuredCourses[course.id]) {
-                    // eslint-disable-next-line
+                     
                     setActiveChapter(structuredCourses[course.id].chapters[0]);
                     setShowExercises(false);
                     setQuizAnswers({});
