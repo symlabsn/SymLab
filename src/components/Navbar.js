@@ -37,7 +37,7 @@ export default function Navbar() {
         <div className="flex justify-between items-center h-14 sm:h-16">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-3 group">
-            <div className="text-xl font-bold bg-clip-text text-transparent group-hover:scale-105 transition-transform duration-300 tracking-tight" style={{ background: 'linear-gradient(90deg, var(--accent), var(--accent-2))' }} aria-label="SymLab">
+            <div className="text-base font-semibold bg-clip-text text-transparent group-hover:scale-105 transition-transform duration-300 tracking-tight" style={{ background: 'linear-gradient(90deg, var(--accent), var(--accent-2))' }} aria-label="SymLab">
               {['S', 'y', 'm', 'L', 'a', 'b'].map((ch, i) => (
                 <span key={i} className="logo-letter inline-block hover:animate-bounce" style={{ animationDelay: `${i * 50}ms` }}>{ch}</span>
               ))}

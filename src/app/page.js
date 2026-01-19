@@ -18,7 +18,7 @@ export default function Home() {
             description: 'Maîtrisez Python et l\'algorithmique scientifique.',
             href: '/programming',
             accentColor: '#2DD4BF', // Teal 400
-            icon: <Binary size={32} />,
+            icon: <Binary size={24} />,
             tag: 'Populaire'
         },
         {
@@ -27,7 +27,7 @@ export default function Home() {
             description: 'Laboratoires virtuels 3D et physique interactive.',
             href: '/simulations',
             accentColor: '#818CF8', // Indigo 400
-            icon: <Atom size={32} />,
+            icon: <Atom size={24} />,
             tag: 'Immersif'
         },
         {
@@ -36,7 +36,7 @@ export default function Home() {
             description: 'L\'ingénierie par la pratique.',
             href: '/engineering',
             accentColor: '#F59E0B', // Amber 500
-            icon: <Cpu size={32} />,
+            icon: <Cpu size={24} />,
             tag: 'Nouveau'
         },
         {
@@ -45,7 +45,7 @@ export default function Home() {
             description: '100 jours pour maîtriser SymPy et le calcul symbolique.',
             href: '/challenges',
             accentColor: '#F472B6', // Pink 400
-            icon: <Rocket size={32} />,
+            icon: <Rocket size={24} />,
             tag: 'Daily'
         },
         {
@@ -54,7 +54,7 @@ export default function Home() {
             description: 'Ressources pédagogiques conformes au programme.',
             href: '/courses',
             accentColor: '#10B981', // Emerald 500
-            icon: <GraduationCap size={32} />,
+            icon: <GraduationCap size={24} />,
             tag: 'Certifié'
         }
     ];
@@ -75,7 +75,7 @@ export default function Home() {
                     <span className="text-[10px] sm:text-xs uppercase tracking-[0.4em] font-black text-white/40 group-hover:text-white/90 transition-colors">Plateforme STEM Immersive</span>
                 </div>
 
-                <h1 className="text-6xl sm:text-8xl md:text-9xl lg:text-[12rem] xl:text-[14rem] font-black tracking-tighter leading-[0.9] sm:leading-none mb-8 sm:mb-10 select-none relative z-20">
+                <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black tracking-tighter leading-[0.9] sm:leading-none mb-6 sm:mb-8 select-none relative z-20">
                     <span className="logo-glitch inline-block">
                         <span className="text-transparent bg-clip-text bg-gradient-to-b from-white to-white/30 block sm:inline">SYM</span>
                         <span className="text-transparent bg-clip-text bg-gradient-to-tr from-[#2DD4BF] via-white to-[#818CF8] glow-text block sm:inline">LAB</span>
