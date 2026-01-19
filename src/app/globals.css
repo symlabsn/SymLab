@@ -32,8 +32,8 @@ body {
 
   /* Deep Space Grid */
   background-image:
-    linear-gradient(rgba(0, 255, 255, 0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0, 255, 255, 0.03) 1px, transparent 1px);
+    linear-gradient(rgba(45, 212, 191, 0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(45, 212, 191, 0.02) 1px, transparent 1px);
   background-size: 50px 50px;
   background-position: center top;
 }
@@ -137,19 +137,19 @@ body {
 }
 
 .logo-glitch::before {
-  color: #00F5D4;
+  color: #2DD4BF;
   z-index: -1;
   animation: glitch-1 5s infinite;
-  opacity: 0.4;
-  filter: blur(2px);
+  opacity: 0.35;
+  filter: blur(1.5px);
 }
 
 .logo-glitch::after {
-  color: #7C3AED;
+  color: #818CF8;
   z-index: -2;
   animation: glitch-2 5s infinite;
-  opacity: 0.4;
-  filter: blur(2px);
+  opacity: 0.35;
+  filter: blur(1.5px);
 }
 
 @keyframes glitch-1 {
@@ -583,7 +583,7 @@ details.correction-box[open] {
 }
 
 .toggle-switch.active {
-  background: linear-gradient(135deg, #00F5D4, #8B5CF6);
+  background: linear-gradient(135deg, #2DD4BF, #818CF8);
 }
 
 .toggle-switch::after {
@@ -678,7 +678,7 @@ details.correction-box[open] {
 
 /* Focus styles for accessibility */
 *:focus-visible {
-  outline: 2px solid #00F5D4;
+  outline: 2px solid #2DD4BF;
   outline-offset: 2px;
 }
 
@@ -952,7 +952,7 @@ textarea {
 
 .mobile-nav-item.active .nav-icon {
   transform: translateY(-2px);
-  filter: grayscale(0%) opacity(1) drop-shadow(0 0 10px rgba(0, 245, 212, 0.5));
+  filter: grayscale(0%) opacity(1) drop-shadow(0 0 10px rgba(45, 212, 191, 0.5));
 }
 
 .mobile-nav-item .nav-label {
@@ -967,7 +967,7 @@ textarea {
 }
 
 .mobile-nav-item.active .nav-label {
-  color: #00F5D4;
+  color: #2DD4BF;
   font-weight: 600;
   opacity: 1;
   height: auto;
@@ -1150,7 +1150,7 @@ textarea {
   background: rgba(0, 245, 212, 0.2);
   border-radius: 0 0 12px 12px;
   font-size: 12px;
-  color: #00F5D4;
+  color: #2DD4BF;
   opacity: 0;
   transition: opacity 0.3s;
   z-index: 9999;

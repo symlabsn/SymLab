@@ -6,7 +6,7 @@ export const pythonCurriculum = [
         id: 'intro',
         title: '1. Introduction à Python',
         icon: '🐍',
-        color: '#00F5D4',
+        color: '#2DD4BF',
         description: 'Découvrez Python, le langage préféré des scientifiques',
         duration: '2 heures',
         lessons: [

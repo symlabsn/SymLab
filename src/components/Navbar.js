@@ -31,7 +31,7 @@ export default function Navbar() {
     <nav className={`
       fixed top-0 left-0 right-0 z-50 
       transition-all duration-300
-      ${scrolled ? 'bg-black/80 backdrop-blur-xl border-b border-white/10 shadow-lg shadow-purple-500/5' : 'bg-transparent'}
+      ${scrolled ? 'bg-[#020617]/90 backdrop-blur-xl border-b border-white/10 shadow-lg shadow-indigo-500/5' : 'bg-transparent'}
     `}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-14 sm:h-16">
@@ -59,7 +59,7 @@ export default function Navbar() {
                 >
                   <span>{link.name}</span>
                   {isActive && (
-                    <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-4/5 h-0.5 bg-gradient-to-r from-[#00F5D4] to-[#7C3AED] rounded-full shadow-[0_0_8px_rgba(0,245,212,0.8)]" />
+                    <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-4/5 h-0.5 bg-gradient-to-r from-[#2DD4BF] to-[#818CF8] rounded-full shadow-[0_0_8px_rgba(45,212,191,0.8)]" />
                   )}
                   <span className="absolute inset-0 bg-white/5 rounded-lg scale-90 opacity-0 group-hover:scale-100 group-hover:opacity-100 transition-all duration-300 -z-10" />
                 </Link>
@@ -68,10 +68,10 @@ export default function Navbar() {
 
             <Link
               href="/about"
-              className="ml-4 relative px-6 py-2 rounded-full border border-white/10 overflow-hidden group transition-all hover:border-[#00F5D4]/50"
+              className="ml-4 relative px-5 py-2 rounded-full border border-white/10 overflow-hidden group transition-all hover:border-[#2DD4BF]/50"
             >
-              <div className="absolute inset-0 bg-gradient-to-r from-[#00F5D4]/10 to-[#7C3AED]/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-              <span className="relative text-sm font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#00F5D4] to-[#7C3AED] group-hover:from-white group-hover:to-white transition-all">
+              <div className="absolute inset-0 bg-gradient-to-r from-[#2DD4BF]/10 to-[#818CF8]/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              <span className="relative text-xs font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#2DD4BF] to-[#818CF8] group-hover:from-white group-hover:to-white transition-all">
                 À propos
               </span>
             </Link>
@@ -109,7 +109,7 @@ export default function Navbar() {
                   className={`
                         block px-4 py-3 text-base font-medium rounded-lg mx-2 transition-all
                         ${isActive
-                      ? 'bg-white/10 text-white border-l-4 border-[#00F5D4]'
+                      ? 'bg-white/10 text-white border-l-4 border-[#2DD4BF]'
                       : 'text-gray-400 hover:text-white hover:bg-white/5'}
                     `}
                   onClick={() => setMobileMenuOpen(false)}
@@ -120,7 +120,7 @@ export default function Navbar() {
             })}
             <Link
               href="/about"
-              className="block mt-4 mx-4 px-4 py-3 text-center text-base font-bold text-black bg-gradient-to-r from-[#00F5D4] to-[#7C3AED] rounded-lg shadow-[0_0_15px_rgba(0,245,212,0.3)] hover:shadow-[0_0_20px_rgba(0,245,212,0.5)] transition-all"
+              className="block mt-4 mx-4 px-4 py-3 text-center text-base font-bold text-black bg-gradient-to-r from-[#2DD4BF] to-[#818CF8] rounded-lg shadow-[0_0_15px_rgba(45,212,191,0.3)] hover:shadow-[0_0_20px_rgba(45,212,191,0.5)] transition-all"
               onClick={() => setMobileMenuOpen(false)}
             >
               À propos de SymLab

@@ -40,20 +40,20 @@ export default function ExamsPage() {
     };
 
     return (
-        <main className="min-h-screen bg-black text-white selection:bg-[#00F5D4] selection:text-black">
+        <main className="min-h-screen bg-black text-white selection:bg-[#2DD4BF] selection:text-black">
             {/* --- Hero Section with Background Glow --- */}
             <div className="relative pt-32 pb-20 px-4 overflow-hidden">
-                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[500px] bg-[#00F5D4]/10 blur-[120px] rounded-full pointer-events-none" />
+                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[500px] bg-[#2DD4BF]/10 blur-[120px] rounded-full pointer-events-none" />
 
                 <section className="relative max-w-7xl mx-auto text-center z-10">
                     <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 backdrop-blur-md mb-8 hover:bg-white/10 transition-colors cursor-default">
-                        <span className="w-2 h-2 rounded-full bg-[#00F5D4] animate-pulse" />
+                        <span className="w-2 h-2 rounded-full bg-[#2DD4BF] animate-pulse" />
                         <span className="text-gray-300 text-sm font-medium tracking-wide">BANQUE D&apos;ÉPREUVES OFFICIELLES</span>
                     </div>
 
                     <h1 className="text-5xl md:text-7xl font-black mb-8 tracking-tight">
                         Préparez votre<br />
-                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-[#00F5D4] to-[#7C3AED] animate-gradient-x">
+                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-[#2DD4BF] to-[#818CF8] animate-gradient-x">
                             Réussite aux Examens
                         </span>
                     </h1>
@@ -75,7 +75,7 @@ export default function ExamsPage() {
                                 key={type}
                                 onClick={() => setFilterType(type)}
                                 className={`px-5 py-2 rounded-xl text-sm font-bold transition-all duration-300 ${filterType === type
-                                    ? 'bg-[#00F5D4] text-black shadow-lg shadow-[#00F5D4]/20 scale-105'
+                                    ? 'bg-[#2DD4BF] text-black shadow-lg shadow-[#2DD4BF]/20 scale-105'
                                     : 'text-gray-400 hover:text-white hover:bg-white/5'
                                     }`}
                             >
@@ -91,7 +91,7 @@ export default function ExamsPage() {
                                 key={subject}
                                 onClick={() => setFilterSubject(subject)}
                                 className={`px-5 py-2 rounded-xl text-sm font-bold transition-all duration-300 whitespace-nowrap ${filterSubject === subject
-                                    ? 'bg-[#7C3AED] text-white shadow-lg shadow-[#7C3AED]/20 scale-105'
+                                    ? 'bg-[#818CF8] text-white shadow-lg shadow-[#818CF8]/20 scale-105'
                                     : 'text-gray-400 hover:text-white hover:bg-white/5'
                                     }`}
                             >
@@ -109,7 +109,7 @@ export default function ExamsPage() {
                         <p className="text-2xl text-gray-500 font-bold">Aucun sujet trouvé pour ces critères.</p>
                         <button
                             onClick={() => { setFilterType('ALL'); setFilterSubject('ALL') }}
-                            className="mt-4 text-[#00F5D4] hover:underline"
+                            className="mt-4 text-[#2DD4BF] hover:underline"
                         >
                             Réinitialiser les filtres
                         </button>
@@ -120,17 +120,17 @@ export default function ExamsPage() {
                             <div
                                 key={exam.id}
                                 onClick={() => openExam(exam)}
-                                className="group relative bg-[#0A0A0A] rounded-3xl border border-white/5 overflow-hidden hover:border-[#00F5D4]/30 transition-all duration-500 hover:shadow-2xl hover:shadow-[#00F5D4]/5 hover:-translate-y-2 cursor-pointer"
+                                className="group relative bg-[#0A0A0A] rounded-3xl border border-white/5 overflow-hidden hover:border-[#2DD4BF]/30 transition-all duration-500 hover:shadow-2xl hover:shadow-[#2DD4BF]/5 hover:-translate-y-2 cursor-pointer"
                             >
                                 {/* Card Header with Color Splash */}
-                                <div className={`h-2 w-full ${exam.type.includes('BAC') ? 'bg-gradient-to-r from-yellow-400 to-orange-500' : 'bg-gradient-to-r from-[#00F5D4] to-teal-500'}`} />
+                                <div className={`h-2 w-full ${exam.type.includes('BAC') ? 'bg-gradient-to-r from-yellow-400 to-orange-500' : 'bg-gradient-to-r from-[#2DD4BF] to-teal-500'}`} />
 
                                 <div className="p-8">
                                     <div className="flex justify-between items-start mb-6">
                                         <div className="flex gap-2">
                                             <span className={`px-3 py-1 rounded-lg text-xs font-bold tracking-wider ${exam.type.includes('BAC')
                                                     ? 'bg-yellow-500/10 text-yellow-400 border border-yellow-500/20'
-                                                    : 'bg-[#00F5D4]/10 text-[#00F5D4] border border-[#00F5D4]/20'
+                                                    : 'bg-[#2DD4BF]/10 text-[#2DD4BF] border border-[#2DD4BF]/20'
                                                 }`}>
                                                 {exam.type}
                                             </span>
@@ -144,7 +144,7 @@ export default function ExamsPage() {
                                         </div>
                                     </div>
 
-                                    <h3 className="text-2xl font-bold text-white mb-3 group-hover:text-[#00F5D4] transition-colors leading-tight">
+                                    <h3 className="text-2xl font-bold text-white mb-3 group-hover:text-[#2DD4BF] transition-colors leading-tight">
                                         {exam.title}
                                     </h3>
 
@@ -163,7 +163,7 @@ export default function ExamsPage() {
                                 </div>
 
                                 {/* Hover Action */}
-                                <div className="absolute bottom-0 left-0 w-full h-1 bg-[#00F5D4] scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
+                                <div className="absolute bottom-0 left-0 w-full h-1 bg-[#2DD4BF] scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
                             </div>
                         ))}
                     </div>
@@ -188,7 +188,7 @@ export default function ExamsPage() {
                             <div className="flex items-center gap-4">
                                 <div className={`w-12 h-12 rounded-2xl flex items-center justify-center font-black text-xl shadow-lg ${selectedExam.type.includes('BAC')
                                         ? 'bg-gradient-to-br from-yellow-400 to-orange-600 text-white'
-                                        : 'bg-gradient-to-br from-[#00F5D4] to-teal-600 text-black'
+                                        : 'bg-gradient-to-br from-[#2DD4BF] to-teal-600 text-black'
                                     }`}>
                                     {selectedExam.type.charAt(0)}
                                 </div>
@@ -210,7 +210,7 @@ export default function ExamsPage() {
                                     </button>
                                     <button
                                         onClick={() => setShowCorrection(true)}
-                                        className={`px-6 py-2 rounded-lg text-sm font-bold transition-all ${showCorrection ? 'bg-[#00F5D4] text-black shadow-md' : 'text-gray-400 hover:text-white'
+                                        className={`px-6 py-2 rounded-lg text-sm font-bold transition-all ${showCorrection ? 'bg-[#2DD4BF] text-black shadow-md' : 'text-gray-400 hover:text-white'
                                             }`}
                                     >
                                         Correction
@@ -237,7 +237,7 @@ export default function ExamsPage() {
                             </button>
                             <button
                                 onClick={() => setShowCorrection(true)}
-                                className={`flex-1 py-4 text-sm font-bold border-b-2 transition-all ${showCorrection ? 'text-[#00F5D4] border-[#00F5D4]' : 'text-gray-500 border-transparent'
+                                className={`flex-1 py-4 text-sm font-bold border-b-2 transition-all ${showCorrection ? 'text-[#2DD4BF] border-[#2DD4BF]' : 'text-gray-500 border-transparent'
                                     }`}
                             >
                                 CORRECTION
@@ -249,10 +249,10 @@ export default function ExamsPage() {
                             <div className="max-w-4xl mx-auto p-8 md:p-12">
                                 {showCorrection ? (
                                     <div className="animate-in slide-in-from-right-4 fade-in duration-300">
-                                        <div className="mb-8 p-6 rounded-2xl bg-gradient-to-br from-[#00F5D4]/10 to-transparent border border-[#00F5D4]/20 flex gap-4 items-start">
+                                        <div className="mb-8 p-6 rounded-2xl bg-gradient-to-br from-[#2DD4BF]/10 to-transparent border border-[#2DD4BF]/20 flex gap-4 items-start">
                                             <span className="text-2xl">💡</span>
                                             <div>
-                                                <h3 className="text-[#00F5D4] font-bold text-lg mb-1">Corrigé Détaillé</h3>
+                                                <h3 className="text-[#2DD4BF] font-bold text-lg mb-1">Corrigé Détaillé</h3>
                                                 <p className="text-sm text-gray-400 leading-relaxed">
                                                     Voici les éléments de réponse. Assurez-vous d'avoir bien cherché par vous-même avant de consulter la solution !
                                                 </p>

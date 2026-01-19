@@ -41,9 +41,9 @@ export default function SimulationsPage() {
                 if (element) {
                     element.scrollIntoView({ behavior: 'smooth', block: 'center' });
                     // Effet visuel pour indiquer la simulation
-                    element.classList.add('ring-2', 'ring-[#00F5D4]', 'ring-offset-2', 'ring-offset-black');
+                    element.classList.add('ring-2', 'ring-[#2DD4BF]', 'ring-offset-2', 'ring-offset-black');
                     setTimeout(() => {
-                        element.classList.remove('ring-2', 'ring-[#00F5D4]', 'ring-offset-2', 'ring-offset-black');
+                        element.classList.remove('ring-2', 'ring-[#2DD4BF]', 'ring-offset-2', 'ring-offset-black');
                     }, 2000);
                 }
             }, 300);
@@ -111,7 +111,7 @@ export default function SimulationsPage() {
                                 <span className="text-xs text-gray-400">|</span>
                                 <span className="text-xs text-yellow-400">{userData?.xp || 0} XP</span>
                             </div>
-                            <span className="text-[#00F5D4] font-bold">Simulations 3D</span>
+                            <span className="text-[#2DD4BF] font-bold">Simulations 3D</span>
                         </div>
                     </div>
                 </nav>
@@ -119,7 +119,7 @@ export default function SimulationsPage() {
                 {/* Hero Content */}
                 <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
                     <div className="text-center space-y-6">
-                        <h1 className="text-3xl sm:text-5xl md:text-7xl font-black bg-clip-text text-transparent bg-gradient-to-r from-[#00F5D4] via-purple-500 to-pink-500 animate-gradient px-2">
+                        <h1 className="text-3xl sm:text-5xl md:text-7xl font-black bg-clip-text text-transparent bg-gradient-to-r from-[#2DD4BF] via-purple-500 to-pink-500 animate-gradient px-2">
                             Simulations 3D Immersives
                         </h1>
                         <p className="text-base sm:text-xl md:text-2xl text-gray-300 max-w-3xl mx-auto px-4">
@@ -153,7 +153,7 @@ export default function SimulationsPage() {
                                 key={key}
                                 onClick={() => setSelectedLevel(key)}
                                 className={`flex items-center gap-3 px-6 py-3 rounded-xl font-bold transition-all duration-300 whitespace-nowrap ${selectedLevel === key
-                                    ? 'bg-gradient-to-r from-[#00F5D4] to-purple-500 text-black shadow-lg scale-105'
+                                    ? 'bg-gradient-to-r from-[#2DD4BF] to-purple-500 text-black shadow-lg scale-105'
                                     : 'bg-white/5 text-gray-400 hover:bg-white/10 border border-white/10'
                                     }`}
                             >
@@ -186,7 +186,7 @@ export default function SimulationsPage() {
                             key={key}
                             onClick={() => setSelectedGrade(key)}
                             className={`px-4 py-2 rounded-full text-sm font-bold transition-all ${selectedGrade === key
-                                ? 'bg-[#00F5D4] text-black shadow-[0_0_15px_rgba(0,245,212,0.3)]'
+                                ? 'bg-[#2DD4BF] text-black shadow-[0_0_15px_rgba(0,245,212,0.3)]'
                                 : 'bg-white/10 text-gray-300 hover:bg-white/20'
                                 }`}
                         >
@@ -204,7 +204,7 @@ export default function SimulationsPage() {
                                 placeholder="🔍 Rechercher une simulation..."
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
-                                className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:border-[#00F5D4] focus:outline-none transition-all"
+                                className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:border-[#2DD4BF] focus:outline-none transition-all"
                             />
                         </div>
                     </div>
@@ -225,7 +225,7 @@ export default function SimulationsPage() {
                 {/* Statistiques */}
                 <div className="mb-8 p-4 rounded-xl bg-gradient-to-r from-white/5 to-white/10 border border-white/20">
                     <p className="text-gray-300">
-                        <span className="font-bold text-[#00F5D4]">{filteredSimulations.length}</span> simulation(s) trouvée(s)
+                        <span className="font-bold text-[#2DD4BF]">{filteredSimulations.length}</span> simulation(s) trouvée(s)
                         {searchQuery && ` pour "${searchQuery}"`}
                     </p>
                 </div>
@@ -238,11 +238,11 @@ export default function SimulationsPage() {
                                 id={sim.id}
                                 key={`${sim.id}-${index}`}
                                 href={`/simulations/${sim.id}`}
-                                className="group relative p-6 rounded-2xl bg-gradient-to-br from-white/10 to-white/5 border border-white/20 backdrop-blur-xl hover:scale-105 hover:border-[#00F5D4]/50 transition-all duration-300 cursor-pointer block"
+                                className="group relative p-6 rounded-2xl bg-gradient-to-br from-white/10 to-white/5 border border-white/20 backdrop-blur-xl hover:scale-105 hover:border-[#2DD4BF]/50 transition-all duration-300 cursor-pointer block"
                             >
 
                                 {/* Image ou Icône */}
-                                <div className="mb-4 h-48 relative overflow-hidden rounded-xl border border-white/10 group-hover:border-[#00F5D4]/30 transition-colors">
+                                <div className="mb-4 h-48 relative overflow-hidden rounded-xl border border-white/10 group-hover:border-[#2DD4BF]/30 transition-colors">
                                     {sim.image ? (
                                         <Image
                                             src={sim.image}
@@ -260,7 +260,7 @@ export default function SimulationsPage() {
                                 </div>
 
                                 {/* Titre */}
-                                <h3 className="text-xl font-bold mb-2 text-white group-hover:text-[#00F5D4] transition-colors">
+                                <h3 className="text-xl font-bold mb-2 text-white group-hover:text-[#2DD4BF] transition-colors">
                                     {sim.title}
                                 </h3>
 
@@ -284,7 +284,7 @@ export default function SimulationsPage() {
                                     <span className="text-xs text-gray-500 flex items-center gap-1">
                                         ⏱️ {sim.duration}
                                     </span>
-                                    <span className="px-4 py-2 rounded-lg bg-gradient-to-r from-[#00F5D4] to-cyan-500 text-black font-bold text-sm group-hover:scale-110 transition-transform">
+                                    <span className="px-4 py-2 rounded-lg bg-gradient-to-r from-[#2DD4BF] to-cyan-500 text-black font-bold text-sm group-hover:scale-110 transition-transform">
                                         Lancer 🚀
                                     </span>
                                 </div>
@@ -314,15 +314,15 @@ export default function SimulationsPage() {
 
             {/* Call to Action */}
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-                <div className="p-12 rounded-3xl bg-gradient-to-r from-[#00F5D4]/20 via-purple-500/20 to-pink-500/20 border border-white/20 backdrop-blur-xl text-center">
-                    <h2 className="text-4xl font-black mb-4 bg-clip-text text-transparent bg-gradient-to-r from-[#00F5D4] to-purple-500">
+                <div className="p-12 rounded-3xl bg-gradient-to-r from-[#2DD4BF]/20 via-purple-500/20 to-pink-500/20 border border-white/20 backdrop-blur-xl text-center">
+                    <h2 className="text-4xl font-black mb-4 bg-clip-text text-transparent bg-gradient-to-r from-[#2DD4BF] to-purple-500">
                         Prêt à explorer ?
                     </h2>
                     <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
                         Chaque simulation est conçue pour vous offrir une expérience d'apprentissage immersive et interactive.
                     </p>
                     <div className="flex flex-wrap gap-4 justify-center">
-                        <Link href="/code" className="px-8 py-4 rounded-xl bg-gradient-to-r from-[#00F5D4] to-cyan-500 text-black font-bold hover:scale-105 transition-transform shadow-lg">
+                        <Link href="/code" className="px-8 py-4 rounded-xl bg-gradient-to-r from-[#2DD4BF] to-cyan-500 text-black font-bold hover:scale-105 transition-transform shadow-lg">
                             💻 Notebook Python
                         </Link>
                         <Link href="/programming" className="px-8 py-4 rounded-xl bg-white/10 border border-white/20 text-white font-bold hover:bg-white/20 transition-all">

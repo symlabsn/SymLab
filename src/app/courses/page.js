@@ -585,7 +585,7 @@ function CoursesContent() {
 
 
     return (
-        <main className="min-h-screen bg-black text-white font-sans selection:bg-[#00F5D4] selection:text-black flex flex-col">
+        <main className="min-h-screen bg-black text-white font-sans selection:bg-[#2DD4BF] selection:text-black flex flex-col">
             {/* Navbar */}
             <nav className="fixed top-0 w-full z-50 border-b border-white/10 bg-black/80 backdrop-blur-xl">
                 <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
@@ -872,7 +872,7 @@ function CoursesContent() {
 
                                                     {/* Bouton Écouter */}
                                                     {activeChapter?.content && (
-                                                        <div className="flex items-center gap-3 mb-6 p-3 rounded-xl bg-[#00F5D4]/10 border border-[#00F5D4]/20">
+                                                        <div className="flex items-center gap-3 mb-6 p-3 rounded-xl bg-[#2DD4BF]/10 border border-[#2DD4BF]/20">
                                                             <span className="text-xl">🎧</span>
                                                             <div className="flex-1">
                                                                 <div className="text-sm font-medium text-white">Écouter ce chapitre</div>
@@ -896,7 +896,7 @@ function CoursesContent() {
                                                             ) : (
                                                                 <button
                                                                     onClick={() => startSpeaking(activeChapter.content)}
-                                                                    className="flex items-center gap-2 px-4 py-2 rounded-lg bg-[#00F5D4] text-black font-bold hover:bg-[#00F5D4]/90 transition-all"
+                                                                    className="flex items-center gap-2 px-4 py-2 rounded-lg bg-[#2DD4BF] text-black font-bold hover:bg-[#2DD4BF]/90 transition-all"
                                                                 >
                                                                     ▶️ Écouter
                                                                 </button>
@@ -921,7 +921,7 @@ function CoursesContent() {
                                                         prose-p:text-gray-300 prose-p:leading-relaxed
                                                         prose-strong:text-white prose-strong:font-black
                                                         prose-ul:text-gray-300 prose-li:marker:text-blue-500
-                                                        prose-code:text-[#00F5D4] prose-code:bg-white/10 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:font-mono prose-code:text-sm
+                                                        prose-code:text-[#2DD4BF] prose-code:bg-white/10 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:font-mono prose-code:text-sm
                                                         prose-pre:bg-gradient-to-br prose-pre:from-[#1a1f2e] prose-pre:to-[#0d1117] prose-pre:border prose-pre:border-cyan-500/20 prose-pre:rounded-xl prose-pre:shadow-lg prose-pre:shadow-cyan-500/5
                                                         prose-img:rounded-xl prose-img:border prose-img:border-white/10 prose-img:mx-auto prose-img:block prose-img:shadow-lg
                                                         prose-table:border-collapse prose-th:bg-white/5 prose-th:border prose-th:border-white/10 prose-th:px-4 prose-th:py-2
@@ -963,7 +963,7 @@ function CoursesContent() {
                                                                 code: ({ className, children, ...props }) => {
                                                                     const isInline = !className;
                                                                     if (isInline) {
-                                                                        return <code className="text-[#00F5D4] bg-white/10 px-1.5 py-0.5 rounded font-mono text-sm" {...props}>{children}</code>;
+                                                                        return <code className="text-[#2DD4BF] bg-white/10 px-1.5 py-0.5 rounded font-mono text-sm" {...props}>{children}</code>;
                                                                     }
                                                                     return <code className="font-mono text-sm text-gray-200" {...props}>{children}</code>;
                                                                 }
@@ -1281,8 +1281,8 @@ function CoursesContent() {
             {/* Floating Audio Player */}
             {isSpeaking && (
                 <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50">
-                    <div className="flex items-center gap-4 px-5 py-3 rounded-full bg-[#0F1115] border border-[#00F5D4]/30 shadow-lg">
-                        <div className="w-2 h-2 rounded-full bg-[#00F5D4] animate-pulse"></div>
+                    <div className="flex items-center gap-4 px-5 py-3 rounded-full bg-[#0F1115] border border-[#2DD4BF]/30 shadow-lg">
+                        <div className="w-2 h-2 rounded-full bg-[#2DD4BF] animate-pulse"></div>
                         <span className="text-sm text-gray-300">Lecture en cours</span>
                         <button onClick={togglePause} className={`p-2 rounded-full ${isPaused ? 'bg-yellow-500/20 text-yellow-400' : 'bg-blue-500/20 text-blue-400'}`}>
                             {isPaused ? '▶️' : '⏸️'}
@@ -1299,7 +1299,7 @@ function CoursesContent() {
 
 export default function CoursesPage() {
     return (
-        <Suspense fallback={<div className="min-h-screen bg-black flex items-center justify-center text-[#00F5D4]">Chargement...</div>}>
+        <Suspense fallback={<div className="min-h-screen bg-black flex items-center justify-center text-[#2DD4BF]">Chargement...</div>}>
             <CoursesContent />
         </Suspense>
     );

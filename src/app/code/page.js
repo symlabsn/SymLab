@@ -39,7 +39,7 @@ const NotebookCell = ({
                 {/* Zone d'entrée (Code ou Markdown) */}
                 <div className={`relative rounded-lg border transition-all duration-200 overflow-hidden
                     ${isActive
-                        ? 'border-[#00F5D4] shadow-[0_0_0_1px_rgba(0,245,212,0.3)] bg-[#0F1115]'
+                        ? 'border-[#2DD4BF] shadow-[0_0_0_1px_rgba(0,245,212,0.3)] bg-[#0F1115]'
                         : 'border-white/10 bg-[#0F1115] hover:border-white/20'
                     }
                 `}>
@@ -92,7 +92,7 @@ const NotebookCell = ({
                                         .token.boolean, .token.number { color: #bd93f9; }
                                         .token.selector, .token.attr-name, .token.string, .token.char, .token.builtin, .token.inserted { color: #f1fa8c; }
                                         .token.operator, .token.entity, .token.url, .token.variable { color: #ff79c6; }
-                                        .token.atrule, .token.attr-value, .token.function, .token.class-name { color: #00F5D4; font-weight: bold; }
+                                        .token.atrule, .token.attr-value, .token.function, .token.class-name { color: #2DD4BF; font-weight: bold; }
                                         .token.keyword { color: #ff79c6; font-weight: bold; }
                                         .token.regex, .token.important { color: #f1fa8c; }
                                         
@@ -204,7 +204,7 @@ const NotebookCell = ({
                     {/* Barre d'actions flottante */}
                     <div className={`absolute top-1 right-1 flex gap-0.5 bg-[#1A1D24] rounded-md border border-white/10 shadow-xl transition-all duration-200 z-20 ${isActive ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-2 group-hover:opacity-100 group-hover:translate-y-0'
                         }`}>
-                        <button onClick={() => runCell(cell.id)} className="p-1.5 hover:bg-white/10 text-[#00F5D4]" title="Exécuter (Shift+Enter)">▶</button>
+                        <button onClick={() => runCell(cell.id)} className="p-1.5 hover:bg-white/10 text-[#2DD4BF]" title="Exécuter (Shift+Enter)">▶</button>
                         <div className="w-px bg-white/10 my-1" />
                         <button onClick={() => moveCell(index, -1)} className="p-1.5 hover:bg-white/10 text-gray-400 hover:text-white">↑</button>
                         <button onClick={() => moveCell(index, 1)} className="p-1.5 hover:bg-white/10 text-gray-400 hover:text-white">↓</button>
@@ -262,7 +262,7 @@ const NotebookCell = ({
                                             .pandas-output table.dataframe th {
                                                 font-weight: bold;
                                                 background: #1A1D24;
-                                                color: #00F5D4;
+                                                color: #2DD4BF;
                                                 border-bottom: 1px solid rgba(0, 245, 212, 0.3);
                                                 padding: 0.5rem 1rem;
                                                 text-align: left;
@@ -308,7 +308,7 @@ export default function NotebookPage() {
         {
             id: '2',
             type: 'code',
-            content: '# Exemple: Matrice NumPy et Plot\nX = np.linspace(0, 10, 100)\nY = np.sin(X)\n\nplt.figure(figsize=(10, 4))\nplt.plot(X, Y, label="Sinus", color="#00F5D4")\nplt.title("Test Graphique")\nplt.legend()\nplt.show()',
+            content: '# Exemple: Matrice NumPy et Plot\nX = np.linspace(0, 10, 100)\nY = np.sin(X)\n\nplt.figure(figsize=(10, 4))\nplt.plot(X, Y, label="Sinus", color="#2DD4BF")\nplt.title("Test Graphique")\nplt.legend()\nplt.show()',
             status: 'idle',
             output: null,
             executionCount: null
@@ -661,12 +661,12 @@ json.dumps({
                         <div className={`w-2 h-2 rounded-full ${kernelStatus === 'ready' ? 'bg-green-500' : kernelStatus === 'error' ? 'bg-red-500' : 'bg-yellow-500 animate-pulse'} `} />
                         <span className="text-xs font-mono text-gray-300">{kernelStatus === 'loading' ? loadingProgress : kernelStatus === 'busy' ? 'Run...' : 'Prêt'}</span>
                     </div>
-                    <button className="bg-[#00F5D4] text-black px-4 py-1.5 rounded font-bold text-sm hover:bg-[#00F5D4]/90 transition-colors">Partager</button>
+                    <button className="bg-[#2DD4BF] text-black px-4 py-1.5 rounded font-bold text-sm hover:bg-[#2DD4BF]/90 transition-colors">Partager</button>
                 </div>
             </header>
 
             <div className="mt-16 h-12 border-b border-white/10 flex items-center px-4 gap-2 bg-[#0F1115] sticky top-16 z-40">
-                <button onClick={() => addCell(cells.length - 1, 'code')} className="flex items-center gap-2 px-3 py-1.5 hover:bg-white/10 rounded text-gray-300 transition-colors"><span className="text-[#00F5D4] font-bold">+</span> Code</button>
+                <button onClick={() => addCell(cells.length - 1, 'code')} className="flex items-center gap-2 px-3 py-1.5 hover:bg-white/10 rounded text-gray-300 transition-colors"><span className="text-[#2DD4BF] font-bold">+</span> Code</button>
                 <button onClick={() => addCell(cells.length - 1, 'markdown')} className="flex items-center gap-2 px-3 py-1.5 hover:bg-white/10 rounded text-gray-300 transition-colors"><span className="text-gray-400 font-bold">+</span> Texte</button>
                 <div className="h-6 w-px bg-white/10 mx-2" />
                 <button onClick={() => restartKernel()} className="p-2 hover:bg-white/10 rounded text-gray-300 transition-colors">↻ Restart</button>
@@ -686,15 +686,15 @@ json.dumps({
                             setActive={setActiveCellId}
                         />
                         <div className="h-4 -mt-4 mb-2 flex items-center justify-center opacity-0 group-hover/add:opacity-100 transition-opacity z-10 relative pointer-events-none group-hover/add:pointer-events-auto">
-                            <div className="absolute inset-x-0 h-px bg-[#00F5D4]/20" />
+                            <div className="absolute inset-x-0 h-px bg-[#2DD4BF]/20" />
                             <div className="flex gap-2 bg-black px-2 relative z-20">
-                                <button onClick={() => addCell(index, 'code')} className="text-[10px] bg-[#00F5D4]/10 text-[#00F5D4] px-2 py-0.5 rounded border border-[#00F5D4]/20 hover:bg-[#00F5D4]/20">+ Code</button>
+                                <button onClick={() => addCell(index, 'code')} className="text-[10px] bg-[#2DD4BF]/10 text-[#2DD4BF] px-2 py-0.5 rounded border border-[#2DD4BF]/20 hover:bg-[#2DD4BF]/20">+ Code</button>
                                 <button onClick={() => addCell(index, 'markdown')} className="text-[10px] bg-white/10 text-gray-300 px-2 py-0.5 rounded border border-white/10 hover:bg-white/20">+ Texte</button>
                             </div>
                         </div>
                     </div>
                 ))}
-                <div className="h-32 border-2 border-dashed border-white/5 rounded-xl flex items-center justify-center text-gray-600 hover:border-[#00F5D4]/30 hover:text-[#00F5D4]/50 transition-all cursor-pointer" onClick={() => addCell(cells.length - 1, 'code')}>Cliquez pour ajouter</div>
+                <div className="h-32 border-2 border-dashed border-white/5 rounded-xl flex items-center justify-center text-gray-600 hover:border-[#2DD4BF]/30 hover:text-[#2DD4BF]/50 transition-all cursor-pointer" onClick={() => addCell(cells.length - 1, 'code')}>Cliquez pour ajouter</div>
             </div>
         </main>
     );
