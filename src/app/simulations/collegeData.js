@@ -1,11 +1,145 @@
 // Données détaillées des simulations du collège avec analogies sénégalaises
 // Complètes pour 6ème, 5ème, 4ème et 3ème (BFEM)
+// Updated with new SVT 6 Simulatons (CamelCase keys matched)
 
 import { pc3eSimulationsData } from './pc3eSimulations';
 import { pc4eSimulationsData } from './pc4eSimulations';
 
 const baseCollegeSimulations = {
     // ========== 6ÈME ==========
+    'EnvironmentExplorer': {
+        title: "Explorateur d'Environnement",
+        description: "Distinguez le vivant du non-vivant dans un environnement 3D",
+        type: "EnvironmentExplorer",
+        analogy: {
+            title: "Le Vivant et le Non-Vivant",
+            content: "Imaginez un marché : les vendeurs (vivants) bougent, mangent et grandissent. Les étals en bois (non-vivants) restent immobiles et ne changent pas. Dans la nature, c'est pareil !"
+        },
+        theory: "L'environnement est composé d'élèments vivants (végétaux, animaux) qui naissent, grandissent, se nourrissent et meurent, et d'éléments non-vivants (roches, eau, air, constructions humaines).",
+        exercises: []
+    },
+    'VertebrateClassification': {
+        title: "Classification des Vertébrés",
+        description: "Classez les animaux selon leurs caractéristiques",
+        type: "VertebrateClassification",
+        analogy: {
+            title: "Les 5 Familles",
+            content: "Comme dans une grande concession familiale où chaque chambre a ses règles, les vertébrés sont classés en 5 groupes selon leur peau et leur mode de vie."
+        },
+        theory: "Les vertébrés sont classés en 5 groupes : Mammifères (poils), Oiseaux (plumes), Reptiles (écailles soudées), Amphibiens (peau nue), Poissons (écailles non soudées).",
+        exercises: []
+    },
+    'FoodChain': {
+        title: "Chaîne Alimentaire",
+        description: "Comprenez qui mange qui dans la nature",
+        type: "FoodChain",
+        analogy: {
+            title: "Le Repas de Famille",
+            content: "La chaîne alimentaire, c'est comme la préparation du Thieboudienne : le riz (producteur) nourrit la famille, et les restes nourrissent les animaux."
+        },
+        theory: "Une chaîne alimentaire commence toujours par un végétal (producteur). Les animaux qui mangent les plantes sont les consommateurs primaires, et ceux qui mangent d'autres animaux sont les secondaires.",
+        exercises: []
+    },
+    'Photosynthesis': {
+        title: "La Photosynthèse",
+        description: "Découvrez comment les plantes fabriquent leur nourriture",
+        type: "Photosynthesis",
+        analogy: {
+            title: "La Cuisine Solaire",
+            content: "La feuille est comme une marmite solaire. Elle utilise la lumière du soleil comme feu, l'eau et le CO2 comme ingrédients pour préparer le repas (glucose) de la plante."
+        },
+        theory: "La photosynthèse est le processus par lequel les plantes vertes utilisent la lumière du soleil pour transformer l'eau et le dioxyde de carbone en nourriture (sucres) et en oxygène.",
+        exercises: []
+    },
+    'AgricultureLab': {
+        title: "Laboratoire d'Agriculture",
+        description: "Expérimentez avec l'eau et l'engrais",
+        type: "AgricultureLab",
+        analogy: {
+            title: "Le Jardin de Grand-Mère",
+            content: "Pour avoir de belles tomates, grand-mère sait qu'il faut arroser juste ce qu'il faut. Trop d'eau noie la plante, pas assez la tue. L'engrais est comme les vitamines pour la plante."
+        },
+        theory: "Pour bien grandir, les plantes cultivées ont besoin d'eau en quantité suffisante et de sels minéraux (engrais). L'homme peut améliorer la production en contrôlant ces apports.",
+        exercises: []
+    },
+    'AnimalLocomotion': {
+        title: "Modes de Déplacement",
+        description: "Analysez comment les animaux se déplacent",
+        type: "AnimalLocomotion",
+        analogy: {
+            title: "Chacun son Véhicule",
+            content: "Comme on prend la pirogue pour l'eau, le car rapide pour la route et l'avion pour le ciel, chaque animal a des organes adaptés à son milieu de déplacement (nageoires, pattes, ailes)."
+        },
+        theory: "Le mode de déplacement d'un animal est adapté à son milieu de vie. Les nageoires pour l'eau, les ailes pour l'air, les pattes pour la terre.",
+        exercises: []
+    },
+    'CellDiscovery': {
+        title: "La Cellule",
+        description: "Explorez l'unité de base de la vie",
+        type: "CellDiscovery",
+        analogy: {
+            title: "La Brique de la Maison",
+            content: "Si le corps humain était une maison en briques, chaque brique serait une cellule. Mais ce sont des briques vivantes qui travaillent !"
+        },
+        theory: "Tous les êtres vivants sont constitués de cellules. Une cellule comprend une membrane, un cytoplasme et un noyau.",
+        exercises: []
+    },
+    'PlantGrowth': {
+        title: "Croissance Végétale",
+        description: "De la graine à la plante adulte",
+        type: "PlantGrowth",
+        analogy: {
+            title: "L'Enfant et l'Adulte",
+            content: "Une graine est comme un bébé endormi avec son biberon (cotylédons). Avec de l'eau, il se réveille et devient grand."
+        },
+        theory: "La graine germe pour donner une plantule qui grandit pour devenir une plante adulte capable de fleurir et de produire de nouvelles graines.",
+        exercises: []
+    },
+    'MalariaCycle': {
+        title: "Cycle du Paludisme",
+        description: "Comprenez la transmission et la protection",
+        type: "MalariaCycle",
+        analogy: {
+            title: "Le Moustique Facteur",
+            content: "Le moustique est comme un facteur qui livre un courrier dangereux (le parasite) d'une personne malade à une personne saine. La moustiquaire est la barrière qui empêche le facteur d'entrer."
+        },
+        theory: "Le paludisme est transmis par la piqûre d'un moustique femelle (l'Anophèle). Le parasite se multiplie dans le foie puis attaque les globules rouges. La moustiquaire imprégnée est le meilleur moyen de protection.",
+        exercises: []
+    },
+    'AscarisPrevention': {
+        title: "Prévention Ascaridiase",
+        description: "L'importance de l'hygiène",
+        type: "AscarisPrevention",
+        analogy: {
+            title: "Les Mains Sales",
+            content: "Manger avec des mains sales, c'est comme inviter des voleurs (les vers) dans sa maison (son ventre). Se laver les mains ferme la porte à clé."
+        },
+        theory: "L'ascaridiase est une maladie causée par un ver parasite. On l'attrape en avalant des œufs présents sur des mains sales ou des aliments mal lavés (maladie du péril fécal).",
+        exercises: []
+    },
+    'CholeraFilter': {
+        title: "Filtration et Choléra",
+        description: "Rendre l'eau potable",
+        type: "CholeraFilter",
+        analogy: {
+            title: "L'Eau Propre",
+            content: "L'eau sale peut cacher des ennemis invisibles. La filtrer et la javelliser, c'est comme trier le bon grain de l'ivraie et nettoyer le riz avant de le cuire."
+        },
+        theory: "Le choléra est une maladie grave transmise par l'eau souillée. Pour l'éviter, il faut boire de l'eau potable (javellisée ou bouillie) et se laver les mains.",
+        exercises: []
+    },
+    'LandscapeBuilder': {
+        title: "Lecture de Paysage",
+        description: "Identifiez les composantes d'un paysage",
+        type: "LandscapeBuilder",
+        analogy: {
+            title: "Le Visage de la Terre",
+            content: "Un paysage est comme un visage : il a une forme (relief), des cheveux (végétation), des larmes (eau) et des décorations (constructions humaines)."
+        },
+        theory: "Un paysage est constitué d'éléments naturels (relief, végétation, eau) et d'éléments artificiels créés par l'homme (constructions, routes, champs).",
+        exercises: []
+    },
+    // ========== 6ÈME (Legacy IDs) ==========
     'cell-structure': {
         title: 'Structure de la Cellule',
         description: 'Découvrez l\'intérieur d\'une cellule vivante en 3D',
