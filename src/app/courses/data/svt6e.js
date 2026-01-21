@@ -12,7 +12,7 @@ export const svt6eData = {
             simulation: { id: 'EnvironmentExplorer', title: "Explorateur d'Environnement" },
             part: 'Partie 1 : Sciences de la Vie',
             title: '1. Les composantes de l’environnement',
-            image: '/courses/images/svt6e/svt_environment.png',
+            image: '/images/courses/svt6/svt6_ch1_environment.png',
             story: "Imaginez que vous êtes un explorateur qui débarque sur une planète inconnue. Vous observez tout ce qui vous entoure. Il y a des choses qui bougent et respirent (les vivants) et des choses immobiles comme les rochers ou l'eau (les non-vivants). C'est cela, un environnement : un grand puzzle où tout cohabite.",
             content: `
 ### 1. Qu'est-ce que l'environnement ?
@@ -52,6 +52,7 @@ C'est tout ce qui nous entoure. On peut diviser l'environnement en deux grandes 
             simulation: { id: 'VertebrateClassification', title: "Classification des Vertébrés" },
             part: 'Partie 1 : Sciences de la Vie',
             title: '2. Classification et répartition des êtres vivants',
+            image: '/images/courses/svt6/svt6_ch2_vertebrates.png',
             story: "Dans une immense bibliothèque, les livres sont rangés par genre : Romans, BD, Dictionnaires. Les scientifiques font la même chose avec les êtres vivants. Ils regardent leurs points communs pour les ranger dans des 'boîtes' imaginaires qu'on appelle la classification.",
             content: `
 ### 1. Pourquoi classer ?

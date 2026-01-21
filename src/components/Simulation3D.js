@@ -70,6 +70,7 @@ import { ChampMagnetiqueTS, LorentzTS, LaplaceTS, InductionRLTS, DipoleRCTS } fr
 import { OscillationsLCTS, OscillationsMecaTS, InterferencesTS } from './PhysiqueTSAdvanced3';
 import { PhotoelectriqueTS, NiveauxEnergieTS, NucleaireTS } from './PhysiqueTSAdvanced4';
 import { CellDiscovery, PlantGrowth, FoodChain, VertebrateClassification, Photosynthesis, EnvironmentExplorer, AgricultureLab, AnimalLocomotion, MalariaCycle, AscarisPrevention, CholeraFilter, LandscapeBuilder } from './SVT6Simulations';
+import { LivingEnvironment, PollutionExplorer, AnimalDiets, HumanNutrition, AnimalRespiration, AnimalReproduction, FlowerReproduction, SporeReproduction, SoilScience, SedimentaryRocks } from './SVT5Simulations';
 
 
 
@@ -4547,6 +4548,58 @@ export default function Simulation3D({ type = 'atom', config = {} }) {
                 return <AcidesFaiblesKa />;
             case 'cts-tampon':
                 return <SolutionsTampons />;
+
+            // === SVT 6ÈME - SIMULATIONS ===
+            case 'svt-6e-01':
+                return <EnvironmentExplorer />;
+            case 'svt-6e-02':
+                return <VertebrateClassification />;
+            case 'svt-6e-03':
+                return <FoodChain />;
+            case 'svt-6e-04':
+                return <Photosynthesis />;
+            case 'svt-6e-05':
+                return <AgricultureLab />;
+            case 'svt-6e-06':
+                return <AnimalLocomotion />;
+            case 'svt-6e-07':
+                return <CellDiscovery />;
+            case 'svt-6e-08':
+                return <PlantGrowth />;
+            case 'svt-6e-09':
+                return <MalariaCycle />;
+            case 'svt-6e-10':
+                return <AscarisPrevention />;
+            case 'svt-6e-11':
+                return <CholeraFilter />;
+            case 'svt-6e-12':
+                return <LandscapeBuilder />;
+
+            // === SVT 5ÈME - SIMULATIONS ===
+            case 'svt-5e-01':
+                return <LivingEnvironment />;
+            case 'svt-5e-02':
+                return <PollutionExplorer />;
+            case 'svt-5e-03':
+                return <AnimalDiets />;
+            case 'svt-5e-04':
+                return <HumanNutrition />;
+            case 'svt-5e-05':
+                return <AnimalRespiration />;
+            case 'svt-5e-06':
+                return <AnimalReproduction />;
+            case 'svt-5e-07':
+                return <FlowerReproduction />;
+            case 'svt-5e-08':
+                return <SporeReproduction />;
+            case 'svt-5e-09':
+                return <SoilScience />;
+            case 'svt-5e-10':
+                return <SoilScience />;
+            case 'svt-5e-11':
+                return <SedimentaryRocks />;
+            case 'svt-5e-12':
+                return <SedimentaryRocks />;
 
             default:
                 return <Atom {...config} />;
