@@ -9,6 +9,7 @@ export const svt6eData = {
         // THEME 1 : ENVIRONNEMENT
         {
             id: 'bio-t1-l1',
+            simulation: { id: 'EnvironmentExplorer', title: "Explorateur d'Environnement" },
             part: 'Partie 1 : Sciences de la Vie',
             title: '1. Les composantes de l’environnement',
             image: '/courses/images/svt6e/svt_environment.png',
@@ -48,6 +49,7 @@ C'est tout ce qui nous entoure. On peut diviser l'environnement en deux grandes 
         },
         {
             id: 'bio-t1-l2',
+            simulation: { id: 'VertebrateClassification', title: "Classification des Vertébrés" },
             part: 'Partie 1 : Sciences de la Vie',
             title: '2. Classification et répartition des êtres vivants',
             story: "Dans une immense bibliothèque, les livres sont rangés par genre : Romans, BD, Dictionnaires. Les scientifiques font la même chose avec les êtres vivants. Ils regardent leurs points communs pour les ranger dans des 'boîtes' imaginaires qu'on appelle la classification.",
@@ -81,6 +83,7 @@ Il existe des millions d'espèces. Pour s'y retrouver, on les regroupe selon ce 
         },
         {
             id: 'bio-t1-l3',
+            simulation: { id: 'FoodChain', title: "Chaîne Alimentaire" },
             part: 'Partie 1 : Sciences de la Vie',
             title: '3. Les relations dans l’environnement',
             story: "Dans la nature, personne ne vit tout seul. C'est comme un grand réseau social ! Certains sont amis et s'entraident, d'autres sont rivaux. Le plus souvent, c'est une histoire de 'manger ou être mangé'.",
@@ -115,6 +118,7 @@ C'est une suite d'êtres vivants où chacun mange celui qui le précède.
         // THEME 2 : PRODUCTION D'ALIMENTS
         {
             id: 'bio-t2-l4',
+            simulation: { id: 'Photosynthesis', title: "La Photosynthèse" },
             part: 'Partie 1 : Sciences de la Vie',
             title: '4. La production d’aliments par les végétaux chlorophylliens',
             image: '/courses/images/svt6e/svt_photosynthesis.png',
@@ -151,6 +155,7 @@ Le résultat : La plante grandit et rejette de l'Oxygène (O2) que nous respiron
         },
         {
             id: 'bio-t2-l5',
+            simulation: { id: 'AgricultureLab', title: "Laboratoire d'Agriculture" },
             part: 'Partie 1 : Sciences de la Vie',
             title: '5. Amélioration de la production d’aliments',
             story: "L'agriculture, c'est l'art d'aider la nature à faire mieux. Comme un coach sportif aide un athlète à courir plus vite, l'agriculteur aide la plante ou l'animal à grandir plus gros et en meilleure santé.",
@@ -184,6 +189,7 @@ Le résultat : La plante grandit et rejette de l'Oxygène (O2) que nous respiron
         // THEME 3 : DEPLACEMENT
         {
             id: 'bio-t3-l6',
+            simulation: { id: 'AnimalLocomotion', title: "Modes de Déplacement" },
             part: 'Partie 1 : Sciences de la Vie',
             title: '6. Déplacement chez les animaux',
             story: "Imaginez porter une combinaison de plongée pour aller courir un marathon, ou des skis pour nager ! Impossible, n'est-ce pas ? Chaque animal possède le 'véhicule' adapté à son terrain : des pattes pour la terre, des ailes pour l'air, des nageoires pour l'eau.",
@@ -232,6 +238,7 @@ L'adaptation reine est la forme **hydrodynamique** (en forme de fusée ou de tor
         // THEME 4 : REPRODUCTION
         {
             id: 'bio-t4-l7',
+            simulation: { id: 'CellDiscovery', title: "Microscope Virtuel" },
             part: 'Partie 1 : Sciences de la Vie',
             title: '7. La cellule et la division cellulaire',
             story: "Une maison est faite de briques. Un être vivant, c'est pareil, mais les briques sont vivantes ! On les appelle des cellules. Une cellule, c'est comme une mini-usine autonome avec un chef (le noyau), une muraille (la membrane) et de la gelée magique (le cytoplasme).",
@@ -266,6 +273,7 @@ Pour grandir, on ne gonfle pas comme un ballon. On multiplie nos briques ! Une c
         },
         {
             id: 'bio-t4-l8',
+            simulation: { id: 'PlantGrowth', title: "Croissance Végétale" },
             part: 'Partie 1 : Sciences de la Vie',
             title: '8. Comment obtenir une nouvelle plante ?',
             story: "Pour faire une nouvelle plante, la nature a deux méthodes. Soit la méthode 'Amour' (les fleurs, le pollen, les graines), soit la méthode 'Clonage' (une bouture, un morceau de tige qui repousse).",
@@ -302,6 +310,7 @@ On prend un morceau de la plante mère, on le met en terre, et hop ! Ça repouss
         // THEME 5 : AGRESSIONS
         {
             id: 'bio-t5-l9',
+            simulation: { id: 'MalariaCycle', title: "Cycle du Paludisme" },
             part: 'Partie 1 : Sciences de la Vie',
             title: '9. Le Paludisme',
             story: "C'est l'histoire d'un petit vampire très dangereux : le moustique Anophèle femelle. Elle transporte un passager clandestin microscopique (le parasite Plasmodium) et l'injecte dans notre sang quand elle nous pique.",
@@ -337,6 +346,7 @@ Fièvre forte, frissons, maux de tête, vomissements, fatigue extrême.
         },
         {
             id: 'bio-t5-l10',
+            simulation: { id: 'AscarisPrevention', title: "Prévention Ascaridiase" },
             part: 'Partie 1 : Sciences de la Vie',
             title: '10. L’Ascaridiase',
             story: "L'Ascaris est un ver qui se croit dans un parc d'attraction à l'intérieur de notre ventre. Il entre quand on mange des mains ou des fruits sales, il voyage dans le corps et s'installe dans l'intestin pour voler notre nourriture.",
@@ -370,6 +380,7 @@ Mal au ventre, toux, fatigue, vers dans les selles.
         },
         {
             id: 'bio-t5-l11',
+            simulation: { id: 'CholeraFilter', title: "Filtration Choléra" },
             part: 'Partie 1 : Sciences de la Vie',
             title: '11. Le Choléra',
             story: "Le choléra est une maladie 'éclair'. Elle arrive vite et frappe fort. C'est une bactérie (Vibrion) qui vit dans l'eau sale et qui vide le corps de toute son eau par des diarrhées terribles.",
@@ -406,6 +417,7 @@ Diarrhées très liquides (eau de riz), vomissements, déshydratation rapide. C'
         // ==========================================
         {
             id: 'geo-t6-l12',
+            simulation: { id: 'LandscapeBuilder', title: "Constructeur de Paysage" },
             part: 'Partie 2 : Sciences de la Terre',
             title: '12. Les Paysages',
             story: "Regardez par la fenêtre. Ce que vous voyez, c'est un paysage. C'est le visage de la Terre. Il a été sculpté par le vent, l'eau, le soleil, mais aussi maquillé et coiffé par les hommes qui y ont construit des villes et des champs.",

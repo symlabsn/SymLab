@@ -69,7 +69,7 @@ import { AlcoolsOxydation, AminesProprietes, Esterification, AcidesAminesChirali
 import { ChampMagnetiqueTS, LorentzTS, LaplaceTS, InductionRLTS, DipoleRCTS } from './PhysiqueTSAdvanced2';
 import { OscillationsLCTS, OscillationsMecaTS, InterferencesTS } from './PhysiqueTSAdvanced3';
 import { PhotoelectriqueTS, NiveauxEnergieTS, NucleaireTS } from './PhysiqueTSAdvanced4';
-import { CellDiscovery, PlantGrowth, FoodChain, VertebrateClassification, Photosynthesis } from './SVT6Simulations';
+import { CellDiscovery, PlantGrowth, FoodChain, VertebrateClassification, Photosynthesis, EnvironmentExplorer, AgricultureLab, AnimalLocomotion, MalariaCycle, AscarisPrevention, CholeraFilter, LandscapeBuilder } from './SVT6Simulations';
 
 
 
@@ -4261,15 +4261,34 @@ export default function Simulation3D({ type = 'atom', config = {} }) {
             // === SVT 6ÃˆME - SIMULATIONS ===
             case 'cell-structure':
             case 'cell':
+            case 'CellDiscovery':
                 return <CellDiscovery />;
             case 'plant-growth':
+            case 'PlantGrowth':
                 return <PlantGrowth />;
             case 'photosynthesis':
+            case 'Photosynthesis':
                 return <Photosynthesis />;
             case 'food-chain':
+            case 'FoodChain':
                 return <FoodChain />;
             case 'vertebrate-classification':
+            case 'VertebrateClassification':
                 return <VertebrateClassification />;
+            case 'EnvironmentExplorer':
+                return <EnvironmentExplorer />;
+            case 'AgricultureLab':
+                return <AgricultureLab />;
+            case 'AnimalLocomotion':
+                return <AnimalLocomotion />;
+            case 'MalariaCycle':
+                return <MalariaCycle />;
+            case 'AscarisPrevention':
+                return <AscarisPrevention />;
+            case 'CholeraFilter':
+                return <CholeraFilter />;
+            case 'LandscapeBuilder':
+                return <LandscapeBuilder />;
 
             // === PC 3ÃˆME - SIMULATIONS PROGRAMME BFEM ===
             case 'chap1-lentilles-3e':
