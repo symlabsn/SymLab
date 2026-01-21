@@ -14,8 +14,8 @@ function Starfield() {
     }, []);
 
     useFrame((state, delta) => {
-        ref.current.rotation.x -= delta / 50;
-        ref.current.rotation.y -= delta / 65;
+        ref.current.rotation.x -= delta / 50 + (state.mouse.y * delta) / 10;
+        ref.current.rotation.y -= delta / 65 + (state.mouse.x * delta) / 10;
     });
 
     return (
@@ -59,20 +59,22 @@ function TechGrid() {
 function FloatingCore() {
     return (
         <Float speed={1.5} rotationIntensity={0.5} floatIntensity={0.5}>
-            <Sphere args={[1.2, 64, 64]} position={[0, 0, -6]}>
-                <MeshDistortMaterial
-                    color="#A78BFA"
-                    speed={2}
-                    distort={0.3}
-                    radius={1}
-                    emissive="#A78BFA"
-                    emissiveIntensity={0.1}
-                    roughness={0.2}
-                    metalness={0.8}
-                    transparent
-                    opacity={0.6}
-                />
-            </Sphere>
+            <ParallaxGroup>
+                <Sphere args={[1.2, 64, 64]} position={[0, 0, -6]}>
+                    <MeshDistortMaterial
+                        color="#A78BFA"
+                        speed={2}
+                        distort={0.4}
+                        radius={1}
+                        emissive="#A78BFA"
+                        emissiveIntensity={0.2}
+                        roughness={0.1}
+                        metalness={0.9}
+                        transparent
+                        opacity={0.8}
+                    />
+                </Sphere>
+            </ParallaxGroup>
         </Float>
     );
 }
@@ -90,14 +92,25 @@ function MouseFollower() {
     return <pointLight ref={light} distance={8} intensity={1} color="#4FD1C5" transparent opacity={0.5} />;
 }
 
+function ParallaxGroup({ children }) {
+    const group = useRef();
+    useFrame((state) => {
+        if (group.current) {
+            group.current.position.x = THREE.MathUtils.lerp(group.current.position.x, state.mouse.x * 2, 0.1);
+            group.current.position.y = THREE.MathUtils.lerp(group.current.position.y, state.mouse.y * 2, 0.1);
+        }
+    });
+    return <group ref={group}>{children}</group>;
+}
+
 export default function ThreeBackground() {
     return (
         <div className="fixed inset-0 -z-10 pointer-events-none bg-[#050505]">
             <Canvas camera={{ position: [0, 0, 5], fov: 75 }} dpr={[1, 2]}>
                 <color attach="background" args={['#050505']} />
-                <fog attach="fog" args={['#050505', 5, 15]} />
-                <ambientLight intensity={0.1} />
-                <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} intensity={0.5} color="#A78BFA" />
+                <fog attach="fog" args={['#050505', 5, 20]} />
+                <ambientLight intensity={0.5} />
+                <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} intensity={2} color="#A78BFA" />
 
                 <Starfield />
                 <TechGrid />

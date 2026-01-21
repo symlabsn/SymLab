@@ -5,7 +5,7 @@ import Link from 'next/link';
 export default function ModuleBlock({ href, title, description, accentColor, icon, tag, className = '' }) {
   return (
     <div
-      className={`sci-card group relative block w-full max-w-lg mx-auto p-5 sm:p-8 transition-all duration-700 hover:shadow-[0_0_60px_var(--glow-color)] border border-white/5 hover:border-white/20 overflow-hidden ${className}`}
+      className={`sci-card group relative block w-full max-w-lg mx-auto p-5 sm:p-8 transition-colors transition-shadow duration-500 hover:shadow-[0_0_60px_var(--glow-color)] border border-white/5 hover:border-white/20 overflow-hidden ${className}`}
       style={{
         '--accent-color': accentColor,
         '--glow-color': `${accentColor}15`
