@@ -4291,6 +4291,28 @@ export default function Simulation3D({ type = 'atom', config = {} }) {
             case 'LandscapeBuilder':
                 return <LandscapeBuilder />;
 
+            // === SVT 5ÈME - SIMULATIONS (Noms de composants) ===
+            case 'LivingEnvironment':
+                return <LivingEnvironment />;
+            case 'PollutionExplorer':
+                return <PollutionExplorer />;
+            case 'AnimalDiets':
+                return <AnimalDiets />;
+            case 'HumanNutrition':
+                return <HumanNutrition />;
+            case 'AnimalRespiration':
+                return <AnimalRespiration />;
+            case 'AnimalReproduction':
+                return <AnimalReproduction />;
+            case 'FlowerReproduction':
+                return <FlowerReproduction />;
+            case 'SporeReproduction':
+                return <SporeReproduction />;
+            case 'SoilScience':
+                return <SoilScience />;
+            case 'SedimentaryRocks':
+                return <SedimentaryRocks />;
+
             // === PC 3ÃˆME - SIMULATIONS PROGRAMME BFEM ===
             case 'chap1-lentilles-3e':
                 return <Chap1LentillesMCE />;

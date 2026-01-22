@@ -12,7 +12,7 @@ export const svt5eData = {
             part: 'Partie 1 : Sciences de la Vie',
             title: '1. Le cadre de vie',
             image: '/images/courses/svt5/svt5_ch1_living_environment.png',
-            simulation: { id: 'svt-5e-01', title: 'Explorer le Cadre de Vie' },
+            simulation: { id: 'LivingEnvironment', title: 'Explorer le Cadre de Vie' },
             story: "Imaginez votre quartier comme un immense aquarium. Il y a les habitants (les poissons), les maisons (les châteaux), l'air (l'eau). Tout ce petit monde interagit. Si l'eau devient sale, les poissons tombent malades. Votre cadre de vie fonctionne exactement pareil.",
             content: `
 ### 1. Qu'est-ce que le cadre de vie ?
@@ -46,7 +46,7 @@ C'est l'ensemble des éléments qui nous entourent au quotidien : notre maison, 
             part: 'Partie 1 : Sciences de la Vie',
             title: '2. Les pollutions et leurs conséquences',
             image: '/images/courses/svt5/svt5_ch2_pollution.png',
-            simulation: { id: 'svt-5e-02', title: 'Explorateur de Pollution' },
+            simulation: { id: 'PollutionExplorer', title: 'Explorateur de Pollution' },
             story: "C'est l'histoire d'une planète qui tousse. Imaginez que chaque papier jeté par terre est comme un petit virus pour la Terre. Au début, ce n'est rien. Mais quand des milliards de personnes le font, la Terre attrape une fièvre (réchauffement climatique).",
             content: `
 ### 1. Les types de pollution
@@ -79,7 +79,7 @@ Maladies respiratoires (asthme), disparition des animaux, réchauffement de la p
             part: 'Partie 1 : Sciences de la Vie',
             title: '3. Alimentation : Adaptation aux régimes',
             image: '/images/courses/svt5/svt5_ch3_animal_diets.png',
-            simulation: { id: 'svt-5e-03', title: 'Régimes Alimentaires des Animaux' },
+            simulation: { id: 'AnimalDiets', title: 'Régimes Alimentaires des Animaux' },
             story: "Pourquoi le lion a-t-il de grandes dents pointues et la vache des dents plates ? C'est comme comparer un couteau à steak et une meule à grains. L'outil (la dent) est adapté au travail (la nourriture).",
             content: `
 ### 1. Les différents régimes
@@ -116,7 +116,7 @@ Maladies respiratoires (asthme), disparition des animaux, réchauffement de la p
             part: 'Partie 1 : Sciences de la Vie',
             title: "4. Besoins de l'organisme humain",
             image: '/images/courses/svt5/svt5_ch4_nutrition.png',
-            simulation: { id: 'svt-5e-04', title: 'Nutrition Humaine Interactive' },
+            simulation: { id: 'HumanNutrition', title: 'Nutrition Humaine Interactive' },
             story: "Votre corps est comme une voiture de course. Elle a besoin de carburant (glucides), de pièces de rechange (protéines) et d'huiles pour le moteur (vitamines). Si vous mettez du soda à la place de l'essence, elle va tomber en panne !",
             content: `
 ### 1. Les groupes d'aliments
@@ -148,7 +148,7 @@ Maladies respiratoires (asthme), disparition des animaux, réchauffement de la p
             part: 'Partie 1 : Sciences de la Vie',
             title: '5. La respiration chez les animaux',
             image: '/images/courses/svt5/svt5_ch5_respiration.png',
-            simulation: { id: 'svt-5e-05', title: 'Respiration Animale' },
+            simulation: { id: 'AnimalRespiration', title: 'Respiration Animale' },
             story: "Comment respirer sous l'eau ? Impossible pour nous ! Mais le poisson, lui, a des 'filtres' magiques appelés branchies. Chaque animal a inventé sa technique pour attraper l'oxygène, que ce soit dans l'air ou dans l'eau.",
             content: `
 ### 1. Respiration Aérienne
@@ -184,7 +184,7 @@ Maladies respiratoires (asthme), disparition des animaux, réchauffement de la p
             part: 'Partie 1 : Sciences de la Vie',
             title: '6. Reproduction animale',
             image: '/images/courses/svt5/svt5_ch6_reproduction_animale.png',
-            simulation: { id: 'svt-5e-06', title: 'Reproduction Animale' },
+            simulation: { id: 'AnimalReproduction', title: 'Reproduction Animale' },
             story: "L'éternelle question : qui de la poule ou de l'œuf ? La reproduction, c'est la mission secrète de chaque animal pour ne pas disparaître. Certains pondent des œufs (comme des capsules spatiales), d'autres gardent les bébés au chaud dans le ventre.",
             content: `
 ### 1. Ovipares vs Vivipares
@@ -214,7 +214,7 @@ C'est la rencontre entre un spermatozoïde (mâle) et un ovule (femelle) pour fa
             part: 'Partie 1 : Sciences de la Vie',
             title: '7. Reproduction plantes à fleurs',
             image: '/images/courses/svt5/svt5_ch7_flower_reproduction.png',
-            simulation: { id: 'svt-5e-07', title: 'Reproduction des Plantes à Fleurs' },
+            simulation: { id: 'FlowerReproduction', title: 'Reproduction des Plantes à Fleurs' },
             story: "Les fleurs ne sont pas juste jolies pour faire plaisir. Ce sont des panneaux publicitaires pour attirer les abeilles ! Les abeilles sont les 'facteurs' qui transportent le pollen (le message d'amour) d'une fleur à l'autre.",
             content: `
 ### 1. Les organes de la fleur
@@ -248,7 +248,7 @@ Une fois que le pollen arrive sur le pistil (pollinisation), la fleur fane, les 
             part: 'Partie 1 : Sciences de la Vie',
             title: '8. Reproduction plantes sans fleurs',
             image: '/images/courses/svt5/svt5_ch8_spore_plants.png',
-            simulation: { id: 'svt-5e-08', title: 'Reproduction par Spores' },
+            simulation: { id: 'SporeReproduction', title: 'Reproduction par Spores' },
             story: "Comment font les fougères ou les mousses ? Elles n'ont pas de fleurs ! Elles utilisent une technique de ninja : les spores. Ce sont des poussières invisibles qui s'envolent au vent pour coloniser de nouveaux territoires.",
             content: `
 ### 1. Les Spores
@@ -283,7 +283,7 @@ La spore tombe au sol humide $ \\rightarrow $ elle germe et donne une petite pla
             part: 'Partie 2 : Sciences de la Terre',
             title: '9. Les sols : diversité et importance',
             image: '/images/courses/svt5/svt5_ch9_soils.png',
-            simulation: { id: 'svt-5e-09', title: 'Science des Sols' },
+            simulation: { id: 'SoilScience', title: 'Science des Sols' },
             story: "Le sol n'est pas juste de la 'terre sale'. C'est la peau vivante de la Terre. Dans une poignée de terre, il y a plus d'êtres vivants que d'humains sur la planète ! C'est ce qui nous permet de manger.",
             content: `
 ### 1. Composition du sol
@@ -314,7 +314,7 @@ Sols sableux (légers mais gardent mal l'eau), sols argileux (lourds), sols humi
             part: 'Partie 2 : Sciences de la Terre',
             title: '10. Genèse et évolution des sols',
             image: '/images/courses/svt5/svt5_ch10_soil_evolution.png',
-            simulation: { id: 'svt-5e-10', title: 'Formation des Sols' },
+            simulation: { id: 'SoilScience', title: 'Formation des Sols' },
             story: "Fabriquer 1 cm de sol prend des siècles ! C'est une lente collaboration entre la pluie qui casse la roche et les plantes qui meurent pour faire du terreau. Le sol est une ressource très lente à renouveler.",
             content: `
 ### 1. Les étapes de formation
@@ -351,7 +351,7 @@ Si on coupe les arbres (déforestation), la pluie emporte le sol. C'est l'érosi
             part: 'Partie 2 : Sciences de la Terre',
             title: '11. Origine des roches sédimentaires',
             image: '/images/courses/svt5/svt5_ch11_sedimentary_rocks.png',
-            simulation: { id: 'svt-5e-11', title: 'Roches Sédimentaires' },
+            simulation: { id: 'SedimentaryRocks', title: 'Roches Sédimentaires' },
             story: "Avez-vous déjà vu des couches de terre de différentes couleurs sur le bord d'une route ? Ce sont les pages du livre d'histoire de la Terre. Chaque couche (sédiment) s'est déposée il y a des millions d'années, souvent au fond de l'eau.",
             content: `
 ### 1. La Sédimentation
@@ -380,7 +380,7 @@ Avec le temps et le poids des couches au-dessus, le sable mou se transforme en p
             part: 'Partie 2 : Sciences de la Terre',
             title: '12. Gestion des roches sédimentaires',
             image: '/images/courses/svt5/svt5_ch12_rock_management.png',
-            simulation: { id: 'svt-5e-12', title: 'Gestion des Ressources Géologiques' },
+            simulation: { id: 'SedimentaryRocks', title: 'Gestion des Ressources Géologiques' },
             story: "Regardez autour de vous. Les murs de l'école (ciment), les vitres (sable), le plâtre (gypse)... Notre monde moderne est construit avec des roches sédimentaires. Ce sont des trésors géologiques.",
             content: `
 ### 1. Utilité
