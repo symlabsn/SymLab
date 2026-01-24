@@ -1,7 +1,7 @@
 export const module3Content = {
-    f_strings: {
-        title: "Affichage avec les f-strings",
-        theorie: `
+        f_strings: {
+                title: "Affichage avec les f-strings",
+                theorie: `
 ## Maîtriser les f-strings
 
 Introduites dans Python 3.6, les **f-strings** (formatted string literals) sont la méthode la plus lisible et rapide pour formater du texte.
@@ -28,7 +28,7 @@ f"Pi = {pi:10.2f}"    # "Pi =       3.14"
 f"{'Titre':^20}"      # "       Titre        "
 \`\`\`
         `,
-        code: `import math
+                code: `import math
 
 nom = "Pythagore"
 annee = -570
@@ -56,12 +56,12 @@ a, b = 5, 10
 print(f"{a} + {b} = {a + b}")
 print(f"{a} * {b} = {a * b}")
 print(f"Est-ce que {a} > {b} ? {a > b}")`,
-        exercice: `Créez un tableau affichant les racines carrées des nombres de 1 à 10, aligné proprement avec 3 décimales.`
-    },
+                exercice: `Créez un tableau affichant les racines carrées des nombres de 1 à 10, aligné proprement avec 3 décimales.`
+        },
 
-    exponents_law: {
-        title: "Exemple : Loi des exposants avec Sympy",
-        theorie: `
+        exponents_law: {
+                title: "Exemple : Loi des exposants avec Sympy",
+                theorie: `
 ## Vérifier les lois des exposants
 
 SymPy est excellent pour vérifier des identités mathématiques.
@@ -78,7 +78,7 @@ SymPy ne simplifie pas toujours automatiquement les puissances. Il faut parfois 
 x = symbols('x', real=True, positive=True)
 \`\`\`
         `,
-        code: `import sympy as sp
+                code: `import sympy as sp
 from sympy import symbols, simplify, powsimp, expand_power_exp
 
 # Définition des symboles avec hypothèses
@@ -108,12 +108,12 @@ res3_dist = sp.expand_power_base(expr3)
 print(f"(xy)^a = {expr3}")
 print(f"Distribué : {res3_dist}")
 print(f"Vérification : {simplify(res3_dist / (x**a * y**a)) == 1}")`,
-        exercice: `Vérifiez la loi $\\frac{x^a}{x^b} = x^{a-b}$ avec SymPy.`
-    },
+                exercice: `Vérifiez la loi $\\frac{x^a}{x^b} = x^{a-b}$ avec SymPy.`
+        },
 
-    sympy_latex_bug: {
-        title: "Chasse aux bugs Sympy/LaTeX !",
-        theorie: `
+        sympy_latex_bug: {
+                title: "Chasse aux bugs Sympy/LaTeX !",
+                theorie: `
 ## Erreurs courantes avec LaTeX et SymPy
 
 1. **Oubli de raw strings** : En Python, \`"\\alpha"\` peut être interprété comme une séquence d'échappement. Utilisez toujours \`r"\\alpha"\`.
@@ -123,7 +123,7 @@ print(f"Vérification : {simplify(res3_dist / (x**a * y**a)) == 1}")`,
 ### Débogage
 Si LaTeX ne s'affiche pas correctement, vérifiez le code LaTeX généré avec \`print(sp.latex(expr))\`.
         `,
-        code: `import sympy as sp
+                code: `import sympy as sp
 
 # Bug 1 : Chaînes brutes (raw strings)
 print("=== Chaînes brutes (r-strings) ===")
@@ -154,12 +154,12 @@ expr_float = 1/2 * x
 expr_rational = sp.Rational(1, 2) * x
 print(f"Float : {expr_float} -> LaTeX: {sp.latex(expr_float)}")
 print(f"Rationnel : {expr_rational} -> LaTeX: {sp.latex(expr_rational)}")`,
-        exercice: `Définissez une fonction $g(x, y) = \sqrt{x^2 + y^2}$ et affichez sa formule LaTeX correctement.`
-    },
+                exercice: `Définissez une fonction $g(x, y) = \sqrt{x^2 + y^2}$ et affichez sa formule LaTeX correctement.`
+        },
 
-    latex_beauty: {
-        title: "LaTeX pour de belles équations",
-        theorie: `
+        latex_beauty: {
+                title: "LaTeX pour de belles équations",
+                theorie: `
 ## LaTeX Avancé
 
 Pour faire des rapports scientifiques professionnels, LaTeX est incontournable.
@@ -173,7 +173,7 @@ Pour faire des rapports scientifiques professionnels, LaTeX est incontournable.
 ### SymPy vers LaTeX
 SymPy génère généralement un bon LaTeX, mais pour des structures complexes (systèmes, matrices), on peut avoir besoin d'ajuster ou d'utiliser des objets spécifiques.
         `,
-        code: `import sympy as sp
+                code: `import sympy as sp
 x = sp.Symbol('x')
 
 print("=== Belles équations LaTeX ===")
@@ -198,12 +198,12 @@ print(f"Schrödinger : {schrodinger}")
 n = sp.Symbol('n')
 serie = sp.Sum(1/n**2, (n, 1, sp.oo))
 print(f"Série de Bâle : {sp.latex(serie)} = {sp.latex(serie.doit())}")`,
-        exercice: `Générez le code LaTeX pour la matrice identité $I_3$.`
-    },
+                exercice: `Générez le code LaTeX pour la matrice identité $I_3$.`
+        },
 
-    sympy_plotting: {
-        title: "Visualiser avec SymPy et Matplotlib",
-        theorie: `
+        sympy_plotting: {
+                title: "Visualiser avec SymPy et Matplotlib",
+                theorie: `
 ## Tracer avec SymPy
 
 Bien que Matplotlib soit plus puissant pour les données numériques, SymPy possède un module \`plot\` pratique pour visualiser rapidement des fonctions symboliques.
@@ -221,7 +221,7 @@ plot(f, g, (x, -5, 5))
 
 Note : Dans un environnement local, cela ouvre une fenêtre. Dans Jupyter, cela s'affiche inline.
         `,
-        code: `import sympy as sp
+                code: `import sympy as sp
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -246,8 +246,8 @@ y_g = g_np(t)
 
 # Tracé avec Matplotlib
 plt.figure(figsize=(10, 6))
-plt.plot(t, y_f, label=f'${sp.latex(f)}$', linewidth=2)
-plt.plot(t, y_g, label=f'${sp.latex(g)}$', linestyle='--', alpha=0.7)
+plt.plot(t, y_f, label=f'$\{sp.latex(f)}$', linewidth=2)
+plt.plot(t, y_g, label=f'$\{sp.latex(g)}$', linestyle='--', alpha=0.7)
 plt.title("Tracé de fonctions SymPy")
 plt.xlabel("x")
 plt.ylabel("y")
@@ -259,6 +259,6 @@ plt.savefig('sympy_plot_demo.png')
 plt.show()
 
 print("Graphique généré !")`,
-        exercice: `Tracez la fonction $f(x) = x^3 - 3x + 1$ sur $[-2, 2]$ et visualisez ses racines.`
-    }
+                exercice: `Tracez la fonction $f(x) = x^3 - 3x + 1$ sur $[-2, 2]$ et visualisez ses racines.`
+        }
 };
