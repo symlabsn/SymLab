@@ -1,8 +1,8 @@
 
 export const module1Content = {
-    what_is_python: {
-        title: "Qu'est-ce que Python ?",
-        theorie: `
+        what_is_python: {
+                title: "Qu'est-ce que Python ?",
+                theorie: `
 ## Python : Un langage puissant et accessible
 
 **Python** est un langage de programmation interprété, de haut niveau et polyvalent. Créé par **Guido van Rossum** et publié en 1991, il est aujourd'hui l'un des langages les plus populaires au monde (TIOBE Index #1).
@@ -30,11 +30,11 @@ export const module1Content = {
 *   **Scripting & Automatisation**.
 *   **Éducation** et Recherche.
         `,
-        code: `# Exemple simple de la puissance de Python
+                code: `# Exemple simple de la puissance de Python
 
 # 1. Lisibilité : Pas de points-virgules, pas d'accolades excessives
 def saluer(nom):
-    return f"Bonjour, {nom} !"
+    return f"Bonjour, \{nom} !"
 
 print(saluer("le Monde"))
 
@@ -42,26 +42,26 @@ print(saluer("le Monde"))
 nombres = [1, 2, 3, 4, 5]
 carres = [x**2 for x in nombres]
 
-print(f"Nombres : {nombres}")
-print(f"Carrés  : {carres}")
+print(f"Nombres : \{nombres}")
+print(f"Carrés  : \{carres}")
 
 # 3. Typage dynamique
 variable = 42
-print(f"J'ai {variable} ans.")
+print(f"J'ai \{variable} ans.")
 variable = "Quarante-deux"
-print(f"C'est écrit : {variable}.")`,
-        exercice: `
+print(f"C'est écrit : \{variable}.")`,
+                exercice: `
 **Exercice de réflexion :**
 
 1.  Pourquoi dit-on que Python est un langage "interprété" ?
 2.  Citez 3 domaines où Python est très utilisé.
 3.  Exécutez le code d'exemple ci-dessus pour voir la syntaxe en action.
         `
-    },
+        },
 
-    jupyter: {
-        title: "Utiliser Python avec Jupyter (Anaconda)",
-        theorie: `
+        jupyter: {
+                title: "Utiliser Python avec Jupyter (Anaconda)",
+                theorie: `
 ## Qu'est-ce que Jupyter Notebook ?
 
 **Jupyter Notebook** est un environnement de développement interactif qui permet d'écrire et d'exécuter du code Python dans des "cellules". C'est l'outil idéal pour :
@@ -91,7 +91,7 @@ jupyter notebook
 
 Cela ouvrira automatiquement votre navigateur web avec l'interface Jupyter.
         `,
-        code: `# Votre première cellule Jupyter !
+                code: `# Votre première cellule Jupyter !
 # Exécutez cette cellule avec Shift + Entrée
 
 print("Bienvenue dans Jupyter Notebook !")
@@ -99,11 +99,11 @@ print("Python version :", 3.10)
 
 # Les résultats s'affichent directement sous la cellule
 resultat = 2 + 2
-print(f"2 + 2 = {resultat}")
+print(f"2 + 2 = \{resultat}")
 
 # La dernière expression est automatiquement affichée
 42 * 3`,
-        exercice: `
+                exercice: `
 **Exercice pratique :**
 
 1. Créez une nouvelle cellule (bouton "+" ou touche "b")
@@ -111,11 +111,11 @@ print(f"2 + 2 = {resultat}")
 3. Exécutez avec **Shift + Entrée**
 4. Observez le résultat !
         `
-    },
+        },
 
-    colab: {
-        title: "Utiliser Python via Google Colab",
-        theorie: `
+        colab: {
+                title: "Utiliser Python via Google Colab",
+                theorie: `
 ## Google Colab : Python dans le cloud
 
 **Google Colaboratory** (Colab) est un service gratuit de Google qui permet d'exécuter du code Python directement dans votre navigateur, sans aucune installation !
@@ -140,11 +140,11 @@ print(f"2 + 2 = {resultat}")
 - **Cellules de texte** : Pour documenter avec Markdown/LaTeX
 - **Menu Runtime** : Pour exécuter toutes les cellules ou redémarrer
         `,
-        code: `# Test de Google Colab
+                code: `# Test de Google Colab
 # Exécutez avec Ctrl + Entrée ou le bouton Play
 
 import sys
-print(f"Version Python : {sys.version}")
+print(f"Version Python : \{sys.version}")
 
 # Vérification des packages scientifiques
 import numpy as np
@@ -156,9 +156,9 @@ print("Sympy version :", sp.__version__)
 # Test rapide
 x = sp.Symbol('x')
 expression = x**2 + 2*x + 1
-print(f"Expression : {expression}")
-print(f"Factorisée : {sp.factor(expression)}")`,
-        exercice: `
+print(f"Expression : \{expression}")
+print(f"Factorisée : \{sp.factor(expression)}")`,
+                exercice: `
 **Exercice pratique :**
 
 1. Ouvrez Google Colab
@@ -170,11 +170,11 @@ print(f"Factorisée : {sp.factor(expression)}")`,
    \`\`\`
 4. Exécutez et observez le rendu des formules !
         `
-    },
+        },
 
-    help: {
-        title: "Obtenir de l'aide en Python",
-        theorie: `
+        help: {
+                title: "Obtenir de l'aide en Python",
+                theorie: `
 ## Trouver de l'aide en Python
 
 Python dispose de plusieurs mécanismes intégrés pour obtenir de l'aide sur les fonctions et les modules.
@@ -206,7 +206,7 @@ dir(str)     # Liste toutes les méthodes d'un objet
 - **Sympy** : [docs.sympy.org](https://docs.sympy.org)
 - **Stack Overflow** : Pour les questions spécifiques
         `,
-        code: `# Différentes façons d'obtenir de l'aide en Python
+                code: `# Différentes façons d'obtenir de l'aide en Python
 
 # 1. Fonction help() - Documentation complète
 print("=== Documentation de abs() ===")
@@ -223,8 +223,8 @@ print(sum.__doc__)
 
 # 4. Type d'un objet
 valeur = 3.14159
-print(f"\\nLe type de {valeur} est : {type(valeur)}")`,
-        exercice: `
+print(f"\\nLe type de \{valeur} est : \{type(valeur)}")`,
+                exercice: `
 **Exercice pratique :**
 
 1. Utilisez \`help()\` pour découvrir la fonction \`round()\`
@@ -232,5 +232,5 @@ print(f"\\nLe type de {valeur} est : {type(valeur)}")`,
 3. Utilisez \`dir()\` sur un nombre flottant (\`3.14\`)
 4. Trouvez une méthode intéressante et testez-la !
         `
-    }
+        }
 };
