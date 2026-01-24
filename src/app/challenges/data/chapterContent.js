@@ -1238,6 +1238,8 @@ print(f"LaTeX matrice : {sp.latex(M)}")`,
 };
 
 
+// Import du contenu du module 3
+import { module3Content } from './module3Content';
 // Import du contenu des modules 4, 5, 6
 import { modules456Content } from './modules456Content';
 // Import du contenu du module 2 (suite)
@@ -1270,6 +1272,7 @@ export const getChapterContent = (chapterId) => {
         if (module8SympyContent[chapterId]) return module8SympyContent[chapterId];
         if (module9SympyContent[chapterId]) return module9SympyContent[chapterId];
         if (module10SympyContent[chapterId]) return module10SympyContent[chapterId];
+        if (module3Content[chapterId]) return module3Content[chapterId];
         // Contenus existants
         if (chapterContent[chapterId]) return chapterContent[chapterId];
         if (modules456Content[chapterId]) return modules456Content[chapterId];

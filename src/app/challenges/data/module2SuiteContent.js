@@ -893,5 +893,177 @@ for expr, result in questions:
 
 4. Pourquoi -17 % 5 ne donne pas -2 ?
         `
+    },
+
+    arithmetic_visualization: {
+        title: "Visualiser les opérations arithmétiques",
+        theorie: `
+## L'arithmétique visuelle
+
+Parfois, une image vaut mieux que 1000 nombres.
+Nous pouvons utiliser Matplotlib pour visualiser des concepts simples d'arithmétique.
+
+### La droite numérique
+L'addition $a + b$ peut être vue comme un déplacement de $b$ unités à partir de $a$.
+
+### Multiplication comme aire
+Le produit $a \\times b$ est l'aire d'un rectangle de côtés $a$ et $b$.
+        `,
+        code: `import matplotlib.pyplot as plt
+import numpy as np
+
+# Visualiser l'addition 3 + 5 = 8
+fig, ax = plt.subplots(figsize=(10, 2))
+ax.set_xlim(0, 10)
+ax.set_ylim(0, 2)
+
+# Flèche pour 3
+ax.arrow(0, 1, 3, 0, head_width=0.1, head_length=0.2, fc='blue', ec='blue')
+ax.text(1.5, 1.2, '3', color='blue', fontsize=12)
+
+# Flèche pour 5 (partant de 3)
+ax.arrow(3, 1, 5, 0, head_width=0.1, head_length=0.2, fc='red', ec='red')
+ax.text(5.5, 1.2, '+ 5', color='red', fontsize=12)
+
+# Résultat
+ax.axvline(8, color='green', linestyle='--')
+ax.text(8.1, 0.5, '= 8', color='green', fontsize=14, fontweight='bold')
+
+ax.set_title("Addition sur la droite numérique")
+plt.yticks([])
+plt.show()
+
+# Visualiser la multiplication 4 x 6
+fig, ax = plt.subplots(figsize=(6, 4))
+rectangle = plt.Rectangle((0, 0), 6, 4, fc='orange', alpha=0.5, ec='black')
+ax.add_patch(rectangle)
+ax.set_xlim(-1, 8)
+ax.set_ylim(-1, 6)
+ax.set_aspect('equal')
+ax.text(3, -0.5, '6', ha='center')
+ax.text(-0.5, 2, '4', va='center')
+ax.text(3, 2, 'Area = 24', ha='center', va='center', fontsize=20)
+ax.set_title("Multiplication = Aire")
+plt.show()`,
+        exercice: `Visualisez la soustraction 10 - 4 sur la droite numérique.`
+    },
+
+    powers_visualization: {
+        title: "Puissances et exposants visuels",
+        theorie: `
+## Croissance exponentielle
+
+Les puissances représentent une croissance multiplicative.
+
+### Carrés et Cubes
+- $x^2$ : Aire d'un carré
+- $x^3$ : Volume d'un cube
+
+### Croissance
+La fonction exponentielle $y = a^x$ croît (pour $a > 1$) plus vite que n'importe quel polynôme.
+        `,
+        code: `import matplotlib.pyplot as plt
+import numpy as np
+
+x = np.linspace(0, 5, 100)
+y1 = x
+y2 = x**2
+y3 = 2**x
+
+plt.figure(figsize=(10, 6))
+plt.plot(x, y1, label='x (Linéaire)', linestyle='--')
+plt.plot(x, y2, label='x^2 (Quadratique)')
+plt.plot(x, y3, label='2^x (Exponentiel)', linewidth=3)
+
+plt.title("Croissance : Linéaire vs Quadratique vs Exponentielle")
+plt.legend()
+plt.grid(True)
+plt.ylim(0, 25)
+plt.show()`,
+        exercice: `Comparez $x^3$ et $3^x$ sur un graphique.`
+    },
+
+    factorial_combinatorics: {
+        title: "Factorielle et combinatoire",
+        theorie: `
+## Factorielle et Combinatoire
+
+### Factorielle
+$n! = n \\times (n-1) \\times ... \\times 1$
+Utilisé pour compter les permutations (ordres possibles).
+
+### Combinaisons (ordre n'importe pas)
+$$C_n^k = \\binom{n}{k} = \\frac{n!}{k!(n-k)!}$$
+Exemple : Choisir 3 amis parmi 10.
+
+### En Python
+\`math.factorial(n)\`
+\`math.comb(n, k)\`
+        `,
+        code: `import math
+
+n = 5
+fact = math.factorial(n)
+print(f"{n}! = {fact} (nombre de façons d'ordonner {n} objets)")
+
+# Loto : Choisir 6 numéros parmi 49
+possibilites = math.comb(49, 6)
+print(f"Combinaisons au Loto (6 parmi 49) : {possibilites:,}")
+
+# Triangle de Pascal (premières lignes)
+print("\\n=== Triangle de Pascal ===")
+for i in range(6):
+    ligne = [math.comb(i, k) for k in range(i+1)]
+    print(f"Ligne {i} : {ligne}")`,
+        exercice: `Combien de mains de 5 cartes peut-on former avec un jeu de 52 cartes ?`
+    },
+
+    sequences_series: {
+        title: "Suites et séries numériques",
+        theorie: `
+## Suites Numériques
+
+### Suite Arithmétique
+$u_{n+1} = u_n + r$
+Terme général : $u_n = u_0 + n \\cdot r$
+
+### Suite Géométrique
+$v_{n+1} = v_n \\times q$
+Terme général : $v_n = v_0 \\times q^n$
+
+### Série (Somme)
+Une série est la somme des termes d'une suite.
+        `,
+        code: `import numpy as np
+import matplotlib.pyplot as plt
+
+n_termes = 20
+n = np.arange(n_termes)
+
+# Arithmétique : u_0 = 1, r = 2
+u = 1 + n * 2
+
+# Géométrique : v_0 = 1, q = 1.5
+v = 1 * (1.15 ** n)
+
+plt.figure(figsize=(12, 5))
+
+plt.subplot(1, 2, 1)
+plt.plot(n, u, 'o-', label='Arithmétique (r=2)')
+plt.plot(n, v, 's-', label='Géométrique (q=1.15)')
+plt.title('Suites')
+plt.legend()
+plt.grid()
+
+# Somme cumulée (Série)
+plt.subplot(1, 2, 2)
+plt.plot(n, np.cumsum(u), 'o--', label='Somme Arithmétique')
+plt.plot(n, np.cumsum(v), 's--', label='Somme Géométrique')
+plt.title('Séries (Sommes cumulées)')
+plt.legend()
+plt.grid()
+
+plt.show()`,
+        exercice: `Calculez la somme des 10 premiers termes de la suite géométrique $u_0=1, q=2$.`
     }
 };
