@@ -36,7 +36,7 @@ export function SuccessOverlay({ show, message, points, onNext }) {
 
                     {onNext && (
                         <button onClick={onNext} className="w-full py-4 bg-gradient-to-r from-green-500 to-emerald-600 rounded-xl text-white font-bold text-xl hover:scale-105 hover:shadow-lg hover:shadow-green-500/30 transition-all flex items-center justify-center gap-2">
-                            Continuer l'aventure 🚀
+                            Continuer l&apos;aventure 🚀
                         </button>
                     )}
                 </div>

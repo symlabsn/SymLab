@@ -1,7 +1,7 @@
 'use client';
 import React, { useState, useRef, useEffect, useMemo, useCallback } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
-import { Html, Text, Line, OrbitControls, Float } from '@react-three/drei';
+import { Html, Text, Line, OrbitControls, Float, Sphere, Box } from '@react-three/drei';
 import * as THREE from 'three';
 import DraggableHtmlPanel from './DraggableHtmlPanel';
 
@@ -464,7 +464,7 @@ export function TitrageAcideBase() {
                         <div className="space-y-4 animate-in slide-in-from-right duration-300">
                             <div className="bg-gray-900/50 p-4 rounded-2xl border border-white/5 space-y-4 text-center">
                                 <div className="text-[10px] text-gray-500 font-black uppercase tracking-widest">Concentration Acide Inconnue</div>
-                                <div className="text-xl font-black text-white">Trouvez le point d'équivalence !</div>
+                                <div className="text-xl font-black text-white">Trouvez le point d&apos;équivalence !</div>
 
                                 <div className="flex items-center gap-3">
                                     <button
@@ -483,7 +483,7 @@ export function TitrageAcideBase() {
 
                             <button onClick={checkChallenge} className="w-full py-4 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 rounded-2xl font-black text-lg shadow-xl shadow-blue-900/20 transform transition-all active:scale-95 group">
                                 <span className="flex items-center justify-center gap-2 text-white">
-                                    STOPPER À L'ÉQUIVALENCE <span className="group-hover:translate-x-1 transition-transform">🎯</span>
+                                    STOPPER À L&apos;ÉQUIVALENCE <span className="group-hover:translate-x-1 transition-transform">🎯</span>
                                 </span>
                             </button>
                         </div>
@@ -1556,7 +1556,7 @@ export function ChemicalTestsGamified() {
                                 </div>
 
                                 <div className="mt-4">
-                                    <div className="text-[10px] text-gray-500 font-black uppercase mb-2 text-center">Conclusion de l'Analyse</div>
+                                    <div className="text-[10px] text-gray-500 font-black uppercase mb-2 text-center">Conclusion de l&apos;Analyse</div>
                                     <div className="grid grid-cols-4 gap-2">
                                         {['Cu2+', 'Fe2+', 'Fe3+', 'Cl-'].map(ion => (
                                             <button key={ion} onClick={() => identifyIon(ion)}
@@ -1570,7 +1570,7 @@ export function ChemicalTestsGamified() {
                         )}
 
                         <button onClick={reset} className="w-full py-2 text-[10px] font-bold text-gray-500 hover:text-white transition-colors underline">
-                            RÉINITIALISER L'EXPÉRIENCE
+                            RÉINITIALISER L&apos;EXPÉRIENCE
                         </button>
                     </div>
                 </DraggableHtmlPanel>

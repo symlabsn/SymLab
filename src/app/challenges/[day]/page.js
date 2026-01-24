@@ -39,7 +39,7 @@ export default function ChallengeDayPage({ params }) {
         return (
             <div className="min-h-screen bg-black text-white p-20">
                 <h1 className="text-red-500 text-4xl mb-4">Erreur de chargement</h1>
-                <p>Le jour "{day}" est introuvable.</p>
+                <p>Le jour &quot;{day}&quot; est introuvable.</p>
                 <Link href="/challenges" className="text-[#00F5D4] mt-8 block">← Retour à la liste</Link>
             </div>
         );

@@ -79,7 +79,7 @@ export default function AnalyticsDashboard() {
                         Analytics Dashboard
                     </h3>
                     <p className="text-gray-400 mb-6">
-                        Accès réservé à l'administrateur
+                        Accès réservé à l&apos;administrateur
                     </p>
 
                     <form onSubmit={handleLogin} className="space-y-4">
@@ -115,7 +115,7 @@ export default function AnalyticsDashboard() {
                         </span>
                     </h3>
                     <p className="text-gray-400 text-sm mt-1">
-                        Vue d'ensemble des utilisateurs et interactions
+                        Vue d&apos;ensemble des utilisateurs et interactions
                     </p>
                 </div>
                 <div className="flex gap-2">
@@ -167,8 +167,8 @@ export default function AnalyticsDashboard() {
                         key={tab}
                         onClick={() => setActiveTab(tab)}
                         className={`px-4 py-2 rounded-lg font-medium text-sm whitespace-nowrap transition-all ${activeTab === tab
-                                ? 'bg-[#00F5D4] text-black'
-                                : 'bg-white/5 text-gray-400 hover:bg-white/10'
+                            ? 'bg-[#00F5D4] text-black'
+                            : 'bg-white/5 text-gray-400 hover:bg-white/10'
                             }`}
                     >
                         {tab === 'overview' && '📊 Vue d\'ensemble'}
@@ -299,7 +299,7 @@ export default function AnalyticsDashboard() {
                                     </div>
                                 </div>
                                 {session.feedback.comment && (
-                                    <p className="text-gray-300 text-sm italic">"{session.feedback.comment}"</p>
+                                    <p className="text-gray-300 text-sm italic">&quot;{session.feedback.comment}&quot;</p>
                                 )}
                                 <p className="text-gray-500 text-xs mt-2">{formatDate(session.feedback.submittedAt)}</p>
                             </div>

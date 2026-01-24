@@ -79,7 +79,7 @@ export function Chap1LentillesMCE() {
 
                     <div className="flex justify-between items-center mb-4 border-b border-white/10 pb-2">
                         <div className="flex flex-col">
-                            <span className="text-[10px] text-cyan-400 font-bold uppercase tracking-widest">Laboratoire d'Optique</span>
+                            <span className="text-[10px] text-cyan-400 font-bold uppercase tracking-widest">Laboratoire d&apos;Optique</span>
                             <span className="text-lg font-black">{mode === 'explore' ? 'Étude des Lentilles' : 'Défi de Focalisation 🧠'}</span>
                         </div>
                         <GradeBadge score={score} />
@@ -199,7 +199,7 @@ export function Chap1LentillesMCE() {
                 <Sphere args={[0.1]}>
                     <meshStandardMaterial color="orange" emissive="orange" emissiveIntensity={2} />
                 </Sphere>
-                <Text position={[0, -0.5, 0]} fontSize={0.25} color="orange" font="/fonts/Inter-Bold.ttf">F'</Text>
+                <Text position={[0, -0.5, 0]} fontSize={0.25} color="orange" font="/fonts/Inter-Bold.ttf">F&apos;</Text>
             </group>
 
             <group position={[-objectDistance, 0, 0]}>
@@ -225,7 +225,7 @@ export function Chap1LentillesMCE() {
                         <coneGeometry args={[0.15, 0.3, 8]} />
                         <meshStandardMaterial color="#22D3EE" />
                     </mesh>
-                    <Text position={[0, -0.5, 0]} fontSize={0.25} color="#22D3EE" font="/fonts/Inter-Bold.ttf">IMAGE (A')</Text>
+                    <Text position={[0, -0.5, 0]} fontSize={0.25} color="#22D3EE" font="/fonts/Inter-Bold.ttf">IMAGE (A&apos;)</Text>
                 </group>
             )}
         </group>
@@ -360,7 +360,7 @@ export function Chap2DispersionLumiere() {
                                     onClick={() => setShowSpectrum(!showSpectrum)}>
                                     {showSpectrum && <span className="text-black text-[10px]">✔</span>}
                                 </div>
-                                <span className="text-[10px] font-black uppercase text-gray-400 group-hover:text-white">Afficher l'étalement spectral</span>
+                                <span className="text-[10px] font-black uppercase text-gray-400 group-hover:text-white">Afficher l&apos;étalement spectral</span>
                             </label>
                         </div>
                     ) : (
@@ -926,7 +926,7 @@ export function Chap5Electrisation() {
                                 className="w-full py-6 rounded-2xl font-black text-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:scale-[1.02] active:scale-95 transition-all shadow-xl shadow-blue-900/40 relative overflow-hidden group">
                                 <div className="flex flex-col items-center">
                                     <span className="text-[10px] text-blue-200 uppercase tracking-[0.2em] mb-1">Action de Frottement</span>
-                                    <span className="flex items-center gap-3">⚡ FROTTER L'OBJET ! <span className="bg-black/20 px-3 py-1 rounded-full text-xs">{frictionCount}/10</span></span>
+                                    <span className="flex items-center gap-3">⚡ FROTTER L&apos;OBJET ! <span className="bg-black/20 px-3 py-1 rounded-full text-xs">{frictionCount}/10</span></span>
                                 </div>
                                 <div className="absolute inset-0 bg-white/20 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700 ease-in-out" />
                             </button>

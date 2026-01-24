@@ -219,7 +219,7 @@ export function ElectrisationSimulation() {
 
                                     <div className="space-y-2">
                                         <div className="flex justify-between text-xs">
-                                            <span className="text-gray-400">Distance d'interaction</span>
+                                            <span className="text-gray-400">Distance d&apos;interaction</span>
                                             <span className="font-mono text-green-300">{distance.toFixed(1)} m</span>
                                         </div>
                                         <input type="range" min="0.5" max="4" step="0.1" value={distance} onChange={e => setDistance(Number(e.target.value))}
@@ -260,7 +260,7 @@ export function ElectrisationSimulation() {
                                 <div className="space-y-4 animate-in slide-in-from-right duration-300">
                                     <div className="text-sm font-medium bg-black/20 p-4 rounded-lg border-l-2 border-purple-500">
                                         {challenge.desc}
-                                        <div className="text-xs text-gray-400 mt-2 italic">Choisis les bons matériaux et frotte jusqu'à atteindre la cible !</div>
+                                        <div className="text-xs text-gray-400 mt-2 italic">Choisis les bons matériaux et frotte jusqu&apos;à atteindre la cible !</div>
                                     </div>
 
                                     <div className="grid grid-cols-2 gap-2">
@@ -314,7 +314,7 @@ export function ElectrisationSimulation() {
                 )}
 
                 {(scenario === 'contact' || scenario === 'influence') && (
-                    <group position={[distance - 1, 2, 0]}> /* Position relative */
+                    <group position={[distance - 1, 2, 0]}> {/* Position relative */}
                         <Sphere args={[0.5]} position={[0, 0, 0]}>
                             <meshStandardMaterial color="#9CA3AF" metalness={0.9} roughness={0.1} />
                         </Sphere>
@@ -487,7 +487,7 @@ export function CircuitElectriqueSeconde() {
                     {mode === 'explore' ? (
                         <>
                             <div className="mb-4">
-                                <MissionObjective objective="Maîtrisez la tension et l'intensité !" icon="💡" />
+                                <MissionObjective objective="Maîtrisez la tension et l&apos;intensité !" icon="💡" />
                             </div>
 
                             <div className="space-y-4 p-3 bg-gray-900/50 rounded-xl border border-white/5">
@@ -713,7 +713,7 @@ export function LoiOhmSeconde() {
                     <div className="flex justify-between items-end mb-4 pb-2 border-b border-white/10">
                         <div>
                             <div className="text-xs text-purple-400 font-bold uppercase tracking-wider mb-1">Module Physique</div>
-                            <div className="text-xl font-black text-white leading-none">LOI D'OHM</div>
+                            <div className="text-xl font-black text-white leading-none">LOI D&apos;OHM</div>
                         </div>
                         <GradeBadge score={score} />
                     </div>
@@ -777,7 +777,7 @@ export function LoiOhmSeconde() {
                             {mysteryR ? (
                                 <div className="space-y-4 animate-in slide-in-from-right duration-300">
                                     <div className="text-sm bg-black/30 p-3 rounded-lg border-l-2 border-pink-500 text-gray-300">
-                                        Une résistance inconnue est connectée. Fais varier la tension, observe l'intensité, et déduis sa valeur (R = U/I) !
+                                        Une résistance inconnue est connectée. Fais varier la tension, observe l&apos;intensité, et déduis sa valeur (R = U/I) !
                                     </div>
 
                                     <div className="bg-gray-800 p-3 rounded-lg">
@@ -804,7 +804,7 @@ export function LoiOhmSeconde() {
                             ) : (
                                 <div className="text-center py-8">
                                     <button onClick={startChallenge} className="px-8 py-3 bg-pink-600 hover:bg-pink-500 text-white rounded-full font-bold shadow-lg shadow-pink-900/20 transition-all transform hover:scale-105">
-                                        Commencer l'Enquête
+                                        Commencer l&apos;Enquête
                                     </button>
                                 </div>
                             )}
@@ -1265,7 +1265,7 @@ export function AOPSimulation() {
 
                             <div className="space-y-4 p-3 bg-gray-900/50 rounded-xl border border-white/5">
                                 <div className="bg-gray-800 p-3 rounded-lg">
-                                    <label className="text-xs text-yellow-400 font-bold block mb-1">Tension d'Entrée Ve</label>
+                                    <label className="text-xs text-yellow-400 font-bold block mb-1">Tension d&apos;Entrée Ve</label>
                                     <div className="flex items-center gap-3">
                                         <input type="range" min="-5" max="5" step="0.1" value={ve} onChange={e => setVe(Number(e.target.value))}
                                             className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-yellow-500" />

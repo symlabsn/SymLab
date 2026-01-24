@@ -585,7 +585,7 @@ export function AlcenesSim() {
 
                         <div className="p-4 bg-black/40 rounded-2xl border border-white/5 space-y-3">
                             <p className="text-[10px] font-black text-yellow-500 uppercase tracking-widest flex items-center gap-2">
-                                <span className="p-1 bg-yellow-500/20 rounded">🧪</span> RÉACTIONS D'ADDITION
+                                <span className="p-1 bg-yellow-500/20 rounded">🧪</span> RÉACTIONS D&apos;ADDITION
                             </p>
                             <div className="grid grid-cols-1 gap-2">
                                 {[
@@ -795,7 +795,7 @@ export function BenzeneSim() {
                                 <span className="p-1 bg-pink-500/20 rounded">⚛️</span> POSTULAT DE KÉKULÉ
                             </p>
                             <p className="text-[11px] text-gray-400 leading-relaxed italic pr-8">
-                                "Les électrons ne sont pas fixes. Ils forment un nuage de probabilité parfaitement symétrique, rendant la molécule incroyablement résistante."
+                                &quot;Les électrons ne sont pas fixes. Ils forment un nuage de probabilité parfaitement symétrique, rendant la molécule incroyablement résistante.&quot;
                             </p>
                             <div className="absolute bottom-4 right-4 text-2xl opacity-20">📜</div>
                         </div>
@@ -975,7 +975,7 @@ export function ComposesOxygenesSim() {
                                         <p className="text-[10px] font-black text-red-400 uppercase tracking-widest">Groupe Hydroxyle</p>
                                     </div>
                                     <p className="text-xl font-bold text-white mb-2 italic">R — OH (Liaison Polarisée)</p>
-                                    <p className="text-[11px] text-gray-400 leading-relaxed font-medium">Capable de former des liaisons hydrogène. Très soluble, point d'ébullition élevé et réactif vis-à-vis de l'oxydation.</p>
+                                    <p className="text-[11px] text-gray-400 leading-relaxed font-medium">Capable de former des liaisons hydrogène. Très soluble, point d&apos;ébullition élevé et réactif vis-à-vis de l&apos;oxydation.</p>
                                 </div>
                             )}
                             {type === 'aldehyde' && (
@@ -994,7 +994,7 @@ export function ComposesOxygenesSim() {
                                         <span className="w-8 h-8 rounded-full bg-purple-600/20 flex items-center justify-center text-purple-500 font-black tracking-tighter text-xs">C=O</span>
                                         <p className="text-[10px] font-black text-purple-400 uppercase tracking-widest">Groupe Carbonyle (Interne)</p>
                                     </div>
-                                    <p className="text-xl font-bold text-white mb-2 italic">R — CO — R'</p>
+                                    <p className="text-xl font-bold text-white mb-2 italic">R — CO — R&apos;</p>
                                     <p className="text-[11px] text-gray-400 leading-relaxed font-medium">Stable vis-à-vis des oxydants ménagés. Test DNPH positif (précipité jaune-orangé) mais Fehling négatif.</p>
                                 </div>
                             )}
@@ -1402,7 +1402,7 @@ export function ElectrolyseSim() {
 
                             <div>
                                 <div className="flex justify-between text-[10px] text-gray-500 font-black uppercase mb-1">
-                                    <span>Durée de l'opération</span>
+                                    <span>Durée de l&apos;opération</span>
                                     <span className="text-blue-400">{time} min</span>
                                 </div>
                                 <input type="range" min="1" max="60" value={time} onChange={e => setTime(Number(e.target.value))}

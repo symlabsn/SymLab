@@ -666,7 +666,7 @@ export function SeparationLab() {
                                     <span className="w-2 h-2 bg-blue-500 rounded-full animate-pulse" />
                                     Briefing de Mission
                                 </div>
-                                <p className="text-sm text-gray-200 italic">"{mission.context}"</p>
+                                <p className="text-sm text-gray-200 italic">&quot;{mission.context}&quot;</p>
                             </div>
                         )}
 
@@ -710,8 +710,8 @@ export function SeparationLab() {
                                     onClick={() => phase === 'mission' ? handleAnswer(s.id) : selectScenario(s)}
                                     disabled={isRunning}
                                     className={`p-3 rounded-xl text-left transition-all duration-300 border ${scenario?.id === s.id
-                                            ? 'bg-blue-600/20 border-blue-500 shadow-[0_0_15px_rgba(59,130,246,0.2)]'
-                                            : 'bg-white/5 border-white/10 hover:bg-white/10'
+                                        ? 'bg-blue-600/20 border-blue-500 shadow-[0_0_15px_rgba(59,130,246,0.2)]'
+                                        : 'bg-white/5 border-white/10 hover:bg-white/10'
                                         } ${isRunning ? 'opacity-50 cursor-not-allowed' : 'active:scale-95'}`}
                                 >
                                     <div className="flex justify-between items-start mb-1">
@@ -731,7 +731,7 @@ export function SeparationLab() {
                                 className="w-full mt-4 py-4 rounded-xl font-black text-sm uppercase tracking-widest bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 shadow-lg shadow-blue-600/20 transition-all active:scale-95 flex items-center justify-center gap-3"
                             >
                                 <span className="text-xl">▶</span>
-                                LANCER L'ANALYSE
+                                LANCER L&apos;ANALYSE
                             </button>
                         )}
 
@@ -740,7 +740,7 @@ export function SeparationLab() {
                                 onClick={resetExperiment}
                                 className="w-full mt-4 py-3 rounded-xl font-bold text-xs uppercase tracking-widest bg-gray-800 hover:bg-gray-700 transition-all border border-white/10"
                             >
-                                🔄 REFAIRE L'EXPÉRIENCE
+                                🔄 REFAIRE L&apos;EXPÉRIENCE
                             </button>
                         )}
                     </div>

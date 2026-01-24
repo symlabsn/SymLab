@@ -44,7 +44,7 @@ export function Diffraction() {
                         </div>
 
                         <div>
-                            <label className="block text-xs mb-1">Longueur d'Onde λ : {wavelength.toFixed(1)}</label>
+                            <label className="block text-xs mb-1">Longueur d&apos;Onde λ : {wavelength.toFixed(1)}</label>
                             <input
                                 type="range"
                                 min="0.5"

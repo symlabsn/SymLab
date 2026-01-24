@@ -132,7 +132,7 @@ export function AlcoolsOxydation() {
 
                         <div className="grid grid-cols-2 gap-4 mt-4">
                             <div className="space-y-3">
-                                <label className="text-[10px] text-gray-400 block uppercase font-bold tracking-widest">Classe d'Alcool</label>
+                                <label className="text-[10px] text-gray-400 block uppercase font-bold tracking-widest">Classe d&apos;Alcool</label>
                                 <div className="flex flex-col gap-2">
                                     {['primaire', 'secondaire', 'tertiaire'].map(t => (
                                         <button key={t} onClick={() => { setAlcoholType(t); reset(); }}
@@ -249,13 +249,13 @@ export function AminesProprietes() {
                     {amineClass !== 'primaire' && (
                         <group rotation={[0, (2 * Math.PI) / 3, 0]}>
                             <Line points={[[0, 0, 0], [-1.2, -0.6, 0]]} color="white" lineWidth={3} />
-                            <Text position={[-1.5, -0.7, 0]} fontSize={0.3} color="#94a3b8">R'</Text>
+                            <Text position={[-1.5, -0.7, 0]} fontSize={0.3} color="#94a3b8">R&apos;</Text>
                         </group>
                     )}
                     {amineClass === 'tertiaire' && (
                         <group rotation={[0, (4 * Math.PI) / 3, 0]}>
                             <Line points={[[0, 0, 0], [-1.2, -0.6, 0]]} color="white" lineWidth={3} />
-                            <Text position={[-1.5, -0.7, 0]} fontSize={0.3} color="#94a3b8">R''</Text>
+                            <Text position={[-1.5, -0.7, 0]} fontSize={0.3} color="#94a3b8">R&apos;&apos;</Text>
                         </group>
                     )}
                 </group>
@@ -290,7 +290,7 @@ export function AminesProprietes() {
 
                         <div className="grid grid-cols-2 gap-4 mt-4">
                             <div className="space-y-3">
-                                <label className="text-[10px] text-gray-400 block uppercase font-bold tracking-widest">Classe d'Amine</label>
+                                <label className="text-[10px] text-gray-400 block uppercase font-bold tracking-widest">Classe d&apos;Amine</label>
                                 <div className="flex gap-2">
                                     {['primaire', 'secondaire', 'tertiaire'].map(c => (
                                         <button key={c} onClick={() => setAmineClass(c)}
@@ -645,7 +645,7 @@ export function AcidesAminesChiralite() {
                             </div>
 
                             <p className="text-[9px] text-gray-400 text-center italic bg-white/5 py-1 rounded">
-                                "Deux énantiomères ne sont pas superposables."
+                                &quot;Deux énantiomères ne sont pas superposables.&quot;
                             </p>
                         </div>
                     </div>
@@ -1135,7 +1135,7 @@ export function AcidesBasesForts() {
                                         <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
                                         <span className="text-[8px] text-emerald-400 font-bold">TOTAL_DISSOCIATION</span>
                                     </div>
-                                    <p className="text-[9px] text-gray-400 leading-tight">La réaction avec l'eau est considérée comme totale.</p>
+                                    <p className="text-[9px] text-gray-400 leading-tight">La réaction avec l&apos;eau est considérée comme totale.</p>
                                 </div>
                             </div>
                         </div>

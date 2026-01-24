@@ -906,7 +906,7 @@ export function TestsIonsAdvanced() {
                         <div className="bg-gray-950 p-4 rounded-2xl border border-white/5 space-y-3">
                             <h4 className="text-[10px] font-black text-gray-500 uppercase tracking-widest border-b border-white/10 pb-1">Journal de Bord</h4>
                             {testsResults.length === 0 ? (
-                                <p className="text-[10px] text-gray-700 italic text-center py-2">En attente d'analyses...</p>
+                                <p className="text-[10px] text-gray-700 italic text-center py-2">En attente d&apos;analyses...</p>
                             ) : (
                                 <div className="space-y-1.5">
                                     {testsResults.map((t, i) => (

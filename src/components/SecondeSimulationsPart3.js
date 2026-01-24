@@ -119,10 +119,10 @@ export function MotionRelativity() {
                         </div>
 
                         <div className="text-sm">
-                            <p>Le passager lance la balle en l'air.</p>
+                            <p>Le passager lance la balle en l&apos;air.</p>
                             <ul className="list-disc ml-4 text-xs text-gray-300">
                                 <li>Pour le passager (Train) : La balle monte et descend verticalement.</li>
-                                <li>Pour l'observateur (Quai) : La balle décrit une PARABOLE !</li>
+                                <li>Pour l&apos;observateur (Quai) : La balle décrit une PARABOLE !</li>
                             </ul>
                         </div>
 
@@ -207,7 +207,7 @@ export function ChromatographyExperiment() {
             <Html transform={false}>
                 <DraggableHtmlPanel title="🎨 Chromatographie (CCM)" className="w-[300px]" defaultPosition="top-right">
                     <div className="space-y-4 text-white">
-                        <p className="text-sm">Séparation des colorants d'un feutre vert et violet.</p>
+                        <p className="text-sm">Séparation des colorants d&apos;un feutre vert et violet.</p>
 
                         <div className="flex justify-center">
                             <button
@@ -322,7 +322,7 @@ export function ChemicalIdentification() {
                                     {currentTest.result}
                                 </div>
                                 <div className="text-center text-sm text-gray-400">
-                                    Cela prouve la présence de l'ion <span className="font-bold text-white">{currentTest.ion}</span>
+                                    Cela prouve la présence de l&apos;ion <span className="font-bold text-white">{currentTest.ion}</span>
                                 </div>
                             </div>
                         )}
@@ -368,7 +368,7 @@ export function SonarEcholocation() {
                 setPinging(false);
             }, 1500); // Fixed visual duration
         }
-    }, [pinging]);
+    }, [pinging, realTime]);
 
     return (
         <group>

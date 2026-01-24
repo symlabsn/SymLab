@@ -104,7 +104,7 @@ export function RefractionLight() {
                         ) : (
                             <div className="text-center text-red-400 font-bold">
                                 ⚠️ RÉFLEXION TOTALE
-                                <div className="text-xs text-gray-400">L'angle critique est dépassé</div>
+                                <div className="text-xs text-gray-400">L&apos;angle critique est dépassé</div>
                             </div>
                         )}
                     </div>

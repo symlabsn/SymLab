@@ -50,7 +50,7 @@ export function ElectromagneticInduction() {
                         {/* Contrôle Manuel */}
                         {!auto && (
                             <div>
-                                <label className="block text-xs text-gray-400 mb-1">Bouger l'aimant (Manuel)</label>
+                                <label className="block text-xs text-gray-400 mb-1">Bouger l&apos;aimant (Manuel)</label>
                                 <input
                                     type="range"
                                     min="-2.5"

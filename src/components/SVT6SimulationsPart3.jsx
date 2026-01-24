@@ -374,7 +374,7 @@ export function PlantGrowth() {
 
                         {currentStage.needsPollinator && !pollinatorVisit && (
                             <div className="p-2 bg-yellow-500/20 rounded-lg text-center">
-                                <div className="text-xs text-yellow-300 mb-1">🐝 Besoin d'un pollinisateur !</div>
+                                <div className="text-xs text-yellow-300 mb-1">🐝 Besoin d&apos;un pollinisateur !</div>
                                 <GameButton onClick={attractPollinator} color="yellow" size="small">Attirer une abeille</GameButton>
                             </div>
                         )}

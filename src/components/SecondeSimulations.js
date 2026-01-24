@@ -95,7 +95,7 @@ export function ForcesInertia() {
                         </div>
 
                         <div className="text-sm bg-blue-900/30 p-3 rounded border border-blue-500/30">
-                            "Un corps garde sa vitesse si aucune force ne le freine."
+                            &quot;Un corps garde sa vitesse si aucune force ne le freine.&quot;
                             <br />
                             <span className="text-yellow-400 text-xs">Frottement = {surfaces[surface].friction}</span>
                         </div>
@@ -362,7 +362,7 @@ export function AtomicStructureSeconde() {
                         </div>
 
                         <div className="text-xs bg-gray-800 p-2 rounded">
-                            Règle de l'Octet/Duet :
+                            Règle de l&apos;Octet/Duet :
                             <br />
                             Les atomes cherchent à saturer leur couche externe pour être stables (comme les Gaz Nobles).
                         </div>
@@ -466,12 +466,12 @@ export function DistillationSetup() {
                     <div className="text-white space-y-2">
                         <p className="text-sm"> Technique pour extraire des huiles essentielles (ex: Citronnelle, Menthe).</p>
                         <ol className="text-xs list-decimal ml-4 space-y-1 text-gray-300">
-                            <li><span className="text-orange-400">Ébullition</span> : La vapeur d'eau emporte l'huile.</li>
+                            <li><span className="text-orange-400">Ébullition</span> : La vapeur d&apos;eau emporte l&apos;huile.</li>
                             <li><span className="text-blue-400">Condensation</span> : Le réfrigérant refroidit la vapeur.</li>
                             <li><span className="text-yellow-400">Récupération</span> : On obtient le distillat (eau + huile).</li>
                         </ol>
                         <div className="bg-red-900/50 p-2 rounded border border-red-500/50 text-xs mt-2">
-                            ⚠️ Attention : L'eau froide doit entrer par le BAS du réfrigérant !
+                            ⚠️ Attention : L&apos;eau froide doit entrer par le BAS du réfrigérant !
                         </div>
                     </div>
                 </DraggableHtmlPanel>

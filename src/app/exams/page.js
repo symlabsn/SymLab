@@ -129,8 +129,8 @@ export default function ExamsPage() {
                                     <div className="flex justify-between items-start mb-6">
                                         <div className="flex gap-2">
                                             <span className={`px-3 py-1 rounded-lg text-xs font-bold tracking-wider ${exam.type.includes('BAC')
-                                                    ? 'bg-yellow-500/10 text-yellow-400 border border-yellow-500/20'
-                                                    : 'bg-[#2DD4BF]/10 text-[#2DD4BF] border border-[#2DD4BF]/20'
+                                                ? 'bg-yellow-500/10 text-yellow-400 border border-yellow-500/20'
+                                                : 'bg-[#2DD4BF]/10 text-[#2DD4BF] border border-[#2DD4BF]/20'
                                                 }`}>
                                                 {exam.type}
                                             </span>
@@ -187,8 +187,8 @@ export default function ExamsPage() {
                         <div className="flex items-center justify-between px-8 py-6 border-b border-white/5 bg-[#1A1A1A]">
                             <div className="flex items-center gap-4">
                                 <div className={`w-12 h-12 rounded-2xl flex items-center justify-center font-black text-xl shadow-lg ${selectedExam.type.includes('BAC')
-                                        ? 'bg-gradient-to-br from-yellow-400 to-orange-600 text-white'
-                                        : 'bg-gradient-to-br from-[#2DD4BF] to-teal-600 text-black'
+                                    ? 'bg-gradient-to-br from-yellow-400 to-orange-600 text-white'
+                                    : 'bg-gradient-to-br from-[#2DD4BF] to-teal-600 text-black'
                                     }`}>
                                     {selectedExam.type.charAt(0)}
                                 </div>
@@ -254,7 +254,7 @@ export default function ExamsPage() {
                                             <div>
                                                 <h3 className="text-[#2DD4BF] font-bold text-lg mb-1">Corrigé Détaillé</h3>
                                                 <p className="text-sm text-gray-400 leading-relaxed">
-                                                    Voici les éléments de réponse. Assurez-vous d'avoir bien cherché par vous-même avant de consulter la solution !
+                                                    Voici les éléments de réponse. Assurez-vous d&apos;avoir bien cherché par vous-même avant de consulter la solution !
                                                 </p>
                                             </div>
                                         </div>

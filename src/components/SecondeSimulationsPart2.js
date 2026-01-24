@@ -81,7 +81,7 @@ export function UniversalGravitationSeconde() {
                             </div>
                         </div>
                         <div className="text-xs italic text-gray-400 text-center">
-                            "La force est proportionnelle aux masses et inversement proportionnelle au carré de la distance."
+                            &quot;La force est proportionnelle aux masses et inversement proportionnelle au carré de la distance.&quot;
                         </div>
                     </div>
                 </DraggableHtmlPanel>
@@ -144,7 +144,7 @@ export function RefractionSeconde() {
                 <DraggableHtmlPanel title="🔦 Réfraction (Snell-Descartes)" className="w-[300px]" defaultPosition="bottom-right">
                     <div className="space-y-4 text-white">
                         <div className="bg-gray-800 p-2 rounded">
-                            <label className="text-xs text-gray-400">Angle d'incidence (i1)</label>
+                            <label className="text-xs text-gray-400">Angle d&apos;incidence (i1)</label>
                             <input type="range" min="0" max="85" value={angle} onChange={(e) => setAngle(Number(e.target.value))} className="w-full h-1 bg-red-900 rounded accent-red-500" />
                         </div>
 
@@ -205,13 +205,13 @@ export function PrismDispersion() {
             <Html transform={false}>
                 <DraggableHtmlPanel title="🌈 Dispersion de la Lumière" className="w-[300px]" defaultPosition="top-right">
                     <div className="text-white space-y-3">
-                        <p className="text-sm">La lumière blanche est un mélange de toutes les couleurs (longueurs d'onde).</p>
+                        <p className="text-sm">La lumière blanche est un mélange de toutes les couleurs (longueurs d&apos;onde).</p>
                         <ul className="text-xs list-disc ml-4 space-y-1 text-gray-300">
                             <li className="text-red-400">Le Rouge est moins dévié (λ ~ 800nm)</li>
                             <li className="text-purple-400">Le Violet est plus dévié (λ ~ 400nm)</li>
                         </ul>
                         <div className="text-xs bg-gray-800 p-2 rounded border border-gray-600">
-                            C'est le même phénomène que l'Arc-en-ciel (gouttes d'eau = prisme).
+                            C&apos;est le même phénomène que l&apos;Arc-en-ciel (gouttes d&apos;eau = prisme).
                         </div>
                     </div>
                 </DraggableHtmlPanel>
@@ -388,7 +388,7 @@ export function SolutionsSeconde() {
                         </div>
 
                         <div className="text-xs text-gray-400">
-                            Regarde la couleur : Plus c'est foncé, plus c'est concentré !
+                            Regarde la couleur : Plus c&apos;est foncé, plus c&apos;est concentré !
                         </div>
                     </div>
                 </DraggableHtmlPanel>

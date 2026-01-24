@@ -8,6 +8,7 @@ import dynamic from 'next/dynamic';
 import { collegeSimulationsData } from '../collegeData';
 import { lyceeSimulationsData } from '../lyceeData';
 import { getSimulationImage, simulationHotspots } from '../imageConfig';
+import EnhancedQuiz from '@/components/EnhancedQuiz';
 
 // Import dynamique pour éviter les erreurs SSR avec Three.js
 const Simulation3D = dynamic(() => import('@/components/Simulation3D'), {
@@ -140,7 +141,7 @@ const AdvancedControls = ({
         {/* Slider Vitesse */}
         <div>
             <div className="flex justify-between text-sm mb-1">
-                <span className="text-gray-300">Vitesse d'animation</span>
+                <span className="text-gray-300">Vitesse d&apos;animation</span>
                 <span className="text-[#00F5D4] font-mono">{speed}x</span>
             </div>
             <input
@@ -1109,7 +1110,7 @@ export default function SimulationDetailPage({ params }) {
 
                                 {/* Galerie d'exploration */}
                                 <div className="p-6 rounded-2xl bg-gradient-to-br from-white/5 to-white/10 border border-white/20">
-                                    <h3 className="text-xl font-bold text-white mb-4">🔬 Explorer d'autres concepts</h3>
+                                    <h3 className="text-xl font-bold text-white mb-4">🔬 Explorer d&apos;autres concepts</h3>
                                     <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                                         {[
                                             { id: 'cell-structure', title: 'Cellule', icon: '🔬' },

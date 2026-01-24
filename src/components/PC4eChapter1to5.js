@@ -1,5 +1,5 @@
 'use client';
-import { useState, useRef, useEffect, useMemo } from 'react';
+import { useState, useRef, useEffect, useMemo, useCallback } from 'react';
 import { useFrame } from '@react-three/fiber';
 import { Text, Html, useGLTF, Float, Sphere, Box, Cylinder, Torus, Line } from '@react-three/drei';
 import DraggableHtmlPanel from './DraggableHtmlPanel';
@@ -177,7 +177,7 @@ export function Chap1ScienceIntro() {
                             {/* Logbook snippet */}
                             {observationLog.length > 0 && (
                                 <div className="mt-4 p-3 bg-white/5 rounded-lg border border-white/10">
-                                    <div className="text-[10px] text-gray-500 font-bold uppercase mb-2">Journal d'observation</div>
+                                    <div className="text-[10px] text-gray-500 font-bold uppercase mb-2">Journal d&apos;observation</div>
                                     <div className="space-y-1">
                                         {observationLog.map((log, i) => (
                                             <div key={i} className="text-[10px] text-blue-300 flex items-start gap-2">
@@ -446,7 +446,7 @@ export function Chap2Mesures() {
                     {phase === 'explore' ? (
                         <div className="space-y-4">
                             <div>
-                                <label className="text-[10px] text-gray-500 font-bold uppercase mb-2 block">1. Objet d'étude</label>
+                                <label className="text-[10px] text-gray-500 font-bold uppercase mb-2 block">1. Objet d&apos;étude</label>
                                 <div className="grid grid-cols-2 gap-2">
                                     {Object.entries(objects).map(([k, o]) => (
                                         <button key={k} onClick={() => { setObject(k); setMeasurement(null); }}
@@ -488,7 +488,7 @@ export function Chap2Mesures() {
 
                         <button onClick={handleMeasure}
                             className="w-full py-4 rounded-xl font-black text-lg bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 shadow-[0_0_20px_rgba(8,145,178,0.3)] transform transition-active group">
-                            MESURER L'OBJET
+                            MESURER L&apos;OBJET
                             <span className="ml-2 transition-transform group-hover:translate-x-1 inline-block">➡️</span>
                         </button>
                     </div>
@@ -645,7 +645,7 @@ export function Chap3Densite() {
 
                     <div className="flex justify-between items-center mb-4 border-b border-white/10 pb-2">
                         <div className="flex flex-col">
-                            <span className="text-[10px] text-blue-400 font-bold uppercase tracking-widest">Laboratoire d'Archimède</span>
+                            <span className="text-[10px] text-blue-400 font-bold uppercase tracking-widest">Laboratoire d&apos;Archimède</span>
                             <span className="text-lg font-black">{mode === 'explore' ? 'Simulateur de Flottaison' : 'Enquête de Matière 🕵️'}</span>
                         </div>
                         <GradeBadge score={score} />
@@ -679,7 +679,7 @@ export function Chap3Densite() {
                                 </div>
                             </div>
                             <div>
-                                <label className="text-[10px] text-gray-500 font-bold uppercase mb-2 block tracking-widest">2. Choix de l'Échantillon</label>
+                                <label className="text-[10px] text-gray-500 font-bold uppercase mb-2 block tracking-widest">2. Choix de l&apos;Échantillon</label>
                                 <div className="grid grid-cols-5 gap-2">
                                     {Object.entries(objects).map(([k, o]) => (
                                         <button key={k} onClick={() => setObject(k)}
@@ -941,12 +941,31 @@ export function Chap5Electricite() {
     const [score, setScore] = useState(0);
     const [showSuccess, setShowSuccess] = useState(false);
 
-    // Initialisation
-    useEffect(() => {
-        resetCircuit();
-    }, [topology]);
+    // --- DATA COMPONENTS ---
+    const standardComponents = useMemo(() => [
+        { id: 'wire', name: 'Fil', icon: '➖', r: 0.1, type: 'basic' },
+        { id: 'lamp', name: 'Lampe', icon: '💡', r: 10, type: 'basic' },
+        { id: 'motor', name: 'Moteur', icon: '⚙️', r: 15, type: 'basic' },
+        { id: 'open', name: 'Vide', icon: '🚫', r: Infinity, type: 'basic' }
+    ], []);
 
-    const resetCircuit = () => {
+    const resistorsList = useMemo(() => [
+        { val: 10, colors: ['🟤', '⚫', '⚫'] },
+        { val: 100, colors: ['🟤', '⚫', '🟤'] },
+        { val: 220, colors: ['🔴', '🔴', '🟤'] },
+        { val: 1000, colors: ['🟤', '⚫', '🔴'] },
+    ], []);
+
+    const getCompInfo = useCallback((id) => {
+        if (!id) return standardComponents[3];
+        if (id.startsWith('resistor_')) {
+            const val = parseInt(id.split('_')[1]);
+            return { id, name: `R ${val}Ω`, icon: '▆', r: val, type: 'resistor' };
+        }
+        return standardComponents.find(c => c.id === id) || standardComponents[3];
+    }, [standardComponents]);
+
+    const resetCircuit = useCallback(() => {
         if (topology === 'series') {
             setSlots({ 0: 'lamp', 1: 'wire', 2: 'wire' });
         } else {
@@ -954,31 +973,12 @@ export function Chap5Electricite() {
         }
         setSwitchState(false);
         setPhase('explore');
-    };
+    }, [topology]);
 
-    // --- DATA COMPONENTS ---
-    const standardComponents = [
-        { id: 'wire', name: 'Fil', icon: '➖', r: 0.1, type: 'basic' },
-        { id: 'lamp', name: 'Lampe', icon: '💡', r: 10, type: 'basic' },
-        { id: 'motor', name: 'Moteur', icon: '⚙️', r: 15, type: 'basic' },
-        { id: 'open', name: 'Vide', icon: '🚫', r: Infinity, type: 'basic' }
-    ];
-
-    const resistorsList = [
-        { val: 10, colors: ['🟤', '⚫', '⚫'] },
-        { val: 100, colors: ['🟤', '⚫', '🟤'] },
-        { val: 220, colors: ['🔴', '🔴', '🟤'] },
-        { val: 1000, colors: ['🟤', '⚫', '🔴'] },
-    ];
-
-    const getCompInfo = (id) => {
-        if (!id) return standardComponents[3];
-        if (id.startsWith('resistor_')) {
-            const val = parseInt(id.split('_')[1]);
-            return { id, name: `R ${val}Ω`, icon: '▆', r: val, type: 'resistor' };
-        }
-        return standardComponents.find(c => c.id === id) || standardComponents[3];
-    };
+    // Initialisation
+    useEffect(() => {
+        resetCircuit();
+    }, [resetCircuit]);
 
     // --- CIRCUIT ANALYSIS ---
     const analysis = useMemo(() => {
@@ -1023,7 +1023,7 @@ export function Chap5Electricite() {
         }
 
         return { status, msg, current };
-    }, [topology, slots, switchState, phase, challenge]);
+    }, [topology, slots, switchState, phase, challenge, getCompInfo, showSuccess]);
 
     const triggerSuccess = () => {
         setScore(s => s + 100);

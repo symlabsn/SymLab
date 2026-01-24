@@ -127,7 +127,7 @@ export default function ChallengesPage() {
                                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400">Masterclass</span>
                             </h3>
                             <p className="text-gray-300 max-w-xl text-lg mb-6">
-                                Un cursus complet de l'Introduction à la Théorie des Nombres. Explorez l'Algèbre, le Calcul, la Trigonométrie et plus encore avec des notebooks interactifs et des exercices pratiques.
+                                Un cursus complet de l&apos;Introduction à la Théorie des Nombres. Explorez l&apos;Algèbre, le Calcul, la Trigonométrie et plus encore avec des notebooks interactifs et des exercices pratiques.
                             </p>
                             <div className="inline-flex items-center gap-2 text-white font-bold bg-purple-600 hover:bg-purple-500 px-6 py-3 rounded-xl transition-colors shadow-lg shadow-purple-900/40">
                                 Commencer le Cours
@@ -147,7 +147,7 @@ export default function ChallengesPage() {
                         </div>
                         <h3 className="text-xl font-bold mb-2">SymPy Core</h3>
                         <p className="text-gray-400 text-sm">
-                            Le cœur du calcul symbolique. Manipulation d'expressions, résolution d'équations, calcul infinitésimal.
+                            Le cœur du calcul symbolique. Manipulation d&apos;expressions, résolution d&apos;équations, calcul infinitésimal.
                         </p>
                     </div>
                     <div className="bg-[#0F1115] border border-white/10 rounded-2xl p-6 hover:border-[#00F5D4]/30 transition-colors">
@@ -165,7 +165,7 @@ export default function ChallengesPage() {
                         </div>
                         <h3 className="text-xl font-bold mb-2">Jupyter & IPython</h3>
                         <p className="text-gray-400 text-sm">
-                            L'environnement interactif idéal pour expérimenter, documenter et partager vos découvertes.
+                            L&apos;environnement interactif idéal pour expérimenter, documenter et partager vos découvertes.
                         </p>
                     </div>
                     <Link href="/engineering" className="bg-[#0F1115] border border-white/10 rounded-2xl p-6 hover:border-[#00F5D4]/30 transition-colors group cursor-pointer block">

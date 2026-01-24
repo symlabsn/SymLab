@@ -63,7 +63,7 @@ export function PhotoelectricEffect() {
                         </div>
 
                         <div>
-                            <label className="text-xs text-gray-400">Longueur d'onde : {wavelength} nm</label>
+                            <label className="text-xs text-gray-400">Longueur d&apos;onde : {wavelength} nm</label>
                             <input type="range" min="200" max="800" step="10" value={wavelength} onChange={e => setWavelength(Number(e.target.value))} className="w-full" style={{ accentColor: '#' + photonColor.getHexString() }} />
                             <div className="w-full h-2 rounded mt-1 bg-gradient-to-r from-purple-500 via-green-500 to-red-500 opacity-50"></div>
                         </div>

@@ -74,7 +74,7 @@ export default function EngineeringPage() {
                         <span className="text-xs font-mono text-[#2DD4BF] uppercase tracking-wider">60+ Projets Concrets</span>
                     </div>
                     <h1 className="text-5xl md:text-7xl font-black mb-6 leading-tight tracking-tight">
-                        L'Ingénierie par <br />
+                        L&apos;Ingénierie par <br />
                         <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#2DD4BF] via-blue-500 to-purple-600">la Pratique.</span>
                     </h1>
                 </div>
@@ -202,10 +202,10 @@ export default function EngineeringPage() {
                                         <div className="flex flex-col gap-6">
                                             <div className="bg-gradient-to-br from-purple-900/20 to-blue-900/20 rounded-2xl p-6 border border-white/10">
                                                 <h3 className="text-lg font-bold mb-3 flex items-center gap-2 text-purple-300">
-                                                    💡 L'Analogie
+                                                    💡 L&apos;Analogie
                                                 </h3>
                                                 <p className="text-gray-300 text-sm leading-relaxed italic">
-                                                    "{selectedProject.problemStatement.analogy}"
+                                                    &quot;{selectedProject.problemStatement.analogy}&quot;
                                                 </p>
                                             </div>
 
