@@ -1172,14 +1172,19 @@ print(f"Force : {F_val} N (attractive)")`
                 explanation: "Φ = B·A·cos(ωt).",
                 code: `from sympy import symbols, cos, diff, pi
 B, A, omega, t = symbols('B A omega t')
-Phi`
+Phi = B * A * cos(omega * t)
+print(f"Expression du flux : {Phi}")`
             },
             {
                 title: "2. Force Électromotrice",
                 explanation: "ε = -dΦ/dt.",
                 code: `epsilon = -diff(Phi, t)
-print("FEM induite :")
-epsilon`
+print(f"FEM induite : {epsilon}")
+# Exemple pour une dynamo de vélo (f=10Hz)
+f_val = 10
+omega_val = 2 * pi * f_val
+val = epsilon.subs({B: 0.5, A: 0.01, omega: omega_val, t: 0.1})
+print(f"Tension à t=0.1s : {val.evalf()} V")`
             }
         ]
     },
@@ -1502,8 +1507,10 @@ print(f"Espacement des franges : {i.subs(vals).evalf() * 1000} mm")`
                 explanation: "pH = pKa + log₁₀([A-]/[AH]).",
                 code: `from sympy import symbols, log
 pKa, A_minus, AH = symbols('pKa A_minus AH')
-pH = pKa + log₁₀(A_minus / AH, 10)
-pH`
+pH = pKa + log(A_minus / AH, 10)
+# Pour un mélange équimolaire (A- = AH), log(1)=0 => pH = pKa
+result = pH.subs({pKa: 4.75, A_minus: 0.1, AH: 0.1})
+print(f"pH du tampon : {result}")`
             }
         ]
     },
@@ -1533,9 +1540,13 @@ pH`
                 explanation: "Calcul de K à partir des concentrations.",
                 code: `from sympy import symbols, solve
 A, B, C, D, K = symbols('A B C D K')
-# Exemple : A + B <=> C + D
+# A + B <=> C + D, K = [C][D]/[A][B]
 eq = K - (C * D) / (A * B)
-eq`
+# Si K=10, A=1, B=1, et on forme x mol de C et D (D=C)
+x = symbols('x')
+eq_x = eq.subs({C: x, D: x, A: 1-x, B: 1-x, K: 10})
+sol_x = solve(eq_x, x)
+print(f"Avancement x à l'équilibre : {sol_x[0].evalf()}")`
             }
         ]
     },
@@ -1564,12 +1575,12 @@ eq`
                 title: "1. Loi de Vitesse",
                 explanation: "v = k[A]^n.",
                 code: `from sympy import symbols, Function, dsolve, Eq
-t, k, n = symbols('t k n')
+t, k = symbols('t k')
 A = Function('A')(t)
 # Ordre 1 : dA/dt = -k*A
 eq = Eq(A.diff(t), -k*A)
-sol = dsolve(eq)
-sol`
+sol = dsolve(eq, A)
+print(f"Loi cinétique : {sol}")`
             }
         ]
     },
@@ -2083,7 +2094,8 @@ print("Objectif chimie verte : E < 1")`
 t, r, K = symbols('t r K')
 N = Function('N')(t)
 eq = Eq(N.diff(t), r*N*(1 - N/K))
-sol`
+sol = dsolve(eq, N)
+print(f"Solution générale N(t) : {sol}")`
             }
         ]
     },
@@ -2113,7 +2125,10 @@ sol`
                 explanation: "Vitesse en fonction du substrat.",
                 code: `from sympy import symbols
 Vmax, S, Km = symbols('Vmax S Km')
-v`
+v = (Vmax * S) / (Km + S)
+# Exemple : Vmax=100, Km=2, [S]=4
+v_val = v.subs({Vmax: 100, Km: 2, S: 4})
+print(f"Vitesse v = {v_val.evalf()} (unités/s)")`
             }
         ]
     },
@@ -2658,20 +2673,21 @@ print("D varie de 0 (une seule espèce) à ~1 (très diversifié)")`
             {
                 title: "1. Impédance Complexe",
                 explanation: "En régime alternatif, Z = R + jLω + 1/jCω.",
-                code: `from sympy import symbols, I
+                code: `from sympy import symbols, I, simplify
 R, L, C, omega = symbols('R L C omega', real=True)
 Z = R + I*L*omega + 1/(I*C*omega)
-print("Impédance totale :")
-display(Z)`
+print(f"Impédance complexe Z : {simplify(Z)}")`
             },
             {
                 title: "2. Fréquence de Résonance",
                 explanation: "La résonance se produit quand Im(Z) = 0.",
-                code: `from sympy import solve, sqrt
-partie_im = L*omega - 1/(C*omega)
-omega_res = solve(partie_im, omega)[0]
-print(f"Pulsation de résonance : {omega_res}")
-# Résultat : 1/sqrt(LC)`
+                code: `from sympy import solve
+# Résonance : Partie imaginaire de Z nulle
+# L*omega - 1/(C*omega) = 0
+omega_res = solve(L*omega - 1/(C*omega), omega)
+print(f"Pulsation de résonance : {omega_res[1]}")  # Solution positive
+print(f"Fréquence f0 = 1/(2*pi*sqrt(LM))")`
+
             }
         ]
     },
@@ -3206,10 +3222,15 @@ while True:
             {
                 title: "1. Équation Différentielle",
                 explanation: "Lien entre courbure et moment.",
-                code: `from sympy import symbols, Function, dsolve
+                code: `from sympy import symbols, Function, dsolve, Eq
 x, E, I, M = symbols('x E I M')
 y = Function('y')(x)
-eq`
+# Équation d'Euler-Bernoulli : EI * y'' = M
+eq = Eq(E * I * y.diff(x, x), M)
+print(f"Équation diff : {eq}")
+# SI M est constant (cas simple)
+sol = dsolve(eq, y)
+print(f"Déformée y(x) : {sol}")`
             }
         ]
     },
