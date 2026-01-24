@@ -516,7 +516,7 @@ function CoursesContent() {
             if (course && course.id !== selectedCourse?.id) {
                 // Determine layout based on course type
                 if (structuredCourses[course.id]) {
-                     
+
                     setActiveChapter(structuredCourses[course.id].chapters[0]);
                     setShowExercises(false);
                     setQuizAnswers({});
@@ -585,15 +585,15 @@ function CoursesContent() {
 
 
     return (
-        <main className="min-h-screen bg-black text-white font-sans selection:bg-[#2DD4BF] selection:text-black flex flex-col">
-            {/* Navbar */}
-            <nav className="fixed top-0 w-full z-50 border-b border-white/10 bg-black/80 backdrop-blur-xl">
+        <main className="min-h-screen bg-[#020617] text-white font-sans selection:bg-[#06d6a0] selection:text-black flex flex-col">
+            {/* Navbar - Now uses global navbar */}
+            <nav className="fixed top-0 w-full z-50 border-b border-white/[0.06] bg-[#020617]/85 backdrop-blur-2xl">
                 <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
                     <Link href="/" className="flex items-center gap-2 group">
-                        <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-600 to-cyan-600 flex items-center justify-center font-bold text-white group-hover:scale-110 transition-transform">
+                        <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[#06d6a0] to-[#8b5cf6] flex items-center justify-center font-bold text-white group-hover:scale-110 transition-transform">
                             <BookOpen size={18} />
                         </div>
-                        <span className="font-bold text-xl tracking-tight">SymLab <span className="text-blue-500">Cours</span></span>
+                        <span className="font-bold text-xl tracking-tight">SymLab <span className="gradient-text-static">Cours</span></span>
                     </Link>
                     <div className="flex gap-6 text-sm font-medium text-gray-400">
                         <Link href="/engineering" className="hover:text-white transition-colors">Ingénierie</Link>
@@ -606,17 +606,17 @@ function CoursesContent() {
             <div className="flex flex-1 pt-16">
                 {/* Sidebar - Levels (Hidden if structured course is open) */}
                 {!selectedCourse && (
-                    <div className="w-64 border-r border-white/10 bg-[#0F1115] hidden md:flex flex-col fixed h-[calc(100vh-4rem)] overflow-y-auto">
+                    <div className="w-64 border-r border-white/[0.06] bg-[#0a0f1e] hidden md:flex flex-col fixed h-[calc(100vh-4rem)] overflow-y-auto">
                         <div className="p-6">
-                            <h2 className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-4">Niveaux Scolaires</h2>
+                            <h2 className="text-xs font-bold text-[#06d6a0] uppercase tracking-widest mb-4">Niveaux Scolaires</h2>
                             <div className="space-y-1">
                                 {levels.map((level) => (
                                     <button
                                         key={level}
                                         onClick={() => setActiveLevel(level)}
                                         className={`w-full flex items-center justify-between px-4 py-3 rounded-xl text-sm font-medium transition-all ${activeLevel === level
-                                            ? 'bg-blue-600/10 text-blue-400 border border-blue-600/20'
-                                            : 'text-gray-400 hover:bg-white/5 hover:text-white'
+                                            ? 'bg-[#06d6a0]/10 text-[#06d6a0] border border-[#06d6a0]/20'
+                                            : 'text-slate-400 hover:bg-white/5 hover:text-white'
                                             }`}
                                     >
                                         {level}
@@ -692,7 +692,7 @@ function CoursesContent() {
                                     {filteredCourses.map((course) => (
                                         <div
                                             key={course.id}
-                                            className="group relative bg-[#0F1115]/80 backdrop-blur-md rounded-2xl border border-white/10 p-5 sm:p-6 hover:border-blue-500/50 transition-all duration-300 active:scale-[0.98] hover:-translate-y-1 hover:shadow-2xl hover:shadow-blue-500/10 overflow-hidden"
+                                            className="group relative glass-card p-5 sm:p-6 hover:border-[#06d6a0]/30 transition-all duration-300 active:scale-[0.98] hover:-translate-y-2 hover:shadow-[0_20px_50px_rgba(6,214,160,0.1)] overflow-hidden"
                                         >
                                             {/* Gradient Shine Effect */}
                                             <div className="absolute inset-0 bg-gradient-to-br from-white/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
@@ -707,7 +707,7 @@ function CoursesContent() {
                                                     </span>
                                                 </div>
 
-                                                <h3 className="text-lg font-bold mb-2 text-gray-100 group-hover:text-blue-400 transition-colors line-clamp-1">
+                                                <h3 className="text-lg font-bold mb-2 text-white group-hover:text-[#06d6a0] transition-colors line-clamp-1">
                                                     {course.title}
                                                 </h3>
                                                 <p className="text-sm text-gray-500 mb-6 line-clamp-2 h-10 group-hover:text-gray-400 transition-colors">
@@ -716,7 +716,7 @@ function CoursesContent() {
 
                                                 <button
                                                     onClick={() => handleCourseSelect(course)}
-                                                    className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 active:bg-blue-700 text-white text-sm font-bold transition-all shadow-lg shadow-blue-500/20 group-hover:shadow-blue-500/40"
+                                                    className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-r from-[#06d6a0] to-[#4ade80] hover:from-[#4ade80] hover:to-[#06d6a0] text-black text-sm font-bold transition-all shadow-lg shadow-[#06d6a0]/20 group-hover:shadow-[#06d6a0]/40"
                                                 >
                                                     <Eye size={16} />
                                                     <span>{structuredCourses[course.id] ? 'Commencer' : 'Aperçu'}</span>
@@ -782,7 +782,7 @@ function CoursesContent() {
                                                 return (
                                                     <div key={chapter.id}>
                                                         {showDivider && chapter.part && (
-                                                            <div className="px-3 py-2 mt-4 mb-2 text-xs font-bold text-blue-400 uppercase tracking-widest bg-blue-500/5 rounded border border-blue-500/10 backdrop-blur-sm sticky top-0 z-10 mx-1">
+                                                            <div className="px-3 py-2 mt-4 mb-2 text-xs font-bold text-[#06d6a0] uppercase tracking-widest bg-[#06d6a0]/5 rounded border border-[#06d6a0]/10 backdrop-blur-sm sticky top-0 z-10 mx-1">
                                                                 {chapter.part}
                                                             </div>
                                                         )}
@@ -792,7 +792,7 @@ function CoursesContent() {
                                                                 setShowExercises(false);
                                                             }}
                                                             className={`w-full text-left p-3 rounded-lg text-sm transition-all border ${activeChapter?.id === chapter.id
-                                                                ? 'bg-blue-600 text-white font-bold border-blue-500 shadow-lg shadow-blue-900/20'
+                                                                ? 'bg-[#06d6a0]/10 text-[#06d6a0] font-bold border-[#06d6a0]/30 shadow-lg shadow-[#06d6a0]/10'
                                                                 : 'text-gray-400 border-transparent hover:bg-white/5 hover:text-white hover:border-white/5'
                                                                 }`}
                                                         >
@@ -837,21 +837,21 @@ function CoursesContent() {
                                         {!selectedCourse.isProject && (
                                             <div className="flex border-b border-white/10 bg-black/20">
                                                 {selectedCourse.id.includes('entrainement') ? (
-                                                    <div className="flex-1 py-4 text-sm font-bold uppercase tracking-wider text-blue-400 border-t-2 border-blue-500 bg-[#0F1115] text-center">
+                                                    <div className="flex-1 py-4 text-sm font-bold uppercase tracking-wider text-[#06d6a0] border-t-2 border-[#06d6a0] bg-[#0a0f1e] text-center">
                                                         ✏️ Exercices
                                                     </div>
                                                 ) : (
                                                     <>
                                                         <button
                                                             onClick={() => setShowExercises(false)}
-                                                            className={`flex-1 py-4 text-sm font-bold uppercase tracking-wider transition-colors ${!showExercises ? 'bg-[#0F1115] text-blue-400 border-t-2 border-blue-500' : 'text-gray-500 hover:text-white bg-black/20'
+                                                            className={`flex-1 py-4 text-sm font-bold uppercase tracking-wider transition-colors ${!showExercises ? 'bg-[#0a0f1e] text-[#06d6a0] border-t-2 border-[#06d6a0]' : 'text-gray-500 hover:text-white bg-black/20'
                                                                 }`}
                                                         >
                                                             📖 Leçon
                                                         </button>
                                                         <button
                                                             onClick={() => setShowExercises(true)}
-                                                            className={`flex-1 py-4 text-sm font-bold uppercase tracking-wider transition-colors ${showExercises ? 'bg-[#0F1115] text-blue-400 border-t-2 border-blue-500' : 'text-gray-500 hover:text-white bg-black/20'
+                                                            className={`flex-1 py-4 text-sm font-bold uppercase tracking-wider transition-colors ${showExercises ? 'bg-[#0a0f1e] text-[#06d6a0] border-t-2 border-[#06d6a0]' : 'text-gray-500 hover:text-white bg-black/20'
                                                                 }`}
                                                         >
                                                             🎯 Défis

@@ -222,13 +222,13 @@ export default function AboutPage() {
                                     </div>
                                 </a>
 
-                                <a href="tel:+221707434349" className="group flex items-center gap-4 p-4 rounded-xl bg-white/5 border border-white/10 hover:border-purple-500/50 hover:bg-white/10 transition-all duration-300">
+                                <a href="tel:+221708571732" className="group flex items-center gap-4 p-4 rounded-xl bg-white/5 border border-white/10 hover:border-purple-500/50 hover:bg-white/10 transition-all duration-300">
                                     <div className="w-12 h-12 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">
                                         📱
                                     </div>
                                     <div className="text-left">
                                         <p className="text-sm text-gray-400">Téléphone</p>
-                                        <p className="text-white font-semibold">+221 70 743 43 49</p>
+                                        <p className="text-white font-semibold">+221 70 857 17 32</p>
                                     </div>
                                 </a>
                             </div>
