@@ -1,3 +1,27 @@
+// Import du contenu du module 3
+import { module3Content } from './module3Content';
+// Import du contenu des modules 4, 5, 6
+import { modules456Content } from './modules456Content';
+// Import du contenu du module 2 (suite)
+import { module2SuiteContent } from './module2SuiteContent';
+// Import du contenu modules 5 & 6 (suite)
+import { modules56SuiteContent } from './modules56SuiteContent';
+// Import du contenu du module 7
+import { module7Content } from './module7Content';
+import { module8Content } from './module8Content';
+import { module9Content } from './module9Content';
+import { module10Content } from './module10Content';
+import { module11Content } from './module11Content';
+import { module12Content } from './module12Content';
+import { module13Content } from './module13Content';
+import { module14Content } from './module14Content';
+import { module5SympyContent } from './module5SympyContent';
+import { module9SympyContent } from './module9SympyContent';
+import { module6SympyContent } from './module6SympyContent';
+import { module8SympyContent } from './module8SympyContent';
+import { module10SympyContent } from './module10SympyContent';
+import { numpyMatplotlibContent } from './numpyMatplotlibContent';
+
 // ============================================================
 // CONTENU PEDAGOGIQUE COMPLET - MODULES 1 A 3
 // ============================================================
@@ -1297,29 +1321,7 @@ print(f"LaTeX matrice : {sp.latex(M)}")`,
 };
 
 
-// Import du contenu du module 3
-import { module3Content } from './module3Content';
-// Import du contenu des modules 4, 5, 6
-import { modules456Content } from './modules456Content';
-// Import du contenu du module 2 (suite)
-import { module2SuiteContent } from './module2SuiteContent';
-// Import du contenu modules 5 & 6 (suite)
-import { modules56SuiteContent } from './modules56SuiteContent';
-// Import du contenu du module 7
-import { module7Content } from './module7Content';
-import { module8Content } from './module8Content';
-import { module9Content } from './module9Content';
-import { module10Content } from './module10Content';
-import { module11Content } from './module11Content';
-import { module12Content } from './module12Content';
-import { module13Content } from './module13Content';
-import { module14Content } from './module14Content';
-import { module5SympyContent } from './module5SympyContent';
-import { module9SympyContent } from './module9SympyContent';
-import { module6SympyContent } from './module6SympyContent';
-import { module8SympyContent } from './module8SympyContent';
-import { module10SympyContent } from './module10SympyContent';
-import { numpyMatplotlibContent } from './numpyMatplotlibContent';
+
 
 // Fonction pour obtenir le contenu d'un chapitre
 export const getChapterContent = (chapterId) => {
