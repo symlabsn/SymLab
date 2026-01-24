@@ -6,6 +6,7 @@ export const introToPythonCourse = [
         id: "intro_install",
         title: "Introduction et Installation",
         chapters: [
+            { id: "what_is_python", title: "Qu'est-ce que Python ?" },
             { id: "jupyter", title: "Utiliser Python avec Jupyter (Anaconda)" },
             { id: "colab", title: "Utiliser Python via Google Colab" },
             { id: "help", title: "Obtenir de l'aide en Python" }

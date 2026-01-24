@@ -7,6 +7,65 @@ export const chapterContent = {
         // MODULE 1 : INTRODUCTION ET INSTALLATION
         // ============================================================
 
+        what_is_python: {
+                title: "Qu'est-ce que Python ?",
+                theorie: `
+## Python : Un langage puissant et accessible
+
+**Python** est un langage de programmation interprete, de haut niveau et polyvalent. Cree par **Guido van Rossum** et publie en 1991, il est aujourd'hui l'un des langages les plus populaires au monde.
+
+### Pourquoi Python ?
+
+1.  **Simplicite** : Sa syntaxe est claire, lisible et proche de l'anglais. C'est l'ideal pour debuter.
+2.  **Polyvalence** : Utilise en developpement web, analyse de donnees, intelligence artificielle, automatisation, scientifique, etc.
+3.  **Communaute** : Une immense communaute mondiale qui offre de l'aide, des tutoriels et des bibliotheques gratuites.
+4.  **Open Source** : Gratuit et libre d'utilisation pour tous les projets.
+
+### Python vs Autres langages (C++, Java)
+
+| Caracteristique | Python | C++ / Java |
+| :--- | :--- | :--- |
+| **Syntaxe** | Concise, indentation obligatoire | Verbeuse, accolades {} |
+| **Typage** | Dynamique (pas besoin de declarer le type) | Statique (types stricts) |
+| **Vitesse** | Plus lent (interprete) | Tres rapide (compile) |
+| **Productivite** | Tres haute (code ecrit vite) | Moyenne (plus de code a ecrire) |
+
+### Domaines d'application
+
+*   **Science des donnees & IA** (avec *NumPy, Pandas, TensorFlow*) : Le leader inconteste.
+*   **Developpement Web** (avec *Django, Flask*).
+*   **Scripting & Automatisation**.
+*   **Education** et Recherche.
+                `,
+                code: `# Exemple simple de la puissance de Python
+
+# 1. Lisibilite : Pas de points-virgules, pas d'accolades excessives
+def saluer(nom):
+    return f"Bonjour, {nom} !"
+
+print(saluer("le Monde"))
+
+# 2. Puissance : Listes et boucles concises (List Comprehension)
+nombres = [1, 2, 3, 4, 5]
+carres = [x**2 for x in nombres]
+
+print(f"Nombres : {nombres}")
+print(f"Carres  : {carres}")
+
+# 3. Typage dynamique
+variable = 42
+print(f"J'ai {variable} ans.")
+variable = "Quarante-deux"
+print(f"C'est ecrit : {variable}.")`,
+                exercice: `
+**Exercice de reflexion :**
+
+1.  Pourquoi dit-on que Python est un langage "interprete" ?
+2.  Citez 3 domaines ou Python est tres utilise.
+3.  Executez le code d'exemple ci-dessus pour voir la syntaxe en action.
+                `
+        },
+
         jupyter: {
                 title: "Utiliser Python avec Jupyter (Anaconda)",
                 theorie: `
