@@ -9,6 +9,7 @@ export const introToPythonCourse = [
             { id: "what_is_python", title: "Qu'est-ce que Python ?" },
             { id: "jupyter", title: "Utiliser Python avec Jupyter (Anaconda)" },
             { id: "colab", title: "Utiliser Python via Google Colab" },
+            { id: "python_scripts", title: "Scripts Python et IDEs (VS Code)" },
             { id: "help", title: "Obtenir de l'aide en Python" }
         ]
     },

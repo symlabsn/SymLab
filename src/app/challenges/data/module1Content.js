@@ -172,6 +172,69 @@ print(f"Factorisée : \{sp.factor(expression)}")`,
         `
         },
 
+        python_scripts: {
+                title: "Scripts Python et IDEs (VS Code)",
+                theorie: `
+## Au-delà des Notebooks : Les Scripts Python
+
+Bien que **Jupyter** et **Colab** soient fantastiques pour l'apprentissage et l'analyse de données, le développement logiciel se fait généralement via des **scripts Python** (fichiers \`.py\`).
+
+### Différences clés :
+
+| Notebook (.ipynb) | Script (.py) |
+| :--- | :--- |
+| Interactif, exploratoire | Exécutable, automatisable |
+| Mélange code, texte, images | Code pur |
+| Idéal pour : Data Science, Cours | Idéal pour : Apps, Serveurs, Bots |
+
+### Environnements de Développement (IDE)
+
+Pour écrire des scripts, on utilise un **IDE** (Integrated Development Environment). Le plus populaire est **VS Code**.
+
+#### Pourquoi VS Code ?
+1.  **Léger et puissant**
+2.  **Coloration syntaxique** avancée
+3.  **Extensions** (Python, Pylance, Jupyter)
+4.  **Terminal intégré**
+
+### Exécuter un script
+
+Dans votre terminal :
+\`\`\`bash
+python mon_script.py
+\`\`\`
+        `,
+                code: `# hello.py
+# Ceci est un script Python standard
+
+import sys
+import time
+
+def main():
+    print("=== Mon Premier Script ===")
+    print(f"Exécuté avec Python {sys.version.split()[0]}")
+    
+    print("Chargement...", end="", flush=True)
+    for _ in range(3):
+        time.sleep(0.5)
+        print(".", end="", flush=True)
+    
+    print("\\n\\nSuccès ! Le script s'est exécuté correctement.")
+
+# Point d'entrée standard
+if __name__ == "__main__":
+    main()`,
+                exercice: `
+**Exercice pratique :**
+
+1.  Installez **VS Code** (ou un simple éditeur de texte).
+2.  Créez un fichier nommé \`mon_script.py\`.
+3.  Copiez le code ci-dessus dedans.
+4.  Ouvrez un terminal dans le dossier du fichier.
+5.  Tapez \`python mon_script.py\` et validez.
+        `
+        },
+
         help: {
                 title: "Obtenir de l'aide en Python",
                 theorie: `
