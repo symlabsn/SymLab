@@ -43,6 +43,132 @@ print(f"2 + 2 = {resultat}")`,
                 tip: '💡 Astuce : En Python, on utilise # pour les commentaires. Tout ce qui suit # sur une ligne est ignoré par l\'ordinateur.'
             },
             {
+                title: 'Utiliser Python avec Jupyter (Anaconda)',
+                duration: '20 min',
+                analogy: '📓 Un cahier de laboratoire numérique et interactif',
+                content: `**Jupyter Notebook** est l'outil indispensable du scientifique. Il permet de mélanger :
+1. Du **code** exécutable
+2. Du **texte** explicatif (comme ce cours)
+3. Des **graphiques** et formules mathématiques
+
+**Anaconda** 🐍
+C'est une "valise" qui contient Python + Jupyter + toutes les bibliothèques scientifiques (NumPy, Pandas...). C'est ce que nous recommandons d'installer !
+
+**Cellules** 🧱
+Un notebook est composé de "cellules". On écrit le code dedans, et on l'exécute pour voir le résultat immédiatement en dessous.`,
+                keyPoints: [
+                    'Anaconda installe tout l\'environnement scientifique d\'un coup',
+                    'Jupyter permet de tester son code petit à petit',
+                    'Les résultats s\'affichent directement sous le code',
+                    'On peut ajouter des notes et des images'
+                ],
+                code: `# Dans une cellule Jupyter :
+import numpy as np
+
+# On crée un tableau
+x = np.array([1, 2, 3, 4, 5])
+
+# On l'affiche
+print(f"Mon tableau : {x}")
+print(f"Moyenne : {x.mean()}")`,
+                tip: '💡 Raccourci vital : Appuyez sur **Shift + Entrée** pour exécuter une cellule et passer à la suivante !'
+            },
+            {
+                title: 'Utiliser Python via Google Colab',
+                duration: '15 min',
+                analogy: '☁️ Le Google Docs de la programmation',
+                content: `**Google Colab** est un Jupyter Notebook hébergé dans le cloud par Google.
+
+**Avantages majeurs :**
+- **Rien à installer** : Tout fonctionne dans le navigateur
+- **Gratuit** : Accès gratuit à des ordinateurs puissants (GPU)
+- **Collaboratif** : Partagez vos codes comme un Google Doc
+- **Pré-configuré** : Toutes les bibliothèques sont déjà là !
+
+C'est la solution idéale si vous avez un ordinateur lent ou une tablette.`,
+                keyPoints: [
+                    'Aucune installation nécessaire, juste un compte Google',
+                    'Parfait pour les débutants et le travail collaboratif',
+                    'Vos notebooks sont sauvegardés dans Google Drive',
+                    'Idéal pour utiliser SymLab depuis n\'importe où'
+                ],
+                code: `# Vérification de l'environnement
+import sys
+import os
+
+print(f"Version Python : {sys.version.split()[0]}")
+print("Environnement prêt à coder ! 🚀")`,
+                tip: '💡 Astuce : Colab est parfait pour suivre ce cours sans rien installer sur votre machine.'
+            },
+            {
+                title: 'Scripts Python et IDEs (VS Code)',
+                duration: '25 min',
+                analogy: '🎬 Le script d\'un film vs l\'improvisation',
+                content: `Si Jupyter est comme un brouillon interactif, un **script Python** (fichier \`.py\`) est le produit fini.
+
+**Quand utiliser un script ?**
+- Pour créer des applications complètes
+- Pour automatiser des tâches répétitives
+- Pour des projets complexes avec plusieurs fichiers
+
+**VS Code** 💻
+C'est l'éditeur de code le plus populaire. Il offre :
+- Coloration syntaxique (code coloré)
+- Auto-complétion (il devine ce que vous tapez)
+- Détection d'erreurs`,
+                keyPoints: [
+                    'Les fichiers Python ont l\'extension .py',
+                    'On les exécute dans le terminal avec la commande "python fichier.py"',
+                    'VS Code est l\'outil pro par excellence',
+                    'Séparez votre code en fonctions pour mieux l\'organiser'
+                ],
+                code: `# mon_script.py
+
+def saluer():
+    print("Ceci est un script Python exécuté depuis le terminal !")
+
+if __name__ == "__main__":
+    saluer()`,
+                tip: '💡 Astuce : Commencez par exploiter Jupyter pour apprendre, puis passez à VS Code pour construire des projets.'
+            },
+            {
+                title: 'Obtenir de l\'aide en Python',
+                duration: '15 min',
+                analogy: '🆘 Le manuel d\'utilisation intégré et la communauté mondiale',
+                content: `Un bon programmeur n'est pas celui qui connaît tout par cœur, c'est celui qui sait **trouver l'information** !
+
+**1. La fonction help()** 📖
+Python a son propre manuel intégré. Tapez \`help(fonction)\` pour savoir comment elle marche.
+
+**2. La documentation officielle** 🌐
+docs.python.org est la bible de Python.
+
+**3. Stack Overflow** 💬
+Le forum où tous les développeurs du monde s'entraident. Si vous avez une erreur, quelqu'un l'a sûrement déjà eue !`,
+                keyPoints: [
+                    'Utilisez help() ou ? (dans Jupyter) pour l\'aide rapide',
+                    'Savoir lire la documentation est une compétence clé',
+                    'Copiez-collez vos messages d\'erreur dans Google',
+                    'La communauté Python est très accueillante'
+                ],
+                code: `# Obtenir de l'aide sur la fonction print
+help(print)
+
+# Dans Jupyter uniquement :
+# print?`,
+                tip: '💡 Astuce : En anglais, les ressources sont 100x plus nombreuses. Essayez de chercher vos erreurs en anglais !'
+            }
+        ]
+    },
+    {
+        id: 'basics',
+        title: '2. Les Bases du Langage',
+        icon: '🧱',
+        color: '#FF6B6B',
+        description: 'Maîtrisez les fondations : variables, calculs et logique',
+        duration: '2h 30min',
+        lessons: [
+            {
                 title: 'Variables et Types de Données',
                 duration: '30 min',
                 analogy: '📦 Une variable est comme un conteneur avec une étiquette',
@@ -292,7 +418,7 @@ else:
     },
     {
         id: 'data-structures',
-        title: '2. Structures de Données et Fichiers',
+        title: '3. Structures de Données et Fichiers',
         icon: '📦',
         color: '#FF6B6B',
         description: 'Listes, dictionnaires, tuples et manipulation de fichiers',
@@ -681,7 +807,7 @@ with open("etudiants.csv", "r", encoding="utf-8") as f:
     },
     {
         id: 'functions-modules',
-        title: '3. Fonctions et Programmation Orientée Objet',
+        title: '4. Fonctions et Programmation Orientée Objet',
         icon: '🔧',
         color: '#4ECDC4',
         description: 'Organiser et réutiliser votre code efficacement',
@@ -953,7 +1079,7 @@ for part in particules:
     },
     {
         id: 'numerical-python',
-        title: '4. Python Numérique (NumPy)',
+        title: '5. NumPy : Calcul Scientifique',
         icon: '🔢',
         color: '#95E1D3',
         description: 'Calcul numérique haute performance avec NumPy',
@@ -1173,7 +1299,7 @@ print(f"Vérif : {coeffs @ solutions}") # Doit donner [8, 18]`,
     },
     {
         id: 'sympy',
-        title: '5. Calcul Symbolique (SymPy)',
+        title: '6. SymPy : Mathématiques Symboliques',
         icon: '∫',
         color: '#FFD93D',
         description: 'Mathématiques exactes avec Python',
@@ -1440,9 +1566,10 @@ print(f"Oscillateur : {sol_osc}")
             }
         ]
     },
+
     {
         id: 'scipy',
-        title: '6. Calcul Scientifique Avancé (SciPy)',
+        title: '7. SciPy : Calcul Scientifique Avancé',
         icon: '🧪',
         color: '#6BCB77',
         description: 'Algorithmes scientifiques avec SciPy',
@@ -1597,12 +1724,108 @@ print(f"Angle final : {theta[-1]:.2f} rad")`,
         ]
     },
     {
+        id: 'matplotlib',
+        title: '8. Matplotlib : Visualisation de Données',
+        icon: '📈',
+        color: '#F97316',
+        description: 'Créez des graphiques professionnels',
+        duration: '2h 30min',
+        lessons: [
+            {
+                title: 'Introduction aux Graphiques',
+                duration: '40 min',
+                analogy: '🎨 De la feuille de papier millimétré à l\'écran',
+                content: `**Matplotlib** est la bibliothèque standard pour tracer des courbes en Python.
+Elle ressemble beaucoup à MATLAB.
+
+**Fonctions de base :**
+- \`plt.plot(x, y)\` : Trace une ligne
+- \`plt.scatter(x, y)\` : Trace des points
+- \`plt.bar(x, y)\` : Diagramme en bâtons
+- \`plt.hist(data)\` : Histogramme
+
+**Analogie du Peintre** 🖌️
+1. **Figure** : La toile vierge
+2. **Axes** : Le cadre et les axes gradués
+3. **Plot** : Le coup de pinceau`,
+                keyPoints: [
+                    'Toujours importer avec import matplotlib.pyplot as plt',
+                    'plt.show() est nécessaire pour afficher le graphique',
+                    'Ajoutez toujours titre, labels et légende',
+                    'plt.savefig() permet d\'enregistrer en PNG/PDF'
+                ],
+                code: `import matplotlib.pyplot as plt
+import numpy as np
+
+x = np.linspace(0, 10, 100)
+y = np.sin(x)
+
+plt.figure(figsize=(10, 6))
+plt.plot(x, y, label='Sinus', color='blue', linewidth=2)
+plt.plot(x, np.cos(x), label='Cosinus', color='red', linestyle='--')
+
+plt.title("Fonctions Trigonométriques")
+plt.xlabel("Temps (s)")
+plt.ylabel("Amplitude")
+plt.legend()
+plt.grid(True)
+plt.show()`,
+                tip: '💡 Astuce : Utilisez plt.style.use(\'seaborn\') ou \'ggplot\' pour avoir de beaux graphiques instantanément !'
+            },
+            {
+                title: 'Subplots et 3D',
+                duration: '50 min',
+                analogy: '🖼️ Une exposition avec plusieurs tableaux',
+                content: `Parfois, on veut afficher plusieurs graphiques côte à côte.
+
+**Subplots** 🪟
+Divise la fenêtre en une grille de graphiques.
+\`plt.subplot(lignes, colonnes, index)\`
+
+**3D** 🧊
+Matplotlib peut aussi tracer en 3D !
+\`ax = plt.axes(projection='3d')\``,
+                keyPoints: [
+                    'subplot permet de comparer plusieurs données',
+                    'Les graphiques 3D nécessitent une projection spéciale',
+                    'On peut animer les graphiques avec FuncAnimation',
+                    'Scatter 3D est génial pour visualiser des clusters'
+                ],
+                code: `import matplotlib.pyplot as plt
+import numpy as np
+
+# Subplots
+plt.figure()
+
+plt.subplot(2, 1, 1) # 2 lignes, 1 colonne, graphique 1
+plt.plot(np.random.random(10))
+plt.title("Bruit Aléatoire")
+
+plt.subplot(2, 1, 2) # Graphique 2
+plt.plot(np.arange(10)**2)
+plt.title("Fonction Carré")
+
+plt.tight_layout() # Évite les chevauchements
+plt.show()
+
+# 3D
+ax = plt.axes(projection='3d')
+z = np.linspace(0, 15, 1000)
+x = np.sin(z)
+y = np.cos(z)
+ax.plot3D(x, y, z, 'gray')
+plt.show()`,
+                tip: '💡 Astuce : Pour des graphiques interactifs (zoom, survol), regardez aussi la bibliothèque Plotly.'
+            }
+        ]
+    },
+    {
         id: 'projects',
-        title: '7. Projets Scientifiques Complets',
+        title: '9. Projets Scientifiques Complets',
         icon: '🚀',
-        color: '#4D96FF',
-        description: 'Mettez en pratique vos connaissances',
-        duration: '8 heures',
+        color: '#10B981',
+        description: 'Appliquez vos connaissances sur des cas réels',
+        duration: '5 heures',
         lessons: [
             {
                 title: 'Projet 1 : Mouvement de Projectile',
