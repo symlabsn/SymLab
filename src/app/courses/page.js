@@ -461,7 +461,9 @@ function CoursesContent() {
 
     const filteredCourses = courses.filter(course => {
         const matchLevel = course.level === activeLevel;
-        const matchSubject = activeSubject === 'Tous' || course.subject === activeSubject;
+        const matchSubject = activeSubject === 'Tous' ||
+            course.subject === activeSubject ||
+            (activeSubject === 'Informatique' && (course.subject === 'Data & IA' || course.subject === 'Data Science'));
         return matchLevel && matchSubject;
     });
 
