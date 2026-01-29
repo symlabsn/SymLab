@@ -131,7 +131,6 @@ function CoursesContent() {
 
     // Structured Course State
     const [activeChapter, setActiveChapter] = useState(null);
-    const [showExercises, setShowExercises] = useState(false);
     const [quizAnswers, setQuizAnswers] = useState({});
     const [quizResults, setQuizResults] = useState({});
 
@@ -506,7 +505,6 @@ function CoursesContent() {
                         setActiveLevel(course.level);
                         setActiveSubject(course.subject);
                         setActiveChapter(chapter);
-                        setShowExercises(false);
                         setQuizAnswers({});
                         setQuizResults({});
                     }
@@ -520,7 +518,6 @@ function CoursesContent() {
                 if (structuredCourses[course.id]) {
 
                     setActiveChapter(structuredCourses[course.id].chapters[0]);
-                    setShowExercises(false);
                     setQuizAnswers({});
                     setQuizResults({});
                 } else {
@@ -588,43 +585,120 @@ function CoursesContent() {
 
     return (
         <main className="min-h-screen bg-[#020617] text-white font-sans selection:bg-[#06d6a0] selection:text-black flex flex-col">
-            {/* Navbar - Now uses global navbar */}
-            <nav className="fixed top-0 w-full z-50 border-b border-white/[0.06] bg-[#020617]/85 backdrop-blur-2xl">
-                <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
+            {/* Animated Background */}
+            <div className="fixed inset-0 pointer-events-none overflow-hidden">
+                <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-[#06d6a0] rounded-full blur-[180px] opacity-5 animate-pulse" style={{ animationDuration: '10s' }} />
+                <div className="absolute bottom-0 right-1/4 w-[400px] h-[400px] bg-[#8b5cf6] rounded-full blur-[150px] opacity-5 animate-pulse" style={{ animationDuration: '12s', animationDelay: '3s' }} />
+            </div>
+
+            {/* Navbar Premium */}
+            <nav className="fixed top-0 w-full z-50 border-b border-white/[0.06] bg-[#020617]/80 backdrop-blur-xl">
+                <div className="max-w-7xl mx-auto px-3 sm:px-4 h-14 sm:h-16 flex items-center justify-between">
                     <Link href="/" className="flex items-center gap-2 group">
-                        <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[#06d6a0] to-[#8b5cf6] flex items-center justify-center font-bold text-white group-hover:scale-110 transition-transform">
-                            <BookOpen size={18} />
+                        <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-lg bg-gradient-to-br from-[#06d6a0] to-[#8b5cf6] flex items-center justify-center font-bold text-white group-hover:scale-110 transition-transform shadow-lg shadow-[#06d6a0]/20">
+                            <BookOpen size={16} className="sm:w-[18px] sm:h-[18px]" />
                         </div>
-                        <span className="font-bold text-xl tracking-tight">SymLab <span className="gradient-text-static">Cours</span></span>
+                        <span className="font-bold text-lg sm:text-xl tracking-tight">SymLab <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#06d6a0] to-[#8b5cf6]">Cours</span></span>
                     </Link>
-                    <div className="flex gap-6 text-sm font-medium text-gray-400">
-                        <Link href="/engineering" className="hover:text-white transition-colors">Ingénierie</Link>
+                    <div className="flex gap-3 sm:gap-6 text-xs sm:text-sm font-medium text-gray-400">
+                        <Link href="/engineering" className="hover:text-white transition-colors hidden sm:block">Ingénierie</Link>
                         <Link href="/simulations" className="hover:text-white transition-colors">Simulations</Link>
                         <Link href="/code" className="hover:text-white transition-colors">Notebook</Link>
                     </div>
                 </div>
             </nav>
 
-            <div className="flex flex-1 pt-16">
-                {/* Sidebar - Levels (Hidden if structured course is open) */}
+            <div className="flex flex-1 pt-14 sm:pt-16">
+                {/* Sidebar Premium - Levels (Hidden if structured course is open) */}
                 {!selectedCourse && (
-                    <div className="w-64 border-r border-white/[0.06] bg-[#0a0f1e] hidden md:flex flex-col fixed h-[calc(100vh-4rem)] overflow-y-auto">
-                        <div className="p-6">
-                            <h2 className="text-xs font-bold text-[#06d6a0] uppercase tracking-widest mb-4">Niveaux Scolaires</h2>
-                            <div className="space-y-1">
-                                {levels.map((level) => (
-                                    <button
-                                        key={level}
-                                        onClick={() => setActiveLevel(level)}
-                                        className={`w-full flex items-center justify-between px-4 py-3 rounded-xl text-sm font-medium transition-all ${activeLevel === level
-                                            ? 'bg-[#06d6a0]/10 text-[#06d6a0] border border-[#06d6a0]/20'
-                                            : 'text-slate-400 hover:bg-white/5 hover:text-white'
-                                            }`}
-                                    >
-                                        {level}
-                                        {activeLevel === level && <ChevronRight size={16} />}
-                                    </button>
-                                ))}
+                    <div className="w-64 border-r border-white/[0.06] bg-gradient-to-b from-[#0a0f1e] to-[#020617] hidden md:flex flex-col fixed h-[calc(100vh-4rem)] overflow-y-auto scrollbar-thin scrollbar-thumb-white/10">
+                        <div className="p-5">
+                            {/* Logo Section */}
+                            <div className="flex items-center gap-3 mb-6 pb-5 border-b border-white/5">
+                                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#06d6a0]/20 to-[#8b5cf6]/20 flex items-center justify-center border border-white/10">
+                                    <GraduationCap size={20} className="text-[#06d6a0]" />
+                                </div>
+                                <div>
+                                    <div className="text-xs font-bold text-[#06d6a0] uppercase tracking-widest">Niveaux</div>
+                                </div>
+                            </div>
+
+                            {/* Collège Section */}
+                            <div className="mb-4">
+                                <div className="text-[10px] font-bold text-gray-500 uppercase tracking-wider mb-2 pl-3">📚 Collège</div>
+                                <div className="space-y-1">
+                                    {['6ème', '5ème', '4ème', '3ème'].map((level) => (
+                                        <button
+                                            key={level}
+                                            onClick={() => setActiveLevel(level)}
+                                            className={`w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-sm font-medium transition-all group ${activeLevel === level
+                                                ? 'bg-gradient-to-r from-[#06d6a0]/15 to-[#06d6a0]/5 text-[#06d6a0] border border-[#06d6a0]/20 shadow-lg shadow-[#06d6a0]/5'
+                                                : 'text-slate-400 hover:bg-white/5 hover:text-white border border-transparent'
+                                                }`}
+                                        >
+                                            <span className="flex items-center gap-2">
+                                                <span className={`w-2 h-2 rounded-full ${activeLevel === level ? 'bg-[#06d6a0]' : 'bg-gray-600 group-hover:bg-gray-400'}`} />
+                                                {level}
+                                            </span>
+                                            {activeLevel === level && <ChevronRight size={14} className="text-[#06d6a0]" />}
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+
+                            {/* Lycée Section */}
+                            <div className="mb-4">
+                                <div className="text-[10px] font-bold text-gray-500 uppercase tracking-wider mb-2 pl-3">🎓 Lycée</div>
+                                <div className="space-y-1">
+                                    {['Seconde', 'Première', 'Terminale'].map((level) => (
+                                        <button
+                                            key={level}
+                                            onClick={() => setActiveLevel(level)}
+                                            className={`w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-sm font-medium transition-all group ${activeLevel === level
+                                                ? 'bg-gradient-to-r from-[#8b5cf6]/15 to-[#8b5cf6]/5 text-[#8b5cf6] border border-[#8b5cf6]/20 shadow-lg shadow-[#8b5cf6]/5'
+                                                : 'text-slate-400 hover:bg-white/5 hover:text-white border border-transparent'
+                                                }`}
+                                        >
+                                            <span className="flex items-center gap-2">
+                                                <span className={`w-2 h-2 rounded-full ${activeLevel === level ? 'bg-[#8b5cf6]' : 'bg-gray-600 group-hover:bg-gray-400'}`} />
+                                                {level}
+                                            </span>
+                                            {activeLevel === level && <ChevronRight size={14} className="text-[#8b5cf6]" />}
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+
+                            {/* Supérieur Section */}
+                            <div>
+                                <div className="text-[10px] font-bold text-gray-500 uppercase tracking-wider mb-2 pl-3">🚀 Supérieur</div>
+                                <button
+                                    onClick={() => setActiveLevel('Supérieur')}
+                                    className={`w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-sm font-medium transition-all group ${activeLevel === 'Supérieur'
+                                        ? 'bg-gradient-to-r from-[#f472b6]/15 to-[#f472b6]/5 text-[#f472b6] border border-[#f472b6]/20 shadow-lg shadow-[#f472b6]/5'
+                                        : 'text-slate-400 hover:bg-white/5 hover:text-white border border-transparent'
+                                        }`}
+                                >
+                                    <span className="flex items-center gap-2">
+                                        <span className={`w-2 h-2 rounded-full ${activeLevel === 'Supérieur' ? 'bg-[#f472b6]' : 'bg-gray-600 group-hover:bg-gray-400'}`} />
+                                        Supérieur
+                                    </span>
+                                    {activeLevel === 'Supérieur' && <ChevronRight size={14} className="text-[#f472b6]" />}
+                                </button>
+                            </div>
+                        </div>
+
+                        {/* Quick Stats */}
+                        <div className="mt-auto p-5 border-t border-white/5">
+                            <div className="grid grid-cols-2 gap-2">
+                                <div className="bg-white/5 rounded-xl p-3 text-center">
+                                    <div className="text-lg font-bold text-[#06d6a0]">{filteredCourses.length}</div>
+                                    <div className="text-[10px] text-gray-500 uppercase">Cours</div>
+                                </div>
+                                <div className="bg-white/5 rounded-xl p-3 text-center">
+                                    <div className="text-lg font-bold text-[#8b5cf6]">∞</div>
+                                    <div className="text-[10px] text-gray-500 uppercase">Chapitres</div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -636,51 +710,62 @@ function CoursesContent() {
                     {!selectedCourse ? (
                         // COURSE LIST VIEW
                         <>
-                            {/* Mobile Level Selector */}
-                            <div className="md:hidden mb-6">
-                                <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">
-                                    Niveau Scolaire
-                                </label>
-                                <select
-                                    value={activeLevel}
-                                    onChange={(e) => setActiveLevel(e.target.value)}
-                                    className="w-full px-4 py-3 rounded-xl bg-[#0F1115] border border-white/10 text-white font-medium focus:border-blue-500 focus:outline-none"
-                                >
-                                    <optgroup label="📚 Collège">
-                                        <option value="6ème">6ème</option>
-                                        <option value="5ème">5ème</option>
-                                        <option value="4ème">4ème</option>
-                                        <option value="3ème">3ème</option>
-                                    </optgroup>
-                                    <optgroup label="🎓 Lycée">
-                                        <option value="Seconde">Seconde</option>
-                                        <option value="Première">Première</option>
-                                        <option value="Terminale">Terminale</option>
-                                    </optgroup>
-                                    <optgroup label="🚀 Supérieur">
-                                        <option value="Supérieur">Supérieur & Pro</option>
-                                    </optgroup>
-                                </select>
+                            {/* Mobile Level Selector - Premium Style */}
+                            <div className="md:hidden mb-4">
+                                <div className="flex items-center gap-3 p-3 rounded-2xl bg-gradient-to-r from-[#0a0f1e] to-[#0F1115] border border-white/10">
+                                    <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#06d6a0]/20 to-[#8b5cf6]/20 flex items-center justify-center flex-shrink-0">
+                                        <GraduationCap size={18} className="text-[#06d6a0]" />
+                                    </div>
+                                    <select
+                                        value={activeLevel}
+                                        onChange={(e) => setActiveLevel(e.target.value)}
+                                        className="flex-1 bg-transparent border-none text-white font-bold focus:outline-none text-base appearance-none cursor-pointer"
+                                    >
+                                        <optgroup label="📚 Collège">
+                                            <option value="6ème">6ème</option>
+                                            <option value="5ème">5ème</option>
+                                            <option value="4ème">4ème</option>
+                                            <option value="3ème">3ème</option>
+                                        </optgroup>
+                                        <optgroup label="🎓 Lycée">
+                                            <option value="Seconde">Seconde</option>
+                                            <option value="Première">Première</option>
+                                            <option value="Terminale">Terminale</option>
+                                        </optgroup>
+                                        <optgroup label="🚀 Supérieur">
+                                            <option value="Supérieur">Supérieur & Pro</option>
+                                        </optgroup>
+                                    </select>
+                                    <ChevronRight size={18} className="text-gray-500 rotate-90" />
+                                </div>
                             </div>
 
-                            <div className="mb-4 sm:mb-6 md:mb-12 text-center sm:text-left">
-                                <h1 className="text-xl sm:text-2xl md:text-4xl font-black mb-2 sm:mb-4 flex items-center justify-center sm:justify-start gap-2 sm:gap-3">
-                                    <GraduationCap size={24} className="sm:w-8 sm:h-8 md:w-10 md:h-10 text-blue-500" />
-                                    <span>Cours de {activeLevel}</span>
-                                </h1>
-                                <p className="text-xs sm:text-sm md:text-base text-gray-400 px-4 sm:px-0">
-                                    Ressources pédagogiques conformes au programme du Sénégal.
-                                </p>
+                            {/* Hero Section for Course List */}
+                            <div className="mb-6 sm:mb-8 md:mb-12">
+                                <div className="flex items-center justify-between flex-wrap gap-3">
+                                    <div>
+                                        <h1 className="text-2xl sm:text-3xl md:text-4xl font-black flex items-center gap-2 sm:gap-3">
+                                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-white to-gray-400">Cours de</span>
+                                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#06d6a0] to-[#8b5cf6]">{activeLevel}</span>
+                                        </h1>
+                                    </div>
+                                    <div className="flex items-center gap-2">
+                                        <span className="px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-xs font-bold text-gray-400">
+                                            {filteredCourses.length} cours
+                                        </span>
+                                    </div>
+                                </div>
                             </div>
 
-                            <div className="flex gap-1.5 sm:gap-2 mb-4 sm:mb-6 md:mb-8 overflow-x-auto pb-2 -mx-2 px-2 sm:mx-0 sm:px-0 scrollbar-hide">
+                            {/* Subject Filter Pills */}
+                            <div className="flex gap-2 mb-6 sm:mb-8 overflow-x-auto pb-2 -mx-2 px-2 sm:mx-0 sm:px-0 scrollbar-hide">
                                 {subjects.map(subject => (
                                     <button
                                         key={subject}
                                         onClick={() => setActiveSubject(subject)}
-                                        className={`px-2.5 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-bold whitespace-nowrap transition-all active:scale-95 ${activeSubject === subject
-                                            ? 'bg-white text-black'
-                                            : 'bg-white/5 text-gray-400 hover:bg-white/10 hover:text-white'
+                                        className={`px-3 sm:px-4 py-2 rounded-xl text-xs sm:text-sm font-bold whitespace-nowrap transition-all duration-300 active:scale-95 ${activeSubject === subject
+                                            ? 'bg-gradient-to-r from-[#06d6a0] to-[#4ade80] text-black shadow-lg shadow-[#06d6a0]/20'
+                                            : 'bg-white/5 text-gray-400 hover:bg-white/10 hover:text-white border border-white/5'
                                             }`}
                                     >
                                         {subject}
@@ -690,39 +775,49 @@ function CoursesContent() {
 
 
                             {filteredCourses.length > 0 ? (
-                                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
-                                    {filteredCourses.map((course) => (
+                                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4 md:gap-6">
+                                    {filteredCourses.map((course, idx) => (
                                         <div
                                             key={course.id}
-                                            className="group relative glass-card p-5 sm:p-6 hover:border-[#06d6a0]/30 transition-all duration-300 active:scale-[0.98] hover:-translate-y-2 hover:shadow-[0_20px_50px_rgba(6,214,160,0.1)] overflow-hidden"
+                                            className="group relative rounded-2xl sm:rounded-3xl bg-gradient-to-br from-[#0F1115] to-[#020617] border border-white/[0.06] p-4 sm:p-5 hover:border-[#06d6a0]/30 transition-all duration-500 active:scale-[0.98] hover:-translate-y-1 sm:hover:-translate-y-2 hover:shadow-[0_20px_60px_rgba(6,214,160,0.1)] overflow-hidden cursor-pointer"
+                                            onClick={() => handleCourseSelect(course)}
+                                            style={{ animationDelay: `${idx * 50}ms` }}
                                         >
-                                            {/* Gradient Shine Effect */}
-                                            <div className="absolute inset-0 bg-gradient-to-br from-white/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+                                            {/* Shimmer Sweep Effect */}
+                                            <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none">
+                                                <div className="absolute top-0 -left-full w-full h-full bg-gradient-to-r from-transparent via-white/5 to-transparent group-hover:left-full transition-all duration-1000" />
+                                            </div>
+
+                                            {/* Gradient Glow */}
+                                            <div className="absolute -top-20 -right-20 w-40 h-40 bg-[#06d6a0] rounded-full blur-[80px] opacity-0 group-hover:opacity-10 transition-opacity duration-500 pointer-events-none" />
 
                                             <div className="relative z-10">
-                                                <div className="flex items-center justify-between mb-4">
-                                                    <div className={`w-12 h-12 rounded-xl flex items-center justify-center text-2xl bg-${course.color || 'blue'}-500/10 text-${course.color || 'blue'}-500 group-hover:scale-110 transition-transform duration-300 ring-1 ring-white/5 group-hover:ring-${course.color || 'blue'}-500/30`}>
+                                                {/* Top Bar: Icon + Title + Subject */}
+                                                <div className="flex items-center gap-3 mb-3">
+                                                    <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl flex items-center justify-center text-xl sm:text-2xl bg-gradient-to-br from-white/5 to-white/[0.02] border border-white/10 group-hover:scale-110 group-hover:border-[#06d6a0]/30 transition-all duration-300 shadow-inner flex-shrink-0">
                                                         {course.icon}
                                                     </div>
-                                                    <span className="px-2.5 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider bg-white/5 text-gray-400 border border-white/5 group-hover:bg-white/10 transition-colors">
-                                                        {course.subject}
-                                                    </span>
+                                                    <div className="flex-1 min-w-0">
+                                                        <h3 className="text-sm sm:text-base font-bold text-white group-hover:text-[#06d6a0] transition-colors truncate">
+                                                            {course.title}
+                                                        </h3>
+                                                        <span className="text-[10px] sm:text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                                            {course.subject}
+                                                        </span>
+                                                    </div>
                                                 </div>
 
-                                                <h3 className="text-lg font-bold mb-2 text-white group-hover:text-[#06d6a0] transition-colors line-clamp-1">
-                                                    {course.title}
-                                                </h3>
-                                                <p className="text-sm text-gray-500 mb-6 line-clamp-2 h-10 group-hover:text-gray-400 transition-colors">
-                                                    {course.description}
-                                                </p>
-
-                                                <button
-                                                    onClick={() => handleCourseSelect(course)}
-                                                    className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-r from-[#06d6a0] to-[#4ade80] hover:from-[#4ade80] hover:to-[#06d6a0] text-black text-sm font-bold transition-all shadow-lg shadow-[#06d6a0]/20 group-hover:shadow-[#06d6a0]/40"
-                                                >
-                                                    <Eye size={16} />
-                                                    <span>{structuredCourses[course.id] ? 'Commencer' : 'Aperçu'}</span>
-                                                </button>
+                                                {/* Bottom: Type + Action */}
+                                                <div className="flex items-center justify-between pt-2 border-t border-white/5">
+                                                    <div className="flex items-center gap-1.5">
+                                                        <span className="w-1.5 h-1.5 rounded-full bg-[#06d6a0]" />
+                                                        <span className="text-[10px] sm:text-xs text-gray-500 font-medium">{structuredCourses[course.id] ? 'Interactif' : 'PDF'}</span>
+                                                    </div>
+                                                    <div className="flex items-center gap-1 text-[#06d6a0] font-bold text-xs sm:text-sm group-hover:gap-2 transition-all">
+                                                        <span>{structuredCourses[course.id] ? 'Commencer' : 'Voir'}</span>
+                                                        <ChevronRight size={14} className="group-hover:translate-x-1 transition-transform" />
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     ))}
@@ -843,82 +938,68 @@ function CoursesContent() {
                                                         ✏️ Exercices
                                                     </div>
                                                 ) : (
-                                                    <>
-                                                        <button
-                                                            onClick={() => setShowExercises(false)}
-                                                            className={`flex-1 py-4 text-sm font-bold uppercase tracking-wider transition-colors ${!showExercises ? 'bg-[#0a0f1e] text-[#06d6a0] border-t-2 border-[#06d6a0]' : 'text-gray-500 hover:text-white bg-black/20'
-                                                                }`}
-                                                        >
-                                                            📖 Leçon
-                                                        </button>
-                                                        <button
-                                                            onClick={() => setShowExercises(true)}
-                                                            className={`flex-1 py-4 text-sm font-bold uppercase tracking-wider transition-colors ${showExercises ? 'bg-[#0a0f1e] text-[#06d6a0] border-t-2 border-[#06d6a0]' : 'text-gray-500 hover:text-white bg-black/20'
-                                                                }`}
-                                                        >
-                                                            🎯 Défis
-                                                        </button>
-                                                    </>
+                                                    <div className="flex-1 py-4 text-sm font-bold uppercase tracking-wider bg-[#0a0f1e] text-[#06d6a0] border-t-2 border-[#06d6a0] text-center">
+                                                        📖 Leçon
+                                                    </div>
                                                 )}
                                             </div>
                                         )}
 
-                                        {/* Scrollable Content */}
+                                        {/* Scrollable Content - Always show Lesson */}
                                         <div className="flex-1 overflow-y-auto p-4 md:p-8 scrollbar-thin scrollbar-thumb-white/10 scrollbar-track-transparent">
-                                            {!showExercises || selectedCourse.id.includes('entrainement') ? (
-                                                <div className="max-w-4xl mx-auto">
+                                            <div className="max-w-4xl mx-auto">
 
-                                                    <h2 className="text-2xl md:text-4xl font-black mb-4 text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-purple-400 to-white leading-tight">
-                                                        {activeChapter?.title}
-                                                    </h2>
+                                                <h2 className="text-2xl md:text-4xl font-black mb-4 text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-purple-400 to-white leading-tight">
+                                                    {activeChapter?.title}
+                                                </h2>
 
-                                                    {/* Bouton Écouter */}
-                                                    {activeChapter?.content && (
-                                                        <div className="flex items-center gap-3 mb-6 p-3 rounded-xl bg-[#2DD4BF]/10 border border-[#2DD4BF]/20">
-                                                            <span className="text-xl">🎧</span>
-                                                            <div className="flex-1">
-                                                                <div className="text-sm font-medium text-white">Écouter ce chapitre</div>
-                                                                <div className="text-xs text-gray-400">Voix française naturelle</div>
-                                                            </div>
-                                                            {isSpeaking ? (
-                                                                <div className="flex items-center gap-2">
-                                                                    <button
-                                                                        onClick={togglePause}
-                                                                        className={`p-2 rounded-lg transition-all ${isPaused ? 'bg-yellow-500/20 text-yellow-400' : 'bg-blue-500/20 text-blue-400'}`}
-                                                                    >
-                                                                        {isPaused ? '▶️' : '⏸️'}
-                                                                    </button>
-                                                                    <button
-                                                                        onClick={stopSpeaking}
-                                                                        className="p-2 rounded-lg bg-red-500/20 text-red-400"
-                                                                    >
-                                                                        ⏹️
-                                                                    </button>
-                                                                </div>
-                                                            ) : (
+                                                {/* Bouton Écouter */}
+                                                {activeChapter?.content && (
+                                                    <div className="flex items-center gap-3 mb-6 p-3 rounded-xl bg-[#2DD4BF]/10 border border-[#2DD4BF]/20">
+                                                        <span className="text-xl">🎧</span>
+                                                        <div className="flex-1">
+                                                            <div className="text-sm font-medium text-white">Écouter ce chapitre</div>
+                                                            <div className="text-xs text-gray-400">Voix française naturelle</div>
+                                                        </div>
+                                                        {isSpeaking ? (
+                                                            <div className="flex items-center gap-2">
                                                                 <button
-                                                                    onClick={() => startSpeaking(activeChapter.content)}
-                                                                    className="flex items-center gap-2 px-4 py-2 rounded-lg bg-[#2DD4BF] text-black font-bold hover:bg-[#2DD4BF]/90 transition-all"
+                                                                    onClick={togglePause}
+                                                                    className={`p-2 rounded-lg transition-all ${isPaused ? 'bg-yellow-500/20 text-yellow-400' : 'bg-blue-500/20 text-blue-400'}`}
                                                                 >
-                                                                    ▶️ Écouter
+                                                                    {isPaused ? '▶️' : '⏸️'}
                                                                 </button>
-                                                            )}
-                                                        </div>
-                                                    )}
-                                                    {activeChapter?.story && (
-                                                        <div className="mb-8 md:mb-10 p-4 md:p-6 rounded-2xl bg-gradient-to-br from-indigo-900/20 to-purple-900/20 border border-indigo-500/20 relative overflow-hidden group hover:border-indigo-500/40 transition-all">
-                                                            <div className="absolute top-0 right-0 p-6 text-8xl opacity-5 group-hover:opacity-10 transition-opacity select-none">📖</div>
-                                                            <h3 className="text-lg font-bold text-indigo-300 mb-3 flex items-center gap-2">
-                                                                <span className="text-xl">✨</span> La Petite Histoire
-                                                            </h3>
-                                                            <p className="text-gray-300 italic leading-relaxed text-base md:text-lg font-serif">
-                                                                &quot;{activeChapter.story}&quot;
-                                                            </p>
-                                                        </div>
-                                                    )}
+                                                                <button
+                                                                    onClick={stopSpeaking}
+                                                                    className="p-2 rounded-lg bg-red-500/20 text-red-400"
+                                                                >
+                                                                    ⏹️
+                                                                </button>
+                                                            </div>
+                                                        ) : (
+                                                            <button
+                                                                onClick={() => startSpeaking(activeChapter.content)}
+                                                                className="flex items-center gap-2 px-4 py-2 rounded-lg bg-[#2DD4BF] text-black font-bold hover:bg-[#2DD4BF]/90 transition-all"
+                                                            >
+                                                                ▶️ Écouter
+                                                            </button>
+                                                        )}
+                                                    </div>
+                                                )}
+                                                {activeChapter?.story && (
+                                                    <div className="mb-8 md:mb-10 p-4 md:p-6 rounded-2xl bg-gradient-to-br from-indigo-900/20 to-purple-900/20 border border-indigo-500/20 relative overflow-hidden group hover:border-indigo-500/40 transition-all">
+                                                        <div className="absolute top-0 right-0 p-6 text-8xl opacity-5 group-hover:opacity-10 transition-opacity select-none">📖</div>
+                                                        <h3 className="text-lg font-bold text-indigo-300 mb-3 flex items-center gap-2">
+                                                            <span className="text-xl">✨</span> La Petite Histoire
+                                                        </h3>
+                                                        <p className="text-gray-300 italic leading-relaxed text-base md:text-lg font-serif">
+                                                            &quot;{activeChapter.story}&quot;
+                                                        </p>
+                                                    </div>
+                                                )}
 
-                                                    {/* Main Content */}
-                                                    <div className="prose prose-invert prose-sm md:prose-lg max-w-none  
+                                                {/* Main Content */}
+                                                <div className="prose prose-invert prose-sm md:prose-lg max-w-none  
                                                         prose-headings:text-gray-100 prose-headings:font-bold prose-headings:tracking-tight
                                                         prose-p:text-gray-300 prose-p:leading-relaxed
                                                         prose-strong:text-white prose-strong:font-black
@@ -929,343 +1010,267 @@ function CoursesContent() {
                                                         prose-table:border-collapse prose-th:bg-white/5 prose-th:border prose-th:border-white/10 prose-th:px-4 prose-th:py-2
                                                         prose-td:border prose-td:border-white/10 prose-td:px-4 prose-td:py-2">
 
-                                                        {/* Module Info Banner for Data Science Projects */}
-                                                        {selectedCourse.isProject && activeChapter?.part && (
-                                                            <div className="not-prose mb-8 p-4 rounded-xl bg-gradient-to-r from-cyan-500/10 via-blue-500/10 to-purple-500/10 border border-cyan-500/20">
-                                                                <div className="flex items-center gap-3">
-                                                                    <span className="text-3xl">📚</span>
-                                                                    <div>
-                                                                        <div className="text-cyan-400 font-bold text-sm uppercase tracking-wider">{activeChapter.part}</div>
-                                                                        <div className="text-gray-400 text-sm">Objectif : Maîtriser les concepts clés de ce module</div>
-                                                                    </div>
+                                                    {/* Module Info Banner for Data Science Projects */}
+                                                    {selectedCourse.isProject && activeChapter?.part && (
+                                                        <div className="not-prose mb-8 p-4 rounded-xl bg-gradient-to-r from-cyan-500/10 via-blue-500/10 to-purple-500/10 border border-cyan-500/20">
+                                                            <div className="flex items-center gap-3">
+                                                                <span className="text-3xl">📚</span>
+                                                                <div>
+                                                                    <div className="text-cyan-400 font-bold text-sm uppercase tracking-wider">{activeChapter.part}</div>
+                                                                    <div className="text-gray-400 text-sm">Objectif : Maîtriser les concepts clés de ce module</div>
                                                                 </div>
                                                             </div>
-                                                        )}
+                                                        </div>
+                                                    )}
 
-                                                        <ReactMarkdown
-                                                            remarkPlugins={[remarkMath]}
-                                                            rehypePlugins={[rehypeRaw, rehypeKatex]}
-                                                            components={{
-                                                                pre: ({ children }) => (
-                                                                    <div className="not-prose my-6 rounded-xl overflow-hidden border border-cyan-500/30 shadow-lg shadow-cyan-500/10">
-                                                                        <div className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-cyan-500/20 to-blue-500/20 border-b border-cyan-500/20">
-                                                                            <div className="flex gap-1.5">
-                                                                                <div className="w-3 h-3 rounded-full bg-red-500/80"></div>
-                                                                                <div className="w-3 h-3 rounded-full bg-yellow-500/80"></div>
-                                                                                <div className="w-3 h-3 rounded-full bg-green-500/80"></div>
-                                                                            </div>
-                                                                            <span className="text-cyan-400 text-xs font-mono ml-2">Python</span>
-                                                                            <span className="ml-auto text-gray-500 text-xs">💡 Code exécutable</span>
+                                                    <ReactMarkdown
+                                                        remarkPlugins={[remarkMath]}
+                                                        rehypePlugins={[rehypeRaw, rehypeKatex]}
+                                                        components={{
+                                                            pre: ({ children }) => (
+                                                                <div className="not-prose my-6 rounded-xl overflow-hidden border border-cyan-500/30 shadow-lg shadow-cyan-500/10">
+                                                                    <div className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-cyan-500/20 to-blue-500/20 border-b border-cyan-500/20">
+                                                                        <div className="flex gap-1.5">
+                                                                            <div className="w-3 h-3 rounded-full bg-red-500/80"></div>
+                                                                            <div className="w-3 h-3 rounded-full bg-yellow-500/80"></div>
+                                                                            <div className="w-3 h-3 rounded-full bg-green-500/80"></div>
                                                                         </div>
-                                                                        <pre className="!bg-[#0d1117] !m-0 !rounded-none !border-0 p-4 overflow-x-auto text-sm">
-                                                                            {children}
-                                                                        </pre>
+                                                                        <span className="text-cyan-400 text-xs font-mono ml-2">Python</span>
+                                                                        <span className="ml-auto text-gray-500 text-xs">💡 Code exécutable</span>
                                                                     </div>
-                                                                ),
-                                                                code: ({ className, children, ...props }) => {
-                                                                    const isInline = !className;
-                                                                    if (isInline) {
-                                                                        return <code className="text-[#2DD4BF] bg-white/10 px-1.5 py-0.5 rounded font-mono text-sm" {...props}>{children}</code>;
+                                                                    <pre className="!bg-[#0d1117] !m-0 !rounded-none !border-0 p-4 overflow-x-auto text-sm">
+                                                                        {children}
+                                                                    </pre>
+                                                                </div>
+                                                            ),
+                                                            code: ({ className, children, ...props }) => {
+                                                                const isInline = !className;
+                                                                if (isInline) {
+                                                                    return <code className="text-[#2DD4BF] bg-white/10 px-1.5 py-0.5 rounded font-mono text-sm" {...props}>{children}</code>;
+                                                                }
+                                                                return <code className="font-mono text-sm text-gray-200" {...props}>{children}</code>;
+                                                            }
+                                                        }}
+                                                    >
+                                                        {stripIndentation(activeChapter?.content || '')}
+                                                    </ReactMarkdown>
+                                                </div>
+
+                                                {/* Key Points / Summary */}
+                                                {activeChapter?.summary && (
+                                                    <div className="mt-12 p-6 rounded-2xl bg-emerald-900/10 border border-emerald-500/20">
+                                                        <h3 className="text-lg font-bold text-emerald-400 mb-4 flex items-center gap-2">
+                                                            <span className="text-xl">💡</span> Ce qu&apos;il faut retenir
+                                                        </h3>
+                                                        <ul className="space-y-3">
+                                                            {activeChapter.summary.map((point, idx) => (
+                                                                <li key={idx} className="flex items-start gap-3 text-gray-300 text-base">
+                                                                    <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 mt-2.5 shrink-0"></div>
+                                                                    <div className="flex-1">
+                                                                        <ReactMarkdown
+                                                                            remarkPlugins={[remarkMath]}
+                                                                            rehypePlugins={[rehypeRaw, rehypeKatex]}
+                                                                        >
+                                                                            {point}
+                                                                        </ReactMarkdown>
+                                                                    </div>
+                                                                </li>
+                                                            ))}
+                                                        </ul>
+                                                    </div>
+                                                )}
+
+                                                {/* Analogie Pédagogique */}
+                                                {activeChapter?.analogy && (
+                                                    <div className="mt-12 p-6 rounded-2xl bg-gradient-to-br from-amber-900/20 via-orange-900/10 to-yellow-900/20 border border-amber-500/20 relative overflow-hidden group hover:border-amber-500/40 transition-all">
+                                                        <div className="absolute top-0 right-0 p-6 text-8xl opacity-5 group-hover:opacity-10 transition-opacity select-none">🌍</div>
+                                                        <h3 className="text-lg font-bold text-amber-300 mb-4 flex items-center gap-2">
+                                                            <span className="text-2xl">{activeChapter.analogy.title.split(' ')[0]}</span>
+                                                            {activeChapter.analogy.title.replace(/^[^\s]+\s/, '')}
+                                                        </h3>
+                                                        <div className="prose prose-invert prose-sm max-w-none prose-strong:text-amber-200 prose-strong:font-bold prose-p:text-gray-300 prose-p:leading-relaxed">
+                                                            <ReactMarkdown
+                                                                remarkPlugins={[remarkMath]}
+                                                                rehypePlugins={[rehypeRaw, rehypeKatex]}
+                                                            >
+                                                                {activeChapter.analogy.content}
+                                                            </ReactMarkdown>
+                                                        </div>
+                                                    </div>
+                                                )}
+
+                                                {/* Lien vers la Simulation */}
+                                                {activeChapter?.simulation && (
+                                                    <div className="mt-12 p-6 rounded-2xl bg-gradient-to-br from-cyan-900/30 via-blue-900/20 to-purple-900/20 border border-cyan-500/30 relative overflow-hidden group hover:scale-[1.01] transition-all cursor-pointer">
+                                                        <Link href={`/simulations/${activeChapter.simulation.id}?returnTo=courses&chapter=${activeChapter.id}`}>
+                                                            <div className="flex items-center gap-6">
+                                                                <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-cyan-500/30 to-blue-500/30 flex items-center justify-center text-5xl border border-cyan-500/20 group-hover:scale-110 transition-transform shadow-lg shadow-cyan-500/10">
+                                                                    🎮
+                                                                </div>
+                                                                <div className="flex-1">
+                                                                    <div className="text-xs font-bold text-cyan-400 uppercase tracking-wider mb-1">
+                                                                        🚀 Simulation Interactive
+                                                                    </div>
+                                                                    <h4 className="text-xl font-bold text-white mb-1 group-hover:text-cyan-400 transition-colors">
+                                                                        {activeChapter.simulation.title}
+                                                                    </h4>
+                                                                    <p className="text-sm text-gray-400">
+                                                                        Expérimente ce concept en 3D pour mieux le comprendre !
+                                                                    </p>
+                                                                </div>
+                                                                <div className="text-3xl group-hover:translate-x-2 transition-transform">
+                                                                    →
+                                                                </div>
+                                                            </div>
+                                                        </Link>
+                                                    </div>
+                                                )}
+
+                                                {/* Image Interactive du Chapitre */}
+                                                {activeChapter?.image && (
+                                                    <div className="mt-12 group">
+                                                        <div className="text-xs font-bold text-purple-400 uppercase tracking-wider mb-3 flex items-center gap-2">
+                                                            <span className="text-lg">🖼️</span> Illustration Interactive
+                                                        </div>
+                                                        <div
+                                                            className="relative rounded-2xl overflow-hidden border-2 border-purple-500/30 shadow-2xl shadow-purple-500/10 cursor-zoom-in transition-all duration-500 hover:border-purple-500/60 hover:shadow-purple-500/30"
+                                                            onClick={(e) => {
+                                                                const img = e.currentTarget.querySelector('img');
+                                                                if (img) {
+                                                                    // Toggle fullscreen lightbox
+                                                                    if (!document.getElementById('lightbox-overlay')) {
+                                                                        const overlay = document.createElement('div');
+                                                                        overlay.id = 'lightbox-overlay';
+                                                                        overlay.className = 'fixed inset-0 z-[9999] bg-black/95 flex items-center justify-center p-4 cursor-zoom-out animate-fade-in';
+                                                                        overlay.onclick = () => overlay.remove();
+                                                                        const imgClone = img.cloneNode();
+                                                                        imgClone.className = 'max-w-full max-h-[90vh] object-contain rounded-xl shadow-2xl animate-scale-in';
+                                                                        overlay.appendChild(imgClone);
+                                                                        // Close button
+                                                                        const closeBtn = document.createElement('button');
+                                                                        closeBtn.className = 'absolute top-4 right-4 w-12 h-12 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white text-2xl transition-all';
+                                                                        closeBtn.innerHTML = '✕';
+                                                                        closeBtn.onclick = () => overlay.remove();
+                                                                        overlay.appendChild(closeBtn);
+                                                                        // Caption
+                                                                        const caption = document.createElement('div');
+                                                                        caption.className = 'absolute bottom-6 left-1/2 -translate-x-1/2 px-6 py-3 rounded-full bg-black/80 backdrop-blur-xl text-white font-medium border border-white/20';
+                                                                        caption.textContent = img.alt;
+                                                                        overlay.appendChild(caption);
+                                                                        document.body.appendChild(overlay);
                                                                     }
-                                                                    return <code className="font-mono text-sm text-gray-200" {...props}>{children}</code>;
                                                                 }
                                                             }}
                                                         >
-                                                            {stripIndentation(activeChapter?.content || '')}
-                                                        </ReactMarkdown>
-                                                    </div>
+                                                            {/* Gradient overlay */}
+                                                            <div className="absolute inset-0 bg-gradient-to-t from-purple-900/60 via-transparent to-cyan-900/30 opacity-60 group-hover:opacity-40 transition-opacity pointer-events-none z-10"></div>
 
-                                                    {/* Key Points / Summary */}
-                                                    {activeChapter?.summary && (
-                                                        <div className="mt-12 p-6 rounded-2xl bg-emerald-900/10 border border-emerald-500/20">
-                                                            <h3 className="text-lg font-bold text-emerald-400 mb-4 flex items-center gap-2">
-                                                                <span className="text-xl">💡</span> Ce qu&apos;il faut retenir
-                                                            </h3>
-                                                            <ul className="space-y-3">
-                                                                {activeChapter.summary.map((point, idx) => (
-                                                                    <li key={idx} className="flex items-start gap-3 text-gray-300 text-base">
-                                                                        <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 mt-2.5 shrink-0"></div>
-                                                                        <div className="flex-1">
-                                                                            <ReactMarkdown
-                                                                                remarkPlugins={[remarkMath]}
-                                                                                rehypePlugins={[rehypeRaw, rehypeKatex]}
-                                                                            >
-                                                                                {point}
-                                                                            </ReactMarkdown>
-                                                                        </div>
-                                                                    </li>
-                                                                ))}
-                                                            </ul>
-                                                        </div>
-                                                    )}
+                                                            {/* Image */}
+                                                            <img
+                                                                src={activeChapter.image}
+                                                                alt={activeChapter.title}
+                                                                className="w-full h-64 md:h-80 object-cover transition-transform duration-700 group-hover:scale-110"
+                                                            />
 
-                                                    {/* Analogie Pédagogique */}
-                                                    {activeChapter?.analogy && (
-                                                        <div className="mt-12 p-6 rounded-2xl bg-gradient-to-br from-amber-900/20 via-orange-900/10 to-yellow-900/20 border border-amber-500/20 relative overflow-hidden group hover:border-amber-500/40 transition-all">
-                                                            <div className="absolute top-0 right-0 p-6 text-8xl opacity-5 group-hover:opacity-10 transition-opacity select-none">🌍</div>
-                                                            <h3 className="text-lg font-bold text-amber-300 mb-4 flex items-center gap-2">
-                                                                <span className="text-2xl">{activeChapter.analogy.title.split(' ')[0]}</span>
-                                                                {activeChapter.analogy.title.replace(/^[^\s]+\s/, '')}
-                                                            </h3>
-                                                            <div className="prose prose-invert prose-sm max-w-none prose-strong:text-amber-200 prose-strong:font-bold prose-p:text-gray-300 prose-p:leading-relaxed">
-                                                                <ReactMarkdown
-                                                                    remarkPlugins={[remarkMath]}
-                                                                    rehypePlugins={[rehypeRaw, rehypeKatex]}
-                                                                >
-                                                                    {activeChapter.analogy.content}
-                                                                </ReactMarkdown>
-                                                            </div>
-                                                        </div>
-                                                    )}
-
-                                                    {/* Lien vers la Simulation */}
-                                                    {activeChapter?.simulation && (
-                                                        <div className="mt-12 p-6 rounded-2xl bg-gradient-to-br from-cyan-900/30 via-blue-900/20 to-purple-900/20 border border-cyan-500/30 relative overflow-hidden group hover:scale-[1.01] transition-all cursor-pointer">
-                                                            <Link href={`/simulations/${activeChapter.simulation.id}?returnTo=courses&chapter=${activeChapter.id}`}>
-                                                                <div className="flex items-center gap-6">
-                                                                    <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-cyan-500/30 to-blue-500/30 flex items-center justify-center text-5xl border border-cyan-500/20 group-hover:scale-110 transition-transform shadow-lg shadow-cyan-500/10">
-                                                                        🎮
-                                                                    </div>
-                                                                    <div className="flex-1">
-                                                                        <div className="text-xs font-bold text-cyan-400 uppercase tracking-wider mb-1">
-                                                                            🚀 Simulation Interactive
-                                                                        </div>
-                                                                        <h4 className="text-xl font-bold text-white mb-1 group-hover:text-cyan-400 transition-colors">
-                                                                            {activeChapter.simulation.title}
-                                                                        </h4>
-                                                                        <p className="text-sm text-gray-400">
-                                                                            Expérimente ce concept en 3D pour mieux le comprendre !
-                                                                        </p>
-                                                                    </div>
-                                                                    <div className="text-3xl group-hover:translate-x-2 transition-transform">
-                                                                        →
-                                                                    </div>
-                                                                </div>
-                                                            </Link>
-                                                        </div>
-                                                    )}
-
-                                                    {/* Image Interactive du Chapitre */}
-                                                    {activeChapter?.image && (
-                                                        <div className="mt-12 group">
-                                                            <div className="text-xs font-bold text-purple-400 uppercase tracking-wider mb-3 flex items-center gap-2">
-                                                                <span className="text-lg">🖼️</span> Illustration Interactive
-                                                            </div>
-                                                            <div
-                                                                className="relative rounded-2xl overflow-hidden border-2 border-purple-500/30 shadow-2xl shadow-purple-500/10 cursor-zoom-in transition-all duration-500 hover:border-purple-500/60 hover:shadow-purple-500/30"
-                                                                onClick={(e) => {
-                                                                    const img = e.currentTarget.querySelector('img');
-                                                                    if (img) {
-                                                                        // Toggle fullscreen lightbox
-                                                                        if (!document.getElementById('lightbox-overlay')) {
-                                                                            const overlay = document.createElement('div');
-                                                                            overlay.id = 'lightbox-overlay';
-                                                                            overlay.className = 'fixed inset-0 z-[9999] bg-black/95 flex items-center justify-center p-4 cursor-zoom-out animate-fade-in';
-                                                                            overlay.onclick = () => overlay.remove();
-                                                                            const imgClone = img.cloneNode();
-                                                                            imgClone.className = 'max-w-full max-h-[90vh] object-contain rounded-xl shadow-2xl animate-scale-in';
-                                                                            overlay.appendChild(imgClone);
-                                                                            // Close button
-                                                                            const closeBtn = document.createElement('button');
-                                                                            closeBtn.className = 'absolute top-4 right-4 w-12 h-12 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white text-2xl transition-all';
-                                                                            closeBtn.innerHTML = '✕';
-                                                                            closeBtn.onclick = () => overlay.remove();
-                                                                            overlay.appendChild(closeBtn);
-                                                                            // Caption
-                                                                            const caption = document.createElement('div');
-                                                                            caption.className = 'absolute bottom-6 left-1/2 -translate-x-1/2 px-6 py-3 rounded-full bg-black/80 backdrop-blur-xl text-white font-medium border border-white/20';
-                                                                            caption.textContent = img.alt;
-                                                                            overlay.appendChild(caption);
-                                                                            document.body.appendChild(overlay);
-                                                                        }
-                                                                    }
-                                                                }}
-                                                            >
-                                                                {/* Gradient overlay */}
-                                                                <div className="absolute inset-0 bg-gradient-to-t from-purple-900/60 via-transparent to-cyan-900/30 opacity-60 group-hover:opacity-40 transition-opacity pointer-events-none z-10"></div>
-
-                                                                {/* Image */}
-                                                                <img
-                                                                    src={activeChapter.image}
-                                                                    alt={activeChapter.title}
-                                                                    className="w-full h-64 md:h-80 object-cover transition-transform duration-700 group-hover:scale-110"
-                                                                />
-
-                                                                {/* Hover overlay */}
-                                                                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 z-20">
-                                                                    <div className="px-6 py-3 rounded-full bg-white/20 backdrop-blur-xl border border-white/30 text-white font-bold flex items-center gap-2 transform scale-90 group-hover:scale-100 transition-transform">
-                                                                        <span className="text-xl">🔍</span> Cliquez pour agrandir
-                                                                    </div>
-                                                                </div>
-
-                                                                {/* Bottom info bar */}
-                                                                <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/90 to-transparent z-10">
-                                                                    <div className="flex items-center justify-between">
-                                                                        <span className="px-3 py-1 rounded-full bg-purple-500/30 text-purple-300 text-xs font-bold uppercase tracking-wider border border-purple-500/30">
-                                                                            {activeChapter.part?.split(':')[0] || 'Illustration'}
-                                                                        </span>
-                                                                        <span className="text-gray-400 text-sm flex items-center gap-1">
-                                                                            <span>📷</span> Schéma explicatif
-                                                                        </span>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    )}
-                                                    {/* In Training Mode, Show Exercises Below Content */}
-                                                    {selectedCourse.id.includes('entrainement') && (
-                                                        <div className="mt-16 pt-10 border-t border-white/10 space-y-8">
-                                                            <h2 className="text-2xl font-bold mb-6">Questions</h2>
-                                                            {(activeChapter?.defis || activeChapter?.exercises || []).map((ex, idx) => (
-                                                                <div key={ex.id} className="bg-black/30 rounded-xl p-4 md:p-6 border border-white/10">
-                                                                    <div className="flex items-start gap-4 mb-4">
-                                                                        <span className="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center font-bold text-sm shrink-0">
-                                                                            {idx + 1}
-                                                                        </span>
-                                                                        <div className="text-lg font-medium pt-1">
-                                                                            <ReactMarkdown remarkPlugins={[remarkMath]} rehypePlugins={[rehypeKatex, rehypeRaw]}>
-                                                                                {ex.question}
-                                                                            </ReactMarkdown>
-                                                                        </div>
-                                                                    </div>
-
-                                                                    <div className="space-y-3 pl-0 md:pl-12">
-                                                                        {ex.options.map((option, optIdx) => {
-                                                                            const isSelected = quizAnswers[`${activeChapter.id}-${ex.id}`] === optIdx;
-                                                                            const isCorrect = quizResults[`${activeChapter.id}-${ex.id}`];
-
-                                                                            let btnClass = "w-full text-left p-4 rounded-lg border transition-all ";
-                                                                            if (isSelected) {
-                                                                                if (isCorrect) btnClass += "bg-green-500/20 border-green-500 text-green-400";
-                                                                                else btnClass += "bg-red-500/20 border-red-500 text-red-400";
-                                                                            } else {
-                                                                                btnClass += "bg-white/5 border-white/10 hover:bg-white/10";
-                                                                            }
-
-                                                                            return (
-                                                                                <button
-                                                                                    key={optIdx}
-                                                                                    onClick={() => handleQuizSubmit(activeChapter.id, ex.id, optIdx)}
-                                                                                    disabled={quizAnswers[`${activeChapter.id}-${ex.id}`] !== undefined}
-                                                                                    className={btnClass}
-                                                                                >
-                                                                                    <div className="flex items-center justify-between">
-                                                                                        <div>
-                                                                                            <ReactMarkdown
-                                                                                                remarkPlugins={[remarkMath]}
-                                                                                                rehypePlugins={[rehypeKatex, rehypeRaw]}
-                                                                                                components={{ p: ({ node, ...props }) => <span {...props} /> }}
-                                                                                            >
-                                                                                                {option}
-                                                                                            </ReactMarkdown>
-                                                                                        </div>
-                                                                                        {isSelected && (
-                                                                                            isCorrect ? <CheckCircle size={20} /> : <XCircle size={20} />
-                                                                                        )}
-                                                                                    </div>
-                                                                                </button>
-                                                                            );
-                                                                        })}
-                                                                    </div>
-
-                                                                    {quizAnswers[`${activeChapter.id}-${ex.id}`] !== undefined && (
-                                                                        <div className={`mt-4 ml-0 md:ml-12 p-4 rounded-lg text-sm ${quizResults[`${activeChapter.id}-${ex.id}`] ? 'bg-green-900/20 text-green-300' : 'bg-red-900/20 text-red-300'}`}>
-                                                                            <strong>Explication :</strong>
-                                                                            <span className="inline-block ml-1">
-                                                                                <ReactMarkdown
-                                                                                    remarkPlugins={[remarkMath]}
-                                                                                    rehypePlugins={[rehypeKatex, rehypeRaw]}
-                                                                                    components={{ p: ({ node, ...props }) => <span {...props} /> }}
-                                                                                >
-                                                                                    {ex.explanation}
-                                                                                </ReactMarkdown>
-                                                                            </span>
-                                                                        </div>
-                                                                    )}
-                                                                </div>
-                                                            ))}
-                                                        </div>
-                                                    )}
-                                                </div>
-                                            ) : (
-                                                <div className="max-w-3xl mx-auto space-y-8">
-                                                    <h2 className="text-2xl font-bold mb-6 flex items-center gap-3">
-                                                        <span className="text-3xl">🎯</span> Défis
-                                                    </h2>
-                                                    {(activeChapter?.defis || activeChapter?.exercises || []).map((ex, idx) => (
-                                                        <div key={ex.id} className="bg-black/30 rounded-xl p-4 md:p-6 border border-white/10">
-                                                            <div className="flex items-start gap-4 mb-4">
-                                                                <span className="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center font-bold text-sm shrink-0">
-                                                                    {idx + 1}
-                                                                </span>
-                                                                <div className="text-lg font-medium pt-1">
-                                                                    <ReactMarkdown remarkPlugins={[remarkMath]} rehypePlugins={[rehypeKatex, rehypeRaw]}>
-                                                                        {ex.question}
-                                                                    </ReactMarkdown>
+                                                            {/* Hover overlay */}
+                                                            <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 z-20">
+                                                                <div className="px-6 py-3 rounded-full bg-white/20 backdrop-blur-xl border border-white/30 text-white font-bold flex items-center gap-2 transform scale-90 group-hover:scale-100 transition-transform">
+                                                                    <span className="text-xl">🔍</span> Cliquez pour agrandir
                                                                 </div>
                                                             </div>
 
-                                                            <div className="space-y-3 pl-0 md:pl-12">
-                                                                {ex.options.map((option, optIdx) => {
-                                                                    const isSelected = quizAnswers[`${activeChapter.id}-${ex.id}`] === optIdx;
-                                                                    const isCorrect = quizResults[`${activeChapter.id}-${ex.id}`];
-
-                                                                    let btnClass = "w-full text-left p-4 rounded-lg border transition-all ";
-                                                                    if (isSelected) {
-                                                                        if (isCorrect) btnClass += "bg-green-500/20 border-green-500 text-green-400";
-                                                                        else btnClass += "bg-red-500/20 border-red-500 text-red-400";
-                                                                    } else {
-                                                                        btnClass += "bg-white/5 border-white/10 hover:bg-white/10";
-                                                                    }
-
-                                                                    return (
-                                                                        <button
-                                                                            key={optIdx}
-                                                                            onClick={() => handleQuizSubmit(activeChapter.id, ex.id, optIdx)}
-                                                                            disabled={quizAnswers[`${activeChapter.id}-${ex.id}`] !== undefined}
-                                                                            className={btnClass}
-                                                                        >
-                                                                            <div className="flex items-center justify-between">
-                                                                                <div>
-                                                                                    <ReactMarkdown
-                                                                                        remarkPlugins={[remarkMath]}
-                                                                                        rehypePlugins={[rehypeKatex, rehypeRaw]}
-                                                                                        components={{ p: ({ node, ...props }) => <span {...props} /> }}
-                                                                                    >
-                                                                                        {option}
-                                                                                    </ReactMarkdown>
-                                                                                </div>
-                                                                                {isSelected && (
-                                                                                    isCorrect ? <CheckCircle size={20} /> : <XCircle size={20} />
-                                                                                )}
-                                                                            </div>
-                                                                        </button>
-                                                                    );
-                                                                })}
-                                                            </div>
-
-                                                            {quizAnswers[`${activeChapter.id}-${ex.id}`] !== undefined && (
-                                                                <div className={`mt-4 ml-0 md:ml-12 p-4 rounded-lg text-sm ${quizResults[`${activeChapter.id}-${ex.id}`] ? 'bg-green-900/20 text-green-300' : 'bg-red-900/20 text-red-300'}`}>
-                                                                    <strong>Explication :</strong>
-                                                                    <span className="inline-block ml-1">
-                                                                        <ReactMarkdown
-                                                                            remarkPlugins={[remarkMath]}
-                                                                            rehypePlugins={[rehypeKatex, rehypeRaw]}
-                                                                            components={{ p: ({ node, ...props }) => <span {...props} /> }}
-                                                                        >
-                                                                            {ex.explanation}
-                                                                        </ReactMarkdown>
+                                                            {/* Bottom info bar */}
+                                                            <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/90 to-transparent z-10">
+                                                                <div className="flex items-center justify-between">
+                                                                    <span className="px-3 py-1 rounded-full bg-purple-500/30 text-purple-300 text-xs font-bold uppercase tracking-wider border border-purple-500/30">
+                                                                        {activeChapter.part?.split(':')[0] || 'Illustration'}
+                                                                    </span>
+                                                                    <span className="text-gray-400 text-sm flex items-center gap-1">
+                                                                        <span>📷</span> Schéma explicatif
                                                                     </span>
                                                                 </div>
-                                                            )}
+                                                            </div>
                                                         </div>
-                                                    ))}
-                                                </div>
-                                            )}
+                                                    </div>
+                                                )}
+                                                {/* In Training Mode, Show Exercises Below Content */}
+                                                {selectedCourse.id.includes('entrainement') && (
+                                                    <div className="mt-16 pt-10 border-t border-white/10 space-y-8">
+                                                        <h2 className="text-2xl font-bold mb-6">Questions</h2>
+                                                        {(activeChapter?.defis || activeChapter?.exercises || []).map((ex, idx) => (
+                                                            <div key={ex.id} className="bg-black/30 rounded-xl p-4 md:p-6 border border-white/10">
+                                                                <div className="flex items-start gap-4 mb-4">
+                                                                    <span className="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center font-bold text-sm shrink-0">
+                                                                        {idx + 1}
+                                                                    </span>
+                                                                    <div className="text-lg font-medium pt-1">
+                                                                        <ReactMarkdown remarkPlugins={[remarkMath]} rehypePlugins={[rehypeKatex, rehypeRaw]}>
+                                                                            {ex.question}
+                                                                        </ReactMarkdown>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div className="space-y-3 pl-0 md:pl-12">
+                                                                    {ex.options.map((option, optIdx) => {
+                                                                        const isSelected = quizAnswers[`${activeChapter.id}-${ex.id}`] === optIdx;
+                                                                        const isCorrect = quizResults[`${activeChapter.id}-${ex.id}`];
+
+                                                                        let btnClass = "w-full text-left p-4 rounded-lg border transition-all ";
+                                                                        if (isSelected) {
+                                                                            if (isCorrect) btnClass += "bg-green-500/20 border-green-500 text-green-400";
+                                                                            else btnClass += "bg-red-500/20 border-red-500 text-red-400";
+                                                                        } else {
+                                                                            btnClass += "bg-white/5 border-white/10 hover:bg-white/10";
+                                                                        }
+
+                                                                        return (
+                                                                            <button
+                                                                                key={optIdx}
+                                                                                onClick={() => handleQuizSubmit(activeChapter.id, ex.id, optIdx)}
+                                                                                disabled={quizAnswers[`${activeChapter.id}-${ex.id}`] !== undefined}
+                                                                                className={btnClass}
+                                                                            >
+                                                                                <div className="flex items-center justify-between">
+                                                                                    <div>
+                                                                                        <ReactMarkdown
+                                                                                            remarkPlugins={[remarkMath]}
+                                                                                            rehypePlugins={[rehypeKatex, rehypeRaw]}
+                                                                                            components={{ p: ({ node, ...props }) => <span {...props} /> }}
+                                                                                        >
+                                                                                            {option}
+                                                                                        </ReactMarkdown>
+                                                                                    </div>
+                                                                                    {isSelected && (
+                                                                                        isCorrect ? <CheckCircle size={20} /> : <XCircle size={20} />
+                                                                                    )}
+                                                                                </div>
+                                                                            </button>
+                                                                        );
+                                                                    })}
+                                                                </div>
+
+                                                                {quizAnswers[`${activeChapter.id}-${ex.id}`] !== undefined && (
+                                                                    <div className={`mt-4 ml-0 md:ml-12 p-4 rounded-lg text-sm ${quizResults[`${activeChapter.id}-${ex.id}`] ? 'bg-green-900/20 text-green-300' : 'bg-red-900/20 text-red-300'}`}>
+                                                                        <strong>Explication :</strong>
+                                                                        <span className="inline-block ml-1">
+                                                                            <ReactMarkdown
+                                                                                remarkPlugins={[remarkMath]}
+                                                                                rehypePlugins={[rehypeKatex, rehypeRaw]}
+                                                                                components={{ p: ({ node, ...props }) => <span {...props} /> }}
+                                                                            >
+                                                                                {ex.explanation}
+                                                                            </ReactMarkdown>
+                                                                        </span>
+                                                                    </div>
+                                                                )}
+                                                            </div>
+                                                        ))}
+                                                    </div>
+                                                )}
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            ) : (
+                                </div>) : (
                                 // FALLBACK PDF VIEWER
                                 <div className="flex-1 bg-[#0F1115] rounded-2xl border border-white/10 overflow-hidden">
                                     <iframe

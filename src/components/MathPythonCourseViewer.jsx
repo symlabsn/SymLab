@@ -8,58 +8,88 @@ import rehypeKatex from 'rehype-katex';
 import { introToPythonCourse } from '../app/challenges/data/introToPythonCourse';
 import { getChapterContent } from '../app/challenges/data/chapterContent';
 
-// Styles globaux pour le rendu du contenu
+// Styles globaux pour le rendu du contenu - Optimisés mobile
 const contentStyles = `
     .course-content {
-        font-size: 1.1rem;
-        line-height: 1.9;
+        font-size: 1rem;
+        line-height: 1.8;
         color: #e5e7eb;
     }
     
+    @media (min-width: 640px) {
+        .course-content {
+            font-size: 1.1rem;
+            line-height: 1.9;
+        }
+    }
+    
     .course-content h2 {
-        font-size: 1.75rem;
+        font-size: 1.4rem;
         font-weight: 800;
         color: #ffffff;
-        margin-top: 2.5rem;
-        margin-bottom: 1.25rem;
-        padding-bottom: 0.75rem;
+        margin-top: 2rem;
+        margin-bottom: 1rem;
+        padding-bottom: 0.5rem;
         border-bottom: 3px solid rgba(139, 92, 246, 0.4);
         display: flex;
         align-items: center;
-        gap: 0.75rem;
+        gap: 0.5rem;
+    }
+    
+    @media (min-width: 640px) {
+        .course-content h2 {
+            font-size: 1.75rem;
+            margin-top: 2.5rem;
+            margin-bottom: 1.25rem;
+        }
     }
     
     .course-content h2::before {
         content: '◆';
         color: #8b5cf6;
-        font-size: 0.875rem;
+        font-size: 0.75rem;
     }
     
     .course-content h3 {
-        font-size: 1.35rem;
+        font-size: 1.15rem;
         font-weight: 700;
         color: #a78bfa;
-        margin-top: 2rem;
-        margin-bottom: 1rem;
-        padding-left: 1rem;
-        border-left: 4px solid #8b5cf6;
+        margin-top: 1.5rem;
+        margin-bottom: 0.75rem;
+        padding-left: 0.75rem;
+        border-left: 3px solid #8b5cf6;
+    }
+    
+    @media (min-width: 640px) {
+        .course-content h3 {
+            font-size: 1.35rem;
+            padding-left: 1rem;
+            border-left-width: 4px;
+        }
     }
     
     .course-content h4 {
-        font-size: 1.15rem;
+        font-size: 1.05rem;
         font-weight: 600;
         color: #c4b5fd;
-        margin-top: 1.5rem;
-        margin-bottom: 0.75rem;
+        margin-top: 1.25rem;
+        margin-bottom: 0.5rem;
     }
     
     .course-content p {
-        margin-bottom: 1.25rem;
-        text-align: justify;
+        margin-bottom: 1rem;
+        text-align: left;
+    }
+    
+    @media (min-width: 640px) {
+        .course-content p {
+            margin-bottom: 1.25rem;
+            text-align: justify;
+        }
     }
     
     .course-content ul, .course-content ol {
-        margin: 1.5rem 0;
+        margin: 1rem 0;
         padding-left: 0;
     }
     
@@ -69,8 +99,8 @@ const contentStyles = `
     
     .course-content ul li {
         position: relative;
-        padding-left: 2rem;
-        margin-bottom: 0.875rem;
+        padding-left: 1.5rem;
+        margin-bottom: 0.75rem;
     }
     
     .course-content ul li::before {
@@ -89,44 +119,54 @@ const contentStyles = `
     .course-content ol li {
         counter-increment: item;
         position: relative;
-        padding-left: 2.5rem;
-        margin-bottom: 0.875rem;
+        padding-left: 2rem;
+        margin-bottom: 0.75rem;
     }
     
     .course-content ol li::before {
         content: counter(item);
         position: absolute;
         left: 0;
-        width: 1.75rem;
-        height: 1.75rem;
+        width: 1.5rem;
+        height: 1.5rem;
         background: linear-gradient(135deg, #8b5cf6, #6366f1);
         color: white;
         border-radius: 50%;
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 0.875rem;
+        font-size: 0.75rem;
         font-weight: 700;
     }
     
     .course-content code {
         background: rgba(139, 92, 246, 0.2);
         color: #f472b6;
-        padding: 0.25rem 0.5rem;
-        border-radius: 0.375rem;
+        padding: 0.15rem 0.35rem;
+        border-radius: 0.25rem;
         font-family: 'JetBrains Mono', 'Fira Code', monospace;
-        font-size: 0.9em;
+        font-size: 0.85em;
         border: 1px solid rgba(139, 92, 246, 0.3);
+        word-break: break-word;
     }
     
     .course-content pre {
         background: linear-gradient(135deg, #1e1e2e, #2d2d3f);
         border: 1px solid rgba(139, 92, 246, 0.3);
-        border-radius: 1rem;
-        padding: 1.5rem;
-        margin: 1.75rem 0;
+        border-radius: 0.75rem;
+        padding: 1rem;
+        margin: 1.25rem 0;
         overflow-x: auto;
         position: relative;
+        -webkit-overflow-scrolling: touch;
+    }
+    
+    @media (min-width: 640px) {
+        .course-content pre {
+            border-radius: 1rem;
+            padding: 1.5rem;
+            margin: 1.75rem 0;
+        }
     }
     
     .course-content pre::before {
@@ -136,9 +176,9 @@ const contentStyles = `
         right: 0;
         background: linear-gradient(135deg, #8b5cf6, #6366f1);
         color: white;
-        padding: 0.25rem 0.75rem;
-        border-radius: 0 1rem 0 0.5rem;
-        font-size: 0.75rem;
+        padding: 0.2rem 0.5rem;
+        border-radius: 0 0.75rem 0 0.5rem;
+        font-size: 0.65rem;
         font-weight: 600;
     }
     
@@ -147,37 +187,49 @@ const contentStyles = `
         color: #a6e3a1;
         padding: 0;
         border: none;
-        font-size: 0.9rem;
-        line-height: 1.7;
+        font-size: 0.8rem;
+        line-height: 1.6;
+    }
+    
+    @media (min-width: 640px) {
+        .course-content pre code {
+            font-size: 0.9rem;
+            line-height: 1.7;
+        }
     }
     
     .course-content table {
         width: 100%;
         border-collapse: separate;
         border-spacing: 0;
-        margin: 2rem 0;
-        border-radius: 1rem;
+        margin: 1.5rem 0;
+        border-radius: 0.75rem;
         overflow: hidden;
         box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        display: block;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
     }
     
     .course-content th {
         background: linear-gradient(135deg, rgba(139, 92, 246, 0.3), rgba(99, 102, 241, 0.3));
         color: #ffffff;
-        padding: 1rem 1.25rem;
+        padding: 0.75rem 1rem;
         text-align: left;
         font-weight: 700;
-        font-size: 0.95rem;
+        font-size: 0.85rem;
         text-transform: uppercase;
         letter-spacing: 0.05em;
         border-bottom: 2px solid rgba(139, 92, 246, 0.5);
+        white-space: nowrap;
     }
     
     .course-content td {
-        padding: 1rem 1.25rem;
+        padding: 0.75rem 1rem;
         background: rgba(15, 17, 21, 0.6);
         border-bottom: 1px solid rgba(255, 255, 255, 0.05);
         color: #d1d5db;
+        font-size: 0.9rem;
     }
     
     .course-content tr:last-child td {
@@ -189,11 +241,11 @@ const contentStyles = `
     }
     
     .course-content blockquote {
-        border-left: 5px solid #8b5cf6;
+        border-left: 4px solid #8b5cf6;
         background: linear-gradient(90deg, rgba(139, 92, 246, 0.1), transparent);
-        padding: 1.25rem 1.5rem;
-        margin: 2rem 0;
-        border-radius: 0 1rem 1rem 0;
+        padding: 1rem 1.25rem;
+        margin: 1.5rem 0;
+        border-radius: 0 0.75rem 0.75rem 0;
         font-style: italic;
         color: #c4b5fd;
     }
@@ -219,19 +271,28 @@ const contentStyles = `
         border: none;
         height: 2px;
         background: linear-gradient(90deg, transparent, rgba(139, 92, 246, 0.5), transparent);
-        margin: 2.5rem 0;
+        margin: 2rem 0;
     }
     
-    /* Formules LaTeX */
+    /* Formules LaTeX - Responsive */
     .course-content .katex-display {
         display: block;
-        padding: 2rem;
-        margin: 2rem 0;
+        padding: 1rem;
+        margin: 1.5rem 0;
         background: linear-gradient(135deg, rgba(139, 92, 246, 0.08), rgba(99, 102, 241, 0.05));
         border: 1px solid rgba(139, 92, 246, 0.2);
-        border-radius: 1rem;
+        border-radius: 0.75rem;
         overflow-x: auto;
         text-align: center;
+        -webkit-overflow-scrolling: touch;
+    }
+    
+    @media (min-width: 640px) {
+        .course-content .katex-display {
+            padding: 2rem;
+            margin: 2rem 0;
+            border-radius: 1rem;
+        }
     }
     
     .course-content .katex-display > .katex {
@@ -239,8 +300,14 @@ const contentStyles = `
     }
     
     .course-content .katex {
-        font-size: 1.15em;
+        font-size: 1em;
         color: #a78bfa;
+    }
+    
+    @media (min-width: 640px) {
+        .course-content .katex {
+            font-size: 1.15em;
+        }
     }
     
     /* Exercice styles */
@@ -295,7 +362,7 @@ function ContentRenderer({ content, isExercise = false }) {
 export default function MathPythonCourseViewer() {
     const [activeModuleIndex, setActiveModuleIndex] = useState(0);
     const [activeChapterIndex, setActiveChapterIndex] = useState(0);
-    const [showSidebar, setShowSidebar] = useState(true);
+    const [showSidebar, setShowSidebar] = useState(false); // Default to closed on mobile
     const [activeTab, setActiveTab] = useState('theorie');
 
     const activeModule = introToPythonCourse[activeModuleIndex];
@@ -310,6 +377,7 @@ export default function MathPythonCourseViewer() {
             setActiveChapterIndex(0);
         }
         setActiveTab('theorie');
+        setShowSidebar(false); // Close sidebar on mobile after navigation
     };
 
     const prevChapter = () => {
@@ -320,6 +388,7 @@ export default function MathPythonCourseViewer() {
             setActiveChapterIndex(introToPythonCourse[activeModuleIndex - 1].chapters.length - 1);
         }
         setActiveTab('theorie');
+        setShowSidebar(false); // Close sidebar on mobile after navigation
     };
 
     const totalChapters = introToPythonCourse.reduce((acc, m) => acc + m.chapters.length, 0);
@@ -330,15 +399,22 @@ export default function MathPythonCourseViewer() {
     currentChapterNumber += activeChapterIndex + 1;
     const progressPercent = (currentChapterNumber / totalChapters) * 100;
 
+    const handleChapterSelect = (mIndex, cIndex) => {
+        setActiveModuleIndex(mIndex);
+        setActiveChapterIndex(cIndex);
+        setActiveTab('theorie');
+        setShowSidebar(false); // Close sidebar on mobile
+    };
+
     const renderContent = () => {
         if (!chapterData) {
             return (
-                <div className="bg-gradient-to-br from-gray-900/80 to-gray-800/50 border border-white/10 rounded-2xl p-12 text-center">
-                    <div className="text-7xl mb-8 opacity-40">🚧</div>
-                    <h2 className="text-2xl font-bold mb-4 text-white">{activeChapter?.title}</h2>
-                    <p className="text-gray-400 mb-8 text-lg">Ce chapitre est en cours de rédaction.</p>
-                    <div className="inline-flex items-center gap-3 px-6 py-3 bg-purple-500/20 text-purple-300 rounded-xl">
-                        <span className="w-3 h-3 bg-purple-500 rounded-full animate-pulse"></span>
+                <div className="bg-gradient-to-br from-gray-900/80 to-gray-800/50 border border-white/10 rounded-2xl p-8 sm:p-12 text-center">
+                    <div className="text-5xl sm:text-7xl mb-6 sm:mb-8 opacity-40">🚧</div>
+                    <h2 className="text-xl sm:text-2xl font-bold mb-3 sm:mb-4 text-white">{activeChapter?.title}</h2>
+                    <p className="text-gray-400 mb-6 sm:mb-8 text-base sm:text-lg">Ce chapitre est en cours de rédaction.</p>
+                    <div className="inline-flex items-center gap-2 sm:gap-3 px-4 sm:px-6 py-2 sm:py-3 bg-purple-500/20 text-purple-300 rounded-xl text-sm sm:text-base">
+                        <span className="w-2.5 sm:w-3 h-2.5 sm:h-3 bg-purple-500 rounded-full animate-pulse"></span>
                         Bientôt disponible
                     </div>
                 </div>
@@ -346,95 +422,95 @@ export default function MathPythonCourseViewer() {
         }
 
         return (
-            <div className="space-y-8">
+            <div className="space-y-6 sm:space-y-8">
                 {/* Header */}
-                <div className="bg-gradient-to-br from-purple-900/40 to-indigo-900/30 border border-purple-500/20 rounded-3xl p-10 relative overflow-hidden">
-                    <div className="absolute -top-20 -right-20 w-80 h-80 bg-purple-500/10 rounded-full blur-3xl"></div>
-                    <div className="absolute -bottom-20 -left-20 w-60 h-60 bg-indigo-500/10 rounded-full blur-3xl"></div>
+                <div className="bg-gradient-to-br from-purple-900/40 to-indigo-900/30 border border-purple-500/20 rounded-2xl sm:rounded-3xl p-6 sm:p-10 relative overflow-hidden">
+                    <div className="absolute -top-16 sm:-top-20 -right-16 sm:-right-20 w-60 sm:w-80 h-60 sm:h-80 bg-purple-500/10 rounded-full blur-3xl"></div>
+                    <div className="absolute -bottom-16 sm:-bottom-20 -left-16 sm:-left-20 w-48 sm:w-60 h-48 sm:h-60 bg-indigo-500/10 rounded-full blur-3xl"></div>
                     <div className="relative z-10">
-                        <div className="flex flex-wrap items-center gap-3 mb-6">
-                            <span className="px-4 py-1.5 bg-purple-500/30 text-purple-200 rounded-full text-sm font-mono backdrop-blur-sm">
+                        <div className="flex flex-wrap items-center gap-2 sm:gap-3 mb-4 sm:mb-6">
+                            <span className="px-3 sm:px-4 py-1 sm:py-1.5 bg-purple-500/30 text-purple-200 rounded-full text-xs sm:text-sm font-mono backdrop-blur-sm">
                                 Module {activeModuleIndex + 1}
                             </span>
-                            <span className="px-4 py-1.5 bg-indigo-500/30 text-indigo-200 rounded-full text-sm font-mono backdrop-blur-sm">
+                            <span className="px-3 sm:px-4 py-1 sm:py-1.5 bg-indigo-500/30 text-indigo-200 rounded-full text-xs sm:text-sm font-mono backdrop-blur-sm">
                                 Chapitre {activeChapterIndex + 1}
                             </span>
                         </div>
-                        <h1 className="text-4xl md:text-5xl font-black text-white leading-tight">
+                        <h1 className="text-2xl sm:text-4xl md:text-5xl font-black text-white leading-tight">
                             {chapterData.title}
                         </h1>
                     </div>
                 </div>
 
-                {/* Tabs */}
-                <div className="flex gap-3 bg-gray-900/50 p-3 rounded-2xl border border-white/10 backdrop-blur-sm">
+                {/* Tabs - Mobile optimized */}
+                <div className="flex gap-2 sm:gap-3 bg-gray-900/50 p-2 sm:p-3 rounded-xl sm:rounded-2xl border border-white/10 backdrop-blur-sm overflow-x-auto scrollbar-hide">
                     {[
                         { id: 'theorie', label: 'Théorie', icon: '📖', color: 'from-purple-600 to-indigo-600' },
-                        { id: 'code', label: 'Code Python', icon: '🐍', color: 'from-green-600 to-emerald-600' },
+                        { id: 'code', label: 'Code', icon: '🐍', color: 'from-green-600 to-emerald-600' },
                         { id: 'exercice', label: 'Exercice', icon: '✏️', color: 'from-orange-600 to-red-600' }
                     ].map(tab => (
                         <button
                             key={tab.id}
                             onClick={() => setActiveTab(tab.id)}
-                            className={`flex-1 py-4 px-6 rounded-xl text-base font-semibold transition-all flex items-center justify-center gap-3 ${activeTab === tab.id
-                                    ? `bg-gradient-to-r ${tab.color} text-white shadow-xl shadow-purple-500/20`
-                                    : 'text-gray-400 hover:text-white hover:bg-white/5'
+                            className={`flex-1 min-w-[80px] py-3 sm:py-4 px-3 sm:px-6 rounded-lg sm:rounded-xl text-sm font-semibold transition-all flex items-center justify-center gap-1.5 sm:gap-3 ${activeTab === tab.id
+                                ? `bg-gradient-to-r ${tab.color} text-white shadow-xl shadow-purple-500/20`
+                                : 'text-gray-400 hover:text-white hover:bg-white/5'
                                 }`}
                         >
-                            <span className="text-xl">{tab.icon}</span>
-                            <span className="hidden sm:inline">{tab.label}</span>
+                            <span className="text-lg sm:text-xl">{tab.icon}</span>
+                            <span className="hidden xs:inline sm:inline">{tab.label}</span>
                         </button>
                     ))}
                 </div>
 
                 {/* Content */}
-                <div className="bg-gray-900/40 border border-white/10 rounded-3xl overflow-hidden backdrop-blur-sm">
+                <div className="bg-gray-900/40 border border-white/10 rounded-2xl sm:rounded-3xl overflow-hidden backdrop-blur-sm">
                     {activeTab === 'theorie' && (
-                        <div className="p-8 md:p-12">
+                        <div className="p-4 sm:p-8 md:p-12">
                             <ContentRenderer content={chapterData.theorie} />
                         </div>
                     )}
 
                     {activeTab === 'code' && (
                         <div>
-                            <div className="flex items-center gap-3 px-6 py-4 bg-gray-800/80 border-b border-white/5">
-                                <div className="flex gap-2">
-                                    <div className="w-3.5 h-3.5 rounded-full bg-red-500"></div>
-                                    <div className="w-3.5 h-3.5 rounded-full bg-yellow-500"></div>
-                                    <div className="w-3.5 h-3.5 rounded-full bg-green-500"></div>
+                            <div className="flex items-center gap-2 sm:gap-3 px-4 sm:px-6 py-3 sm:py-4 bg-gray-800/80 border-b border-white/5">
+                                <div className="flex gap-1.5 sm:gap-2">
+                                    <div className="w-2.5 h-2.5 sm:w-3.5 sm:h-3.5 rounded-full bg-red-500"></div>
+                                    <div className="w-2.5 h-2.5 sm:w-3.5 sm:h-3.5 rounded-full bg-yellow-500"></div>
+                                    <div className="w-2.5 h-2.5 sm:w-3.5 sm:h-3.5 rounded-full bg-green-500"></div>
                                 </div>
-                                <span className="ml-3 text-sm text-gray-400 font-mono">exemple.py</span>
-                                <div className="ml-auto flex items-center gap-2 px-3 py-1 bg-green-500/20 rounded-full">
-                                    <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse"></span>
-                                    <span className="text-xs text-green-400 font-mono">Python 3.10</span>
+                                <span className="ml-2 sm:ml-3 text-xs sm:text-sm text-gray-400 font-mono">exemple.py</span>
+                                <div className="ml-auto flex items-center gap-1.5 sm:gap-2 px-2 sm:px-3 py-0.5 sm:py-1 bg-green-500/20 rounded-full">
+                                    <span className="w-1.5 sm:w-2 h-1.5 sm:h-2 rounded-full bg-green-400 animate-pulse"></span>
+                                    <span className="text-[10px] sm:text-xs text-green-400 font-mono">Python 3.10</span>
                                 </div>
                             </div>
-                            <pre className="p-8 overflow-x-auto text-base font-mono bg-[#1a1b26] leading-relaxed">
+                            <pre className="p-4 sm:p-8 overflow-x-auto text-sm sm:text-base font-mono bg-[#1a1b26] leading-relaxed">
                                 <code className="text-green-300">{chapterData.code}</code>
                             </pre>
-                            <div className="p-6 bg-blue-900/30 border-t border-blue-500/20">
-                                <p className="text-blue-200 flex items-center gap-3">
-                                    <span className="text-2xl">💡</span>
-                                    <span className="text-base">Copiez ce code dans Jupyter ou Google Colab pour l'exécuter !</span>
+                            <div className="p-4 sm:p-6 bg-blue-900/30 border-t border-blue-500/20">
+                                <p className="text-blue-200 flex items-center gap-2 sm:gap-3 text-sm sm:text-base">
+                                    <span className="text-xl sm:text-2xl">💡</span>
+                                    <span>Copiez ce code dans Jupyter ou Google Colab pour l&apos;exécuter !</span>
                                 </p>
                             </div>
                         </div>
                     )}
 
                     {activeTab === 'exercice' && (
-                        <div className="p-8 md:p-12">
-                            <div className="bg-gradient-to-br from-orange-900/40 to-red-900/30 border border-orange-500/20 rounded-2xl p-8 mb-8">
-                                <h3 className="text-2xl font-bold text-orange-300 mb-6 flex items-center gap-3">
-                                    <span className="text-3xl">🎯</span>
+                        <div className="p-4 sm:p-8 md:p-12">
+                            <div className="bg-gradient-to-br from-orange-900/40 to-red-900/30 border border-orange-500/20 rounded-xl sm:rounded-2xl p-4 sm:p-8 mb-6 sm:mb-8">
+                                <h3 className="text-xl sm:text-2xl font-bold text-orange-300 mb-4 sm:mb-6 flex items-center gap-2 sm:gap-3">
+                                    <span className="text-2xl sm:text-3xl">🎯</span>
                                     À vous de jouer !
                                 </h3>
                                 <ContentRenderer content={chapterData.exercice} isExercise={true} />
                             </div>
                             <Link
                                 href="/code"
-                                className="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-bold rounded-2xl hover:shadow-xl hover:shadow-purple-500/30 transition-all text-lg"
+                                className="inline-flex items-center gap-2 sm:gap-3 px-5 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-bold rounded-xl sm:rounded-2xl hover:shadow-xl hover:shadow-purple-500/30 transition-all text-sm sm:text-lg w-full sm:w-auto justify-center"
                             >
-                                <span className="text-2xl">🚀</span>
+                                <span className="text-xl sm:text-2xl">🚀</span>
                                 Ouvrir le Notebook Python
                             </Link>
                         </div>
@@ -450,52 +526,56 @@ export default function MathPythonCourseViewer() {
 
     return (
         <div className="flex bg-[#0a0a0f] text-white min-h-screen font-sans selection:bg-purple-500 selection:text-white">
-            {/* Sidebar */}
-            <div className={`fixed inset-y-0 left-0 z-50 w-80 bg-[#0f1015] border-r border-white/10 transform transition-transform duration-300 ${showSidebar ? 'translate-x-0' : '-translate-x-full'}`}>
+            {/* Mobile Overlay */}
+            {showSidebar && (
+                <div
+                    className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 lg:hidden"
+                    onClick={() => setShowSidebar(false)}
+                />
+            )}
+
+            {/* Sidebar - Responsive */}
+            <div className={`fixed inset-y-0 left-0 z-50 w-[280px] sm:w-80 bg-[#0f1015] border-r border-white/10 transform transition-transform duration-300 ${showSidebar ? 'translate-x-0' : '-translate-x-full'} lg:translate-x-0`}>
                 <div className="h-full flex flex-col">
-                    <div className="p-6 border-b border-white/10">
-                        <Link href="/challenges" className="flex items-center gap-2 text-gray-400 hover:text-white mb-4 text-sm transition-colors">
+                    <div className="p-4 sm:p-6 border-b border-white/10">
+                        <Link href="/challenges" className="flex items-center gap-2 text-gray-400 hover:text-white mb-3 sm:mb-4 text-sm transition-colors">
                             <span>←</span> Retour aux Challenges
                         </Link>
-                        <h2 className="font-bold text-xl">
+                        <h2 className="font-bold text-lg sm:text-xl">
                             Maths & Python <span className="text-purple-400">Masterclass</span>
                         </h2>
-                        <div className="mt-5">
-                            <div className="flex justify-between text-sm text-gray-500 mb-2">
+                        <div className="mt-4 sm:mt-5">
+                            <div className="flex justify-between text-xs sm:text-sm text-gray-500 mb-2">
                                 <span>Progression</span>
                                 <span className="font-mono">{currentChapterNumber}/{totalChapters}</span>
                             </div>
-                            <div className="h-2.5 bg-gray-800 rounded-full overflow-hidden">
+                            <div className="h-2 sm:h-2.5 bg-gray-800 rounded-full overflow-hidden">
                                 <div className="h-full bg-gradient-to-r from-purple-500 to-indigo-500 transition-all duration-500" style={{ width: `${progressPercent}%` }}></div>
                             </div>
                         </div>
                     </div>
 
-                    <div className="flex-1 overflow-y-auto p-4 space-y-5">
+                    <div className="flex-1 overflow-y-auto p-3 sm:p-4 space-y-4 sm:space-y-5 scrollbar-thin scrollbar-thumb-white/10">
                         {introToPythonCourse.map((module, mIndex) => (
                             <div key={module.id}>
-                                <h3 className="text-xs font-mono uppercase text-gray-500 mb-3 px-2 flex items-center gap-2">
-                                    <span className={`w-2.5 h-2.5 rounded-full ${mIndex <= activeModuleIndex ? 'bg-purple-500' : 'bg-gray-700'}`}></span>
-                                    {module.title}
+                                <h3 className="text-[10px] sm:text-xs font-mono uppercase text-gray-500 mb-2 sm:mb-3 px-2 flex items-center gap-2">
+                                    <span className={`w-2 sm:w-2.5 h-2 sm:h-2.5 rounded-full ${mIndex <= activeModuleIndex ? 'bg-purple-500' : 'bg-gray-700'}`}></span>
+                                    <span className="truncate">{module.title}</span>
                                 </h3>
-                                <div className="space-y-1.5">
+                                <div className="space-y-1">
                                     {module.chapters.map((chapter, cIndex) => {
                                         const isActive = mIndex === activeModuleIndex && cIndex === activeChapterIndex;
                                         const hasContent = getChapterContent(chapter.id) !== null;
                                         return (
                                             <button
                                                 key={chapter.id}
-                                                onClick={() => {
-                                                    setActiveModuleIndex(mIndex);
-                                                    setActiveChapterIndex(cIndex);
-                                                    setActiveTab('theorie');
-                                                }}
-                                                className={`w-full text-left px-4 py-2.5 rounded-xl text-sm transition-all flex items-center gap-2 ${isActive
-                                                        ? 'bg-purple-500/20 text-purple-300 font-medium border border-purple-500/30'
-                                                        : 'text-gray-400 hover:bg-white/5 hover:text-white'
+                                                onClick={() => handleChapterSelect(mIndex, cIndex)}
+                                                className={`w-full text-left px-3 sm:px-4 py-2 sm:py-2.5 rounded-lg sm:rounded-xl text-xs sm:text-sm transition-all flex items-center gap-2 ${isActive
+                                                    ? 'bg-purple-500/20 text-purple-300 font-medium border border-purple-500/30'
+                                                    : 'text-gray-400 hover:bg-white/5 hover:text-white'
                                                     }`}
                                             >
-                                                {hasContent ? <span className="text-green-400 text-xs">●</span> : <span className="text-gray-600 text-xs">○</span>}
+                                                {hasContent ? <span className="text-green-400 text-[10px] sm:text-xs">●</span> : <span className="text-gray-600 text-[10px] sm:text-xs">○</span>}
                                                 <span className="truncate">{chapter.title}</span>
                                             </button>
                                         );
@@ -508,30 +588,45 @@ export default function MathPythonCourseViewer() {
             </div>
 
             {/* Main */}
-            <div className={`flex-1 transition-all duration-300 ${showSidebar ? 'ml-80' : 'ml-0'}`}>
-                <header className="sticky top-0 z-40 bg-[#0a0a0f]/95 backdrop-blur-xl border-b border-white/10 h-18 flex items-center justify-between px-6 py-4">
-                    <div className="flex items-center gap-4">
-                        <button onClick={() => setShowSidebar(!showSidebar)} className="p-2.5 hover:bg-white/10 rounded-xl transition-colors">
-                            <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-                            </svg>
-                        </button>
-                        <div>
-                            <span className="text-xs text-gray-500 font-mono">Module {activeModuleIndex + 1}/{introToPythonCourse.length}</span>
-                            <p className="font-bold text-gray-200">{activeModule.title}</p>
+            <div className="flex-1 lg:ml-80 min-h-screen flex flex-col">
+                <header className="sticky top-0 z-30 bg-[#0a0a0f]/95 backdrop-blur-xl border-b border-white/10 px-3 sm:px-6 py-3 sm:py-4">
+                    <div className="flex items-center justify-between gap-2 sm:gap-4">
+                        <div className="flex items-center gap-2 sm:gap-4 min-w-0">
+                            <button
+                                onClick={() => setShowSidebar(!showSidebar)}
+                                className="p-2 sm:p-2.5 hover:bg-white/10 rounded-lg sm:rounded-xl transition-colors flex-shrink-0"
+                            >
+                                <svg width="20" height="20" className="sm:w-6 sm:h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                                </svg>
+                            </button>
+                            <div className="min-w-0">
+                                <span className="text-[10px] sm:text-xs text-gray-500 font-mono">Module {activeModuleIndex + 1}/{introToPythonCourse.length}</span>
+                                <p className="font-bold text-gray-200 text-sm sm:text-base truncate">{activeModule.title}</p>
+                            </div>
                         </div>
-                    </div>
-                    <div className="flex items-center gap-3">
-                        <button onClick={prevChapter} disabled={activeModuleIndex === 0 && activeChapterIndex === 0} className="px-5 py-2.5 rounded-xl bg-white/5 hover:bg-white/10 disabled:opacity-30 transition-all border border-white/10 font-medium">
-                            ← Précédent
-                        </button>
-                        <button onClick={nextChapter} disabled={activeModuleIndex === introToPythonCourse.length - 1 && activeChapterIndex === activeModule.chapters.length - 1} className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 font-bold hover:shadow-lg disabled:opacity-30 transition-all">
-                            Suivant →
-                        </button>
+                        <div className="flex items-center gap-1.5 sm:gap-3 flex-shrink-0">
+                            <button
+                                onClick={prevChapter}
+                                disabled={activeModuleIndex === 0 && activeChapterIndex === 0}
+                                className="px-2.5 sm:px-5 py-2 sm:py-2.5 rounded-lg sm:rounded-xl bg-white/5 hover:bg-white/10 disabled:opacity-30 transition-all border border-white/10 font-medium text-xs sm:text-sm"
+                            >
+                                <span className="sm:hidden">←</span>
+                                <span className="hidden sm:inline">← Précédent</span>
+                            </button>
+                            <button
+                                onClick={nextChapter}
+                                disabled={activeModuleIndex === introToPythonCourse.length - 1 && activeChapterIndex === activeModule.chapters.length - 1}
+                                className="px-2.5 sm:px-6 py-2 sm:py-2.5 rounded-lg sm:rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 font-bold hover:shadow-lg disabled:opacity-30 transition-all text-xs sm:text-sm"
+                            >
+                                <span className="sm:hidden">→</span>
+                                <span className="hidden sm:inline">Suivant →</span>
+                            </button>
+                        </div>
                     </div>
                 </header>
 
-                <main className="p-8 md:p-14 max-w-5xl mx-auto">
+                <main className="flex-1 p-4 sm:p-8 md:p-14 max-w-5xl mx-auto w-full">
                     {renderContent()}
                 </main>
             </div>
