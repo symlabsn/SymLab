@@ -364,6 +364,14 @@ export default function MathPythonCourseViewer() {
     const [activeChapterIndex, setActiveChapterIndex] = useState(0);
     const [showSidebar, setShowSidebar] = useState(false); // Default to closed on mobile
     const [activeTab, setActiveTab] = useState('theorie');
+    const [expandedModules, setExpandedModules] = useState({ 0: true }); // First module expanded by default
+
+    const toggleModule = (index) => {
+        setExpandedModules(prev => ({
+            ...prev,
+            [index]: !prev[index]
+        }));
+    };
 
     const activeModule = introToPythonCourse[activeModuleIndex];
     const activeChapter = activeModule?.chapters?.[activeChapterIndex];
@@ -403,6 +411,7 @@ export default function MathPythonCourseViewer() {
         setActiveModuleIndex(mIndex);
         setActiveChapterIndex(cIndex);
         setActiveTab('theorie');
+        setExpandedModules(prev => ({ ...prev, [mIndex]: true })); // Expand selected module
         setShowSidebar(false); // Close sidebar on mobile
     };
 
@@ -534,8 +543,8 @@ export default function MathPythonCourseViewer() {
                 />
             )}
 
-            {/* Sidebar - Responsive with improved mobile positioning */}
-            <div className={`fixed inset-y-0 left-0 z-50 w-[85vw] max-w-[320px] bg-[#0f1015] border-r border-white/10 transform transition-transform duration-300 ${showSidebar ? 'translate-x-0' : '-translate-x-full'} lg:translate-x-0 lg:w-80`}>
+            {/* Sidebar - Responsive, positioned below navbar */}
+            <div className={`fixed top-16 bottom-0 left-0 z-50 w-[85vw] max-w-[320px] bg-[#0f1015] border-r border-white/10 transform transition-transform duration-300 ${showSidebar ? 'translate-x-0' : '-translate-x-full'} lg:translate-x-0 lg:w-80`}>
                 <div className="h-full flex flex-col">
                     {/* Sidebar Header with close button on mobile */}
                     <div className="p-4 sm:p-6 border-b border-white/10">
@@ -566,113 +575,179 @@ export default function MathPythonCourseViewer() {
                         </div>
                     </div>
 
-                    <div className="flex-1 overflow-y-auto p-3 sm:p-4 space-y-4 sm:space-y-5 scrollbar-thin scrollbar-thumb-white/10 pb-24 lg:pb-4">
-                        {introToPythonCourse.map((module, mIndex) => (
-                            <div key={module.id}>
-                                <h3 className="text-[10px] sm:text-xs font-mono uppercase text-gray-500 mb-2 sm:mb-3 px-2 flex items-center gap-2">
-                                    <span className={`w-2 sm:w-2.5 h-2 sm:h-2.5 rounded-full ${mIndex <= activeModuleIndex ? 'bg-purple-500' : 'bg-gray-700'}`}></span>
-                                    <span className="truncate">{module.title}</span>
-                                </h3>
-                                <div className="space-y-1">
-                                    {module.chapters.map((chapter, cIndex) => {
-                                        const isActive = mIndex === activeModuleIndex && cIndex === activeChapterIndex;
-                                        const hasContent = getChapterContent(chapter.id) !== null;
-                                        return (
-                                            <button
-                                                key={chapter.id}
-                                                onClick={() => handleChapterSelect(mIndex, cIndex)}
-                                                className={`w-full text-left px-3 sm:px-4 py-3 sm:py-2.5 rounded-xl text-sm transition-all flex items-center gap-2 active:scale-[0.98] ${isActive
-                                                    ? 'bg-purple-500/20 text-purple-300 font-medium border border-purple-500/30'
-                                                    : 'text-gray-400 hover:bg-white/5 hover:text-white'
-                                                    }`}
-                                            >
-                                                {hasContent ? <span className="text-green-400 text-xs">●</span> : <span className="text-gray-600 text-xs">○</span>}
-                                                <span className="truncate">{chapter.title}</span>
-                                            </button>
-                                        );
-                                    })}
+                    <div className="flex-1 overflow-y-auto p-3 sm:p-4 space-y-2 scrollbar-thin scrollbar-thumb-white/10 pb-24 lg:pb-4">
+                        {introToPythonCourse.map((module, mIndex) => {
+                            const isModuleActive = mIndex === activeModuleIndex;
+                            const isExpanded = expandedModules[mIndex];
+                            const completedChapters = module.chapters.filter(ch => getChapterContent(ch.id) !== null).length;
+
+                            return (
+                                <div key={module.id} className="rounded-xl overflow-hidden">
+                                    {/* Module Header - Clickable */}
+                                    <button
+                                        onClick={() => toggleModule(mIndex)}
+                                        className={`w-full flex items-center gap-3 p-3 sm:p-4 transition-all ${isModuleActive
+                                            ? 'bg-purple-500/20 border-l-4 border-purple-500'
+                                            : 'bg-white/5 hover:bg-white/10 border-l-4 border-transparent'
+                                            }`}
+                                    >
+                                        {/* Expand/Collapse Arrow */}
+                                        <svg
+                                            className={`w-4 h-4 text-gray-400 transition-transform duration-300 flex-shrink-0 ${isExpanded ? 'rotate-90' : ''}`}
+                                            fill="none"
+                                            viewBox="0 0 24 24"
+                                            stroke="currentColor"
+                                        >
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                                        </svg>
+
+                                        <div className="flex-1 text-left min-w-0">
+                                            <span className={`text-xs font-mono uppercase ${isModuleActive ? 'text-purple-300' : 'text-gray-500'}`}>
+                                                Module {mIndex + 1}
+                                            </span>
+                                            <p className={`font-medium text-sm truncate ${isModuleActive ? 'text-white' : 'text-gray-300'}`}>
+                                                {module.title}
+                                            </p>
+                                        </div>
+
+                                        {/* Chapter Count Badge */}
+                                        <span className={`px-2 py-0.5 rounded-full text-[10px] font-mono flex-shrink-0 ${completedChapters === module.chapters.length
+                                            ? 'bg-green-500/20 text-green-400'
+                                            : 'bg-white/10 text-gray-400'
+                                            }`}>
+                                            {completedChapters}/{module.chapters.length}
+                                        </span>
+                                    </button>
+
+                                    {/* Chapters List - Animated */}
+                                    <div
+                                        className={`overflow-hidden transition-all duration-300 ease-in-out ${isExpanded ? 'max-h-[500px] opacity-100' : 'max-h-0 opacity-0'
+                                            }`}
+                                    >
+                                        <div className="space-y-1 p-2 bg-black/20">
+                                            {module.chapters.map((chapter, cIndex) => {
+                                                const isActive = mIndex === activeModuleIndex && cIndex === activeChapterIndex;
+                                                const hasContent = getChapterContent(chapter.id) !== null;
+                                                return (
+                                                    <button
+                                                        key={chapter.id}
+                                                        onClick={() => handleChapterSelect(mIndex, cIndex)}
+                                                        className={`w-full text-left px-3 py-3 rounded-lg text-sm transition-all flex items-center gap-2 active:scale-[0.98] ${isActive
+                                                            ? 'bg-purple-500/30 text-purple-200 font-medium'
+                                                            : 'text-gray-400 hover:bg-white/5 hover:text-white'
+                                                            }`}
+                                                    >
+                                                        {hasContent
+                                                            ? <span className="text-green-400 text-xs">✓</span>
+                                                            : <span className="text-gray-600 text-xs">○</span>
+                                                        }
+                                                        <span className="truncate">{chapter.title}</span>
+                                                        {isActive && (
+                                                            <span className="ml-auto w-2 h-2 rounded-full bg-purple-400 animate-pulse"></span>
+                                                        )}
+                                                    </button>
+                                                );
+                                            })}
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                        ))}
+                            );
+                        })}
                     </div>
                 </div>
             </div>
 
             {/* Main */}
-            <div className="flex-1 lg:ml-80 min-h-screen flex flex-col">
-                {/* Header - Simplified for mobile */}
-                <header className="sticky top-0 z-30 bg-[#0a0a0f]/95 backdrop-blur-xl border-b border-white/10 px-3 sm:px-6 py-3 sm:py-4">
-                    <div className="flex items-center justify-between gap-2 sm:gap-4">
-                        <div className="flex items-center gap-3 sm:gap-4 min-w-0 flex-1">
-                            {/* Menu toggle - Hidden on large screens */}
+            <div className="flex-1 lg:ml-80 min-h-screen flex flex-col pt-16">
+                {/* Header - Positioned below navbar (top-16), responsive buttons */}
+                <header className="sticky top-16 z-30 bg-[#0a0a0f]/95 backdrop-blur-xl border-b border-white/10 px-3 sm:px-6 py-3 sm:py-4">
+                    {/* Mobile Layout: Two rows for better readability */}
+                    <div className="lg:hidden space-y-2">
+                        {/* Row 1: Menu + Module/Chapter info */}
+                        <div className="flex items-center gap-2">
+                            {/* Menu toggle */}
                             <button
                                 onClick={() => setShowSidebar(!showSidebar)}
-                                className="lg:hidden p-2.5 bg-purple-500/20 hover:bg-purple-500/30 rounded-xl transition-colors flex-shrink-0 border border-purple-500/30"
+                                className="p-2.5 bg-purple-500/20 hover:bg-purple-500/30 rounded-xl transition-colors flex-shrink-0 border border-purple-500/30"
                             >
                                 <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="text-purple-300">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
                                 </svg>
                             </button>
-                            <div className="min-w-0">
-                                <span className="text-[10px] sm:text-xs text-gray-500 font-mono">Module {activeModuleIndex + 1}/{introToPythonCourse.length}</span>
-                                <p className="font-bold text-gray-200 text-sm sm:text-base truncate">{activeModule.title}</p>
+
+                            {/* Module & Chapter badges */}
+                            <div className="flex items-center gap-2 flex-1 min-w-0">
+                                <span className="px-2.5 py-1.5 bg-purple-500/20 text-purple-200 rounded-lg text-xs font-mono border border-purple-500/30 whitespace-nowrap">
+                                    Module {activeModuleIndex + 1}
+                                </span>
+                                <span className="px-2.5 py-1.5 bg-indigo-500/20 text-indigo-200 rounded-lg text-xs font-mono border border-indigo-500/30 whitespace-nowrap">
+                                    Ch. {activeChapterIndex + 1}
+                                </span>
                             </div>
                         </div>
-                        {/* Navigation buttons - Always visible but compact on mobile */}
-                        <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
+
+                        {/* Row 2: Chapter title + Navigation buttons */}
+                        <div className="flex items-center gap-2">
+                            <p className="text-white text-sm font-medium truncate flex-1">{activeChapter?.title}</p>
+
+                            {/* Navigation buttons - More visible */}
+                            <div className="flex items-center gap-2 flex-shrink-0">
+                                <button
+                                    onClick={prevChapter}
+                                    disabled={activeModuleIndex === 0 && activeChapterIndex === 0}
+                                    className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-white/10 hover:bg-white/15 disabled:opacity-30 transition-all border border-white/10 text-sm font-medium"
+                                >
+                                    <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 19l-7-7 7-7" />
+                                    </svg>
+                                    <span className="hidden xs:inline">Préc</span>
+                                </button>
+                                <button
+                                    onClick={nextChapter}
+                                    disabled={activeModuleIndex === introToPythonCourse.length - 1 && activeChapterIndex === activeModule.chapters.length - 1}
+                                    className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:shadow-lg hover:shadow-purple-500/30 disabled:opacity-30 transition-all text-sm font-bold"
+                                >
+                                    <span className="hidden xs:inline">Suiv</span>
+                                    <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Desktop Layout: Full display */}
+                    <div className="hidden lg:flex items-center gap-4">
+                        <div className="flex-1 min-w-0">
+                            <span className="text-xs text-gray-500 font-mono">Module {activeModuleIndex + 1}/{introToPythonCourse.length}</span>
+                            <p className="font-bold text-white text-lg truncate">{activeModule.title}</p>
+                            <p className="text-sm text-purple-300 truncate mt-0.5">
+                                Chapitre {activeChapterIndex + 1}: {activeChapter?.title}
+                            </p>
+                        </div>
+                        {/* Desktop Navigation buttons */}
+                        <div className="flex items-center gap-3 flex-shrink-0">
                             <button
                                 onClick={prevChapter}
                                 disabled={activeModuleIndex === 0 && activeChapterIndex === 0}
-                                className="p-2.5 sm:px-5 sm:py-2.5 rounded-xl bg-white/5 hover:bg-white/10 disabled:opacity-30 transition-all border border-white/10 font-medium text-sm"
+                                className="px-5 py-2.5 rounded-xl bg-white/5 hover:bg-white/10 disabled:opacity-30 transition-all border border-white/10 font-medium text-sm"
                             >
-                                <span className="sm:hidden">←</span>
-                                <span className="hidden sm:inline">← Précédent</span>
+                                ← Précédent
                             </button>
                             <button
                                 onClick={nextChapter}
                                 disabled={activeModuleIndex === introToPythonCourse.length - 1 && activeChapterIndex === activeModule.chapters.length - 1}
-                                className="p-2.5 sm:px-6 sm:py-2.5 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 font-bold hover:shadow-lg disabled:opacity-30 transition-all text-sm"
+                                className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 font-bold hover:shadow-lg disabled:opacity-30 transition-all text-sm"
                             >
-                                <span className="sm:hidden">→</span>
-                                <span className="hidden sm:inline">Suivant →</span>
+                                Suivant →
                             </button>
                         </div>
                     </div>
                 </header>
 
-                <main className="flex-1 p-4 sm:p-8 md:p-14 max-w-5xl mx-auto w-full pb-24 lg:pb-14">
+                <main className="flex-1 p-4 sm:p-8 md:p-14 max-w-5xl mx-auto w-full pb-8 lg:pb-14">
                     {renderContent()}
                 </main>
-
-                {/* Mobile Bottom Navigation Bar */}
-                <div className="fixed bottom-0 left-0 right-0 lg:hidden bg-[#0f1015]/95 backdrop-blur-xl border-t border-white/10 p-3 z-40 safe-area-pb">
-                    <div className="flex items-center justify-between gap-3 max-w-lg mx-auto">
-                        <button
-                            onClick={prevChapter}
-                            disabled={activeModuleIndex === 0 && activeChapterIndex === 0}
-                            className="flex-1 py-3 rounded-xl bg-white/5 hover:bg-white/10 disabled:opacity-30 transition-all border border-white/10 font-medium text-sm flex items-center justify-center gap-2"
-                        >
-                            <span>←</span>
-                            <span>Précédent</span>
-                        </button>
-                        <button
-                            onClick={() => setShowSidebar(true)}
-                            className="p-3 rounded-xl bg-purple-500/20 hover:bg-purple-500/30 border border-purple-500/30 transition-all"
-                        >
-                            <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="text-purple-300">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 10h16M4 14h16M4 18h16" />
-                            </svg>
-                        </button>
-                        <button
-                            onClick={nextChapter}
-                            disabled={activeModuleIndex === introToPythonCourse.length - 1 && activeChapterIndex === activeModule.chapters.length - 1}
-                            className="flex-1 py-3 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 font-bold hover:shadow-lg disabled:opacity-30 transition-all text-sm flex items-center justify-center gap-2"
-                        >
-                            <span>Suivant</span>
-                            <span>→</span>
-                        </button>
-                    </div>
-                </div>
             </div>
         </div>
     );

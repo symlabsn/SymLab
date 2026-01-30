@@ -437,7 +437,7 @@ function ProgrammingContent() {
                             } ${chapter.isHighlight ? 'ring-2 ring-[#FF9F1C]/30' : ''}`}
                     >
                         {/* Shimmer effect on hover */}
-                        <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700">
+                        <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none">
                             <div className="absolute top-0 -left-full w-full h-full bg-gradient-to-r from-transparent via-white/5 to-transparent group-hover:left-full transition-all duration-1000" />
                         </div>
 
@@ -486,7 +486,10 @@ function ProgrammingContent() {
 
                         {/* Lessons Accordion */}
                         {selectedChapter === chapter.id && (
-                            <div className="border-t border-white/10 p-4 md:p-6 space-y-4 animate-in slide-in-from-top duration-300">
+                            <div
+                                className="border-t border-white/10 p-4 md:p-6 space-y-4 animate-in slide-in-from-top duration-300"
+                                onClick={(e) => e.stopPropagation()}
+                            >
                                 {chapter.lessons.map((lesson, idx) => {
                                     const lessonId = `${chapter.id}-${idx}`;
                                     const isSelected = selectedLesson === lessonId;
@@ -503,7 +506,10 @@ function ProgrammingContent() {
                                             {/* Lesson Header */}
                                             <div
                                                 className="p-4 md:p-5 cursor-pointer"
-                                                onClick={() => setSelectedLesson(isSelected ? null : lessonId)}
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    setSelectedLesson(isSelected ? null : lessonId);
+                                                }}
                                             >
                                                 <div className="flex items-start justify-between gap-4">
                                                     <div className="flex items-start gap-4 flex-1">
