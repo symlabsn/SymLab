@@ -9,6 +9,13 @@ import { collegeSimulationsData } from '../collegeData';
 import { lyceeSimulationsData } from '../lyceeData';
 import { getSimulationImage, simulationHotspots } from '../imageConfig';
 import EnhancedQuiz from '@/components/EnhancedQuiz';
+import {
+    MobileBottomNavbar,
+    MobileControlsSheet,
+    MobileInfoPanel,
+    MobileFloatingActions,
+    MobileToast
+} from '@/components/MobileSimulationUI';
 
 // Import dynamique pour éviter les erreurs SSR avec Three.js
 const Simulation3D = dynamic(() => import('@/components/Simulation3D'), {
@@ -304,10 +311,12 @@ const ImageSimulation = ({ simulationId, title }) => {
         <div className="rounded-2xl overflow-hidden border border-white/20 bg-black">
             {/* Image Container */}
             <div ref={containerRef} className="relative" style={{ height: '450px' }}>
-                <img
+                <Image
                     src={imageSrc}
                     alt={title}
-                    className="w-full h-full object-contain bg-gradient-to-br from-slate-900 to-black"
+                    fill
+                    className="object-contain bg-gradient-to-br from-slate-900 to-black"
+                    unoptimized
                 />
 
                 {/* Hotspots interactifs */}
@@ -878,6 +887,13 @@ export default function SimulationDetailPage({ params }) {
     // Panneau de contrôle draggable
     const [showControlPanel, setShowControlPanel] = useState(false);
 
+    // États pour l'interface mobile
+    const [mobileTab, setMobileTab] = useState('simulation');
+    const [showMobileControls, setShowMobileControls] = useState(false);
+    const [showMobileInfo, setShowMobileInfo] = useState(false);
+    const [toastMessage, setToastMessage] = useState({ text: '', type: 'info', visible: false });
+    const [isMobile, setIsMobile] = useState(false);
+
     // Ref pour le conteneur de simulation
     const simulationContainerRef = useRef(null);
 
@@ -894,14 +910,60 @@ export default function SimulationDetailPage({ params }) {
         }
     }, [params]);
 
+    // Détecter le mode mobile
+    useEffect(() => {
+        const checkMobile = () => {
+            setIsMobile(window.innerWidth < 768);
+        };
+        checkMobile();
+        window.addEventListener('resize', checkMobile);
+        return () => window.removeEventListener('resize', checkMobile);
+    }, []);
+
+    // Gérer les tabs mobiles
+    useEffect(() => {
+        if (mobileTab === 'controls') {
+            setShowMobileControls(true);
+        } else if (mobileTab === 'info') {
+            setShowMobileInfo(true);
+        }
+    }, [mobileTab]);
+
     const handleChallengeComplete = useCallback((score, total) => {
         setQuizResults({ score, total });
         setShowResultsModal(true);
     }, []);
 
     const handleScreenshot = useCallback(() => {
-        // Logique de capture d'écran (notification pour l'instant)
-        alert('📸 Capture d\'écran enregistrée ! (Fonctionnalité à venir)');
+        setToastMessage({ text: '📸 Capture d\'écran enregistrée !', type: 'success', visible: true });
+    }, []);
+
+    const handleShare = useCallback(async () => {
+        if (navigator.share) {
+            try {
+                await navigator.share({
+                    title: 'SymLab - Simulation 3D',
+                    text: 'Découvrez cette simulation 3D interactive !',
+                    url: window.location.href,
+                });
+                setToastMessage({ text: 'Partagé avec succès !', type: 'success', visible: true });
+            } catch (err) {
+                // L'utilisateur a annulé le partage
+            }
+        } else {
+            // Copier le lien
+            navigator.clipboard.writeText(window.location.href);
+            setToastMessage({ text: 'Lien copié dans le presse-papiers !', type: 'info', visible: true });
+        }
+    }, []);
+
+    const handleFullscreen = useCallback(() => {
+        if (!document.fullscreenElement) {
+            simulationContainerRef.current?.requestFullscreen?.() ||
+                simulationContainerRef.current?.webkitRequestFullscreen?.();
+        } else {
+            document.exitFullscreen?.() || document.webkitExitFullscreen?.();
+        }
     }, []);
 
     const handleReset = useCallback(() => {
@@ -911,6 +973,7 @@ export default function SimulationDetailPage({ params }) {
         setShowLabels(true);
         setShowGrid(true);
         setIsPlaying(true);
+        setToastMessage({ text: '🔄 Paramètres réinitialisés !', type: 'info', visible: true });
     }, []);
 
     if (!resolvedParams) {
@@ -933,9 +996,9 @@ export default function SimulationDetailPage({ params }) {
     };
 
     return (
-        <main className="min-h-screen bg-gradient-to-br from-black via-slate-950 to-black text-white">
-            {/* Navbar améliorée - Mobile First */}
-            <nav className="border-b border-white/10 backdrop-blur-xl bg-black/80 sticky top-0 z-50">
+        <main className={`min-h-screen bg-gradient-to-br from-black via-slate-950 to-black text-white ${isMobile ? 'pb-24' : ''}`}>
+            {/* Navbar améliorée - Cachée sur mobile (remplacée par bottom navbar) */}
+            <nav className={`border-b border-white/10 backdrop-blur-xl bg-black/80 sticky top-0 z-50 ${isMobile ? 'hidden' : ''}`}>
                 <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 h-14 sm:h-16 flex items-center justify-between">
                     {/* Bouton retour conditionnel */}
                     {returnInfo ? (
@@ -967,21 +1030,46 @@ export default function SimulationDetailPage({ params }) {
                 </div>
             </nav>
 
-            {/* Header avec titre animé - Mobile First */}
-            <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-4 sm:py-8">
-                <div className="mb-4 sm:mb-8">
-                    <div className="flex flex-wrap items-center gap-2 mb-2 sm:mb-4">
-                        <AnimatedBadge color="purple">{simulationLevel.name}</AnimatedBadge>
-                        <AnimatedBadge color="green">{simulationLevel.description}</AnimatedBadge>
-                    </div>
-                    <h1 className="text-2xl sm:text-4xl md:text-5xl font-black mb-2 sm:mb-4 bg-clip-text text-transparent bg-gradient-to-r from-[#00F5D4] via-purple-500 to-pink-500">
-                        {simulation.title}
-                    </h1>
-                    <p className="text-sm sm:text-xl text-gray-300 line-clamp-2 sm:line-clamp-none">{simulation.description}</p>
+            {/* Header avec titre animé - Optimisé Mobile */}
+            <div className={`max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 ${isMobile ? 'py-2' : 'py-4 sm:py-8'}`}>
+                <div className={`${isMobile ? 'mb-2' : 'mb-4 sm:mb-8'}`}>
+                    {/* Sur mobile: header ultra-compact */}
+                    {isMobile ? (
+                        <div className="flex items-center justify-between gap-3">
+                            <div className="flex items-center gap-3 min-w-0">
+                                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#00F5D4] to-purple-500 flex items-center justify-center text-xl flex-shrink-0">
+                                    ⚛️
+                                </div>
+                                <div className="min-w-0">
+                                    <h1 className="text-lg font-bold text-white truncate">
+                                        {simulation.title}
+                                    </h1>
+                                    <p className="text-xs text-gray-400 truncate">{simulationLevel.name}</p>
+                                </div>
+                            </div>
+                            <button
+                                onClick={() => setShowMobileInfo(true)}
+                                className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-sm active:scale-95 flex-shrink-0"
+                            >
+                                ℹ️
+                            </button>
+                        </div>
+                    ) : (
+                        <>
+                            <div className="flex flex-wrap items-center gap-2 mb-2 sm:mb-4">
+                                <AnimatedBadge color="purple">{simulationLevel.name}</AnimatedBadge>
+                                <AnimatedBadge color="green">{simulationLevel.description}</AnimatedBadge>
+                            </div>
+                            <h1 className="text-2xl sm:text-4xl md:text-5xl font-black mb-2 sm:mb-4 bg-clip-text text-transparent bg-gradient-to-r from-[#00F5D4] via-purple-500 to-pink-500">
+                                {simulation.title}
+                            </h1>
+                            <p className="text-sm sm:text-xl text-gray-300 line-clamp-2 sm:line-clamp-none">{simulation.description}</p>
+                        </>
+                    )}
                 </div>
 
-                {/* Tabs améliorés - Mobile First avec scroll horizontal */}
-                <div className="flex gap-1.5 sm:gap-3 mb-4 sm:mb-8 overflow-x-auto pb-2 -mx-3 px-3 sm:mx-0 sm:px-0 scrollbar-hide">
+                {/* Tabs améliorés - Cachés sur mobile (utilisation du bottom navbar) */}
+                <div className={`gap-1.5 sm:gap-3 mb-4 sm:mb-8 overflow-x-auto pb-2 -mx-3 px-3 sm:mx-0 sm:px-0 scrollbar-hide ${isMobile ? 'hidden' : 'flex'}`}>
                     {[
                         { id: 'simulation', label: 'Simulation', icon: '🎮', shortLabel: 'Simu' },
                         { id: 'analogy', label: 'Analogie', icon: '🌍', shortLabel: 'Analo.' },
@@ -1010,18 +1098,24 @@ export default function SimulationDetailPage({ params }) {
                                 {/* Simulation en pleine largeur sur mobile */}
                                 <div className="space-y-4">
                                     {/* Conteneur de simulation - Plein écran mobile */}
-                                    <div ref={simulationContainerRef} className="relative rounded-xl sm:rounded-2xl overflow-hidden shadow-2xl border border-white/20 bg-black/50 h-[50vh] sm:h-[60vh] lg:h-[70vh]">
+                                    <div ref={simulationContainerRef} className="relative rounded-xl sm:rounded-2xl overflow-hidden shadow-2xl border border-white/20 bg-black/50 h-[60vh] sm:h-[60vh] lg:h-[70vh]">
                                         <Simulation3D type={simulation.type} config={simulation.config} />
-                                        <FloatingToolbar
-                                            onHelp={() => setShowHelpModal(true)}
-                                        />
-                                        <div className="absolute top-2 right-2 sm:top-4 sm:right-4 z-10">
-                                            <FullscreenButton containerRef={simulationContainerRef} />
-                                        </div>
+                                        {/* Barre d'outils - cachée sur mobile car remplacée par bottom navbar */}
+                                        {!isMobile && (
+                                            <FloatingToolbar
+                                                onHelp={() => setShowHelpModal(true)}
+                                            />
+                                        )}
+                                        {/* Bouton plein écran - caché sur mobile */}
+                                        {!isMobile && (
+                                            <div className="absolute top-2 right-2 sm:top-4 sm:right-4 z-10">
+                                                <FullscreenButton containerRef={simulationContainerRef} />
+                                            </div>
+                                        )}
                                     </div>
 
-                                    {/* Panneau de contrôle repliable sur mobile */}
-                                    <details className="lg:hidden group">
+                                    {/* Panneau de contrôle repliable - affiché uniquement sur tablette (nouveau Bottom Sheet sur mobile) */}
+                                    <details className={`lg:hidden group ${isMobile ? 'hidden' : ''}`}>
                                         <summary className="flex items-center justify-between p-3 rounded-xl bg-white/5 border border-white/10 cursor-pointer list-none active:scale-[0.98] transition-all">
                                             <div className="flex items-center gap-2">
                                                 <span className="text-lg">🎛️</span>
@@ -1182,6 +1276,68 @@ export default function SimulationDetailPage({ params }) {
                 score={quizResults.score}
                 total={quizResults.total}
             />
+
+            {/* ========== INTERFACE MOBILE PREMIUM ========== */}
+            {isMobile && (
+                <>
+                    {/* Barre de navigation mobile en bas */}
+                    <MobileBottomNavbar
+                        activeTab={mobileTab}
+                        setActiveTab={(tab) => {
+                            setMobileTab(tab);
+                            if (tab === 'simulation') {
+                                setShowMobileControls(false);
+                                setShowMobileInfo(false);
+                            }
+                        }}
+                        onFullscreen={handleFullscreen}
+                        onHelp={() => setShowHelpModal(true)}
+                        returnInfo={returnInfo}
+                    />
+
+                    {/* Panneau de contrôles glissant (Bottom Sheet) */}
+                    <MobileControlsSheet
+                        isOpen={showMobileControls}
+                        onClose={() => {
+                            setShowMobileControls(false);
+                            setMobileTab('simulation');
+                        }}
+                        autoRotate={autoRotate}
+                        setAutoRotate={setAutoRotate}
+                        speed={speed}
+                        setSpeed={setSpeed}
+                        zoom={zoom}
+                        setZoom={setZoom}
+                        onReset={handleReset}
+                    />
+
+                    {/* Panneau d'informations glissant */}
+                    <MobileInfoPanel
+                        isOpen={showMobileInfo}
+                        onClose={() => {
+                            setShowMobileInfo(false);
+                            setMobileTab('simulation');
+                        }}
+                        simulation={simulation}
+                        simulationLevel={simulationLevel}
+                    />
+
+                    {/* Boutons d'actions flottants */}
+                    <MobileFloatingActions
+                        onHelp={() => setShowHelpModal(true)}
+                        onShare={handleShare}
+                        onScreenshot={handleScreenshot}
+                    />
+
+                    {/* Toast de notification */}
+                    <MobileToast
+                        message={toastMessage.text}
+                        type={toastMessage.type}
+                        isVisible={toastMessage.visible}
+                        onClose={() => setToastMessage(prev => ({ ...prev, visible: false }))}
+                    />
+                </>
+            )}
         </main >
     );
 }

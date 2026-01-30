@@ -32,7 +32,7 @@ import { machineLearningData } from './data/machineLearning';
 import { mathForMLData } from './data/mathForML';
 import { visualizationData } from './data/visualization';
 import { dataScienceProjects } from './data/appliedDataScience';
-import { BookOpen, Download, Eye, ChevronRight, GraduationCap, Atom, Calculator, Dna, CheckCircle, XCircle, Menu, ArrowLeft } from 'lucide-react';
+import { BookOpen, Download, Eye, ChevronRight, GraduationCap, Atom, Calculator, Dna, CheckCircle, XCircle, Menu, ArrowLeft, X, ChevronDown, ChevronUp, Home, Book, Layers, Settings, Play } from 'lucide-react';
 import 'katex/dist/katex.min.css';
 import ReactMarkdown from 'react-markdown';
 import remarkMath from 'remark-math';
@@ -134,6 +134,12 @@ function CoursesContent() {
     const [quizAnswers, setQuizAnswers] = useState({});
     const [quizResults, setQuizResults] = useState({});
 
+    // États Mobile
+    const [isMobile, setIsMobile] = useState(false);
+    const [showMobileChapters, setShowMobileChapters] = useState(false);
+    const [showMobileNav, setShowMobileNav] = useState(true);
+    const [lastScrollY, setLastScrollY] = useState(0);
+
     // TTS State
     const [isSpeaking, setIsSpeaking] = useState(false);
     const [isPaused, setIsPaused] = useState(false);
@@ -141,10 +147,35 @@ function CoursesContent() {
     const [frenchVoices, setFrenchVoices] = useState([]);
     const speechRef = useRef(null);
 
-    // Scroll to top on mount
+    // Scroll to top on mount + détection mobile
     useEffect(() => {
         window.scrollTo(0, 0);
-    }, []);
+
+        // Détection mobile
+        const checkMobile = () => setIsMobile(window.innerWidth < 768);
+        checkMobile();
+        window.addEventListener('resize', checkMobile);
+
+        // Gestion navbar mobile auto-hide on scroll
+        const handleScroll = () => {
+            const currentScrollY = window.scrollY;
+            if (currentScrollY > lastScrollY && currentScrollY > 100) {
+                setShowMobileNav(false);
+            } else {
+                setShowMobileNav(true);
+            }
+            setLastScrollY(currentScrollY);
+        };
+
+        if (isMobile) {
+            window.addEventListener('scroll', handleScroll, { passive: true });
+        }
+
+        return () => {
+            window.removeEventListener('resize', checkMobile);
+            window.removeEventListener('scroll', handleScroll);
+        };
+    }, [lastScrollY, isMobile]);
 
     // Charger les voix françaises (fr-FR uniquement)
     useEffect(() => {
@@ -577,21 +608,21 @@ function CoursesContent() {
         handleHashNavigation();
         window.addEventListener('hashchange', handleHashNavigation);
         return () => window.removeEventListener('hashchange', handleHashNavigation);
-    }, []);
+    }, [selectedCourse]);
 
     // ReactMarkdown avec rehype-katex gère maintenant le rendu LaTeX automatiquement
 
 
     return (
-        <main className="min-h-screen bg-[#020617] text-white font-sans selection:bg-[#06d6a0] selection:text-black flex flex-col">
+        <main className={`min-h-screen bg-[#020617] text-white font-sans selection:bg-[#06d6a0] selection:text-black flex flex-col ${isMobile ? 'pb-20' : ''}`}>
             {/* Animated Background */}
             <div className="fixed inset-0 pointer-events-none overflow-hidden">
                 <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-[#06d6a0] rounded-full blur-[180px] opacity-5 animate-pulse" style={{ animationDuration: '10s' }} />
                 <div className="absolute bottom-0 right-1/4 w-[400px] h-[400px] bg-[#8b5cf6] rounded-full blur-[150px] opacity-5 animate-pulse" style={{ animationDuration: '12s', animationDelay: '3s' }} />
             </div>
 
-            {/* Navbar Premium */}
-            <nav className="fixed top-0 w-full z-50 border-b border-white/[0.06] bg-[#020617]/80 backdrop-blur-xl">
+            {/* Navbar Premium - Desktop Only on Mobile (replaced by bottom nav) */}
+            <nav className={`fixed top-0 w-full z-50 border-b border-white/[0.06] bg-[#020617]/80 backdrop-blur-xl ${isMobile ? 'hidden' : ''}`}>
                 <div className="max-w-7xl mx-auto px-3 sm:px-4 h-14 sm:h-16 flex items-center justify-between">
                     <Link href="/" className="flex items-center gap-2 group">
                         <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-lg bg-gradient-to-br from-[#06d6a0] to-[#8b5cf6] flex items-center justify-center font-bold text-white group-hover:scale-110 transition-transform shadow-lg shadow-[#06d6a0]/20">
@@ -907,8 +938,8 @@ function CoursesContent() {
 
                                     {/* Content Area */}
                                     <div className="flex-1 bg-[#0F1115] rounded-2xl border border-white/10 flex flex-col overflow-hidden relative">
-                                        {/* Mobile Chapter Selector */}
-                                        <div className="lg:hidden p-4 border-b border-white/10 bg-black/20">
+                                        {/* Mobile Chapter Selector (Tablet only now) */}
+                                        <div className={`lg:hidden p-4 border-b border-white/10 bg-black/20 ${isMobile ? 'hidden' : ''}`}>
                                             <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">
                                                 Chapitre
                                             </label>
@@ -945,7 +976,7 @@ function CoursesContent() {
                                         )}
 
                                         {/* Scrollable Content - Always show Lesson */}
-                                        <div className="flex-1 overflow-y-auto p-4 md:p-8 scrollbar-thin scrollbar-thumb-white/10 scrollbar-track-transparent">
+                                        <div className={`flex-1 overflow-y-auto scrollbar-thin scrollbar-thumb-white/10 scrollbar-track-transparent ${isMobile ? 'p-4 pb-32' : 'p-8'}`}>
                                             <div className="max-w-4xl mx-auto">
 
                                                 <h2 className="text-2xl md:text-4xl font-black mb-4 text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-purple-400 to-white leading-tight">
