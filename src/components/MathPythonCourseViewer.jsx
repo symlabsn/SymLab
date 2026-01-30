@@ -534,13 +534,24 @@ export default function MathPythonCourseViewer() {
                 />
             )}
 
-            {/* Sidebar - Responsive */}
-            <div className={`fixed inset-y-0 left-0 z-50 w-[280px] sm:w-80 bg-[#0f1015] border-r border-white/10 transform transition-transform duration-300 ${showSidebar ? 'translate-x-0' : '-translate-x-full'} lg:translate-x-0`}>
+            {/* Sidebar - Responsive with improved mobile positioning */}
+            <div className={`fixed inset-y-0 left-0 z-50 w-[85vw] max-w-[320px] bg-[#0f1015] border-r border-white/10 transform transition-transform duration-300 ${showSidebar ? 'translate-x-0' : '-translate-x-full'} lg:translate-x-0 lg:w-80`}>
                 <div className="h-full flex flex-col">
+                    {/* Sidebar Header with close button on mobile */}
                     <div className="p-4 sm:p-6 border-b border-white/10">
-                        <Link href="/challenges" className="flex items-center gap-2 text-gray-400 hover:text-white mb-3 sm:mb-4 text-sm transition-colors">
-                            <span>←</span> Retour aux Challenges
-                        </Link>
+                        <div className="flex items-center justify-between mb-3 sm:mb-4">
+                            <Link href="/challenges" className="flex items-center gap-2 text-gray-400 hover:text-white text-sm transition-colors">
+                                <span>←</span> Retour
+                            </Link>
+                            <button
+                                onClick={() => setShowSidebar(false)}
+                                className="lg:hidden p-2 hover:bg-white/10 rounded-lg transition-colors"
+                            >
+                                <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                                </svg>
+                            </button>
+                        </div>
                         <h2 className="font-bold text-lg sm:text-xl">
                             Maths & Python <span className="text-purple-400">Masterclass</span>
                         </h2>
@@ -555,7 +566,7 @@ export default function MathPythonCourseViewer() {
                         </div>
                     </div>
 
-                    <div className="flex-1 overflow-y-auto p-3 sm:p-4 space-y-4 sm:space-y-5 scrollbar-thin scrollbar-thumb-white/10">
+                    <div className="flex-1 overflow-y-auto p-3 sm:p-4 space-y-4 sm:space-y-5 scrollbar-thin scrollbar-thumb-white/10 pb-24 lg:pb-4">
                         {introToPythonCourse.map((module, mIndex) => (
                             <div key={module.id}>
                                 <h3 className="text-[10px] sm:text-xs font-mono uppercase text-gray-500 mb-2 sm:mb-3 px-2 flex items-center gap-2">
@@ -570,12 +581,12 @@ export default function MathPythonCourseViewer() {
                                             <button
                                                 key={chapter.id}
                                                 onClick={() => handleChapterSelect(mIndex, cIndex)}
-                                                className={`w-full text-left px-3 sm:px-4 py-2 sm:py-2.5 rounded-lg sm:rounded-xl text-xs sm:text-sm transition-all flex items-center gap-2 ${isActive
+                                                className={`w-full text-left px-3 sm:px-4 py-3 sm:py-2.5 rounded-xl text-sm transition-all flex items-center gap-2 active:scale-[0.98] ${isActive
                                                     ? 'bg-purple-500/20 text-purple-300 font-medium border border-purple-500/30'
                                                     : 'text-gray-400 hover:bg-white/5 hover:text-white'
                                                     }`}
                                             >
-                                                {hasContent ? <span className="text-green-400 text-[10px] sm:text-xs">●</span> : <span className="text-gray-600 text-[10px] sm:text-xs">○</span>}
+                                                {hasContent ? <span className="text-green-400 text-xs">●</span> : <span className="text-gray-600 text-xs">○</span>}
                                                 <span className="truncate">{chapter.title}</span>
                                             </button>
                                         );
@@ -589,14 +600,16 @@ export default function MathPythonCourseViewer() {
 
             {/* Main */}
             <div className="flex-1 lg:ml-80 min-h-screen flex flex-col">
+                {/* Header - Simplified for mobile */}
                 <header className="sticky top-0 z-30 bg-[#0a0a0f]/95 backdrop-blur-xl border-b border-white/10 px-3 sm:px-6 py-3 sm:py-4">
                     <div className="flex items-center justify-between gap-2 sm:gap-4">
-                        <div className="flex items-center gap-2 sm:gap-4 min-w-0">
+                        <div className="flex items-center gap-3 sm:gap-4 min-w-0 flex-1">
+                            {/* Menu toggle - Hidden on large screens */}
                             <button
                                 onClick={() => setShowSidebar(!showSidebar)}
-                                className="p-2 sm:p-2.5 hover:bg-white/10 rounded-lg sm:rounded-xl transition-colors flex-shrink-0"
+                                className="lg:hidden p-2.5 bg-purple-500/20 hover:bg-purple-500/30 rounded-xl transition-colors flex-shrink-0 border border-purple-500/30"
                             >
-                                <svg width="20" height="20" className="sm:w-6 sm:h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="text-purple-300">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
                                 </svg>
                             </button>
@@ -605,11 +618,12 @@ export default function MathPythonCourseViewer() {
                                 <p className="font-bold text-gray-200 text-sm sm:text-base truncate">{activeModule.title}</p>
                             </div>
                         </div>
-                        <div className="flex items-center gap-1.5 sm:gap-3 flex-shrink-0">
+                        {/* Navigation buttons - Always visible but compact on mobile */}
+                        <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
                             <button
                                 onClick={prevChapter}
                                 disabled={activeModuleIndex === 0 && activeChapterIndex === 0}
-                                className="px-2.5 sm:px-5 py-2 sm:py-2.5 rounded-lg sm:rounded-xl bg-white/5 hover:bg-white/10 disabled:opacity-30 transition-all border border-white/10 font-medium text-xs sm:text-sm"
+                                className="p-2.5 sm:px-5 sm:py-2.5 rounded-xl bg-white/5 hover:bg-white/10 disabled:opacity-30 transition-all border border-white/10 font-medium text-sm"
                             >
                                 <span className="sm:hidden">←</span>
                                 <span className="hidden sm:inline">← Précédent</span>
@@ -617,7 +631,7 @@ export default function MathPythonCourseViewer() {
                             <button
                                 onClick={nextChapter}
                                 disabled={activeModuleIndex === introToPythonCourse.length - 1 && activeChapterIndex === activeModule.chapters.length - 1}
-                                className="px-2.5 sm:px-6 py-2 sm:py-2.5 rounded-lg sm:rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 font-bold hover:shadow-lg disabled:opacity-30 transition-all text-xs sm:text-sm"
+                                className="p-2.5 sm:px-6 sm:py-2.5 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 font-bold hover:shadow-lg disabled:opacity-30 transition-all text-sm"
                             >
                                 <span className="sm:hidden">→</span>
                                 <span className="hidden sm:inline">Suivant →</span>
@@ -626,9 +640,39 @@ export default function MathPythonCourseViewer() {
                     </div>
                 </header>
 
-                <main className="flex-1 p-4 sm:p-8 md:p-14 max-w-5xl mx-auto w-full">
+                <main className="flex-1 p-4 sm:p-8 md:p-14 max-w-5xl mx-auto w-full pb-24 lg:pb-14">
                     {renderContent()}
                 </main>
+
+                {/* Mobile Bottom Navigation Bar */}
+                <div className="fixed bottom-0 left-0 right-0 lg:hidden bg-[#0f1015]/95 backdrop-blur-xl border-t border-white/10 p-3 z-40 safe-area-pb">
+                    <div className="flex items-center justify-between gap-3 max-w-lg mx-auto">
+                        <button
+                            onClick={prevChapter}
+                            disabled={activeModuleIndex === 0 && activeChapterIndex === 0}
+                            className="flex-1 py-3 rounded-xl bg-white/5 hover:bg-white/10 disabled:opacity-30 transition-all border border-white/10 font-medium text-sm flex items-center justify-center gap-2"
+                        >
+                            <span>←</span>
+                            <span>Précédent</span>
+                        </button>
+                        <button
+                            onClick={() => setShowSidebar(true)}
+                            className="p-3 rounded-xl bg-purple-500/20 hover:bg-purple-500/30 border border-purple-500/30 transition-all"
+                        >
+                            <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="text-purple-300">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 10h16M4 14h16M4 18h16" />
+                            </svg>
+                        </button>
+                        <button
+                            onClick={nextChapter}
+                            disabled={activeModuleIndex === introToPythonCourse.length - 1 && activeChapterIndex === activeModule.chapters.length - 1}
+                            className="flex-1 py-3 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 font-bold hover:shadow-lg disabled:opacity-30 transition-all text-sm flex items-center justify-center gap-2"
+                        >
+                            <span>Suivant</span>
+                            <span>→</span>
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
     );
