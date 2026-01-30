@@ -565,7 +565,6 @@ function CoursesContent() {
 
                 if (structuredCourses[course.id]) {
                     setActiveChapter(structuredCourses[course.id].chapters[0]);
-                    setShowExercises(false);
                     setQuizAnswers({});
                     setQuizResults({});
                 } else {
