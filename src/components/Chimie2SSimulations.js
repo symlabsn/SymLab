@@ -1576,7 +1576,6 @@ export function ChemicalTestsGamified() {
                 </DraggableHtmlPanel>
             </Html>
 
-            <XPBar current={score % 100} nextLevel={100} />
             <SuccessOverlay show={showSuccess} message="Analyse Validée ! Vous avez maîtrisé les tests caractéristiques." points={50} onNext={phase === 'challenge' ? startChallenge : reset} />
             <ConfettiExplosion active={showSuccess} />
 

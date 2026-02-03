@@ -9,34 +9,37 @@ import * as THREE from 'three';
 // ============================================================
 // CHAPITRE 6: LOI D'OHM (PC 3e)
 // ============================================================
+// ============================================================
+// CHAPITRE 6: LOI D'OHM (PC 3e)
+// ============================================================
 export function Chap6LoiOhm() {
-    const [voltage, setVoltage] = useState(12);
-    const [resistance, setResistance] = useState(4);
+    const [voltage, setVoltage] = useState(6);
+    const [resistance, setResistance] = useState(100);
     const [mode, setMode] = useState('explore');
     const [score, setScore] = useState(0);
     const [showSuccess, setShowSuccess] = useState(false);
     const [challenge, setChallenge] = useState(null);
 
     const scenarios = {
-        lampe: { name: 'Lampe', icon: '💡', U: 6, R: 3, desc: '6V Standard' },
-        moteur: { name: 'Moteur', icon: '⚙️', U: 12, R: 6, desc: '12V Puissant' },
-        chauffage: { name: 'Radiateur', icon: '🔥', U: 24, R: 8, desc: '24V Haute Résistance' },
-        led: { name: 'LED', icon: '🔴', U: 3, R: 150, desc: 'Basse Consommation' }
+        pile: { name: 'Pile 9V', icon: '🔋', v: 9, r: 100, desc: 'Circuit standard' },
+        moteur: { name: 'Moteur', icon: '⚙️', v: 12, r: 50, desc: 'Charge inductive' },
+        led: { name: 'LED', icon: '🚨', v: 3, r: 220, desc: 'Basse tension' },
+        court: { name: 'Danger', icon: '⚠️', v: 24, r: 2, desc: 'Surintensité' }
     };
 
     const challenges = [
-        { q: "Quelle est la formule correcte de la Loi d'Ohm ?", options: ["U = R / I", "U = R × I", "I = R × U"], ans: 1, icon: "⚡" },
-        { q: "Si la tension U augmente et R reste fixe, le courant I :", options: ["Augmente", "Diminue", "Reste fixe"], ans: 0, icon: "📈" },
-        { q: "Un appareil de 10 Ω branché sur 230V consomme environ :", options: ["23 A", "0.23 A", "2300 A"], ans: 0, icon: "🔌" },
-        { q: "L'unité de la résistance électrique est :", options: ["Le Volt (V)", "L'Ampère (A)", "L'Ohm (Ω)"], ans: 2, icon: "🧠" }
+        { q: "Quelle est la formule de la loi d'Ohm ?", options: ["U = R / I", "U = R × I", "I = R × U"], ans: 1, icon: "⚡" },
+        { q: "Si la résistance augmente, l'intensité I :", options: ["Augmente", "Diminue", "Reste stable"], ans: 1, icon: "📉" },
+        { q: "L'unité de la tension électrique U est :", options: ["L'Ampère (A)", "L'Ohm (Ω)", "Le Volt (V)"], ans: 2, icon: "🔋" },
+        { q: "Un conducteur ohmique transforme l'énergie en :", options: ["Lumière", "Mouvement", "Chaleur"], ans: 2, icon: "🔥" }
     ];
 
     const current = voltage / resistance;
 
     const applyScenario = (key) => {
         const sc = scenarios[key];
-        setVoltage(sc.U);
-        setResistance(sc.R);
+        setVoltage(sc.v);
+        setResistance(sc.r);
     };
 
     const startChallenge = () => {
@@ -57,7 +60,7 @@ export function Chap6LoiOhm() {
             setScore(s => s + 25);
             setShowSuccess(true);
         } else {
-            alert("Court-circuit ! Révise tes formules.");
+            alert("Erreur de calcul ! Vérifie le triangle U-R-I.");
         }
         setChallenge({ ...challenge, answered: true });
     };
@@ -65,22 +68,22 @@ export function Chap6LoiOhm() {
     return (
         <group>
             <Html transform={false}>
-                <DraggableHtmlPanel title="⚡ Expert Électrique" showCloseButton={false} defaultPosition="bottom-center" className="w-[400px] border-yellow-500/30 text-white">
+                <DraggableHtmlPanel title="⚡ Expert en Électricité" showCloseButton={false} defaultPosition="bottom-center" className="w-[400px] border-yellow-500/30 text-white">
                     <div className="mb-4">
                         <PhaseSelector currentPhase={mode} onSelect={(m) => m === 'challenge' ? startChallenge() : setMode('explore')} />
                     </div>
 
                     <div className="flex justify-between items-center mb-4 border-b border-white/10 pb-2">
                         <div className="flex flex-col">
-                            <span className="text-[10px] text-yellow-400 font-bold uppercase tracking-widest">Maîtrise de la Résistance</span>
-                            <span className="text-lg font-black">{mode === 'explore' ? "Laboratoire d'Ohm" : 'Défi Haute Tension 🧠'}</span>
+                            <span className="text-[10px] text-yellow-400 font-bold uppercase tracking-widest">Laboratoire d&apos;Électronique</span>
+                            <span className="text-lg font-black">{mode === 'explore' ? 'Étude de la Loi d\'Ohm' : 'Défi Intensité 🧠'}</span>
                         </div>
                         <GradeBadge score={score} />
                     </div>
 
                     {mode === 'explore' ? (
                         <div className="space-y-4">
-                            <MissionObjective objective="Équilibrez la tension et la résistance pour contrôler l'intensité." icon="⚡" />
+                            <MissionObjective objective="Maîtrisez le flux électrique en ajustant tension et résistance." icon="⚡" />
 
                             <div className="grid grid-cols-4 gap-2">
                                 {Object.entries(scenarios).map(([key, sc]) => (
@@ -96,25 +99,30 @@ export function Chap6LoiOhm() {
                                 <div>
                                     <div className="flex justify-between text-[10px] font-bold text-gray-500 mb-2">
                                         <span>TENSION (U)</span>
-                                        <span className="text-yellow-400">{voltage} VOLTS</span>
+                                        <span className="text-yellow-400">{voltage} V</span>
                                     </div>
-                                    <input type="range" min={1} max={24} value={voltage} onChange={(e) => setVoltage(parseInt(e.target.value))}
+                                    <input type="range" min="1" max="24" step="0.5" value={voltage} onChange={(e) => setVoltage(parseFloat(e.target.value))}
                                         className="w-full h-2 bg-gray-800 rounded-lg appearance-none cursor-pointer accent-yellow-500" />
                                 </div>
                                 <div>
                                     <div className="flex justify-between text-[10px] font-bold text-gray-500 mb-2">
                                         <span>RÉSISTANCE (R)</span>
-                                        <span className="text-orange-400">{resistance} OHMS</span>
+                                        <span className="text-orange-400">{resistance} Ω</span>
                                     </div>
-                                    <input type="range" min={1} max={100} value={resistance} onChange={(e) => setResistance(parseInt(e.target.value))}
+                                    <input type="range" min="10" max="1000" step="10" value={resistance} onChange={(e) => setResistance(parseInt(e.target.value))}
                                         className="w-full h-2 bg-gray-800 rounded-lg appearance-none cursor-pointer accent-orange-500" />
                                 </div>
                             </div>
 
-                            <div className="p-4 bg-yellow-950/30 rounded-xl border border-yellow-500/30 text-center relative overflow-hidden">
-                                <div className="text-[10px] text-yellow-400 font-black uppercase tracking-widest mb-1">Intensité du Courant (I)</div>
-                                <div className="text-4xl font-black text-white">{current.toFixed(2)} <span className="text-xl">A</span></div>
-                                <div className="mt-2 text-[10px] font-mono text-gray-500">I = {voltage}V / {resistance}Ω</div>
+                            <div className="grid grid-cols-2 gap-2">
+                                <div className="p-3 bg-yellow-950/30 rounded-lg border border-yellow-500/20 text-center">
+                                    <div className="text-[8px] text-yellow-400 font-black uppercase">Intensité (I)</div>
+                                    <div className="text-xl font-mono font-black">{(current * 1000).toFixed(1)} mA</div>
+                                </div>
+                                <div className="p-3 bg-red-950/30 rounded-lg border border-red-500/20 text-center">
+                                    <div className="text-[8px] text-red-400 font-black uppercase">Puissance (P)</div>
+                                    <div className="text-xl font-mono font-black">{(voltage * current).toFixed(2)} W</div>
+                                </div>
                             </div>
                         </div>
                     ) : (
@@ -136,7 +144,7 @@ export function Chap6LoiOhm() {
                             </div>
                             {challenge?.answered && (
                                 <button onClick={nextQuestion} className="w-full py-4 bg-yellow-600 rounded-xl font-black uppercase text-xs tracking-widest shadow-lg shadow-yellow-900/40">
-                                    Défi Suivant ➜
+                                    Mise à Feu 🚀
                                 </button>
                             )}
                         </div>
@@ -144,33 +152,57 @@ export function Chap6LoiOhm() {
                 </DraggableHtmlPanel>
             </Html>
 
-            <XPBar current={score % 100} nextLevel={100} />
-            <SuccessOverlay show={showSuccess} message="Succès Électrique ! La loi d'Ohm est parfaitement appliquée." points={25} onNext={nextQuestion} />
+            <SuccessOverlay show={showSuccess} message="Circuit Parfaitement Équilibré ! Ton montage est digne d'un ingénieur." points={25} onNext={nextQuestion} />
             <ConfettiExplosion active={showSuccess} />
 
-            {/* Circuit simple */}
-            <Box args={[2.5, 0.4, 0.6]} position={[0, 0, 0]}>
-                <meshStandardMaterial color="#F97316" metalness={0.8} roughness={0.1} />
-            </Box>
-            <Text position={[0, 0.6, 0]} fontSize={0.3} color="white" font="/fonts/Inter-Bold.ttf">R = {resistance} Ω</Text>
+            {/* Circuit 3D Simplifié */}
+            <group position={[0, -1, 0]}>
+                {/* Fils */}
+                <Line points={[[-3, 0, 0], [3, 0, 0], [3, 2, 0], [-3, 2, 0], [-3, 0, 0]]} color="#334155" lineWidth={4} />
 
-            {/* Fils et courant */}
-            <Line points={[[-4, 0, 0], [-1.25, 0, 0]]} color="#EF4444" lineWidth={8} />
-            <Line points={[[1.25, 0, 0], [4, 0, 0]]} color="#3B82F6" lineWidth={8} />
+                {/* Résistance */}
+                <Box args={[1.5, 0.6, 0.6]} position={[0, 2, 0]}>
+                    <meshStandardMaterial color="#D97706" />
+                    <Text position={[0, 0.8, 0]} fontSize={0.2} color="white">{resistance} Ω</Text>
+                </Box>
 
-            {/* Electrons (courant) */}
-            {[...Array(5)].map((_, i) => (
-                <Float key={i} speed={2} floatIntensity={0.5}>
-                    <Sphere args={[0.08]} position={[-3 + (i * 1.5 + Date.now() * 0.001 * current) % 6, 0.3, 0]}>
-                        <meshStandardMaterial color="#FDE047" emissive="#FDE047" emissiveIntensity={2} />
-                    </Sphere>
-                </Float>
-            ))}
+                {/* Générateur */}
+                <Cylinder args={[0.5, 0.5, 1, 16]} position={[-3, 1, 0]} rotation={[0, 0, 0]}>
+                    <meshStandardMaterial color="#EF4444" />
+                    <Text position={[-0.8, 0, 0]} fontSize={0.3} color="#EF4444">{voltage} V</Text>
+                </Cylinder>
 
-            <Text position={[0, 1.5, 0]} fontSize={0.4} color="white" font="/fonts/Inter-Bold.ttf">I = {current.toFixed(2)} A</Text>
+                {/* Électrons en mouvement */}
+                {[...Array(10)].map((_, i) => (
+                    <MovingElectron key={i} delay={i * 0.5} speed={current * 5} />
+                ))}
+            </group>
         </group>
     );
 }
+
+function MovingElectron({ delay, speed }) {
+    const ref = useRef();
+    useFrame((state) => {
+        const t = (state.clock.elapsedTime * speed + delay) % 4;
+        if (t < 1) { // Bas
+            ref.current.position.set(-3 + t * 6, 0, 0);
+        } else if (t < 2) { // Droite
+            ref.current.position.set(3, (t - 1) * 2, 0);
+        } else if (t < 3) { // Haut
+            ref.current.position.set(3 - (t - 2) * 6, 2, 0);
+        } else { // Gauche
+            ref.current.position.set(-3, 2 - (t - 3) * 2, 0);
+        }
+    });
+
+    return (
+        <Sphere ref={ref} args={[0.08]}>
+            <meshStandardMaterial color="#FACC15" emissive="#FACC15" emissiveIntensity={2} />
+        </Sphere>
+    );
+}
+
 
 // ============================================================
 // CHAPITRE 7: TRANSFORMATIONS D'ÉNERGIE (PC 3e)
@@ -313,10 +345,9 @@ export function Chap7TransformationsEnergie() {
                             )}
                         </div>
                     )}
+                    {/* <XPBar current={score % 100} nextLevel={100} /> */}
                 </DraggableHtmlPanel>
             </Html>
-
-            <XPBar current={score % 100} nextLevel={100} />
             <SuccessOverlay show={showSuccess} message="Succès Énergétique ! Tu maîtrises les flux de transformation." points={25} onNext={nextQuestion} />
             <ConfettiExplosion active={showSuccess} />
 
@@ -337,7 +368,7 @@ export function Chap7TransformationsEnergie() {
             ))}
 
             {/* Particules de chaleur (perdue) */}
-            {[...Array(8 * (1 - dev.efficiency))].map((_, i) => (
+            {[...Array(Math.round(8 * (1 - dev.efficiency)))].map((_, i) => (
                 <Float key={`w-${i}`} speed={2} floatIntensity={1}>
                     <Sphere args={[0.05]} position={[Math.cos(i + 2) * 2, Math.sin(i + 2) * 2, 0]}>
                         <meshStandardMaterial color="#F87171" emissive="#F87171" emissiveIntensity={1} />
@@ -345,7 +376,7 @@ export function Chap7TransformationsEnergie() {
                 </Float>
             ))}
 
-            <Text position={[0, 2, 0]} fontSize={0.4} color="white" font="/fonts/Inter-Bold.ttf">
+            <Text position={[0, 2, 0]} fontSize={0.4} color="white">
                 {dev.name.toUpperCase()}
             </Text>
         </group>
@@ -487,10 +518,9 @@ export function Chap8SolutionsAqueuses() {
                             )}
                         </div>
                     )}
+                    {/* <XPBar current={score % 100} nextLevel={100} /> */}
                 </DraggableHtmlPanel>
             </Html>
-
-            <XPBar current={score % 100} nextLevel={100} />
             <SuccessOverlay show={showSuccess} message="Solution Parfaite ! La concentration est exactement ce qu'il fallait." points={25} onNext={nextQuestion} />
             <ConfettiExplosion active={showSuccess} />
 
@@ -513,7 +543,7 @@ export function Chap8SolutionsAqueuses() {
                 </Float>
             ))}
 
-            <Text position={[0, 2.5, 0]} fontSize={0.4} color="white" font="/fonts/Inter-Bold.ttf">
+            <Text position={[0, 2.5, 0]} fontSize={0.4} color="white">
                 {concentration.toFixed(1)} g/L
             </Text>
         </group>
@@ -658,10 +688,9 @@ export function Chap9AcidesBasesPH() {
                             )}
                         </div>
                     )}
+                    {/* <XPBar current={score % 100} nextLevel={100} /> */}
                 </DraggableHtmlPanel>
             </Html>
-
-            <XPBar current={score % 100} nextLevel={100} />
             <SuccessOverlay show={showSuccess} message="Analyse Réussie ! Tu maîtrises parfaitement l'échelle de pH." points={25} onNext={nextQuestion} />
             <ConfettiExplosion active={showSuccess} />
 
@@ -684,7 +713,7 @@ export function Chap9AcidesBasesPH() {
                 </Float>
             ))}
 
-            <Text position={[0, 2.2, 0]} fontSize={0.5} color="white" font="/fonts/Inter-Bold.ttf">
+            <Text position={[0, 2.2, 0]} fontSize={0.5} color="white">
                 pH {ph}
             </Text>
         </group>
@@ -819,10 +848,9 @@ export function Chap10Metaux() {
                             )}
                         </div>
                     )}
+                    {/* <XPBar current={score % 100} nextLevel={100} /> */}
                 </DraggableHtmlPanel>
             </Html>
-
-            <XPBar current={score % 100} nextLevel={100} />
             <SuccessOverlay show={showSuccess} message="Forgeron Expert ! Ta connaissance des métaux est solide." points={25} onNext={nextQuestion} />
             <ConfettiExplosion active={showSuccess} />
 
@@ -842,7 +870,7 @@ export function Chap10Metaux() {
                 </Float>
             ))}
 
-            <Text position={[0, 2, 0]} fontSize={0.4} color="white" font="/fonts/Inter-Bold.ttf">
+            <Text position={[0, 2, 0]} fontSize={0.4} color="white">
                 {metals[metal].name.toUpperCase()}
             </Text>
         </group>
@@ -969,10 +997,10 @@ export function Chap11Combustion() {
                             )}
                         </div>
                     )}
+                    {/* <XPBar current={score % 100} nextLevel={100} /> */}
                 </DraggableHtmlPanel>
             </Html>
 
-            <XPBar current={score % 100} nextLevel={100} />
             <SuccessOverlay show={showSuccess} message="Pyromane Expert ! Ton bilan carbone est impeccable." points={25} onNext={nextQuestion} />
             <ConfettiExplosion active={showSuccess} />
 
@@ -991,9 +1019,10 @@ export function Chap11Combustion() {
                 </Float>
             )}
 
-            <Text position={[0, 2.2, 0]} fontSize={0.4} color="white" font="/fonts/Inter-Bold.ttf">
+            <Text position={[0, 2.2, 0]} fontSize={0.4} color="white">
                 {fuels[fuel].name.toUpperCase()}
             </Text>
         </group>
     );
 }
+

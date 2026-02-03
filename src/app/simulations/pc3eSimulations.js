@@ -9,7 +9,7 @@ export const pc3eSimulationsData = {
     'lens-optics-3e': {
         title: 'Lentilles Minces',
         description: 'Explorez lentilles convergentes et divergentes, foyer et images',
-        type: 'lens-optics',
+        type: 'chap1-lentilles-3e',
         config: {
             focalLength: 10,
             objectDistance: 20,
@@ -117,7 +117,7 @@ Grandissement : γ = A'B'/AB = OA'/OA`,
     'light-dispersion-3e': {
         title: 'Dispersion de la Lumière',
         description: 'L\'arc-en-ciel et le prisme : décomposition de la lumière blanche',
-        type: 'light-dispersion',
+        type: 'chap2-dispersion-3e',
         config: {
             prismAngle: 60,
             showSpectrum: true,
@@ -237,7 +237,7 @@ Halo
     'forces-vectors-3e': {
         title: 'Forces et Vecteurs',
         description: 'Représentation vectorielle des forces, poids et Newton',
-        type: 'forces-vectors',
+        type: 'chap3-forces-3e',
         config: {
             showGrid: true,
             gravity: 10,
@@ -368,7 +368,7 @@ Poids ≠ Masse
     'work-power-3e': {
         title: 'Travail et Puissance',
         description: 'Calcul du travail W = F×d et puissance P = W/t',
-        type: 'work-power',
+        type: 'chap4-travail-3e',
         config: {
             showEnergy: true,
             frictionEnabled: true,
@@ -499,7 +499,7 @@ P = F × v
     'electrostatics-3e': {
         title: 'Électrisation par Frottement',
         description: 'Charges électriques, attraction et répulsion',
-        type: 'electrostatics',
+        type: 'chap5-electrisation-3e',
         config: {
             showElectricField: true,
             showCharges: true,
@@ -636,7 +636,7 @@ Utilisations
     'resistance-ohm-3e': {
         title: 'Résistance et Loi d\'Ohm',
         description: 'U = R×I, résistances en série et parallèle',
-        type: 'ohm-law-circuit',
+        type: 'chap6-ohm-3e',
         config: {
             showVoltmeter: true,
             showAmmeter: true,
@@ -773,7 +773,7 @@ Applications
     'energy-transformations-3e': {
         title: 'Transformations d\'Énergie',
         description: 'Conservation et rendement énergétique',
-        type: 'energy-flow',
+        type: 'chap7-transformations-3e',
         config: {
             showSankey: true,
             showEfficiency: true,
@@ -924,7 +924,7 @@ E_totale = E_utile + E_pertes`,
     'aqueous-solutions-3e': {
         title: 'Solutions Aqueuses',
         description: 'Solvant, soluté, concentration et saturation',
-        type: 'solution-mixing',
+        type: 'chap8-solutions-3e',
         config: {
             soluteType: 'salt',
             showParticles: true,
@@ -1064,7 +1064,7 @@ Dilution (à partir d'une solution mère)
     'acids-bases-ph-3e': {
         title: 'Acides, Bases et pH',
         description: 'Échelle pH, indicateurs colorés et neutralisation',
-        type: 'ph-scale',
+        type: 'ph-scale-3e',
         config: {
             showIndicators: true,
             showMolecules: true,
@@ -1202,7 +1202,7 @@ Caractéristiques
     'metals-properties-3e': {
         title: 'Propriétés des Métaux',
         description: 'Réactions avec l\'oxygène, l\'eau et les acides',
-        type: 'metal-reactions',
+        type: 'chap10-metaux-3e',
         config: {
             metalType: 'iron',
             reagent: 'acid',
@@ -1346,7 +1346,7 @@ Protection des Métaux
     'hydrocarbons-3e': {
         title: 'Hydrocarbures et Combustion',
         description: 'Pétrole, alcanes et réaction de combustion',
-        type: 'combustion-3d',
+        type: 'chap11-combustion-3e',
         config: {
             fuelType: 'methane',
             oxygenLevel: 21,

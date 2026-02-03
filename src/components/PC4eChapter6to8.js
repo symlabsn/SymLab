@@ -85,10 +85,10 @@ export function Chap6SourcesLumiere() {
                             </div>
                         </div>
                     )}
+                    <XPBar current={score % 100} nextLevel={100} />
                 </DraggableHtmlPanel>
             </Html>
 
-            <XPBar current={score % 100} nextLevel={100} />
             <SuccessOverlay show={showSuccess} message="Analyse Correcte ! Tu distingues parfaitement l'origine de la lumière." points={50} onNext={nextQuestion} />
             <ConfettiExplosion active={showSuccess} />
 
@@ -119,8 +119,8 @@ export function Chap6SourcesLumiere() {
 
             <group position={[0, -1.5, 1]} visible={isVisible('secondaire')}>
                 <Box args={[1, 0.2, 1.4]} material-color="#EF4444" />
-                <Text position={[0, 0.2, 0]} rotation={[-Math.PI / 2, 0, 0]} fontSize={0.12} color="white" font="/fonts/Inter-Bold.ttf">LABORATOIRE PC</Text>
-                <Text position={[0, -0.3, 0]} fontSize={0.15} color="white" font="/fonts/Inter-Bold.ttf">Livre (Secondaire)</Text>
+                <Text position={[0, 0.2, 0]} rotation={[-Math.PI / 2, 0, 0]} fontSize={0.12} color="white">LABORATOIRE PC</Text>
+                <Text position={[0, -0.3, 0]} fontSize={0.15} color="white">Livre (Secondaire)</Text>
             </group>
 
             {lightsOn && (
@@ -210,7 +210,7 @@ export function Chap7PropagationLumiere() {
                         </div>
 
                         <div className="p-4 bg-black/60 rounded-xl border border-white/20 flex flex-col items-center">
-                            <div className="text-[10px] text-gray-400 font-black uppercase mb-1">Taille de l'ombre calculée</div>
+                            <div className="text-[10px] text-gray-400 font-black uppercase mb-1">Taille de l&apos;ombre calculée</div>
                             <div className={`text-4xl font-mono font-black transition-all ${showSuccess ? 'text-green-400' : 'text-white'}`}>
                                 {shadowSize.toFixed(2)} <span className="text-xl">M</span>
                             </div>
@@ -224,13 +224,12 @@ export function Chap7PropagationLumiere() {
                                 </div>
                                 <span className="text-[10px] font-black uppercase tracking-tighter">Afficher les Rayons Limites</span>
                             </label>
-                            <div className="text-[8px] text-gray-500 font-mono">THALÈS : h'/h = D'/D</div>
+                            <div className="text-[8px] text-gray-500 font-mono">THALÈS : h&apos;/h = D&apos;/D</div>
                         </div>
                     </div>
+                    <XPBar current={score % 100} nextLevel={100} />
                 </DraggableHtmlPanel>
             </Html>
-
-            <XPBar current={score % 100} nextLevel={100} />
             <SuccessOverlay show={showSuccess} message="Alignement Parfait ! L'ombre correspond exactement à la consigne." points={50} onNext={startChallenge} />
             <ConfettiExplosion active={showSuccess} />
 
@@ -257,7 +256,7 @@ export function Chap7PropagationLumiere() {
                     <circleGeometry args={[shadowSize, 64]} />
                     <meshBasicMaterial color="#000" opacity={0.85} transparent />
                 </mesh>
-                <Text position={[0, 4.5, 0.1]} fontSize={0.3} color="#374151" font="/fonts/Inter-Bold.ttf">ÉCRAN D'OBSERVATION</Text>
+                <Text position={[0, 4.5, 0.1]} fontSize={0.3} color="#374151" font="/fonts/Inter-Bold.ttf">ÉCRAN D&apos;OBSERVATION</Text>
             </group>
 
             {/* Cône d'ombre volumétrique */}
@@ -266,15 +265,17 @@ export function Chap7PropagationLumiere() {
                 <meshBasicMaterial color="black" opacity={0.15} transparent side={THREE.DoubleSide} />
             </mesh>
 
-            {showRays && (
-                <group>
-                    <Line points={[[-3, 0, 0], [screenDistance, shadowSize, 0]]} color="#FBBF24" lineWidth={1} transparent opacity={0.4} />
-                    <Line points={[[-3, 0, 0], [screenDistance, -shadowSize, 0]]} color="#FBBF24" lineWidth={1} transparent opacity={0.4} />
-                    <Line points={[[-3, 0, 0], [screenDistance, 0, shadowSize]]} color="#FBBF24" lineWidth={1} transparent opacity={0.2} />
-                    <Line points={[[-3, 0, 0], [screenDistance, 0, -shadowSize]]} color="#FBBF24" lineWidth={1} transparent opacity={0.2} />
-                </group>
-            )}
-        </group>
+            {
+                showRays && (
+                    <group>
+                        <Line points={[[-3, 0, 0], [screenDistance, shadowSize, 0]]} color="#FBBF24" lineWidth={1} transparent opacity={0.4} />
+                        <Line points={[[-3, 0, 0], [screenDistance, -shadowSize, 0]]} color="#FBBF24" lineWidth={1} transparent opacity={0.4} />
+                        <Line points={[[-3, 0, 0], [screenDistance, 0, shadowSize]]} color="#FBBF24" lineWidth={1} transparent opacity={0.2} />
+                        <Line points={[[-3, 0, 0], [screenDistance, 0, -shadowSize]]} color="#FBBF24" lineWidth={1} transparent opacity={0.2} />
+                    </group>
+                )
+            }
+        </group >
     );
 }
 
@@ -403,22 +404,24 @@ export function Chap8Refraction() {
                             </div>
                         </div>
                     </div>
+
+                    <XPBar current={score % 100} nextLevel={100} />
                 </DraggableHtmlPanel>
             </Html>
-
-            <XPBar current={score % 100} nextLevel={100} />
             <SuccessOverlay show={showSuccess} message="Calcul Précis ! La trajectoire est parfaite." points={50} onNext={startChallenge} />
             <ConfettiExplosion active={showSuccess} />
 
             {/* Target */}
-            {mode === 'challenge' && targetPos && (
-                <group position={[targetPos.x, targetPos.y, 0]}>
-                    <Sphere args={[0.2]}>
-                        <meshStandardMaterial color="#FBBF24" emissive="#FBBF24" emissiveIntensity={5} />
-                    </Sphere>
-                    <pointLight color="#FBBF24" intensity={2} distance={2} />
-                </group>
-            )}
+            {
+                mode === 'challenge' && targetPos && (
+                    <group position={[targetPos.x, targetPos.y, 0]}>
+                        <Sphere args={[0.2]}>
+                            <meshStandardMaterial color="#FBBF24" emissive="#FBBF24" emissiveIntensity={5} />
+                        </Sphere>
+                        <pointLight color="#FBBF24" intensity={2} distance={2} />
+                    </group>
+                )
+            }
 
             {/* Milieux */}
             <mesh position={[0, -2, 0]}>
@@ -436,7 +439,7 @@ export function Chap8Refraction() {
             <Line points={[[0, -4, 0], [0, 4, 0]]} color="white" lineWidth={1} dashed transparent opacity={0.3} />
 
             <RayVisuals i1={i1} i2={i2} length={beamLength} reflection={reflection} />
-        </group>
+        </group >
     );
 }
 
@@ -479,3 +482,4 @@ function LaserRay({ angle, length, color, isReflected, isRefracted }) {
     // Composant helper simple si besoin, mais RayVisuals fait le job mathématique
     return null;
 }
+

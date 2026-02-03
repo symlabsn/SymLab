@@ -133,6 +133,7 @@ function CoursesContent() {
     const [activeChapter, setActiveChapter] = useState(null);
     const [quizAnswers, setQuizAnswers] = useState({});
     const [quizResults, setQuizResults] = useState({});
+    const [showExercises, setShowExercises] = useState(false);
 
     // États Mobile
     const [isMobile, setIsMobile] = useState(false);

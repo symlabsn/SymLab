@@ -4094,20 +4094,14 @@ export default function Simulation3D({ type = 'atom', config = {} }) {
                 return <FractionVisualizer />;
             case 'pythagoras-theorem':
                 return <PythagorasTheorem />;
-            case 'ph-scale':
-                return <PHScale />;
             case 'triangles-properties':
                 return <TrianglesProperties />;
             case 'linear-equations':
                 return <LinearEquations />;
             case 'solutions-solubility':
                 return <SolutionsSolubility />;
-            case 'lens-optics':
-                return <LensOptics />;
-            case 'combustion':
-                return <CombustionReaction />;
-
             case 'water-cycle':
+                return <WaterCycleSim />;
                 return <WaterCycleSim />;
             case 'lever':
                 return <SimpleMachinesLever />;
@@ -4324,8 +4318,22 @@ export default function Simulation3D({ type = 'atom', config = {} }) {
                 return <Chap4TravailPuissance />;
             case 'chap5-electrisation-3e':
                 return <Chap5Electrisation />;
+            case 'chap6-ohm-3e':
+                return <Chap6LoiOhm />;
+            case 'chap7-transformations-3e':
+                return <Chap7TransformationsEnergie />;
+            case 'chap8-solutions-3e':
+                return <Chap8SolutionsAqueuses />;
+            case 'chap10-metaux-3e':
+                return <Chap10Metaux />;
+            case 'chap11-combustion-3e':
+                return <Chap11Combustion />;
 
-            // Fallbacks pour anciens types
+            case 'chap9-ph-3e':
+            case 'ph-scale-3e':
+                return <Chap9AcidesBasesPH />;
+
+            // Fallbacks for general types to use gamified PC 3e components
             case 'lens-optics':
                 return <Chap1LentillesMCE />;
             case 'light-dispersion':
@@ -4344,6 +4352,10 @@ export default function Simulation3D({ type = 'atom', config = {} }) {
                 return <Chap8SolutionsAqueuses />;
             case 'ph-scale':
                 return <Chap9AcidesBasesPH />;
+            case 'metal-reactions':
+                return <Chap10Metaux />;
+            case 'combustion-3d':
+                return <Chap11Combustion />;
 
             // === SIMULATIONS SECONDE (PART 2 - REPLACEMENT/ENHANCEMENT) ===
             case 'universal-gravitation':
@@ -4368,11 +4380,6 @@ export default function Simulation3D({ type = 'atom', config = {} }) {
                 return <SonarEcholocation />;
             case 'power-energy':
                 return <PowerLifter />;
-
-            case 'metal-reactions':
-                return <Chap10Metaux />;
-            case 'combustion-3d':
-                return <Chap11Combustion />;
 
             // === SIMULATIONS SECONDE (LYCÃ‰E) ===
             case 'forces-inertia':

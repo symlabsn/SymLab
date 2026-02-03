@@ -169,10 +169,10 @@ export function Chap1LentillesMCE() {
                             )}
                         </div>
                     )}
+                    {/* <XPBar current={score % 100} nextLevel={100} /> */}
                 </DraggableHtmlPanel>
             </Html>
 
-            <XPBar current={score % 100} nextLevel={100} />
             <SuccessOverlay show={showSuccess} message="Alignement Optique Réussi ! Ton image est d'une netteté absolue." points={25} onNext={nextQuestion} />
             <ConfettiExplosion active={showSuccess} />
 
@@ -183,7 +183,7 @@ export function Chap1LentillesMCE() {
                     <torusGeometry args={[2, 0.05, 16, 64]} />
                     <meshStandardMaterial color={isConvergent ? "#22D3EE" : "#F43F5E"} transparent opacity={0.8} />
                 </mesh>
-                <Text position={[0, 3, 0]} fontSize={0.3} color="white" font="/fonts/Inter-Bold.ttf">
+                <Text position={[0, 3, 0]} fontSize={0.3} color="white">
                     LENTILLE {lensType.toUpperCase()}
                 </Text>
             </group>
@@ -192,14 +192,14 @@ export function Chap1LentillesMCE() {
                 <Sphere args={[0.1]}>
                     <meshStandardMaterial color="yellow" emissive="yellow" emissiveIntensity={2} />
                 </Sphere>
-                <Text position={[0, -0.5, 0]} fontSize={0.25} color="yellow" font="/fonts/Inter-Bold.ttf">F</Text>
+                <Text position={[0, -0.5, 0]} fontSize={0.25} color="yellow">F</Text>
             </group>
 
             <group position={[focalLength, 0, 0]}>
                 <Sphere args={[0.1]}>
                     <meshStandardMaterial color="orange" emissive="orange" emissiveIntensity={2} />
                 </Sphere>
-                <Text position={[0, -0.5, 0]} fontSize={0.25} color="orange" font="/fonts/Inter-Bold.ttf">F&apos;</Text>
+                <Text position={[0, -0.5, 0]} fontSize={0.25} color="orange">F&apos;</Text>
             </group>
 
             <group position={[-objectDistance, 0, 0]}>
@@ -208,7 +208,7 @@ export function Chap1LentillesMCE() {
                     <coneGeometry args={[0.15, 0.3, 8]} />
                     <meshStandardMaterial color="#F59E0B" />
                 </mesh>
-                <Text position={[0, -0.5, 0]} fontSize={0.25} color="#F59E0B" font="/fonts/Inter-Bold.ttf">OBJET (A)</Text>
+                <Text position={[0, -0.5, 0]} fontSize={0.25} color="#F59E0B">OBJET (A)</Text>
             </group>
 
             {showRays && isConvergent && (
@@ -225,7 +225,7 @@ export function Chap1LentillesMCE() {
                         <coneGeometry args={[0.15, 0.3, 8]} />
                         <meshStandardMaterial color="#22D3EE" />
                     </mesh>
-                    <Text position={[0, -0.5, 0]} fontSize={0.25} color="#22D3EE" font="/fonts/Inter-Bold.ttf">IMAGE (A&apos;)</Text>
+                    <Text position={[0, -0.5, 0]} fontSize={0.25} color="#22D3EE">IMAGE (A&apos;)</Text>
                 </group>
             )}
         </group>
@@ -235,36 +235,36 @@ export function Chap1LentillesMCE() {
 // ============================================================
 // CHAPITRE 2: DISPERSION DE LA LUMIÈRE (PC 3e)
 // ============================================================
+// ============================================================
+// CHAPITRE 2: DISPERSION DE LA LUMIÈRE (PC 3e)
+// ============================================================
 export function Chap2DispersionLumiere() {
+    const [beamWidth, setBeamWidth] = useState(0.2);
     const [prismAngle, setPrismAngle] = useState(60);
-    const [lightType, setLightType] = useState('white');
     const [showSpectrum, setShowSpectrum] = useState(true);
     const [mode, setMode] = useState('explore');
     const [score, setScore] = useState(0);
     const [showSuccess, setShowSuccess] = useState(false);
     const [challenge, setChallenge] = useState(null);
 
-    const spectrumColors = ['#ff0000', '#ff7700', '#ffff00', '#00ff00', '#0000ff', '#4b0082', '#9400d3'];
-    const colorNames = ['Rouge', 'Orange', 'Jaune', 'Vert', 'Bleu', 'Indigo', 'Violet'];
-
     const scenarios = {
-        arcenciel: { name: 'Arc-en-ciel', icon: '🌈', angle: 42, light: 'white', desc: 'Dispersion de l\'eau' },
-        prisme: { name: 'Prisme Newton', icon: '🔺', angle: 60, light: 'white', desc: 'Lumière blanche' },
-        laser: { name: 'Laser Rouge', icon: '🔴', angle: 60, light: 'red', desc: 'Monochromatique' },
-        cd: { name: 'CD / DVD', icon: '💿', angle: 20, light: 'white', desc: 'Effet irisé' }
+        soleil: { name: 'Soleil', icon: '☀️', angle: 60, width: 0.5, desc: 'Lumière blanche solaire' },
+        laser: { name: 'Laser', icon: '🔦', angle: 45, width: 0.05, desc: 'Faisceau étroit' },
+        arcenciel: { name: 'Goutte d\'eau', icon: '💧', angle: 42, width: 0.3, desc: 'Phénomène météo' },
+        spectre: { name: 'Prisme de Verre', icon: '💎', angle: 60, width: 0.2, desc: 'Décomposition totale' }
     };
 
     const challenges = [
-        { q: "Combien de couleurs principales compte l'arc-en-ciel ?", options: ["5", "7", "9"], ans: 1, icon: "🌈" },
-        { q: "Quelle couleur du spectre est la plus déviée par un prisme ?", options: ["Le Rouge", "Le Vert", "Le Violet"], ans: 2, icon: "📐" },
-        { q: "La lumière blanche est qualifiée de :", options: ["Monochromatique", "Polychromatique", "Infrarouge"], ans: 1, icon: "☀️" },
-        { q: "Le sigle ROY G. BIV aide à mémoriser :", options: ["Les planètes", "L'ordre des couleurs", "Les gaz nobles"], ans: 1, icon: "🧠" }
+        { q: "Quelle couleur est la plus déviée par le prisme ?", options: ["Le Rouge", "Le Vert", "Le Violet"], ans: 2, icon: "🌈" },
+        { q: "La lumière blanche est qualifiée de :", options: ["Monochromatique", "Polychromatique", "Achromatique"], ans: 1, icon: "⚪" },
+        { q: "Le passage de l'air au verre dévie la lumière : c'est la...", options: ["Réflexion", "Réfraction", "Diffusion"], ans: 1, icon: "📐" },
+        { q: "Un laser rouge traversant un prisme est-il décomposé ?", options: ["Oui, en 3 couleurs", "Non, il reste rouge", "Il devient blanc"], ans: 1, icon: "🔦" }
     ];
 
     const applyScenario = (key) => {
         const sc = scenarios[key];
         setPrismAngle(sc.angle);
-        setLightType(sc.light);
+        setBeamWidth(sc.width);
     };
 
     const startChallenge = () => {
@@ -285,37 +285,39 @@ export function Chap2DispersionLumiere() {
             setScore(s => s + 25);
             setShowSuccess(true);
         } else {
-            alert("Réponse incorrecte. Rappelle-toi : VIBGYOR !");
+            alert("Dispersion incorrecte ! Révise le spectre de Newton.");
         }
         setChallenge({ ...challenge, answered: true });
     };
 
+    const colors = ['#FF0000', '#FF7F00', '#FFFF00', '#00FF00', '#0000FF', '#4B0082', '#9400D3'];
+
     return (
         <group>
             <Html transform={false}>
-                <DraggableHtmlPanel title="🌈 Expert en Lumière" showCloseButton={false} defaultPosition="bottom-center" className="w-[400px] border-purple-500/30 text-white">
+                <DraggableHtmlPanel title="🌈 Maître des Couleurs" showCloseButton={false} defaultPosition="bottom-center" className="w-[400px] border-purple-500/30 text-white">
                     <div className="mb-4">
                         <PhaseSelector currentPhase={mode} onSelect={(m) => m === 'challenge' ? startChallenge() : setMode('explore')} />
                     </div>
 
                     <div className="flex justify-between items-center mb-4 border-b border-white/10 pb-2">
                         <div className="flex flex-col">
-                            <span className="text-[10px] text-purple-400 font-bold uppercase tracking-widest">Phénomènes Optiques</span>
-                            <span className="text-lg font-black">{mode === 'explore' ? 'Dispersion & Spectres' : 'Défi Spectroscopie 🧠'}</span>
+                            <span className="text-[10px] text-purple-400 font-bold uppercase tracking-widest">Laboratoire de Spectroscopie</span>
+                            <span className="text-lg font-black">{mode === 'explore' ? 'Étude du Prisme' : 'Défi Chromatique 🧠'}</span>
                         </div>
                         <GradeBadge score={score} />
                     </div>
 
                     {mode === 'explore' ? (
                         <div className="space-y-4">
-                            <MissionObjective objective="Utilisez le prisme pour décomposer la lumière blanche." icon="☀️" />
+                            <MissionObjective objective="Manipulez l'angle du prisme pour observer le spectre complet." icon="🌈" />
 
                             <div className="grid grid-cols-4 gap-2">
                                 {Object.entries(scenarios).map(([key, sc]) => (
                                     <button key={key} onClick={() => applyScenario(key)}
                                         className="p-2 bg-gray-900 border border-white/5 rounded-xl flex flex-col items-center gap-1 hover:bg-purple-900/40 transition-all">
                                         <span className="text-xl">{sc.icon}</span>
-                                        <span className="text-[8px] font-black uppercase text-center">{sc.name}</span>
+                                        <span className="text-[8px] font-black uppercase text-center leading-none">{sc.name}</span>
                                     </button>
                                 ))}
                             </div>
@@ -329,39 +331,19 @@ export function Chap2DispersionLumiere() {
                                     <input type="range" min="30" max="90" value={prismAngle} onChange={(e) => setPrismAngle(parseInt(e.target.value))}
                                         className="w-full h-2 bg-gray-800 rounded-lg appearance-none cursor-pointer accent-purple-500" />
                                 </div>
-
-                                <div className="flex gap-1">
-                                    {['white', 'red', 'green', 'blue'].map((type) => (
-                                        <button key={type} onClick={() => setLightType(type)}
-                                            className={`flex-1 py-2 rounded-lg text-[8px] font-black uppercase transition-all ${lightType === type ? 'bg-white text-black' : 'bg-gray-800 text-gray-400'}`}>
-                                            {type === 'white' ? 'Blanche' : type}
-                                        </button>
-                                    ))}
+                                <div>
+                                    <div className="flex justify-between text-[10px] font-bold text-gray-500 mb-2">
+                                        <span>LARGEUR DU FAISCEAU</span>
+                                        <span className="text-white">{(beamWidth * 10).toFixed(1)} MM</span>
+                                    </div>
+                                    <input type="range" min="0.05" max="0.5" step="0.05" value={beamWidth} onChange={(e) => setBeamWidth(parseFloat(e.target.value))}
+                                        className="w-full h-2 bg-gray-800 rounded-lg appearance-none cursor-pointer accent-white" />
                                 </div>
                             </div>
 
-                            {showSpectrum && lightType === 'white' && (
-                                <div className="p-4 bg-black/60 rounded-xl border border-white/10 space-y-3">
-                                    <div className="text-[8px] text-gray-400 font-black uppercase tracking-widest text-center">Spectre du Visible</div>
-                                    <div className="flex h-10 rounded-lg overflow-hidden shadow-inner">
-                                        {spectrumColors.map((color, i) => (
-                                            <div key={i} className="flex-1 transition-transform hover:scale-110" style={{ backgroundColor: color }} />
-                                        ))}
-                                    </div>
-                                    <div className="flex justify-between px-2">
-                                        <span className="text-[8px] text-red-500 font-bold">~780nm</span>
-                                        <span className="text-[8px] text-purple-500 font-bold">~380nm</span>
-                                    </div>
-                                </div>
-                            )}
-
-                            <label className="flex items-center gap-2 cursor-pointer group px-1">
-                                <div className={`w-5 h-5 rounded border-2 flex items-center justify-center transition-all ${showSpectrum ? 'border-purple-400 bg-purple-400' : 'border-white/20'}`}
-                                    onClick={() => setShowSpectrum(!showSpectrum)}>
-                                    {showSpectrum && <span className="text-black text-[10px]">✔</span>}
-                                </div>
-                                <span className="text-[10px] font-black uppercase text-gray-400 group-hover:text-white">Afficher l&apos;étalement spectral</span>
-                            </label>
+                            <div className="p-4 bg-gradient-to-r from-red-600 via-green-500 to-violet-600 rounded-xl text-center shadow-lg">
+                                <span className="text-xs font-black text-white uppercase tracking-widest drop-shadow-md">Spectre de la Lumière Blanche</span>
+                            </div>
                         </div>
                     ) : (
                         <div className="space-y-4">
@@ -382,7 +364,7 @@ export function Chap2DispersionLumiere() {
                             </div>
                             {challenge?.answered && (
                                 <button onClick={nextQuestion} className="w-full py-4 bg-purple-600 rounded-xl font-black uppercase text-xs tracking-widest shadow-lg shadow-purple-900/40">
-                                    Mission Suivante ➜
+                                    Défi Suivant ➜
                                 </button>
                             )}
                         </div>
@@ -390,48 +372,41 @@ export function Chap2DispersionLumiere() {
                 </DraggableHtmlPanel>
             </Html>
 
-            <XPBar current={score % 100} nextLevel={100} />
-            <SuccessOverlay show={showSuccess} message="Analyse Spectrale Terminée ! Tu maîtrises la décomposition de la lumière." points={25} onNext={nextQuestion} />
+            <SuccessOverlay show={showSuccess} message="Analyse Spectrale Parfaite ! Tu identifies les ondes avec précision." points={25} onNext={nextQuestion} />
             <ConfettiExplosion active={showSuccess} />
 
-            {/* Prisme 3D */}
-            <group position={[0, 0, 0]} rotation={[0, 0, Math.PI / 6]}>
-                <mesh>
-                    <cylinderGeometry args={[2, 2, 0.5, 3]} />
-                    <meshStandardMaterial color="#818CF8" transparent opacity={0.4} metalness={0.9} roughness={0.1} />
-                </mesh>
-                <mesh scale={[1.05, 1.05, 1.1]}>
-                    <cylinderGeometry args={[2, 2, 0.5, 3]} />
-                    <meshBasicMaterial color="white" wireframe transparent opacity={0.1} />
-                </mesh>
+            {/* Faisceau Incident */}
+            <group position={[-5, 0, 0]}>
+                <Box args={[10, beamWidth, 0.01]} position={[2.5, 0, 0]}>
+                    <meshStandardMaterial color="white" emissive="white" emissiveIntensity={2} transparent opacity={0.6} />
+                </Box>
             </group>
 
-            {/* Rayon incident */}
-            <Line points={[[-6, 1.5, 0], [-1, 0, 0]]} color={lightType === 'white' ? 'white' : lightType} lineWidth={5} transparent opacity={0.8} />
-
-            <Float speed={2} rotationIntensity={0.5} floatIntensity={0.5}>
-                <Text position={[0, 3, 0]} fontSize={0.3} color="white" font="/fonts/Inter-Bold.ttf">
-                    {lightType === 'white' ? 'LUMIÈRE POLYCHROMATIQUE' : 'LUMIÈRE MONOCHROMATIQUE'}
+            {/* Prisme */}
+            <group position={[0, 0, 0]}>
+                <mesh rotation={[0, 0, 0]}>
+                    <cylinderGeometry args={[1.5, 1.5, 0.5, 3]} />
+                    <meshStandardMaterial color="#A5F3FC" transparent opacity={0.4} metalness={0.9} roughness={0} />
+                </mesh>
+                <Text position={[0, 2.5, 0]} fontSize={0.3} color="white">
+                    PRISME EN VERRE
                 </Text>
-            </Float>
+            </group>
 
-            {/* Rayons dispersés */}
-            {lightType === 'white' && showSpectrum && spectrumColors.map((color, i) => (
-                <Line key={i}
-                    points={[[1, 0, 0], [6, -1.5 + i * 0.5, 0]]}
-                    color={color}
-                    lineWidth={3}
-                    transparent
-                    opacity={0.6}
-                />
-            ))}
-
-            {lightType !== 'white' && (
-                <Line points={[[1, 0, 0], [6, -0.5, 0]]} color={lightType} lineWidth={5} transparent opacity={0.8} />
+            {/* Spectre Sortant */}
+            {showSpectrum && (
+                <group position={[1.4, 0, 0]} rotation={[0, 0, -0.2]}>
+                    {colors.map((color, i) => (
+                        <Box key={i} args={[6, 0.1, 0.01]} position={[3, 0.3 - i * 0.1, 0]} rotation={[0, 0, i * 0.03]}>
+                            <meshStandardMaterial color={color} emissive={color} emissiveIntensity={1} transparent opacity={0.5} />
+                        </Box>
+                    ))}
+                </group>
             )}
         </group>
     );
 }
+
 
 // ============================================================
 // CHAPITRE 3: FORCES ET VECTEURS (PC 3e)
@@ -579,10 +554,10 @@ export function Chap3ForcesVecteurs() {
                             )}
                         </div>
                     )}
+                    {/* <XPBar current={score % 100} nextLevel={100} /> */}
                 </DraggableHtmlPanel>
             </Html>
 
-            <XPBar current={score % 100} nextLevel={100} />
             <SuccessOverlay show={showSuccess} message="Succès Mécanique ! Les lois de la physique n'ont plus de secret pour toi." points={25} onNext={nextQuestion} />
             <ConfettiExplosion active={showSuccess} />
 
@@ -590,7 +565,7 @@ export function Chap3ForcesVecteurs() {
             <Box args={[1.5, 1.5, 1.5]} position={[0, 1, 0]}>
                 <meshStandardMaterial color={planets[planet].color} roughness={0.3} metalness={0.2} />
             </Box>
-            <Text position={[0, 2.2, 0]} fontSize={0.3} color="white" font="/fonts/Inter-Bold.ttf">MASSE = {mass} KG</Text>
+            <Text position={[0, 2.2, 0]} fontSize={0.3} color="white">MASSE = {mass} KG</Text>
 
             {/* Vecteur Poids */}
             <group position={[0, 0.5, 0]}>
@@ -599,7 +574,7 @@ export function Chap3ForcesVecteurs() {
                     <coneGeometry args={[0.2, 0.4, 16]} />
                     <meshStandardMaterial color="#EF4444" />
                 </mesh>
-                <Text position={[0.8, -forceScale / 2, 0]} fontSize={0.3} color="#EF4444" font="/fonts/Inter-Bold.ttf">
+                <Text position={[0.8, -forceScale / 2, 0]} fontSize={0.3} color="#EF4444">
                     P = {weight.toFixed(0)} N
                 </Text>
             </group>
@@ -773,10 +748,10 @@ export function Chap4TravailPuissance() {
                             )}
                         </div>
                     )}
+                    {/* <XPBar current={score % 100} nextLevel={100} /> */}
                 </DraggableHtmlPanel>
             </Html>
 
-            <XPBar current={score % 100} nextLevel={100} />
             <SuccessOverlay show={showSuccess} message="Énergie Maîtrisée ! Ton analyse de la puissance est parfaite." points={25} onNext={nextQuestion} />
             <ConfettiExplosion active={showSuccess} />
 
@@ -796,7 +771,7 @@ export function Chap4TravailPuissance() {
 
             {/* Distance Scale */}
             <Line points={[[-4, -0.5, 0], [4, -0.5, 0]]} color="#10B981" lineWidth={2} dashed dashScale={1} transparent opacity={0.3} />
-            <Text position={[0, -1, 0]} fontSize={0.3} color="#10B981" font="/fonts/Inter-Bold.ttf">DISTANCE = {distance} M</Text>
+            <Text position={[0, -1, 0]} fontSize={0.3} color="#10B981">DISTANCE = {distance} M</Text>
 
             {/* Sol */}
             <mesh position={[0, -0.05, 0]} rotation={[-Math.PI / 2, 0, 0]}>
@@ -971,10 +946,10 @@ export function Chap5Electrisation() {
                             )}
                         </div>
                     )}
+                    {/* <XPBar current={score % 100} nextLevel={100} /> */}
                 </DraggableHtmlPanel>
             </Html>
 
-            <XPBar current={score % 100} nextLevel={100} />
             <SuccessOverlay show={showSuccess} message="Analyse Atomique Réussie ! Tu as parfaitement stabilisé les charges." points={25} onNext={nextQuestion} />
             <ConfettiExplosion active={showSuccess} />
 
@@ -989,8 +964,7 @@ export function Chap5Electrisation() {
                     <Text
                         position={[-1.5 + i * 0.4, 0.5, 0]}
                         fontSize={0.3}
-                        color={objects[object1].charge === 'negative' ? "#F87171" : "#34D399"}
-                        font="/fonts/Inter-Bold.ttf">
+                        color={objects[object1].charge === 'negative' ? "#F87171" : "#34D399"}>
                         {objects[object1].charge === 'negative' ? '−' : '+'}
                     </Text>
                 </Float>
@@ -1006,12 +980,12 @@ export function Chap5Electrisation() {
                             </Box>
                         </Float>
                     ))}
-                    <Text position={[0, -0.5, 0]} fontSize={0.25} color="#60A5FA" font="/fonts/Inter-Bold.ttf">ATTRACTION ÉLECTROSTATIQUE</Text>
+                    <Text position={[0, -0.5, 0]} fontSize={0.25} color="#60A5FA">ATTRACTION ÉLECTROSTATIQUE</Text>
                 </group>
             )}
 
             <Float speed={2} rotationIntensity={0.1}>
-                <Text position={[0, 2, 0]} fontSize={0.4} color="white" font="/fonts/Inter-Bold.ttf">
+                <Text position={[0, 2, 0]} fontSize={0.4} color="white">
                     {objects[object1].name.toUpperCase()}
                 </Text>
             </Float>

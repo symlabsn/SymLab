@@ -215,7 +215,7 @@ export function Chap1ScienceIntro() {
                 </DraggableHtmlPanel>
             </Html>
 
-            <Text position={[0, 4, 0]} fontSize={0.3} anchorX="center" color="white" font="/fonts/Inter-Bold.ttf">
+            <Text position={[0, 4, 0]} fontSize={0.3} anchorX="center" color="white">
                 MISSION : {currentScenario.id.toUpperCase()}
             </Text>
 
@@ -506,7 +506,7 @@ export function Chap2Mesures() {
 
             <XPBar current={score % 100} nextLevel={100} />
 
-            <Text position={[0, 4, 0]} fontSize={0.4} color="#22D3EE" font="/fonts/Inter-Bold.ttf" outlineWidth={0.02} outlineColor="black">
+            <Text position={[0, 4, 0]} fontSize={0.4} color="#22D3EE" outlineWidth={0.02} outlineColor="black">
                 LABO DE MÉTROLOGIE
             </Text>
 
@@ -891,7 +891,7 @@ export function Chap4PoidsMasse() {
             <SuccessOverlay show={showSuccess} message="Succès ! La gravité correspond exactement aux mesures." points={50} onNext={startMission} />
             <ConfettiExplosion active={showSuccess} />
 
-            <Text position={[0, 4, 0]} fontSize={0.4} color="#818CF8" font="/fonts/Inter-Bold.ttf" outlineWidth={0.02} outlineColor="black">
+            <Text position={[0, 4, 0]} fontSize={0.4} color="#818CF8" outlineWidth={0.02} outlineColor="black">
                 STATION DE PESAGE SPATIALE
             </Text>
 
@@ -1445,3 +1445,4 @@ function Buzzer3D({ active }) {
         </group>
     );
 }
+

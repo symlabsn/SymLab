@@ -13,7 +13,7 @@ export const pc3eData = {
             simulation: {
                 id: 'lens-optics-3e',
                 title: "Vision Bionique : L'Œil de Lynx",
-                type: 'lens-optics'
+                type: 'chap1-lentilles-3e'
             },
             story: `Vos lunettes, l'appareil photo, le microscope... tous utilisent des lentilles. Ce sont des morceaux de verre courbés qui dévient la lumière pour agrandir, réduire ou corriger la vision.`,
             content: `
@@ -77,7 +77,7 @@ Plus la distance focale est petite, plus la lentille est puissante !`
             simulation: {
                 id: 'light-dispersion-3e',
                 title: "Prisme de Lumière : Le Spectre Secret",
-                type: 'light-dispersion'
+                type: 'chap2-dispersion-3e'
             },
             story: `Pourquoi voit-on un arc-en-ciel après la pluie ? Parce que les gouttes d'eau décomposent la lumière blanche en toutes ses couleurs. C'est la dispersion !`,
             content: `
@@ -141,7 +141,7 @@ La lumière d'une seule couleur (laser rouge) ne peut pas être décomposée : e
             simulation: {
                 id: 'forces-vectors-3e',
                 title: "Maître des Forces : L'Invisible Pouvoir",
-                type: 'forces-vectors'
+                type: 'chap3-forces-3e'
             },
             story: `Une force, c'est une poussée ou une traction. Quand vous tirez une porte, vous exercez une force. La Terre aussi exerce une force sur vous : le poids. Les forces sont partout !`,
             content: `
@@ -213,7 +213,7 @@ Un sac de riz de 50 kg pèse : P = 50 × 10 = **500 N** !`
             simulation: {
                 id: 'work-power-3e',
                 title: "Titan de Puissance : Le Défi Hercule",
-                type: 'work-power'
+                type: 'chap4-travail-3e'
             },
             story: `Soulever un sac à dos, c'est fournir un travail. Plus le sac est lourd et plus vous montez haut, plus le travail est grand. La puissance, c'est la vitesse à laquelle vous fournissez ce travail.`,
             content: `
@@ -281,7 +281,7 @@ Mamadou est 5 fois plus puissant ! 💪`
             simulation: {
                 id: 'electrostatics-3e',
                 title: "Maître de l'Orage : Électricité Statique",
-                type: 'electrostatics'
+                type: 'chap5-electrisation-3e'
             },
             story: `Frottez un ballon sur vos cheveux et collez-le au mur : il tient ! C'est l'électricité statique. Les objets se chargent électriquement par frottement.`,
             content: `
@@ -350,7 +350,7 @@ C'est dangereux près de l'essence ou du gaz.`
             simulation: {
                 id: 'resistance-ohm-3e',
                 title: "Contrôle du Flux : La Résistance Ohm",
-                type: 'ohm-law-circuit'
+                type: 'chap6-ohm-3e'
             },
             story: `Un fil électrique, c'est comme un tuyau d'eau. Plus le tuyau est fin, plus l'eau a du mal à passer. La résistance, c'est la finesse du fil électrique qui freine le courant.`,
             content: `
@@ -423,7 +423,7 @@ Plus la résistance est grande, moins le courant passe !Comme pincer le tuyau : 
             simulation: {
                 id: 'energy-transformations-3e',
                 title: "Convertisseur Universel : Flux d'Énergie",
-                type: 'energy-flow'
+                type: 'chap7-transformations-3e'
             },
             story: `L'énergie ne se crée pas, ne se détruit pas, elle se transforme. Une pile transforme l'énergie chimique en énergie électrique. Une lampe transforme l'énergie électrique en lumière et chaleur.`,
             content: `
@@ -502,7 +502,7 @@ Une ampoule LED a un rendement de 40% (bien mieux que 5% pour une incandescente 
             simulation: {
                 id: 'aqueous-solutions-3e',
                 title: "Maître des Potions : Solutions Aqueuses",
-                type: 'solution-mixing'
+                type: 'chap8-solutions-3e'
             },
             story: `Une solution, c'est un mélange homogène. Le sel dans l'eau, le sucre dans le café... L'eau est le solvant universel. Elle dissout presque tout !`,
             content: `
@@ -572,7 +572,7 @@ Il reste au fond ! La solution est **SATURÉE**.
             simulation: {
                 id: 'acids-bases-ph-3e',
                 title: "Mission pH : Le Code Couleur Acide",
-                type: 'ph-scale'
+                type: 'ph-scale-3e'
             },
             story: `Le citron est acide, le savon est basique. Comment les reconnaître ? Avec le pH ! C'est une échelle de 0 à 14 qui mesure l'acidité.`,
             content: `
@@ -644,7 +644,7 @@ Le pH se rapproche de 7 !`
             simulation: {
                 id: 'metals-properties-3e',
                 title: "Métal Hurlant : Réactions Explosives",
-                type: 'metal-reactions'
+                type: 'chap10-metaux-3e'
             },
             story: `Le fer rouille, l'aluminium résiste, l'or brille éternellement. Chaque métal a sa personnalité chimique. Certains réagissent violemment avec l'eau ou l'air, d'autres sont inertes.`,
             content: `
@@ -715,7 +715,7 @@ Le gaz H₂ forme des bulles ! 💨
             simulation: {
                 id: 'hydrocarbons-3e',
                 title: "Combustion Fossile : L'Énergie du Feu",
-                type: 'combustion-3d'
+                type: 'chap11-combustion-3e'
             },
             story: `Le pétrole, l'essence, le gaz naturel... ce sont tous des hydrocarbures. Des molécules faites uniquement de Carbone (C) et d'Hydrogène (H). Ils brûlent très bien et fournissent beaucoup d'énergie.`,
             content: `
