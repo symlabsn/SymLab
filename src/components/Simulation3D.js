@@ -4639,32 +4639,36 @@ export default function Simulation3D({ type = 'atom', config = {} }) {
         <div className="w-full h-[calc(100vh-140px)] rounded-2xl overflow-hidden bg-gradient-to-br from-black to-slate-900 border border-white/20 relative">
             <Canvas>
                 <Suspense fallback={null}>
-                    {/* CamÃ©ra - CentrÃ©e et reculÃ©e pour voir toute la cellule */}
-                    <PerspectiveCamera makeDefault position={[5, 4, 5]} />
+                    {/* Caméra - Positionnée stratégiquement */}
+                    <PerspectiveCamera makeDefault position={[0, 5, 12]} fov={50} />
 
-                    {/* ContrÃ´les */}
+                    {/* Contrôles - Fluides et intuitifs */}
                     <OrbitControls
                         enableZoom={true}
-                        enablePan={true}
+                        enablePan={false}
                         enableRotate={true}
-                        autoRotate={true}
-                        autoRotateSpeed={0.5}
+                        makeDefault
+                        minPolarAngle={Math.PI / 6}
+                        maxPolarAngle={Math.PI / 2}
                     />
 
-                    {/* LumiÃ¨res */}
-                    <ambientLight intensity={0.5} />
-                    <pointLight position={[10, 10, 10]} intensity={1} />
-                    <pointLight position={[-10, -10, -10]} intensity={0.5} color="#00F5D4" />
-                    <spotLight position={[0, 10, 0]} angle={0.3} penumbra={1} intensity={1} />
+                    {/* Lumières Premium */}
+                    <ambientLight intensity={0.4} />
+                    <Environment preset="city" />
+                    <pointLight position={[10, 10, 10]} intensity={1.5} color="#fff" />
+                    <pointLight position={[-10, 5, -10]} intensity={1} color="#00F5D4" />
+                    <spotLight position={[0, 15, 0]} angle={0.4} penumbra={1} intensity={2} castShadow />
 
                     {/* Environnement */}
                     <Stars radius={100} depth={50} count={5000} factor={4} saturation={0} fade speed={1} />
 
                     {/* Simulation */}
-                    {renderSimulation()}
+                    <group position={[0, 0, 0]}>
+                        {renderSimulation()}
+                    </group>
 
-                    {/* Grille de rÃ©fÃ©rence */}
-                    <gridHelper args={[10, 10, '#00F5D4', '#1F2937']} position={[0, -3, 0]} />
+                    {/* Grille de référence subtile */}
+                    <gridHelper args={[20, 20, '#1E293B', '#111827']} position={[0, -2, 0]} />
                 </Suspense>
             </Canvas>
         </div>

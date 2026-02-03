@@ -72,7 +72,13 @@ export function Chap1LentillesMCE() {
     return (
         <group>
             <Html transform={false}>
-                <DraggableHtmlPanel title="🔭 Opticien Expert" showCloseButton={false} defaultPosition="bottom-center" className="w-[400px] border-cyan-500/30 text-white">
+                <DraggableHtmlPanel
+                    title="🔭 Opticien Expert"
+                    usePortal={false}
+                    showCloseButton={false}
+                    defaultPosition="bottom-center"
+                    className="w-[400px] border-cyan-500/30 text-white"
+                >
                     <div className="mb-4">
                         <PhaseSelector currentPhase={mode} onSelect={(m) => m === 'challenge' ? startChallenge() : setMode('explore')} />
                     </div>
@@ -181,9 +187,22 @@ export function Chap1LentillesMCE() {
             <group position={[0, 0, 0]}>
                 <mesh rotation={[0, Math.PI / 2, 0]}>
                     <torusGeometry args={[2, 0.05, 16, 64]} />
-                    <meshStandardMaterial color={isConvergent ? "#22D3EE" : "#F43F5E"} transparent opacity={0.8} />
+                    <meshStandardMaterial color={isConvergent ? "#22D3EE" : "#F43F5E"} metalness={1} roughness={0} />
                 </mesh>
-                <Text position={[0, 3, 0]} fontSize={0.3} color="white">
+                {/* Corps de la lentille - Effet Verre */}
+                <mesh rotation={[0, Math.PI / 2, 0]}>
+                    <cylinderGeometry args={[2, 2, 0.2, 32]} />
+                    <meshPhysicalMaterial
+                        color={isConvergent ? "#22D3EE" : "#F43F5E"}
+                        transmission={0.9}
+                        thickness={0.5}
+                        roughness={0}
+                        ior={1.5}
+                        transparent
+                        opacity={0.3}
+                    />
+                </mesh>
+                <Text position={[0, 2.5, 0]} fontSize={0.25} color="white" fontWeight="bold">
                     LENTILLE {lensType.toUpperCase()}
                 </Text>
             </group>
@@ -205,10 +224,10 @@ export function Chap1LentillesMCE() {
             <group position={[-objectDistance, 0, 0]}>
                 <Line points={[[0, 0, 0], [0, 1.5, 0]]} color="#F59E0B" lineWidth={5} />
                 <mesh position={[0, 1.6, 0]}>
-                    <coneGeometry args={[0.15, 0.3, 8]} />
-                    <meshStandardMaterial color="#F59E0B" />
+                    <coneGeometry args={[0.15, 0.3, 32]} />
+                    <meshStandardMaterial color="#F59E0B" emissive="#F59E0B" emissiveIntensity={0.5} />
                 </mesh>
-                <Text position={[0, -0.5, 0]} fontSize={0.25} color="#F59E0B">OBJET (A)</Text>
+                <Text position={[0, -0.5, 0]} fontSize={0.2} color="#F59E0B">OBJET (A)</Text>
             </group>
 
             {showRays && isConvergent && (
@@ -222,20 +241,16 @@ export function Chap1LentillesMCE() {
                 <group position={[imageDistance, 0, 0]}>
                     <Line points={[[0, 0, 0], [0, 1.5 * magnification, 0]]} color="#22D3EE" lineWidth={5} />
                     <mesh position={[0, 1.5 * magnification + (magnification < 0 ? -0.1 : 0.1), 0]} rotation={[0, 0, magnification < 0 ? Math.PI : 0]}>
-                        <coneGeometry args={[0.15, 0.3, 8]} />
-                        <meshStandardMaterial color="#22D3EE" />
+                        <coneGeometry args={[0.15, 0.3, 32]} />
+                        <meshStandardMaterial color="#22D3EE" emissive="#22D3EE" emissiveIntensity={0.5} />
                     </mesh>
-                    <Text position={[0, -0.5, 0]} fontSize={0.25} color="#22D3EE">IMAGE (A&apos;)</Text>
+                    <Text position={[0, -0.5 * Math.sign(magnification), 0]} fontSize={0.2} color="#22D3EE">IMAGE (A&apos;)</Text>
                 </group>
             )}
         </group>
     );
 }
 
-// ============================================================
-// CHAPITRE 2: DISPERSION DE LA LUMIÈRE (PC 3e)
-// ============================================================
-// ============================================================
 // CHAPITRE 2: DISPERSION DE LA LUMIÈRE (PC 3e)
 // ============================================================
 export function Chap2DispersionLumiere() {
@@ -295,7 +310,13 @@ export function Chap2DispersionLumiere() {
     return (
         <group>
             <Html transform={false}>
-                <DraggableHtmlPanel title="🌈 Maître des Couleurs" showCloseButton={false} defaultPosition="bottom-center" className="w-[400px] border-purple-500/30 text-white">
+                <DraggableHtmlPanel
+                    title="🌈 Maître des Couleurs"
+                    usePortal={false}
+                    showCloseButton={false}
+                    defaultPosition="bottom-center"
+                    className="w-[400px] border-purple-500/30 text-white"
+                >
                     <div className="mb-4">
                         <PhaseSelector currentPhase={mode} onSelect={(m) => m === 'challenge' ? startChallenge() : setMode('explore')} />
                     </div>
@@ -375,31 +396,56 @@ export function Chap2DispersionLumiere() {
             <SuccessOverlay show={showSuccess} message="Analyse Spectrale Parfaite ! Tu identifies les ondes avec précision." points={25} onNext={nextQuestion} />
             <ConfettiExplosion active={showSuccess} />
 
-            {/* Faisceau Incident */}
+            {/* Faisceau Incident - Plus volumétrique */}
             <group position={[-5, 0, 0]}>
-                <Box args={[10, beamWidth, 0.01]} position={[2.5, 0, 0]}>
-                    <meshStandardMaterial color="white" emissive="white" emissiveIntensity={2} transparent opacity={0.6} />
+                <Box args={[10, beamWidth, 0.05]} position={[2.5, 0, 0]}>
+                    <meshStandardMaterial color="white" emissive="white" emissiveIntensity={5} transparent opacity={0.8} />
+                </Box>
+                {/* Lueur du faisceau */}
+                <Box args={[10, beamWidth * 2, 0.1]} position={[2.5, 0, 0]}>
+                    <meshStandardMaterial color="#A5F3FC" transparent opacity={0.1} />
                 </Box>
             </group>
 
-            {/* Prisme */}
+            {/* Prisme - Effet Verre Réel */}
             <group position={[0, 0, 0]}>
                 <mesh rotation={[0, 0, 0]}>
                     <cylinderGeometry args={[1.5, 1.5, 0.5, 3]} />
-                    <meshStandardMaterial color="#A5F3FC" transparent opacity={0.4} metalness={0.9} roughness={0} />
+                    <meshPhysicalMaterial
+                        color="#A5F3FC"
+                        transmission={0.95}
+                        thickness={1}
+                        roughness={0}
+                        metalness={0}
+                        ior={1.5}
+                        clearcoat={1}
+                        transparent
+                    />
                 </mesh>
-                <Text position={[0, 2.5, 0]} fontSize={0.3} color="white">
-                    PRISME EN VERRE
+                <Text position={[0, 2, 0]} fontSize={0.2} color="#A5F3FC" fontWeight="bold">
+                    PRISME EN VERRE FLINT
                 </Text>
             </group>
 
-            {/* Spectre Sortant */}
+            {/* Spectre Sortant - Faisceaux colorés */}
             {showSpectrum && (
                 <group position={[1.4, 0, 0]} rotation={[0, 0, -0.2]}>
                     {colors.map((color, i) => (
-                        <Box key={i} args={[6, 0.1, 0.01]} position={[3, 0.3 - i * 0.1, 0]} rotation={[0, 0, i * 0.03]}>
-                            <meshStandardMaterial color={color} emissive={color} emissiveIntensity={1} transparent opacity={0.5} />
-                        </Box>
+                        <group key={i}>
+                            <Box args={[8, 0.08, 0.01]} position={[4, 0.3 - i * 0.1, 0]} rotation={[0, 0, i * 0.04]}>
+                                <meshStandardMaterial
+                                    color={color}
+                                    emissive={color}
+                                    emissiveIntensity={2}
+                                    transparent
+                                    opacity={0.6}
+                                />
+                            </Box>
+                            {/* Halo coloré */}
+                            <Box args={[8, 0.15, 0.02]} position={[4, 0.3 - i * 0.1, 0]} rotation={[0, 0, i * 0.04]}>
+                                <meshStandardMaterial color={color} transparent opacity={0.1} />
+                            </Box>
+                        </group>
                     ))}
                 </group>
             )}
@@ -476,7 +522,13 @@ export function Chap3ForcesVecteurs() {
     return (
         <group>
             <Html transform={false}>
-                <DraggableHtmlPanel title="🦾 Ingénieur Mécanique" showCloseButton={false} defaultPosition="bottom-center" className="w-[400px] border-emerald-500/30 text-white">
+                <DraggableHtmlPanel
+                    title="🦾 Ingénieur Mécanique"
+                    usePortal={false}
+                    showCloseButton={false}
+                    defaultPosition="bottom-center"
+                    className="w-[400px] border-emerald-500/30 text-white"
+                >
                     <div className="mb-4">
                         <PhaseSelector currentPhase={mode} onSelect={(m) => m === 'challenge' ? startChallenge() : setMode('explore')} />
                     </div>
@@ -659,7 +711,13 @@ export function Chap4TravailPuissance() {
     return (
         <group>
             <Html transform={false}>
-                <DraggableHtmlPanel title="⚡ Ingénieur Énergie" showCloseButton={false} defaultPosition="bottom-center" className="w-[400px] border-yellow-500/30 text-white">
+                <DraggableHtmlPanel
+                    title="⚡ Ingénieur Énergie"
+                    usePortal={false}
+                    showCloseButton={false}
+                    defaultPosition="bottom-center"
+                    className="w-[400px] border-yellow-500/30 text-white"
+                >
                     <div className="mb-4">
                         <PhaseSelector currentPhase={mode} onSelect={(m) => m === 'challenge' ? startChallenge() : setMode('explore')} />
                     </div>
@@ -853,7 +911,13 @@ export function Chap5Electrisation() {
     return (
         <group>
             <Html transform={false}>
-                <DraggableHtmlPanel title="⚡ Maître des Charges" showCloseButton={false} defaultPosition="bottom-center" className="w-[400px] border-blue-500/30 text-white">
+                <DraggableHtmlPanel
+                    title="⚡ Maître des Charges"
+                    usePortal={false}
+                    showCloseButton={false}
+                    defaultPosition="bottom-center"
+                    className="w-[400px] border-blue-500/30 text-white"
+                >
                     <div className="mb-4">
                         <PhaseSelector currentPhase={mode} onSelect={(m) => m === 'challenge' ? startChallenge() : setMode('explore')} />
                     </div>

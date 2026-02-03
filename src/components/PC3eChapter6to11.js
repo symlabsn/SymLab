@@ -6,10 +6,6 @@ import DraggableHtmlPanel from './DraggableHtmlPanel';
 import { PhaseSelector, GradeBadge, MissionObjective, XPBar, SuccessOverlay, ConfettiExplosion } from './GamificationUtils';
 import * as THREE from 'three';
 
-// ============================================================
-// CHAPITRE 6: LOI D'OHM (PC 3e)
-// ============================================================
-// ============================================================
 // CHAPITRE 6: LOI D'OHM (PC 3e)
 // ============================================================
 export function Chap6LoiOhm() {
@@ -68,7 +64,13 @@ export function Chap6LoiOhm() {
     return (
         <group>
             <Html transform={false}>
-                <DraggableHtmlPanel title="⚡ Expert en Électricité" showCloseButton={false} defaultPosition="bottom-center" className="w-[400px] border-yellow-500/30 text-white">
+                <DraggableHtmlPanel
+                    title="⚡ Expert en Électricité"
+                    usePortal={false}
+                    showCloseButton={false}
+                    defaultPosition="bottom-center"
+                    className="w-[400px] border-yellow-500/30 text-white"
+                >
                     <div className="mb-4">
                         <PhaseSelector currentPhase={mode} onSelect={(m) => m === 'challenge' ? startChallenge() : setMode('explore')} />
                     </div>
@@ -155,26 +157,57 @@ export function Chap6LoiOhm() {
             <SuccessOverlay show={showSuccess} message="Circuit Parfaitement Équilibré ! Ton montage est digne d'un ingénieur." points={25} onNext={nextQuestion} />
             <ConfettiExplosion active={showSuccess} />
 
-            {/* Circuit 3D Simplifié */}
+            {/* Circuit 3D Haute Fidélité */}
             <group position={[0, -1, 0]}>
-                {/* Fils */}
-                <Line points={[[-3, 0, 0], [3, 0, 0], [3, 2, 0], [-3, 2, 0], [-3, 0, 0]]} color="#334155" lineWidth={4} />
+                {/* Fils - Connexions robustes */}
+                <group>
+                    <Cylinder args={[0.05, 0.05, 6]} rotation={[0, 0, Math.PI / 2]} position={[0, 0, 0]}>
+                        <meshStandardMaterial color="#1E293B" metalness={0.8} roughness={0.2} />
+                    </Cylinder>
+                    <Cylinder args={[0.05, 0.05, 6]} rotation={[0, 0, Math.PI / 2]} position={[0, 2, 0]}>
+                        <meshStandardMaterial color="#1E293B" metalness={0.8} roughness={0.2} />
+                    </Cylinder>
+                    <Cylinder args={[0.05, 0.05, 2]} position={[-3, 1, 0]}>
+                        <meshStandardMaterial color="#1E293B" metalness={0.8} roughness={0.2} />
+                    </Cylinder>
+                    <Cylinder args={[0.05, 0.05, 2]} position={[3, 1, 0]}>
+                        <meshStandardMaterial color="#1E293B" metalness={0.8} roughness={0.2} />
+                    </Cylinder>
+                </group>
 
-                {/* Résistance */}
-                <Box args={[1.5, 0.6, 0.6]} position={[0, 2, 0]}>
-                    <meshStandardMaterial color="#D97706" />
-                    <Text position={[0, 0.8, 0]} fontSize={0.2} color="white">{resistance} Ω</Text>
-                </Box>
+                {/* Résistance - Style Céramique avec Anneaux */}
+                <group position={[0, 2, 0]}>
+                    <Cylinder args={[0.4, 0.4, 2, 32]} rotation={[0, 0, Math.PI / 2]}>
+                        <meshStandardMaterial color="#FDE68A" roughness={0.3} />
+                    </Cylinder>
+                    {/* Anneaux de couleur */}
+                    <Cylinder args={[0.41, 0.41, 0.1, 32]} rotation={[0, 0, Math.PI / 2]} position={[-0.4, 0, 0]}>
+                        <meshStandardMaterial color="#B45309" />
+                    </Cylinder>
+                    <Cylinder args={[0.41, 0.41, 0.1, 32]} rotation={[0, 0, Math.PI / 2]} position={[-0.1, 0, 0]}>
+                        <meshStandardMaterial color="#000" />
+                    </Cylinder>
+                    <Cylinder args={[0.41, 0.41, 0.1, 32]} rotation={[0, 0, Math.PI / 2]} position={[0.2, 0, 0]}>
+                        <meshStandardMaterial color="#8B4513" />
+                    </Cylinder>
+                    <Text position={[0, 0.8, 0]} fontSize={0.25} color="#F59E0B" fontWeight="bold">{resistance} Ω</Text>
+                </group>
 
-                {/* Générateur */}
-                <Cylinder args={[0.5, 0.5, 1, 16]} position={[-3, 1, 0]} rotation={[0, 0, 0]}>
-                    <meshStandardMaterial color="#EF4444" />
-                    <Text position={[-0.8, 0, 0]} fontSize={0.3} color="#EF4444">{voltage} V</Text>
-                </Cylinder>
+                {/* Générateur - Style Batterie Lithium */}
+                <group position={[-3, 1, 0]}>
+                    <Cylinder args={[0.6, 0.6, 1.2, 32]}>
+                        <meshStandardMaterial color="#111827" metalness={0.9} roughness={0.1} />
+                    </Cylinder>
+                    {/* Terminal Positif */}
+                    <Cylinder args={[0.2, 0.2, 0.2]} position={[0, 0.7, 0]}>
+                        <meshStandardMaterial color="#EF4444" metalness={1} />
+                    </Cylinder>
+                    <Text position={[-1, 0, 0]} fontSize={0.35} color="#EF4444" fontWeight="bold">{voltage} V</Text>
+                </group>
 
-                {/* Électrons en mouvement */}
-                {[...Array(10)].map((_, i) => (
-                    <MovingElectron key={i} delay={i * 0.5} speed={current * 5} />
+                {/* Électrons en mouvement - Flux d'énergie */}
+                {[...Array(12)].map((_, i) => (
+                    <MovingElectron key={i} delay={i * 0.4} speed={current * 8} />
                 ))}
             </group>
         </group>
@@ -442,7 +475,13 @@ export function Chap8SolutionsAqueuses() {
     return (
         <group>
             <Html transform={false}>
-                <DraggableHtmlPanel title="🧪 Maître des Solutions" showCloseButton={false} defaultPosition="bottom-center" className="w-[400px] border-cyan-500/30 text-white">
+                <DraggableHtmlPanel
+                    title="🍵 Alchimiste des Solutions"
+                    usePortal={false}
+                    showCloseButton={false}
+                    defaultPosition="bottom-center"
+                    className="w-[400px] border-cyan-500/30 text-white"
+                >
                     <div className="mb-4">
                         <PhaseSelector currentPhase={mode} onSelect={(m) => m === 'challenge' ? startChallenge() : setMode('explore')} />
                     </div>
@@ -524,27 +563,44 @@ export function Chap8SolutionsAqueuses() {
             <SuccessOverlay show={showSuccess} message="Solution Parfaite ! La concentration est exactement ce qu'il fallait." points={25} onNext={nextQuestion} />
             <ConfettiExplosion active={showSuccess} />
 
-            {/* Éprouvette graduée */}
+            {/* Éprouvette graduée - Effet Verre Réel */}
             <Cylinder args={[0.8, 0.8, 4, 32]} position={[0, 0, 0]}>
-                <meshStandardMaterial color="#E2E8F0" transparent opacity={0.2} metalness={0.9} roughness={0} />
+                <meshPhysicalMaterial
+                    color="#ffffff"
+                    transmission={1}
+                    thickness={0.5}
+                    roughness={0}
+                    ior={1.5}
+                    transparent
+                    opacity={0.3}
+                />
             </Cylinder>
 
-            {/* Liquide */}
+            {/* Liquide - Rendu Haute Fidélité */}
             <Cylinder args={[0.78, 0.78, (volume / 2000) * 3.8, 32]} position={[0, -1.9 + ((volume / 2000) * 3.8) / 2, 0]}>
-                <meshStandardMaterial color="#3B82F6" transparent opacity={0.6 + (concentration / 400) * 0.4} emissive="#3B82F6" emissiveIntensity={0.2} />
+                <meshPhysicalMaterial
+                    color="#3B82F6"
+                    transmission={0.8}
+                    thickness={1}
+                    roughness={0.1}
+                    emissive="#3B82F6"
+                    emissiveIntensity={0.2}
+                    transparent
+                    opacity={0.6 + (concentration / 400) * 0.4}
+                />
             </Cylinder>
 
-            {/* Particules de soluté */}
-            {[...Array(Math.min(50, Math.floor(mass / 2)))].map((_, i) => (
-                <Float key={i} speed={2} floatIntensity={1}>
-                    <Sphere args={[0.04]} position={[(Math.random() - 0.5) * 1.2, (Math.random() - 0.5) * 3, (Math.random() - 0.5) * 1.2]}>
-                        <meshStandardMaterial color="#FFFFFF" />
+            {/* Particules de soluté - Poudre en suspension */}
+            {[...Array(Math.min(40, Math.floor(mass / 4)))].map((_, i) => (
+                <Float key={i} speed={3} floatIntensity={2}>
+                    <Sphere args={[0.03]} position={[(Math.random() - 0.5) * 1.4, (Math.random() - 0.5) * 3, (Math.random() - 0.5) * 1.4]}>
+                        <meshStandardMaterial color="#FFFFFF" emissive="#ffffff" emissiveIntensity={0.2} />
                     </Sphere>
                 </Float>
             ))}
 
-            <Text position={[0, 2.5, 0]} fontSize={0.4} color="white">
-                {concentration.toFixed(1)} g/L
+            <Text position={[0, 2.5, 0]} fontSize={0.3} color="white" fontWeight="bold">
+                CONCENTRATION : {concentration.toFixed(1)} G/L
             </Text>
         </group>
     );
@@ -612,7 +668,13 @@ export function Chap9AcidesBasesPH() {
     return (
         <group>
             <Html transform={false}>
-                <DraggableHtmlPanel title="🧪 Expert pH" showCloseButton={false} defaultPosition="bottom-center" className="w-[400px] border-purple-500/30 text-white">
+                <DraggableHtmlPanel
+                    title="🧪 Expert pH"
+                    usePortal={false}
+                    showCloseButton={false}
+                    defaultPosition="bottom-center"
+                    className="w-[400px] border-purple-500/30 text-white"
+                >
                     <div className="mb-4">
                         <PhaseSelector currentPhase={mode} onSelect={(m) => m === 'challenge' ? startChallenge() : setMode('explore')} />
                     </div>
@@ -694,26 +756,49 @@ export function Chap9AcidesBasesPH() {
             <SuccessOverlay show={showSuccess} message="Analyse Réussie ! Tu maîtrises parfaitement l'échelle de pH." points={25} onNext={nextQuestion} />
             <ConfettiExplosion active={showSuccess} />
 
-            {/* Bécher */}
-            <Cylinder args={[1.2, 1, 3, 32]} position={[0, 0, 0]}>
-                <meshStandardMaterial color="#E2E8F0" transparent opacity={0.3} metalness={0.9} roughness={0} />
+            {/* Bécher - Effet Verre de Laboratoire */}
+            <Cylinder args={[1.2, 1, 3, 32]} position={[0, -0.2, 0]}>
+                <meshPhysicalMaterial
+                    color="#ffffff"
+                    transmission={1}
+                    thickness={0.5}
+                    roughness={0}
+                    ior={1.5}
+                    transparent
+                    opacity={0.3}
+                />
             </Cylinder>
 
-            {/* Liquide coloré par pH */}
-            <Cylinder args={[1.15, 0.95, 2.8, 32]} position={[0, -0.1, 0]}>
-                <meshStandardMaterial color={getColor(ph)} transparent opacity={0.7} emissive={getColor(ph)} emissiveIntensity={0.5} />
+            {/* Liquide coloré par pH - Rendu Volumétrique */}
+            <Cylinder args={[1.15, 0.95, 2.8, 32]} position={[0, -0.3, 0]}>
+                <meshPhysicalMaterial
+                    color={getColor(ph)}
+                    transmission={0.7}
+                    thickness={2}
+                    roughness={0.1}
+                    emissive={getColor(ph)}
+                    emissiveIntensity={0.6}
+                    transparent
+                    opacity={0.8}
+                />
             </Cylinder>
 
-            {/* Ions (bulles) */}
-            {[...Array(12)].map((_, i) => (
-                <Float key={i} speed={2 + i * 0.2} floatIntensity={1.5}>
-                    <Sphere args={[0.06]} position={[(Math.random() - 0.5) * 1.5, (Math.random() - 0.5) * 2.5, (Math.random() - 0.5) * 1.5]}>
-                        <meshStandardMaterial color="white" transparent opacity={0.4} />
+            {/* Ions (bulles) - Animation Dynamique */}
+            {[...Array(15)].map((_, i) => (
+                <Float key={i} speed={3 + i * 0.1} rotationIntensity={1} floatIntensity={2}>
+                    <Sphere args={[0.07]} position={[(Math.random() - 0.5) * 1.8, (Math.random() - 0.5) * 2, (Math.random() - 0.5) * 1.8]}>
+                        <meshStandardMaterial
+                            color="white"
+                            transparent
+                            opacity={0.5}
+                            emissive="white"
+                            emissiveIntensity={0.3}
+                        />
                     </Sphere>
                 </Float>
             ))}
 
-            <Text position={[0, 2.2, 0]} fontSize={0.5} color="white">
+            <Text position={[0, 2.2, 0]} fontSize={0.4} color={getColor(ph)} fontWeight="bold" outlineWidth={0.02} outlineColor="#000">
                 pH {ph}
             </Text>
         </group>
@@ -778,7 +863,13 @@ export function Chap10Metaux() {
     return (
         <group>
             <Html transform={false}>
-                <DraggableHtmlPanel title="⚙️ Forge des Métaux" showCloseButton={false} defaultPosition="bottom-center" className="w-[400px] border-gray-500/30 text-white">
+                <DraggableHtmlPanel
+                    title="⚒️ Forgeur de Métaux"
+                    usePortal={false}
+                    showCloseButton={false}
+                    defaultPosition="bottom-center"
+                    className="w-[400px] border-slate-500/30 text-white"
+                >
                     <div className="mb-4">
                         <PhaseSelector currentPhase={mode} onSelect={(m) => m === 'challenge' ? startChallenge() : setMode('explore')} />
                     </div>
@@ -854,21 +945,37 @@ export function Chap10Metaux() {
             <SuccessOverlay show={showSuccess} message="Forgeron Expert ! Ta connaissance des métaux est solide." points={25} onNext={nextQuestion} />
             <ConfettiExplosion active={showSuccess} />
 
-            {/* Bloc de métal */}
-            <Float speed={1} rotationIntensity={0.5}>
-                <Box args={[1.5, 1.5, 1.5]} position={[0, 0, 0]}>
-                    <meshStandardMaterial color={metals[metal].color} metalness={0.9} roughness={0.1} />
-                </Box>
-            </Float>
-
-            {/* Bulles de réaction (H2) */}
-            {reacting && [...Array(15)].map((_, i) => (
-                <Float key={i} speed={4 + i * 0.1} floatIntensity={1}>
-                    <Sphere args={[0.08]} position={[(Math.random() - 0.5) * 1.8, 1 + i * 0.3, (Math.random() - 0.5) * 1.8]}>
-                        <meshStandardMaterial color="white" transparent opacity={0.6} />
-                    </Sphere>
+            {/* Échantillon Métallique - Rendu Réaliste */}
+            <group position={[0, 0, 0]}>
+                <Float speed={2} rotationIntensity={0.5} floatIntensity={0.5}>
+                    <Box args={[2, 2, 2]}>
+                        <meshStandardMaterial
+                            color={metals[metal].color}
+                            metalness={1}
+                            roughness={0.2}
+                            emissive={reacting ? "#ff4400" : "#000"}
+                            emissiveIntensity={reacting ? 0.5 : 0}
+                        />
+                    </Box>
+                    <Text position={[0, 2.5, 0]} fontSize={0.3} color="white" fontWeight="bold">
+                        ÉCHANTILLON : {metals[metal].name.toUpperCase()}
+                    </Text>
                 </Float>
-            ))}
+            </group>
+
+            {/* Effets de Réaction (Bulles/Gaz) */}
+            {reacting && (
+                <group position={[0, 0, 0]}>
+                    {[...Array(20)].map((_, i) => (
+                        <Float key={i} speed={5}>
+                            <Sphere args={[0.1]} position={[(Math.random() - 0.5) * 3, Math.random() * 4, (Math.random() - 0.5) * 3]}>
+                                <meshStandardMaterial color="#ffffff" transparent opacity={0.6} />
+                            </Sphere>
+                        </Float>
+                    ))}
+                    <pointLight position={[0, 0, 0]} color="#ff6600" intensity={2} distance={5} />
+                </group>
+            )}
 
             <Text position={[0, 2, 0]} fontSize={0.4} color="white">
                 {metals[metal].name.toUpperCase()}
@@ -932,7 +1039,13 @@ export function Chap11Combustion() {
     return (
         <group>
             <Html transform={false}>
-                <DraggableHtmlPanel title="🔥 Maître du Feu" showCloseButton={false} defaultPosition="bottom-center" className="w-[400px] border-orange-500/30 text-white">
+                <DraggableHtmlPanel
+                    title="🏎️ Ingénieur Thermique"
+                    usePortal={false}
+                    showCloseButton={false}
+                    defaultPosition="bottom-center"
+                    className="w-[400px] border-orange-500/30 text-white"
+                >
                     <div className="mb-4">
                         <PhaseSelector currentPhase={mode} onSelect={(m) => m === 'challenge' ? startChallenge() : setMode('explore')} />
                     </div>
