@@ -15,12 +15,45 @@ export function Chap6LoiOhm() {
     const [score, setScore] = useState(0);
     const [showSuccess, setShowSuccess] = useState(false);
     const [challenge, setChallenge] = useState(null);
+    const [scenario, setScenario] = useState(null);
 
     const scenarios = {
-        pile: { name: 'Pile 9V', icon: '🔋', v: 9, r: 100, desc: 'Circuit standard' },
-        moteur: { name: 'Moteur', icon: '⚙️', v: 12, r: 50, desc: 'Charge inductive' },
-        led: { name: 'LED', icon: '🚨', v: 3, r: 220, desc: 'Basse tension' },
-        court: { name: 'Danger', icon: '⚠️', v: 24, r: 2, desc: 'Surintensité' }
+        pile: {
+            name: 'Pile 9V',
+            icon: '🔋',
+            v: 9,
+            r: 100,
+            desc: 'Circuit standard',
+            mission: 'Observez la circulation des électrons dans un montage simple avec une batterie de 9V.',
+            tip: 'L&apos;intensité I est égale à U divisé par R (I = U/R).'
+        },
+        moteur: {
+            name: 'Moteur',
+            icon: '⚙️',
+            v: 12,
+            r: 50,
+            desc: 'Charge inductive',
+            mission: 'Alimentez un puissant moteur électrique. Attention, la résistance est plus faible !',
+            tip: 'À tension égale, si la résistance diminue, l&apos;intensité augmente.'
+        },
+        led: {
+            name: 'Diode LED',
+            icon: '🚨',
+            v: 3,
+            r: 220,
+            desc: 'Basse tension',
+            mission: 'Protégez une LED délicate en utilisant une résistance de protection appropriée.',
+            tip: 'Les LED nécessitent une résistance pour ne pas griller à cause d&apos;un courant trop fort.'
+        },
+        danger: {
+            name: 'Court-Circuit',
+            icon: '🔥',
+            v: 24,
+            r: 5,
+            desc: 'Surcharge',
+            mission: 'Simulez un court-circuit dangereux. Observez l&apos;emballement des électrons.',
+            tip: 'Un courant trop élevé provoque un échauffement thermique dangereux (Effet Joule).'
+        }
     };
 
     const challenges = [
@@ -36,6 +69,7 @@ export function Chap6LoiOhm() {
         const sc = scenarios[key];
         setVoltage(sc.v);
         setResistance(sc.r);
+        setScenario(key);
     };
 
     const startChallenge = () => {
@@ -66,9 +100,9 @@ export function Chap6LoiOhm() {
             <Html transform={false}>
                 <DraggableHtmlPanel
                     title="⚡ Expert en Électricité"
-                    usePortal={false}
+                    usePortal={true}
+                    initialPos={{ x: 20, y: 80 }}
                     showCloseButton={false}
-                    defaultPosition="bottom-center"
                     className="w-[400px] border-yellow-500/30 text-white"
                 >
                     <div className="mb-4">
@@ -116,7 +150,21 @@ export function Chap6LoiOhm() {
                                 </div>
                             </div>
 
-                            <div className="grid grid-cols-2 gap-2">
+                            <div className="p-4 bg-slate-900/60 rounded-2xl border border-yellow-500/20">
+                                <div className="text-[10px] font-bold text-yellow-400 uppercase mb-2 flex items-center gap-2">
+                                    <span className="animate-pulse">🔌</span> Mission : {scenarios[scenario]?.name || 'Exploration'}
+                                </div>
+                                <p className="text-[11px] text-slate-300 leading-relaxed italic">
+                                    &quot;{scenarios[scenario]?.mission || 'Ajustez les paramètres pour équilibrer le circuit.'}&quot;
+                                </p>
+                                {scenarios[scenario]?.tip && (
+                                    <div className="mt-3 p-2 bg-yellow-500/10 rounded-lg border border-yellow-500/10 text-[9px] text-yellow-300">
+                                        💡 Conseil : {scenarios[scenario].tip}
+                                    </div>
+                                )}
+                            </div>
+
+                            <div className="grid grid-cols-2 gap-2 mt-2">
                                 <div className="p-3 bg-yellow-950/30 rounded-lg border border-yellow-500/20 text-center">
                                     <div className="text-[8px] text-yellow-400 font-black uppercase">Intensité (I)</div>
                                     <div className="text-xl font-mono font-black">{(current * 1000).toFixed(1)} mA</div>
@@ -426,12 +474,45 @@ export function Chap8SolutionsAqueuses() {
     const [score, setScore] = useState(0);
     const [showSuccess, setShowSuccess] = useState(false);
     const [challenge, setChallenge] = useState(null);
+    const [scenario, setScenario] = useState(null);
 
     const scenarios = {
-        the: { name: 'Thé', icon: '🍵', m: 30, v: 250, desc: 'Ataya Traditionnel' },
-        serum: { name: 'Sérum', icon: '💉', m: 9, v: 1000, desc: 'Salé Médical' },
-        sirop: { name: 'Sirop', icon: '🧃', m: 500, v: 1000, desc: 'Concentré Sucré' },
-        mer: { name: 'Océan', icon: '🌊', m: 35, v: 1000, desc: 'Eau de Mer' }
+        dilution: {
+            name: 'Dilution',
+            icon: '💧',
+            m: 10,
+            v: 1000,
+            desc: 'Réduire concentration',
+            mission: 'Préparez une solution diluée en ajoutant du solvant.',
+            fact: 'La masse de soluté reste constante.'
+        },
+        saturation: {
+            name: 'Saturation',
+            icon: '💎',
+            m: 180,
+            v: 500,
+            desc: 'Limite solubilité',
+            mission: 'Ajoutez du soluté jusqu&apos;à saturation.',
+            fact: 'Le soluté ne se dissout plus au-delà d&apos;un seuil.'
+        },
+        serum: {
+            name: 'Sérum',
+            icon: '💉',
+            m: 9,
+            v: 1000,
+            desc: 'Salé Médical',
+            mission: 'Recréez une solution saline physiologique (9g/L).',
+            fact: 'C&apos;est la concentration idéale pour le corps humain.'
+        },
+        sirop: {
+            name: 'Sirop',
+            icon: '🥤',
+            m: 100,
+            v: 250,
+            desc: 'Très Concentré',
+            mission: 'Maximisez la concentration dans un petit volume.',
+            fact: 'Plus Cm est élevée, plus le mélange est dense.'
+        }
     };
 
     const challenges = [
@@ -447,6 +528,7 @@ export function Chap8SolutionsAqueuses() {
         const sc = scenarios[key];
         setMass(sc.m);
         setVolume(sc.v);
+        setScenario(key);
     };
 
     const startChallenge = () => {
@@ -477,9 +559,9 @@ export function Chap8SolutionsAqueuses() {
             <Html transform={false}>
                 <DraggableHtmlPanel
                     title="🍵 Alchimiste des Solutions"
-                    usePortal={false}
+                    usePortal={true}
+                    initialPos={{ x: 20, y: 80 }}
                     showCloseButton={false}
-                    defaultPosition="bottom-center"
                     className="w-[400px] border-cyan-500/30 text-white"
                 >
                     <div className="mb-4">
@@ -527,7 +609,21 @@ export function Chap8SolutionsAqueuses() {
                                 </div>
                             </div>
 
-                            <div className="p-4 bg-cyan-950/30 rounded-xl border border-cyan-500/30 text-center relative overflow-hidden">
+                            <div className="p-4 bg-slate-900/60 rounded-2xl border border-cyan-500/20">
+                                <div className="text-[10px] font-bold text-cyan-400 uppercase mb-2 flex items-center gap-2">
+                                    <span className="animate-pulse">🍵</span> Objectif : {scenarios[scenario]?.name || 'Laboratoire'}
+                                </div>
+                                <p className="text-[11px] text-slate-300 leading-relaxed italic">
+                                    &quot;{scenarios[scenario]?.mission || 'Préparez vos mélanges avec précision.'}&quot;
+                                </p>
+                                {scenarios[scenario]?.fact && (
+                                    <div className="mt-3 p-2 bg-blue-500/10 rounded-lg border border-blue-500/10 text-[9px] text-blue-300">
+                                        💡 Note : {scenarios[scenario].fact}
+                                    </div>
+                                )}
+                            </div>
+
+                            <div className="p-4 bg-cyan-950/30 rounded-xl border border-cyan-500/30 text-center relative overflow-hidden mt-2">
                                 <div className="text-[10px] text-cyan-400 font-black uppercase tracking-widest mb-1">Concentration Massique (Cm)</div>
                                 <div className="text-4xl font-black text-white">{concentration.toFixed(1)} <span className="text-xl">g/L</span></div>
                                 <div className="mt-2 text-[10px] font-mono text-gray-500">C = {mass}g / {(volume / 1000).toFixed(2)}L</div>
@@ -670,7 +766,7 @@ export function Chap9AcidesBasesPH() {
             <Html transform={false}>
                 <DraggableHtmlPanel
                     title="🧪 Expert pH"
-                    usePortal={false}
+
                     showCloseButton={false}
                     defaultPosition="bottom-center"
                     className="w-[400px] border-purple-500/30 text-white"
@@ -707,6 +803,15 @@ export function Chap9AcidesBasesPH() {
                                     {ph}
                                 </div>
                                 <div className="text-sm font-black text-white tracking-[0.2em]">{getType(ph)}</div>
+                            </div>
+
+                            <div className="p-4 bg-slate-900/60 rounded-2xl border border-purple-500/20 mt-2">
+                                <div className="text-[10px] font-bold text-purple-400 uppercase mb-2 flex items-center gap-2">
+                                    <span className="animate-pulse">🔬</span> Diagnostic
+                                </div>
+                                <p className="text-[11px] text-slate-300 leading-relaxed italic">
+                                    {ph < 7 ? "La solution contient un excès d'ions hydrogène H+. Elle est corrosive pour les métaux." : ph > 7 ? "La solution contient un excès d'ions hydroxyde HO-. Elle est souvent glissante au toucher." : "La solution est à l'équilibre. Les ions H+ et HO- sont en quantités égales."}
+                                </p>
                             </div>
 
                             <div className="space-y-2">
@@ -865,9 +970,9 @@ export function Chap10Metaux() {
             <Html transform={false}>
                 <DraggableHtmlPanel
                     title="⚒️ Forgeur de Métaux"
-                    usePortal={false}
+                    usePortal={true}
+                    initialPos={{ x: 20, y: 80 }}
                     showCloseButton={false}
-                    defaultPosition="bottom-center"
                     className="w-[400px] border-slate-500/30 text-white"
                 >
                     <div className="mb-4">
@@ -1041,9 +1146,9 @@ export function Chap11Combustion() {
             <Html transform={false}>
                 <DraggableHtmlPanel
                     title="🏎️ Ingénieur Thermique"
-                    usePortal={false}
+                    usePortal={true}
+                    initialPos={{ x: 20, y: 80 }}
                     showCloseButton={false}
-                    defaultPosition="bottom-center"
                     className="w-[400px] border-orange-500/30 text-white"
                 >
                     <div className="mb-4">
@@ -1138,4 +1243,5 @@ export function Chap11Combustion() {
         </group>
     );
 }
+
 

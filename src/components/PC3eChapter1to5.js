@@ -18,12 +18,49 @@ export function Chap1LentillesMCE() {
     const [score, setScore] = useState(0);
     const [showSuccess, setShowSuccess] = useState(false);
     const [challenge, setChallenge] = useState(null);
+    const [scenario, setScenario] = useState(null);
 
     const scenarios = {
-        loupe: { name: 'Loupe', icon: '🔍', f: 2, d: 4, type: 'convergente', desc: 'Grossir un texte' },
-        oeil: { name: 'Œil Humain', icon: '👁️', f: 1.7, d: 10, type: 'convergente', desc: 'Vision normale' },
-        myope: { name: 'Correction', icon: '👓', f: -3, d: 8, type: 'divergente', desc: 'Lentille divergente' },
-        appareil: { name: 'Caméra', icon: '📷', f: 5, d: 20, type: 'convergente', desc: 'Focus infini' }
+        loupe: {
+            name: 'Loupe',
+            icon: '🔍',
+            f: 3,
+            d: 1.5,
+            type: 'convergente',
+            desc: 'Grossir un texte',
+            mission: 'Placez l&apos;objet très près de la lentille pour créer une image virtuelle agrandie.',
+            tip: 'L&apos;image se forme du même côté que l&apos;objet !'
+        },
+        cinema: {
+            name: 'Cinéma',
+            icon: '📽️',
+            f: 2,
+            d: 3,
+            type: 'convergente',
+            desc: 'Projection',
+            mission: 'Utilisez la lentille pour projeter une image géante et renversée sur un écran.',
+            tip: 'Plus l&apos;objet est près du foyer F, plus l&apos;image est grande.'
+        },
+        oeil: {
+            name: 'Œil Humain',
+            icon: '👁️',
+            f: 1.5,
+            d: 10,
+            type: 'convergente',
+            desc: 'Vision normale',
+            mission: 'Formez l&apos;image exactement sur la rétine (fond de l&apos;œil).',
+            tip: 'Le cristallin change de forme pour accommoder.'
+        },
+        photo: {
+            name: 'Appareil',
+            icon: '📷',
+            f: 5,
+            d: 40,
+            type: 'convergente',
+            desc: 'Focus paysage',
+            mission: 'Capturez un objet lointain avec une mise au point nette.',
+            tip: 'Pour un objet à l&apos;infini, l&apos;image se forme au foyer image F&apos;.'
+        }
     };
 
     const challenges = [
@@ -38,6 +75,7 @@ export function Chap1LentillesMCE() {
         setLensType(sc.type);
         setFocalLength(Math.abs(sc.f));
         setObjectDistance(sc.d);
+        setScenario(key);
     };
 
     const startChallenge = () => {
@@ -74,9 +112,9 @@ export function Chap1LentillesMCE() {
             <Html transform={false}>
                 <DraggableHtmlPanel
                     title="🔭 Opticien Expert"
-                    usePortal={false}
+                    usePortal={true}
+                    initialPos={{ x: 20, y: 80 }}
                     showCloseButton={false}
-                    defaultPosition="bottom-center"
                     className="w-[400px] border-cyan-500/30 text-white"
                 >
                     <div className="mb-4">
@@ -136,14 +174,28 @@ export function Chap1LentillesMCE() {
                                 </div>
                             </div>
 
-                            <div className="grid grid-cols-2 gap-2">
+                            <div className="p-4 bg-slate-900/60 rounded-2xl border border-cyan-500/20">
+                                <div className="text-[10px] font-bold text-cyan-400 uppercase mb-2 flex items-center gap-2">
+                                    <span className="animate-pulse">🎯</span> Mission : {scenarios[scenario]?.name || 'Exploration'}
+                                </div>
+                                <p className="text-[11px] text-slate-300 leading-relaxed italic">
+                                    &quot;{scenarios[scenario]?.mission || 'Explorez librement les propriétés optiques.'}&quot;
+                                </p>
+                                {scenarios[scenario]?.tip && (
+                                    <div className="mt-3 p-2 bg-blue-500/10 rounded-lg border border-blue-500/10 text-[9px] text-blue-300">
+                                        💡 Indice : {scenarios[scenario].tip}
+                                    </div>
+                                )}
+                            </div>
+
+                            <div className="grid grid-cols-2 gap-2 mt-2">
                                 <div className="p-3 bg-cyan-950/30 rounded-lg border border-cyan-500/20 text-center">
-                                    <div className="text-[8px] text-cyan-400 font-black uppercase">Position Image</div>
+                                    <div className="text-[8px] text-cyan-400 font-black uppercase">Position Image (OA&apos;)</div>
                                     <div className="text-xl font-mono font-black">{imageDistance.toFixed(1)} cm</div>
                                 </div>
                                 <div className="p-3 bg-indigo-950/30 rounded-lg border border-indigo-500/20 text-center">
-                                    <div className="text-[8px] text-indigo-400 font-black uppercase">Grandissement</div>
-                                    <div className="text-xl font-mono font-black">γ = {magnification.toFixed(2)}</div>
+                                    <div className="text-[8px] text-indigo-400 font-black uppercase">Grandissement (γ)</div>
+                                    <div className="text-xl font-mono font-black">{magnification.toFixed(2)}</div>
                                 </div>
                             </div>
 
@@ -261,12 +313,36 @@ export function Chap2DispersionLumiere() {
     const [score, setScore] = useState(0);
     const [showSuccess, setShowSuccess] = useState(false);
     const [challenge, setChallenge] = useState(null);
+    const [scenario, setScenario] = useState(null);
 
     const scenarios = {
-        soleil: { name: 'Soleil', icon: '☀️', angle: 60, width: 0.5, desc: 'Lumière blanche solaire' },
-        laser: { name: 'Laser', icon: '🔦', angle: 45, width: 0.05, desc: 'Faisceau étroit' },
-        arcenciel: { name: 'Goutte d\'eau', icon: '💧', angle: 42, width: 0.3, desc: 'Phénomène météo' },
-        spectre: { name: 'Prisme de Verre', icon: '💎', angle: 60, width: 0.2, desc: 'Décomposition totale' }
+        white: {
+            name: 'Solaire',
+            icon: '☀️',
+            angle: 60,
+            width: 0.5,
+            desc: 'Spectre complet',
+            mission: 'Décomposez la lumière du soleil pour observer toutes les couleurs de l&apos;arc-en-ciel.',
+            fact: 'La lumière blanche est un mélange de toutes les radiations visibles.'
+        },
+        laser: {
+            name: 'Laser',
+            icon: '🔦',
+            angle: 45,
+            width: 0.1,
+            desc: 'Monochromatique',
+            mission: 'Observez qu&apos;une lumière laser ne se décompose pas en plusieurs couleurs.',
+            fact: 'Un laser est constitué d&apos;une seule couleur (une seule longueur d&apos;onde).'
+        },
+        rainbow: {
+            name: 'Arc-en-ciel',
+            icon: '🌈',
+            angle: 42,
+            width: 0.3,
+            desc: 'Phénomène météo',
+            mission: 'Ajustez l&apos;angle pour créer la dispersion maximale des couleurs comme dans la nature.',
+            fact: 'Chaque goutte de pluie agit comme un minuscule prisme.'
+        }
     };
 
     const challenges = [
@@ -280,6 +356,7 @@ export function Chap2DispersionLumiere() {
         const sc = scenarios[key];
         setPrismAngle(sc.angle);
         setBeamWidth(sc.width);
+        setScenario(key);
     };
 
     const startChallenge = () => {
@@ -312,9 +389,9 @@ export function Chap2DispersionLumiere() {
             <Html transform={false}>
                 <DraggableHtmlPanel
                     title="🌈 Maître des Couleurs"
-                    usePortal={false}
+                    usePortal={true}
+                    initialPos={{ x: 20, y: 80 }}
                     showCloseButton={false}
-                    defaultPosition="bottom-center"
                     className="w-[400px] border-purple-500/30 text-white"
                 >
                     <div className="mb-4">
@@ -362,8 +439,18 @@ export function Chap2DispersionLumiere() {
                                 </div>
                             </div>
 
-                            <div className="p-4 bg-gradient-to-r from-red-600 via-green-500 to-violet-600 rounded-xl text-center shadow-lg">
-                                <span className="text-xs font-black text-white uppercase tracking-widest drop-shadow-md">Spectre de la Lumière Blanche</span>
+                            <div className="p-4 bg-slate-900/60 rounded-2xl border border-purple-500/20">
+                                <div className="text-[10px] font-bold text-purple-400 uppercase mb-2 flex items-center gap-2">
+                                    <span className="animate-pulse">✨</span> Objectif : {scenarios[scenario]?.name || 'Exploration'}
+                                </div>
+                                <p className="text-[11px] text-slate-300 leading-relaxed italic">
+                                    &quot;{scenarios[scenario]?.mission || 'Explorez la décomposition de la lumière.'}&quot;
+                                </p>
+                                {scenarios[scenario]?.fact && (
+                                    <div className="mt-3 p-2 bg-purple-500/10 rounded-lg border border-purple-500/10 text-[9px] text-purple-300">
+                                        🔍 Le saviez-vous ? {scenarios[scenario].fact}
+                                    </div>
+                                )}
                             </div>
                         </div>
                     ) : (
@@ -524,9 +611,9 @@ export function Chap3ForcesVecteurs() {
             <Html transform={false}>
                 <DraggableHtmlPanel
                     title="🦾 Ingénieur Mécanique"
-                    usePortal={false}
+                    usePortal={true}
+                    initialPos={{ x: 20, y: 80 }}
                     showCloseButton={false}
-                    defaultPosition="bottom-center"
                     className="w-[400px] border-emerald-500/30 text-white"
                 >
                     <div className="mb-4">
@@ -713,9 +800,9 @@ export function Chap4TravailPuissance() {
             <Html transform={false}>
                 <DraggableHtmlPanel
                     title="⚡ Ingénieur Énergie"
-                    usePortal={false}
+                    usePortal={true}
+                    initialPos={{ x: 20, y: 80 }}
                     showCloseButton={false}
-                    defaultPosition="bottom-center"
                     className="w-[400px] border-yellow-500/30 text-white"
                 >
                     <div className="mb-4">
@@ -913,9 +1000,9 @@ export function Chap5Electrisation() {
             <Html transform={false}>
                 <DraggableHtmlPanel
                     title="⚡ Maître des Charges"
-                    usePortal={false}
+                    usePortal={true}
+                    initialPos={{ x: 20, y: 80 }}
                     showCloseButton={false}
-                    defaultPosition="bottom-center"
                     className="w-[400px] border-blue-500/30 text-white"
                 >
                     <div className="mb-4">
@@ -1056,3 +1143,4 @@ export function Chap5Electrisation() {
         </group>
     );
 }
+
