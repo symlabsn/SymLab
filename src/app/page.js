@@ -182,10 +182,10 @@ export default function Home() {
                     </span>
                 </motion.div>
 
-                {/* Main Title - Fixed: Removed duplicate logo effect */}
+                {/* Main Title */}
                 <motion.h1
                     variants={heroVariants}
-                    className="heading-xl mb-6 sm:mb-8 select-none"
+                    className="heading-xl mb-4 sm:mb-6 md:mb-8 select-none"
                 >
                     <span className="text-white font-black">SYM</span>
                     <span className="gradient-text font-black">LAB</span>
@@ -194,19 +194,19 @@ export default function Home() {
                 {/* Subtitle */}
                 <motion.p
                     variants={itemVariants}
-                    className="body-lg max-w-3xl mx-auto mb-10 sm:mb-14 text-slate-300/90"
+                    className="body-lg max-w-3xl mx-auto mb-8 sm:mb-10 md:mb-14 text-slate-300/90 px-4"
                 >
                     L&apos;écosystème numérique <span className="text-white font-semibold border-b-2 border-[#06d6a0]/50 hover:border-[#06d6a0] transition-colors cursor-default">complet</span> pour explorer, apprendre et maîtriser les sciences.
                 </motion.p>
 
-                {/* CTA Buttons */}
+                {/* CTA Buttons - Mobile optimized */}
                 <motion.div
                     variants={itemVariants}
-                    className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16 sm:mb-20"
+                    className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 mb-12 sm:mb-16 md:mb-20 px-4"
                 >
-                    <Link href="/simulations" onClick={handleNavClick}>
+                    <Link href="/simulations" onClick={handleNavClick} className="w-full sm:w-auto">
                         <motion.button
-                            className="btn-primary btn-glow group"
+                            className="btn-primary btn-glow group w-full sm:w-auto justify-center"
                             whileHover={{ scale: 1.03 }}
                             whileTap={{ scale: 0.97 }}
                         >
@@ -215,9 +215,9 @@ export default function Home() {
                             <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
                         </motion.button>
                     </Link>
-                    <Link href="/courses" onClick={handleNavClick}>
+                    <Link href="/courses" onClick={handleNavClick} className="w-full sm:w-auto">
                         <motion.button
-                            className="btn-secondary"
+                            className="btn-secondary w-full sm:w-auto justify-center"
                             whileHover={{ scale: 1.02 }}
                             whileTap={{ scale: 0.98 }}
                         >
@@ -227,11 +227,11 @@ export default function Home() {
                     </Link>
                 </motion.div>
 
-                {/* Scroll indicator */}
+                {/* Scroll indicator - hidden on mobile */}
                 <motion.div
                     variants={floatVariants}
                     animate="animate"
-                    className="flex flex-col items-center gap-2 opacity-50"
+                    className="hidden sm:flex flex-col items-center gap-2 opacity-50"
                 >
                     <span className="text-xs text-white/50 uppercase tracking-widest">Découvrir</span>
                     <div className="w-px h-12 bg-gradient-to-b from-white/40 via-white/20 to-transparent" />
@@ -241,67 +241,159 @@ export default function Home() {
             {/* ===== MODULES SECTION ===== */}
             <motion.section
                 variants={containerVariants}
-                className="w-full max-w-6xl relative z-10 px-4 sm:px-6 mb-24 sm:mb-40"
+                className="w-full max-w-6xl relative z-10 px-4 sm:px-6 mb-16 sm:mb-24 md:mb-40"
             >
-                <motion.div variants={itemVariants} className="text-center mb-12 sm:mb-16">
-                    <div className="inline-flex items-center gap-2 text-[#8b5cf6] text-xs font-bold uppercase tracking-widest mb-4">
+                <motion.div variants={itemVariants} className="text-center mb-8 sm:mb-12 md:mb-16">
+                    <div className="inline-flex items-center gap-2 text-[#8b5cf6] text-xs font-bold uppercase tracking-widest mb-3 sm:mb-4">
                         <Zap size={16} />
                         Modules d&apos;Apprentissage
                     </div>
-                    <h2 className="text-3xl sm:text-5xl font-black text-white mb-4 tracking-tight">
+                    <h2 className="text-2xl sm:text-3xl md:text-5xl font-black text-white mb-3 sm:mb-4 tracking-tight">
                         Explorez nos <span className="gradient-text">Modules</span>
                     </h2>
-                    <p className="text-slate-400 text-base sm:text-lg max-w-2xl mx-auto">
+                    <p className="text-slate-400 text-sm sm:text-base md:text-lg max-w-2xl mx-auto px-4">
                         Choisissez votre parcours d&apos;apprentissage et développez vos compétences scientifiques
                     </p>
-                    <div className="gradient-line w-20 sm:w-32 mx-auto mt-6" />
+                    <div className="gradient-line w-16 sm:w-20 md:w-32 mx-auto mt-4 sm:mt-6" />
                 </motion.div>
 
-                {/* Grid Layout: 2 large cards on top, 3 below */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 mb-6 sm:mb-8">
-                    {modules.slice(0, 2).map((module) => (
-                        <motion.div
-                            key={module.id}
-                            variants={itemVariants}
-                            onClick={handleNavClick}
-                        >
-                            <ModuleBlock {...module} />
-                        </motion.div>
-                    ))}
+                {/* Mobile: Horizontal Scroll Carousel */}
+                <div className="md:hidden -mx-4 px-4">
+                    <motion.div
+                        variants={containerVariants}
+                        className="flex gap-4 overflow-x-auto pb-4 snap-x snap-mandatory scrollbar-hide"
+                        style={{ WebkitOverflowScrolling: 'touch' }}
+                    >
+                        {modules.map((module) => (
+                            <motion.div
+                                key={module.id}
+                                variants={itemVariants}
+                                className="flex-shrink-0 snap-center first:pl-0 last:pr-4"
+                                onClick={handleNavClick}
+                            >
+                                <ModuleBlock {...module} variant="compact" />
+                            </motion.div>
+                        ))}
+                    </motion.div>
+
+                    {/* Scroll indicator dots */}
+                    <div className="flex justify-center gap-2 mt-4">
+                        {modules.map((_, i) => (
+                            <div
+                                key={i}
+                                className="w-2 h-2 rounded-full bg-white/20"
+                            />
+                        ))}
+                    </div>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-                    {modules.slice(2).map((module) => (
-                        <motion.div
-                            key={module.id}
-                            variants={itemVariants}
-                            onClick={handleNavClick}
-                        >
-                            <ModuleBlock {...module} />
-                        </motion.div>
-                    ))}
+                {/* Desktop: Grid Layout - 2 large cards on top, 3 below */}
+                <div className="hidden md:block">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 mb-6 lg:mb-8">
+                        {modules.slice(0, 2).map((module) => (
+                            <motion.div
+                                key={module.id}
+                                variants={itemVariants}
+                                onClick={handleNavClick}
+                            >
+                                <ModuleBlock {...module} />
+                            </motion.div>
+                        ))}
+                    </div>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+                        {modules.slice(2).map((module) => (
+                            <motion.div
+                                key={module.id}
+                                variants={itemVariants}
+                                onClick={handleNavClick}
+                            >
+                                <ModuleBlock {...module} />
+                            </motion.div>
+                        ))}
+                    </div>
                 </div>
             </motion.section>
 
             {/* ===== QUICK ACCESS SECTION ===== */}
             <motion.section
                 variants={containerVariants}
-                className="w-full max-w-7xl mt-8 relative z-10 px-4 pb-32 sm:pb-48"
+                className="w-full max-w-7xl mt-4 sm:mt-8 relative z-10 px-4 pb-24 sm:pb-32 md:pb-48"
             >
-                <motion.div variants={itemVariants} className="text-center mb-12 sm:mb-16">
-                    <div className="inline-flex items-center gap-2 text-[#06d6a0] text-xs font-bold uppercase tracking-widest mb-4">
+                <motion.div variants={itemVariants} className="text-center mb-8 sm:mb-12 md:mb-16">
+                    <div className="inline-flex items-center gap-2 text-[#06d6a0] text-xs font-bold uppercase tracking-widest mb-3 sm:mb-4">
                         <Sparkles size={16} />
                         Accès Rapide
                     </div>
-                    <h2 className="text-2xl sm:text-4xl font-bold text-white mb-2">
+                    <h2 className="text-xl sm:text-2xl md:text-4xl font-bold text-white mb-2">
                         Ressources <span className="gradient-text-static">Populaires</span>
                     </h2>
-                    <div className="gradient-line w-20 sm:w-32 mx-auto mt-4" />
+                    <div className="gradient-line w-16 sm:w-20 md:w-32 mx-auto mt-3 sm:mt-4" />
                 </motion.div>
 
+                {/* Mobile: Horizontal scroll */}
+                <div className="sm:hidden -mx-4">
+                    <motion.div
+                        variants={containerVariants}
+                        className="flex gap-3 overflow-x-auto px-4 pb-4 snap-x snap-mandatory scrollbar-hide"
+                        style={{ WebkitOverflowScrolling: 'touch' }}
+                    >
+                        {quickLinks.map((link, i) => (
+                            <Link key={i} href={link.href} onClick={handleNavClick} className="flex-shrink-0 snap-center">
+                                <motion.div
+                                    variants={itemVariants}
+                                    whileTap={{ scale: 0.95 }}
+                                    className="relative w-36 p-4 rounded-2xl overflow-hidden"
+                                    style={{
+                                        background: `linear-gradient(135deg, ${link.color}15 0%, rgba(15,23,42,0.9) 100%)`,
+                                        border: `1px solid ${link.color}20`
+                                    }}
+                                >
+                                    {/* Icon Image */}
+                                    <div
+                                        className="w-12 h-12 rounded-xl mb-3 overflow-hidden"
+                                        style={{ boxShadow: `0 0 20px ${link.color}30` }}
+                                    >
+                                        <Image
+                                            src={link.iconImage}
+                                            alt={link.title}
+                                            width={48}
+                                            height={48}
+                                            className="w-full h-full object-cover"
+                                        />
+                                    </div>
+
+                                    {/* Tag */}
+                                    <span
+                                        className="inline-block px-2 py-0.5 rounded-full text-[8px] font-bold uppercase tracking-wider mb-2"
+                                        style={{
+                                            color: link.color,
+                                            background: `${link.color}20`
+                                        }}
+                                    >
+                                        {link.tag}
+                                    </span>
+
+                                    {/* Title */}
+                                    <h3 className="text-sm font-bold text-white/90 line-clamp-2 leading-tight">
+                                        {link.title}
+                                    </h3>
+
+                                    {/* Corner glow */}
+                                    <div
+                                        className="absolute -bottom-4 -right-4 w-16 h-16 rounded-full blur-xl opacity-30"
+                                        style={{ background: link.color }}
+                                    />
+                                </motion.div>
+                            </Link>
+                        ))}
+                    </motion.div>
+                </div>
+
+                {/* Desktop/Tablet: Grid layout */}
                 <motion.div
                     variants={containerVariants}
-                    className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6"
+                    className="hidden sm:grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6"
                 >
                     {quickLinks.map((link, i) => (
                         <Link key={i} href={link.href} onClick={handleNavClick} className="contents">
@@ -309,17 +401,15 @@ export default function Home() {
                                 variants={itemVariants}
                                 whileHover={{ y: -8, scale: 1.02 }}
                                 whileTap={{ scale: 0.98 }}
-                                className="group glass-card p-6 sm:p-8 cursor-pointer relative overflow-hidden"
+                                className="group glass-card p-5 md:p-6 lg:p-8 cursor-pointer relative overflow-hidden"
                             >
-                                {/* Shimmer effect */}
-                                <div className="shimmer-sweep opacity-30" />
+                                {/* Shimmer effect - desktop only */}
+                                <div className="shimmer-sweep opacity-30 hidden lg:block" />
 
                                 {/* Icon Image */}
                                 <div
-                                    className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl mb-6 overflow-hidden transition-all duration-500 group-hover:scale-110 group-hover:rotate-3 relative"
-                                    style={{
-                                        boxShadow: `0 0 40px ${link.color}30`
-                                    }}
+                                    className="w-14 h-14 md:w-16 md:h-16 lg:w-20 lg:h-20 rounded-xl md:rounded-2xl mb-4 md:mb-6 overflow-hidden transition-all duration-500 md:group-hover:scale-110 md:group-hover:rotate-3 relative"
+                                    style={{ boxShadow: `0 0 40px ${link.color}30` }}
                                 >
                                     <Image
                                         src={link.iconImage}
@@ -337,7 +427,7 @@ export default function Home() {
 
                                 {/* Tag */}
                                 <span
-                                    className="inline-block px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest mb-3 transition-all duration-300"
+                                    className="inline-block px-2.5 py-1 rounded-full text-[9px] md:text-[10px] font-bold uppercase tracking-widest mb-2 md:mb-3 transition-all duration-300"
                                     style={{
                                         color: link.color,
                                         background: `${link.color}15`,
@@ -348,12 +438,12 @@ export default function Home() {
                                 </span>
 
                                 {/* Title */}
-                                <h3 className="text-lg sm:text-xl font-bold text-white/90 mb-6 group-hover:text-white transition-colors">
+                                <h3 className="text-base md:text-lg lg:text-xl font-bold text-white/90 mb-4 md:mb-6 group-hover:text-white transition-colors">
                                     {link.title}
                                 </h3>
 
-                                {/* Arrow indicator */}
-                                <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider opacity-0 group-hover:opacity-80 transition-all duration-500 transform translate-x-[-8px] group-hover:translate-x-0">
+                                {/* Arrow indicator - desktop only */}
+                                <div className="hidden md:flex items-center gap-2 text-xs font-bold uppercase tracking-wider opacity-0 group-hover:opacity-80 transition-all duration-500 transform translate-x-[-8px] group-hover:translate-x-0">
                                     <span style={{ color: link.color }}>Découvrir</span>
                                     <ChevronRight size={14} style={{ color: link.color }} />
                                 </div>

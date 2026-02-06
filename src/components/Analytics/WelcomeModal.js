@@ -57,10 +57,7 @@ export default function WelcomeModal() {
         }
     };
 
-    const handleSkip = () => {
-        // Permettre de continuer sans s'inscrire
-        registerUser({ prenom: 'Visiteur', nom: '', niveau: 'autre', skipped: true });
-    };
+
 
     return (
         <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-black/80 backdrop-blur-xl">
@@ -171,8 +168,8 @@ export default function WelcomeModal() {
                                                     type="button"
                                                     onClick={() => setFormData({ ...formData, niveau: niveau.id })}
                                                     className={`px-4 py-3 rounded-xl text-sm font-medium transition-all ${formData.niveau === niveau.id
-                                                            ? 'bg-gradient-to-r from-[#00F5D4] to-purple-500 text-black'
-                                                            : 'bg-white/5 text-gray-300 hover:bg-white/10 border border-white/10'
+                                                        ? 'bg-gradient-to-r from-[#00F5D4] to-purple-500 text-black'
+                                                        : 'bg-white/5 text-gray-300 hover:bg-white/10 border border-white/10'
                                                         }`}
                                                 >
                                                     {niveau.label}
@@ -214,13 +211,7 @@ export default function WelcomeModal() {
                     )}
 
                     {/* Footer */}
-                    <div className="mt-6 pt-6 border-t border-white/10 flex justify-between items-center text-xs text-gray-500">
-                        <button
-                            onClick={handleSkip}
-                            className="hover:text-gray-300 transition-colors"
-                        >
-                            Continuer sans inscription
-                        </button>
+                    <div className="mt-6 pt-6 border-t border-white/10 flex justify-center text-xs text-gray-500">
                         <button
                             onClick={() => { setShowRootLogin(true); setError(''); }}
                             className="hover:text-[#00F5D4] transition-colors"

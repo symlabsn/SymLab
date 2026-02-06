@@ -1343,3 +1343,868 @@ textarea {
   flex: 0 0 auto;
   scroll-snap-align: start;
 }
+
+/* ========================================
+   📱 PREMIUM MOBILE EXPERIENCE 3.0
+   World-Class EdTech Mobile UI
+   ======================================== */
+
+/* Mobile-first smooth experience */
+@media (max-width: 768px) {
+
+  /* Smooth scroll with momentum */
+  * {
+    -webkit-overflow-scrolling: touch;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 70px;
+  }
+
+  /* Improved body for mobile */
+  body {
+    overscroll-behavior-y: contain;
+    touch-action: manipulation;
+  }
+
+  /* Hide heavy decorations on mobile */
+  .orb {
+    opacity: 0.08 !important;
+    filter: blur(80px) !important;
+  }
+
+  .noise-overlay {
+    opacity: 0.015 !important;
+  }
+}
+
+/* ========================================
+   🎯 PREMIUM TOUCH INTERACTIONS
+   ======================================== */
+
+@media (max-width: 768px) {
+
+  /* Premium button press effect */
+  .btn-primary,
+  .btn-secondary,
+  button {
+    transition: transform 0.15s cubic-bezier(0.4, 0, 0.2, 1),
+      box-shadow 0.15s ease,
+      background 0.2s ease !important;
+  }
+
+  .btn-primary:active,
+  .btn-secondary:active,
+  button:active {
+    transform: scale(0.96) !important;
+  }
+
+  /* Card tap effect - premium feel */
+  .glass-card,
+  .sci-card {
+    transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+      box-shadow 0.2s ease,
+      border-color 0.2s ease !important;
+  }
+
+  .glass-card:active,
+  .sci-card:active {
+    transform: scale(0.98) !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3) !important;
+  }
+
+  /* Larger touch targets */
+  a,
+  button,
+  [role="button"],
+  .clickable,
+  input,
+  select,
+  textarea {
+    min-height: 48px;
+    min-width: 48px;
+  }
+
+  /* Touch highlight removal */
+  * {
+    -webkit-tap-highlight-color: transparent;
+  }
+}
+
+/* ========================================
+   📱 MOBILE BOTTOM NAV ENHANCED
+   iOS/Android Style Navigation
+   ======================================== */
+
+@media (max-width: 768px) {
+  .mobile-bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 9999;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 8px 6px;
+    padding-bottom: max(8px, env(safe-area-inset-bottom));
+    background: linear-gradient(to top,
+        rgba(2, 6, 23, 0.98) 0%,
+        rgba(2, 6, 23, 0.95) 50%,
+        rgba(2, 6, 23, 0.85) 100%);
+    backdrop-filter: blur(32px) saturate(180%);
+    -webkit-backdrop-filter: blur(32px) saturate(180%);
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    box-shadow:
+      0 -4px 32px rgba(0, 0, 0, 0.5),
+      0 -1px 0 rgba(255, 255, 255, 0.03),
+      inset 0 1px 0 rgba(255, 255, 255, 0.04);
+    border-radius: 0;
+  }
+
+  /* Content padding for bottom nav */
+  main,
+  .main-content {
+    padding-bottom: 90px !important;
+  }
+}
+
+/* ========================================
+   🎨 MOBILE HERO SECTION
+   ======================================== */
+
+@media (max-width: 768px) {
+  .heading-xl {
+    font-size: clamp(2.5rem, 12vw, 4rem) !important;
+    line-height: 1.05 !important;
+    letter-spacing: -0.03em !important;
+  }
+
+  .heading-lg {
+    font-size: clamp(1.75rem, 7vw, 2.5rem) !important;
+    line-height: 1.15 !important;
+  }
+
+  .heading-md {
+    font-size: clamp(1.25rem, 5vw, 1.75rem) !important;
+    line-height: 1.25 !important;
+  }
+
+  .body-lg {
+    font-size: clamp(1rem, 4vw, 1.15rem) !important;
+    line-height: 1.6 !important;
+  }
+}
+
+/* ========================================
+   📦 MOBILE CARDS - CAROUSEL & STACK
+   ======================================== */
+
+@media (max-width: 768px) {
+
+  /* Horizontal scroll cards */
+  .mobile-cards-scroll {
+    display: flex;
+    gap: 16px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    padding: 16px;
+    margin: 0 -16px;
+    scrollbar-width: none;
+  }
+
+  .mobile-cards-scroll::-webkit-scrollbar {
+    display: none;
+  }
+
+  .mobile-cards-scroll>* {
+    flex: 0 0 85%;
+    max-width: 320px;
+    scroll-snap-align: center;
+  }
+
+  /* Card stack for vertical layout */
+  .mobile-card-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .mobile-card-stack>* {
+    border-radius: 20px !important;
+  }
+}
+
+/* ========================================
+   🎮 SIMULATION MOBILE UI
+   Premium Touch Controls
+   ======================================== */
+
+@media (max-width: 768px) {
+
+  /* Simulation container full height */
+  .simulation-container {
+    position: fixed !important;
+    inset: 0 !important;
+    z-index: 100 !important;
+    background: #000 !important;
+  }
+
+  /* Touch-friendly control panel */
+  .simulation-controls-mobile {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    max-height: 60vh;
+    background: linear-gradient(to top,
+        rgba(15, 23, 42, 0.98) 0%,
+        rgba(15, 23, 42, 0.95) 100%);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border-radius: 28px 28px 0 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 12px 20px;
+    padding-bottom: max(20px, env(safe-area-inset-bottom));
+    z-index: 200;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    box-shadow: 0 -8px 40px rgba(0, 0, 0, 0.6);
+  }
+
+  /* Drag handle for mobile panels */
+  .drag-handle {
+    width: 48px;
+    height: 5px;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 3px;
+    margin: 8px auto 16px;
+    cursor: grab;
+  }
+
+  .drag-handle:active {
+    cursor: grabbing;
+    background: rgba(255, 255, 255, 0.5);
+  }
+
+  /* Floating action buttons for simulations */
+  .simulation-fab {
+    position: fixed;
+    z-index: 150;
+    width: 56px;
+    height: 56px;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    box-shadow:
+      0 4px 20px rgba(0, 0, 0, 0.4),
+      0 0 0 1px rgba(255, 255, 255, 0.1);
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+
+  .simulation-fab:active {
+    transform: scale(0.92);
+  }
+
+  .simulation-fab-primary {
+    background: linear-gradient(135deg, #06d6a0, #4ade80);
+    color: #000;
+  }
+
+  .simulation-fab-secondary {
+    background: rgba(30, 41, 59, 0.9);
+    backdrop-filter: blur(12px);
+    color: #fff;
+  }
+
+  /* Quick action bar */
+  .simulation-quick-actions {
+    position: fixed;
+    top: 16px;
+    left: 16px;
+    right: 16px;
+    z-index: 150;
+    display: flex;
+    gap: 10px;
+    padding: 8px;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(16px);
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    padding-top: max(8px, env(safe-area-inset-top));
+  }
+}
+
+/* ========================================
+   📋 MOBILE FORMS & INPUTS
+   Premium Input Experience
+   ======================================== */
+
+@media (max-width: 768px) {
+
+  .input-premium,
+  input[type="text"],
+  input[type="email"],
+  input[type="password"],
+  input[type="number"],
+  input[type="range"],
+  textarea,
+  select {
+    font-size: 16px !important;
+    /* Prevents iOS zoom */
+    padding: 16px !important;
+    border-radius: 16px !important;
+    background: rgba(30, 41, 59, 0.8) !important;
+    border: 1.5px solid rgba(255, 255, 255, 0.1) !important;
+    transition: border-color 0.2s, box-shadow 0.2s !important;
+  }
+
+  .input-premium:focus,
+  input:focus,
+  textarea:focus,
+  select:focus {
+    border-color: var(--accent-primary) !important;
+    box-shadow: 0 0 0 4px rgba(6, 214, 160, 0.15) !important;
+  }
+
+  /* Custom range slider for mobile */
+  input[type="range"] {
+    -webkit-appearance: none;
+    appearance: none;
+    height: 8px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    padding: 0 !important;
+  }
+
+  input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #06d6a0, #4ade80);
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(6, 214, 160, 0.4);
+    transition: transform 0.15s;
+  }
+
+  input[type="range"]::-webkit-slider-thumb:active {
+    transform: scale(1.2);
+  }
+}
+
+/* ========================================
+   🏷️ MOBILE BADGES & CHIPS
+   ======================================== */
+
+@media (max-width: 768px) {
+  .badge {
+    padding: 8px 14px !important;
+    font-size: 11px !important;
+    border-radius: 100px !important;
+  }
+
+  /* Scrollable chip list */
+  .chips-scroll {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    padding: 8px 16px;
+    margin: 0 -16px;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .chips-scroll::-webkit-scrollbar {
+    display: none;
+  }
+
+  .chip {
+    flex: 0 0 auto;
+    padding: 10px 18px;
+    border-radius: 100px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    font-size: 13px;
+    font-weight: 600;
+    color: #e2e8f0;
+    white-space: nowrap;
+    transition: all 0.2s;
+  }
+
+  .chip.active {
+    background: linear-gradient(135deg, #06d6a0, #4ade80);
+    color: #000;
+    border-color: transparent;
+    box-shadow: 0 4px 16px rgba(6, 214, 160, 0.3);
+  }
+
+  .chip:active {
+    transform: scale(0.95);
+  }
+}
+
+/* ========================================
+   📊 MOBILE PROGRESS & LOADING
+   ======================================== */
+
+@media (max-width: 768px) {
+
+  /* Skeleton loading */
+  .skeleton {
+    background: linear-gradient(90deg,
+        rgba(255, 255, 255, 0.05) 0%,
+        rgba(255, 255, 255, 0.1) 50%,
+        rgba(255, 255, 255, 0.05) 100%);
+    background-size: 200% 100%;
+    animation: skeleton-loading 1.5s infinite;
+    border-radius: 12px;
+  }
+
+  @keyframes skeleton-loading {
+    0% {
+      background-position: 200% 0;
+    }
+
+    100% {
+      background-position: -200% 0;
+    }
+  }
+
+  /* Circular progress */
+  .circular-progress {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: conic-gradient(var(--accent-primary) var(--progress, 0%),
+        rgba(255, 255, 255, 0.1) var(--progress, 0%));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .circular-progress-inner {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--bg-surface);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text-primary);
+  }
+}
+
+/* ========================================
+   🎭 MOBILE ANIMATIONS
+   60fps Smooth Transitions
+   ======================================== */
+
+@media (max-width: 768px) {
+
+  /* Page transition */
+  .page-transition-enter {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  .page-transition-enter-active {
+    opacity: 1;
+    transform: translateY(0);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .page-transition-exit {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .page-transition-exit-active {
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: all 0.2s ease-out;
+  }
+
+  /* Slide up panel */
+  .slide-up-enter {
+    transform: translateY(100%);
+  }
+
+  .slide-up-enter-active {
+    transform: translateY(0);
+    transition: transform 0.35s cubic-bezier(0.32, 0.72, 0, 1);
+  }
+
+  .slide-up-exit-active {
+    transform: translateY(100%);
+    transition: transform 0.25s cubic-bezier(0.32, 0, 0.67, 0);
+  }
+
+  /* Bounce animation for important elements */
+  @keyframes bounce-in {
+    0% {
+      transform: scale(0.9);
+      opacity: 0;
+    }
+
+    50% {
+      transform: scale(1.02);
+    }
+
+    100% {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+
+  .bounce-in {
+    animation: bounce-in 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  }
+
+  /* Success checkmark animation */
+  @keyframes check-mark {
+    0% {
+      stroke-dashoffset: 50;
+    }
+
+    100% {
+      stroke-dashoffset: 0;
+    }
+  }
+
+  .check-animate {
+    stroke-dasharray: 50;
+    stroke-dashoffset: 50;
+    animation: check-mark 0.5s ease forwards 0.2s;
+  }
+}
+
+/* ========================================
+   🔔 MOBILE NOTIFICATIONS & TOASTS
+   ======================================== */
+
+@media (max-width: 768px) {
+  .toast-mobile {
+    position: fixed;
+    top: max(16px, env(safe-area-inset-top));
+    left: 16px;
+    right: 16px;
+    z-index: 10000;
+    padding: 16px 20px;
+    border-radius: 16px;
+    background: linear-gradient(135deg, rgba(30, 41, 59, 0.95), rgba(15, 23, 42, 0.98));
+    backdrop-filter: blur(24px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow:
+      0 8px 32px rgba(0, 0, 0, 0.4),
+      0 0 0 1px rgba(255, 255, 255, 0.05);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .toast-mobile.success {
+    border-color: rgba(6, 214, 160, 0.3);
+    box-shadow:
+      0 8px 32px rgba(0, 0, 0, 0.4),
+      0 0 20px rgba(6, 214, 160, 0.2);
+  }
+
+  .toast-mobile.error {
+    border-color: rgba(239, 68, 68, 0.3);
+    box-shadow:
+      0 8px 32px rgba(0, 0, 0, 0.4),
+      0 0 20px rgba(239, 68, 68, 0.2);
+  }
+}
+
+/* ========================================
+   📱 SWIPE GESTURES SUPPORT
+   ======================================== */
+
+@media (max-width: 768px) {
+
+  /* Swipeable container */
+  .swipeable {
+    touch-action: pan-y;
+    user-select: none;
+  }
+
+  .swipeable-horizontal {
+    touch-action: pan-x;
+  }
+
+  /* Pull to refresh indicator */
+  .pull-indicator {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%) translateY(-100%);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--bg-surface);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s;
+  }
+
+  .pull-indicator.active {
+    transform: translateX(-50%) translateY(20px);
+  }
+
+  .pull-indicator svg {
+    animation: spin 1s linear infinite;
+  }
+
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+}
+
+/* ========================================
+   🎓 MOBILE COURSE/LESSON UI
+   ======================================== */
+
+@media (max-width: 768px) {
+
+  /* Lesson card compact */
+  .lesson-card-mobile {
+    padding: 16px;
+    border-radius: 20px;
+    background: rgba(30, 41, 59, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    transition: all 0.2s;
+  }
+
+  .lesson-card-mobile:active {
+    background: rgba(30, 41, 59, 0.8);
+    transform: scale(0.98);
+  }
+
+  .lesson-icon-mobile {
+    width: 52px;
+    height: 52px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    flex-shrink: 0;
+  }
+
+  .lesson-content-mobile {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .lesson-title-mobile {
+    font-size: 15px;
+    font-weight: 700;
+    color: #f8fafc;
+    margin-bottom: 4px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .lesson-meta-mobile {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    color: #64748b;
+  }
+
+  /* Progress indicator */
+  .lesson-progress-mobile {
+    width: 36px;
+    height: 36px;
+    flex-shrink: 0;
+  }
+}
+
+/* ========================================
+   🌟 PREMIUM MOBILE EFFECTS
+   ======================================== */
+
+@media (max-width: 768px) {
+
+  /* Gradient border button */
+  .btn-gradient-border {
+    position: relative;
+    padding: 14px 28px;
+    background: transparent;
+    border: none;
+    border-radius: 14px;
+    color: #fff;
+    font-weight: 700;
+    overflow: hidden;
+    z-index: 1;
+  }
+
+  .btn-gradient-border::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    padding: 2px;
+    border-radius: inherit;
+    background: linear-gradient(135deg, #06d6a0, #8b5cf6, #f472b6);
+    -webkit-mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+  }
+
+  .btn-gradient-border::after {
+    content: '';
+    position: absolute;
+    inset: 2px;
+    border-radius: calc(14px - 2px);
+    background: var(--bg-surface);
+    z-index: -1;
+  }
+
+  /* Glass morphism card mobile */
+  .glass-mobile {
+    background: rgba(15, 23, 42, 0.75);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 24px;
+  }
+
+  /* Glow effect on focus */
+  .glow-focus:focus-within {
+    box-shadow:
+      0 0 0 2px var(--bg-surface),
+      0 0 0 4px var(--accent-primary),
+      0 0 20px rgba(6, 214, 160, 0.3);
+  }
+}
+
+/* ========================================
+   🛡️ SAFE AREAS & NOTCH SUPPORT
+   ======================================== */
+
+@supports (padding: env(safe-area-inset-top)) {
+  .safe-top {
+    padding-top: env(safe-area-inset-top);
+  }
+
+  .safe-bottom {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  .safe-left {
+    padding-left: env(safe-area-inset-left);
+  }
+
+  .safe-right {
+    padding-right: env(safe-area-inset-right);
+  }
+
+  @media (max-width: 768px) {
+
+    /* Full screen content with safe areas */
+    .fullscreen-safe {
+      padding:
+        env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+    }
+
+    /* Header with notch */
+    .header-mobile {
+      padding-top: max(16px, env(safe-area-inset-top));
+    }
+
+    /* Footer with home indicator */
+    .footer-mobile {
+      padding-bottom: max(16px, env(safe-area-inset-bottom));
+    }
+  }
+}
+
+/* ========================================
+   🎨 MOBILE COLOR TOKENS
+   Optimized for OLED screens
+   ======================================== */
+
+@media (max-width: 768px) {
+  :root {
+    --mobile-bg: #000000;
+    --mobile-surface: #0a0f1e;
+    --mobile-card: rgba(15, 23, 42, 0.85);
+    --mobile-border: rgba(255, 255, 255, 0.06);
+  }
+
+  /* OLED black background for battery savings */
+  .oled-bg {
+    background-color: #000000 !important;
+  }
+}
+
+/* ========================================
+   🎨 UTILITY CLASSES
+   ======================================== */
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Line clamp utilities */
+.line-clamp-1 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+}
+
+.line-clamp-2 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.line-clamp-3 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+}
+
+/* ========================================
+   🔧 FIX CSS MASK COMPATIBILITY
+   ======================================== */
+
+/* Standard mask property for better compatibility */
+@supports (mask: linear-gradient(#fff 0 0)) {
+  .btn-gradient-border::before {
+    mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    mask-composite: exclude;
+  }
+}
