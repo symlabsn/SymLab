@@ -56,7 +56,7 @@ import { MotionRelativity, ChromatographyExperiment, ChemicalIdentification, Son
 import { ElectrisationSimulation, CircuitElectriqueSeconde, LoiOhmSeconde, GenerateurSeconde, AOPSimulation } from './Physique2ndeSimulations';
 import { MouvementSeconde, ForcesPoidsSeconde, Equilibre3ForcesSeconde, MomentForceSeconde } from './Physique2ndeSimulationsPart2';
 import { PropagationLumiereSeconde, ReflexionLumiereSeconde, RefractionDispersionSeconde } from './Physique2ndeSimulationsPart3';
-import { DilutionSimulation, TitrageAcideBase, DissolutionSimulation, EquationBalancer, LewisStructure, ChemicalTestsGamified } from './Chimie2SSimulations';
+import { DilutionSimulation, TitrageAcideBase, DissolutionSimulation, EquationBalancer, LewisStructure, ChemicalTestsGamified, BaseSolutionSimulation } from './Chimie2SSimulations';
 import { VirtualChemLab } from './VirtualChemLab';
 import { SeparationLab } from './Chimie2SImmersive';
 import { AtomicStructureAdvanced, MoleScaleAdvanced, LewisStructureAdvanced, EquationBalancerAdvanced } from './Chimie2SAdvanced';
@@ -4429,18 +4429,16 @@ export default function Simulation3D({ type = 'atom', config = {} }) {
                 return <ChromatographyExperiment />;
             case 'mole-scale':
                 return <MoleScale />;
-            case 'dilution-simulation':
-                return <DilutionSimulation />;
-            case 'titrage-acide-base':
-                return <TitrageAcideBase />;
+            // dilution-simulation et titrage-acide-base redirigent vers les versions avancées (voir ci-dessous)
             case 'dissolution-simulation':
                 return <DissolutionSimulation />;
             case 'equation-balancer':
                 return <EquationBalancer />;
             case 'lewis-structure':
                 return <LewisStructure />;
-            case 'chemical-tests-gamified':
-                return <ChemicalTestsGamified />;
+            case 'base-solution':
+                return <BaseSolutionSimulation />;
+            // chemical-tests-gamified redirige vers la version avancée (voir ci-dessous)
 
             // === CHIMIE 2NDE S - SIMULATIONS AVANCÃ‰ES (Mode DÃ©fi) ===
             case 'atomic-structure-seconde':

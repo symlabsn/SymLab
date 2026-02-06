@@ -632,7 +632,7 @@ export function SeparationLab() {
             {/* Message initial si aucun scénario */}
             {!scenario && (
                 <Float speed={2} floatIntensity={0.5}>
-                    <Text position={[0, 0.5, 0]} fontSize={0.16} color="#60A5FA" font="Inter" anchorX="center">
+                    <Text position={[0, 0.5, 0]} fontSize={0.16} color="#60A5FA" anchorX="center">
                         {phase === 'mission' ? "Choisissez la technique adaptée au défi !" : "Sélectionnez une technique pour explorer"}
                     </Text>
                 </Float>

@@ -6,6 +6,278 @@ import * as THREE from 'three';
 import DraggableHtmlPanel from './DraggableHtmlPanel';
 import { ConfettiExplosion, PhaseSelector, GradeBadge, ChallengeTimer, MissionObjective, XPBar, SuccessOverlay } from './GamificationUtils';
 
+// Helper components for Atom visuals
+function Nucleus({ Z, A }) {
+    const neutrons = A - Z;
+    // Generate positions for a spherical cluster
+    const particles = useMemo(() => {
+        const pts = [];
+        const count = A;
+        const phi = Math.PI * (3 - Math.sqrt(5)); // Golden angle
+
+        for (let i = 0; i < count; i++) {
+            const y = 1 - (i / (count - 1)) * 2; // y from 1 to -1
+            const r = Math.sqrt(1 - y * y); // radius at y
+            const theta = phi * i;
+            const radius = 0.4 * Math.pow(Math.random() * 0.2 + 0.8, 1 / 3); // Slight variation
+
+            pts.push({
+                pos: [
+                    Math.cos(theta) * r * radius,
+                    y * radius,
+                    Math.sin(theta) * r * radius
+                ],
+                type: i < Z ? 'proton' : 'neutron'
+            });
+        }
+        return pts;
+    }, [Z, A]);
+
+    return (
+        <group>
+            {particles.map((p, i) => (
+                <mesh key={i} position={p.pos}>
+                    <sphereGeometry args={[0.12, 16, 16]} />
+                    <meshStandardMaterial
+                        color={p.type === 'proton' ? '#EF4444' : '#64748B'}
+                        emissive={p.type === 'proton' ? '#7F1D1D' : '#1E293B'}
+                        emissiveIntensity={0.5}
+                        roughness={0.3}
+                    />
+                </mesh>
+            ))}
+            {/* Glow effect in the center */}
+            <mesh>
+                <sphereGeometry args={[0.3, 32, 32]} />
+                <meshStandardMaterial color="#F87171" transparent opacity={0.15} />
+            </mesh>
+        </group>
+    );
+}
+
+function Electron({ radius, angle: initialAngle, speed }) {
+    const meshRef = useRef();
+    useFrame((state) => {
+        const t = state.clock.getElapsedTime();
+        const angle = initialAngle + t * speed;
+        if (meshRef.current) {
+            meshRef.current.position.set(Math.cos(angle) * radius, 0, Math.sin(angle) * radius);
+        }
+    });
+
+    return (
+        <group>
+            <mesh ref={meshRef}>
+                <sphereGeometry args={[0.08, 16, 16]} />
+                <meshStandardMaterial color="#3B82F6" emissive="#3B82F6" emissiveIntensity={2} />
+                <pointLight distance={1.5} intensity={1} color="#3B82F6" />
+            </mesh>
+        </group>
+    );
+}
+
+function Bond({ start, end, count = 1 }) {
+    const mid = start.clone().add(end).multiplyScalar(0.5);
+    const dir = end.clone().sub(start);
+    const len = dir.length() * 0.75;
+    const lookAt = new THREE.Quaternion().setFromUnitVectors(new THREE.Vector3(0, 1, 0), dir.clone().normalize());
+
+    return (
+        <group position={mid.toArray()} quaternion={lookAt}>
+            {Array.from({ length: Math.round(count) }).map((_, i) => {
+                const offset = (i - (Math.round(count) - 1) / 2) * 0.15;
+                return (
+                    <group key={i} position={[offset, 0, 0]}>
+                        <mesh>
+                            <cylinderGeometry args={[0.04, 0.04, len, 8]} />
+                            <meshStandardMaterial color="#FFFFFF" emissive="#FFFFFF" emissiveIntensity={0.5} transparent opacity={0.6} />
+                        </mesh>
+                        {/* Glow */}
+                        <mesh scale={[1.5, 1, 1.5]}>
+                            <cylinderGeometry args={[0.05, 0.05, len, 8]} />
+                            <meshStandardMaterial color="#94A3B8" transparent opacity={0.2} />
+                        </mesh>
+                    </group>
+                );
+            })}
+        </group>
+    );
+}
+
+function LonePair({ position, rotation }) {
+    const groupRef = useRef();
+    useFrame((state) => {
+        const t = state.clock.getElapsedTime();
+        if (groupRef.current) {
+            groupRef.current.scale.setScalar(1 + Math.sin(t * 3) * 0.1);
+        }
+    });
+
+    return (
+        <group ref={groupRef} position={position} rotation={rotation}>
+            <mesh position={[-0.12, 0, 0]}>
+                <sphereGeometry args={[0.07, 16, 16]} />
+                <meshStandardMaterial color="#FACC15" emissive="#FACC15" emissiveIntensity={1.5} />
+            </mesh>
+            <mesh position={[0.12, 0, 0]}>
+                <sphereGeometry args={[0.07, 16, 16]} />
+                <meshStandardMaterial color="#FACC15" emissive="#FACC15" emissiveIntensity={1.5} />
+            </mesh>
+            {/* Connection line */}
+            <mesh rotation={[0, 0, Math.PI / 2]}>
+                <cylinderGeometry args={[0.015, 0.015, 0.24, 8]} />
+                <meshStandardMaterial color="#FACC15" transparent opacity={0.4} />
+            </mesh>
+        </group>
+    );
+}
+
+function Scale({ mass, subColor, count }) {
+    const weightRef = useRef();
+    useFrame((state) => {
+        if (weightRef.current) {
+            const targetY = -0.5 - (mass / 210) * 0.4;
+            weightRef.current.position.y += (targetY - weightRef.current.position.y) * 0.1;
+        }
+    });
+
+    return (
+        <group>
+            {/* Structure Balance */}
+            <mesh position={[0, -2.2, 0]}>
+                <cylinderGeometry args={[1.4, 1.6, 0.4, 32]} />
+                <meshStandardMaterial color="#1F2937" metalness={0.9} roughness={0.1} />
+            </mesh>
+            <mesh position={[0, -1.3, 0]}>
+                <cylinderGeometry args={[0.2, 0.2, 1.4, 16]} />
+                <meshStandardMaterial color="#4B5563" metalness={1} roughness={0.05} />
+            </mesh>
+
+            {/* Plateau */}
+            <group ref={weightRef}>
+                <mesh>
+                    <cylinderGeometry args={[1.6, 1.6, 0.15, 32]} />
+                    <meshStandardMaterial color="#CBD5E1" metalness={0.8} roughness={0.1} />
+                </mesh>
+
+                {/* Substance */}
+                <mesh position={[0, 0.5, 0]}>
+                    <sphereGeometry args={[0.5 + (mass / 200) * 0.5, 32, 32]} />
+                    <meshStandardMaterial color={subColor} emissive={subColor} emissiveIntensity={0.3} transparent opacity={0.9} />
+                </mesh>
+
+                {/* Particules Animées */}
+                {Array(Math.min(Math.floor(count * 20), 40)).fill(0).map((_, i) => (
+                    <Float key={i} speed={1.5} rotationIntensity={0.5} floatIntensity={0.3}>
+                        <mesh position={[Math.cos(i * 1.5) * 1.0, 0.6 + Math.random() * 0.8, Math.sin(i * 1.5) * 1.0]}>
+                            <sphereGeometry args={[0.07, 16, 16]} />
+                            <meshStandardMaterial color={subColor} emissive={subColor} emissiveIntensity={0.5} />
+                        </mesh>
+                    </Float>
+                ))}
+            </group>
+
+            {/* Affichage digital Premium */}
+            <group position={[0, -1.1, 1.4]} rotation={[-0.5, 0, 0]}>
+                <mesh>
+                    <boxGeometry args={[1.4, 0.5, 0.1]} />
+                    <meshStandardMaterial color="#020617" />
+                </mesh>
+                <mesh position={[0, 0.05, 0.04]}>
+                    <boxGeometry args={[1.2, 0.35, 0.02]} />
+                    <meshStandardMaterial color="#064e3b" />
+                </mesh>
+                <Text position={[0, 0.05, 0.06]} fontSize={0.22} color="#10b981" font="/fonts/Inter-Bold.woff" anchorX="center" anchorY="middle">
+                    {mass.toFixed(1)} g
+                </Text>
+            </group>
+        </group>
+    );
+}
+
+function Rocket({ isLaunching }) {
+    const groupRef = useRef();
+    const fireRef = useRef();
+
+    useFrame((state) => {
+        const t = state.clock.getElapsedTime();
+        if (groupRef.current) {
+            if (isLaunching) {
+                groupRef.current.position.y += 0.2;
+                groupRef.current.rotation.y += 0.1;
+                if (fireRef.current) {
+                    fireRef.current.scale.setScalar(1 + Math.sin(t * 20) * 0.2);
+                }
+            } else {
+                groupRef.current.position.y = 1;
+                groupRef.current.rotation.y = t * 0.5;
+            }
+        }
+    });
+
+    return (
+        <group ref={groupRef} position={[0, 1, 0]}>
+            {/* Body */}
+            <mesh position={[0, 1, 0]}>
+                <cylinderGeometry args={[0.3, 0.4, 2, 16]} />
+                <meshStandardMaterial color="#F8FAFC" metalness={0.8} roughness={0.2} />
+            </mesh>
+            {/* Nose */}
+            <mesh position={[0, 2.5, 0]}>
+                <coneGeometry args={[0.3, 1, 16]} />
+                <meshStandardMaterial color="#EF4444" metalness={0.5} />
+            </mesh>
+            {/* Fins */}
+            {[0, 1, 2, 3].map((i) => (
+                <mesh key={i} position={[Math.cos(i * Math.PI / 2) * 0.4, 0.3, Math.sin(i * Math.PI / 2) * 0.4]} rotation={[0, -i * Math.PI / 2, 0]}>
+                    <boxGeometry args={[0.1, 0.6, 0.6]} />
+                    <meshStandardMaterial color="#EF4444" />
+                </mesh>
+            ))}
+            {/* Fire */}
+            {isLaunching && (
+                <group ref={fireRef} position={[0, -0.5, 0]}>
+                    <mesh>
+                        <coneGeometry args={[0.3, 1.5, 16]} rotation={[Math.PI, 0, 0]} />
+                        <meshStandardMaterial color="#F59E0B" emissive="#EF4444" emissiveIntensity={2} transparent opacity={0.8} />
+                    </mesh>
+                    <pointLight distance={3} intensity={5} color="#F59E0B" />
+                </group>
+            )}
+        </group>
+    );
+}
+
+function FloatingMolecules({ molecules, coefficients, side }) {
+    return (
+        <group position={[side === 'left' ? -3 : 3, 0, 0]}>
+            {molecules.map((mol, i) => (
+                <group key={i} position={[i * 2 * (side === 'left' ? -1 : 1), 0, 0]}>
+                    <Float speed={2} rotationIntensity={0.5} floatIntensity={0.5}>
+                        <mesh>
+                            <sphereGeometry args={[0.4, 32, 32]} />
+                            <meshStandardMaterial
+                                color={side === 'left' ? '#3B82F6' : '#10B981'}
+                                emissive={side === 'left' ? '#1E3A8A' : '#064E3B'}
+                                emissiveIntensity={0.5}
+                                metalness={0.4}
+                                roughness={0.2}
+                            />
+                        </mesh>
+                        <Text position={[0, 0, 0.5]} fontSize={0.3} color="white" font="/fonts/Inter-Bold.woff" anchorX="center" anchorY="middle">
+                            {coefficients[i] > 1 ? `${coefficients[i]} ` : ''}{mol.f}
+                        </Text>
+                    </Float>
+                    {i < molecules.length - 1 && (
+                        <Text position={[1.1 * (side === 'left' ? -1 : 1), 0, 0]} fontSize={0.4} color="#475569" font="/fonts/Inter-Bold.woff">+</Text>
+                    )}
+                </group>
+            ))}
+        </group>
+    );
+}
+
+
 
 // =========================================================
 // C2. STRUCTURE ATOMIQUE - AMÉLIORÉE
@@ -140,10 +412,7 @@ export function AtomicStructureAdvanced() {
 
             <group position={[0, 0.5, 0]}>
                 <group ref={groupRef}>
-                    <mesh>
-                        <sphereGeometry args={[0.5, 32, 32]} />
-                        <meshStandardMaterial color="#EF4444" emissive="#7F1D1D" emissiveIntensity={0.5} />
-                    </mesh>
+                    <Nucleus Z={el.Z} A={el.A} />
 
                     {/* Shells */}
                     {showElectrons && el.config.map((count, i) => {
@@ -151,21 +420,18 @@ export function AtomicStructureAdvanced() {
                         return (
                             <group key={i}>
                                 <mesh rotation={[Math.PI / 2, 0, 0]}>
-                                    <torusGeometry args={[radius, 0.02, 16, 100]} />
-                                    <meshBasicMaterial color="white" transparent opacity={0.1} />
+                                    <torusGeometry args={[radius, 0.01, 16, 100]} />
+                                    <meshBasicMaterial color="white" transparent opacity={0.05} />
                                 </mesh>
                                 {Array(count).fill(0).map((_, eIdx) => {
                                     const angle = (eIdx / count) * Math.PI * 2;
                                     return (
-                                        <mesh key={eIdx} position={[Math.cos(angle) * radius, 0, Math.sin(angle) * radius]}>
-                                            <sphereGeometry args={[0.1, 16, 16]} />
-                                            <meshStandardMaterial color="#3B82F6" emissive="#3B82F6" emissiveIntensity={1} />
-                                        </mesh>
+                                        <Electron key={eIdx} radius={radius} angle={angle} speed={1 / (i + 1)} />
                                     );
                                 })}
                                 {showLabels && (
-                                    <Text position={[radius, 0.3, 0]} fontSize={0.2} color="gray" font="/fonts/Inter-Bold.woff">
-                                        {['K', 'L', 'M', 'N'][i]}
+                                    <Text position={[radius, 0.3, 0]} fontSize={0.15} color="#94A3B8" font="/fonts/Inter-Bold.woff" anchorX="left">
+                                        {['K', 'L', 'M', 'N'][i]} : {count}e⁻
                                     </Text>
                                 )}
                             </group>
@@ -368,50 +634,7 @@ export function MoleScaleAdvanced() {
             <pointLight position={[5, 10, 5]} intensity={1.5} />
 
             <group position={[0, -0.5, 0]}>
-                {/* Structure Balance */}
-                <mesh position={[0, -2, 0]}>
-                    <cylinderGeometry args={[1.2, 1.5, 0.4, 32]} />
-                    <meshStandardMaterial color="#1F2937" metalness={0.8} roughness={0.2} />
-                </mesh>
-                <mesh position={[0, -1.2, 0]}>
-                    <cylinderGeometry args={[0.2, 0.2, 1.2, 16]} />
-                    <meshStandardMaterial color="#4B5563" metalness={1} roughness={0.1} />
-                </mesh>
-
-                {/* Plateau */}
-                <group ref={weightRef} position={[0, -0.5, 0]}>
-                    <mesh>
-                        <cylinderGeometry args={[1.5, 1.5, 0.1, 32]} />
-                        <meshStandardMaterial color="#94A3B8" metalness={0.6} />
-                    </mesh>
-
-                    {/* Substance */}
-                    <mesh position={[0, 0.4, 0]}>
-                        <sphereGeometry args={[0.4 + (mass / 200) * 0.6, 32, 32]} />
-                        <meshStandardMaterial color={sub.color} emissive={sub.color} emissiveIntensity={0.2} />
-                    </mesh>
-
-                    {/* Particules */}
-                    {Array(Math.min(Math.floor(n * 20), 30)).fill(0).map((_, i) => (
-                        <Float key={i} speed={2} rotationIntensity={0} floatIntensity={0.2}>
-                            <mesh position={[Math.cos(i) * 0.8, 0.5 + Math.random() * 0.5, Math.sin(i) * 0.8]}>
-                                <sphereGeometry args={[0.08, 16, 16]} />
-                                <meshStandardMaterial color={sub.color} />
-                            </mesh>
-                        </Float>
-                    ))}
-                </group>
-
-                {/* Affichage digital */}
-                <group position={[0, -1, 1.2]} rotation={[-0.4, 0, 0]}>
-                    <mesh>
-                        <boxGeometry args={[1.2, 0.6, 0.1]} />
-                        <meshStandardMaterial color="#000" />
-                    </mesh>
-                    <Text position={[0, 0, 0.06]} fontSize={0.2} color="#00FFCC" font="/fonts/Inter-Bold.woff">
-                        {mass.toFixed(1)}g
-                    </Text>
-                </group>
+                <Scale mass={mass} subColor={sub.color} count={n} />
             </group>
 
             <Html transform={false}>
@@ -594,46 +817,30 @@ export function LewisStructureAdvanced() {
 
             <group position={[0, 0, 0]}>
                 <group ref={groupRef} scale={[1.5, 1.5, 1.5]}>
+                    {/* Atoms */}
                     {mol.atoms.map((atom, i) => (
                         <group key={i} position={atom.pos}>
                             <mesh>
                                 <sphereGeometry args={[atom.el === 'H' ? 0.25 : 0.45, 32, 32]} />
-                                <meshStandardMaterial color={atom.color} emissive={atom.color} emissiveIntensity={0.2} />
+                                <meshStandardMaterial color={atom.color} emissive={atom.color} emissiveIntensity={0.2} metalness={0.2} roughness={0.1} />
                             </mesh>
-                            <Text position={[0, 0, 0.55]} fontSize={0.2} color="white" font="/fonts/Inter-Bold.woff" anchorX="center">
+                            <Text position={[0, 0, 0.55]} fontSize={0.25} color="white" font="/fonts/Inter-Bold.woff" anchorX="center">
                                 {atom.el}
                             </Text>
                         </group>
                     ))}
 
-                    {/* Bonds */}
+                    {/* Bonds with Glow */}
                     {mol.atoms.length > 1 && mol.atoms.slice(1).map((atom, i) => {
                         const start = new THREE.Vector3(...mol.atoms[0].pos);
                         const end = new THREE.Vector3(...atom.pos);
-                        const mid = start.clone().add(end).multiplyScalar(0.5);
-                        const dir = end.clone().sub(start);
-                        const len = dir.length() * 0.7;
-                        return (
-                            <mesh key={i} position={mid.toArray()} quaternion={new THREE.Quaternion().setFromUnitVectors(new THREE.Vector3(0, 1, 0), dir.normalize())}>
-                                <cylinderGeometry args={[0.06, 0.06, len, 12]} />
-                                <meshStandardMaterial color="#64748B" metalness={0.5} roughness={0.3} />
-                            </mesh>
-                        );
+                        return <Bond key={i} start={start} end={end} count={mol.bonds / (mol.atoms.length - 1)} />;
                     })}
 
-                    {/* Non-Bonding Pairs */}
+                    {/* Non-Bonding Pairs with Animation */}
                     {mol.nonBonding > 0 && mol.atoms[0] && (
                         Array(Math.min(mol.nonBonding, 2)).fill(0).map((_, i) => (
-                            <group key={i} position={[0, 0.6, i === 0 ? 0.3 : -0.3]} rotation={[i === 0 ? 1 : -1, 0, 0]}>
-                                <mesh position={[-0.1, 0, 0]}>
-                                    <sphereGeometry args={[0.06, 16, 16]} />
-                                    <meshStandardMaterial color="#FACC15" emissive="#FACC15" emissiveIntensity={1} />
-                                </mesh>
-                                <mesh position={[0.1, 0, 0]}>
-                                    <sphereGeometry args={[0.06, 16, 16]} />
-                                    <meshStandardMaterial color="#FACC15" emissive="#FACC15" emissiveIntensity={1} />
-                                </mesh>
-                            </group>
+                            <LonePair key={i} position={[0, 0.7, i === 0 ? 0.4 : -0.4]} rotation={[i === 0 ? 0.5 : -0.5, 0, 0]} />
                         ))
                     )}
                 </group>
@@ -812,52 +1019,26 @@ export function EquationBalancerAdvanced() {
             <ambientLight intensity={0.6} />
             <pointLight position={[5, 10, 5]} intensity={1.5} />
 
-            <group position={[0, 0, 0]}>
+            <group position={[0, -1, 0]}>
+                {/* Launch Pad */}
+                <mesh position={[0, -0.5, 0]}>
+                    <cylinderGeometry args={[2.5, 3, 0.4, 32]} />
+                    <meshStandardMaterial color="#334155" metalness={0.8} roughness={0.2} />
+                </mesh>
+
+                <Rocket isLaunching={showSuccess} />
+
                 {/* Visual Representation of Molecules */}
                 <group position={[0, 1.5, 0]}>
-                    {/* Left Side (Reactants) */}
-                    <group position={[-2.5, 0, 0]}>
-                        {eq.reactants.map((mol, i) => (
-                            <group key={`r${i}`} position={[i * 2, 0, 0]}>
-                                <mesh>
-                                    <boxGeometry args={[1.5, 0.8, 0.4]} />
-                                    <meshStandardMaterial color="#3B82F6" metalness={0.6} roughness={0.2} emissive="#3B82F6" emissiveIntensity={0.2} />
-                                </mesh>
-                                <Text position={[0, 0, 0.25]} fontSize={0.3} color="white" font="/fonts/Inter-Bold.woff">
-                                    {coefficients[i] > 1 ? coefficients[i] : ''}{mol.f}
-                                </Text>
-                                {i < eq.reactants.length - 1 && (
-                                    <Text position={[1.1, 0, 0]} fontSize={0.4} color="gray" font="/fonts/Inter-Bold.woff">+</Text>
-                                )}
-                            </group>
-                        ))}
-                    </group>
-
-                    <Text position={[0, 0, 0]} fontSize={0.5} color="white" font="/fonts/Inter-Bold.woff">→</Text>
-
-                    {/* Right Side (Products) */}
-                    <group position={[1, 0, 0]}>
-                        {eq.products.map((mol, i) => (
-                            <group key={`p${i}`} position={[i * 2, 0, 0]}>
-                                <mesh>
-                                    <boxGeometry args={[1.5, 0.8, 0.4]} />
-                                    <meshStandardMaterial color="#22C55E" metalness={0.6} roughness={0.2} emissive="#22C55E" emissiveIntensity={0.2} />
-                                </mesh>
-                                <Text position={[0, 0, 0.25]} fontSize={0.3} color="white" font="/fonts/Inter-Bold.woff">
-                                    {coefficients[eq.reactants.length + i] > 1 ? coefficients[eq.reactants.length + i] : ''}{mol.f}
-                                </Text>
-                                {i < eq.products.length - 1 && (
-                                    <Text position={[1.1, 0, 0]} fontSize={0.4} color="gray" font="/fonts/Inter-Bold.woff">+</Text>
-                                )}
-                            </group>
-                        ))}
-                    </group>
+                    <FloatingMolecules molecules={eq.reactants} coefficients={coefficients.slice(0, eq.reactants.length)} side="left" />
+                    <Text position={[0, 1.5, 0]} fontSize={0.6} color="white" font="/fonts/Inter-Bold.woff">→</Text>
+                    <FloatingMolecules molecules={eq.products} coefficients={coefficients.slice(eq.reactants.length)} side="right" />
                 </group>
 
-                {isBalanced && (
+                {isBalanced && !showSuccess && (
                     <Float speed={4} floatIntensity={0.5}>
-                        <Text position={[0, -0.5, 0]} fontSize={0.4} color="#22C55E" font="/fonts/Inter-Bold.woff">
-                            ✓ ÉQUATION ÉQUILIBRÉE
+                        <Text position={[0, 4.5, 0]} fontSize={0.4} color="#10b981" font="/fonts/Inter-Bold.woff">
+                            ✓ ÉQUATION ÉQUILIBRÉE - PRÊT AU LANCEMENT !
                         </Text>
                     </Float>
                 )}

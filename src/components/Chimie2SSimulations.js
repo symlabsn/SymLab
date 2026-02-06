@@ -1635,3 +1635,388 @@ export function ChemicalTestsGamified() {
         </group>
     );
 }
+
+// =========================================================
+// 7. SOLUTION AQUEUSE BASIQUE - C8 (Gamifiée)
+// =========================================================
+export function BaseSolutionSimulation() {
+    const [selectedBase, setSelectedBase] = useState('NaOH');
+    const [concentration, setConcentration] = useState(0.1);
+    const [isDissolving, setIsDissolving] = useState(false);
+    const [progress, setProgress] = useState(0);
+    const [ions, setIons] = useState([]);
+
+    // Gamification
+    const [phase, setPhase] = useState('mission');
+    const [score, setScore] = useState(0);
+    const [showSuccess, setShowSuccess] = useState(false);
+    const [mission, setMission] = useState(null);
+    const [timeLeft, setTimeLeft] = useState(45);
+    const [level, setLevel] = useState(1);
+
+    // Base data
+    const bases = useMemo(() => ({
+        NaOH: {
+            name: 'Hydroxyde de Sodium (Soude)',
+            formula: 'NaOH → Na⁺ + OH⁻',
+            type: 'forte',
+            cation: 'Na⁺',
+            anion: 'OH⁻',
+            cationColor: '#8B5CF6',
+            anionColor: '#3B82F6',
+            solidColor: '#F5F5F5',
+            info: 'Base forte, dissociation totale. Utilisée dans le savon.',
+            pKb: 0
+        },
+        KOH: {
+            name: 'Hydroxyde de Potassium (Potasse)',
+            formula: 'KOH → K⁺ + OH⁻',
+            type: 'forte',
+            cation: 'K⁺',
+            anion: 'OH⁻',
+            cationColor: '#EC4899',
+            anionColor: '#3B82F6',
+            solidColor: '#E5E5E5',
+            info: 'Base forte, utilisée dans les batteries.',
+            pKb: 0
+        },
+        NH3: {
+            name: 'Ammoniac',
+            formula: 'NH₃ + H₂O ⇌ NH₄⁺ + OH⁻',
+            type: 'faible',
+            cation: 'NH₄⁺',
+            anion: 'OH⁻',
+            cationColor: '#10B981',
+            anionColor: '#3B82F6',
+            solidColor: '#E8F5E9',
+            info: 'Base faible, dissociation partielle. Odeur piquante.',
+            pKb: 4.75
+        },
+        CaOH2: {
+            name: 'Hydroxyde de Calcium (Chaux)',
+            formula: 'Ca(OH)₂ → Ca²⁺ + 2OH⁻',
+            type: 'forte',
+            cation: 'Ca²⁺',
+            anion: 'OH⁻',
+            cationColor: '#F59E0B',
+            anionColor: '#3B82F6',
+            solidColor: '#FEF3C7',
+            info: 'Base forte, peu soluble. Utilisée en construction.',
+            pKb: 0
+        }
+    }), []);
+
+    const currentBase = bases[selectedBase];
+
+    // Calculate pH based on concentration and base type
+    const pOH = currentBase.type === 'forte'
+        ? -Math.log10(concentration)
+        : 0.5 * (currentBase.pKb - Math.log10(concentration));
+    const pH = Math.min(14, Math.max(7, 14 - pOH));
+
+    // Missions
+    const missions = useMemo(() => [
+        { id: 1, title: 'Soude Caustique', objective: 'Dissous de la soude (NaOH) et observe les ions.', targetBase: 'NaOH', points: 300 },
+        { id: 2, title: 'Potasse Industrielle', objective: 'Prépare une solution de potasse (KOH).', targetBase: 'KOH', points: 350 },
+        { id: 3, title: 'Ammoniaque Ménager', objective: 'Observe la dissolution partielle de l\'ammoniac.', targetBase: 'NH3', points: 400 },
+        { id: 4, title: 'Eau de Chaux', objective: 'Prépare de l\'eau de chaux (Ca(OH)₂).', targetBase: 'CaOH2', points: 450 }
+    ], []);
+
+    useEffect(() => {
+        if (phase === 'mission' && !mission) {
+            setMission(missions[Math.min(level - 1, missions.length - 1)]);
+            setTimeLeft(45);
+        }
+    }, [phase, mission, missions, level]);
+
+    useEffect(() => {
+        let timer;
+        if (phase === 'mission' && timeLeft > 0 && !showSuccess && mission) {
+            timer = setInterval(() => setTimeLeft(prev => prev - 1), 1000);
+        }
+        return () => clearInterval(timer);
+    }, [phase, timeLeft, showSuccess, mission]);
+
+    // Check mission success
+    useEffect(() => {
+        if (phase === 'mission' && mission && progress >= 1 && selectedBase === mission.targetBase && !showSuccess) {
+            setScore(prev => prev + mission.points);
+            setShowSuccess(true);
+        }
+    }, [progress, phase, mission, selectedBase, showSuccess]);
+
+    const startDissolution = () => {
+        setIsDissolving(true);
+        setProgress(0);
+
+        // Generate ions based on dissociation
+        const ionCount = currentBase.type === 'forte' ? 50 : 25;
+        const newIons = [];
+        for (let i = 0; i < ionCount; i++) {
+            newIons.push({
+                id: i,
+                type: i % 2, // 0 = cation, 1 = anion (OH-)
+                startX: (Math.random() - 0.5) * 0.6,
+                startY: 1.5,
+                startZ: (Math.random() - 0.5) * 0.6,
+                targetX: (Math.random() - 0.5) * 2.5,
+                targetY: -1.5 + Math.random() * 2.5,
+                targetZ: (Math.random() - 0.5) * 2.5,
+                delay: Math.random() * 1.5,
+                speed: 0.4 + Math.random() * 0.4
+            });
+        }
+        setIons(newIons);
+    };
+
+    useFrame((state, delta) => {
+        if (isDissolving && progress < 1) {
+            setProgress(p => Math.min(1, p + delta * 0.35));
+        }
+    });
+
+    const nextMission = () => {
+        setShowSuccess(false);
+        setLevel(l => Math.min(l + 1, missions.length));
+        setMission(null);
+        setIsDissolving(false);
+        setProgress(0);
+        setIons([]);
+    };
+
+    const reset = () => {
+        setIsDissolving(false);
+        setProgress(0);
+        setIons([]);
+    };
+
+    // Get solution color based on pH
+    const getSolutionColor = () => {
+        if (pH < 8) return '#22D3EE'; // Slightly cyan
+        if (pH < 10) return '#60A5FA'; // Light blue
+        if (pH < 12) return '#3B82F6'; // Blue
+        return '#1D4ED8'; // Deep blue
+    };
+
+    return (
+        <group>
+            <OrbitControls enableZoom={false} />
+            <ambientLight intensity={0.6} />
+            <pointLight position={[10, 10, 10]} intensity={1.5} />
+            <pointLight position={[-5, 5, -5]} intensity={0.5} color="#3B82F6" />
+
+            {/* Beaker Premium */}
+            <mesh position={[0, -0.5, 0]}>
+                <cylinderGeometry args={[1.6, 1.5, 4.2, 48, 1, true]} />
+                <meshPhysicalMaterial
+                    color="#fff"
+                    transmission={0.95}
+                    thickness={0.5}
+                    roughness={0.05}
+                    transparent
+                    opacity={0.3}
+                    side={THREE.DoubleSide}
+                />
+            </mesh>
+
+            {/* Solution liquide */}
+            <mesh position={[0, -1, 0]}>
+                <cylinderGeometry args={[1.5, 1.4, 3, 32]} />
+                <meshStandardMaterial
+                    color={getSolutionColor()}
+                    transparent
+                    opacity={0.15 + progress * 0.35}
+                    roughness={0.1}
+                    metalness={0.1}
+                />
+            </mesh>
+
+            {/* Solide non dissous */}
+            {!isDissolving && (
+                <Float speed={3} rotationIntensity={0.5} floatIntensity={0.5}>
+                    <group position={[0, 1.5, 0]}>
+                        {/* Pastille/Grain de base */}
+                        <mesh>
+                            <cylinderGeometry args={[0.4, 0.4, 0.3, 32]} />
+                            <meshStandardMaterial
+                                color={currentBase.solidColor}
+                                metalness={0.3}
+                                roughness={0.4}
+                            />
+                        </mesh>
+                        <Text position={[0, 0.5, 0]} fontSize={0.2} color="#3B82F6">
+                            {selectedBase}
+                        </Text>
+                    </group>
+                </Float>
+            )}
+
+            {/* Ions animés */}
+            {isDissolving && ions.map((ion) => {
+                const t = Math.min(1, Math.max(0, (progress - ion.delay * 0.2) * ion.speed * 2));
+                const x = ion.startX + (ion.targetX - ion.startX) * t;
+                const y = ion.startY + (ion.targetY - ion.startY) * t;
+                const z = ion.startZ + (ion.targetZ - ion.startZ) * t;
+                const color = ion.type === 0 ? currentBase.cationColor : currentBase.anionColor;
+                const size = ion.type === 1 ? 0.1 : 0.08; // OH- plus gros
+
+                return (
+                    <mesh key={ion.id} position={[x, y, z]}>
+                        <sphereGeometry args={[size]} />
+                        <meshStandardMaterial
+                            color={color}
+                            emissive={color}
+                            emissiveIntensity={0.8}
+                        />
+                    </mesh>
+                );
+            })}
+
+            {/* pH Meter Holographique */}
+            <group position={[2.5, 1, 0]}>
+                <Box args={[1.4, 1, 0.1]}>
+                    <meshStandardMaterial color="#0F172A" emissive="#1E293B" emissiveIntensity={0.3} />
+                </Box>
+                <Text position={[0, 0.2, 0.1]} fontSize={0.35} color={pH > 11 ? "#3B82F6" : "#60A5FA"}>
+                    {pH.toFixed(2)}
+                </Text>
+                <Text position={[0, -0.25, 0.1]} fontSize={0.12} color="#94A3B8">
+                    pH-MÈTRE
+                </Text>
+                <Text position={[0, 0.55, 0.1]} fontSize={0.1} color="#22C55E">
+                    BASIQUE
+                </Text>
+            </group>
+
+            {/* Légende Ions */}
+            <group position={[-2.5, 1.5, 0]}>
+                <Sphere args={[0.15]} position={[0, 0, 0]}>
+                    <meshStandardMaterial color={currentBase.cationColor} emissive={currentBase.cationColor} emissiveIntensity={0.5} />
+                </Sphere>
+                <Text position={[0.5, 0, 0]} fontSize={0.15} color="white" anchorX="left">
+                    {currentBase.cation}
+                </Text>
+                <Sphere args={[0.18]} position={[0, -0.5, 0]}>
+                    <meshStandardMaterial color={currentBase.anionColor} emissive={currentBase.anionColor} emissiveIntensity={0.5} />
+                </Sphere>
+                <Text position={[0.5, -0.5, 0]} fontSize={0.15} color="white" anchorX="left">
+                    {currentBase.anion} (Hydroxyde)
+                </Text>
+            </group>
+
+            <Html transform={false}>
+                <DraggableHtmlPanel title="🧪 Labo des Bases" className="w-[420px] border-blue-500/30 text-white" defaultPosition="bottom-right">
+                    <PhaseSelector currentPhase={phase} onSelect={setPhase} />
+
+                    <div className="flex justify-between items-center mb-4 border-b border-white/10 pb-2 mt-4">
+                        <div className="flex flex-col">
+                            <span className="text-[10px] text-blue-400 font-black uppercase tracking-widest leading-tight">Solutions Basiques</span>
+                            <span className="text-lg font-black">{phase === 'explore' ? 'Exploration' : 'Mission Chimiste 🎯'}</span>
+                        </div>
+                        <GradeBadge score={score} />
+                    </div>
+
+                    {phase === 'mission' && mission && (
+                        <div className="mb-4 space-y-2">
+                            <ChallengeTimer timeLeft={timeLeft} maxTime={45} />
+                            <MissionObjective objective={mission.objective} icon="🧪" />
+                        </div>
+                    )}
+
+                    <div className="space-y-4">
+                        {/* Sélection de la base */}
+                        <div>
+                            <div className="text-[10px] text-gray-500 font-black uppercase tracking-widest mb-2">Choisir une Base</div>
+                            <div className="grid grid-cols-4 gap-1.5">
+                                {Object.keys(bases).map(key => (
+                                    <button
+                                        key={key}
+                                        onClick={() => { setSelectedBase(key); reset(); }}
+                                        className={`py-2.5 rounded-lg text-[10px] font-black transition-all border-b-4 active:border-b-0 active:translate-y-1 ${selectedBase === key
+                                            ? 'bg-blue-600 border-blue-800 text-white shadow-lg shadow-blue-600/20'
+                                            : 'bg-gray-800 border-gray-900 text-gray-400 hover:bg-gray-700'}`}
+                                    >
+                                        {key}
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
+
+                        {/* Info sur la base */}
+                        <div className="bg-gradient-to-br from-blue-900/30 to-indigo-900/20 p-4 rounded-2xl border border-blue-500/20 relative overflow-hidden">
+                            <div className="flex items-center gap-4 relative z-10">
+                                <div className="w-12 h-12 rounded-xl flex items-center justify-center bg-blue-500/20 border border-blue-500/30">
+                                    <div className="w-6 h-6 rounded-sm" style={{ backgroundColor: currentBase.solidColor, boxShadow: `0 0 15px ${currentBase.anionColor}` }} />
+                                </div>
+                                <div className="flex-1">
+                                    <h3 className="text-sm font-black text-white">{currentBase.name}</h3>
+                                    <p className="text-[10px] text-gray-400 italic mt-0.5">{currentBase.info}</p>
+                                </div>
+                            </div>
+
+                            <div className="mt-3 flex items-center gap-2">
+                                <span className={`px-2 py-1 rounded-full text-[9px] font-black uppercase ${currentBase.type === 'forte' ? 'bg-blue-500/20 text-blue-400 border border-blue-500/30' : 'bg-amber-500/20 text-amber-400 border border-amber-500/30'}`}>
+                                    Base {currentBase.type}
+                                </span>
+                                {currentBase.type === 'faible' && (
+                                    <span className="text-[9px] text-gray-500">pKb = {currentBase.pKb}</span>
+                                )}
+                            </div>
+                        </div>
+
+                        {/* Équation de dissociation */}
+                        <div className="p-3 bg-blue-500/5 rounded-xl border border-blue-500/10 text-center">
+                            <p className="text-[10px] font-black text-blue-400 mb-1 uppercase tracking-widest">Équation de Dissociation</p>
+                            <p className="font-mono text-sm text-white bg-black/30 py-2 px-4 rounded-lg border border-white/5">{currentBase.formula}</p>
+                        </div>
+
+                        {/* Concentration slider */}
+                        <div className="bg-gray-900/50 p-3 rounded-xl border border-white/5">
+                            <div className="flex justify-between items-center mb-2">
+                                <span className="text-[10px] text-gray-500 font-black uppercase tracking-widest">Concentration C</span>
+                                <span className="text-blue-400 font-mono font-bold">{concentration.toExponential(1)} mol/L</span>
+                            </div>
+                            <input
+                                type="range"
+                                min="-3" max="0" step="0.1"
+                                value={Math.log10(concentration)}
+                                onChange={e => setConcentration(Math.pow(10, Number(e.target.value)))}
+                                className="w-full h-1.5 bg-blue-900/50 rounded-full accent-blue-500 cursor-pointer"
+                            />
+                        </div>
+
+                        {/* Résultats */}
+                        <div className="grid grid-cols-2 gap-3">
+                            <div className="bg-black/40 p-3 rounded-xl border border-blue-500/20 text-center">
+                                <div className="text-[9px] text-gray-500 uppercase tracking-widest mb-1">pH Calculé</div>
+                                <div className="text-2xl font-black text-blue-400">{pH.toFixed(2)}</div>
+                                <div className="text-[8px] text-gray-600 mt-1">pH = 14 - pOH</div>
+                            </div>
+                            <div className="bg-black/40 p-3 rounded-xl border border-blue-500/20 text-center">
+                                <div className="text-[9px] text-gray-500 uppercase tracking-widest mb-1">[OH⁻]</div>
+                                <div className="text-lg font-black text-blue-400">{(concentration * (currentBase.type === 'forte' ? 1 : 0.1)).toExponential(1)}</div>
+                                <div className="text-[8px] text-gray-600 mt-1">mol/L</div>
+                            </div>
+                        </div>
+
+                        {/* Bouton Dissoudre */}
+                        <button
+                            onClick={startDissolution}
+                            disabled={isDissolving && progress < 1}
+                            className={`w-full py-4 rounded-xl font-black text-xs uppercase tracking-widest transition-all shadow-xl active:scale-95 ${isDissolving && progress < 1
+                                ? 'bg-gray-800 text-gray-600 cursor-not-allowed border border-white/5'
+                                : 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-blue-900/40 hover:from-blue-500 hover:to-indigo-500'}`}
+                        >
+                            {isDissolving && progress < 1 ? `Dissolution... ${Math.round(progress * 100)}%` : '💧 Dissoudre la Base'}
+                        </button>
+
+                        <XPBar current={score % 1500} nextLevel={1500} />
+                    </div>
+                </DraggableHtmlPanel>
+            </Html>
+
+            <SuccessOverlay show={showSuccess} message={mission?.title || "Solution Basique Préparée !"} points={mission?.points || 300} onNext={nextMission} />
+            <ConfettiExplosion active={showSuccess} />
+        </group>
+    );
+}

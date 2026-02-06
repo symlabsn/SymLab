@@ -15,6 +15,302 @@ import {
 } from './GamificationUtils';
 
 // =========================================================
+// PREMIUM GLASSWARE COMPONENTS
+// =========================================================
+
+function Liquid({ color, level, width = 0.5, height = 1.8, shape = 'cylinder' }) {
+    const meshRef = useRef();
+    useFrame((state) => {
+        if (meshRef.current) {
+            meshRef.current.position.y = Math.sin(state.clock.elapsedTime * 2) * 0.01;
+        }
+    });
+
+    if (shape === 'flask') {
+        return (
+            <group position={[0, -0.6 + (level * 0.8), 0]}>
+                <mesh scale={[level, level, level]}>
+                    <sphereGeometry args={[width, 32, 16, 0, Math.PI * 2, Math.PI * 0.3, Math.PI * 0.7]} />
+                    <meshStandardMaterial color={color} transparent opacity={0.8} emissive={color} emissiveIntensity={0.2} />
+                </mesh>
+            </group>
+        );
+    }
+
+    return (
+        <mesh ref={meshRef} position={[0, -height / 2 + (level * height / 2), 0]}>
+            <cylinderGeometry args={[width * 0.95, width * 0.98, height * level, 32]} />
+            <meshStandardMaterial color={color} transparent opacity={0.8} emissive={color} emissiveIntensity={0.2} />
+        </mesh>
+    );
+}
+
+function Beaker({ position, label, Ci, color, liquidLevel = 0.6 }) {
+    return (
+        <group position={position}>
+            {/* Glass Body */}
+            <mesh>
+                <cylinderGeometry args={[0.5, 0.5, 1.8, 32, 1, true]} />
+                <meshPhysicalMaterial
+                    color="#fff"
+                    transmission={0.95}
+                    thickness={0.2}
+                    roughness={0}
+                    transparent
+                    opacity={0.3}
+                    side={THREE.DoubleSide}
+                />
+            </mesh>
+            {/* Base */}
+            <mesh position={[0, -0.9, 0]}>
+                <cylinderGeometry args={[0.5, 0.5, 0.05, 32]} />
+                <meshPhysicalMaterial color="#fff" transmission={0.9} transparent opacity={0.4} />
+            </mesh>
+            {/* Liquid */}
+            <Liquid color={color} level={liquidLevel} width={0.5} height={1.7} />
+
+            <Text position={[0, -1.3, 0]} fontSize={0.15} color="white" font="/fonts/Inter-Bold.woff" anchorX="center">{label}</Text>
+            {Ci !== undefined && (
+                <Text position={[0, -1.6, 0]} fontSize={0.12} color="#60A5FA" anchorX="center">Ci : {Ci} mol/L</Text>
+            )}
+        </group>
+    );
+}
+
+function VolumetricFlask({ position, label, Cf, color, liquidLevel = 0.4 }) {
+    return (
+        <group position={position}>
+            {/* Flask Bottom */}
+            <mesh>
+                <sphereGeometry args={[0.7, 32, 16, 0, Math.PI * 2, 0, Math.PI * 0.75]} />
+                <meshPhysicalMaterial color="#fff" transmission={0.95} thickness={0.2} transparent opacity={0.3} side={THREE.DoubleSide} />
+            </mesh>
+            {/* Neck */}
+            <mesh position={[0, 0.8, 0]}>
+                <cylinderGeometry args={[0.12, 0.18, 1.0, 24, 1, true]} />
+                <meshPhysicalMaterial color="#fff" transmission={0.95} thickness={0.1} transparent opacity={0.3} side={THREE.DoubleSide} />
+            </mesh>
+            {/* Graduation Mark */}
+            <mesh position={[0, 1.0, 0]}>
+                <torusGeometry args={[0.13, 0.005, 8, 32]} />
+                <meshStandardMaterial color="#EF4444" emissive="#EF4444" emissiveIntensity={2} />
+            </mesh>
+            {/* Liquid */}
+            <group position={[0, -0.1, 0]}>
+                <mesh>
+                    <sphereGeometry args={[0.67, 32, 16, 0, Math.PI * 2, Math.PI * (1 - liquidLevel), Math.PI * liquidLevel]} />
+                    <meshStandardMaterial color={color} transparent opacity={0.7} emissive={color} emissiveIntensity={0.1} />
+                </mesh>
+                {liquidLevel > 0.7 && (
+                    <mesh position={[0, 0.6, 0]}>
+                        <cylinderGeometry args={[0.11, 0.11, (liquidLevel - 0.7) * 2, 24]} />
+                        <meshStandardMaterial color={color} transparent opacity={0.7} />
+                    </mesh>
+                )}
+            </group>
+
+            <Text position={[0, -1.3, 0]} fontSize={0.15} color="white" font="/fonts/Inter-Bold.woff" anchorX="center">{label}</Text>
+            {Cf !== undefined && (
+                <Text position={[0, -1.6, 0]} fontSize={0.12} color="#22C55E" anchorX="center">Cf : {Cf.toFixed(3)} mol/L</Text>
+            )}
+        </group>
+    );
+}
+
+function Burette({ volumeBase }) {
+    return (
+        <group position={[0, 2.5, 0]}>
+            {/* Tube */}
+            <mesh>
+                <cylinderGeometry args={[0.08, 0.08, 4.0, 16, 1, true]} />
+                <meshPhysicalMaterial color="#fff" transmission={0.95} thickness={0.05} transparent opacity={0.3} side={THREE.DoubleSide} />
+            </mesh>
+            {/* Liquid inside */}
+            <mesh position={[0, (40 - volumeBase) / 20 - 1.0, 0]}>
+                <cylinderGeometry args={[0.07, 0.07, (40 - volumeBase) / 10, 16]} />
+                <meshStandardMaterial color="#E0E7FF" transparent opacity={0.6} />
+            </mesh>
+            {/* Stopcock (Robinet) */}
+            <group position={[0, -2.1, 0]}>
+                <mesh>
+                    <cylinderGeometry args={[0.05, 0.05, 0.3, 12]} rotation={[0, 0, Math.PI / 2]} />
+                    <meshStandardMaterial color="#475569" />
+                </mesh>
+                <mesh position={[0, -0.2, 0]}>
+                    <coneGeometry args={[0.03, 0.1, 8]} rotation={[Math.PI, 0, 0]} />
+                    <meshStandardMaterial color="#475569" />
+                </mesh>
+            </group>
+
+            {/* Graduations */}
+            {Array.from({ length: 9 }).map((_, i) => (
+                <mesh key={i} position={[0.08, 1.8 - i * 0.45, 0]}>
+                    <boxGeometry args={[0.04, 0.005, 0.01]} />
+                    <meshBasicMaterial color="#fff" />
+                </mesh>
+            ))}
+
+            <Text position={[0.4, 1.5, 0]} fontSize={0.15} color="white" font="/fonts/Inter-Bold.woff" anchorX="left">BURETTE (NaOH)</Text>
+        </group>
+    );
+}
+
+function Erlenmeyer({ position, color, label }) {
+    return (
+        <group position={position}>
+            {/* Glass Body */}
+            <mesh>
+                <cylinderGeometry args={[0.3, 1.0, 2.0, 32, 1, true]} />
+                <meshPhysicalMaterial color="#fff" transmission={0.95} thickness={0.15} transparent opacity={0.2} side={THREE.DoubleSide} />
+            </mesh>
+            {/* Liquid */}
+            <mesh position={[0, -0.4, 0]}>
+                <cylinderGeometry args={[0.28, 0.85, 1.1, 32]} />
+                <meshStandardMaterial color={color} transparent opacity={0.8} emissive={color} emissiveIntensity={0.2} />
+            </mesh>
+            {/* Magnetic Stir bar (Barreau aimanté) */}
+            <MagneticBar position={[0, -0.9, 0]} />
+
+            <Text position={[0, -1.6, 0]} fontSize={0.15} color="white" font="/fonts/Inter-Bold.woff" anchorX="center">{label}</Text>
+        </group>
+    );
+}
+
+function MagneticBar({ position }) {
+    const ref = useRef();
+    useFrame((state) => {
+        if (ref.current) ref.current.rotation.y = state.clock.elapsedTime * 10;
+    });
+    return (
+        <mesh ref={ref} position={position}>
+            <capsuleGeometry args={[0.03, 0.25, 4, 8]} rotation={[0, 0, Math.PI / 2]} />
+            <meshStandardMaterial color="#fff" />
+        </mesh>
+    );
+}
+function MagneticStirrer({ position }) {
+    return (
+        <group position={position}>
+            {/* Base */}
+            <mesh>
+                <boxGeometry args={[2.5, 0.4, 2.5]} />
+                <meshStandardMaterial color="#334155" metalness={0.5} roughness={0.5} />
+            </mesh>
+            {/* Plate */}
+            <mesh position={[0, 0.25, 0]}>
+                <boxGeometry args={[2.2, 0.1, 2.2]} />
+                <meshStandardMaterial color="#F8FAFC" />
+            </mesh>
+            {/* Knobs */}
+            <mesh position={[-0.6, 0.1, 1.3]}>
+                <cylinderGeometry args={[0.1, 0.1, 0.1, 12]} rotation={[Math.PI / 2, 0, 0]} />
+                <meshStandardMaterial color="#1E293B" />
+            </mesh>
+            <mesh position={[0.6, 0.1, 1.3]}>
+                <cylinderGeometry args={[0.1, 0.1, 0.1, 12]} rotation={[Math.PI / 2, 0, 0]} />
+                <meshStandardMaterial color="#1E293B" />
+            </mesh>
+        </group>
+    );
+}
+
+function TestTube({ position, color, label, subLabel, onClick, isSelected }) {
+    return (
+        <group position={position} onClick={onClick}>
+            {/* Glass Body */}
+            <mesh>
+                <cylinderGeometry args={[0.25, 0.25, 1.8, 32, 1, true]} />
+                <meshPhysicalMaterial
+                    color="#fff"
+                    transmission={0.95}
+                    thickness={0.1}
+                    transparent
+                    opacity={isSelected ? 0.5 : 0.3}
+                    side={THREE.DoubleSide}
+                />
+            </mesh>
+            {/* Selection Ring */}
+            {isSelected && (
+                <group position={[0, 1.1, 0]}>
+                    <mesh rotation={[Math.PI / 2, 0, 0]}>
+                        <torusGeometry args={[0.3, 0.02, 16, 32]} />
+                        <meshBasicMaterial color="#3B82F6" />
+                    </mesh>
+                </group>
+            )}
+            {/* Rounded Bottom */}
+            <mesh position={[0, -0.9, 0]}>
+                <sphereGeometry args={[0.25, 32, 16, 0, Math.PI * 2, Math.PI / 2, Math.PI / 2]} />
+                <meshPhysicalMaterial color="#fff" transmission={0.95} thickness={0.1} transparent opacity={0.3} side={THREE.DoubleSide} />
+            </mesh>
+            {/* Liquid */}
+            <mesh position={[0, -0.2, 0]}>
+                <cylinderGeometry args={[0.23, 0.23, 1.0, 24]} />
+                <meshStandardMaterial
+                    color={color === 'transparent' ? '#E2E8F0' : color}
+                    transparent
+                    opacity={color === 'transparent' ? 0.2 : 0.8}
+                    emissive={color === 'transparent' ? '#000' : color}
+                    emissiveIntensity={0.2}
+                />
+            </mesh>
+            {/* Liquid Bottom (Matching rounded glass) */}
+            <mesh position={[0, -0.7, 0]}>
+                <sphereGeometry args={[0.23, 24, 12, 0, Math.PI * 2, Math.PI / 2, Math.PI / 2]} />
+                <meshStandardMaterial
+                    color={color === 'transparent' ? '#E2E8F0' : color}
+                    transparent
+                    opacity={color === 'transparent' ? 0.2 : 0.8}
+                    emissive={color === 'transparent' ? '#000' : color}
+                    emissiveIntensity={0.2}
+                />
+            </mesh>
+
+            <Text position={[0, -1.3, 0.3]} fontSize={0.15} color="white" font="/fonts/Inter-Bold.woff" anchorX="center">{label}</Text>
+            {subLabel && (
+                <Text position={[0, -1.5, 0.3]} fontSize={0.08} color="#94A3B8" maxWidth={1.0} textAlign="center" anchorX="center">
+                    {subLabel}
+                </Text>
+            )}
+        </group>
+    );
+}
+
+function Precipitate({ color, visible }) {
+    if (!visible || !color) return null;
+
+    const particles = Array.from({ length: 15 }).map((_, i) => ({
+        pos: [
+            (Math.random() - 0.5) * 0.35,
+            (Math.random() - 0.5) * 0.6 - 0.2,
+            (Math.random() - 0.5) * 0.35
+        ],
+        scale: Math.random() * 0.1 + 0.05
+    }));
+
+    return (
+        <group>
+            {particles.map((p, i) => (
+                <mesh key={i} position={p.pos}>
+                    <sphereGeometry args={[p.scale, 8, 8]} />
+                    <meshStandardMaterial
+                        color={color}
+                        transparent
+                        opacity={0.6}
+                        emissive={color}
+                        emissiveIntensity={0.5}
+                    />
+                </mesh>
+            ))}
+            <mesh position={[0, -0.2, 0]}>
+                <cylinderGeometry args={[0.18, 0.18, 0.6, 16]} />
+                <meshStandardMaterial color={color} transparent opacity={0.3} />
+            </mesh>
+        </group>
+    );
+}
+
+// =========================================================
 // CHIMIE 2NDE S - SIMULATIONS AVANCÉES C6-C10
 // Solutions Aqueuses, Acides, Bases, pH, Tests d'Ions
 // =========================================================
@@ -93,53 +389,35 @@ export function DilutionAdvanced() {
             </Text>
 
             {/* Fiole mère */}
-            <group position={[-2.2, 0, 0]}>
-                <mesh>
-                    <cylinderGeometry args={[0.4, 0.5, 1.8, 32]} />
-                    <meshPhysicalMaterial color="#E8F4F8" transmission={0.9} thickness={0.5} transparent opacity={0.3} side={THREE.DoubleSide} />
-                </mesh>
-                <mesh position={[0, -0.3, 0]} ref={liquidRef}>
-                    <cylinderGeometry args={[0.38, 0.48, 1.0, 32]} />
-                    <meshStandardMaterial color="#3B82F6" emissive="#3B82F6" emissiveIntensity={0.2} transparent opacity={0.8} />
-                </mesh>
-                <Text position={[0, -1.3, 0]} fontSize={0.15} color="white" font="/fonts/Inter-Bold.woff">SOLUTION MÈRE</Text>
-                <Text position={[0, -1.6, 0]} fontSize={0.12} color="#60A5FA">Ci : {Ci} mol/L</Text>
-            </group>
+            <Beaker
+                position={[-2.2, 0, 0]}
+                label="SOLUTION MÈRE"
+                Ci={Ci}
+                color="#3B82F6"
+                liquidLevel={0.7}
+            />
 
             {/* Pipette */}
             <group position={[0, 1.2, 0]}>
                 <mesh rotation={[0, 0, Math.PI / 10]}>
-                    <cylinderGeometry args={[0.04, 0.05, 1.8, 12]} />
-                    <meshPhysicalMaterial color="#E8F4F8" transmission={0.9} transparent opacity={0.4} />
+                    <cylinderGeometry args={[0.03, 0.04, 2.2, 12]} />
+                    <meshPhysicalMaterial color="#E8F4F8" transmission={0.95} transparent opacity={0.3} />
                 </mesh>
-                <mesh position={[0.1, -0.6, 0]} rotation={[0, 0, Math.PI / 10]}>
-                    <cylinderGeometry args={[0.03, 0.04, 0.4, 12]} />
-                    <meshStandardMaterial color="#3B82F6" />
+                <mesh position={[0.12, -0.8, 0]} rotation={[0, 0, Math.PI / 10]}>
+                    <cylinderGeometry args={[0.02, 0.03, 0.6, 12]} />
+                    <meshStandardMaterial color="#3B82F6" emissive="#3B82F6" emissiveIntensity={0.5} />
                 </mesh>
-                <Text position={[0.8, 0, 0]} fontSize={0.12} color="white" font="/fonts/Inter-Bold.woff">Vi : {Vi} mL</Text>
+                <Text position={[0.8, 0, 0]} fontSize={0.12} color="white" font="/fonts/Inter-Bold.woff" anchorX="left">Vi : {Vi} mL</Text>
             </group>
 
             {/* Fiole jaugée */}
-            <group position={[2.2, 0, 0]}>
-                <mesh>
-                    <sphereGeometry args={[0.7, 32, 16, 0, Math.PI * 2, 0, Math.PI * 0.75]} />
-                    <meshPhysicalMaterial color="#E8F4F8" transmission={0.9} transparent opacity={0.3} side={THREE.DoubleSide} />
-                </mesh>
-                <mesh position={[0, 0.8, 0]}>
-                    <cylinderGeometry args={[0.12, 0.18, 0.8, 24]} />
-                    <meshPhysicalMaterial color="#E8F4F8" transmission={0.9} transparent opacity={0.3} />
-                </mesh>
-                <mesh position={[0, 1.0, 0]}>
-                    <torusGeometry args={[0.13, 0.01, 8, 32]} />
-                    <meshStandardMaterial color="#EF4444" emissive="#EF4444" emissiveIntensity={1} />
-                </mesh>
-                <mesh position={[0, -0.1, 0]}>
-                    <sphereGeometry args={[0.65, 32, 16, 0, Math.PI * 2, Math.PI * 0.35, Math.PI * 0.5]} />
-                    <meshStandardMaterial color="#93C5FD" transparent opacity={0.7} emissive="#93C5FD" emissiveIntensity={0.1} />
-                </mesh>
-                <Text position={[0, -1.3, 0]} fontSize={0.15} color="white" font="/fonts/Inter-Bold.woff">SOLUTION FILLE</Text>
-                <Text position={[0, -1.6, 0]} fontSize={0.12} color="#22C55E">Cf : {Cf.toFixed(3)} mol/L</Text>
-            </group>
+            <VolumetricFlask
+                position={[2.2, 0, 0]}
+                label="SOLUTION FILLE"
+                Cf={Cf}
+                color="#93C5FD"
+                liquidLevel={Vi / Vf + 0.3}
+            />
 
             <Html transform={false}>
                 <DraggableHtmlPanel title="🧪 Expert en Dilution" className="w-[400px] border-blue-500/30 text-white" defaultPosition="bottom-right">
@@ -322,39 +600,26 @@ export function TitrageAdvanced() {
             <pointLight position={[5, 10, 5]} intensity={1.5} />
 
             {/* Burette */}
-            <group position={[0, 2.5, 0]}>
-                <mesh>
-                    <cylinderGeometry args={[0.15, 0.15, 3.5, 16]} />
-                    <meshPhysicalMaterial color="white" transmission={0.9} transparent opacity={0.3} />
-                </mesh>
-                <mesh position={[0, (40 - volumeBase) / 23 - 0.8, 0]}>
-                    <cylinderGeometry args={[0.13, 0.13, (40 - volumeBase) / 11.5, 16]} />
-                    <meshStandardMaterial color="#E0E7FF" transparent opacity={0.6} />
-                </mesh>
-                <Text position={[0.4, 1.5, 0]} fontSize={0.15} color="white" font="/fonts/Inter-Bold.woff" anchorX="left">BURETTE (NaOH)</Text>
-            </group>
+            <Burette volumeBase={volumeBase} />
 
             {/* Goutte */}
             {isDropping && (
                 <Float speed={5} rotationIntensity={0} floatIntensity={0.5}>
                     <mesh position={[0, 0.5, 0]}>
-                        <sphereGeometry args={[0.05]} />
+                        <sphereGeometry args={[0.04]} />
                         <meshStandardMaterial color="#E0E7FF" emissive="#E0E7FF" emissiveIntensity={0.5} />
                     </mesh>
                 </Float>
             )}
 
-            {/* Erlenmeyer */}
-            <group position={[0, -1.8, 0]}>
-                <mesh>
-                    <cylinderGeometry args={[0.4, 1.0, 2.2, 32]} />
-                    <meshPhysicalMaterial color="white" transmission={0.9} transparent opacity={0.2} side={THREE.DoubleSide} />
-                </mesh>
-                <mesh position={[0, -0.4, 0]}>
-                    <cylinderGeometry args={[0.38, 0.9, 1.4, 32]} />
-                    <meshStandardMaterial color={indicatorColor} transparent opacity={0.8} emissive={indicatorColor} emissiveIntensity={0.2} />
-                </mesh>
-                <Text position={[0, -1.5, 0]} fontSize={0.15} color="white" font="/fonts/Inter-Bold.woff">ERLENMEYER (HCl + BBT)</Text>
+            {/* Agitateur Magnétique & Erlenmeyer */}
+            <group position={[0, -2.4, 0]}>
+                <MagneticStirrer position={[0, -0.4, 0]} />
+                <Erlenmeyer
+                    position={[0, 0.6, 0]}
+                    color={indicatorColor}
+                    label="ERLENMEYER (HCl + BBT)"
+                />
             </group>
 
             <Html transform={false}>
@@ -529,61 +794,46 @@ export function PHIndicateursAdvanced() {
             <ConfettiExplosion active={showSuccess} />
 
             {/* Échelle pH visuelle Premium */}
-            <group position={[0, 1.8, 0]}>
+            <group position={[0, 2.0, 0]}>
                 {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14].map(p => {
                     const hue = (14 - p) / 14 * 240;
+                    const isActive = Math.abs(pH - p) < 0.5;
                     return (
                         <group key={p} position={[(p - 7) * 0.45, 0, 0]}>
-                            <mesh>
-                                <boxGeometry args={[0.4, 0.8, 0.15]} />
+                            <mesh scale={[1, isActive ? 1.4 : 1.0, 1]}>
+                                <boxGeometry args={[0.4, 0.6, 0.15]} />
                                 <meshStandardMaterial
                                     color={`hsl(${hue}, 80%, 50%)`}
-                                    emissive={`hsl(${hue}, 80%, 20%)`}
-                                    emissiveIntensity={Math.abs(pH - p) < 0.5 ? 2 : 0}
+                                    emissive={`hsl(${hue}, 80%, 50%)`}
+                                    emissiveIntensity={isActive ? 1.5 : 0.2}
+                                    metalness={0.4}
+                                    roughness={0.2}
                                 />
                             </mesh>
-                            <Text position={[0, -0.6, 0.1]} fontSize={0.15} color="white">{p}</Text>
+                            <Text position={[0, isActive ? -0.8 : -0.5, 0.1]} fontSize={0.15} color="white" font="/fonts/Inter-Bold.woff">{p}</Text>
                         </group>
                     );
                 })}
-                {/* Labels de zones */}
-                <Text position={[-3, 0.8, 0]} fontSize={0.2} color="#EF4444" font="/fonts/Inter-Bold.woff">ACIDE</Text>
-                <Text position={[0, 0.8, 0]} fontSize={0.2} color="#22C55E" font="/fonts/Inter-Bold.woff">NEUTRE</Text>
-                <Text position={[3, 0.8, 0]} fontSize={0.2} color="#3B82F6" font="/fonts/Inter-Bold.woff">BASIQUE</Text>
 
                 {/* Curseur Premium */}
                 <Float speed={5} rotationIntensity={0} floatIntensity={0.5}>
-                    <mesh position={[(pH - 7) * 0.45, 1.2, 0]} rotation={[Math.PI, 0, 0]}>
-                        <coneGeometry args={[0.15, 0.3, 32]} />
-                        <meshStandardMaterial color="white" emissive="#fff" emissiveIntensity={0.5} />
+                    <mesh position={[(pH - 7) * 0.45, 1.0, 0]} rotation={[Math.PI, 0, 0]}>
+                        <coneGeometry args={[0.08, 0.2, 16]} />
+                        <meshStandardMaterial color="white" emissive="#fff" emissiveIntensity={1} />
                     </mesh>
                 </Float>
             </group>
 
             {/* Tubes indicateurs Premium */}
-            <group position={[0, -1, 0]}>
+            <group position={[0, -0.8, 0]}>
                 {Object.entries(indicators).map(([key, ind], i) => (
-                    <group key={key} position={[(i - 1) * 2, 0, 0]}>
-                        <mesh>
-                            <cylinderGeometry args={[0.3, 0.3, 1.5, 32, 1, true]} />
-                            <meshPhysicalMaterial color="#fff" transmission={0.9} thickness={0.5} transparent opacity={0.3} side={THREE.DoubleSide} />
-                        </mesh>
-                        {/* Solution colorée */}
-                        <mesh position={[0, -0.3, 0]}>
-                            <cylinderGeometry args={[0.28, 0.28, 0.8, 24]} />
-                            <meshStandardMaterial
-                                color={getIndicatorColor(key, pH)}
-                                transparent
-                                opacity={getIndicatorColor(key, pH) === 'transparent' ? 0.1 : 0.8}
-                                emissive={getIndicatorColor(key, pH) === 'transparent' ? '#000' : getIndicatorColor(key, pH)}
-                                emissiveIntensity={0.2}
-                            />
-                        </mesh>
-                        <Text position={[0, -1, 0.3]} fontSize={0.15} color="white" font="/fonts/Inter-Bold.woff">{key}</Text>
-                        <Text position={[0, -1.2, 0.3]} fontSize={0.1} color="gray" maxWidth={1.2} textAlign="center">
-                            {ind.name}
-                        </Text>
-                    </group>
+                    <TestTube
+                        key={key}
+                        position={[(i - 1) * 2, 0, 0]}
+                        color={getIndicatorColor(key, pH)}
+                        label={key}
+                        subLabel={ind.name}
+                    />
                 ))}
             </group>
 
@@ -792,42 +1042,47 @@ export function TestsIonsAdvanced() {
 
             {/* Tubes à essai Premium */}
             <group position={[-2.8, -0.5, 0]}>
-                {solutions.map((sol, i) => (
-                    <group key={sol.id} position={[i * 1.4, 0, 0]}>
-                        <mesh onClick={() => setSelectedSolution(sol.id)}>
-                            <cylinderGeometry args={[0.25, 0.25, 2.2, 32, 1, true]} />
-                            <meshPhysicalMaterial
-                                color="#fff"
-                                transmission={0.95}
-                                thickness={0.5}
-                                roughness={0.05}
-                                transparent
-                                opacity={0.3}
-                                side={THREE.DoubleSide}
-                            />
-                        </mesh>
-                        {/* Liquide */}
-                        <mesh position={[0, -0.2, 0]}>
-                            <cylinderGeometry args={[0.23, 0.23, 1.6, 24]} />
-                            <meshStandardMaterial
-                                color={sol.color}
-                                transparent
-                                opacity={selectedSolution === sol.id ? 0.8 : 0.4}
-                            />
-                        </mesh>
-                        <Text position={[0, -1.6, 0]} fontSize={0.2} color="white" font="/fonts/Inter-Bold.woff">{sol.id}</Text>
+                {solutions.map((sol, i) => {
+                    const isSelected = selectedSolution === sol.id;
+                    const testResult = result && isSelected ? result : null;
 
-                        {selectedSolution === sol.id && (
-                            <Float speed={5} rotationIntensity={0} floatIntensity={0.5}>
-                                <mesh position={[0, 1.4, 0]}>
-                                    <ringGeometry args={[0.3, 0.35, 32]} />
-                                    <meshBasicMaterial color="#3B82F6" side={THREE.DoubleSide} />
-                                </mesh>
-                            </Float>
-                        )}
-                    </group>
-                ))}
+                    return (
+                        <group key={sol.id}>
+                            <TestTube
+                                position={[i * 1.4, 0, 0]}
+                                color={sol.color}
+                                label={sol.id}
+                                subLabel={phase === 'mission' ? 'Contenu Inconnu' : sol.name}
+                                onClick={() => setSelectedSolution(sol.id)}
+                                isSelected={isSelected}
+                            />
+                            {isSelected && testResult && (
+                                <group position={[i * 1.4, 0, 0.1]}>
+                                    <Precipitate
+                                        color={testResult.color}
+                                        visible={testResult.precipitate !== 'AUCUN'}
+                                    />
+                                </group>
+                            )}
+                        </group>
+                    );
+                })}
             </group>
+
+            {/* Réactifs (Gouttes montrant le réactif utilisé) */}
+            {selectedReactif && (
+                <Float speed={2} rotationIntensity={0.5} floatIntensity={0.5}>
+                    <group position={[selectedSolution ? solutions.findIndex(s => s.id === selectedSolution) * 1.4 - 2.8 : 0, 1.5, 0.5]}>
+                        <mesh>
+                            <sphereGeometry args={[0.1, 16, 16]} />
+                            <meshStandardMaterial color="#fff" emissive="#fff" emissiveIntensity={0.5} />
+                        </mesh>
+                        <Text position={[0, -0.2, 0]} fontSize={0.1} color="white" font="/fonts/Inter-Bold.woff" anchorX="center">
+                            {reactifs[selectedReactif].name}
+                        </Text>
+                    </group>
+                </Float>
+            )}
 
             {/* Zone de Mélange (Zoomé) */}
             {result && (

@@ -979,6 +979,51 @@ Méthode par précipitation.
         relatedSimulations: ['solutions-solubility', 'chromatography']
     },
 
+    'base-solution': {
+        title: 'Solution Aqueuse Basique',
+        description: 'Dissolution des bases et calcul du pH',
+        type: 'base-solution',
+        config: {},
+        analogy: {
+            title: 'Le Savon et la Soude',
+            content: `Les bases sont les opposés des acides ! 🧴🧼
+            
+Si les acides piquent, les bases sont "glissantes" au toucher (comme du savon).
+L'ion responsable de la basicité est l'ion Hydroxyde OH⁻.
+
+Une base forte comme la Soude (NaOH) se décompose totalement dans l'eau pour libérer cet ion.
+- Si le pH est 7 : C'est neutre (Eau pure).
+- Si le pH est plus grand que 7 : C'est basique !
+
+Plus il y a de OH⁻, plus le pH monte vers 14.`
+        },
+        theory: `Les Solutions Basiques (C8)
+
+1. **Définition (Arrhenius)** :
+Une base est une espèce chimique capable de libérer des ions hydroxyde OH⁻ en solution aqueuse.
+
+2. **Dissolution des bases fortes** :
+La dissociation est totale.
+Exemple : NaOH (s) → Na⁺ (aq) + OH⁻ (aq)
+[OH⁻] = C (Concentration molaire)
+
+3. **Le pH des solutions basiques** :
+À 25°C, une solution est basique si son pH > 7.
+Produit ionique de l'eau : Ke = [H₃O⁺][OH⁻] = 10⁻¹⁴
+pH = 14 + log[OH⁻]
+
+4. **Exemples** :
+- Soude (Hydroxyde de sodium) : Déboucheurs, savon.
+- Ammoniaque : Nettoyants ménagers.
+- Potasse : Engrais, piles.`,
+        exercises: [
+            { question: 'Quel ion est responsable de la basicité ?', options: ['H₃O⁺', 'OH⁻', 'Na⁺', 'Cl⁻'], correct: 1, explanation: 'L\'ion hydroxyde OH- est le marqueur des bases.' },
+            { question: 'Une solution de pH 12 est...', options: ['Acide', 'Neutre', 'Basique', 'Inoffensive'], correct: 2, explanation: 'pH > 7 est basique. pH 12 est une base forte.' },
+            { question: 'Si on dissout 0,1 mol de NaOH dans 1L d\'eau, le pH est...', options: ['1', '7', '13', '14'], correct: 2, explanation: '[OH-] = 0,1 = 10^-1 mol/L. pH = 14 + log(0,1) = 14 - 1 = 13.' }
+        ],
+        relatedSimulations: ['ph-scale', 'molar-concentration', 'titrage-advanced']
+    },
+
     'sonar-echolocation': {
         title: 'Sonar et Écholocation',
         description: 'Mesurer des distances avec le son',

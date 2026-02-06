@@ -49,7 +49,8 @@ Pour obtenir un corps pur à partir d'un mélange, on utilise des techniques phy
                     explanation: "L'eau et l'alcool sont miscibles mais ont des températures d'ébullition différentes (100°C et 78°C). La distillation fractionnée permet de les séparer."
                 }
             ],
-            simulation: { id: 'separation-lab', title: 'Alchimiste Expert : Purifier la Matière' }
+            simulation: { id: 'separation-lab', title: '🧪 Alchimiste Expert : Purifier la Matière', type: 'separation-lab' },
+            image: '/simulations/chimie-2nde/separation.png'
         },
         {
             id: 'chim-2s-02',
@@ -110,7 +111,8 @@ Les éléments sont classés par Z croissant.
                     explanation: "La charge positive 2+ indique une perte de 2 électrons négatifs. C'est un cation."
                 }
             ],
-            simulation: { id: 'atomic-structure-seconde', title: 'Cœur de l\'Atome : Le Système Solaire' }
+            simulation: { id: 'atomic-structure-advanced', title: '⚛️ Cœur de l\'Atome : Le Système Solaire', type: 'atomic-structure-advanced' },
+            image: '/simulations/chimie-2nde/atome.png'
         },
         {
             id: 'chim-2s-03',
@@ -162,7 +164,8 @@ Attraction électrostatique entre un cation et un anion (ex: $Na^+ + Cl^- \\righ
                     explanation: "L'azote a 3 électrons célibataires. Pour satisfaire l'octet, deux atomes N partagent 3 paires d'électrons : liaison triple $N \\equiv N$."
                 }
             ],
-            simulation: { id: 'lewis-structure-advanced', title: 'Architecte Moléculaire : Liaisons Secrètes' }
+            simulation: { id: 'lewis-structure-advanced', title: '🔬 Architecte Moléculaire : Liaisons Secrètes', type: 'lewis-structure-advanced' },
+            image: '/simulations/chimie-2nde/lewis.png'
         },
         {
             id: 'chim-2s-04',
@@ -220,7 +223,8 @@ $$n = \\frac{V}{V_m}$$
                     explanation: "$V = n \\times V_m = 0,5 \\times 22,4 = 11,2 \\text{ L}$."
                 }
             ],
-            simulation: { id: 'mole-scale-advanced', title: 'Le Compte est Bon : Défi Avogadro' }
+            simulation: { id: 'mole-scale-advanced', title: '⚖️ Le Compte est Bon : Défi Avogadro', type: 'mole-scale-advanced' },
+            image: '/simulations/chimie-2nde/mole.png'
         },
         {
             id: 'chim-2s-05',
@@ -281,7 +285,8 @@ $$ \\frac{n(A)_{consommé}}{a} = \\frac{n(B)_{consommé}}{b} = \\frac{n(C)_{form
                     explanation: "D'après les cœfficients (2 pour 1), il faut deux fois moins de dioxygène que de dihydrogène. $2/2 = 1$ mol."
                 }
             ],
-            simulation: { id: 'equation-balancer-advanced', title: 'Équilibre Chimique : Le Maître de la Balance' }
+            simulation: { id: 'equation-balancer-advanced', title: '🚀 Équilibre Chimique : Mission Lancement', type: 'equation-balancer-advanced' },
+            image: '/simulations/chimie-2nde/equation.png'
         },
         {
             id: 'chim-2s-06',
@@ -341,7 +346,8 @@ $V_i$ est le volume à prélever de la solution mère.
                     explanation: "On ajoute du solvant, donc il y a moins de soluté par unité de volume. La concentration diminue."
                 }
             ],
-            simulation: { id: 'dilution-advanced', title: 'Potion Magique : L\'Art de la Dilution' }
+            simulation: { id: 'dilution-advanced', title: '🧫 Potion Magique : L\'Art de la Dilution', type: 'dilution-advanced' },
+            image: '/simulations/chimie-2nde/dilution.png'
         },
         {
             id: 'chim-2s-07',
@@ -388,7 +394,8 @@ Dans l'eau, $H^+$ s'associe à $H_2O$ pour former l'ion **Hydronium $H_3O^+$**.
                     explanation: "$HCl$ (Chlorure d'hydrogène) dissous dans l'eau donne l'acide chlorhydrique."
                 }
             ],
-            simulation: { id: 'titrage-advanced', title: 'Duel Acide-Base : Le Point d\'Équivalence' }
+            simulation: { id: 'titrage-advanced', title: '⚗️ Duel Acide-Base : Le Point d\'Équivalence', type: 'titrage-advanced' },
+            image: '/simulations/chimie-2nde/titrage.png'
         },
         {
             id: 'chim-2s-08',
@@ -435,7 +442,8 @@ Une **base** est une substance qui, en solution aqueuse, libère des ions hydrox
                     explanation: "$NaOH \\rightarrow Na^+ + OH^-$."
                 }
             ],
-            simulation: { id: 'dissolution-simulation', title: 'Dissolution Ionique : La Danse des Ions' }
+            simulation: { id: 'base-solution', title: '🧪 Labo des Bases : Prépare tes Solutions Basiques !', type: 'base-solution' },
+            image: '/simulations/chimie-2nde/dissolution.png'
         },
         {
             id: 'chim-2s-09',
@@ -487,7 +495,8 @@ Ce sont des substances organiques dont la couleur change selon le pH du milieu (
                     explanation: "Le Bleu de Bromothymol est bleu en milieu basique (pH > 7,6)."
                 }
             ],
-            simulation: { id: 'ph-indicateurs-advanced', title: 'Spectre pH : Le Détective de Couleurs' }
+            simulation: { id: 'ph-indicateurs-advanced', title: '🌈 Spectre pH : Le Détective de Couleurs', type: 'ph-indicateurs-advanced' },
+            image: '/simulations/chimie-2nde/ph.png'
         },
         {
             id: 'chim-2s-10',
@@ -542,7 +551,8 @@ On ajoute de la Soude ($NaOH$).
                     explanation: "Le précipité vert est l'hydroxyde de fer II ($Fe(OH)_2$)."
                 }
             ],
-            simulation: { id: 'tests-ions-advanced', title: 'Enquête Chimique : Identifiez le Coupable' }
+            simulation: { id: 'tests-ions-advanced', title: '🔍 Enquête Chimique : Identifiez le Coupable', type: 'tests-ions-advanced' },
+            image: '/simulations/chimie-2nde/ions.png'
         }
     ]
 };

@@ -1416,7 +1416,7 @@ export function SolutionsTampons() {
                 {/* Afficheur Holo pH */}
                 <group position={[2.5, 1, 0]}>
                     <Box args={[1.2, 0.8, 0.1]}><meshStandardMaterial color="#1f2937" emissive="#10b981" emissiveIntensity={0.2} /></Box>
-                    <Text position={[0, 0, 0.1]} fontSize={0.4} color="#10b981" font="monospace">{pH.toFixed(2)}</Text>
+                    <Text position={[0, 0, 0.1]} fontSize={0.4} color="#10b981">{pH.toFixed(2)}</Text>
                     <Text position={[0, 0.5, 0]} fontSize={0.15} color="#10b981">SYSTEM_PH</Text>
                 </group>
 
