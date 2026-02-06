@@ -1294,6 +1294,114 @@ print(f"Solutions (x, y) : {solutions}")
 # Vérification
 print(f"Vérif : {coeffs @ solutions}") # Doit donner [8, 18]`,
                 tip: '💡 Astuce : axis=0 réduit les colonnes (donne 1 résultat par colonne), axis=1 réduit les lignes.'
+            },
+            {
+                title: 'Manipulation de Formes et Aléatoire',
+                duration: '40 min',
+                analogy: '🎲 La pâte à modeler et le lancer de dés',
+                content: `NumPy permet de changer la forme des données sans changer le contenu, et de générer du hasard contrôlé.
+
+**Reshape (Remodelage)** 🧱
+Change la forme d'un tableau (ex: transformer une liste de 12 nombres en matrice 3x4).
+*Condition* : Le nombre total d'éléments doit rester le même.
+
+**Random (Aléatoire)** 🎲
+Le module \`np.random\` est essentiel pour les simulations (Monte Carlo, statique).
+
+**Analogie de la Pâte à Modeler** 🏺
+Vous avez 1kg d'argile. Vous pouvez en faire une boule, un cube, ou 10 petites billes. La forme change, mais c'est toujours 1kg d'argile.`,
+                keyPoints: [
+                    'arr.reshape(n, m) change les dimensions',
+                    'arr.flatten() aplatit tout en 1D',
+                    'np.random.normal() génère une distribution gaussienne (courbe en cloche)',
+                    'np.random.seed() permet de rendre le hasard reproductible'
+                ],
+                code: `import numpy as np
+
+# === MANIPULATION DE FORMES ===
+arr = np.arange(12) # [0, 1, ..., 11]
+print(f"Original (1D) : {arr}")
+
+# Transformer en 3 lignes, 4 colonnes
+matrice = arr.reshape(3, 4)
+print(f"Matrice 3x4 :\\n{matrice}")
+
+# Aplatir (retour à 1D)
+plat = matrice.flatten()
+
+# Transposée (échange lignes/colonnes)
+print(f"Transposée :\\n{matrice.T}")
+
+# === ALÉATOIRE (RANDOM) ===
+np.random.seed(42)  # Pour avoir toujours les mêmes nombres
+
+# 5 nombres entre 0 et 1
+uniforme = np.random.rand(5)
+print(f"Uniforme : {uniforme}")
+
+# Loi Normale (Moyenne=0, Ecart-type=1)
+gaussienne = np.random.randn(5)
+print(f"Gaussienne : {gaussienne}")
+
+# Entiers aléatoires (entre 1 et 100)
+entiers = np.random.randint(1, 100, size=5)
+print(f"Entiers : {entiers}")
+
+# Choix aléatoire dans une liste
+couleurs = ["Rouge", "Vert", "Bleu"]
+choix = np.random.choice(couleurs, size=3, p=[0.1, 0.1, 0.8]) # 80% de chance Bleu
+print(f"Couleurs tirées : {choix}")`,
+                tip: '💡 Astuce : Utilisez toujours np.random.seed(42) au début de vos projets pour que vos collègues obtiennent les mêmes résultats aléatoires que vous !'
+            },
+            {
+                title: 'Broadcasting et Algèbre Linéaire',
+                duration: '45 min',
+                analogy: '📢 La diffusion radio et le calcul matriciel',
+                content: `Le **Broadcasting** est la magie de NumPy qui permet de faire des calculs entre des tableaux de tailles différentes.
+L'**Algèbre Linéaire** (\`np.linalg\`) est le moteur des réseaux de neurones et de la physique 3D.
+
+**Broadcasting** 📡
+Si vous additionnez un scalaire (nombre) à une matrice, NumPy "diffuse" (copie virtuellement) ce nombre partout.
+Si vous additionnez une ligne (1x3) à une matrice (3x3), il la diffuse sur chaque ligne.
+
+**Produit Matriciel (@)** ✖️
+Attention ! \`*\` multiplie élément par élément. Pour le vrai produit matriciel (Ligne x Colonne), utilisez \`@\` ou \`np.dot()\`.`,
+                keyPoints: [
+                    'Broadcasting : Les dimensions doivent être compatibles (égales ou l\'une vaut 1)',
+                    'A @ B : Produit matriciel (dot product)',
+                    'np.linalg.inv() : Inverse une matrice',
+                    'np.linalg.eig() : Valeurs et vecteurs propres (Eigenvalues)'
+                ],
+                code: `import numpy as np
+
+# === BROADCASTING ===
+M = np.ones((3, 3))
+vecteur = np.array([1, 2, 3])
+
+# On ajoute [1, 2, 3] à CHAQUE ligne de M
+resultat = M + vecteur
+print(f"Broadcasting :\\n{resultat}")
+# Résultat:
+# [[2, 3, 4],
+#  [2, 3, 4],
+#  [2, 3, 4]]
+
+# === ALGÈBRE LINÉAIRE ===
+A = np.array([[1, 2], [3, 4]])
+B = np.array([[5, 6], [7, 8]])
+
+# Multiplication élément par élément
+print(f"A * B :\\n{A * B}")
+
+# Multiplication Matricielle (Dot Product)
+print(f"A @ B :\\n{A @ B}")
+# 1*5 + 2*7 = 19 ...
+
+# Inverse de matrice
+inv_A = np.linalg.inv(A)
+print(f"A^(-1) :\\n{inv_A}")
+print(f"A @ A^(-1) (Identité) :\\n{np.round(A @ inv_A)}")`,
+                tip: '💡 Astuce : Le symbole @ pour la multiplication matricielle est une nouveauté de Python 3.5+. Avant, on utilisait np.dot(A, B).'
             }
         ]
     },
@@ -1307,262 +1415,337 @@ print(f"Vérif : {coeffs @ solutions}") # Doit donner [8, 18]`,
         isHighlight: true,
         lessons: [
             {
-                title: 'Introduction au Calcul Symbolique',
-                duration: '40 min',
-                analogy: '🧠 Calculatrice vs Mathématicien',
-                content: `**SymPy** est une bibliothèque de calcul symbolique (CAS). Contrairement à une calculatrice standard qui donne des résultats approchés (1.414...), SymPy garde les résultats exacts (√2).
-
-**Symboles** 🔣
-Pour que Python fasse de l'algèbre, il faut définir des **symboles**.
-
-**Affichage (Pretty Printing)** 🎨
-SymPy peut afficher les équations en format mathématique (LaTeX).
-
-**Analogie du Chef Cuisinier** 👨‍🍳
-- **Calcul numérique (NumPy)** : "Ajoute 200g de farine". (Résultat concret)
-- **Calcul symbolique (SymPy)** : "Ajoute X grammes de farine". (Formule générale)
-SymPy manipule la *recette*, pas juste le plat final.`,
+                title: 'Introduction et Symboles',
+                duration: '20 min',
+                analogy: '🔣 L\'algèbre au lieu de l\'arithmétique',
+                content: `**SymPy** manipule des symboles, pas des nombres approchés.
+Pour commencer, il faut déclarer les variables mathématiques que l'on veut utiliser.`,
                 keyPoints: [
-                    'Il faut importer sympy et définir les symboles avec symbols()',
-                    'SymPy garde les racines, fractions et constantes exactes',
-                    'init_printing() active le bel affichage',
-                    'Contrairement à NumPy, SymPy travaille avec des expressions mathématiques'
+                    'symbols("x y") crée des variables symboliques',
+                    'init_printing() active le rendu LaTeX',
+                    'Contrairement à float, sqrt(8) reste √8'
                 ],
                 code: `import sympy as sp
+sp.init_printing()
 
-# Activer le bel affichage
-sp.init_printing(use_unicode=True)
-
-# Définir des symboles
-x, y, z = sp.symbols('x y z')
-
-# Expressions symboliques
-expr = x**2 + 2*x + 1
-print(f"Expression : {expr}")
-
-# Calcul exact vs approché
-racine = sp.sqrt(8)
-print(f"Exact : {racine}")        # 2*sqrt(2)
-print(f"Approché : {racine.evalf()}") # 2.8284...
-
-# Substitution
-valeur = expr.subs(x, 5)
-print(f"Pour x=5 : {valeur}")
-
-# Fractions exactes
-a = sp.Rational(1, 3)
-b = sp.Rational(1, 2)
-print(f"1/3 + 1/2 = {a + b}")     # 5/6 (pas 0.8333...)`,
-                tip: '💡 Astuce : Utilisez toujours sp.Rational(1, 2) au lieu de 1/2 si vous voulez garder la fraction exacte !'
-            },
-            {
-                title: 'Simplification et Développement',
-                duration: '35 min',
-                analogy: '🧹 Ranger sa chambre vs Déballer un cadeau',
-                content: `SymPy est expert pour manipuler des expressions algébriques.
-
-**Simplifier (simplify)** 🧹
-Essaie de trouver la forme la plus simple d'une expression.
-*Exemple : sin²(x) + cos²(x) → 1*
-
-**Développer (expand)** 🎁
-Distribue les termes.
-*Exemple : (x+1)² → x² + 2x + 1*
-
-**Factoriser (factor)** 📦
-Regroupe les termes.
-*Exemple : x² + 2x + 1 → (x+1)²*
-
-**Analogie du Déménagement** 🚛
-- **Factoriser** : Mettre les objets dans des cartons (compact)
-- **Développer** : Sortir les objets des cartons (étalé)
-- **Simplifier** : Jeter ce qui est inutile`,
-                keyPoints: [
-                    'simplify() est la fonction magique à tout faire',
-                    'expand() développe les polynômes et fonctions trigo',
-                    'factor() factorise les polynômes',
-                    'collect() regroupe les termes selon une variable'
-                ],
-                code: `import sympy as sp
 x, y = sp.symbols('x y')
-
-# Simplification
-expr1 = sp.sin(x)**2 + sp.cos(x)**2
-print(f"Simplifié : {sp.simplify(expr1)}")  # 1
-
+f = x + 2*y
+print(f + x) # 2*x + 2*y`,
+                tip: '💡 Déclarez toujours vos symboles au début.'
+            },
+            {
+                title: 'Arithmétique Exacte',
+                duration: '25 min',
+                analogy: '🍰 Couper le gâteau sans perdre de miettes',
+                content: `Les ordinateurs font des erreurs d'arrondi (0.1 + 0.2 != 0.3).
+SymPy utilise des entiers et des rationnels de taille illimitée pour une précision parfaite.`,
+                keyPoints: [
+                    'Rational(1, 3) est exactement 1/3',
+                    'pi et E sont les constantes exactes',
+                    'evalf() convertit en nombre décimal'
+                ],
+                code: `val = sp.Rational(1, 3) + sp.Rational(1, 5)
+print(val) # 8/15
+print(sp.pi.evalf(50)) # 50 décimales de Pi`,
+                tip: '💡 Ne divisez jamais avec / si vous voulez garder la fraction exacte, utilisez Rational.'
+            },
+            {
+                title: 'Substitution',
+                duration: '20 min',
+                analogy: '🎭 Changer de masque',
+                content: `Remplacer un symbole par une valeur ou une autre expression.
+Fondamental pour évaluer des fonctions ou changer de variables.`,
+                keyPoints: [
+                    'expr.subs(x, valeur) remplace x',
+                    'On peut remplacer par des nombres ou d\'autres symboles',
+                    'On peut faire des substitutions multiples [(x, 1), (y, 2)]'
+                ],
+                code: `expr = x**2 + y
+print(expr.subs(x, 3)) # y + 9
+print(expr.subs([(x, 1), (y, 2)])) # 3`,
+                tip: '💡 subs ne modifie pas l\'original, il renvoie une copie.'
+            },
+            {
+                title: 'Simplification',
+                duration: '30 min',
+                analogy: '🧹 Le grand ménage',
+                content: `SymPy peut réduire des expressions compliquées à leur forme la plus simple.
+Une des fonctions les plus puissantes mais parfois imprévisible.`,
+                keyPoints: [
+                    'simplify() essaie tout pour réduire l\'expression',
+                    'Utilise les identités trigonométriques et algébriques',
+                    'Pas toujours la forme souhaitée'
+                ],
+                code: `expr = sp.sin(x)**2 + sp.cos(x)**2
+print(sp.simplify(expr)) # 1
 expr2 = (x**3 + x**2 - x - 1)/(x**2 + 2*x + 1)
-print(f"Simplifié : {sp.simplify(expr2)}")  # x - 1
-
-# Développement
-expr3 = (x + y)**3
-print(f"Développé : {sp.expand(expr3)}")
-# x**3 + 3*x**2*y + 3*x*y**2 + y**3
-
-# Factorisation
-expr4 = x**2 + 2*x + 1
-print(f"Factorisé : {sp.factor(expr4)}")    # (x + 1)**2
-
-# Trigonométrie
-expr5 = sp.sin(2*x)
-print(f"Trigo développé : {sp.expand_trig(expr5)}") # 2*sin(x)*cos(x)`,
-                tip: '💡 Astuce : simplify() peut être lent sur des expressions très complexes. Parfois, il vaut mieux guider SymPy avec factor() ou cancel().'
+print(sp.simplify(expr2)) # x - 1`,
+                tip: '💡 Si simplify est trop lent, essayez des outils plus spécifiques comme factor ou cancel.'
             },
             {
-                title: 'Résolution d\'Équations',
-                duration: '50 min',
-                analogy: '🕵️ Le détective qui trouve l\'inconnue',
-                content: `SymPy peut résoudre des équations algébriques, des systèmes d'équations et même des équations différentielles !
-
-**Fonction solveset()** 🔍
-Trouve les solutions d'une équation (équation = 0).
-
-**Systèmes d'équations** 🔗
-Résoudre plusieurs équations en même temps.
-
-**Analogie de la Balance** ⚖️
-Résoudre une équation, c'est trouver la valeur qui met la balance à l'équilibre (côté gauche = côté droit).`,
+                title: 'Développement (Expand)',
+                duration: '25 min',
+                analogy: '💥 L\'explosion contrôlée',
+                content: `Transformer des produits de facteurs en somme de termes.
+Utile pour voir tous les composants d'un polynôme.`,
                 keyPoints: [
-                    'Mettez toujours l\'équation sous la forme f(x) = 0',
-                    'solveset(eq, x) est la méthode moderne (remplace solve)',
-                    'linsolve() est optimisé pour les systèmes linéaires',
-                    'SymPy peut donner des solutions symboliques (avec des paramètres)'
+                    'expand() distribue les multiplications',
+                    'expand_trig() développe les formules trigo',
+                    'Gère les puissances (x+y)**10'
                 ],
-                code: `import sympy as sp
-x, y, z = sp.symbols('x y z')
-
-# Équation simple : x² - 4 = 0
-eq1 = x**2 - 4
-solutions = sp.solveset(eq1, x)
-print(f"Solutions x²-4=0 : {solutions}")  # {-2, 2}
-
-# Équation avec paramètres : ax² + bx + c = 0
-a, b, c = sp.symbols('a b c')
-eq2 = a*x**2 + b*x + c
-sol_gen = sp.solveset(eq2, x)
-print(f"Solutions quadratiques : {sol_gen}")
-
-# Système d'équations linéaires
-# x + y = 5
-# x - y = 1
-eq_sys1 = x + y - 5
-eq_sys2 = x - y - 1
-sol_sys = sp.linsolve([eq_sys1, eq_sys2], (x, y))
-print(f"Solution système : {sol_sys}")  # {(3, 2)}
-
-# Système non-linéaire
-eq_nl1 = x**2 + y**2 - 25  # Cercle rayon 5
-eq_nl2 = x - y - 1         # Droite
-sol_nl = sp.nonlinsolve([eq_nl1, eq_nl2], (x, y))
-print(f"Intersections : {sol_nl}")`,
-                tip: '💡 Astuce : Si solveset ne trouve pas de solution, essayez solve() qui est plus ancien mais parfois plus permissif.'
+                code: `expr = (x + 1)**3
+print(sp.expand(expr)) 
+# x**3 + 3*x**2 + 3*x + 1`,
+                tip: '💡 Utile avant de chercher des coefficients.'
             },
             {
-                title: 'Calcul Différentiel et Intégral',
-                duration: '60 min',
-                analogy: '📈 La pente de la montagne et l\'aire sous la courbe',
-                content: `Le cœur de l'analyse mathématique !
-
-**Dérivée (diff)** 📉
-Calcule le taux de variation instantané (la pente).
-*Analogie : La vitesse à un instant précis.*
-
-**Intégrale (integrate)** ∫
-Calcule l'aire sous la courbe ou la primitive.
-*Analogie : La distance totale parcourue.*
-
-**Limites (limit)** ⛔
-Comportement d'une fonction quand on s'approche d'un point.`,
+                title: 'Factorisation',
+                duration: '25 min',
+                analogy: '📦 Mettre en boîtes',
+                content: `L'inverse du développement : regrouper les termes en produits.
+Essentiel pour trouver les racines d'un polynôme.`,
                 keyPoints: [
-                    'diff(f, x) calcule la dérivée par rapport à x',
-                    'diff(f, x, 2) calcule la dérivée seconde',
-                    'integrate(f, x) calcule la primitive (intégrale indéfinie)',
-                    'integrate(f, (x, a, b)) calcule l\'intégrale définie'
+                    'factor() trouve les facteurs irréductibles',
+                    'Fonctionne sur les polynômes multivariés',
+                    'Aide à la simplification visuelle'
                 ],
-                code: `import sympy as sp
-x = sp.symbols('x')
-
-# Fonction f(x) = x³
-f = x**3
-
-# Dérivée
-df = sp.diff(f, x)
-print(f"Dérivée de x³ : {df}")  # 3*x**2
-
-ddf = sp.diff(f, x, 2)
-print(f"Dérivée seconde : {ddf}") # 6*x
-
-# Intégrale indéfinie (Primitive)
-prim = sp.integrate(3*x**2, x)
-print(f"Primitive de 3x² : {prim}") # x**3
-
-# Intégrale définie (Aire entre 0 et 2)
-aire = sp.integrate(x**2, (x, 0, 2))
-print(f"Aire sous x² entre 0 et 2 : {aire}") # 8/3
-
-# Limites
-# lim (sin(x)/x) quand x -> 0
-limite = sp.limit(sp.sin(x)/x, x, 0)
-print(f"Limite sin(x)/x en 0 : {limite}") # 1
-
-# Exemple physique : Mouvement
-t = sp.symbols('t')
-position = 5*t**2 + 2*t + 10
-vitesse = sp.diff(position, t)
-acceleration = sp.diff(vitesse, t)
-
-print(f"Position : {position}")
-print(f"Vitesse : {vitesse}")
-print(f"Accélération : {acceleration}")`,
-                tip: '💡 Astuce : SymPy peut aussi calculer des développements limités avec series() !'
+                code: `expr = x**3 - x**2 + x - 1
+print(sp.factor(expr)) # (x - 1)*(x**2 + 1)`,
+                tip: '💡 La forme factorisée est souvent la plus lisible.'
             },
             {
-                title: 'Équations Différentielles',
+                title: 'Résolution d\'Équations (Solveset)',
+                duration: '35 min',
+                analogy: '🔍 Trouver l\'inconnue X',
+                content: `Trouver les valeurs qui satisfont une égalité.
+\`solveset\` est la nouvelle méthode robuste qui remplace \`solve\`.
+Si vous écrivez \`solveset(eq, x)\`, SymPy résout \`eq = 0\`.`,
+                keyPoints: [
+                    'solveset(eq, x) suppose eq = 0',
+                    'Renvoie un ensemble (Set) de solutions',
+                    'Gère les solutions infinies ou complexes'
+                ],
+                code: `eq = x**2 - 4
+print(sp.solveset(eq, x)) # {-2, 2}
+eq2 = sp.exp(x)
+print(sp.solveset(eq2, x)) # EmptySet (pas de solution)`,
+                tip: '💡 Pour des égalités comme a = b, écrivez a - b.'
+            },
+            {
+                title: 'Systèmes d\'Équations',
+                duration: '35 min',
+                analogy: '🔗 Démêler les nœuds',
+                content: `Résoudre plusieurs équations avec plusieurs inconnues simultanément.
+\`linsolve\` pour le linéaire, \`nonlinsolve\` pour le reste.`,
+                keyPoints: [
+                    'linsolve([eq1, eq2], (x, y))',
+                    'Forme tuple pour les valeurs retournées',
+                    'Très utilisé en géométrie et physique'
+                ],
+                code: `systeme = [x + y - 5, x - y - 1]
+print(sp.linsolve(systeme, (x, y))) # {(3, 2)}`,
+                tip: '💡 Vérifiez toujours si une solution existe.'
+            },
+            {
+                title: 'Trigonométrie',
+                duration: '25 min',
+                analogy: '🔺 Les triangles et les cycles',
+                content: `Manipuler les fonctions sin, cos, tan.
+SymPy connaît toutes les identités trigonométriques.`,
+                keyPoints: [
+                    'simplify() gère bien la trigo',
+                    'trigsimp() est spécialisé pour simplifier la trigo',
+                    'expand_trig() développe les formules comme sin(2x)'
+                ],
+                code: `expr = sp.sin(x)**2 + sp.cos(x)**2
+print(sp.simplify(expr)) # 1
+print(sp.expand_trig(sp.sin(2*x))) # 2*sin(x)*cos(x)`,
+                tip: '💡 Les fonctions trigo sont dans sympy, pas besoin de math ou numpy pour le symbolique.'
+            },
+            {
+                title: 'Les Limites',
+                duration: '30 min',
+                analogy: '🚧 S\'approcher du bord',
+                content: `Calculer la valeur vers laquelle tend une fonction.
+Indispensable pour l'analyse et la continuité.`,
+                keyPoints: [
+                    'limit(f, x, valeur)',
+                    'Gère l\'infini (oo) et les formes indéterminées',
+                    'dir="+" ou "-" pour les limites latérales'
+                ],
+                code: `f = sp.sin(x)/x
+print(sp.limit(f, x, 0)) # 1
+g = 1/x
+print(sp.limit(g, x, 0, dir='+')) # oo`,
+                tip: '💡 SymPy utilise "oo" (deux o minuscules) pour l\'infini.'
+            },
+            {
+                title: 'Dérivées',
+                duration: '35 min',
+                analogy: '📉 La pente de la montagne',
+                content: `Le taux de variation instantané.
+SymPy peut dériver n'importe queue fonction composée.`,
+                keyPoints: [
+                    'diff(f, x) dérive f par rapport à x',
+                    'diff(f, x, n) dérive n fois',
+                    'On peut dériver par rapport à plusieurs variables'
+                ],
+                code: `f = x**3
+print(sp.diff(f, x)) # 3*x**2
+g = sp.exp(x**2)
+print(sp.diff(g, x)) # 2*x*exp(x**2)`,
+                tip: '💡 Vérifiez vos calculs de dérivées à la main avec SymPy !'
+            },
+            {
+                title: 'Intégrales',
                 duration: '45 min',
-                analogy: '🔮 Prédire l\'avenir à partir des lois du changement',
-                content: `Les équations différentielles (EDO) décrivent comment les choses changent. Elles sont partout en physique !
-
-**Fonction dsolve()** 🛠️
-Résout les équations différentielles symboliquement.
-
-**Fonction Function()** 𝑓
-Permet de définir une fonction inconnue f(x).
-
-**Analogie de la Météo** 🌦️
-Si on connaît la vitesse du vent et comment elle change (dérivée), on peut prédire où sera le nuage (fonction).`,
+                analogy: '🧱 L\'aire sous la courbe',
+                content: `L'opération inverse de la dérivée.
+Calcul de primitives et d'aires exactes.`,
                 keyPoints: [
-                    'Définissez la fonction inconnue avec sp.Function(\'f\')(x)',
-                    'Écrivez l\'équation sous la forme Eq(gauche, droite)',
-                    'dsolve() retourne la solution générale avec des constantes C1, C2...',
-                    'On peut ajouter des conditions initiales (ics)'
+                    'integrate(f, x) : Primitive',
+                    'integrate(f, (x, a, b)) : Intégrale définie',
+                    'Peut gérer des bornes infinies'
                 ],
-                code: `import sympy as sp
-t = sp.symbols('t')
-y = sp.Function('y')(t)
-
-# Équation : y'(t) = -k * y(t) (Décroissance radioactive)
-k = sp.symbols('k', positive=True)
-edo = sp.Eq(y.diff(t), -k * y)
-
-print(f"Équation : {edo}")
-
-# Résolution générale
-sol_gen = sp.dsolve(edo, y)
-print(f"Solution générale : {sol_gen}")
-# y(t) = C1 * exp(-k*t)
-
-# Avec conditions initiales : y(0) = y0
-y0 = sp.symbols('y0')
-sol_particuliere = sp.dsolve(edo, y, ics={y.subs(t, 0): y0})
-print(f"Solution particulière : {sol_particuliere}")
-
-# Exemple : Oscillateur harmonique (Ressort)
-# y''(t) + w²*y(t) = 0
-w = sp.symbols('w', real=True)
-edo_osc = sp.Eq(y.diff(t, 2) + w**2 * y, 0)
-sol_osc = sp.dsolve(edo_osc, y)
-print(f"Oscillateur : {sol_osc}")
-# y(t) = C1*sin(w*t) + C2*cos(w*t)`,
-                tip: '💡 Astuce : Les constantes d\'intégration sont notées C1, C2 par SymPy. Vous pouvez les déterminer avec les conditions initiales.'
+                code: `print(sp.integrate(sp.cos(x), x)) # sin(x)
+print(sp.integrate(sp.exp(-x), (x, 0, sp.oo))) # 1`,
+                tip: '💡 SymPy est très fort, mais certaines intégrales n\'ont pas de solution analytique.'
+            },
+            {
+                title: 'Séries de Taylor',
+                duration: '25 min',
+                analogy: '🧬 L\'ADN de la fonction locale',
+                content: `Approcher n'importe quelle fonction par un polynôme.
+Fondamental en physique pour les approximations aux petits angles.`,
+                keyPoints: [
+                    'series(f, x, x0, n) donne le développment limité',
+                    'O(x**n) représente l\'erreur d\'approximation',
+                    'removeO() enlève le grand O pour tracer'
+                ],
+                code: `f = sp.sin(x)
+print(f.series(x, 0, 6))
+# x - x**3/6 + x**5/120 + O(x**6)`,
+                tip: '💡 Les physiciens adorent s\'arrêter au premier ordre !'
+            },
+            {
+                title: 'Matrices et Algèbre Linéaire',
+                duration: '40 min',
+                analogy: '📊 Tableaux de nombres puissants',
+                content: `SymPy gère les matrices symboliques, valeurs propres, déterminants.
+Contrairement à NumPy, les résultats sont exacts.`,
+                keyPoints: [
+                    'Matrix([[1, 2], [3, 4]])',
+                    'M.det(), M.inv()',
+                    'M.eigenvals(), M.eigenvects()'
+                ],
+                code: `M = sp.Matrix([[1, 2], [2, 1]])
+print(M.eigenvals()) # {-1: 1, 3: 1} (Valeur: Multiplicité)
+print(M.inv()) # Inverse exacte`,
+                tip: '💡 SymPy peut diagonnaliser des matrices avec des variables inconnues.'
+            },
+            {
+                title: 'Équations Différentielles (ODEs)',
+                duration: '45 min',
+                analogy: '🔮 Prédire le futur',
+                content: `Résoudre les équations qui lient une fonction et ses dérivées.
+Applications : Mouvement, Circuits électriques, Chimie.`,
+                keyPoints: [
+                    'dsolve(eq, f(x)) résout l\'équation',
+                    'Function("y")(x) définit la fonction inconnue',
+                    'ics={f(0): 1} définit les conditions initiales'
+                ],
+                code: `y = sp.Function('y')(x)
+eq = y.diff(x) - y
+print(sp.dsolve(eq, y)) # y(x) = C1*exp(x)`,
+                tip: '💡 dsolve renvoie une équation Eq(y(x), résultat), pas juste le résultat.'
+            },
+            {
+                title: 'Transformées de Laplace',
+                duration: '35 min',
+                analogy: '🌐 Changer de monde pour simplifier',
+                content: `Passer du domaine temporel (t) au domaine fréquentiel (s).
+Transforme les équations différentielles en équations algébriques simples.`,
+                keyPoints: [
+                    'laplace_transform(f, t, s)',
+                    'inverse_laplace_transform(F, s, t)',
+                    'Indispensable en automatique et théorie du signal'
+                ],
+                code: `t, s = sp.symbols('t s')
+f = sp.exp(-t)
+L = sp.laplace_transform(f, t, s)
+print(L[0]) # 1/(s + 1)`,
+                tip: '💡 SymPy gère aussi Fourier et Z-transform.'
+            },
+            {
+                title: 'Calcul Vectoriel',
+                duration: '35 min',
+                analogy: '🧭 Naviguer dans l\'espace',
+                content: `Gradient, Divergence, Rotationnel.
+Les opérateurs différentiels vectoriels essentiels pour l'électromagnétisme.`,
+                keyPoints: [
+                    'CoordSys3D définit un repère',
+                    'Del permet de calculer gradient, div, rot',
+                    'Indépendant du système de coordonnées'
+                ],
+                code: `from sympy.vector import CoordSys3D, Del
+N = CoordSys3D('N')
+f = N.x**2 * N.y
+delop = Del()
+print(delop.gradient(f)) # 2*N.x*N.y*N.i + N.x**2*N.j`,
+                tip: '💡 geometry module permet aussi de manipuler des objets géométriques.'
+            },
+            {
+                title: 'Mécanique Lagrangienne',
+                duration: '50 min',
+                analogy: '🎢 Le chemin de moindre action',
+                content: `SymPy a un module physique complet.
+On peut établir les équations du mouvement juste en définissant l'énergie cinétique et potentielle.`,
+                keyPoints: [
+                    'mechanics module',
+                    'Lagrangian(T, V)',
+                    'LagrangesMethod génère les équations',
+                    'Plus simple que Newton pour les systèmes complexes'
+                ],
+                code: `from sympy.physics.mechanics import dynamicsymbols, LagrangesMethod, Lagrangian, Particle, Point, ReferenceFrame
+m, g, l = sp.symbols('m g l')
+t = dynamicsymbols._t
+theta = dynamicsymbols('theta')
+omega = theta.diff(t)
+# (Exemple conceptuel simplifié)`,
+                tip: '💡 Très puissant pour la robotique.'
+            },
+            {
+                title: 'Génération de Code',
+                duration: '25 min',
+                analogy: '🗣️ Traducteur universel',
+                content: `Transformer une expression SymPy lente en fonction NumPy, C ou Fortran ultra-rapide.
+Le pont entre le symbolique (théorie) et le numérique (simulation).`,
+                keyPoints: [
+                    'lambdify((x), expr, "numpy") crée une fonction Python rapide',
+                    'codegen génère du code C',
+                    'latex(expr) génère le code pour vos rapports'
+                ],
+                code: `expr = sp.sin(x)**2
+f_fast = sp.lambdify(x, expr, "numpy")
+print(f_fast(np.array([0, 1, 2]))) # Marche avec des tableaux !`,
+                tip: '💡 Utilisez lambdify avant de tracer des graphiques avec Matplotlib.'
+            },
+            {
+                title: 'Conclusion et Projets',
+                duration: '15 min',
+                analogy: '🎓 La remise de diplôme',
+                content: `Vous maîtrisez maintenant le calcul symbolique.
+Prochains défis : Résoudre des problèmes de physique complexes et optimiser vos calculs.`,
+                keyPoints: [
+                    'SymPy pour la dérivation théorique',
+                    'NumPy pour le calcul numérique intensif',
+                    'Matplotlib pour la visualisation'
+                ],
+                code: `# SymLab Power Trio
+# 1. SymPy : Trouvez la formule E = mc²
+# 2. NumPy : Calculez E pour m = 1kg
+# 3. Matplotlib : Tracez E en fonction de m`,
+                tip: '💡 Le combo SymPy + NumPy est imbattable.'
             }
         ]
     },
@@ -1720,6 +1903,118 @@ theta = solution[:, 0]
 
 print(f"Angle final : {theta[-1]:.2f} rad")`,
                 tip: '💡 Astuce : odeint retourne un tableau NumPy. La première colonne est la première variable, la deuxième colonne la deuxième variable, etc.'
+            },
+            {
+                title: 'Traitement, Interpolation et FFT',
+                duration: '50 min',
+                analogy: '🌈 Décomposer la lumière et relier les points',
+                content: `SciPy excelle aussi pour analyser des signaux et boucher les trous dans les données.
+
+**Interpolation** ✍️
+Imaginez que vous avez des mesures tous les 10 mètres, mais vous voulez connaître la valeur à 5 mètres. L'interpolation permet de "deviner" intelligemment les valeurs manquantes.
+
+**Fourier (FFT)** 🎵
+Permet de décomposer n'importe quel signal complexe en une somme de notes pures (fréquences). C'est comme voir les ingrédients d'un smoothie !
+
+**Analogie du Prisme** 💎
+- **Signal temporel** : La lumière blanche (mélange).
+- **FFT** : Le prisme qui sépare les couleurs (spectre).`,
+                keyPoints: [
+                    'interp1d crée une fonction qui relie vos points de données',
+                    'fft transforme le temps en fréquences',
+                    'Utile pour filtrer du bruit ou analyser des vibrations',
+                    'scipy.signal contient aussi des filtres pre-faits (Butterworth...)'
+                ],
+                code: `import numpy as np
+import matplotlib.pyplot as plt
+from scipy.interpolate import interp1d
+from scipy.fft import fft, fftfreq
+
+# === INTERPOLATION ===
+x = np.linspace(0, 10, 11)  # 11 points (0, 1, 2... 10)
+y = np.sin(x)
+
+# Création de la fonction d'interpolation
+f_linear = interp1d(x, y, kind='linear')
+f_cubic = interp1d(x, y, kind='cubic')
+
+x_new = np.linspace(0, 10, 100) # Plus de points pour lisser
+plt.figure()
+plt.scatter(x, y, label='Données brutes')
+plt.plot(x_new, f_cubic(x_new), label='Cubic (Lissé)')
+plt.legend()
+plt.show()
+
+# === FOURIER (FFT) ===
+# Créer un signal bruité
+t = np.linspace(0, 1, 500)
+freq = 5 # 5 Hz
+signal = np.sin(2 * np.pi * freq * t) + 0.5 * np.random.normal(size=len(t))
+
+# Calcul FFT
+spectre = fft(signal)
+frequences = fftfreq(len(t), t[1]-t[0])
+
+# Afficher seulement la partie positive
+mask = frequences > 0
+plt.figure()
+plt.plot(frequences[mask], np.abs(spectre)[mask])
+plt.title("Spectre de fréquences (Pic attendu à 5 Hz)")
+plt.xlabel("Fréquence (Hz)")
+plt.show()`,
+                tip: '💡 Astuce : L\'interpolation cubique (kind="cubic") donne des courbes beaucoup plus douces et naturelles que l\'interpolation linéaire.'
+            },
+            {
+                title: 'Traitement d\'Images Scientifique',
+                duration: '45 min',
+                analogy: '🔬 Le microscope numérique',
+                content: `Une image n'est rien d'autre qu'une matrice de nombres (pixels).
+SciPy (\`scipy.ndimage\`) fournit des outils puissants pour traiter ces "matrices-images", comme les filtres, la morphologie ou les mesures d'objets.
+
+**Filtres** 🌫️
+Flouter, accentuer les bords (Sobel), supprimer le bruit (Médian).
+
+**Mesures** 📏
+Compter des objets, mesurer leur aire, trouver leur centre de gravité.`,
+                keyPoints: [
+                    'gaussian_filter() lisse l\'image (flou)',
+                    'sobel() détecte les contours',
+                    'label() compte les objets distincts (clusters de pixels)',
+                    'center_of_mass() trouve le centre des objets'
+                ],
+                code: `import numpy as np
+import matplotlib.pyplot as plt
+from scipy import ndimage
+
+# Création d'une image synthétique avec du bruit
+n = 100
+image = np.zeros((n, n))
+# On crée deux carrés
+image[20:40, 20:40] = 1
+image[60:80, 60:80] = 1
+# On ajoute du bruit
+image += 0.5 * np.random.random((n, n))
+
+# 1. Filtrage (Lissage Gaussien pour réduire le bruit)
+image_lisse = ndimage.gaussian_filter(image, sigma=2)
+
+# 2. Seuillage (masque binaire)
+masque = image_lisse > 0.8
+
+# 3. Étiquetage et Mesure (Compter les objets)
+labels, nb_objets = ndimage.label(masque)
+centres = ndimage.center_of_mass(masque, labels, range(1, nb_objets+1))
+
+print(f"Nombre d'objets détectés : {nb_objets}")
+print(f"Centres de gravité : {centres}")
+
+# Affichage
+plt.figure(figsize=(10, 4))
+plt.subplot(131); plt.imshow(image); plt.title("Image Bruitée")
+plt.subplot(132); plt.imshow(image_lisse); plt.title("Lissée (Gaussien)")
+plt.subplot(133); plt.imshow(labels, cmap='jet'); plt.title("Objets Identifiés")
+plt.show()`,
+                tip: '💡 Astuce : En astronomie ou en biologie cellulaire, ces techniques permettent de compter automatiquement des étoiles ou des cellules sur une photo !'
             }
         ]
     },
@@ -1735,11 +2030,11 @@ print(f"Angle final : {theta[-1]:.2f} rad")`,
                 title: 'Introduction aux Graphiques',
                 duration: '40 min',
                 analogy: '🎨 De la feuille de papier millimétré à l\'écran',
-                content: `**Matplotlib** est la bibliothèque standard pour tracer des courbes en Python.
+                content: `** Matplotlib ** est la bibliothèque standard pour tracer des courbes en Python.
 Elle ressemble beaucoup à MATLAB.
 
-**Fonctions de base :**
-- \`plt.plot(x, y)\` : Trace une ligne
+** Fonctions de base :**
+                                - \`plt.plot(x, y)\` : Trace une ligne
 - \`plt.scatter(x, y)\` : Trace des points
 - \`plt.bar(x, y)\` : Diagramme en bâtons
 - \`plt.hist(data)\` : Histogramme
@@ -1816,6 +2111,114 @@ y = np.cos(z)
 ax.plot3D(x, y, z, 'gray')
 plt.show()`,
                 tip: '💡 Astuce : Pour des graphiques interactifs (zoom, survol), regardez aussi la bibliothèque Plotly.'
+            },
+            {
+                title: 'Graphiques Statistiques et Annotations',
+                duration: '45 min',
+                analogy: '📊 Le journalisme de données : raconter une histoire',
+                content: `Un bon graphique vaut 1000 mots, mais seulement s'il est clair et riche !
+
+**Histogrammes & Boxplots** 📈
+Essentiels pour comprendre la distribution d'une variable (moyenne, étalement, valeurs extrêmes).
+
+**Annotations** 🏷️
+Ajouter du texte, des flèches et des marqueurs pour guider l'œil du lecteur vers l'information importante.
+
+**Analogie de la Météo** ☀️
+Dire "il fait 25°C" est une info. Montrer une courbe avec une flèche "Pic de chaleur à 14h" raconte une histoire.`,
+                keyPoints: [
+                    'plt.hist() pour la distribution de fréquences',
+                    'plt.boxplot() pour voir la médiane et les outliers',
+                    'plt.annotate() pour ajouter du texte avec des flèches',
+                    'Un graphique sans titre ni unités ne vaut rien !'
+                ],
+                code: `import matplotlib.pyplot as plt
+import numpy as np
+
+# Données : Notes d'une classe (distribution normale)
+notes = np.random.normal(12, 3, 1000) # Moyenne 12, Ecart 3
+
+plt.figure(figsize=(12, 5))
+
+# === HISTOGRAMME ===
+plt.subplot(1, 2, 1)
+plt.hist(notes, bins=20, color='skyblue', edgecolor='black')
+plt.title("Distribution des Notes")
+plt.xlabel("Note / 20")
+plt.ylabel("Nombre d'élèves")
+
+# Ajouter une ligne verticale pour la moyenne
+plt.axvline(np.mean(notes), color='red', linestyle='--', label='Moyenne')
+plt.legend()
+
+# === BOXPLOT (Boîte à moustaches) ===
+plt.subplot(1, 2, 2)
+plt.boxplot(notes, vert=False, patch_artist=True)
+plt.title("Résumé Statistique")
+plt.xlabel("Note / 20")
+
+# Annotation
+plt.annotate('Élève brillant !', 
+             xy=(19, 1), 
+             xytext=(15, 1.3),
+             arrowprops=dict(facecolor='black', shrink=0.05))
+
+plt.tight_layout()
+plt.show()`,
+                tip: '💡 Astuce : Le Boxplot est l\'outil ultime pour détecter les "outliers" (valeurs aberrantes) d\'un seul coup d\'œil.'
+            },
+            {
+                title: 'Heatmaps et Styles Avancés',
+                duration: '50 min',
+                analogy: '🎨 Devenir un artiste de la donnée',
+                content: `Parfois, vous avez des données en 2D (température sur une carte, matrice de corrélation, image).
+La fonction **imshow()** (Image Show) est votre meilleure amie.
+
+**Styles (rcparams)** 💅
+Matplotlib est entièrement personnalisable. Ne gardez pas le style par défaut des années 90 ! Utilisez des feuilles de style.
+
+**Heatmaps** 🔥
+Une carte de chaleur représente des valeurs par des couleurs. Le choix de la palette (cmap) est crucial (viridis, magma, seismic...).`,
+                keyPoints: [
+                    'plt.imshow() pour les matrices 2D',
+                    'plt.colorbar() est obligatoire pour comprendre l\'échelle des couleurs',
+                    'plt.style.use() change le look instantanément',
+                    'cmap="RdBu" (Rouge-Bleu) est idéal pour les écarts positifs/négatifs'
+                ],
+                code: `import matplotlib.pyplot as plt
+import numpy as np
+
+# Changeons le style global
+plt.style.use('dark_background') # Essayez 'seaborn-v0_8' ou 'ggplot'
+
+# Créons une grille 2D (ex: altitude d'une montagne)
+x = np.linspace(-5, 5, 100)
+y = np.linspace(-5, 5, 100)
+X, Y = np.meshgrid(x, y)
+Z = np.sin(np.sqrt(X**2 + Y**2)) # Fonction "Chapeau mexicain"
+
+plt.figure(figsize=(8, 6))
+
+# Affichage Heatmap
+im = plt.imshow(Z, cmap='magma', extent=[-5, 5, -5, 5], origin='lower')
+
+# Barre de couleur
+cbar = plt.colorbar(im)
+cbar.set_label('Altitude (m)')
+
+# Décoration
+plt.title("Carte Topographique (Heatmap)")
+plt.xlabel("Position X")
+plt.ylabel("Position Y")
+
+# Sauvegarde haute qualité pour publication
+# plt.savefig('mon_chef_doeuvre.png', dpi=300, bbox_inches='tight')
+
+plt.show()
+
+# Reset style pour la suite
+plt.style.use('default')`,
+                tip: '💡 Astuce : N\'utilisez JAMAIS la colormap "jet" (arc-en-ciel) pour des données scientifiques, elle fausse la perception visuelle. Préférez "viridis" (par défaut) ou "magma".'
             }
         ]
     },
@@ -1831,21 +2234,21 @@ plt.show()`,
                 title: 'Projet 1 : Mouvement de Projectile',
                 duration: '2h',
                 analogy: '⚽ La physique du coup franc parfait',
-                content: `**Objectif** : Modéliser la trajectoire d'un projectile (ballon, fusée) avec frottements de l'air.
+                content: `** Objectif ** : Modéliser la trajectoire d'un projectile (ballon, fusée) avec frottements de l'air.
 
-**Outils utilisés** :
-- **NumPy** : Calculs vectoriels
-- **SciPy** : Résolution de l'équation différentielle
-- **Matplotlib** : Visualisation de la trajectoire
+** Outils utilisés ** :
+- ** NumPy ** : Calculs vectoriels
+        - ** SciPy ** : Résolution de l'équation différentielle
+            - ** Matplotlib ** : Visualisation de la trajectoire
 
-**Physique** 📐
-Forces en jeu :
-1. **Poids** : $P = m \\cdot g$ (vers le bas)
-2. **Frottement** : $F = -k \\cdot v^2$ (opposé à la vitesse)
+                ** Physique ** 📐
+Forces en jeu:
+    1. ** Poids ** : $P = m \\cdot g$(vers le bas)
+    2. ** Frottement ** : $F = -k \\cdot v ^ 2$(opposé à la vitesse)
 
-**Équations** :
-$x'' = - (k/m) \\cdot v \\cdot x'$
-$y'' = -g - (k/m) \\cdot v \\cdot y'$`,
+        ** Équations ** :
+$x'' = - (k / m) \\cdot v \\cdot x'$
+$y'' = -g - (k / m) \\cdot v \\cdot y'$`,
                 keyPoints: [
                     'Définir les conditions initiales (vitesse, angle)',
                     'Transformer les équations du second ordre en système du premier ordre',
