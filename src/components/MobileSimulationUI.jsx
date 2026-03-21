@@ -3,6 +3,11 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
+import ReactMarkdown from 'react-markdown';
+import remarkMath from 'remark-math';
+import rehypeKatex from 'rehype-katex';
+import rehypeRaw from 'rehype-raw';
+import 'katex/dist/katex.min.css';
 
 // ============================================
 // COMPOSANTS UI MOBILE PREMIUM POUR SIMULATIONS
@@ -377,13 +382,18 @@ export const MobileInfoPanel = ({
 
                             {/* Théorie */}
                             {simulation?.theory && (
-                                <div className="p-4 rounded-2xl bg-white/5 border border-white/10 mb-4">
-                                    <h3 className="font-bold text-white mb-2 flex items-center gap-2">
+                                <div className="p-4 rounded-2xl bg-white/5 border border-white/10 mb-4 prose prose-invert max-w-none">
+                                    <h3 className="font-bold text-white mb-2 flex items-center gap-2 not-prose">
                                         <span>📖</span> Théorie
                                     </h3>
-                                    <p className="text-gray-300 text-sm leading-relaxed whitespace-pre-line">
-                                        {simulation.theory?.slice(0, 300)}...
-                                    </p>
+                                    <div className="text-gray-300 text-sm leading-relaxed whitespace-pre-line">
+                                        <ReactMarkdown
+                                            remarkPlugins={[remarkMath]}
+                                            rehypePlugins={[rehypeKatex, rehypeRaw]}
+                                        >
+                                            {simulation.theory}
+                                        </ReactMarkdown>
+                                    </div>
                                 </div>
                             )}
 

@@ -8,6 +8,11 @@ import dynamic from 'next/dynamic';
 import { collegeSimulationsData } from '../collegeData';
 import { lyceeSimulationsData } from '../lyceeData';
 import { getSimulationImage, simulationHotspots } from '../imageConfig';
+import ReactMarkdown from 'react-markdown';
+import remarkMath from 'remark-math';
+import rehypeKatex from 'rehype-katex';
+import rehypeRaw from 'rehype-raw';
+import 'katex/dist/katex.min.css';
 import EnhancedQuiz from '@/components/EnhancedQuiz';
 import {
     MobileBottomNavbar,
@@ -1258,7 +1263,12 @@ export default function SimulationDetailPage({ params }) {
                         {activeTab === 'theory' && (
                             <div className="p-8 rounded-2xl bg-gradient-to-br from-white/10 to-white/5 border border-white/20 prose prose-invert max-w-none animate-in fade-in slide-in-from-bottom-4 duration-500">
                                 <div className="whitespace-pre-line text-gray-300 leading-relaxed">
-                                    {simulation.theory}
+                                    <ReactMarkdown
+                                        remarkPlugins={[remarkMath]}
+                                        rehypePlugins={[rehypeKatex, rehypeRaw]}
+                                    >
+                                        {simulation.theory || ""}
+                                    </ReactMarkdown>
                                 </div>
                             </div>
                         )}

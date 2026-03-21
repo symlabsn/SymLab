@@ -1,13 +1,16 @@
-﻿'use client';
-import { useRef, useMemo, useState, useEffect } from 'react';
+'use client';
+import { useRef, useMemo, useState, useEffect, useCallback } from 'react';
 import * as THREE from 'three';
 import { useFrame } from '@react-three/fiber';
 import { Text, Html, Float, Sphere, OrbitControls, Box, Cylinder, Torus } from '@react-three/drei';
 import DraggableHtmlPanel from './DraggableHtmlPanel';
 import { SuccessOverlay, ConfettiExplosion, GradeBadge, XPBar, PhaseSelector, MissionObjective, ChallengeTimer } from './GamificationUtils';
+import { hapticFeedback, SCENARIOS_PC4E, LocalContextHint, StoryIntro, LabAmbientParticles } from './PC4eImmersiveEnhancements';
+import MathDisplay from '@/components/MathDisplay';
 
 // ============================================================
 // CHAPITRE 9: SÉPARATION DES MÉLANGES (IMMERSIVE & CHALLENGE)
+// Scénarios : Lac Rose (sel) • Eau de puits Mbour • Cuisine
 // ============================================================
 export function MixtureSeparationPC4() {
     const [phase, setPhase] = useState('explore');
@@ -16,6 +19,10 @@ export function MixtureSeparationPC4() {
     const [progress, setProgress] = useState(0);
     const [particles, setParticles] = useState(null);
     const [targetReached, setTargetReached] = useState(false);
+    const [showStory, setShowStory] = useState(false);
+    const [activeScenario, setActiveScenario] = useState(null);
+    const [showHint, setShowHint] = useState(false);
+    const [isMobile, setIsMobile] = useState(false);
 
     // Gamification & Features
     const [score, setScore] = useState(0);
@@ -23,6 +30,16 @@ export function MixtureSeparationPC4() {
     const [microscope, setMicroscope] = useState(false);
     const [timeLeft, setTimeLeft] = useState(45);
     const [mission, setMission] = useState(null);
+    const [streak, setStreak] = useState(0);
+    const [purityLevel, setPurityLevel] = useState(0);
+
+    // Mobile detection
+    useEffect(() => {
+        const check = () => setIsMobile(window.innerWidth < 768);
+        check();
+        window.addEventListener('resize', check);
+        return () => window.removeEventListener('resize', check);
+    }, []);
 
     // Initialisation des particules
     useEffect(() => {
@@ -31,23 +48,27 @@ export function MixtureSeparationPC4() {
     }, []);
 
     const mixtures = {
-        mud: { name: 'Eau boueuse', components: ['Eau', 'Terre'], color: '#78350F', difficulty: 1 },
-        salt_water: { name: 'Eau salée', components: ['Eau', 'Sel'], color: '#93C5FD', difficulty: 2 },
-        oil_water: { name: 'Eau + Huile', components: ['Eau', 'Huile'], color: '#FEF3C7', difficulty: 1 }
+        mud: { name: 'Eau boueuse (Puits de Mbour)', components: ['Eau', 'Terre', 'Sable'], color: '#78350F', difficulty: 1, localHint: 'Dans les villages comme Mbour, l\'eau des puits est souvent trouble. La décantation, puis la filtration avec un tissu propre, sont les premières étapes pour obtenir de l\'eau claire.' },
+        salt_water: { name: 'Eau du Lac Rose', components: ['Eau', 'Sel (NaCl)'], color: '#F9A8D4', difficulty: 2, localHint: 'Le Lac Rose (Lac Retba) contient jusqu\'à 380 g/L de sel ! Les travailleurs y récoltent le sel en faisant évaporer l\'eau dans des bassins au soleil.' },
+        oil_water: { name: 'Eau + Huile de palme', components: ['Eau', 'Huile de palme'], color: '#FEF3C7', difficulty: 1, localHint: 'En cuisine sénégalaise, l\'huile de palme rouge ("diw tiir") flotte toujours sur l\'eau car sa densité est plus faible (0.9 contre 1.0).' },
+        iron_sand: { name: 'Sable ferrugineux', components: ['Sable', 'Limaille de fer'], color: '#92400E', difficulty: 2, localHint: 'Dans la région de Kédougou, riche en minerais, on peut séparer le fer du sable avec un simple aimant. C\'est le principe de la séparation magnétique.' }
     };
 
     const mix = mixtures[mission?.target || mixture];
 
     const methods = {
-        decantation: { name: 'Décantation', icon: '⏳', effective: ['mud', 'oil_water'], desc: 'Laisser reposer (densité)' },
-        filtration: { name: 'Filtration', icon: '☕', effective: ['mud'], desc: 'Passer à travers un filtre (taille)' },
-        evaporation: { name: 'Vaporisation', icon: '🔥', effective: ['salt_water'], desc: 'Chauffer pour récupérer le solide' }
+        decantation: { name: 'Décantation', icon: '⏳', effective: ['mud', 'oil_water'], desc: 'Laisser reposer (densité)', detail: 'Les composants se séparent par gravité' },
+        filtration: { name: 'Filtration', icon: '☕', effective: ['mud'], desc: 'Passer à travers un filtre (taille)', detail: 'Seules les petites particules passent' },
+        evaporation: { name: 'Évaporation', icon: '☀️', effective: ['salt_water'], desc: 'Chauffer / Soleil pour récupérer le solide', detail: 'L\'eau s\'évapore, le sel cristallise' },
+        magnetic: { name: 'Aimantation', icon: '🧲', effective: ['iron_sand'], desc: 'Attirer les particules magnétiques', detail: 'Le fer est attiré, pas le sable' }
     };
 
     const startSeparation = (m) => {
         setMethod(m);
         setProgress(0);
+        setPurityLevel(0);
         setShowSuccess(false);
+        hapticFeedback('light');
     };
 
     const isSuccess = method && methods[method].effective.includes(mission?.target || mixture);
@@ -55,7 +76,10 @@ export function MixtureSeparationPC4() {
     useFrame((state, delta) => {
         if (method && progress < 1) {
             setProgress(prev => {
-                const newP = Math.min(prev + delta * 0.3, 1);
+                const speed = isSuccess ? 0.25 : 0.15;
+                const newP = Math.min(prev + delta * speed, 1);
+                // Update purity level progressively
+                if (isSuccess) setPurityLevel(Math.floor(newP * 100));
                 if (newP === 1 && prev < 1) {
                     if (isSuccess) {
                         setTargetReached(true);
@@ -68,25 +92,44 @@ export function MixtureSeparationPC4() {
     });
 
     const handleMissionSuccess = () => {
-        const points = 50 + (phase === 'mission' ? Math.floor(timeLeft * 2) : 0);
+        const streakBonus = streak * 5;
+        const timeBonus = phase === 'mission' ? Math.floor(timeLeft * 2) : 0;
+        const points = 50 + timeBonus + streakBonus;
         setScore(s => s + points);
+        setStreak(s => s + 1);
         setShowSuccess(true);
+        hapticFeedback('success');
     };
 
-    const startMission = () => {
-        const keys = Object.keys(mixtures);
-        const randomKey = keys[Math.floor(Math.random() * keys.length)];
+    const scenarios = [SCENARIOS_PC4E.ch9_eau_puits, SCENARIOS_PC4E.ch9_sel_lac_rose];
+
+    const startMission = (scenarioKey) => {
+        let targetMixture;
+        if (scenarioKey === 'eau-potable') {
+            targetMixture = 'mud';
+            setActiveScenario(SCENARIOS_PC4E.ch9_eau_puits);
+        } else if (scenarioKey === 'sel-lac-rose') {
+            targetMixture = 'salt_water';
+            setActiveScenario(SCENARIOS_PC4E.ch9_sel_lac_rose);
+        } else {
+            const keys = Object.keys(mixtures);
+            targetMixture = keys[Math.floor(Math.random() * keys.length)];
+        }
+        
         setMission({
-            target: randomKey,
-            objective: `Isolez les composants de : ${mixtures[randomKey].name}`
+            target: targetMixture,
+            objective: `Isolez les composants de : ${mixtures[targetMixture].name}`
         });
-        setMixture(randomKey);
+        setMixture(targetMixture);
         setPhase('mission');
         setMethod(null);
         setProgress(0);
+        setPurityLevel(0);
         setShowSuccess(false);
+        setShowStory(false);
         setTimeLeft(45);
         setTargetReached(false);
+        hapticFeedback('medium');
     };
 
     useEffect(() => {
@@ -96,90 +139,159 @@ export function MixtureSeparationPC4() {
         }
     }, [timeLeft, phase, showSuccess]);
 
+    const currentMixtureName = mixtures[mission?.target || mixture].name;
+    const successMsg = activeScenario 
+        ? `🎉 Mission "${activeScenario.title}" accomplie ! Tu as séparé : ${currentMixtureName}` 
+        : `Mission Accomplie ! Tu as séparé : ${currentMixtureName}`;
+
     return (
         <>
-            <SuccessOverlay show={showSuccess} message={`Mission Accomplie ! Tu as séparé : ${mixtures[mission?.target || mixture].name}`} points={50 + (phase === 'mission' ? Math.floor(timeLeft * 2) : 0)} onNext={phase === 'mission' ? startMission : () => setShowSuccess(false)} />
+            <LabAmbientParticles count={30} color="#f97316" range={10} />
+            <SuccessOverlay show={showSuccess} message={successMsg} points={50 + (phase === 'mission' ? Math.floor(timeLeft * 2) + streak * 5 : 0)} onNext={phase === 'mission' ? () => startMission() : () => setShowSuccess(false)} />
             <ConfettiExplosion active={showSuccess} />
 
             <Html transform={false}>
-                <DraggableHtmlPanel title="⚗️ Laboratoire de Séparation" showCloseButton={false} defaultPosition="bottom-center" className="w-[400px] border-orange-500/30 text-white">
-                    <div className="flex justify-between items-center mb-4">
+                <DraggableHtmlPanel title="⚗️ Laboratoire de Séparation" showCloseButton={false} defaultPosition="bottom-center" className={`${isMobile ? 'w-[95vw] max-w-[420px]' : 'w-[420px]'} border-orange-500/30 text-white`}>
+                    <div className="flex justify-between items-center mb-3">
                         <GradeBadge score={score} />
-                        {phase === 'mission' && <ChallengeTimer timeLeft={timeLeft} maxTime={45} />}
+                        <div className="flex items-center gap-2">
+                            {streak > 1 && (
+                                <div className="flex items-center gap-1 px-2 py-0.5 rounded-full bg-orange-500/20 border border-orange-500/30 animate-pulse">
+                                    <span className="text-xs">🔥</span>
+                                    <span className="text-[10px] font-bold text-orange-400">{streak}x</span>
+                                </div>
+                            )}
+                            {phase === 'mission' && <ChallengeTimer timeLeft={timeLeft} maxTime={45} />}
+                        </div>
                     </div>
 
                     <XPBar current={score} nextLevel={1000} />
 
-                    <div className="h-[1px] bg-gradient-to-r from-transparent via-orange-500/50 to-transparent my-4" />
+                    <div className="h-[1px] bg-gradient-to-r from-transparent via-orange-500/50 to-transparent my-3" />
 
-                    <PhaseSelector currentPhase={phase} onSelect={(p) => { setPhase(p); if (p === 'mission') startMission(); }} />
+                    <PhaseSelector currentPhase={phase} onSelect={(p) => { 
+                        setPhase(p); 
+                        if (p === 'mission') {
+                            setShowStory(true);
+                        }
+                        hapticFeedback('light');
+                    }} />
 
-                    {phase === 'mission' && mission && (
+                    {/* Story Intro for Mission */}
+                    {showStory && phase === 'mission' && (
+                        <div className="space-y-2 mb-3">
+                            <div className="text-[10px] text-gray-400 font-bold uppercase tracking-wider mb-2">Choisis ta mission :</div>
+                            {scenarios.map(sc => (
+                                <button key={sc.id} onClick={() => startMission(sc.id)}
+                                    className="w-full p-3 bg-gradient-to-r from-orange-500/10 to-amber-500/5 border border-orange-500/20 rounded-xl text-left hover:from-orange-500/20 transition-all active:scale-[0.98]">
+                                    <div className="flex items-center gap-2">
+                                        <span className="text-2xl">{sc.icon}</span>
+                                        <div>
+                                            <div className="text-sm font-black text-white">{sc.title}</div>
+                                            <div className="text-[10px] text-gray-400 leading-tight mt-0.5">{sc.story.slice(0, 80)}...</div>
+                                            <div className="flex items-center gap-2 mt-1">
+                                                <span className="text-[8px] px-1.5 py-0.5 rounded bg-orange-500/20 text-orange-300 font-bold">+{sc.xpReward} XP</span>
+                                                <span className="text-[8px] text-gray-500">{'⭐'.repeat(sc.difficulty)}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </button>
+                            ))}
+                        </div>
+                    )}
+
+                    {phase === 'mission' && mission && !showStory && (
                         <MissionObjective objective={mission.objective} icon="⚗️" />
                     )}
 
-                    <div className="grid grid-cols-2 gap-4 mt-4">
-                        <div className="space-y-4">
-                            {phase === 'explore' && (
+                    {/* Hint sénégalais */}
+                    <LocalContextHint hint={mix?.localHint} isVisible={showHint && !showStory} />
+
+                    {!showStory && (
+                        <div className={`grid ${isMobile ? 'grid-cols-1' : 'grid-cols-2'} gap-3 mt-3`}>
+                            <div className="space-y-3">
+                                {phase === 'explore' && (
+                                    <div>
+                                        <label className="text-[10px] text-gray-400 block mb-1.5 uppercase tracking-wider">Solution à traiter</label>
+                                        <div className={`grid ${isMobile ? 'grid-cols-2' : 'grid-cols-1'} gap-1.5`}>
+                                            {Object.entries(mixtures).map(([k, m]) => (
+                                                <button key={k} onClick={() => { setMixture(k); setMethod(null); setProgress(0); setPurityLevel(0); hapticFeedback('light'); }}
+                                                    className={`${isMobile ? 'py-3 px-3' : 'py-1.5 px-2'} rounded-xl text-xs font-bold transition-all border active:scale-95 ${mixture === k ? 'bg-orange-600 border-orange-400 shadow-lg shadow-orange-500/20' : 'bg-gray-800/50 border-gray-700 hover:bg-gray-700/50'}`}>
+                                                    {m.name}
+                                                </button>
+                                            ))}
+                                        </div>
+                                    </div>
+                                )}
+
                                 <div>
-                                    <label className="text-[10px] text-gray-400 block mb-1 uppercase">Solution à traiter</label>
-                                    <div className="grid grid-cols-1 gap-1">
-                                        {Object.entries(mixtures).map(([k, m]) => (
-                                            <button key={k} onClick={() => { setMixture(k); setMethod(null); setProgress(0); }}
-                                                className={`py-1 px-2 rounded-lg text-xs font-bold transition-all border ${mixture === k ? 'bg-orange-600 border-orange-400' : 'bg-gray-800 border-gray-700'}`}>
-                                                {m.name}
+                                    <label className="text-[10px] text-gray-400 block mb-1.5 uppercase tracking-wider">Technique de Séparation</label>
+                                    <div className={`grid ${isMobile ? 'grid-cols-2' : 'grid-cols-1'} gap-1.5`}>
+                                        {Object.entries(methods).map(([k, m]) => (
+                                            <button key={k} onClick={() => startSeparation(k)}
+                                                className={`flex items-center gap-2 ${isMobile ? 'p-3' : 'p-2'} rounded-xl border transition-all active:scale-95 ${method === k ? 'bg-orange-500/20 text-orange-100 border-orange-500/50 shadow-lg shadow-orange-500/10' : 'bg-gray-800/50 border-gray-700 hover:bg-gray-700/50'}`}>
+                                                <span className={isMobile ? 'text-2xl' : 'text-lg'}>{m.icon}</span>
+                                                <div className="text-left">
+                                                    <div className="font-bold text-[11px]">{m.name}</div>
+                                                    <div className="text-[9px] opacity-60 leading-tight">{m.desc}</div>
+                                                </div>
                                             </button>
                                         ))}
                                     </div>
                                 </div>
-                            )}
+                            </div>
 
-                            <div>
-                                <label className="text-[10px] text-gray-400 block mb-1 uppercase">Technique de Séparation</label>
-                                <div className="grid grid-cols-1 gap-1">
-                                    {Object.entries(methods).map(([k, m]) => (
-                                        <button key={k} onClick={() => startSeparation(k)}
-                                            className={`flex items-center gap-2 p-1 px-2 rounded-lg border transition-all ${method === k ? 'bg-orange-100 text-black border-orange-500' : 'bg-gray-800 border-gray-700'}`}>
-                                            <span className="text-lg">{m.icon}</span>
-                                            <div className="text-left">
-                                                <div className="font-bold text-[10px]">{m.name}</div>
-                                                <div className="text-[8px] opacity-70 leading-tight">{m.desc}</div>
-                                            </div>
+                            <div className="bg-black/60 rounded-xl p-3 border border-white/5 flex flex-col justify-between">
+                                <div className="space-y-2">
+                                    <div className="flex items-center justify-between">
+                                        <div className="text-[9px] text-gray-500 font-mono">LAB_ANALYSIS</div>
+                                        <button onClick={() => setShowHint(!showHint)} className="text-[9px] text-emerald-400 font-bold hover:text-emerald-300 transition-colors">
+                                            🇸🇳 Indice
                                         </button>
-                                    ))}
-                                </div>
-                            </div>
-                        </div>
-
-                        <div className="bg-black/60 rounded-xl p-3 border border-white/5 flex flex-col justify-between">
-                            <div className="space-y-2 text-center">
-                                <div className="text-[9px] text-gray-500 font-mono">LAB_ANALYSIS</div>
-                                <button onClick={() => setMicroscope(!microscope)} className={`w-full py-1 text-[10px] border px-2 rounded transition-colors ${microscope ? 'bg-blue-600 border-blue-400 text-white' : 'bg-gray-800 border-gray-600 text-gray-400'}`}>
-                                    {microscope ? 'Microscope: ON 🔬' : 'Microscope: OFF 🔬'}
-                                </button>
-
-                                {method && (
-                                    <div className="mt-2">
-                                        <div className="flex justify-between text-[9px] font-mono mb-1">
-                                            <span>PROGRESS</span>
-                                            <span>{Math.round(progress * 100)}%</span>
-                                        </div>
-                                        <div className="h-1 bg-gray-800 rounded-full overflow-hidden">
-                                            <div className="h-full bg-orange-500 transition-all" style={{ width: `${progress * 100}%` }} />
-                                        </div>
                                     </div>
-                                )}
+                                    <button onClick={() => setMicroscope(!microscope)} className={`w-full ${isMobile ? 'py-3' : 'py-1.5'} text-[11px] border px-2 rounded-lg transition-colors active:scale-95 ${microscope ? 'bg-blue-600 border-blue-400 text-white' : 'bg-gray-800 border-gray-600 text-gray-400'}`}>
+                                        {microscope ? 'Microscope: ON 🔬' : 'Microscope: OFF 🔬'}
+                                    </button>
 
-                                {progress === 1 && !isSuccess && (
-                                    <div className="text-red-400 text-[9px] font-bold animate-pulse mt-1">Échec: Technique Inadaptée</div>
-                                )}
+                                    {method && (
+                                        <div className="mt-2 space-y-2">
+                                            <div className="flex justify-between text-[9px] font-mono mb-1">
+                                                <span>SÉPARATION</span>
+                                                <span className={isSuccess ? 'text-green-400' : 'text-gray-400'}>{Math.round(progress * 100)}%</span>
+                                            </div>
+                                            <div className="h-2 bg-gray-800 rounded-full overflow-hidden border border-white/5">
+                                                <div className={`h-full transition-all rounded-full ${isSuccess ? 'bg-gradient-to-r from-orange-500 to-amber-400' : 'bg-gray-600'}`} style={{ width: `${progress * 100}%` }} />
+                                            </div>
+                                            {isSuccess && progress > 0.3 && (
+                                                <div className="flex justify-between text-[9px] font-mono">
+                                                    <span className="text-blue-400">PURETÉ</span>
+                                                    <span className="text-blue-300 font-bold">{purityLevel}%</span>
+                                                </div>
+                                            )}
+                                            <div className="text-[9px] text-gray-500 italic">{methods[method].detail}</div>
+                                        </div>
+                                    )}
+
+                                    {progress === 1 && !isSuccess && (
+                                        <div className="text-red-400 text-[10px] font-bold animate-pulse mt-1 p-2 bg-red-500/10 rounded-lg border border-red-500/20">
+                                            ❌ Technique Inadaptée ! Essaie une autre méthode.
+                                        </div>
+                                    )}
+
+                                    {progress === 1 && isSuccess && (
+                                        <div className="text-green-400 text-[10px] font-bold mt-1 p-2 bg-green-500/10 rounded-lg border border-green-500/20">
+                                            ✅ Composants: {mix.components.join(' + ')} séparés !
+                                        </div>
+                                    )}
+                                </div>
+
+                                <button onClick={() => { setMethod(null); setProgress(0); setPurityLevel(0); hapticFeedback('light'); }} 
+                                    className={`w-full ${isMobile ? 'py-3' : 'py-1.5'} bg-white/5 hover:bg-white/10 rounded-lg text-[11px] transition-all mt-2 active:scale-95 font-bold`}>
+                                    🔄 RE-INITIALISER
+                                </button>
                             </div>
-
-                            <button onClick={() => { setMethod(null); setProgress(0); }} className="w-full py-1 bg-white/5 hover:bg-white/10 rounded text-[10px] transition-all mt-2">
-                                RE-INITIALISER
-                            </button>
                         </div>
-                    </div>
+                    )}
                 </DraggableHtmlPanel>
             </Html>
 
@@ -288,6 +400,7 @@ export function MixtureSeparationPC4() {
 
 // ============================================================
 // CHAPITRE 10: LES ATOMES (IMMERSIVE & MISSION)
+// Scénario : Le Bijoutier de la Médina
 // ============================================================
 export function AtomBuilderSim() {
     const [phase, setPhase] = useState('explore');
@@ -296,47 +409,77 @@ export function AtomBuilderSim() {
     const [electrons, setElectrons] = useState(1);
     const [mission, setMission] = useState(null);
     const [showSuccess, setShowSuccess] = useState(false);
+    const [isMobile, setIsMobile] = useState(false);
+    const [showAtomInfo, setShowAtomInfo] = useState(false);
 
     // Gamification
     const [score, setScore] = useState(0);
     const [collection, setCollection] = useState([]);
     const [timeLeft, setTimeLeft] = useState(60);
     const [showShells, setShowShells] = useState(true);
+    const [streak, setStreak] = useState(0);
+
+    // Mobile detection
+    useEffect(() => {
+        const check = () => setIsMobile(window.innerWidth < 768);
+        check();
+        window.addEventListener('resize', check);
+        return () => window.removeEventListener('resize', check);
+    }, []);
 
     const elements = {
-        1: { name: 'Hydrogène', symbol: 'H' },
-        2: { name: 'Hélium', symbol: 'He' },
-        3: { name: 'Lithium', symbol: 'Li' },
-        4: { name: 'Béryllium', symbol: 'Be' },
-        5: { name: 'Bore', symbol: 'B' },
-        6: { name: 'Carbone', symbol: 'C' }
+        1: { name: 'Hydrogène', symbol: 'H', usage: 'Carburant spatial' },
+        2: { name: 'Hélium', symbol: 'He', usage: 'Gonfle les ballons' },
+        3: { name: 'Lithium', symbol: 'Li', usage: 'Batteries de téléphone' },
+        4: { name: 'Béryllium', symbol: 'Be', usage: 'Alliages légers' },
+        5: { name: 'Bore', symbol: 'B', usage: 'Verre spécial' },
+        6: { name: 'Carbone', symbol: 'C', usage: 'Base de la vie, diamant' },
+        7: { name: 'Azote', symbol: 'N', usage: '78% de l\'air' },
+        8: { name: 'Oxygène', symbol: 'O', usage: 'Respiration' },
+        26: { name: 'Fer', symbol: 'Fe', usage: 'Mines de Kédougou' },
+        29: { name: 'Cuivre', symbol: 'Cu', usage: 'Fils électriques' },
+        79: { name: 'Or', symbol: 'Au', usage: 'Bijoux de la Médina' }
     };
 
-    const element = elements[protons] || { name: 'Inconnu', symbol: '?' };
+    const element = elements[protons] || { name: 'Inconnu', symbol: '?', usage: '' };
     const massNumber = protons + neutrons;
     const charge = protons - electrons;
     const isStable = Math.abs(neutrons - protons) <= 1 || (protons === 1 && neutrons === 0);
 
-    const startMission = () => {
-        const targets = [
-            { id: 1, p: 1, n: 0, e: 1, name: "Hydrogène-1", points: 50 },
-            { id: 2, p: 2, n: 2, e: 2, name: "Hélium-4", points: 100 },
-            { id: 3, p: 6, n: 6, e: 6, name: "Carbone-12", points: 200 }
-        ];
-        const t = targets[Math.floor(Math.random() * targets.length)];
+    // Missions thématiques avec contexte
+    const missionSets = {
+        bijoutier: [
+            { id: 'au', p: 6, n: 6, e: 6, name: "Carbone-12 (Diamant)", points: 200, context: "Le bijoutier de la Médina travaille le diamant. Construis son atome !" },
+            { id: 'fe', p: 8, n: 8, e: 8, name: "Oxygène-16", points: 150, context: "L'oxygène accélère la rouille du fer. Construis son atome !" },
+            { id: 'h', p: 1, n: 0, e: 1, name: "Hydrogène-1", points: 50, context: "Le plus simple des atomes. Commence par celui-ci !" },
+        ],
+        science: [
+            { id: 'he', p: 2, n: 2, e: 2, name: "Hélium-4", points: 100, context: "Gaz noble utilisé dans les ballons et la plongée." },
+            { id: 'li', p: 3, n: 4, e: 3, name: "Lithium-7", points: 150, context: "Essentiel pour les batteries de ton smartphone !" },
+            { id: 'c', p: 6, n: 6, e: 6, name: "Carbone-12", points: 200, context: "Base de toute la chimie organique et de la vie !" }
+        ]
+    };
+
+    const startMission = (type = 'random') => {
+        const set = type === 'bijoutier' ? missionSets.bijoutier : missionSets.science;
+        const t = set[Math.floor(Math.random() * set.length)];
         setMission(t);
         setPhase('mission');
         setProtons(1); setNeutrons(0); setElectrons(1);
         setShowSuccess(false);
         setTimeLeft(60);
+        hapticFeedback('medium');
     };
 
     useEffect(() => {
         if (phase === 'mission' && mission && !showSuccess) {
             if (protons === mission.p && neutrons === mission.n && electrons === mission.e) {
                 const bonus = Math.floor(timeLeft / 2);
-                setScore(s => s + mission.points + bonus);
+                const streakBonus = streak * 10;
+                setScore(s => s + mission.points + bonus + streakBonus);
+                setStreak(s => s + 1);
                 setShowSuccess(true);
+                hapticFeedback('success');
                 if (!collection.includes(element.symbol)) {
                     setCollection(prev => [...prev, element.symbol]);
                 }
@@ -362,27 +505,40 @@ export function AtomBuilderSim() {
             <ConfettiExplosion active={showSuccess} />
 
             <Html transform={false}>
-                <DraggableHtmlPanel title="⚛️ Architecte de l'Atome" showCloseButton={false} defaultPosition="bottom-center" className="w-[400px] border-pink-500/30 text-white">
-                    <div className="flex justify-between items-center mb-4">
+                <DraggableHtmlPanel title="⚛️ Architecte de l'Atome" showCloseButton={false} defaultPosition="bottom-center" className={`${isMobile ? 'w-[95vw] max-w-[420px]' : 'w-[420px]'} border-pink-500/30 text-white`}>
+                    <div className="flex justify-between items-center mb-3">
                         <GradeBadge score={score} />
-                        {phase === 'mission' && <ChallengeTimer timeLeft={timeLeft} maxTime={60} />}
+                        <div className="flex items-center gap-2">
+                            {streak > 1 && (
+                                <div className="flex items-center gap-1 px-2 py-0.5 rounded-full bg-pink-500/20 border border-pink-500/30">
+                                    <span className="text-xs">🔥</span>
+                                    <span className="text-[10px] font-bold text-pink-400">{streak}x</span>
+                                </div>
+                            )}
+                            {phase === 'mission' && <ChallengeTimer timeLeft={timeLeft} maxTime={60} />}
+                        </div>
                     </div>
 
                     <XPBar current={score} nextLevel={2000} />
 
-                    <div className="h-[1px] bg-gradient-to-r from-transparent via-pink-500/50 to-transparent my-4" />
-
-                    <div className="h-[1px] bg-gradient-to-r from-transparent via-pink-500/50 to-transparent my-4" />
+                    <div className="h-[1px] bg-gradient-to-r from-transparent via-pink-500/50 to-transparent my-3" />
 
                     <div className="flex justify-between items-center mb-2">
-                        <PhaseSelector currentPhase={phase} onSelect={(p) => { setPhase(p); if (p === 'mission') startMission(); }} />
-                        <button onClick={() => setShowShells(!showShells)} className={`text-[10px] px-2 py-1 rounded border ${showShells ? 'bg-blue-600/50 border-blue-400' : 'bg-gray-800 border-gray-600'}`}>
+                        <PhaseSelector currentPhase={phase} onSelect={(p) => { setPhase(p); if (p === 'mission') startMission('bijoutier'); hapticFeedback('light'); }} />
+                        <button onClick={() => { setShowShells(!showShells); hapticFeedback('light'); }} className={`${isMobile ? 'text-sm px-3 py-2' : 'text-[10px] px-2 py-1'} rounded-lg border transition-all active:scale-95 ${showShells ? 'bg-blue-600/50 border-blue-400' : 'bg-gray-800 border-gray-600'}`}>
                             {showShells ? '👁️ Orbites' : '🙈 Orbites'}
                         </button>
                     </div>
 
                     {phase === 'mission' && mission && (
-                        <MissionObjective objective={`Construis cet isotope : ${mission.name}`} icon="⚛️" />
+                        <div>
+                            <MissionObjective objective={`Construis cet isotope : ${mission.name}`} icon="⚛️" />
+                            {mission.context && (
+                                <div className="mt-2 p-2 bg-pink-500/5 border border-pink-500/10 rounded-lg text-[10px] text-gray-400 italic">
+                                    💡 {mission.context}
+                                </div>
+                            )}
+                        </div>
                     )}
 
                     <div className="grid grid-cols-2 gap-4 mt-4">
@@ -405,25 +561,25 @@ export function AtomBuilderSim() {
 
                             <div className="space-y-3">
                                 <div className="space-y-1">
-                                    <label className="flex justify-between text-[10px] text-red-400 font-bold">
-                                        <span>PROTONS (+)</span>
-                                        <span>{protons}</span>
+                                    <label className="flex justify-between text-[11px] text-red-400 font-bold">
+                                        <span>⊕ PROTONS (+)</span>
+                                        <span className="text-white bg-red-500/20 px-2 py-0.5 rounded-md font-mono">{protons}</span>
                                     </label>
-                                    <input type="range" min="1" max="6" value={protons} onChange={e => setProtons(Number(e.target.value))} className="w-full h-1 bg-gray-700 accent-red-500 rounded-lg appearance-none cursor-pointer" />
+                                    <input type="range" min="1" max="8" value={protons} onChange={e => { setProtons(Number(e.target.value)); hapticFeedback('light'); }} className={`w-full ${isMobile ? 'h-3' : 'h-1.5'} bg-gray-700 accent-red-500 rounded-lg appearance-none cursor-pointer`} />
                                 </div>
                                 <div className="space-y-1">
-                                    <label className="flex justify-between text-[10px] text-gray-400 font-bold">
-                                        <span>NEUTRONS (0)</span>
-                                        <span>{neutrons}</span>
+                                    <label className="flex justify-between text-[11px] text-gray-400 font-bold">
+                                        <span>◯ NEUTRONS (0)</span>
+                                        <span className="text-white bg-gray-500/20 px-2 py-0.5 rounded-md font-mono">{neutrons}</span>
                                     </label>
-                                    <input type="range" min="0" max="8" value={neutrons} onChange={e => setNeutrons(Number(e.target.value))} className="w-full h-1 bg-gray-700 accent-gray-500 rounded-lg appearance-none cursor-pointer" />
+                                    <input type="range" min="0" max="10" value={neutrons} onChange={e => { setNeutrons(Number(e.target.value)); hapticFeedback('light'); }} className={`w-full ${isMobile ? 'h-3' : 'h-1.5'} bg-gray-700 accent-gray-500 rounded-lg appearance-none cursor-pointer`} />
                                 </div>
                                 <div className="space-y-1">
-                                    <label className="flex justify-between text-[10px] text-blue-400 font-bold">
-                                        <span>ÉLECTRONS (-)</span>
-                                        <span>{electrons}</span>
+                                    <label className="flex justify-between text-[11px] text-blue-400 font-bold">
+                                        <span>⊖ ÉLECTRONS (-)</span>
+                                        <span className="text-white bg-blue-500/20 px-2 py-0.5 rounded-md font-mono">{electrons}</span>
                                     </label>
-                                    <input type="range" min="0" max="6" value={electrons} onChange={e => setElectrons(Number(e.target.value))} className="w-full h-1 bg-gray-700 accent-blue-500 rounded-lg appearance-none cursor-pointer" />
+                                    <input type="range" min="0" max="8" value={electrons} onChange={e => { setElectrons(Number(e.target.value)); hapticFeedback('light'); }} className={`w-full ${isMobile ? 'h-3' : 'h-1.5'} bg-gray-700 accent-blue-500 rounded-lg appearance-none cursor-pointer`} />
                                 </div>
                             </div>
                         </div>
@@ -444,22 +600,30 @@ export function AtomBuilderSim() {
                                 </div>
 
                                 <div className="border-t border-white/5 pt-2">
-                                    <div className="text-[9px] text-gray-500 mb-1">COLLECTION</div>
+                                    <div className="text-[9px] text-gray-500 mb-1">🏆 COLLECTION ({collection.length}/11)</div>
                                     <div className="flex flex-wrap gap-1">
-                                        {['H', 'He', 'Li', 'Be', 'B', 'C'].map(s => (
-                                            <div key={s} className={`w-6 h-6 flex items-center justify-center rounded text-[9px] font-bold ${collection.includes(s) ? 'bg-pink-600 text-white' : 'bg-gray-800 text-gray-600'}`}>
+                                        {['H', 'He', 'Li', 'Be', 'B', 'C', 'N', 'O', 'Fe', 'Cu', 'Au'].map(s => (
+                                            <div key={s} className={`${isMobile ? 'w-8 h-8 text-[11px]' : 'w-6 h-6 text-[9px]'} flex items-center justify-center rounded-lg font-bold transition-all ${collection.includes(s) ? 'bg-gradient-to-br from-pink-600 to-purple-600 text-white shadow-lg shadow-pink-500/20 scale-105' : 'bg-gray-800/50 text-gray-600 border border-white/5'}`}>
                                                 {s}
                                             </div>
                                         ))}
                                     </div>
                                 </div>
+
+                                {/* Atom Info Button */}
+                                {element.usage && (
+                                    <div className="mt-2 p-2 bg-gray-900/50 rounded-lg border border-white/5">
+                                        <div className="text-[8px] text-gray-500 uppercase tracking-wider">Utilisation</div>
+                                        <div className="text-[10px] text-gray-300 mt-0.5">{element.usage}</div>
+                                    </div>
+                                )}
                             </div>
                         </div>
                     </div>
                 </DraggableHtmlPanel>
             </Html>
 
-            <ConfettiExplosion active={success} />
+            <ConfettiExplosion active={showSuccess} />
 
             <group>
                 <Text position={[0, 4, 0]} fontSize={0.5} color="#EC4899">STRUCTURE DE L'ATOME</Text>
@@ -2445,11 +2609,8 @@ export function LightSources() {
 }
 
 // ============================================================
-// INTRODUCTION ÉLECTRICITÉ (IMMERSIVE)
-// ============================================================
-
-// ============================================================
 // INTRODUCTION ÉLECTRICITÉ (IMMERSIVE & SÉCURITÉ)
+// Scénario : La Panne du Quartier
 // ============================================================
 export function IntroElectricity() {
     const [phase, setPhase] = useState('explore');
@@ -2458,35 +2619,67 @@ export function IntroElectricity() {
     const [fuseBlown, setFuseBlown] = useState(false);
     const [score, setScore] = useState(0);
     const [showSuccess, setShowSuccess] = useState(false);
-    const [missionFault, setMissionFault] = useState(null); // 'fuse', 'short'
+    const [missionFault, setMissionFault] = useState(null);
     const [repaired, setRepaired] = useState(false);
+    const [isMobile, setIsMobile] = useState(false);
+    const [streak, setStreak] = useState(0);
+    const [showStory, setShowStory] = useState(false);
+    const [diagnosticLog, setDiagnosticLog] = useState([]);
+    const [voltage, setVoltage] = useState(0);
+    const [current, setCurrent] = useState(0);
 
-    // Electrons animation reference
     const electronsRef = useRef([]);
 
+    useEffect(() => {
+        const check = () => setIsMobile(window.innerWidth < 768);
+        check();
+        window.addEventListener('resize', check);
+        return () => window.removeEventListener('resize', check);
+    }, []);
+
+    // Live voltage/current simulation
     useFrame((state) => {
         if (switchClosed && !fuseBlown && !shortCircuit) {
-            // Normal flow
+            setVoltage(12 + Math.sin(state.clock.elapsedTime * 50) * 0.3);
+            setCurrent(0.5 + Math.sin(state.clock.elapsedTime * 50) * 0.02);
+        } else if (shortCircuit && !fuseBlown) {
+            setVoltage(2 + Math.random() * 5);
+            setCurrent(15 + Math.random() * 10);
+        } else {
+            setVoltage(0);
+            setCurrent(0);
         }
     });
 
+    const scenario = SCENARIOS_PC4E.ch_elec_quartier;
+
+    const addToLog = (msg) => {
+        setDiagnosticLog(prev => [...prev.slice(-4), { msg, time: new Date().toLocaleTimeString() }]);
+    };
+
     const startMission = () => {
         setPhase('mission');
+        setShowStory(false);
         const faults = ['fuse', 'short'];
         const fault = faults[Math.floor(Math.random() * faults.length)];
         setMissionFault(fault);
+        setDiagnosticLog([]);
+        addToLog('⚡ Coupure d\u00e9tect\u00e9e dans le quartier');
 
         if (fault === 'fuse') {
             setFuseBlown(true);
             setShortCircuit(false);
+            addToLog('\u26a0\ufe0f Fusible suspect\u00e9');
         } else {
             setShortCircuit(true);
             setFuseBlown(false);
+            addToLog('\u26a0\ufe0f Court-circuit suspect\u00e9');
         }
 
         setSwitchClosed(false);
         setRepaired(false);
         setShowSuccess(false);
+        hapticFeedback('medium');
     };
 
     const toggleShortCircuit = () => {
@@ -2494,9 +2687,13 @@ export function IntroElectricity() {
         if (!shortCircuit) {
             setShortCircuit(true);
             setSwitchClosed(true);
+            addToLog('\u26a1 Court-circuit simul\u00e9 !');
+            hapticFeedback('warning');
             setTimeout(() => {
                 setFuseBlown(true);
                 setSwitchClosed(false);
+                addToLog('\ud83d\udca5 Fusible grill\u00e9 (protection)');
+                hapticFeedback('heavy');
             }, 1500);
         } else {
             setShortCircuit(false);
@@ -2509,8 +2706,15 @@ export function IntroElectricity() {
                 if (type === 'fuse') setFuseBlown(false);
                 if (type === 'short') setShortCircuit(false);
                 setRepaired(true);
-                setScore(s => s + 50);
+                const points = 50 + streak * 10;
+                setScore(s => s + points);
+                setStreak(s => s + 1);
                 setShowSuccess(true);
+                addToLog('\u2705 Panne r\u00e9par\u00e9e avec succ\u00e8s !');
+                hapticFeedback('success');
+            } else {
+                addToLog('\u274c Mauvaise r\u00e9paration...');
+                hapticFeedback('error');
             }
         } else {
             if (type === 'fuse') replaceFuse();
@@ -2522,19 +2726,30 @@ export function IntroElectricity() {
         setShortCircuit(false);
         setSwitchClosed(false);
         setScore(s => s + 10);
+        addToLog('\ud83d\udee0\ufe0f Fusible remplac\u00e9');
+        hapticFeedback('medium');
     };
 
     return (
         <group>
-            <SuccessOverlay show={showSuccess} message="Circuit réparé ! Tu as identifié et corrigé la panne." points={50} onNext={startMission} />
+            <LabAmbientParticles count={20} color="#3B82F6" range={8} />
+            <SuccessOverlay show={showSuccess} message={`Circuit r\u00e9par\u00e9 ! M. Diallo approuve ton travail \ud83d\udc4d`} points={50 + streak * 10} onNext={startMission} />
             <ConfettiExplosion active={showSuccess} />
 
             <Html transform={false}>
-                <DraggableHtmlPanel title="🔌 Circuit et Sécurité" showCloseButton={false} defaultPosition="bottom-center" className="w-[400px] border-blue-500/30 text-white">
-                    <div className="flex justify-between items-center mb-4">
+                <DraggableHtmlPanel title="\u26a1 \u00c9lectricien du Quartier" showCloseButton={false} defaultPosition="bottom-center" className={`${isMobile ? 'w-[95vw] max-w-[420px]' : 'w-[420px]'} border-blue-500/30 text-white`}>
+                    <div className="flex justify-between items-center mb-3">
                         <GradeBadge score={score} />
-                        <div className="bg-gray-900 rounded-lg px-3 py-1 border border-white/10 text-[10px] text-gray-400">
-                            DÉPANNAGE ÉLECTRIQUE
+                        <div className="flex items-center gap-2">
+                            {streak > 1 && (
+                                <div className="flex items-center gap-1 px-2 py-0.5 rounded-full bg-blue-500/20 border border-blue-500/30">
+                                    <span className="text-xs">\ud83d\udd25</span>
+                                    <span className="text-[10px] font-bold text-blue-400">{streak}x</span>
+                                </div>
+                            )}
+                            <div className="bg-gray-900 rounded-lg px-3 py-1 border border-white/10 text-[10px] text-gray-400">
+                                D\u00c9PANNAGE \u00c9LECTRIQUE
+                            </div>
                         </div>
                     </div>
 
@@ -2542,39 +2757,50 @@ export function IntroElectricity() {
 
                     <div className="h-[1px] bg-gradient-to-r from-transparent via-blue-500/50 to-transparent my-4" />
 
-                    <PhaseSelector currentPhase={phase} onSelect={(p) => { setPhase(p); if (p === 'mission') startMission(); else { setFuseBlown(false); setShortCircuit(false); } }} />
+                    <PhaseSelector currentPhase={phase} onSelect={(p) => { 
+                        setPhase(p); 
+                        if (p === 'mission') { setShowStory(true); }
+                        else { setFuseBlown(false); setShortCircuit(false); setShowStory(false); }
+                        hapticFeedback('light');
+                    }} />
 
-                    {phase === 'mission' && !repaired && (
-                        <MissionObjective objective="Le circuit ne fonctionne plus. Trouve la panne et répare-la !" icon="🛠️" />
+                    {/* Story Intro */}
+                    {showStory && phase === 'mission' && (
+                        <StoryIntro scenario={scenario} onStart={startMission} onSkip={startMission} />
                     )}
 
-                    <div className="grid grid-cols-2 gap-4 mt-4">
-                        <div className="space-y-4">
+                    {phase === 'mission' && !repaired && !showStory && (
+                        <MissionObjective objective={`M. Diallo a besoin d&apos;aide : ${missionFault === 'fuse' ? 'Le fusible a saut\u00e9' : 'Un court-circuit emp\u00eache le courant'}. Diagnostique et r\u00e9pare !`} icon="\ud83d\udee0\ufe0f" />
+                    )}
+
+                    {!showStory && (
+                    <div className={`grid ${isMobile ? 'grid-cols-1' : 'grid-cols-2'} gap-3 mt-3`}>
+                        <div className="space-y-3">
                             <div className="bg-gray-800/50 p-3 rounded-xl border border-white/5 space-y-3">
-                                <label className="text-[10px] text-gray-400 block uppercase tracking-widest text-center">Contrôle</label>
-                                <button onClick={() => !fuseBlown && setSwitchClosed(!switchClosed)} disabled={fuseBlown || shortCircuit}
-                                    className={`w-full py-4 rounded-xl font-black text-[12px] transition-all shadow-lg ${fuseBlown ? 'bg-gray-800 text-gray-600' : (switchClosed ? 'bg-green-600 text-white shadow-green-500/20' : 'bg-blue-600 text-white shadow-blue-500/20')}`}>
-                                    {switchClosed ? "COUPER LE COURANT" : "METTRE SOUS TENSION"}
+                                <label className="text-[10px] text-gray-400 block uppercase tracking-widest text-center">Contr\u00f4le Principal</label>
+                                <button onClick={() => { !fuseBlown && setSwitchClosed(!switchClosed); hapticFeedback('medium'); }} disabled={fuseBlown || shortCircuit}
+                                    className={`w-full ${isMobile ? 'py-5' : 'py-4'} rounded-xl font-black ${isMobile ? 'text-sm' : 'text-[12px]'} transition-all shadow-lg active:scale-95 ${fuseBlown ? 'bg-gray-800 text-gray-600' : (switchClosed ? 'bg-green-600 text-white shadow-green-500/20' : 'bg-blue-600 text-white shadow-blue-500/20')}`}>
+                                    {switchClosed ? "\u2b07\ufe0f COUPER LE COURANT" : "\u26a1 METTRE SOUS TENSION"}
                                 </button>
                             </div>
 
                             <div className="flex flex-col gap-2">
                                 {phase === 'explore' ? (
                                     <button onClick={toggleShortCircuit} disabled={fuseBlown || shortCircuit}
-                                        className="w-full py-2 bg-red-900/40 hover:bg-red-900/60 border border-red-500/30 rounded text-[9px] font-bold text-red-200 uppercase">
-                                        Simuler Court-Circuit ⚠️
+                                        className={`w-full ${isMobile ? 'py-3' : 'py-2'} bg-red-900/40 hover:bg-red-900/60 border border-red-500/30 rounded-xl text-xs font-bold text-red-200 uppercase active:scale-95 transition-all`}>
+                                        Simuler Court-Circuit \u26a0\ufe0f
                                     </button>
                                 ) : (
-                                    <div className="grid grid-cols-2 gap-2">
-                                        <button onClick={() => handleRepair('fuse')} className="p-2 bg-gray-800 hover:bg-gray-700 border border-white/10 rounded text-[8px] font-bold">🛠️ CHANGER FUSIBLE</button>
-                                        <button onClick={() => handleRepair('short')} className="p-2 bg-gray-800 hover:bg-gray-700 border border-white/10 rounded text-[8px] font-bold">✂️ ISOLER CÂBLES</button>
+                                    <div className={`grid ${isMobile ? 'grid-cols-1' : 'grid-cols-2'} gap-2`}>
+                                        <button onClick={() => handleRepair('fuse')} className={`${isMobile ? 'p-3' : 'p-2'} bg-gray-800 hover:bg-gray-700 border border-white/10 rounded-xl text-xs font-bold active:scale-95 transition-all`}>\ud83d\udee0\ufe0f CHANGER FUSIBLE</button>
+                                        <button onClick={() => handleRepair('short')} className={`${isMobile ? 'p-3' : 'p-2'} bg-gray-800 hover:bg-gray-700 border border-white/10 rounded-xl text-xs font-bold active:scale-95 transition-all`}>\u2702\ufe0f ISOLER C\u00c2BLES</button>
                                     </div>
                                 )}
 
                                 {fuseBlown && phase === 'explore' && (
                                     <button onClick={replaceFuse}
-                                        className="w-full py-2 bg-green-600 hover:bg-green-500 border border-green-400/50 rounded text-[9px] font-bold text-white uppercase animate-pulse">
-                                        Remplacer Fusible 🛠️
+                                        className={`w-full ${isMobile ? 'py-3' : 'py-2'} bg-green-600 hover:bg-green-500 border border-green-400/50 rounded-xl text-xs font-bold text-white uppercase animate-pulse active:scale-95 transition-all`}>
+                                        Remplacer Fusible \ud83d\udee0\ufe0f
                                     </button>
                                 )}
                             </div>
@@ -2582,35 +2808,54 @@ export function IntroElectricity() {
 
                         <div className="bg-black/60 rounded-xl p-3 border border-blue-500/20 flex flex-col justify-between">
                             <div className="space-y-3">
-                                <div className="text-[10px] text-center font-mono text-gray-500 tracking-widest uppercase">Indicateurs</div>
+                                <div className="text-[10px] text-center font-mono text-gray-500 tracking-widest uppercase">Multim\u00e8tre Virtuel</div>
 
                                 <div className="bg-gray-900/80 p-3 rounded-lg border border-white/5 space-y-2">
                                     <div className="flex justify-between items-center text-[10px]">
-                                        <span className="text-gray-500 uppercase">COURANT</span>
-                                        <span className={`font-bold ${switchClosed && !fuseBlown && !shortCircuit ? 'text-green-400' : 'text-red-400'}`}>
-                                            {switchClosed && !fuseBlown && !shortCircuit ? 'FLUX OK' : 'STOP'}
+                                        <span className="text-gray-500 uppercase">TENSION</span>
+                                        <span className={`font-bold font-mono ${voltage > 0 ? 'text-green-400' : 'text-red-400'}`}>
+                                            {voltage.toFixed(1)} V
                                         </span>
                                     </div>
                                     <div className="flex justify-between items-center text-[10px]">
-                                        <span className="text-gray-500 uppercase">SÉCURITÉ</span>
-                                        <span className={`font-bold ${fuseBlown ? 'text-red-400' : 'text-blue-400'}`}>
-                                            {fuseBlown ? 'DÉFAUT' : 'OK'}
+                                        <span className="text-gray-500 uppercase">COURANT</span>
+                                        <span className={`font-bold font-mono ${current > 5 ? 'text-red-400 animate-pulse' : current > 0 ? 'text-green-400' : 'text-gray-500'}`}>
+                                            {current.toFixed(2)} A
+                                        </span>
+                                    </div>
+                                    <div className="flex justify-between items-center text-[10px]">
+                                        <span className="text-gray-500 uppercase">S\u00c9CURIT\u00c9</span>
+                                        <span className={`font-bold ${fuseBlown ? 'text-red-400' : shortCircuit ? 'text-orange-400 animate-pulse' : 'text-blue-400'}`}>
+                                            {fuseBlown ? '\u274c D\u00c9FAUT' : shortCircuit ? '\u26a0\ufe0f DANGER' : '\u2705 OK'}
                                         </span>
                                     </div>
                                     <div className="h-[1px] bg-white/5" />
                                     <p className="text-[9px] text-gray-500 leading-tight italic">
                                         {fuseBlown
-                                            ? "Fusible grillé ! L'installation est protégée."
-                                            : (shortCircuit ? "DANGER ! Court-circuit détecté !" : "Tout est normal. Observe le trajet de l'électricité.")}
+                                            ? "Fusible grill\u00e9 ! L&apos;installation est prot\u00e9g\u00e9e."
+                                            : (shortCircuit ? "DANGER ! Court-circuit d\u00e9tect\u00e9 !" : "Tout est normal. Observe le trajet.")}
                                     </p>
                                 </div>
+
+                                {/* Diagnostic Log */}
+                                {diagnosticLog.length > 0 && (
+                                    <div className="bg-gray-900/50 p-2 rounded-lg border border-white/5">
+                                        <div className="text-[8px] text-gray-500 font-mono mb-1">JOURNAL DIAGNOSTIC</div>
+                                        {diagnosticLog.slice(-3).map((log, i) => (
+                                            <div key={i} className="text-[9px] text-gray-400 font-mono leading-tight">
+                                                <span className="text-gray-600">{log.time}</span> {log.msg}
+                                            </div>
+                                        ))}
+                                    </div>
+                                )}
                             </div>
 
-                            <button onClick={() => { setSwitchClosed(false); setShortCircuit(false); setFuseBlown(false); setPhase('explore'); }} className="w-full py-2 rounded bg-gray-800 text-[10px] font-bold hover:bg-white hover:text-black transition-all">
-                                RESET
+                            <button onClick={() => { setSwitchClosed(false); setShortCircuit(false); setFuseBlown(false); setPhase('explore'); setDiagnosticLog([]); setShowStory(false); hapticFeedback('light'); }} className={`w-full ${isMobile ? 'py-3' : 'py-2'} rounded-lg bg-gray-800 text-[11px] font-bold hover:bg-white hover:text-black transition-all mt-2 active:scale-95`}>
+                                \ud83d\udd04 RESET
                             </button>
                         </div>
                     </div>
+                    )}
                 </DraggableHtmlPanel>
             </Html>
 
@@ -2731,6 +2976,7 @@ function ElectronStream({ start, end, speed = 1 }) {
 
 // ============================================================
 // CHAPITRE 4: POIDS ET MASSE (ENRICHI & CHALLENGE)
+// Sc\u00e9nario : Le Champion de Lutte
 // ============================================================
 export function WeightMassPC4() {
     const [phase, setPhase] = useState('explore');
@@ -2740,16 +2986,29 @@ export function WeightMassPC4() {
     const [score, setScore] = useState(0);
     const [showSuccess, setShowSuccess] = useState(false);
     const [timeLeft, setTimeLeft] = useState(45);
+    const [isMobile, setIsMobile] = useState(false);
+    const [streak, setStreak] = useState(0);
+    const [showStory, setShowStory] = useState(false);
+    const [showLocalHint, setShowLocalHint] = useState(false);
+
+    useEffect(() => {
+        const check = () => setIsMobile(window.innerWidth < 768);
+        check();
+        window.addEventListener('resize', check);
+        return () => window.removeEventListener('resize', check);
+    }, []);
 
     const planets = {
-        earth: { name: 'Terre', g: 9.8, color: '#3B82F6', emissive: '#1D4ED8' },
-        moon: { name: 'Lune', g: 1.6, color: '#9CA3AF', emissive: '#4B5563' },
-        mars: { name: 'Mars', g: 3.7, color: '#EF4444', emissive: '#991B1B' },
-        jupiter: { name: 'Jupiter', g: 24.8, color: '#F59E0B', emissive: '#B45309' }
+        earth: { name: 'Terre (Dakar)', g: 9.8, color: '#3B82F6', emissive: '#1D4ED8', hint: 'La gravit\u00e9 \u00e0 Dakar est la m\u00eame qu\u2019\u00e0 Paris : 9.8 N/kg. Le poids d\u2019un lutteur de 120 kg est 1176 N !' },
+        moon: { name: 'Lune', g: 1.6, color: '#9CA3AF', emissive: '#4B5563', hint: 'Sur la Lune, notre champion de lutte ne p\u00e8serait que 192 N, mais sa masse resterait 120 kg !' },
+        mars: { name: 'Mars', g: 3.7, color: '#EF4444', emissive: '#991B1B', hint: 'Sur Mars, les lutteurs pourraient sauter 2.5x plus haut qu\u2019\u00e0 Dakar !' },
+        jupiter: { name: 'Jupiter', g: 24.8, color: '#F59E0B', emissive: '#B45309', hint: 'Sur Jupiter, notre lutteur de 120 kg aurait un poids de 2976 N. Il ne pourrait m\u00eame pas se lever !' }
     };
 
     const currentPlanet = planets[planet];
     const weight = (mass * currentPlanet.g).toFixed(1);
+
+    const scenario = SCENARIOS_PC4E.ch4_lutteur;
 
     const startMission = () => {
         const keys = Object.keys(planets);
@@ -2760,16 +3019,22 @@ export function WeightMassPC4() {
         setMass(0);
         setPhase('mission');
         setShowSuccess(false);
+        setShowStory(false);
         setTimeLeft(45);
+        hapticFeedback('medium');
     };
 
     const checkMission = () => {
         if (targetWeight && Math.abs(parseFloat(weight) - parseFloat(targetWeight)) < 0.5) {
             if (!showSuccess) {
-                const points = 50 + Math.floor(timeLeft / 2);
+                const points = 50 + Math.floor(timeLeft / 2) + streak * 10;
                 setScore(s => s + points);
+                setStreak(s => s + 1);
                 setShowSuccess(true);
+                hapticFeedback('success');
             }
+        } else {
+            hapticFeedback('error');
         }
     };
 
@@ -2782,34 +3047,59 @@ export function WeightMassPC4() {
 
     return (
         <group>
-            <SuccessOverlay show={showSuccess} message={`Cargaison équilibrée ! ${weight} N sur ${currentPlanet.name}`} points={50 + Math.floor(timeLeft / 2)} onNext={startMission} />
+            <LabAmbientParticles count={20} color={currentPlanet.color} range={12} />
+            <SuccessOverlay show={showSuccess} message={`Cargaison \u00e9quilibr\u00e9e ! ${weight} N sur ${currentPlanet.name}`} points={50 + Math.floor(timeLeft / 2) + streak * 10} onNext={startMission} />
             <ConfettiExplosion active={showSuccess} />
 
             <Html transform={false}>
-                <DraggableHtmlPanel title="🚀 Mission : Poids Spatial" showCloseButton={false} defaultPosition="bottom-center" className="w-[400px] border-blue-500/30 text-white">
-                    <div className="flex justify-between items-center mb-4">
+                <DraggableHtmlPanel title="\ud83e\udd3c Poids du Champion" showCloseButton={false} defaultPosition="bottom-center" className={`${isMobile ? 'w-[95vw] max-w-[420px]' : 'w-[420px]'} border-blue-500/30 text-white`}>
+                    <div className="flex justify-between items-center mb-3">
                         <GradeBadge score={score} />
-                        {phase === 'mission' && <ChallengeTimer timeLeft={timeLeft} maxTime={45} />}
+                        <div className="flex items-center gap-2">
+                            {streak > 1 && (
+                                <div className="flex items-center gap-1 px-2 py-0.5 rounded-full bg-blue-500/20 border border-blue-500/30">
+                                    <span className="text-xs">\ud83d\udd25</span>
+                                    <span className="text-[10px] font-bold text-blue-400">{streak}x</span>
+                                </div>
+                            )}
+                            {phase === 'mission' && <ChallengeTimer timeLeft={timeLeft} maxTime={45} />}
+                        </div>
                     </div>
 
                     <XPBar current={score} nextLevel={2000} />
 
                     <div className="h-[1px] bg-gradient-to-r from-transparent via-blue-500/50 to-transparent my-4" />
 
-                    <PhaseSelector currentPhase={phase} onSelect={(p) => { setPhase(p); if (p === 'mission') startMission(); }} />
+                    <PhaseSelector currentPhase={phase} onSelect={(p) => { 
+                        setPhase(p); 
+                        if (p === 'mission') { setShowStory(true); }
+                        hapticFeedback('light');
+                    }} />
 
-                    {phase === 'mission' && targetWeight && (
-                        <MissionObjective objective={`Ajustez la masse pour atteindre un poids de ${targetWeight} N sur ${currentPlanet.name}`} icon="⚖️" />
+                    {/* Story Intro */}
+                    {showStory && phase === 'mission' && (
+                        <StoryIntro scenario={scenario} onStart={startMission} onSkip={startMission} />
                     )}
 
-                    <div className="grid grid-cols-2 gap-4 mt-4">
-                        <div className="space-y-4">
+                    {phase === 'mission' && targetWeight && !showStory && (
+                        <MissionObjective objective={`Le lutteur doit atteindre ${targetWeight} N sur ${currentPlanet.name}. Ajuste la masse !`} icon="\u2696\ufe0f" />
+                    )}
+
+                    {/* Local Hint */}
+                    <LocalContextHint hint={currentPlanet.hint} isVisible={showLocalHint && !showStory} />
+
+                    {!showStory && (
+                    <div className={`grid ${isMobile ? 'grid-cols-1' : 'grid-cols-2'} gap-3 mt-3`}>
+                        <div className="space-y-3">
                             <div>
-                                <label className="text-[10px] text-gray-400 block mb-1 uppercase tracking-wider">Destination</label>
-                                <div className="grid grid-cols-2 gap-1">
+                                <div className="flex items-center justify-between mb-1.5">
+                                    <label className="text-[10px] text-gray-400 uppercase tracking-wider">Destination</label>
+                                    <button onClick={() => { setShowLocalHint(!showLocalHint); hapticFeedback('light'); }} className="text-[9px] text-emerald-400 font-bold hover:text-emerald-300">\ud83c\uddf8\ud83c\uddf3 Indice</button>
+                                </div>
+                                <div className="grid grid-cols-2 gap-1.5">
                                     {Object.entries(planets).map(([k, p]) => (
-                                        <button key={k} onClick={() => setPlanet(k)} disabled={phase === 'mission'}
-                                            className={`p-1 text-[9px] font-bold rounded border transition-all ${planet === k ? 'bg-blue-600 border-blue-400' : 'bg-gray-800 border-gray-700 opacity-50'}`}>
+                                        <button key={k} onClick={() => { setPlanet(k); hapticFeedback('light'); }} disabled={phase === 'mission'}
+                                            className={`${isMobile ? 'p-2.5' : 'p-1.5'} text-xs font-bold rounded-xl border transition-all active:scale-95 ${planet === k ? 'bg-blue-600 border-blue-400 shadow-lg shadow-blue-500/20' : 'bg-gray-800/50 border-gray-700 opacity-50 hover:opacity-75'}`}>
                                             {p.name.toUpperCase()}
                                         </button>
                                     ))}
@@ -2817,31 +3107,44 @@ export function WeightMassPC4() {
                             </div>
 
                             <div>
-                                <label className="text-[10px] text-gray-400 block mb-1 uppercase tracking-wider">Cargaison (Masse)</label>
+                                <label className="text-[10px] text-gray-400 block mb-1.5 uppercase tracking-wider">Masse du Lutteur</label>
                                 <div className="bg-gray-900/50 p-3 rounded-xl border border-white/5">
                                     <div className="text-2xl font-bold text-blue-400 font-mono mb-2">{mass} <span className="text-xs text-gray-500">kg</span></div>
-                                    <input type="range" min="0" max="100" step="1" value={mass} onChange={(e) => setMass(Number(e.target.value))}
-                                        className="w-full h-1 bg-gray-700 accent-blue-500 rounded-lg appearance-none cursor-pointer" />
+                                    <input type="range" min="0" max="150" step="1" value={mass} onChange={(e) => { setMass(Number(e.target.value)); hapticFeedback('light'); }}
+                                        className={`w-full ${isMobile ? 'h-3' : 'h-1.5'} bg-gray-700 accent-blue-500 rounded-lg appearance-none cursor-pointer`}
+                                        style={{ background: `linear-gradient(to right, #3B82F6 0%, #3B82F6 ${mass/150*100}%, #374151 ${mass/150*100}%, #374151 100%)` }} />
+                                    <div className="flex justify-between text-[8px] text-gray-500 mt-1">
+                                        <span>0 kg</span>
+                                        <span>\ud83e\udd3c 120 kg (champion)</span>
+                                        <span>150 kg</span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
 
                         <div className="bg-black/60 rounded-xl p-3 border border-blue-500/20 flex flex-col justify-between">
                             <div className="space-y-3 text-center">
-                                <div className="text-[10px] font-mono text-gray-500 tracking-widest uppercase">Indicateur de Poids</div>
+                                <div className="text-[10px] font-mono text-gray-500 tracking-widest uppercase">\u2696\ufe0f Balance Spatiale</div>
                                 <div className="bg-gray-900/80 p-3 rounded-lg border border-blue-500/30">
-                                    <div className="text-2xl font-black text-white font-mono">{weight}<span className="text-xs ml-1 text-gray-500">N</span></div>
+                                    <div className="text-3xl font-black text-white font-mono">{weight}<span className="text-sm ml-1 text-gray-500">N</span></div>
                                     <div className="text-[8px] text-blue-400 mt-1 uppercase">Force Gravitationnelle</div>
+                                    <div className="mt-2 text-[10px] text-gray-500 font-mono">
+                                    <MathDisplay block>{`P = m \\times g = ${mass} \\times ${currentPlanet.g}`}</MathDisplay>
                                 </div>
-                                <div className="text-[10px] text-gray-500">g = {currentPlanet.g} N/kg</div>
+                                </div>
+                                <div className="flex justify-between text-[10px]">
+                                    <span className="text-gray-500">g = {currentPlanet.g} N/kg</span>
+                                    <span className={`font-bold ${mass > 0 ? 'text-blue-400' : 'text-gray-600'}`}>m = {mass} kg</span>
+                                </div>
                             </div>
 
                             <button onClick={phase === 'mission' ? checkMission : null}
-                                className={`w-full py-2 rounded font-black text-[10px] tracking-widest transition-all ${phase === 'mission' ? 'bg-blue-600 hover:bg-blue-500 shadow-lg shadow-blue-500/20' : 'bg-gray-800 text-gray-500 cursor-default'}`}>
-                                {phase === 'mission' ? 'VÉRIFIER LE POIDS' : 'EXPLORATION LIBRE'}
+                                className={`w-full ${isMobile ? 'py-3' : 'py-2'} rounded-xl font-black text-xs tracking-widest transition-all active:scale-95 ${phase === 'mission' ? 'bg-blue-600 hover:bg-blue-500 shadow-lg shadow-blue-500/20' : 'bg-gray-800 text-gray-500 cursor-default'}`}>
+                                {phase === 'mission' ? '\u2696\ufe0f V\u00c9RIFIER LE POIDS' : '\ud83d\udd2d EXPLORATION LIBRE'}
                             </button>
                         </div>
                     </div>
+                    )}
                 </DraggableHtmlPanel>
             </Html>
 

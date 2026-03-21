@@ -139,14 +139,16 @@ SON POIDS SUR LA LUNE = 200 N (g = 1,6 N/kg)
 
 Il pourrait sauter 6 fois plus haut sur la Lune !`
         },
-        theory: `P = m × g
+        theory: `### Relation Poids-Masse
 
-P = Poids (en Newton, N)
-m = Masse (en kg) - invariable
-g = intensité de la pesanteur (N/kg)
+$$P = m \\times g$$
 
-Sur Terre : g ≈ 10 N/kg
-Sur la Lune : g ≈ 1,6 N/kg`,
+- **P** = Poids (en Newton, N)
+- **m** = Masse (en kg) - invariable
+- **g** = Intensité de la pesanteur (en N/kg)
+
+Sur Terre : $g \\approx 10 \\text{ N/kg}$
+Sur la Lune : $g \\approx 1,6 \\text{ N/kg}$`,
         exercises: [
             {
                 question: "Sur la Lune (g=1,6), une personne de 60 kg pèse :",
