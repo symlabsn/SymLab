@@ -1139,37 +1139,57 @@ export function ScientificMethod() {
     const [result, setResult] = useState(null);
     const [score, setScore] = useState(0);
     const [showSuccess, setShowSuccess] = useState(false);
+    const [isMobile, setIsMobile] = useState(false);
+    const [selectedHypothesis, setSelectedHypothesis] = useState(null);
+    const [experimentProgress, setExperimentProgress] = useState(0);
+
+    // Mobile detection
+    useEffect(() => {
+        const check = () => setIsMobile(window.innerWidth < 768);
+        check();
+        window.addEventListener('resize', check);
+        return () => window.removeEventListener('resize', check);
+    }, []);
 
     const scenarios = {
         plant: {
             title: "🌱 Mystère de la Plante",
+            subtitle: "Enquête botanique",
+            icon: "🌱",
+            color: "green",
             obs: "Cette plante est toute fanée... Pourquoi ?",
             hypotheses: [
-                { id: 'water', text: "Elle manque d'eau", correct: true },
-                { id: 'music', text: "Elle n'aime pas ma musique", correct: false },
-                { id: 'light', text: "Elle manque de lumière", correct: false }
+                { id: 'water', text: "Elle manque d'eau", icon: "💧", correct: true },
+                { id: 'music', text: "Elle n'aime pas ma musique", icon: "🎵", correct: false },
+                { id: 'light', text: "Elle manque de lumière", icon: "☀️", correct: false }
             ],
             exp: "Testons ton hypothèse sur 3 jours...",
-            conc: { true: "Bravo ! L'eau est vitale.", false: "Rien ne change... Essayons autre chose." }
+            conc: { true: "Bravo ! L'eau est vitale pour les plantes.", false: "Rien ne change... Essayons autre chose." }
         },
         pendulum: {
             title: "⏱️ Le Pendule Simple",
+            subtitle: "Physique du mouvement",
+            icon: "⏱️",
+            color: "purple",
             obs: "Qu'est-ce qui change la vitesse de balancement ?",
             hypotheses: [
-                { id: 'mass', text: "La masse de l'objet", correct: false },
-                { id: 'length', text: "La longueur de la ficelle", correct: true },
-                { id: 'force', text: "La force de poussée", correct: false }
+                { id: 'mass', text: "La masse de l'objet", icon: "⚖️", correct: false },
+                { id: 'length', text: "La longueur de la ficelle", icon: "📏", correct: true },
+                { id: 'force', text: "La force de poussée", icon: "💨", correct: false }
             ],
             exp: "Lançons le pendule avec ce paramètre...",
             conc: { true: "Exact ! Plus c'est court, plus c'est rapide.", false: "La période reste la même." }
         },
         mission: {
             title: "🕵️ Mission : La Lampe",
+            subtitle: "Résolution de mystère",
+            icon: "🕵️",
+            color: "amber",
             obs: "La lampe de bureau ne s'allume plus ! À toi de trouver pourquoi.",
             hypotheses: [
-                { id: 'bulb', text: "L'ampoule est grillée", correct: true },
-                { id: 'plug', text: "La prise est débranchée", correct: false },
-                { id: 'switch', text: "L'interrupteur est cassé", correct: false }
+                { id: 'bulb', text: "L'ampoule est grillée", icon: "💡", correct: true },
+                { id: 'plug', text: "La prise est débranchée", icon: "🔌", correct: false },
+                { id: 'switch', text: "L'interrupteur est cassé", icon: "🔘", correct: false }
             ],
             exp: "Remplaçons l'élément pour vérifier...",
             conc: { true: "Gagné ! C'était bien l'ampoule.", false: "Même avec cet élément neuf, ça ne s'allume pas." }
@@ -1178,16 +1198,36 @@ export function ScientificMethod() {
 
     const sc = phase === 'mission' ? scenarios.mission : scenarios[scenario];
 
+    // Step names for the wizard
+    const stepLabels = ['Observation', 'Hypothèse', 'Expérience', 'Conclusion'];
+
     const runExperiment = (hId) => {
         setVariable(hId);
+        setSelectedHypothesis(hId);
         setStep(2);
+        setExperimentProgress(0);
+        hapticFeedback('medium');
+
+        // Animate progress bar during experiment
+        let progress = 0;
+        const interval = setInterval(() => {
+            progress += 2;
+            setExperimentProgress(Math.min(progress, 100));
+            if (progress >= 100) clearInterval(interval);
+        }, 60);
+
         setTimeout(() => {
+            clearInterval(interval);
+            setExperimentProgress(100);
             const isCorrect = sc.hypotheses.find(h => h.id === hId).correct;
             setResult(isCorrect);
             setStep(3);
             if (isCorrect) {
                 setScore(s => s + 50);
                 setShowSuccess(true);
+                hapticFeedback('success');
+            } else {
+                hapticFeedback('light');
             }
         }, 3000);
     };
@@ -1197,6 +1237,9 @@ export function ScientificMethod() {
         setVariable(null);
         setResult(null);
         setShowSuccess(false);
+        setSelectedHypothesis(null);
+        setExperimentProgress(0);
+        hapticFeedback('light');
     };
 
     const handlePhaseChange = (p) => {
@@ -1204,6 +1247,253 @@ export function ScientificMethod() {
         if (p === 'mission') setScenario('mission');
         else if (scenario === 'mission') setScenario('plant');
         reset();
+        hapticFeedback('light');
+    };
+
+    // ===== Mobile-first Step Wizard Progress =====
+    const StepWizard = () => (
+        <div className={`flex items-center gap-1 ${isMobile ? 'mb-4' : 'mb-3'} w-full`}>
+            {stepLabels.map((label, i) => (
+                <div key={i} className="flex-1 flex flex-col items-center">
+                    <div className={`
+                        ${isMobile ? 'w-9 h-9 text-sm' : 'w-7 h-7 text-[10px]'}
+                        rounded-full flex items-center justify-center font-bold
+                        transition-all duration-500 ease-out
+                        ${i < step ? 'bg-gradient-to-br from-blue-500 to-cyan-400 text-white shadow-lg shadow-blue-500/30 scale-100' :
+                          i === step ? 'bg-gradient-to-br from-blue-600 to-indigo-500 text-white shadow-lg shadow-blue-500/40 scale-110 ring-2 ring-blue-400/50 ring-offset-2 ring-offset-black' :
+                          'bg-gray-800 text-gray-500 border border-gray-700'}
+                    `}>
+                        {i < step ? '✓' : i + 1}
+                    </div>
+                    <span className={`
+                        ${isMobile ? 'text-[10px] mt-1.5' : 'text-[8px] mt-1'}
+                        font-bold tracking-wide transition-colors duration-300
+                        ${i <= step ? 'text-blue-300' : 'text-gray-600'}
+                    `}>
+                        {label}
+                    </span>
+                    {i < stepLabels.length - 1 && (
+                        <div className={`absolute h-0.5 transition-all duration-500 ${i < step ? 'bg-blue-500' : 'bg-gray-800'}`} 
+                             style={{ width: '0px' }} /> 
+                    )}
+                </div>
+            ))}
+        </div>
+    );
+
+    // ===== Mobile Scenario Cards =====
+    const ScenarioCards = () => (
+        <div className={`${isMobile ? 'space-y-3' : 'space-y-2'}`}>
+            <label className={`${isMobile ? 'text-xs' : 'text-[10px]'} text-gray-400 block uppercase tracking-widest font-bold`}>
+                Choisis ton enquête
+            </label>
+            {phase === 'explore' ? (
+                <div className={`${isMobile ? 'grid grid-cols-1 gap-3' : 'space-y-2'}`}>
+                    {[
+                        { key: 'plant', icon: '🌱', title: 'La Plante Fanée', desc: 'Pourquoi cette plante est-elle dans cet état ?', gradient: 'from-green-600/20 to-emerald-500/10', border: 'border-green-500/40', active: 'bg-green-600 border-green-400 shadow-green-500/30' },
+                        { key: 'pendulum', icon: '⏱️', title: 'Le Pendule', desc: 'Qu\'est-ce qui influence le balancement ?', gradient: 'from-purple-600/20 to-indigo-500/10', border: 'border-purple-500/40', active: 'bg-purple-600 border-purple-400 shadow-purple-500/30' }
+                    ].map(s => (
+                        <button key={s.key} onClick={() => { setScenario(s.key); hapticFeedback('light'); }}
+                            className={`
+                                w-full ${isMobile ? 'p-4' : 'p-2'} rounded-xl font-bold border transition-all duration-300 text-left
+                                active:scale-[0.97]
+                                ${scenario === s.key 
+                                    ? `${s.active} shadow-lg` 
+                                    : `bg-gradient-to-r ${s.gradient} ${s.border} hover:bg-opacity-30`}
+                            `}>
+                            <div className="flex items-center gap-3">
+                                <span className={`${isMobile ? 'text-3xl' : 'text-xl'}`}>{s.icon}</span>
+                                <div className="flex-1 min-w-0">
+                                    <div className={`${isMobile ? 'text-sm' : 'text-[10px]'} font-black text-white`}>{s.title}</div>
+                                    {isMobile && <div className="text-[11px] text-gray-400 mt-0.5 leading-tight">{s.desc}</div>}
+                                </div>
+                                {scenario === s.key && (
+                                    <div className={`${isMobile ? 'w-6 h-6' : 'w-4 h-4'} rounded-full bg-white/20 flex items-center justify-center`}>
+                                        <span className={`${isMobile ? 'text-sm' : 'text-[8px]'}`}>✓</span>
+                                    </div>
+                                )}
+                            </div>
+                        </button>
+                    ))}
+                </div>
+            ) : (
+                <div className={`${isMobile ? 'p-5' : 'p-4'} bg-gradient-to-br from-amber-900/30 to-orange-900/20 border border-amber-500/40 rounded-xl text-center`}>
+                    <span className={`${isMobile ? 'text-4xl' : 'text-2xl'}`}>🕵️</span>
+                    <div className={`${isMobile ? 'text-sm' : 'text-[10px]'} font-black mt-2 text-amber-300`}>MISSION SPÉCIALE</div>
+                    {isMobile && <div className="text-[11px] text-amber-400/60 mt-1">Résous ce mystère scientifiquement !</div>}
+                </div>
+            )}
+        </div>
+    );
+
+    // ===== Mobile Hypothesis Cards =====
+    const HypothesisCards = () => (
+        <div className={`${isMobile ? 'space-y-3' : 'space-y-2'}`}>
+            <label className={`${isMobile ? 'text-xs' : 'text-[10px]'} text-gray-400 block uppercase tracking-widest font-bold`}>
+                🤔 Choisis ton hypothèse
+            </label>
+            <div className={`${isMobile ? 'space-y-3' : 'space-y-2'}`}>
+                {sc.hypotheses.map((h, index) => (
+                    <button key={h.id} onClick={() => runExperiment(h.id)}
+                        className={`
+                            w-full ${isMobile ? 'p-4' : 'p-2'} text-left rounded-xl border transition-all duration-300
+                            bg-gradient-to-r from-gray-800/80 to-gray-900/60 
+                            border-gray-600/50 hover:border-blue-400/70 hover:from-blue-900/20 hover:to-indigo-900/10
+                            active:scale-[0.97] active:border-blue-500
+                            group
+                        `}
+                        style={{ animationDelay: `${index * 100}ms` }}
+                    >
+                        <div className="flex items-center gap-3">
+                            <div className={`
+                                ${isMobile ? 'w-12 h-12 text-xl' : 'w-8 h-8 text-sm'}
+                                rounded-xl bg-blue-500/10 border border-blue-500/20 
+                                flex items-center justify-center flex-shrink-0
+                                group-hover:bg-blue-500/20 group-hover:border-blue-400/40
+                                transition-all duration-300
+                            `}>
+                                {h.icon}
+                            </div>
+                            <div className="flex-1">
+                                <div className={`${isMobile ? 'text-sm' : 'text-[10px]'} font-bold text-white group-hover:text-blue-200 transition-colors`}>
+                                    {h.text}
+                                </div>
+                                {isMobile && (
+                                    <div className="text-[10px] text-gray-500 mt-0.5 group-hover:text-blue-400/60 transition-colors">
+                                        Appuie pour tester cette hypothèse
+                                    </div>
+                                )}
+                            </div>
+                            <div className={`${isMobile ? 'text-lg' : 'text-sm'} text-gray-600 group-hover:text-blue-400 transition-colors`}>
+                                →
+                            </div>
+                        </div>
+                    </button>
+                ))}
+            </div>
+        </div>
+    );
+
+    // ===== Experiment Animation =====
+    const ExperimentAnimation = () => (
+        <div className={`${isMobile ? 'p-5' : 'p-3'} bg-gradient-to-br from-blue-900/20 to-indigo-900/20 border border-blue-500/30 rounded-xl text-center`}>
+            <div className={`${isMobile ? 'text-4xl mb-3' : 'text-2xl mb-2'} animate-pulse`}>🔬</div>
+            <div className={`${isMobile ? 'text-sm' : 'text-[10px]'} font-bold text-blue-300 mb-3`}>{sc.exp}</div>
+            
+            {/* Animated progress bar */}
+            <div className={`w-full ${isMobile ? 'h-3' : 'h-2'} bg-gray-800 rounded-full overflow-hidden mb-2`}>
+                <div 
+                    className="h-full bg-gradient-to-r from-blue-500 via-cyan-400 to-blue-500 rounded-full transition-all duration-200 relative overflow-hidden"
+                    style={{ width: `${experimentProgress}%` }}
+                >
+                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent animate-shimmer" />
+                </div>
+            </div>
+            <div className={`${isMobile ? 'text-xs' : 'text-[9px]'} text-gray-400 font-mono`}>
+                {experimentProgress}% — En cours d'analyse...
+            </div>
+
+            {/* Floating particles animation */}
+            {isMobile && (
+                <div className="flex justify-center gap-2 mt-3">
+                    {['⚗️', '🧪', '🔍'].map((emoji, i) => (
+                        <span key={i} className="text-lg animate-bounce" style={{ animationDelay: `${i * 200}ms`, animationDuration: '1.5s' }}>
+                            {emoji}
+                        </span>
+                    ))}
+                </div>
+            )}
+        </div>
+    );
+
+    // ===== Lab Notebook (Result Panel) =====
+    const LabNotebook = () => (
+        <div className={`
+            ${isMobile ? 'p-4' : 'p-3'} 
+            bg-gradient-to-br from-gray-900/90 to-black/80 
+            rounded-xl border border-blue-500/20 
+            ${isMobile ? 'mt-4' : ''}
+        `}>
+            <div className={`${isMobile ? 'text-xs mb-3' : 'text-[10px] mb-2'} text-center font-mono text-gray-500 tracking-widest uppercase flex items-center justify-center gap-2`}>
+                <span>📓</span> Carnet de Labo
+            </div>
+
+            <div className={`bg-gray-900/80 ${isMobile ? 'p-4' : 'p-3'} rounded-lg border border-white/5 mb-3`}>
+                <div className={`${isMobile ? 'text-sm leading-relaxed' : 'text-[10px] leading-relaxed'} text-blue-100 italic`}>
+                    {step === 0 ? sc.obs : (step === 1 ? "Choisis une hypothèse à tester par l'expérience." : (step === 2 ? sc.exp : "Interprète les résultats obtenus."))}
+                </div>
+            </div>
+
+            {/* Observation card with visual flair */}
+            {step === 0 && (
+                <div className={`${isMobile ? 'p-3' : 'p-2'} rounded-lg bg-gradient-to-r from-blue-500/10 to-cyan-500/10 border border-blue-500/20`}>
+                    <div className={`${isMobile ? 'text-xs' : 'text-[9px]'} text-blue-300 font-bold flex items-center gap-2`}>
+                        <span className="animate-pulse">👁️</span> OBSERVATION — Analyse la situation
+                    </div>
+                </div>
+            )}
+
+            {/* Selected hypothesis feedback */}
+            {step >= 2 && selectedHypothesis && (
+                <div className={`${isMobile ? 'p-3 mb-3' : 'p-2 mb-2'} rounded-lg bg-indigo-500/10 border border-indigo-500/20`}>
+                    <div className={`${isMobile ? 'text-xs' : 'text-[9px]'} text-indigo-300`}>
+                        <span className="font-bold">Hypothèse testée :</span> {sc.hypotheses.find(h => h.id === selectedHypothesis)?.text}
+                    </div>
+                </div>
+            )}
+
+            {/* Result display */}
+            {step === 3 && (
+                <div className={`
+                    ${isMobile ? 'p-4' : 'p-2'} rounded-xl font-bold text-center
+                    transition-all duration-500
+                    ${result 
+                        ? 'bg-gradient-to-r from-green-900/40 to-emerald-900/30 text-green-400 border border-green-500/30 shadow-lg shadow-green-500/10' 
+                        : 'bg-gradient-to-r from-red-900/40 to-rose-900/30 text-red-400 border border-red-500/30'}
+                `}>
+                    <div className={`${isMobile ? 'text-2xl mb-2' : 'text-lg mb-1'}`}>
+                        {result ? '✅' : '❌'}
+                    </div>
+                    <div className={`${isMobile ? 'text-base' : 'text-[10px]'} font-black`}>
+                        {result ? 'HYPOTHÈSE VALIDÉE !' : 'HYPOTHÈSE REJETÉE'}
+                    </div>
+                    <div className={`${isMobile ? 'text-sm mt-2' : 'text-[9px] mt-1'} opacity-80 font-normal`}>
+                        {result ? sc.conc[true] : sc.conc[false]}
+                    </div>
+                </div>
+            )}
+        </div>
+    );
+
+    // ===== Action Button =====
+    const ActionButton = () => {
+        const getConfig = () => {
+            if (step === 0) return { text: 'OBSERVER & CONTINUER', icon: '🔭', gradient: 'from-blue-600 to-indigo-600', shadow: 'shadow-blue-500/30', action: () => { setStep(1); hapticFeedback('light'); } };
+            if (step === 3 && result) return { text: 'NOUVELLE ENQUÊTE', icon: '🔄', gradient: 'from-green-500 to-emerald-600', shadow: 'shadow-green-500/30', action: reset };
+            if (step === 3 && !result) return { text: 'RÉESSAYER', icon: '🔁', gradient: 'from-orange-500 to-red-500', shadow: 'shadow-orange-500/30', action: reset };
+            return null;
+        };
+
+        const config = getConfig();
+        if (!config) return null;
+
+        return (
+            <button onClick={config.action}
+                className={`
+                    w-full ${isMobile ? 'py-4 text-sm' : 'py-2 text-[10px]'} 
+                    rounded-xl font-black tracking-wider
+                    bg-gradient-to-r ${config.gradient}
+                    text-white shadow-lg ${config.shadow}
+                    transition-all duration-300
+                    hover:scale-[1.02] active:scale-[0.97]
+                    flex items-center justify-center gap-2
+                    ${isMobile ? 'mt-4' : 'mt-3'}
+                `}
+            >
+                <span className={`${isMobile ? 'text-lg' : 'text-sm'}`}>{config.icon}</span>
+                {config.text}
+            </button>
+        );
     };
 
     return (
@@ -1212,83 +1502,88 @@ export function ScientificMethod() {
             <ConfettiExplosion active={showSuccess} />
 
             <Html transform={false}>
-                <DraggableHtmlPanel title="🔬 Démarche Scientifique" showCloseButton={false} defaultPosition="bottom-center" className="w-[400px] border-blue-500/30 text-white">
-                    <div className="flex justify-between items-center mb-4">
-                        <GradeBadge score={score} />
-                        <div className="bg-gray-900 rounded-lg px-3 py-1 border border-white/10 text-[10px] text-gray-400 capitalize">
-                            Phase: {phase} | Étape {step + 1}
+                <DraggableHtmlPanel title={isMobile ? `🔬 ${sc.title}` : "🔬 Démarche Scientifique"} showCloseButton={false} defaultPosition="bottom-center" 
+                    className={`${isMobile ? 'w-[95vw] max-w-[440px]' : 'w-[420px]'} border-blue-500/30 text-white`}>
+                    
+                    {/* === Desktop only: Gamification header === */}
+                    {!isMobile && (
+                        <>
+                            <div className="flex justify-between items-center mb-2">
+                                <GradeBadge score={score} />
+                                <div className="text-[10px] px-3 py-1 bg-gray-900 rounded-full border border-white/10 text-gray-400 font-mono">
+                                    {sc.icon} {sc.subtitle || `Étape ${step + 1}`}
+                                </div>
+                            </div>
+                            <XPBar current={score} nextLevel={1000} />
+                            <div className="h-[1px] bg-gradient-to-r from-transparent via-blue-500/50 to-transparent my-3" />
+                            <PhaseSelector currentPhase={phase} onSelect={handlePhaseChange} />
+                        </>
+                    )}
+
+                    {/* === Mobile: ultra-compact scenario switcher === */}
+                    {isMobile && step === 0 && phase === 'explore' && (
+                        <div className="flex gap-2 mb-3">
+                            {[
+                                { key: 'plant', icon: '🌱', label: 'Plante' },
+                                { key: 'pendulum', icon: '⏱️', label: 'Pendule' }
+                            ].map(s => (
+                                <button key={s.key} onClick={() => { setScenario(s.key); hapticFeedback('light'); }}
+                                    className={`flex-1 py-2 rounded-lg text-xs font-bold flex items-center justify-center gap-1.5 transition-all active:scale-95 border
+                                        ${scenario === s.key 
+                                            ? 'bg-blue-600 border-blue-400 text-white shadow-md shadow-blue-500/20' 
+                                            : 'bg-gray-800/60 border-gray-700 text-gray-400'}`}>
+                                    <span>{s.icon}</span> {s.label}
+                                </button>
+                            ))}
+                            <button onClick={() => handlePhaseChange('mission')}
+                                className={`flex-1 py-2 rounded-lg text-xs font-bold flex items-center justify-center gap-1.5 transition-all active:scale-95 border
+                                    ${phase === 'mission' 
+                                        ? 'bg-amber-600 border-amber-400 text-white shadow-md shadow-amber-500/20' 
+                                        : 'bg-gray-800/60 border-gray-700 text-gray-400'}`}>
+                                <span>🕵️</span> Mission
+                            </button>
                         </div>
-                    </div>
+                    )}
 
-                    <XPBar current={score} nextLevel={1000} />
+                    {/* Step Wizard */}
+                    <StepWizard />
 
-                    <div className="h-[1px] bg-gradient-to-r from-transparent via-blue-500/50 to-transparent my-4" />
-
-                    <PhaseSelector currentPhase={phase} onSelect={handlePhaseChange} />
-
-                    <div className="grid grid-cols-2 gap-4 mt-4">
-                        <div className="space-y-4">
-                            {step === 0 && (
-                                <div className="space-y-2">
-                                    <label className="text-[10px] text-gray-400 block uppercase tracking-widest">Enquête en cours</label>
-                                    {phase === 'explore' ? (
-                                        <>
-                                            <button onClick={() => setScenario('plant')} className={`w-full p-2 rounded text-[10px] font-bold border transition-all ${scenario === 'plant' ? 'bg-green-600 border-green-400' : 'bg-gray-800 border-gray-700 opacity-50'}`}>
-                                                LA PLANTE 🌱
-                                            </button>
-                                            <button onClick={() => setScenario('pendulum')} className={`w-full p-2 rounded text-[10px] font-bold border transition-all ${scenario === 'pendulum' ? 'bg-purple-600 border-purple-400' : 'bg-gray-800 border-gray-700 opacity-50'}`}>
-                                                LE PENDULE ⏱️
-                                            </button>
-                                        </>
-                                    ) : (
-                                        <div className="p-4 bg-blue-900/20 border border-blue-500/30 rounded-xl text-center">
-                                            <span className="text-2xl">🕵️</span>
-                                            <div className="text-[10px] font-bold mt-2 text-blue-300">MISSION SPÉCIALE</div>
-                                        </div>
-                                    )}
-                                </div>
-                            )}
-
-                            {step === 1 && (
-                                <div className="space-y-2">
-                                    <label className="text-[10px] text-gray-400 block uppercase tracking-widest">Tes Hypothèses</label>
-                                    {sc.hypotheses.map(h => (
-                                        <button key={h.id} onClick={() => runExperiment(h.id)}
-                                            className="w-full p-2 text-left text-[9px] bg-gray-800 hover:bg-gray-700 rounded border border-gray-600 hover:border-blue-400 transition-all">
-                                            🤔 {h.text}
-                                        </button>
-                                    ))}
-                                </div>
-                            )}
+                    {/* ===== CONTENT AREA ===== */}
+                    <div className={`${isMobile ? 'space-y-3' : 'grid grid-cols-2 gap-4'}`}>
+                        {/* Interactive Controls */}
+                        <div className={`${isMobile ? '' : 'space-y-4'}`}>
+                            {step === 0 && !isMobile && <ScenarioCards />}
+                            {step === 1 && <HypothesisCards />}
+                            {step === 2 && <ExperimentAnimation />}
                         </div>
 
-                        <div className="bg-black/60 rounded-xl p-3 border border-blue-500/20 flex flex-col justify-between">
-                            <div className="space-y-3">
-                                <div className="text-[10px] text-center font-mono text-gray-500 tracking-widest uppercase">Carnet de Labo</div>
-
-                                <div className="bg-gray-900/80 p-3 rounded-lg border border-white/5">
-                                    <div className="text-[10px] leading-relaxed text-blue-100 italic">
-                                        {step === 0 ? sc.obs : (step === 1 ? "Choisis une hypothèse à tester par l'expérience." : (step === 2 ? sc.exp : "Interprète les résultats obtenus."))}
-                                    </div>
+                        {/* Lab Notebook — only show observation text on mobile step 0 */}
+                        {isMobile ? (
+                            <div className="p-3 bg-gray-900/60 rounded-lg border border-white/5">
+                                <div className="text-sm text-blue-100 italic leading-relaxed">
+                                    {step === 0 ? sc.obs : (step === 1 ? "Choisis une hypothèse à tester." : (step === 2 ? sc.exp : null))}
                                 </div>
-
                                 {step === 3 && (
-                                    <div className={`p-2 rounded text-[10px] font-bold text-center ${result ? 'bg-green-900/40 text-green-400' : 'bg-red-900/40 text-red-400'}`}>
-                                        {result ? 'VALIDÉE ✅' : 'REJETÉE ❌'}
+                                    <div className={`p-3 mt-2 rounded-xl font-bold text-center ${result 
+                                        ? 'bg-green-900/40 text-green-400 border border-green-500/30' 
+                                        : 'bg-red-900/40 text-red-400 border border-red-500/30'}`}>
+                                        <div className="text-xl mb-1">{result ? '✅' : '❌'}</div>
+                                        <div className="text-sm font-black">{result ? 'VALIDÉE !' : 'REJETÉE'}</div>
+                                        <div className="text-xs mt-1 opacity-80 font-normal">{result ? sc.conc[true] : sc.conc[false]}</div>
                                     </div>
                                 )}
                             </div>
-
-                            <button onClick={step === 0 ? () => setStep(1) : (step === 3 ? reset : null)}
-                                disabled={step === 1 || step === 2}
-                                className={`w-full py-2 rounded font-black text-[10px] tracking-widest transition-transform hover:scale-105 active:scale-95 ${step === 0 ? 'bg-blue-600 text-white shadow-lg shadow-blue-500/20' : (step === 3 ? 'bg-white text-black' : 'bg-gray-800 text-gray-500')}`}>
-                                {step === 0 ? 'SUIVANT' : (step === 3 ? 'RECOMMENCER' : 'EXPÉRIENCE...')}
-                            </button>
-                        </div>
+                        ) : (
+                            <LabNotebook />
+                        )}
                     </div>
+
+                    {/* Action Button */}
+                    <ActionButton />
                 </DraggableHtmlPanel>
             </Html>
 
+            {/* 3D Scene */}
             <group position={[0, -1, 0]}>
                 {scenario === 'plant' && <PlantSim state={step === 0 ? 'dead' : (step === 2 ? 'growing' : (result ? 'alive' : 'dead_dry'))} />}
                 {scenario === 'pendulum' && <PendulumSim moving={step === 2} length={variable === 'length' ? 1 : 2} mass={variable === 'mass' ? 2 : 1} />}

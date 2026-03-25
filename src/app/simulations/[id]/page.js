@@ -10,6 +10,7 @@ import { lyceeSimulationsData } from '../lyceeData';
 import { getSimulationImage, simulationHotspots } from '../imageConfig';
 import ReactMarkdown from 'react-markdown';
 import remarkMath from 'remark-math';
+import remarkGfm from 'remark-gfm';
 import rehypeKatex from 'rehype-katex';
 import rehypeRaw from 'rehype-raw';
 import 'katex/dist/katex.min.css';
@@ -1000,10 +1001,20 @@ export default function SimulationDetailPage({ params }) {
         setShowExplanation(true);
     };
 
+    // Styles conditionnels pour cacher le footer global sur les simulations
+    const HideFooterStyle = () => (
+        <style dangerouslySetInnerHTML={{ __html: `
+            footer { display: none !important; }
+            ${isMobile ? 'nav:not(#simulation-desktop-nav):not(#simulation-mini-nav) { display: none !important; }' : ''}
+            ${isMobile ? '.main-content { padding-bottom: 0 !important; }' : ''}
+        `}} />
+    );
+
     return (
-        <main className={`min-h-screen bg-gradient-to-br from-black via-slate-950 to-black text-white ${isMobile ? 'pb-24' : ''}`}>
+        <main className={`min-h-screen bg-gradient-to-br from-black via-slate-950 to-black text-white ${isMobile ? 'pb-0' : ''}`}>
+            <HideFooterStyle />
             {/* Navbar améliorée - Cachée sur mobile (remplacée par bottom navbar) */}
-            <nav className={`border-b border-white/10 backdrop-blur-xl bg-black/80 sticky top-0 z-50 ${isMobile ? 'hidden' : ''}`}>
+            <nav id="simulation-desktop-nav" className={`border-b border-white/10 backdrop-blur-xl bg-black/80 sticky top-0 z-50 ${isMobile ? 'hidden' : ''}`}>
                 <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 h-14 sm:h-16 flex items-center justify-between">
                     {/* Bouton retour conditionnel */}
                     {returnInfo ? (
@@ -1035,54 +1046,29 @@ export default function SimulationDetailPage({ params }) {
                 </div>
             </nav>
 
-            {/* Header avec titre animé - Optimisé Mobile */}
-            <div className={`max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 ${isMobile ? 'py-2' : 'py-4 sm:py-8'}`}>
+            {/* Header avec titre animé */}
+            <div className={`max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 ${isMobile ? 'pt-14 pb-2' : 'py-4 sm:py-8'}`}>
                 <div className={`${isMobile ? 'mb-2' : 'mb-4 sm:mb-8'}`}>
-                    {/* Sur mobile: header ultra-compact */}
-                    {isMobile ? (
-                        <div className="flex items-center justify-between gap-3">
-                            <div className="flex items-center gap-3 min-w-0">
-                                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#00F5D4] to-purple-500 flex items-center justify-center text-xl flex-shrink-0">
-                                    ⚛️
-                                </div>
-                                <div className="min-w-0">
-                                    <h1 className="text-lg font-bold text-white truncate">
-                                        {simulation.title}
-                                    </h1>
-                                    <p className="text-xs text-gray-400 truncate">{simulationLevel.name}</p>
-                                </div>
-                            </div>
-                            <button
-                                onClick={() => setShowMobileInfo(true)}
-                                className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-sm active:scale-95 flex-shrink-0"
-                            >
-                                ℹ️
-                            </button>
-                        </div>
-                    ) : (
-                        <>
-                            <div className="flex flex-wrap items-center gap-2 mb-2 sm:mb-4">
-                                <AnimatedBadge color="purple">{simulationLevel.name}</AnimatedBadge>
-                                <AnimatedBadge color="green">{simulationLevel.description}</AnimatedBadge>
-                            </div>
-                            <h1 className="text-2xl sm:text-4xl md:text-5xl font-black mb-2 sm:mb-4 bg-clip-text text-transparent bg-gradient-to-r from-[#00F5D4] via-purple-500 to-pink-500">
-                                {simulation.title}
-                            </h1>
-                            <p className="text-sm sm:text-xl text-gray-300 line-clamp-2 sm:line-clamp-none">{simulation.description}</p>
-                        </>
-                    )}
+                    <div className={`flex flex-wrap items-center gap-2 ${isMobile ? 'mb-1' : 'mb-2 sm:mb-4'}`}>
+                        <AnimatedBadge color="purple">{simulationLevel.name}</AnimatedBadge>
+                        <AnimatedBadge color="green">{simulationLevel.description}</AnimatedBadge>
+                    </div>
+                    <h1 className={`font-black bg-clip-text text-transparent bg-gradient-to-r from-[#00F5D4] via-purple-500 to-pink-500 ${isMobile ? 'text-lg mb-1' : 'text-2xl sm:text-4xl md:text-5xl mb-2 sm:mb-4'}`}>
+                        {simulation.title}
+                    </h1>
+                    {!isMobile && <p className="text-sm sm:text-xl text-gray-300 line-clamp-2 sm:line-clamp-none">{simulation.description}</p>}
                 </div>
 
-                {/* Tabs améliorés - Cachés sur mobile (utilisation du bottom navbar) */}
-                <div className={`gap-1.5 sm:gap-3 mb-4 sm:mb-8 overflow-x-auto pb-2 -mx-3 px-3 sm:mx-0 sm:px-0 scrollbar-hide ${isMobile ? 'hidden' : 'flex'}`}>
+                {/* Tabs améliorés - Visibles sur toutes les tailles */}
+                <div className={`flex gap-1.5 sm:gap-3 mb-4 sm:mb-8 overflow-x-auto pb-2 -mx-3 px-3 sm:mx-0 sm:px-0 scrollbar-hide`}>
                     {[
-                        { id: 'simulation', label: 'Simulation', icon: '🎮', shortLabel: 'Simu' },
-                        { id: 'analogy', label: 'Analogie', icon: '🌍', shortLabel: 'Analo.' },
+                        { id: 'simulation', label: 'Simulation 3D', icon: '🎮', shortLabel: '🎮 Simu' },
+                        { id: 'analogy', label: 'Analogie', icon: '🌍', shortLabel: '🌍 Analogie' },
                     ].map((tab) => (
                         <button
                             key={tab.id}
                             onClick={() => setActiveTab(tab.id)}
-                            className={`px-2.5 sm:px-5 py-2 sm:py-3 rounded-lg sm:rounded-xl text-xs sm:text-sm font-bold transition-all duration-300 whitespace-nowrap flex items-center gap-1 sm:gap-2 flex-shrink-0 ${activeTab === tab.id
+                            className={`px-3 sm:px-5 py-2 sm:py-3 rounded-lg sm:rounded-xl text-xs sm:text-sm font-bold transition-all duration-300 whitespace-nowrap flex items-center gap-1 sm:gap-2 flex-shrink-0 ${activeTab === tab.id
                                 ? 'bg-gradient-to-r from-[#00F5D4] to-purple-500 text-black shadow-lg'
                                 : 'bg-white/5 text-gray-400 hover:bg-white/10 border border-white/10'
                                 }`}
@@ -1103,7 +1089,7 @@ export default function SimulationDetailPage({ params }) {
                                 {/* Simulation en pleine largeur sur mobile */}
                                 <div className="space-y-4">
                                     {/* Conteneur de simulation - Plein écran mobile */}
-                                    <div ref={simulationContainerRef} className="relative rounded-xl sm:rounded-2xl overflow-hidden shadow-2xl border border-white/20 bg-black/50 h-[60vh] sm:h-[60vh] lg:h-[70vh]">
+                                    <div ref={simulationContainerRef} className={`relative overflow-hidden shadow-2xl bg-black/50 ${isMobile ? 'h-[55vh] w-full rounded-xl border border-white/10' : 'rounded-xl sm:rounded-2xl border border-white/20 h-[60vh] lg:h-[70vh]'}`}>
                                         <Simulation3D type={simulation.type} config={simulation.config} />
                                         {/* Barre d'outils - cachée sur mobile car remplacée par bottom navbar */}
                                         {!isMobile && (
@@ -1119,7 +1105,7 @@ export default function SimulationDetailPage({ params }) {
                                         )}
                                     </div>
 
-                                    {/* Panneau de contrôle repliable - affiché uniquement sur tablette (nouveau Bottom Sheet sur mobile) */}
+                                    {/* Panneau de contrôle repliable - masqué sur mobile */}
                                     <details className={`lg:hidden group ${isMobile ? 'hidden' : ''}`}>
                                         <summary className="flex items-center justify-between p-3 rounded-xl bg-white/5 border border-white/10 cursor-pointer list-none active:scale-[0.98] transition-all">
                                             <div className="flex items-center gap-2">
@@ -1162,7 +1148,8 @@ export default function SimulationDetailPage({ params }) {
                             </div>
                         )}
 
-                        {activeTab === 'challenges' && (
+                        {/* Desktop-only secondary tabs */}
+                        {!isMobile && activeTab === 'challenges' && (
                             <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
                                 {/* Header Mode Défi */}
                                 <div className="p-6 rounded-2xl bg-gradient-to-br from-orange-500/20 to-red-500/20 border border-orange-500/40">
@@ -1197,7 +1184,7 @@ export default function SimulationDetailPage({ params }) {
                             </div>
                         )}
 
-                        {activeTab === 'gallery' && (
+                        {!isMobile && activeTab === 'gallery' && (
                             <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
                                 {/* Image de cette simulation */}
                                 <div className="rounded-2xl overflow-hidden">
@@ -1205,40 +1192,6 @@ export default function SimulationDetailPage({ params }) {
                                         simulationId={resolvedParams.id}
                                         title={simulation.title}
                                     />
-                                </div>
-
-                                {/* Galerie d'exploration */}
-                                <div className="p-6 rounded-2xl bg-gradient-to-br from-white/5 to-white/10 border border-white/20">
-                                    <h3 className="text-xl font-bold text-white mb-4">🔬 Explorer d&apos;autres concepts</h3>
-                                    <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-                                        {[
-                                            { id: 'cell-structure', title: 'Cellule', icon: '🔬' },
-                                            { id: 'blood-circulation', title: 'Cœur', icon: '❤️' },
-                                            { id: 'volcano-eruption', title: 'Volcan', icon: '🌋' },
-                                            { id: 'water-cycle', title: 'Cycle Eau', icon: '💧' },
-                                            { id: 'nervous-system', title: 'Neurone', icon: '🧠' },
-                                            { id: 'atomic-structure', title: 'Atome', icon: '⚛️' },
-                                            { id: 'photosynthesis', title: 'Photosynthèse', icon: '🌱' },
-                                            { id: 'genetics-dna', title: 'ADN', icon: '🧬' },
-                                            { id: 'digestive-system', title: 'Digestion', icon: '🍽️' },
-                                            { id: 'respiration-human', title: 'Respiration', icon: '🫁' },
-                                            { id: 'states-of-matter', title: 'États Matière', icon: '🧊' },
-                                            { id: 'simple-circuits', title: 'Circuits', icon: '💡' },
-                                            { id: 'food-chain', title: 'Chaîne Alim.', icon: '🦁' },
-                                            { id: 'chemical-reactions', title: 'Réactions', icon: '⚗️' },
-                                            { id: 'plate-tectonics', title: 'Tectonique', icon: '🌍' },
-                                            { id: 'plant-growth', title: 'Plante', icon: '🌿' },
-                                        ].filter(s => s.id !== resolvedParams.id).slice(0, 8).map((sim, i) => (
-                                            <a
-                                                key={i}
-                                                href={`/simulations/${sim.id}`}
-                                                className="p-4 rounded-xl bg-white/5 border border-white/10 hover:border-cyan-500/50 hover:bg-white/10 transition-all text-center group"
-                                            >
-                                                <span className="text-3xl block mb-2 group-hover:scale-110 transition-transform">{sim.icon}</span>
-                                                <span className="text-xs text-white font-medium">{sim.title}</span>
-                                            </a>
-                                        ))}
-                                    </div>
                                 </div>
                             </div>
                         )}
@@ -1253,30 +1206,117 @@ export default function SimulationDetailPage({ params }) {
                                             <p className="text-sm text-gray-400">Analogie avec le contexte sénégalais</p>
                                         </div>
                                     </div>
-                                    <div className="whitespace-pre-line text-lg text-gray-200 leading-relaxed">
-                                        {simulation.analogy.content}
+                                    <div className="prose prose-invert prose-lg max-w-none prose-p:text-gray-200 prose-p:leading-relaxed prose-strong:text-[#00F5D4] prose-blockquote:border-[#00F5D4]/40 prose-blockquote:bg-[#00F5D4]/5 prose-blockquote:rounded-lg prose-blockquote:py-2 prose-blockquote:px-4 prose-blockquote:text-[#00F5D4]/90 prose-blockquote:not-italic">
+                                        <ReactMarkdown
+                                            remarkPlugins={[remarkMath, remarkGfm]}
+                                            rehypePlugins={[rehypeKatex, rehypeRaw]}
+                                        >
+                                            {simulation.analogy.content}
+                                        </ReactMarkdown>
                                     </div>
                                 </div>
                             </div>
                         )}
 
                         {activeTab === 'theory' && (
-                            <div className="p-8 rounded-2xl bg-gradient-to-br from-white/10 to-white/5 border border-white/20 prose prose-invert max-w-none animate-in fade-in slide-in-from-bottom-4 duration-500">
-                                <div className="whitespace-pre-line text-gray-300 leading-relaxed">
-                                    <ReactMarkdown
-                                        remarkPlugins={[remarkMath]}
-                                        rehypePlugins={[rehypeKatex, rehypeRaw]}
-                                    >
-                                        {simulation.theory || ""}
-                                    </ReactMarkdown>
-                                </div>
+                            <div className="p-8 rounded-2xl bg-gradient-to-br from-white/10 to-white/5 border border-white/20 prose prose-invert max-w-none animate-in fade-in slide-in-from-bottom-4 duration-500
+                                prose-headings:font-black prose-headings:tracking-tight
+                                prose-h3:text-transparent prose-h3:bg-clip-text prose-h3:bg-gradient-to-r prose-h3:from-purple-300 prose-h3:to-pink-300 prose-h3:text-2xl prose-h3:mt-8 prose-h3:mb-6 prose-h3:pb-2 prose-h3:border-b prose-h3:border-white/10
+                                prose-p:text-gray-300 prose-p:leading-relaxed
+                                prose-strong:text-white prose-strong:font-bold
+                                prose-li:text-gray-300 prose-li:marker:text-purple-400
+                                prose-blockquote:border-purple-500/50 prose-blockquote:bg-purple-500/5 prose-blockquote:rounded-xl prose-blockquote:py-2 prose-blockquote:px-6 prose-blockquote:text-purple-200/90 prose-blockquote:not-italic prose-blockquote:font-semibold
+                                prose-table:border-collapse prose-table:w-full
+                                prose-th:bg-purple-500/15 prose-th:text-purple-200 prose-th:font-bold prose-th:px-4 prose-th:py-3 prose-th:border prose-th:border-white/10 prose-th:text-left
+                                prose-td:text-gray-300 prose-td:px-4 prose-td:py-3 prose-td:border prose-td:border-white/10
+                            ">
+                                <ReactMarkdown
+                                    remarkPlugins={[remarkMath, remarkGfm]}
+                                    rehypePlugins={[rehypeKatex, rehypeRaw]}
+                                >
+                                    {simulation.theory || ""}
+                                </ReactMarkdown>
                             </div>
                         )}
-
-                        {/* Section Exercices supprimée - remplacée par Mode Défi */}
                     </div>
                 </div>
             </div>
+
+            {/* ========== COURS (Sous la simulation - Mobile & Desktop) ========== */}
+            {simulation.theory && (
+                <div className={`pb-24 bg-gradient-to-b from-gray-900 via-slate-900 to-black z-10 relative ${isMobile ? 'pt-4 px-4' : 'pt-8 px-6 lg:px-8 max-w-7xl mx-auto'}`}>
+                    
+                    {/* Header cours - Design premium */}
+                    <div className="relative mb-6 sm:mb-8">
+                        <div className="flex items-center gap-3 sm:gap-4 p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-indigo-500/15 via-purple-500/10 to-pink-500/10 border border-indigo-500/20 backdrop-blur-sm">
+                            <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-2xl sm:text-3xl shadow-lg shadow-indigo-500/30 flex-shrink-0">
+                                📚
+                            </div>
+                            <div>
+                                <h2 className="text-lg sm:text-xl font-black text-white">Cours complet</h2>
+                                <p className="text-xs sm:text-sm text-indigo-300/80">Concepts théoriques à retenir • Chapitre 1</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    {/* Analogie Sénégalaise - Carte premium avec markdown */}
+                    {simulation.analogy && (
+                        <div className="mb-6 sm:mb-8 rounded-2xl overflow-hidden border border-[#00F5D4]/20 shadow-xl shadow-[#00F5D4]/5">
+                            {/* Header analogie */}
+                            <div className="px-4 sm:px-5 py-3 bg-gradient-to-r from-[#00F5D4]/20 to-emerald-500/10 border-b border-[#00F5D4]/15 flex items-center gap-3">
+                                <span className="text-2xl">🇸🇳</span>
+                                <div>
+                                    <h3 className="font-bold text-[#00F5D4] text-sm sm:text-base">{simulation.analogy.title || 'Analogie Sénégalaise'}</h3>
+                                    <p className="text-[10px] sm:text-xs text-emerald-300/60">Comprendre avec le contexte local</p>
+                                </div>
+                            </div>
+                            {/* Contenu analogie - rendu en markdown */}
+                            <div className="p-4 sm:p-5 bg-black/30 prose prose-invert prose-sm max-w-none prose-p:text-gray-300 prose-p:leading-relaxed prose-strong:text-[#00F5D4] prose-blockquote:border-[#00F5D4]/40 prose-blockquote:bg-[#00F5D4]/5 prose-blockquote:rounded-lg prose-blockquote:py-1 prose-blockquote:px-3 prose-blockquote:text-emerald-200/90 prose-blockquote:not-italic">
+                                <ReactMarkdown
+                                    remarkPlugins={[remarkMath, remarkGfm]}
+                                    rehypePlugins={[rehypeKatex, rehypeRaw]}
+                                >
+                                    {simulation.analogy.content}
+                                </ReactMarkdown>
+                            </div>
+                        </div>
+                    )}
+
+                    {/* Théorie - Section avec styles premium */}
+                    <div className="rounded-2xl border border-white/10 overflow-hidden shadow-xl">
+                        {/* Header théorie */}
+                        <div className="px-4 sm:px-5 py-3 bg-gradient-to-r from-purple-500/15 to-blue-500/10 border-b border-white/10 flex items-center gap-3">
+                            <span className="text-xl">📖</span>
+                            <h3 className="font-bold text-purple-300 text-sm sm:text-base">Contenu du cours</h3>
+                        </div>
+                        {/* Contenu théorie */}
+                        <div className="p-4 sm:p-6 bg-black/20">
+                            <div className="prose prose-invert prose-sm sm:prose-base max-w-none
+                                prose-headings:font-black prose-headings:tracking-tight
+                                prose-h3:text-transparent prose-h3:bg-clip-text prose-h3:bg-gradient-to-r prose-h3:from-purple-300 prose-h3:to-pink-300 prose-h3:text-lg sm:prose-h3:text-xl prose-h3:mt-6 prose-h3:mb-4 prose-h3:pb-2 prose-h3:border-b prose-h3:border-white/10
+                                prose-p:text-gray-300 prose-p:leading-relaxed
+                                prose-strong:text-white prose-strong:font-bold
+                                prose-li:text-gray-300 prose-li:marker:text-purple-400
+                                prose-a:text-[#00F5D4] prose-a:no-underline hover:prose-a:underline
+                                prose-blockquote:border-purple-500/50 prose-blockquote:bg-purple-500/5 prose-blockquote:rounded-xl prose-blockquote:py-2 prose-blockquote:px-4 prose-blockquote:text-purple-200/90 prose-blockquote:not-italic prose-blockquote:font-semibold
+                                prose-hr:border-white/10 prose-hr:my-6
+                                prose-table:border-collapse prose-table:w-full
+                                prose-th:bg-purple-500/15 prose-th:text-purple-200 prose-th:font-bold prose-th:text-xs prose-th:px-3 prose-th:py-2 prose-th:border prose-th:border-white/10 prose-th:text-left
+                                prose-td:text-gray-300 prose-td:text-xs sm:prose-td:text-sm prose-td:px-3 prose-td:py-2 prose-td:border prose-td:border-white/10
+                                prose-tr:even:bg-white/[0.02]
+                                prose-code:text-[#00F5D4] prose-code:bg-[#00F5D4]/10 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:font-mono prose-code:text-xs
+                            ">
+                                <ReactMarkdown
+                                    remarkPlugins={[remarkMath, remarkGfm]}
+                                    rehypePlugins={[rehypeKatex, rehypeRaw]}
+                                >
+                                    {simulation.theory || ""}
+                                </ReactMarkdown>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
 
             {/* Modals */}
             <HelpModal isOpen={showHelpModal} onClose={() => setShowHelpModal(false)} />
@@ -1290,38 +1330,45 @@ export default function SimulationDetailPage({ params }) {
             {/* ========== INTERFACE MOBILE PREMIUM ========== */}
             {isMobile && (
                 <>
-                    {/* Barre de navigation mobile en bas */}
-                    <MobileBottomNavbar
-                        activeTab={mobileTab}
-                        setActiveTab={(tab) => {
-                            setMobileTab(tab);
-                            if (tab === 'simulation') {
-                                setShowMobileControls(false);
-                                setShowMobileInfo(false);
-                            }
-                        }}
-                        onFullscreen={handleFullscreen}
-                        onHelp={() => setShowHelpModal(true)}
-                        returnInfo={returnInfo}
-                    />
+                    {/* Mini barre de navigation mobile en haut - fixe */}
+                    <div id="simulation-mini-nav" className="fixed top-0 left-0 right-0 z-[100] bg-black/90 backdrop-blur-xl border-b border-white/10">
+                        <div className="flex items-center justify-between px-3 h-12">
+                            {/* Retour */}
+                            {returnInfo ? (
+                                <Link
+                                    href={`/courses?activeChapter=${returnInfo.chapter}`}
+                                    className="flex items-center gap-1.5 text-emerald-400 active:scale-95 transition-transform"
+                                >
+                                    <span className="text-lg">←</span>
+                                    <span className="text-xs font-bold">Cours</span>
+                                </Link>
+                            ) : (
+                                <Link
+                                    href={`/simulations?level=college#${resolvedParams.id}`}
+                                    className="flex items-center gap-1.5 text-gray-400 active:scale-95 transition-transform"
+                                >
+                                    <span className="text-lg">←</span>
+                                    <span className="text-xs font-bold">Retour</span>
+                                </Link>
+                            )}
+                            
+                            {/* Titre compact */}
+                            <h1 className="text-sm font-bold text-white truncate max-w-[45%] text-center">
+                                {simulation.title}
+                            </h1>
 
-                    {/* Panneau de contrôles glissant (Bottom Sheet) */}
-                    <MobileControlsSheet
-                        isOpen={showMobileControls}
-                        onClose={() => {
-                            setShowMobileControls(false);
-                            setMobileTab('simulation');
-                        }}
-                        autoRotate={autoRotate}
-                        setAutoRotate={setAutoRotate}
-                        speed={speed}
-                        setSpeed={setSpeed}
-                        zoom={zoom}
-                        setZoom={setZoom}
-                        onReset={handleReset}
-                    />
+                            {/* Navigation rapide vers autres sims */}
+                            <button
+                                onClick={() => setShowMobileInfo(true)}
+                                className="flex items-center gap-1 text-cyan-400 active:scale-95 transition-transform"
+                            >
+                                <span className="text-xs font-bold">Sims</span>
+                                <span className="text-lg">☰</span>
+                            </button>
+                        </div>
+                    </div>
 
-                    {/* Panneau d'informations glissant */}
+                    {/* Panneau d'informations + navigation entre simulations */}
                     <MobileInfoPanel
                         isOpen={showMobileInfo}
                         onClose={() => {
@@ -1330,13 +1377,6 @@ export default function SimulationDetailPage({ params }) {
                         }}
                         simulation={simulation}
                         simulationLevel={simulationLevel}
-                    />
-
-                    {/* Boutons d'actions flottants */}
-                    <MobileFloatingActions
-                        onHelp={() => setShowHelpModal(true)}
-                        onShare={handleShare}
-                        onScreenshot={handleScreenshot}
                     />
 
                     {/* Toast de notification */}

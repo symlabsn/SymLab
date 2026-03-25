@@ -23,7 +23,16 @@ const DraggableHtmlPanel = ({ children, title, className = "", initialPos = null
     const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
     const [isMinimized, setIsMinimized] = useState(false);
     const [isClosed, setIsClosed] = useState(false);
+    const [isMobilePanel, setIsMobilePanel] = useState(false);
     const panelRef = useRef(null);
+
+    // Mobile detection for panel layout
+    useEffect(() => {
+        const checkMobile = () => setIsMobilePanel(window.innerWidth < 768);
+        checkMobile();
+        window.addEventListener('resize', checkMobile);
+        return () => window.removeEventListener('resize', checkMobile);
+    }, []);
 
     // Monter le composant côté client uniquement
     useEffect(() => {
@@ -155,12 +164,15 @@ const DraggableHtmlPanel = ({ children, title, className = "", initialPos = null
     const panelContent = (
         <div
             ref={panelRef}
-            className={`fixed bg-black/95 backdrop-blur-xl rounded-xl border border-white/30 shadow-2xl overflow-hidden transition-all duration-200 z-[9999] ${isDragging ? 'scale-[1.02] shadow-[0_0_30px_rgba(0,245,212,0.3)] cursor-grabbing' : ''} ${className}`}
+            className={`fixed bg-black/95 backdrop-blur-xl rounded-xl border shadow-2xl overflow-hidden transition-all duration-200 z-[9999] ${isMinimized && isMobilePanel ? 'border-[#00F5D4]/50 shadow-[0_0_15px_rgba(0,245,212,0.2)]' : 'border-white/30'} ${isDragging ? 'scale-[1.02] shadow-[0_0_30px_rgba(0,245,212,0.3)] cursor-grabbing' : ''} ${className}`}
             style={{
-                left: `${position.x}px`,
-                top: `${position.y}px`,
-                minWidth: isMinimized ? '150px' : '240px',
-                maxWidth: '380px',
+                left: isMobilePanel ? '50%' : `${position.x}px`,
+                top: isMobilePanel ? 'auto' : `${position.y}px`,
+                bottom: isMobilePanel ? '12px' : 'auto',
+                transform: isMobilePanel ? 'translateX(-50%)' : 'none',
+                minWidth: isMinimized ? (isMobilePanel ? '180px' : '150px') : '240px',
+                maxWidth: isMobilePanel ? '95vw' : '440px',
+                maxHeight: isMobilePanel && !isMinimized ? '50vh' : 'auto',
                 pointerEvents: 'auto',
                 userSelect: isDragging ? 'none' : 'auto'
             }}
@@ -173,9 +185,9 @@ const DraggableHtmlPanel = ({ children, title, className = "", initialPos = null
                 onMouseDown={handleMouseDown}
                 onTouchStart={handleTouchStart}
             >
-                <span className="text-sm font-bold text-[#00F5D4] flex items-center gap-1.5">
+                <span className="text-sm font-bold text-[#00F5D4] flex items-center gap-1.5 truncate">
                     <span className="text-base">☰</span>
-                    {title || 'Contrôles'}
+                    <span className="truncate">{title || 'Contrôles'}</span>
                 </span>
                 <div className="flex items-center gap-1">
                     {/* Bouton Minimiser */}
@@ -201,8 +213,15 @@ const DraggableHtmlPanel = ({ children, title, className = "", initialPos = null
 
             {/* Contenu (caché si minimisé) */}
             {!isMinimized && (
-                <div className="p-3 max-h-[60vh] overflow-y-auto no-drag custom-scrollbar">
+                <div className={`p-3 overflow-y-auto no-drag custom-scrollbar ${isMobilePanel ? 'max-h-[70vh]' : 'max-h-[60vh]'}`}>
                     {children}
+                </div>
+            )}
+
+            {/* Indicateur minimisé sur mobile - barre de réouverture */}
+            {isMinimized && isMobilePanel && (
+                <div className="px-3 py-1.5 text-center border-t border-white/10">
+                    <span className="text-[10px] text-gray-400">Appuyez sur 🔼 pour agrandir</span>
                 </div>
             )}
 

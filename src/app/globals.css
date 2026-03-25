@@ -491,6 +491,10 @@ body {
   animation: shimmer 3s infinite;
 }
 
+.animate-shimmer {
+  animation: shimmer 2s ease-in-out infinite;
+}
+
 /* Sweep Effect on Hover */
 .shimmer-sweep {
   position: absolute;
