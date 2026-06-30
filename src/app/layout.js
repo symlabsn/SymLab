@@ -4,6 +4,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import MobileBottomNav from "@/components/MobileBottomNav";
 import AnalyticsWrapper from "@/components/AnalyticsWrapper";
+import MaintenanceGate from "@/components/MaintenanceGate";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -39,10 +40,12 @@ export default function RootLayout({ children }) {
         suppressHydrationWarning
       >
         <AnalyticsWrapper>
-          <Navbar />
-          <main className="main-content">{children}</main>
-          <Footer />
-          <MobileBottomNav />
+          <MaintenanceGate>
+            <Navbar />
+            <main className="main-content">{children}</main>
+            <Footer />
+            <MobileBottomNav />
+          </MaintenanceGate>
         </AnalyticsWrapper>
       </body>
     </html>
