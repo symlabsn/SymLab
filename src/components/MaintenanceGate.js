@@ -66,6 +66,36 @@ export default function MaintenanceGate({ children }) {
 
       {/* Content */}
       <div className="maint-content">
+        
+        {/* Admin login — Toujours visible en haut */}
+        <form onSubmit={handleSubmit} className="maint-login-form" style={{ marginBottom: '2rem' }}>
+          <div className="maint-login-header">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+              <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+            </svg>
+            <span>Accès Administrateur</span>
+          </div>
+          <div className={`maint-input-group ${shakeError ? 'maint-shake' : ''}`}>
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => { setPassword(e.target.value); setError(''); }}
+              placeholder="Mot de passe admin"
+              className="maint-input"
+              autoFocus
+              autoComplete="current-password"
+            />
+            <button type="submit" className="maint-submit-btn">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M5 12h14" />
+                <path d="m12 5 7 7-7 7" />
+              </svg>
+            </button>
+          </div>
+          {error && <p className="maint-error">{error}</p>}
+        </form>
+
         {/* Animated icon */}
         <div className="maint-icon-wrapper">
           <div className="maint-icon-ring" />
@@ -78,16 +108,11 @@ export default function MaintenanceGate({ children }) {
           </div>
         </div>
 
-        {/* Logo — click to reveal admin login */}
-        <button
-          onClick={handleLogoClick}
-          className="maint-logo"
-          aria-label="Admin access"
-          type="button"
-        >
+        {/* Logo */}
+        <div className="maint-logo">
           <span className="maint-logo-sym">SYM</span>
           <span className="maint-logo-lab">LAB</span>
-        </button>
+        </div>
 
         {/* Title */}
         <h1 className="maint-title">
@@ -108,37 +133,6 @@ export default function MaintenanceGate({ children }) {
           </div>
           <span className="maint-progress-text">Mise à jour en cours...</span>
         </div>
-
-        {/* Admin login — hidden by default */}
-        {showLogin && (
-          <form onSubmit={handleSubmit} className="maint-login-form">
-            <div className="maint-login-header">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
-                <path d="M7 11V7a5 5 0 0 1 10 0v4" />
-              </svg>
-              <span>Accès Administrateur</span>
-            </div>
-            <div className={`maint-input-group ${shakeError ? 'maint-shake' : ''}`}>
-              <input
-                type="password"
-                value={password}
-                onChange={(e) => { setPassword(e.target.value); setError(''); }}
-                placeholder="Mot de passe admin"
-                className="maint-input"
-                autoFocus
-                autoComplete="current-password"
-              />
-              <button type="submit" className="maint-submit-btn">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M5 12h14" />
-                  <path d="m12 5 7 7-7 7" />
-                </svg>
-              </button>
-            </div>
-            {error && <p className="maint-error">{error}</p>}
-          </form>
-        )}
 
         {/* Footer info */}
         <div className="maint-footer-info">
