@@ -4,7 +4,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import MobileBottomNav from "@/components/MobileBottomNav";
 import AnalyticsWrapper from "@/components/AnalyticsWrapper";
-import { GoogleAnalytics } from '@next/third-parties/google';
+import { Analytics } from '@vercel/analytics/react';
 
 
 const inter = Inter({ subsets: ["latin"] });
@@ -46,9 +46,7 @@ export default function RootLayout({ children }) {
             <Footer />
             <MobileBottomNav />
         </AnalyticsWrapper>
-        {process.env.NEXT_PUBLIC_GA_ID && (
-          <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID} />
-        )}
+        <Analytics />
       </body>
     </html>
   );
