@@ -76,7 +76,7 @@ C'est le passage des nutriments de l'intestin vers le sang. Cela se passe au niv
             content: `
 ### 1. Composition du sang
 - **Plasma** : Le liquide jaune (eau + nutriments).
-- **Globules Rouges (Hématies)** : Transportent l'Oxygène (O2). Ils sont rouges.
+- **Globules Rouges (Hématies)** : Transportent l'Oxygène ($O_2$). Ils sont rouges.
 - **Globules Blancs (Leucocytes)** : Défendent le corps (Soldats).
 - **Plaquettes** : Coagulation (bouchent les trous).
 
@@ -105,7 +105,7 @@ L'**Anémie** est un manque de globules rouges (ou de fer). On est fatigué et p
             story: "Le cœur est une pompe incroyable qui bat 100 000 fois par jour sans jamais s'arrêter. Il envoie le sang faire deux voyages différents : un petit tour aux poumons pour faire le plein d'air, et un grand tour dans tout le corps pour livrer.",
             content: `
 ### 1. Le Cœur
-Muscle creux à 4 cavités (2 oreillettes, 2 ventricules). Le côté gauche propulse le sang riche en O2 (rouge), le côté droit le sang pauvre en O2 (bleu).
+Muscle creux à 4 cavités (2 oreillettes, 2 ventricules). Le côté gauche propulse le sang riche en $O_2$ (rouge), le côté droit le sang pauvre en $O_2$ (bleu).
 
 ### 2. La Double Circulation
 - **Petite circulation (Pulmonaire)** : Cœur $\\rightarrow$ Poumons $\\rightarrow$ Cœur. (Pour oxygéner le sang).
@@ -421,3 +421,5 @@ Les ondes sismiques nous ont permis de faire une échographie de la Terre :
         }
     ]
 };
+
+

@@ -130,17 +130,17 @@ Les plantes vertes sont des **producteurs primaires**. Elles fabriquent leur mat
 
 La recette magique :
 - **Eau + Sels minéraux** (puisés par les racines).
-- **Dioxyde de carbone (CO2)** (capté par les feuilles dans l'air).
+- **Dioxyde de carbone ($CO_2$)** (capté par les feuilles dans l'air).
 - **Lumière du Soleil** (l'énergie qui fait cuire le tout).
 
-Le résultat : La plante grandit et rejette de l'Oxygène (O2) que nous respirons !
+Le résultat : La plante grandit et rejette de l'Oxygène ($O_2$) que nous respirons !
 
 > **☀️ Analogie : Le Panneau Solaire**
 >
 > Une feuille est comme un panneau solaire sophistiqué. Elle capte l'énergie du soleil pour faire fonctionner l'usine de la plante. Sans soleil, l'usine s'arrête.
             `,
             summary: [
-                "Les plantes vertes ont besoin de Lumière, Eau, Sels minéraux et CO2.",
+                "Les plantes vertes ont besoin de Lumière, Eau, Sels minéraux et $CO_2$.",
                 "Ce processus s'appelle la photosynthèse.",
                 "Elles produisent leur propre nourriture et rejettent de l'oxygène."
             ],
@@ -452,3 +452,5 @@ Un paysage est composé de plusieurs couches :
         }
     ]
 };
+
+

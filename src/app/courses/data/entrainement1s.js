@@ -106,7 +106,7 @@ On place un objet AB de 2 cm de hauteur à 30 cm devant la lentille ($\\overline
             story: "Retrouver la formule brute à partir de la combustion.",
             content: `
 ### Énoncé
-La combustion complète de $V = 10\\ mL$ d'un hydrocarbure gazeux $A$ nécessite $V_{O2} = 50\\ mL$ de dioxygène. On obtient $V_{CO2} = 30\\ mL$ de dioxyde de carbone.
+La combustion complète de $V = 10\\ mL$ d'un hydrocarbure gazeux $A$ nécessite $V_{O_2} = 50\\ mL$ de dioxygène. On obtient $V_{CO_2} = 30\\ mL$ de dioxyde de carbone.
 
 Tous les volumes sont mesurés dans les mêmes conditions.
 
@@ -122,11 +122,11 @@ Tous les volumes sont mesurés dans les mêmes conditions.
                     question: "D'après les volumes, que vaut x ?",
                     options: ["1", "3", "5", "10"],
                     correctAnswer: 1,
-                    explanation: "$V_{CO2} / V_A = 30/10 = 3$. Or $n_{CO2}/n_A = x$. Donc $x=3$."
+                    explanation: "$V_{CO_2} / V_A = 30/10 = 3$. Or $n_{CO_2}/n_A = x$. Donc $x=3$."
                 },
                 {
                     id: 'qz-c1s-02',
-                    question: "Quel est l'hydrocarbure $C_3 H_y$ qui consomme 5 volumes d'O2 ?",
+                    question: "Quel est l'hydrocarbure $C_3 H_y$ qui consomme 5 volumes d'$O_2$ ?",
                     options: ["Propane $C_3H_8$", "Propène $C_3H_6$", "Propyne $C_3H_4$", "Butane"],
                     correctAnswer: 0,
                     explanation: "Coefficient $O_2 = x + y/4 = 5$. Avec $x=3$, $3 + y/4 = 5 \\implies y/4 = 2 \\implies y=8$. C'est le Propane."

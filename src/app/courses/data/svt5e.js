@@ -156,14 +156,14 @@ Maladies respiratoires (asthme), disparition des animaux, réchauffement de la p
 - **Trachées** : Insectes (criquet). Des petits tuyaux amènent l'air directement aux organes.
 
 ### 2. Respiration Aquatique
-- **Branchies** : Poissons. L'eau riche en oxygène passe à travers les branchies (les 'lamelles rouges') qui capturent l'O2.
+- **Branchies** : Poissons. L'eau riche en oxygène passe à travers les branchies (les 'lamelles rouges') qui capturent l'$O_2$.
 
 > **🤿 Analogie : Le Tuba vs La Bouteille**
 >
 > Les poumons sont comme une bouteille de plongée qu'on remplit. Les branchies sont comme un filtre qui tamise l'eau pour en garder l'oxygène.
             `,
             summary: [
-                "Tous les animaux respirent (prennent de l'O2, rejettent du CO2).",
+                "Tous les animaux respirent (prennent de l'$O_2$, rejettent du $CO_2$).",
                 "Milieu aérien = Poumons ou Trachées.",
                 "Milieu aquatique = Branchies."
             ],
@@ -412,3 +412,5 @@ Ce sont des ressources non renouvelables (elles mettent trop de temps à se form
         }
     ]
 };
+
+

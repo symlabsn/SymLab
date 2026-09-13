@@ -27,7 +27,7 @@ $$ \\%C = \\frac{12x}{M} \\times 100 $$
 Des isomères ont la même formule brute mais des formules développées différentes (donc des propriétés différentes).
             `,
             summary: [
-                "Compose organique = Contient du Carbone (sauf CO, CO2, carbonates).",
+                "Compose organique = Contient du Carbone (sauf CO, $CO_2$, carbonates).",
                 "Isomérie de chaîne : Squelette différent.",
                 "Isomérie de position : Groupe fonctionnel placé différemment."
             ],
@@ -101,7 +101,7 @@ L'acétylène ($C_2H_2$) est utilisé pour la soudure (flamme très chaude).
                 {
                     id: 'exo-c1s-03',
                     question: "L'hydratation de l'éthène ($C_2H_4$) produit...",
-                    options: ["Du méthane", "De l'éthanol", "De l'éthane", "Du CO2"],
+                    options: ["Du méthane", "De l'éthanol", "De l'éthane", "Du $CO_2$"],
                     correctAnswer: 1,
                     explanation: "$C_2H_4 + H_2O \\rightarrow C_2H_5OH$ (Éthanol)."
                 }
@@ -257,7 +257,7 @@ Utiliser une réaction d'oxydoréduction rapide et totale pour titrer une espèc
 À l'équivalence : $\\frac{n(Ox_1)}{a} = \\frac{n(Red_2)}{b}$.
             `,
             summary: [
-                "Toujours équilibrer les atomes (H avec H+, O avec H2O) puis les charges (e-)."
+                "Toujours équilibrer les atomes (H avec ^+$, O avec $H_2O$) puis les charges ($e^-$)."
             ],
             exercises: [
                 {
@@ -325,7 +325,7 @@ C'est une oxydation brutale par le dioxygène de l'air.
                     question: "Quel gaz est souvent utilisé comme réducteur industriel ?",
                     options: ["Le dioxygène $O_2$", "Le monoxyde de carbone $CO$", "Le dioxyde de carbone $CO_2$", "L'azote $N_2$"],
                     correctAnswer: 1,
-                    explanation: "Le CO capte l'oxygène des minerais pour devenir CO2, libérant le métal."
+                    explanation: "Le CO capte l'oxygène des minerais pour devenir $CO_2$, libérant le métal."
                 }
             ]
         },

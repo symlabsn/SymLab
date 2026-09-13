@@ -262,7 +262,7 @@ Plus le $pKa$ est petit, plus l'acide est fort (et sa base conjuguée faible).
             `,
             summary: [
                 "Domaines de prédominance : Si pH < pKa, l'acide prédomine.",
-                "L'eau est un ampholyte (couples H3O+/H2O et H2O/HO-).",
+                "L'eau est un ampholyte (couples $H_3O^+$/$H_2O$ et $H_2O$/$HO^-$).",
                 "Le Ka ne dépend que de la température."
             ],
             exercises: [

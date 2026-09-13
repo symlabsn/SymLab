@@ -1235,7 +1235,7 @@ function CoursesContent() {
                                                                         {idx + 1}
                                                                     </span>
                                                                     <div className="text-lg font-medium pt-1">
-                                                                        <ReactMarkdown remarkPlugins={[remarkMath]} rehypePlugins={[rehypeKatex, rehypeRaw]}>
+                                                                        <ReactMarkdown remarkPlugins={[remarkMath]} rehypePlugins={[rehypeRaw, rehypeKatex]}>
                                                                             {ex.question}
                                                                         </ReactMarkdown>
                                                                     </div>
@@ -1265,7 +1265,7 @@ function CoursesContent() {
                                                                                     <div>
                                                                                         <ReactMarkdown
                                                                                             remarkPlugins={[remarkMath]}
-                                                                                            rehypePlugins={[rehypeKatex, rehypeRaw]}
+                                                                                            rehypePlugins={[rehypeRaw, rehypeKatex]}
                                                                                             components={{ p: ({ node, ...props }) => <span {...props} /> }}
                                                                                         >
                                                                                             {option}
@@ -1286,7 +1286,7 @@ function CoursesContent() {
                                                                         <span className="inline-block ml-1">
                                                                             <ReactMarkdown
                                                                                 remarkPlugins={[remarkMath]}
-                                                                                rehypePlugins={[rehypeKatex, rehypeRaw]}
+                                                                                rehypePlugins={[rehypeRaw, rehypeKatex]}
                                                                                 components={{ p: ({ node, ...props }) => <span {...props} /> }}
                                                                             >
                                                                                 {ex.explanation}
@@ -1342,5 +1342,6 @@ export default function CoursesPage() {
         </Suspense>
     );
 }
+
 
 
